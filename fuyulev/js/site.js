@@ -4,13 +4,7 @@
 const Site = (() => {
   const data = () => window.SITE_DATA || { user: {}, videos: [], stats: {} };
 
-  const PORTAL = "../index.html";
-  const PARTNER = {
-    name: "时雨榧",
-    site: "../shiyuki/",
-    desc: "手书 · 视频制作",
-    avatar: "../shiyuki/assets/images/avatar.jpg",
-  };
+  const SECRET_SITE = "../kaya/";
 
   function esc(s) {
     const d = document.createElement("div");
@@ -152,19 +146,8 @@ const Site = (() => {
       <div class="link-band-inner">
         <h2 class="link-heading">LINK</h2>
         <hr class="link-band-line" />
-        <p class="link-desc">
-          绘画视频发布在哔哩哔哩。<br />
-          <a href="${esc(PORTAL)}" style="color:inherit;text-decoration:underline">切换创作者</a>
-          ·
-          <a href="${esc(PARTNER.site)}" style="color:inherit;text-decoration:underline">${esc(PARTNER.name)}</a>（${esc(PARTNER.desc)}）
-        </p>
+        <p class="link-desc">绘画视频发布在哔哩哔哩。</p>
         <div class="link-banners">
-          <a href="${esc(PORTAL)}" class="link-banner" title="切换创作者">
-            <span style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:13px;color:#fff">切换</span>
-          </a>
-          <a href="${esc(PARTNER.site)}" class="link-banner" title="${esc(PARTNER.name)}">
-            <img src="${esc(PARTNER.avatar)}" alt="${esc(PARTNER.name)}" loading="lazy" width="156" height="78" onerror="this.src='assets/images/avatar.jpg'" />
-          </a>
           <a href="${esc(biliSpace())}" target="_blank" rel="noopener" class="link-banner" title="哔哩哔哩">
             <img src="assets/images/avatar.jpg" alt="哔哩哔哩" loading="lazy" width="156" height="78" />
           </a>
@@ -193,10 +176,22 @@ const Site = (() => {
     renderProfileBanners(document.getElementById("profile-banners"));
   }
 
+  function initSecretCorner() {
+    if (document.getElementById("secret-corner")) return;
+    const a = document.createElement("a");
+    a.id = "secret-corner";
+    a.className = "secret-corner";
+    a.href = SECRET_SITE;
+    a.setAttribute("aria-label", "时雨榧");
+    a.textContent = "·";
+    document.body.appendChild(a);
+  }
+
   function initCommon() {
     initNav();
     initFooter();
     initLightbox();
+    initSecretCorner();
     if (typeof Motion !== "undefined") Motion.init();
   }
 

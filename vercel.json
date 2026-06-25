@@ -1,6 +1,9 @@
 {
   "cleanUrls": true,
   "trailingSlash": true,
+  "redirects": [
+    { "source": "/", "destination": "/fuyulev", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/(.*\\.(js|css))",

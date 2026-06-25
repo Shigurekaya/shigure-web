@@ -4,23 +4,6 @@
 const Kaya = (() => {
   const data = () => window.SITE_DATA || { user: {}, videos: [], stats: {} };
 
-  const PORTAL = "../index.html";
-  const PARTNER = {
-    name: "浮游Lev",
-    site: "../komowata/",
-    desc: "同人插画",
-    bili: "https://space.bilibili.com/353604313",
-    avatar: "../komowata/assets/images/avatar.jpg",
-  };
-
-  const FILTERS = [
-    { label: "全部", match: () => true },
-    { label: "手书", match: (t) => /手书/.test(t) },
-    { label: "GAL", match: (t) => /GAL|galgame|柚子|宁宁|白色相簿|素晴日|魔女审判|糖糖/i.test(t) },
-    { label: "Mujica", match: (t) => /Mujica|Ave/i.test(t) },
-    { label: "人物志", match: (t) => /人物志/.test(t) },
-  ];
-
   function formatNum(n) {
     if (!n && n !== 0) return "—";
     if (n >= 10000) return (n / 10000).toFixed(1).replace(/\.0$/, "") + "万";
@@ -63,17 +46,6 @@ const Kaya = (() => {
     return card;
   }
 
-  function renderStats(el) {
-    if (!el) return;
-    const s = data().stats;
-    el.innerHTML = `
-      <div class="stat-item"><strong>${formatNum(s.follower)}</strong><span>粉丝</span></div>
-      <div class="stat-item"><strong>${s.videos || data().videos.length}</strong><span>投稿</span></div>
-      <div class="stat-item"><strong>${formatNum(s.likes)}</strong><span>获赞</span></div>
-      <div class="stat-item"><strong>Lv.${data().user.level || "—"}</strong><span>等级</span></div>
-    `;
-  }
-
   function renderGrid(grid, videos, startIndex = 0) {
     if (!grid) return;
     grid.innerHTML = "";
@@ -85,11 +57,6 @@ const Kaya = (() => {
     el.innerHTML = `
       <div class="link-band-inner">
         <div class="link-band-cards">
-          <a href="${PORTAL}" class="link-band-card">← 切换创作者</a>
-          <a href="${PARTNER.site}" class="link-band-card">
-            <img src="${PARTNER.avatar}" alt="${escapeHtml(PARTNER.name)}" width="40" height="40" loading="lazy" onerror="this.style.display='none'" />
-            <span><strong>${escapeHtml(PARTNER.name)}</strong><small>${escapeHtml(PARTNER.desc)}</small></span>
-          </a>
           <a href="${spaceUrl()}" target="_blank" rel="noopener" class="link-band-card link-band-card--ghost">
             <span><strong>B 站空间</strong><small>${escapeHtml(data().user.name || "时雨榧")}</small></span>
           </a>
@@ -109,7 +76,7 @@ const Kaya = (() => {
     document.querySelectorAll("[data-bili-space]").forEach((el) => { el.href = url; });
     const urlEl = document.getElementById("bili-space-url");
     if (urlEl) urlEl.textContent = url.replace("https://", "");
-    ["bili-space-btn", "bili-space-link", "about-bili-btn"].forEach((id) => {
+    ["bili-space-btn", "bili-space-link"].forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.href = url;
     });
@@ -142,12 +109,6 @@ const Kaya = (() => {
       avatarEl.src = d.user.avatar;
       avatarEl.alt = d.user.name || "";
     }
-    const pendantEl = document.getElementById("hero-pendant");
-    if (pendantEl && d.user.pendant) {
-      pendantEl.src = d.user.pendant;
-      pendantEl.hidden = false;
-    }
-    renderStats(document.getElementById("hero-stats"));
   }
 
   function initHome() {
@@ -159,49 +120,13 @@ const Kaya = (() => {
   function initWorks() {
     initCommon();
     const countEl = document.getElementById("works-count");
-    if (countEl) countEl.textContent = data().stats.videos || data().videos.length;
-    const grid = document.getElementById("works-grid");
-    const bar = document.getElementById("filter-bar");
-    let active = 0;
-
-    function applyFilter() {
-      const rule = FILTERS[active];
-      const filtered = data().videos.filter((v) => rule.match(v.title + " " + (v.typename || "")));
-      renderGrid(grid, filtered);
-    }
-
-    if (bar) {
-      FILTERS.forEach((f, i) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "filter-btn" + (i === 0 ? " active" : "");
-        btn.textContent = f.label;
-        btn.addEventListener("click", () => {
-          active = i;
-          bar.querySelectorAll(".filter-btn").forEach((b, j) => b.classList.toggle("active", j === i));
-          applyFilter();
-        });
-        bar.appendChild(btn);
-      });
-    }
-    applyFilter();
-  }
-
-  function initAbout() {
-    initCommon();
-    initHero();
-    const signInline = document.getElementById("about-sign-inline");
-    if (signInline) signInline.textContent = data().user.sign || "";
-    const partnerSite = document.getElementById("partner-site");
-    if (partnerSite) partnerSite.href = PARTNER.site;
+    if (countEl) countEl.textContent = data().videos.length;
+    renderGrid(document.getElementById("works-grid"), data().videos);
   }
 
   function initLinks() {
     initCommon();
-    initHero();
-    const partnerLink = document.getElementById("partner-link");
-    if (partnerLink) partnerLink.href = PARTNER.site;
   }
 
-  return { initHome, initWorks, initAbout, initLinks, data, formatNum };
+  return { initHome, initWorks, initLinks, data, formatNum };
 })();

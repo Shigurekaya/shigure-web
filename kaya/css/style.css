@@ -68,6 +68,29 @@ img { max-width: 100%; height: auto; display: block; }
   font-size: 1.15rem;
   letter-spacing: 0.06em;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.owner-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  color: var(--amber);
+  background: rgba(232, 184, 109, 0.12);
+  border: 1px solid var(--amber-dim);
+  line-height: 1;
+}
+
+.owner-badge--sm {
+  font-size: 0.58rem;
+  padding: 0.14rem 0.42rem;
 }
 
 .brand-freq { display: none; }
@@ -158,21 +181,19 @@ main {
   object-fit: cover;
 }
 
-.avatar-wrap img.pendant {
-  position: absolute;
-  width: 130%;
-  height: 130%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.hero-meta h1 {
+.hero-meta h1,
+.hero-name-row {
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 4vw, 2.2rem);
   letter-spacing: 0.08em;
   margin-bottom: 0.35rem;
+}
+
+.hero-name-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.65rem;
 }
 
 .hero-sign {

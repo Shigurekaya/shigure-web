@@ -9,10 +9,6 @@
     "sign": "实现愿望程度的能力",
     "face": "https://i1.hdslb.com/bfs/face/47ef36b4e993bfa42abe1819362854d7348c2329.jpg",
     "level": 6,
-    "pendant": {
-      "name": "东方收藏集·浮生若梦",
-      "image": "https://i1.hdslb.com/bfs/garb/open/e91cf14b360d1c023f5e252a3eba3ebc5368d457.png"
-    }
   },
   "stats": {
     "following": 26,
@@ -408,7 +404,6 @@
   ],
   "images": {
     "avatar": "data/images/avatar.jpg",
-    "pendant": "data/images/pendant.png",
     "video_0": "data/images/video_0.jpg",
     "video_1": "data/images/video_1.jpg",
     "video_2": "data/images/video_2.jpg",
