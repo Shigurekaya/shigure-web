@@ -90,8 +90,19 @@ const Kaya = (() => {
     }
   }
 
+  function initDesignNotice() {
+    if (document.getElementById("design-notice")) return;
+    const notice = document.createElement("div");
+    notice.id = "design-notice";
+    notice.className = "design-notice";
+    notice.setAttribute("role", "status");
+    notice.textContent = "尚未完成页面设计";
+    document.querySelector(".site-header")?.insertAdjacentElement("afterend", notice);
+  }
+
   function initCommon() {
     initNav();
+    initDesignNotice();
     applyBiliLinks();
     renderLinkBand(document.getElementById("link-band"));
     const y = document.getElementById("year");

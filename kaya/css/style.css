@@ -141,6 +141,20 @@ img { max-width: 100%; height: auto; display: block; }
   padding: 0.35rem 0.5rem;
   cursor: pointer;
   font-family: var(--font-mono);
+}
+
+.design-notice {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0.55rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--amber);
+  background: rgba(232, 184, 109, 0.08);
+  border-bottom: 1px solid var(--line);
+}
   font-size: 0.75rem;
 }
 

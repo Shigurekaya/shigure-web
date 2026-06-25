@@ -13,18 +13,14 @@
 </head>
 <body data-page="portfolio">
   <a href="#top" class="skip-top">回到顶部</a>
-  <header class="site-header reveal">
-    <div class="header-bar">
-      <a href="index.html" class="logo-mark">F</a>
-      <nav class="nav-inline" aria-label="Navigation">
-        <a href="index.html" data-nav="home">Home</a>
-        <a href="work.html" data-nav="work">Work</a>
-        <a href="about.html" data-nav="about">About</a>
-        <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
-      </nav>
-      <button type="button" class="menu-btn" id="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </header>
+  <a href="index.html" class="logo-mark logo-mark--pinned" aria-label="浮游Lev">F</a>
+  <nav class="nav-inline nav-inline--pinned" aria-label="Navigation">
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="work.html" data-nav="work">Work</a>
+    <a href="about.html" data-nav="about">About</a>
+    <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
+  </nav>
+  <button type="button" class="menu-btn menu-btn--pinned" id="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
   <nav class="site-nav-mobile" id="site-nav">
     <a href="index.html" data-nav="home">Home</a>
     <a href="work.html" data-nav="work">Work</a>
@@ -32,19 +28,15 @@
     <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
   </nav>
 
-  <main id="top">
-    <section class="page-head">
+  <main id="top" class="page-main">
+    <section class="page-head page-head--compact">
       <p class="page-kicker reveal">Portfolio</p>
       <h1 class="page-lead reveal">作品集</h1>
-      <div class="page-intro reveal">
-        <p>Welcome to my portfolio. Here you will find a collection of my work.</p>
-        <p class="page-intro--cn">点击缩略图预览，跳转 B 站观看完整绘画过程。</p>
-      </div>
-      <div class="stat-row reveal-stagger" id="portfolio-stats"></div>
+      <p class="page-intro page-intro--cn reveal">点击缩略图预览，跳转 B 站观看完整绘画过程。</p>
       <hr class="divider divider--page reveal" />
     </section>
-    <section class="section">
-      <div class="masonry-grid" id="portfolio-grid"></div>
+    <section class="section section--gallery">
+      <div class="pro-masonry" id="portfolio-grid"></div>
       <div class="load-wrap reveal">
         <button type="button" class="btn-load" id="load-more">Load More</button>
       </div>
@@ -62,6 +54,7 @@
   </div>
 
   <script src="js/site-data.js"></script>
+  <script src="js/masonry.js"></script>
   <script src="js/motion.js"></script>
   <script src="js/site.js"></script>
   <script src="js/portfolio.js"></script>

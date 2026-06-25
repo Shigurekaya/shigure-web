@@ -9,25 +9,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
 <body data-page="home">
   <a href="#top" class="skip-top">回到顶部</a>
 
-  <header class="site-header reveal">
-    <div class="header-bar">
-      <a href="index.html" class="logo-mark" aria-label="浮游Lev">F</a>
-      <nav class="nav-inline" aria-label="Navigation">
-        <a href="index.html" data-nav="home">Home</a>
-        <a href="work.html" data-nav="work">Work</a>
-        <a href="about.html" data-nav="about">About</a>
-        <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
-      </nav>
-      <button type="button" class="menu-btn" id="menu-btn" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+  <a href="index.html" class="logo-mark logo-mark--pinned" aria-label="浮游Lev">F</a>
+  <nav class="nav-inline nav-inline--pinned" aria-label="Navigation">
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="work.html" data-nav="work">Work</a>
+    <a href="about.html" data-nav="about">About</a>
+    <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
+  </nav>
+  <button type="button" class="menu-btn menu-btn--pinned" id="menu-btn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 
   <nav class="site-nav-mobile" id="site-nav" aria-label="Mobile navigation">
     <a href="index.html" data-nav="home">Home</a>
@@ -36,35 +33,34 @@
     <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
   </nav>
 
-  <main id="top">
-    <section class="home-profile reveal">
-      <img class="profile-avatar" id="profile-avatar" src="assets/images/avatar.jpg" alt="浮游Lev" width="120" height="120" />
+  <header class="site-header site-header--home" id="top">
+    <section class="home-profile">
+      <img class="profile-avatar" id="profile-avatar" src="assets/images/avatar.jpg" alt="浮游Lev" width="83" height="83" />
       <h1 class="profile-name" id="hero-name"><a href="about.html">浮游Lev / FuYu Lev</a></h1>
-      <p class="profile-tagline">
-        <a href="portfolio.html">Mini characters, illustrations &amp; work</a>
-        <span class="profile-sns">
-          <a href="https://space.bilibili.com/353604313" target="_blank" rel="noopener" class="sns-icon" aria-label="Mail">
-            <svg viewBox="0 0 200 200" aria-hidden="true"><path fill="currentColor" d="M173.694 43H26.306A6.307 6.307 0 0 0 20 49.307v101.385a6.307 6.307 0 0 0 6.306 6.307h147.388a6.307 6.307 0 0 0 6.306-6.307V49.307A6.307 6.307 0 0 0 173.694 43zm-12.977 12.615l-58.092 44.653L39.25 55.615h121.467zm-128.105 88.77V66.368l66.543 46.886a6.3 6.3 0 0 0 7.474-.155l60.759-46.702v77.989H32.612z"/></svg>
-          </a>
-          <a href="https://space.bilibili.com/353604313" target="_blank" rel="noopener" class="sns-icon" aria-label="Bilibili">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174 1.614a.312.312 0 0 0 .11.478l1.813.896a.312.312 0 0 0 .422-.14l1.296-1.785h7.49l1.296 1.785a.312.312 0 0 0 .422.14l1.813-.896a.312.312 0 0 0 .11-.478l-1.174-1.614zM7.813 10.653a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
-          </a>
-        </span>
-      </p>
+      <p class="profile-tagline"><a href="index.html">Mini characters, illustrations &amp; work</a></p>
+      <div class="profile-sns-row">
+        <a href="https://space.bilibili.com/353604313" target="_blank" rel="noopener" class="btn-mail-icon" aria-label="Mail">
+          <svg viewBox="0 0 200 200" aria-hidden="true"><path fill="currentColor" d="M173.694 43H26.306A6.307 6.307 0 0 0 20 49.307v101.385a6.307 6.307 0 0 0 6.306 6.307h147.388a6.307 6.307 0 0 0 6.306-6.307V49.307A6.307 6.307 0 0 0 173.694 43zm-12.977 12.615l-58.092 44.653L39.25 55.615h121.467zm-128.105 88.77V66.368l66.543 46.886a6.3 6.3 0 0 0 7.474-.155l60.759-46.702v77.989H32.612z"/></svg>
+        </a>
+        <a href="https://space.bilibili.com/353604313" target="_blank" rel="noopener" class="sns-icon sns-icon--plain" aria-label="Bilibili">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174 1.614a.312.312 0 0 0 .11.478l1.813.896a.312.312 0 0 0 .422-.14l1.296-1.785h7.49l1.296 1.785a.312.312 0 0 0 .422.14l1.813-.896a.312.312 0 0 0 .11-.478l-1.174-1.614zM7.813 10.653a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm8 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+        </a>
+      </div>
       <hr class="divider divider--dashed" />
-      <div class="profile-banners" id="profile-banners"></div>
-      <hr class="divider divider--solid" />
+      <div id="profile-banners"></div>
     </section>
+  </header>
 
-    <section class="section">
-      <div class="masonry-grid" id="work-grid"></div>
+  <main>
+    <section class="section section--home-gallery">
+      <div class="home-gallery" id="work-grid"></div>
       <div class="load-wrap">
         <button type="button" class="btn-load" id="load-more">Load More</button>
       </div>
     </section>
   </main>
 
-  <section class="site-link-band reveal" id="link-band"></section>
+  <section class="site-link-band" id="link-band"></section>
   <footer class="site-footer">
     <p>&copy; <span id="year"></span> FUYU LEV / 浮游Lev</p>
   </footer>
@@ -77,6 +73,7 @@
   </div>
 
   <script src="js/site-data.js"></script>
+  <script src="js/gallery-images.js"></script>
   <script src="js/motion.js"></script>
   <script src="js/site.js"></script>
   <script src="js/home.js"></script>

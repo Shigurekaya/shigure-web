@@ -1,35 +1,40 @@
-/** 首页 HOME */
+/** 首页 HOME — komowata 式 CSS 三列瀑布流 */
 (() => {
   const PAGE_SIZE = 12;
   let shown = PAGE_SIZE;
 
-  function renderGrid(appendFrom = 0) {
+  function gallery() {
+    return window.HOME_GALLERY || [];
+  }
+
+  function updateLoadMore(loadBtn, total) {
+    if (!loadBtn) return;
+    loadBtn.classList.toggle("hidden", total - shown <= 0);
+    loadBtn.textContent = "Load More";
+  }
+
+  function renderGrid() {
     const grid = document.getElementById("work-grid");
     const loadBtn = document.getElementById("load-more");
     if (!grid) return;
 
-    const videos = Site.data().videos;
-    if (appendFrom === 0) grid.innerHTML = "";
-
-    videos.slice(appendFrom, shown).forEach((v, j) => {
-      grid.appendChild(Site.createMasonryItem(v, appendFrom + j));
+    grid.innerHTML = "";
+    gallery().slice(0, shown).forEach((src) => {
+      grid.appendChild(Site.createGalleryItem(src));
     });
 
-    loadBtn?.classList.toggle("hidden", shown >= videos.length);
-    Motion.refresh(grid);
+    updateLoadMore(loadBtn, gallery().length);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     Site.initCommon();
     Site.fillUserHero();
-    renderGrid(0);
+    renderGrid();
     Site.renderLinkBand(document.getElementById("link-band"));
-    Motion.refresh();
 
     document.getElementById("load-more")?.addEventListener("click", () => {
-      const prev = shown;
-      shown += PAGE_SIZE;
-      renderGrid(prev);
+      shown = Math.min(shown + PAGE_SIZE, gallery().length);
+      renderGrid();
     });
   });
 })();

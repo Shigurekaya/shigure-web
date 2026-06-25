@@ -17,18 +17,8 @@
 
     const featured = document.getElementById("about-featured");
     if (featured) {
-      featured.innerHTML = videos.slice(0, 3).map((v, i) => {
-        const src = Site.thumb(v, i);
-        return `
-          <a href="${Site.bili(v.bvid)}" target="_blank" rel="noopener" class="featured-card reveal">
-            <img src="${Site.esc(src)}" alt="${Site.esc(v.title)}" loading="lazy" onerror="this.src='assets/images/avatar.jpg'" />
-            <span class="featured-card-cap">
-              <span class="featured-card-title">${Site.esc(v.title)}</span>
-              <span class="featured-card-meta">${Site.esc(v.date || "")}</span>
-            </span>
-          </a>
-        `;
-      }).join("");
+      const items = videos.slice(0, 9).map((v, i) => Site.createMasonryItem(v, i));
+      Masonry.fill(featured, items);
     }
 
     const picksEl = document.getElementById("about-picks");

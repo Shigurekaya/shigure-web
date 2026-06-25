@@ -59,13 +59,25 @@ const Site = (() => {
   function openLightbox(title, src, bvid) {
     const lb = document.getElementById("lightbox");
     if (!lb) {
-      window.open(bili(bvid), "_blank");
+      if (bvid) window.open(bili(bvid), "_blank");
       return;
     }
     document.getElementById("lightbox-img").src = src;
     document.getElementById("lightbox-img").alt = title;
-    document.getElementById("lightbox-title").textContent = title;
-    document.getElementById("lightbox-link").href = bili(bvid);
+    const titleEl = document.getElementById("lightbox-title");
+    if (titleEl) {
+      titleEl.textContent = title;
+      titleEl.hidden = !title;
+    }
+    const link = document.getElementById("lightbox-link");
+    if (link) {
+      if (bvid) {
+        link.href = bili(bvid);
+        link.hidden = false;
+      } else {
+        link.hidden = true;
+      }
+    }
     lb.hidden = false;
     document.body.style.overflow = "hidden";
     lb.classList.remove("lightbox--open");
@@ -100,7 +112,7 @@ const Site = (() => {
   function createMasonryItem(v, index) {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "masonry-item reveal";
+    btn.className = "masonry-item";
     const src = thumb(v, index);
     const meta = [v.date, v.length].filter(Boolean).join(" · ");
     btn.innerHTML = `
@@ -118,45 +130,88 @@ const Site = (() => {
     return createMasonryItem(v, index);
   }
 
-  /** 首页顶栏外链小横幅（对应原站 Melon/Booth 等） */
+  function createGalleryItem(src) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "masonry-item masonry-item--gallery";
+    btn.innerHTML = `
+      <img src="${esc(src)}" alt="" loading="lazy" decoding="async" />
+    `;
+    btn.addEventListener("click", () => openLightbox("", src));
+    return btn;
+  }
+
+  /** @deprecated use createGalleryItem */
+  function createSdMasonryItem(item) {
+    const src = typeof item === "string" ? item : item.src;
+    return createGalleryItem(src);
+  }
+
+  function avatarSrc() {
+    const av = data().user?.avatar;
+    if (!av || av.includes("..")) return "assets/images/avatar.jpg";
+    return av;
+  }
+
+  function bannerImg(src, w, h, alt) {
+    return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" width="${w}" height="${h}" onerror="this.src='assets/images/avatar.jpg'" />`;
+  }
+
+  /** 首页 profile 下横幅 — komowata：7 张横排一行（166 + 6×156） */
   function renderProfileBanners(container) {
     if (!container) return;
-    const videos = data().videos;
-    const items = [
-      { href: biliSpace(), src: "assets/images/avatar.jpg", alt: "哔哩哔哩" },
-      ...videos.slice(0, 6).map((v, i) => ({
-        href: bili(v.bvid),
-        src: thumb(v, i),
-        alt: v.title,
-      })),
+    const gallery = window.HOME_GALLERY || [];
+    const space = biliSpace();
+    const links = [
+      { href: space, img: gallery[0], alt: "哔哩哔哩", lead: true },
+      { href: "work.html", img: gallery[1], alt: "Work", internal: true },
+      { href: "portfolio.html", img: gallery[2], alt: "Portfolio", internal: true },
+      { href: bili(data().videos[0]?.bvid), img: gallery[3], alt: "视频" },
+      { href: bili(data().videos[1]?.bvid), img: gallery[4], alt: "视频" },
+      { href: bili(data().videos[2]?.bvid), img: gallery[5], alt: "视频" },
+      { href: "about.html", img: gallery[6], alt: "About", internal: true },
     ];
 
-    container.innerHTML = items.map((b) => `
-      <a href="${esc(b.href)}" target="_blank" rel="noopener" class="profile-banner" title="${esc(b.alt)}">
-        <img src="${esc(b.src)}" alt="${esc(b.alt)}" loading="lazy" width="120" height="60" onerror="this.src='assets/images/avatar.jpg'" />
-      </a>
-    `).join("");
+    const rowHtml = links.map((b) => {
+      const target = b.internal ? "" : ' target="_blank" rel="noopener"';
+      const cls = b.lead ? "profile-banner profile-banner--lead" : "profile-banner";
+      const w = b.lead ? 166 : 156;
+      const src = b.img || avatarSrc();
+      return `<a href="${esc(b.href)}"${target} class="${cls}" title="${esc(b.alt)}">${bannerImg(src, w, 78, b.alt)}</a>`;
+    }).join("");
+
+    container.innerHTML = `<div class="profile-banners-row">${rowHtml}</div>`;
   }
 
   /** 黑色 LINK 底栏 */
   function renderLinkBand(container) {
     if (!container) return;
     const videos = data().videos;
+    const isHome = document.body.dataset.page === "home";
+    const linkItems = [
+      { href: biliSpace(), src: avatarSrc(), alt: "哔哩哔哩" },
+      { href: "work.html", src: thumb(videos[0], 0), alt: "Work", internal: true },
+      { href: "portfolio.html", src: thumb(videos[1], 1), alt: "Portfolio", internal: true },
+      ...videos.slice(2, 6).map((v, i) => ({
+        href: bili(v.bvid),
+        src: thumb(v, i + 2),
+        alt: v.title,
+      })),
+    ];
+    const bannerHtml = linkItems.map((b) => {
+      const target = b.internal ? "" : ' target="_blank" rel="noopener"';
+      return `<a href="${esc(b.href)}"${target} class="link-banner" title="${esc(b.alt)}">${bannerImg(b.src, 156, 78, b.alt)}</a>`;
+    }).join("");
+    const desc = isHome
+      ? "绘画过程与投稿发布在哔哩哔哩。插画见首页，视频见 <a href=\"work.html\">Work</a> / <a href=\"portfolio.html\">Portfolio</a>。"
+      : "绘画视频发布在哔哩哔哩。欢迎订阅与私信约稿。";
+    const headingTag = isHome ? "h5" : "h2";
     container.innerHTML = `
       <div class="link-band-inner">
-        <h2 class="link-heading">LINK</h2>
+        <${headingTag} class="link-heading">LINK</${headingTag}>
         <hr class="link-band-line" />
-        <p class="link-desc">绘画视频发布在哔哩哔哩。</p>
-        <div class="link-banners">
-          <a href="${esc(biliSpace())}" target="_blank" rel="noopener" class="link-banner" title="哔哩哔哩">
-            <img src="assets/images/avatar.jpg" alt="哔哩哔哩" loading="lazy" width="156" height="78" />
-          </a>
-          ${videos.slice(0, 4).map((v, i) => `
-            <a href="${esc(bili(v.bvid))}" target="_blank" rel="noopener" class="link-banner" title="${esc(v.title)}">
-              <img src="${esc(thumb(v, i))}" alt="${esc(v.title)}" loading="lazy" width="156" height="78" onerror="this.src='assets/images/avatar.jpg'" />
-            </a>
-          `).join("")}
-        </div>
+        <p class="link-desc">${desc}</p>
+        <div class="link-banners">${bannerHtml}</div>
       </div>
     `;
   }
@@ -188,15 +243,19 @@ const Site = (() => {
   }
 
   function initCommon() {
+    if (typeof Masonry !== "undefined") Masonry.init();
     initNav();
     initFooter();
     initLightbox();
     initSecretCorner();
+    if (document.body.dataset.page === "home") {
+      document.body.classList.add("page-ready");
+    }
     if (typeof Motion !== "undefined") Motion.init();
   }
 
   return {
     data, esc, thumb, bili, biliSpace, initCommon, fillUserHero,
-    createWorkItem, createMasonryItem, openLightbox, renderLinkBand, renderProfileBanners,
+    createWorkItem, createMasonryItem, createGalleryItem, createSdMasonryItem, openLightbox, renderLinkBand, renderProfileBanners,
   };
 })();

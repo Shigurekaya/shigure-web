@@ -1,0 +1,364 @@
+/* 首页 — 严格对齐 komowata.com（除图片内容外） */
+
+body[data-page="home"] {
+  background: #fff;
+  opacity: 1;
+}
+
+body[data-page="home"] .reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* ── 固定顶栏：B / 导航 ── */
+body[data-page="home"] .logo-mark--pinned {
+  position: fixed;
+  top: 16px;
+  left: max(20px, calc((100vw - 980px) / 2));
+  z-index: 200;
+  font-family: var(--font-logo);
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: #000;
+}
+
+body[data-page="home"] .nav-inline--pinned {
+  position: fixed;
+  top: 22px;
+  right: max(20px, calc((100vw - 980px) / 2));
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 2px solid #000;
+  padding-bottom: 5px;
+}
+
+body[data-page="home"] .nav-inline--pinned a {
+  font-family: var(--font-en);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  color: #383838;
+  border-radius: 0;
+  opacity: 1;
+}
+
+body[data-page="home"] .nav-inline--pinned a:hover {
+  background: #fff3c4;
+  opacity: 1;
+}
+
+body[data-page="home"] .nav-inline--pinned a.active {
+  background: #ffde5f;
+  color: #000;
+  box-shadow: none;
+}
+
+/* ── Header / Profile（komowata SITE_HEADER） ── */
+body[data-page="home"] .site-header--home {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 96px 0 0;
+  text-align: center;
+}
+
+body[data-page="home"] .home-profile {
+  padding: 0;
+  max-width: none;
+}
+
+body[data-page="home"] .profile-avatar {
+  width: 83px;
+  height: 83px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 10px;
+}
+
+body[data-page="home"] .profile-name {
+  font-family: var(--font-en);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: normal;
+  margin-bottom: 2px;
+}
+
+body[data-page="home"] .profile-name a {
+  color: #000;
+  background: none;
+}
+
+body[data-page="home"] .profile-name a:hover {
+  opacity: 0.75;
+  background: none;
+}
+
+body[data-page="home"] .profile-tagline {
+  font-family: var(--font-en);
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+body[data-page="home"] .profile-tagline a {
+  border-bottom: 1px solid #000;
+  padding-bottom: 1px;
+  opacity: 1;
+}
+
+body[data-page="home"] .profile-tagline a:hover {
+  border-color: #ffde5f;
+}
+
+body[data-page="home"] .profile-sns-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+body[data-page="home"] .btn-mail-icon {
+  width: 25px;
+  height: 22px;
+}
+
+body[data-page="home"] .btn-mail-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+body[data-page="home"] .sns-icon--plain {
+  width: 26px;
+  height: 26px;
+}
+
+body[data-page="home"] .sns-icon--plain svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* komowata：365px 实线分隔 */
+body[data-page="home"] .divider--dashed {
+  width: 365px;
+  max-width: 90%;
+  border: none;
+  border-top: 2px solid #605e5e;
+  margin: 0 auto 18px;
+}
+
+/* ── Banner 行：1100px 居中，7 张横排 ── */
+body[data-page="home"] #profile-banners {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+body[data-page="home"] .profile-banners-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  width: 1100px;
+  max-width: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+body[data-page="home"] .profile-banner {
+  display: block;
+  flex: 0 0 auto;
+  width: 156px;
+  height: 78px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+body[data-page="home"] .profile-banner--lead {
+  width: 166px;
+  height: 78px;
+}
+
+body[data-page="home"] .profile-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+body[data-page="home"] .profile-banner:hover {
+  opacity: 0.85;
+}
+
+/* ── 主画廊（980 居中 + 内边距 80，komowata margin 64/80） ── */
+body[data-page="home"] .section--home-gallery {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 48px 80px 32px;
+  box-sizing: border-box;
+}
+
+body[data-page="home"] .home-gallery {
+  column-count: 3;
+  column-gap: 15px;
+  width: 100%;
+}
+
+body[data-page="home"] .home-gallery .masonry-item {
+  break-inside: avoid;
+  margin-bottom: 15px;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+  box-shadow: none;
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+  opacity: 1;
+}
+
+body[data-page="home"] .home-gallery .masonry-item:hover {
+  opacity: 0.92;
+}
+
+body[data-page="home"] .home-gallery .masonry-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* Load More — komowata 圆角按钮 */
+body[data-page="home"] .load-wrap {
+  margin-top: 32px;
+}
+
+body[data-page="home"] .btn-load {
+  font-family: var(--font-en);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 14px;
+  padding: 10px 36px;
+  color: #000;
+  box-shadow: none;
+}
+
+body[data-page="home"] .btn-load:hover {
+  background: #000;
+  color: #fff;
+  transform: none;
+}
+
+/* ── LINK 底栏 ── */
+body[data-page="home"] .site-link-band {
+  background: #000;
+  color: #fff;
+  padding: 40px 20px 36px;
+  border-top: none;
+}
+
+body[data-page="home"] .link-heading {
+  font-size: 23px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+body[data-page="home"] .link-desc {
+  font-size: 14px;
+  line-height: 1.85;
+  margin-bottom: 24px;
+}
+
+body[data-page="home"] .link-banners {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 9px;
+  overflow-x: auto;
+  max-width: 976px;
+  margin: 0 auto;
+}
+
+body[data-page="home"] .link-banner {
+  flex: 0 0 156px;
+  border-radius: 0;
+  background: transparent;
+}
+
+body[data-page="home"] .site-footer {
+  background: #000;
+  color: #9a9a9a;
+  padding: 0 20px 28px;
+  font-size: 11px;
+}
+
+@media (max-width: 1140px) {
+  body[data-page="home"] .profile-banners-row {
+    width: 100%;
+    max-width: 980px;
+    gap: 12px;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0 10px;
+    scrollbar-width: none;
+  }
+
+  body[data-page="home"] .profile-banners-row::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  body[data-page="home"] .logo-mark--pinned {
+    left: 16px;
+    font-size: 40px;
+  }
+
+  body[data-page="home"] .nav-inline--pinned {
+    display: none;
+  }
+
+  body[data-page="home"] .menu-btn--pinned {
+    display: flex;
+  }
+
+  body[data-page="home"] .site-header--home {
+    padding-top: 72px;
+  }
+
+  body[data-page="home"] .section--home-gallery {
+    padding: 32px 20px 24px;
+  }
+
+  body[data-page="home"] .home-gallery {
+    column-count: 2;
+  }
+
+  body[data-page="home"] .profile-banner,
+  body[data-page="home"] .profile-banner--lead {
+    width: 120px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  body[data-page="home"] .home-gallery {
+    column-count: 1;
+  }
+}

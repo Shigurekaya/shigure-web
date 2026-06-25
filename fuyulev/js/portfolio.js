@@ -1,48 +1,35 @@
-/** 作品集 PORTFOLIO */
+/** 作品集 PORTFOLIO — 全宽瀑布流 */
 (() => {
-  const PAGE_SIZE = 15;
+  const PAGE_SIZE = 12;
   let shown = PAGE_SIZE;
 
-  function renderStats() {
-    const el = document.getElementById("portfolio-stats");
-    if (!el) return;
-    el.innerHTML = `
-      <div class="stat-card stat-card--text"><span class="stat-num stat-num--text">Painting</span><span class="stat-label">Process Videos</span></div>
-      <div class="stat-card stat-card--text"><span class="stat-num stat-num--text">Galgame</span><span class="stat-label">& Doujin Art</span></div>
-      <div class="stat-card stat-card--text"><span class="stat-num stat-num--text">Bilibili</span><span class="stat-label">@浮游Lev</span></div>
-    `;
+  function updateLoadMore(loadBtn, total) {
+    if (!loadBtn) return;
+    loadBtn.classList.toggle("hidden", total - shown <= 0);
+    loadBtn.textContent = "Load More";
   }
 
-  function renderGrid(appendFrom = 0) {
+  function renderGrid() {
     const grid = document.getElementById("portfolio-grid");
     const loadBtn = document.getElementById("load-more");
     if (!grid) return;
 
     const videos = Site.data().videos;
-    const slice = videos.slice(appendFrom, shown);
-
-    if (appendFrom === 0) grid.innerHTML = "";
-
-    slice.forEach((v, j) => {
-      const i = appendFrom + j;
-      grid.appendChild(Site.createMasonryItem(v, i));
-    });
-
-    loadBtn?.classList.toggle("hidden", shown >= videos.length);
+    const items = videos.slice(0, shown).map((v, i) => Site.createMasonryItem(v, i));
+    Masonry.fill(grid, items);
+    updateLoadMore(loadBtn, videos.length);
     Motion.refresh(grid);
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     Site.initCommon();
-    renderStats();
-    renderGrid(0);
+    renderGrid();
     Site.renderLinkBand(document.getElementById("link-band"));
     Motion.refresh();
 
     document.getElementById("load-more")?.addEventListener("click", () => {
-      const prev = shown;
-      shown += PAGE_SIZE;
-      renderGrid(prev);
+      shown = Math.min(shown + PAGE_SIZE, Site.data().videos.length);
+      renderGrid();
     });
   });
 })();
