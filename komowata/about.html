@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | 浮游Lev</title>
+  <meta name="description" content="Galgame 同人画师浮游Lev 简介与联系方式。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body data-page="about">
+  <a href="#top" class="skip-top">回到顶部</a>
+  <header class="site-header reveal">
+    <div class="header-bar">
+      <a href="index.html" class="logo-mark">F</a>
+      <nav class="nav-inline" aria-label="Navigation">
+        <a href="index.html" data-nav="home">Home</a>
+        <a href="work.html" data-nav="work">Work</a>
+        <a href="about.html" data-nav="about">About</a>
+        <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
+        <a href="../index.html">切换</a>
+      </nav>
+      <button type="button" class="menu-btn" id="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="site-nav-mobile" id="site-nav">
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="work.html" data-nav="work">Work</a>
+    <a href="about.html" data-nav="about">About</a>
+    <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
+    <a href="../index.html">切换</a>
+  </nav>
+
+  <main id="top">
+    <section class="about-page">
+      <div class="about-head reveal">
+        <img class="about-avatar" id="about-avatar" src="assets/images/avatar.jpg" alt="浮游Lev" width="120" height="120" />
+        <p class="page-kicker">About</p>
+        <h1 class="about-name" id="about-name">浮游Lev</h1>
+        <h2 class="about-name-en">FuYu Lev</h2>
+        <p class="about-sign" id="about-sign"></p>
+      </div>
+
+      <div class="about-body">
+        <div class="about-intro-card reveal">
+          <p>同人插画师。主要创作 <strong>Q 版角色</strong>与 Galgame 同人插画，偶尔绘制通常头身。投稿发布在哔哩哔哩。</p>
+          <p>柚子社、Key 社、兰斯、蔚蓝档案……用画笔续写喜欢的故事。绘画过程与投稿发布于哔哩哔哩，欢迎订阅。</p>
+        </div>
+
+        <h3 class="about-heading reveal">Featured</h3>
+        <div class="featured-row" id="about-featured"></div>
+
+        <h3 class="about-heading reveal">代表作品</h3>
+        <ul class="about-picks reveal" id="about-picks"></ul>
+
+        <h3 class="about-heading reveal">Key Word</h3>
+        <div class="keyword-tags reveal" id="about-keywords"></div>
+
+        <h3 class="about-heading reveal">Collaboration</h3>
+        <p class="about-intro-card reveal" style="margin-bottom:1.5rem">
+          常与 <a href="../shiyuki/">时雨榧</a> 合作手书与视频，例如 Cherry Pop 手书、ワンルームシュガーライフ 等。
+        </p>
+
+        <h3 class="about-heading reveal">Contact</h3>
+        <div class="about-contact-grid reveal">
+          <p class="about-contact-note">
+            约稿、感想与咨询请通过右侧链接联系。<br /><br />
+            同人约稿 / 商务合作请通过 B 站私信。通常会在三日内回复。
+          </p>
+          <div class="about-contact-box">
+            <p>哔哩哔哩私信</p>
+            <a href="https://space.bilibili.com/353604313" target="_blank" rel="noopener" class="btn-mail">
+              <svg viewBox="0 0 200 200" aria-hidden="true"><path fill="currentColor" d="M173.694 43H26.306A6.307 6.307 0 0 0 20 49.307v101.385a6.307 6.307 0 0 0 6.306 6.307h147.388a6.307 6.307 0 0 0 6.306-6.307V49.307A6.307 6.307 0 0 0 173.694 43zm-12.977 12.615l-58.092 44.653L39.25 55.615h121.467zm-128.105 88.77V66.368l66.543 46.886a6.3 6.3 0 0 0 7.474-.155l60.759-46.702v77.989H32.612z"/></svg>
+              Mail
+            </a>
+          </div>
+        </div>
+      </div>
+      <hr class="divider divider--page reveal" />
+    </section>
+  </main>
+
+  <section class="site-link-band reveal" id="link-band"></section>
+  <footer class="site-footer"><p>&copy; <span id="year"></span> FUYU LEV / 浮游Lev</p></footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/motion.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/about.js"></script>
+</body>
+</html>

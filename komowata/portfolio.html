@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PORTFOLIO | 浮游Lev</title>
+  <meta name="description" content="浮游Lev 绘画作品集 — Q版角色与 Galgame 同人插画。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body data-page="portfolio">
+  <a href="#top" class="skip-top">回到顶部</a>
+  <header class="site-header reveal">
+    <div class="header-bar">
+      <a href="index.html" class="logo-mark">F</a>
+      <nav class="nav-inline" aria-label="Navigation">
+        <a href="index.html" data-nav="home">Home</a>
+        <a href="work.html" data-nav="work">Work</a>
+        <a href="about.html" data-nav="about">About</a>
+        <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
+        <a href="../index.html">切换</a>
+      </nav>
+      <button type="button" class="menu-btn" id="menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <nav class="site-nav-mobile" id="site-nav">
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="work.html" data-nav="work">Work</a>
+    <a href="about.html" data-nav="about">About</a>
+    <a href="portfolio.html" data-nav="portfolio">Portfolio</a>
+    <a href="../index.html">切换</a>
+  </nav>
+
+  <main id="top">
+    <section class="page-head">
+      <p class="page-kicker reveal">Portfolio</p>
+      <h1 class="page-lead reveal">作品集</h1>
+      <div class="page-intro reveal">
+        <p>Welcome to my portfolio. Here you will find a collection of my work.</p>
+        <p class="page-intro--cn">点击缩略图预览，跳转 B 站观看完整绘画过程。</p>
+      </div>
+      <div class="stat-row reveal-stagger" id="portfolio-stats"></div>
+      <hr class="divider divider--page reveal" />
+    </section>
+    <section class="section">
+      <div class="masonry-grid" id="portfolio-grid"></div>
+      <div class="load-wrap reveal">
+        <button type="button" class="btn-load" id="load-more">Load More</button>
+      </div>
+    </section>
+  </main>
+
+  <section class="site-link-band reveal" id="link-band"></section>
+  <footer class="site-footer"><p>&copy; <span id="year"></span> FUYU LEV / 浮游Lev</p></footer>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close">×</button>
+    <img id="lightbox-img" src="" alt="" />
+    <p class="lightbox-title" id="lightbox-title"></p>
+    <a id="lightbox-link" href="#" target="_blank" rel="noopener" class="lightbox-link">Watch on Bilibili</a>
+  </div>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/motion.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/portfolio.js"></script>
+</body>
+</html>
