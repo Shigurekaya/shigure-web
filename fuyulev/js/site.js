@@ -185,28 +185,26 @@ const Site = (() => {
     return gallery[i] || avatarSrc();
   }
 
-  /** 首页 profile 下横幅 — komowata：7 张横排（166 + 6×156） */
+  /** 首页 profile 下横幅 — komowata：7 张横排（166 + 6×156），仅展示不跳转 */
   function renderProfileBanners(container) {
     if (!container) return;
     const gallery = bannerGallery();
-    const space = biliSpace();
     const pick = (i) => gallery[i] || avatarSrc();
-    const links = [
-      { href: space, img: pick(0), alt: "哔哩哔哩", lead: true },
-      { href: "work.html", img: pick(1), alt: "Work", internal: true },
-      { href: "portfolio.html", img: pick(2), alt: "Portfolio", internal: true },
-      { href: bili(data().videos[0]?.bvid), img: pick(3), alt: "视频" },
-      { href: bili(data().videos[1]?.bvid), img: pick(4), alt: "视频" },
-      { href: bili(data().videos[2]?.bvid), img: pick(5), alt: "视频" },
-      { href: "about.html", img: pick(6), alt: "About", internal: true },
+    const items = [
+      { img: pick(0), alt: "哔哩哔哩", lead: true },
+      { img: pick(1), alt: "Work" },
+      { img: pick(2), alt: "Portfolio" },
+      { img: pick(3), alt: "视频" },
+      { img: pick(4), alt: "视频" },
+      { img: pick(5), alt: "视频" },
+      { img: pick(6), alt: "About" },
     ];
 
-    const rowHtml = links.map((b) => {
-      const target = b.internal ? "" : ' target="_blank" rel="noopener"';
+    const rowHtml = items.map((b) => {
       const cls = b.lead ? "profile-banner profile-banner--lead" : "profile-banner";
       const w = b.lead ? 166 : 156;
       const src = b.img || avatarSrc();
-      return `<a href="${esc(b.href)}"${target} class="${cls}">${bannerImg(src, w, 78, b.alt)}</a>`;
+      return `<span class="${cls}" role="presentation">${bannerImg(src, w, 78, b.alt)}</span>`;
     }).join("");
 
     container.innerHTML = `<div class="profile-banners-row">${rowHtml}</div>`;
@@ -218,18 +216,17 @@ const Site = (() => {
     const videos = data().videos;
     const isHome = document.body.dataset.page === "home";
     const linkItems = [
-      { href: biliSpace(), src: bannerSrc(0), alt: "哔哩哔哩" },
-      { href: "work.html", src: bannerSrc(1), alt: "Work", internal: true },
-      { href: "portfolio.html", src: bannerSrc(2), alt: "Portfolio", internal: true },
-      { href: bili(videos[0]?.bvid), src: bannerSrc(3), alt: videos[0]?.title || "视频" },
-      { href: bili(videos[1]?.bvid), src: bannerSrc(4), alt: videos[1]?.title || "视频" },
-      { href: bili(videos[2]?.bvid), src: bannerSrc(5), alt: videos[2]?.title || "视频" },
-      { href: "about.html", src: bannerSrc(6), alt: "About", internal: true },
+      { src: bannerSrc(0), alt: "哔哩哔哩" },
+      { src: bannerSrc(1), alt: "Work" },
+      { src: bannerSrc(2), alt: "Portfolio" },
+      { src: bannerSrc(3), alt: videos[0]?.title || "视频" },
+      { src: bannerSrc(4), alt: videos[1]?.title || "视频" },
+      { src: bannerSrc(5), alt: videos[2]?.title || "视频" },
+      { src: bannerSrc(6), alt: "About" },
     ];
-    const bannerHtml = linkItems.map((b) => {
-      const target = b.internal ? "" : ' target="_blank" rel="noopener"';
-      return `<a href="${esc(b.href)}"${target} class="link-banner" title="${esc(b.alt)}">${bannerImg(b.src, 156, 78, b.alt)}</a>`;
-    }).join("");
+    const bannerHtml = linkItems.map((b) =>
+      `<span class="link-banner" role="presentation" title="${esc(b.alt)}">${bannerImg(b.src, 156, 78, b.alt)}</span>`
+    ).join("");
     const desc = isHome
       ? "绘画过程与投稿发布在哔哩哔哩。插画见首页，视频见「作品」与「作品集」。"
       : "绘画视频发布在哔哩哔哩。欢迎订阅与私信约稿。";

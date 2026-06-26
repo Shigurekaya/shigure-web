@@ -267,12 +267,13 @@ a {
   flex: 0 0 auto;
   display: block;
   line-height: 0;
-  transition: transform 0.28s var(--fy-ease), box-shadow 0.28s ease;
+  cursor: default;
+  transition: none;
 }
 
 .profile-banner:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+  transform: none;
+  box-shadow: none;
 }
 
 .profile-banner img {
@@ -586,12 +587,15 @@ a {
 }
 
 .link-banner {
-  transition: transform 0.25s var(--fy-ease), opacity 0.2s ease;
+  display: block;
+  line-height: 0;
+  cursor: default;
+  transition: none;
 }
 
 .link-banner:hover {
-  transform: translateY(-3px);
-  opacity: 0.92;
+  transform: none;
+  opacity: 1;
 }
 
 .link-band-inner {
