@@ -1,0 +1,793 @@
+/* 浮游Lev — 轻量静态站（无 Wix 运行时） */
+
+:root {
+  --km-side-black: 10px;
+  --km-content: calc(100vw - 2 * var(--km-side-black));
+  --km-gallery-inset: 80px;
+  --km-gap: 23px;
+  --km-radius: 6px;
+  --km-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+  --km-font: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --fy-ease: cubic-bezier(0.33, 1, 0.68, 1);
+  --fy-stagger: 45ms;
+}
+
+@keyframes fy-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fy-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fy-footer-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: #000;
+  scroll-behavior: smooth;
+}
+
+body.fy-site {
+  margin: 0;
+  font-family: var(--km-font);
+  color: #111;
+  background: #000;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+/* ── 顶栏 ── */
+.fy-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100010;
+  background: #000;
+  pointer-events: none;
+}
+
+.fy-topbar-inner {
+  width: var(--km-content);
+  max-width: var(--km-content);
+  margin: 0 auto;
+  padding: 6px 16px 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  background: #fff;
+  pointer-events: auto;
+  animation: fy-drop 0.52s var(--fy-ease) both;
+}
+
+.fy-topbar-logo {
+  font-family: lulo-clean-w01-one-bold, Georgia, "Times New Roman", serif;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1;
+  color: #000;
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fy-topbar-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.fy-topbar-link {
+  position: relative;
+  font-family: poppins-black, poppins, sans-serif;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #000;
+  text-decoration: none;
+  padding: 0 10px;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.fy-topbar-link::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -3px;
+  height: 2px;
+  background: #000;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.28s var(--fy-ease);
+}
+
+.fy-topbar-link:hover::after,
+.fy-topbar-link.is-active::after {
+  transform: scaleX(1);
+}
+
+.fy-topbar-link:hover,
+.fy-topbar-link.is-active {
+  opacity: 0.82;
+}
+
+/* ── 主栏（白底 + 黑边） ── */
+.fy-shell {
+  width: var(--km-content);
+  max-width: var(--km-content);
+  min-width: 0;
+  margin: 0 auto;
+  background: #fff;
+  padding-top: 64px;
+  min-height: 100vh;
+}
+
+.fy-main {
+  width: 100%;
+}
+
+/* ── 首页 Hero ── */
+.fy-hero {
+  text-align: center;
+  padding: 40px 24px 8px;
+}
+
+.fy-home .fy-avatar {
+  animation: fy-rise 0.55s var(--fy-ease) 0.06s both;
+}
+
+.fy-home .fy-hero-name {
+  animation: fy-rise 0.55s var(--fy-ease) 0.14s both;
+}
+
+.fy-home .fy-hero-sign {
+  animation: fy-rise 0.55s var(--fy-ease) 0.22s both;
+}
+
+.fy-home .fy-hero-line {
+  animation: fy-rise 0.55s var(--fy-ease) 0.3s both;
+}
+
+.fy-home .fy-gallery-section {
+  animation: fy-rise 0.6s var(--fy-ease) 0.38s both;
+}
+
+.fy-page-content > .fuyulev-page-title {
+  animation: fy-rise 0.52s var(--fy-ease) 0.08s both;
+}
+
+.fy-page-content > .fuyulev-page-lead,
+.fy-page-content > .fuyulev-about-head {
+  animation: fy-rise 0.52s var(--fy-ease) 0.16s both;
+}
+
+.fy-page-content > .fuyulev-subtitle {
+  animation: fy-rise 0.48s var(--fy-ease) 0.24s both;
+}
+
+.fy-avatar {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  margin: 0 auto 12px;
+}
+
+.fy-hero-name {
+  font-family: poppins-black, poppins, sans-serif;
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.fy-hero-name a {
+  text-decoration: none;
+  transition: opacity 0.2s ease, letter-spacing 0.25s ease;
+}
+
+.fy-hero-name a:hover {
+  opacity: 0.75;
+  letter-spacing: 0.02em;
+}
+
+.fy-hero-sign {
+  font-size: 16px;
+  color: #333;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.fy-hero-line {
+  border: 0;
+  border-top: 2px dashed #ccc;
+  width: min(365px, 80vw);
+  margin: 0 auto 20px;
+}
+
+.fy-banners {
+  margin-bottom: 8px;
+}
+
+.profile-banners-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  width: min(1100px, calc(100vw - 32px));
+  margin: 0 auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.profile-banners-row::-webkit-scrollbar {
+  display: none;
+}
+
+.profile-banner {
+  flex: 0 0 auto;
+  display: block;
+  line-height: 0;
+  transition: transform 0.28s var(--fy-ease), box-shadow 0.28s ease;
+}
+
+.profile-banner:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+}
+
+.profile-banner img {
+  width: 156px;
+  height: 78px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.profile-banner--lead img {
+  width: 166px;
+}
+
+/* ── 画廊 ── */
+.fy-gallery-section {
+  padding: 24px var(--km-gallery-inset) 0;
+}
+
+.km-gallery-wrap {
+  width: 100%;
+}
+
+.km-gallery {
+  position: relative;
+  width: 100%;
+  min-height: 80px;
+}
+
+.km-gallery-item {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #eee;
+  cursor: pointer;
+  border-radius: var(--km-radius);
+  overflow: hidden;
+  box-shadow: var(--km-shadow);
+  transition: transform 0.28s var(--fy-ease), box-shadow 0.28s ease;
+}
+
+.km-gallery-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 4px 8px 28px rgba(0, 0, 0, 0.22);
+}
+
+.km-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s var(--fy-ease);
+}
+
+.km-gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.fy-motion-item {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  transition:
+    opacity 0.48s var(--fy-ease),
+    transform 0.48s var(--fy-ease);
+  transition-delay: calc(var(--fy-base, 0ms) + var(--fy-i, 0) * var(--fy-stagger));
+}
+
+.fy-motion-item.fy-in {
+  opacity: 1;
+  transform: none;
+}
+
+.km-load-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 36px 0 48px;
+}
+
+.km-load-btn {
+  appearance: none;
+  border: 1px solid #000;
+  border-radius: 14px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.9);
+  font-family: futura-lt-w01-book, "Century Gothic", "Trebuchet MS", sans-serif;
+  font-size: 16px;
+  padding: 10px 28px;
+  cursor: pointer;
+  transition: transform 0.22s var(--fy-ease), box-shadow 0.22s ease, background 0.2s ease;
+}
+
+.km-load-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.km-load-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.km-load-btn.hidden {
+  display: none;
+}
+
+/* ── 子页内容区 ── */
+.fy-page-content {
+  padding: 32px clamp(24px, 6vw, 80px) 48px;
+}
+
+.fuyulev-page-title {
+  font-family: poppins-black, poppins, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  margin: 0 0 14px;
+}
+
+.fuyulev-page-lead {
+  font-size: 16px;
+  line-height: 1.75;
+  margin: 0 0 32px;
+  max-width: 72ch;
+}
+
+.fuyulev-page-lead a {
+  color: #000;
+  font-weight: 600;
+}
+
+.fuyulev-work-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+}
+
+.fuyulev-work-item a {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  text-decoration: none;
+  color: inherit;
+  padding: 12px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  height: 100%;
+  transition: background 0.22s ease, transform 0.22s var(--fy-ease), box-shadow 0.22s ease;
+}
+
+.fuyulev-work-item a:hover {
+  background: rgba(255, 222, 95, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+}
+
+.fuyulev-work-item img {
+  width: min(168px, 42%);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.fuyulev-work-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.fuyulev-work-meta strong {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.fuyulev-work-meta small {
+  color: #666;
+  font-size: 13px;
+}
+
+.fuyulev-more-link {
+  margin-top: 24px;
+  font-size: 15px;
+  color: #333;
+}
+
+.fuyulev-more-link a {
+  font-weight: 600;
+}
+
+.fuyulev-about-head {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.fuyulev-about-avatar {
+  width: min(200px, 28vw);
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.fuyulev-name-en {
+  font-size: 0.72em;
+  font-weight: normal;
+  color: #666;
+}
+
+.fuyulev-about-sign {
+  font-size: 16px;
+  margin: 8px 0 16px;
+  line-height: 1.6;
+}
+
+.fuyulev-bili-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #fb7299;
+  color: #fff !important;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: transform 0.2s var(--fy-ease), box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.fuyulev-bili-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(251, 114, 153, 0.35);
+}
+
+.fuyulev-subtitle {
+  font-size: 20px;
+  margin: 28px 0 14px;
+}
+
+.fuyulev-about-picks {
+  margin: 0;
+  padding-left: 1.4em;
+  line-height: 1.75;
+  font-size: 16px;
+  max-width: 72ch;
+}
+
+.fuyulev-about-picks li + li {
+  margin-top: 6px;
+}
+
+.fuyulev-about-picks a {
+  transition: color 0.2s ease, transform 0.2s var(--fy-ease);
+  display: inline-block;
+}
+
+.fuyulev-about-picks a:hover {
+  color: #fb7299;
+  transform: translateX(4px);
+}
+
+.fuyulev-portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 16px;
+}
+
+.fuyulev-portfolio-thumb {
+  display: block;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--km-shadow);
+  transition: transform 0.28s var(--fy-ease), box-shadow 0.28s ease;
+}
+
+.fuyulev-portfolio-thumb:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 4px 8px 26px rgba(0, 0, 0, 0.2);
+}
+
+.fuyulev-portfolio-thumb img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s var(--fy-ease);
+}
+
+.fuyulev-portfolio-thumb:hover img {
+  transform: scale(1.06);
+}
+
+/* ── 页脚 LINK 栏 ── */
+.fy-footer {
+  background: #000;
+  color: #fff;
+  position: relative;
+  padding-bottom: 12px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fy-footer.fy-footer--in {
+  animation: fy-footer-up 0.65s var(--fy-ease) both;
+}
+
+.link-banner {
+  transition: transform 0.25s var(--fy-ease), opacity 0.2s ease;
+}
+
+.link-banner:hover {
+  transform: translateY(-3px);
+  opacity: 0.92;
+}
+
+.link-band-inner {
+  max-width: var(--km-content);
+  margin: 0 auto;
+  padding: 24px 24px 32px;
+  text-align: center;
+}
+
+.link-heading {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 8px;
+}
+
+.link-band-line {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  margin: 0 auto 16px;
+  max-width: 420px;
+}
+
+.link-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: normal;
+  margin: 0 auto 20px;
+  max-width: 640px;
+}
+
+.link-banners {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 28px;
+  margin-bottom: 20px;
+}
+
+.link-banner {
+  display: block;
+  line-height: 0;
+}
+
+.link-banner img {
+  width: 156px;
+  height: 78px;
+  object-fit: cover;
+}
+
+.site-copyright {
+  font-size: 12px;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.fy-kaya-corner {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  opacity: 0.95;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  background: linear-gradient(145deg, #b8d9f5 0%, #7eb8e8 100%);
+}
+
+.fy-kaya-corner:hover {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+.fy-kaya-corner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Lightbox ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.88);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.lightbox[hidden] {
+  display: none !important;
+}
+
+.lightbox.lightbox--open {
+  opacity: 1;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 36px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#lightbox-img {
+  max-width: min(92vw, 1200px);
+  max-height: 78vh;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.28s ease, transform 0.32s var(--fy-ease);
+}
+
+#lightbox-img.lightbox-img--in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.lightbox-title {
+  color: #fff;
+  margin: 14px 0 0;
+  font-size: 15px;
+  text-align: center;
+}
+
+.lightbox-link {
+  color: #fb7299;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .fy-gallery-section {
+    padding: 24px 24px 0;
+  }
+
+  .profile-banners-row {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 780px) {
+  .fuyulev-work-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .fy-gallery-section {
+    padding: 16px 12px 0;
+  }
+
+  .fy-topbar-logo {
+    font-size: 40px;
+  }
+
+  .fy-topbar-link {
+    font-size: 15px;
+    padding: 0 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .fy-motion-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .fy-footer {
+    opacity: 1;
+    transform: none;
+  }
+}

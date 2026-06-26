@@ -4,12 +4,6 @@
 const Kaya = (() => {
   const data = () => window.SITE_DATA || { user: {}, videos: [], stats: {} };
 
-  function formatNum(n) {
-    if (!n && n !== 0) return "—";
-    if (n >= 10000) return (n / 10000).toFixed(1).replace(/\.0$/, "") + "万";
-    return String(n);
-  }
-
   function escapeHtml(str) {
     const d = document.createElement("div");
     d.textContent = str;
@@ -27,9 +21,7 @@ const Kaya = (() => {
     card.target = "_blank";
     card.rel = "noopener";
 
-    const meta = [v.date, v.length, v.play ? `${formatNum(v.play)} 播放` : ""]
-      .filter(Boolean)
-      .join(" · ");
+    const meta = [v.date, v.length].filter(Boolean).join(" · ");
 
     card.innerHTML = `
       <div class="tape-thumb">
@@ -130,8 +122,6 @@ const Kaya = (() => {
 
   function initWorks() {
     initCommon();
-    const countEl = document.getElementById("works-count");
-    if (countEl) countEl.textContent = data().videos.length;
     renderGrid(document.getElementById("works-grid"), data().videos);
   }
 
@@ -139,5 +129,5 @@ const Kaya = (() => {
     initCommon();
   }
 
-  return { initHome, initWorks, initLinks, data, formatNum };
+  return { initHome, initWorks, initLinks, data };
 })();

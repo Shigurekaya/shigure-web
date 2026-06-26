@@ -3,7 +3,6 @@
   const LINKS = [
     { href: "index.html", label: "HOME" },
     { href: "work.html", label: "WORK" },
-    { href: "kakuu.html", label: "KAKUU" },
     { href: "about.html", label: "ABOUT" },
     { href: "portfolio.html", label: "PORTFOLIO" },
   ];

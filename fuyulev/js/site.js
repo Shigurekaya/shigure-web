@@ -62,8 +62,10 @@ const Site = (() => {
       if (bvid) window.open(bili(bvid), "_blank");
       return;
     }
-    document.getElementById("lightbox-img").src = src;
-    document.getElementById("lightbox-img").alt = title;
+    const imgEl = document.getElementById("lightbox-img");
+    imgEl.src = src;
+    imgEl.alt = title;
+    imgEl.classList.remove("lightbox-img--in");
     const titleEl = document.getElementById("lightbox-title");
     if (titleEl) {
       titleEl.textContent = title;
@@ -81,7 +83,10 @@ const Site = (() => {
     lb.hidden = false;
     document.body.style.overflow = "hidden";
     lb.classList.remove("lightbox--open");
-    requestAnimationFrame(() => lb.classList.add("lightbox--open"));
+    requestAnimationFrame(() => {
+      lb.classList.add("lightbox--open");
+      imgEl.classList.add("lightbox-img--in");
+    });
   }
 
   function closeLightbox() {
@@ -162,20 +167,38 @@ const Site = (() => {
     return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" width="${w}" height="${h}" onerror="this.src='assets/images/avatar.jpg'" />`;
   }
 
+  function bannerGallery() {
+    if (window.HOME_GALLERY?.length) return window.HOME_GALLERY;
+    return [
+      "image/alice.png",
+      "image/key.png",
+      "image/q.png",
+      "image/rance.png",
+      "image/shining2.png",
+      "image/yiji.png",
+      "image/白琴里.png",
+    ];
+  }
+
+  function bannerSrc(i) {
+    const gallery = bannerGallery();
+    return gallery[i] || avatarSrc();
+  }
+
   /** 首页 profile 下横幅 — komowata：7 张横排（166 + 6×156） */
   function renderProfileBanners(container) {
     if (!container) return;
-    const gallery = window.HOME_GALLERY || [];
+    const gallery = bannerGallery();
     const space = biliSpace();
-    const bannerSrc = (i) => gallery[i] || avatarSrc();
+    const pick = (i) => gallery[i] || avatarSrc();
     const links = [
-      { href: space, img: bannerSrc(0), alt: "哔哩哔哩", lead: true },
-      { href: "work.html", img: bannerSrc(1), alt: "Work", internal: true },
-      { href: "portfolio.html", img: bannerSrc(2), alt: "Portfolio", internal: true },
-      { href: bili(data().videos[0]?.bvid), img: bannerSrc(3), alt: "视频" },
-      { href: bili(data().videos[1]?.bvid), img: bannerSrc(4), alt: "视频" },
-      { href: bili(data().videos[2]?.bvid), img: bannerSrc(5), alt: "视频" },
-      { href: "about.html", img: bannerSrc(6), alt: "About", internal: true },
+      { href: space, img: pick(0), alt: "哔哩哔哩", lead: true },
+      { href: "work.html", img: pick(1), alt: "Work", internal: true },
+      { href: "portfolio.html", img: pick(2), alt: "Portfolio", internal: true },
+      { href: bili(data().videos[0]?.bvid), img: pick(3), alt: "视频" },
+      { href: bili(data().videos[1]?.bvid), img: pick(4), alt: "视频" },
+      { href: bili(data().videos[2]?.bvid), img: pick(5), alt: "视频" },
+      { href: "about.html", img: pick(6), alt: "About", internal: true },
     ];
 
     const rowHtml = links.map((b) => {
@@ -192,10 +215,8 @@ const Site = (() => {
   /** 黑色 LINK 底栏 — komowata SITE_FOOTER */
   function renderLinkBand(container) {
     if (!container) return;
-    const gallery = window.HOME_GALLERY || [];
     const videos = data().videos;
     const isHome = document.body.dataset.page === "home";
-    const bannerSrc = (i) => gallery[i] || avatarSrc();
     const linkItems = [
       { href: biliSpace(), src: bannerSrc(0), alt: "哔哩哔哩" },
       { href: "work.html", src: bannerSrc(1), alt: "Work", internal: true },

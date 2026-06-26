@@ -87,10 +87,17 @@
   const hasJapanese = (s) => /[぀-ゟ゠-ヿ]/.test(s || "");
 
   const fixNav = () => {
-    const navMap = { HOME: "首页", WORK: "作品", KAKUU: "原创", ABOUT: "关于", PORTFOLIO: "作品集" };
+    const navMap = { HOME: "首页", WORK: "作品", ABOUT: "关于", PORTFOLIO: "作品集" };
     document.querySelectorAll("nav a, .wixui-dropdown-menu a").forEach((a) => {
       if (a.closest(".fuyulev-topbar")) return;
       const t = (a.textContent || "").trim();
+      const href = (a.getAttribute("href") || "").toLowerCase();
+      if (href.includes("kakuu") || t === "KAKUU" || t === "原创") {
+        const li = a.closest("li");
+        if (li) li.remove();
+        else a.remove();
+        return;
+      }
       if (navMap[t]) a.textContent = navMap[t];
       if (t.includes("ああああ")) {
         const li = a.closest("li");

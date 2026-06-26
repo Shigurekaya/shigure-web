@@ -11,6 +11,15 @@
   ];
 
   const fix = () => {
+    document.querySelectorAll('a[href*="kakuu"]').forEach((a) => {
+      const li = a.closest("li");
+      if (li && (li.closest("nav") || li.closest(".wixui-dropdown-menu"))) {
+        li.remove();
+        return;
+      }
+      a.setAttribute("href", "index.html");
+    });
+
     document.querySelectorAll("nav a, nav li, .wixui-dropdown-menu a").forEach((el) => {
       if (el.textContent && el.textContent.includes("ああああ")) {
         const li = el.closest("li");
