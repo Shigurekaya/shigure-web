@@ -1,0 +1,468 @@
+/* 首页 — komowata：两侧细黑边 + 内容几乎全宽 */
+
+html {
+  background: #000;
+}
+
+body.km-home {
+  overflow-x: hidden;
+  background: #000 !important;
+  --site-width: var(--km-content) !important;
+}
+
+/* 页面背景层：黑色细边 */
+body.km-home #BACKGROUND_GROUP,
+body.km-home #pageBackground_lcbl2,
+body.km-home #pageBackground_lcbl2 .LNYVZi,
+body.km-home #pageBackground_lcbl2 .QG9w8P {
+  background: #000 !important;
+}
+
+/* 主内容白栏：仅左右各留 --km-side-black 黑边 */
+body.km-home #SITE_CONTAINER,
+body.km-home #main_MF,
+body.km-home #site-root {
+  width: var(--km-content) !important;
+  max-width: var(--km-content) !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  background: #fff !important;
+  box-sizing: border-box;
+}
+
+body.km-home #masterPage {
+  background: #fff !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+/* 覆盖 Wix 内联 min-width:980px */
+body.km-home #comp-l6z9resp,
+body.km-home #comp-j3v9refi,
+body.km-home [id^="comp-l"][id*="resp"],
+body.km-home #SITE_HEADER,
+body.km-home #SITE_PAGES {
+  min-width: 0 !important;
+}
+
+body.km-home #SITE_FOOTER,
+body.km-home #SITE_FOOTER .EaoiSu,
+body.km-home #SITE_FOOTER .CmHRsG,
+body.km-home #SITE_FOOTER .H2MmBb {
+  background: #000 !important;
+}
+
+body.km-home #SITE_FOOTER {
+  position: relative;
+  min-height: 0 !important;
+  height: auto !important;
+  margin-top: 0 !important;
+  width: var(--km-content) !important;
+  max-width: var(--km-content) !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-bottom: 12px !important;
+}
+
+/* 时雨榧头像：页脚左下角（随页面滚动，非 fixed） */
+body.km-home .fuyulev-kaya-corner {
+  position: absolute !important;
+  left: 10px !important;
+  bottom: 10px !important;
+  top: auto !important;
+  right: auto !important;
+  width: 40px !important;
+  height: 40px !important;
+  z-index: 6;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(145deg, #b8d9f5 0%, #7eb8e8 100%);
+}
+
+body.km-home #SITE_FOOTERinlineContent-gridContainer {
+  min-height: 0 !important;
+  height: auto !important;
+  padding-bottom: 24px !important;
+}
+
+/* 隐藏页脚大图占位（388×194 空白块） */
+body.km-home #comp-l76zxhb2 {
+  display: none !important;
+}
+
+body.km-home #comp-l70jwtsy {
+  margin: 8px auto 16px !important;
+}
+
+body.km-home [data-mesh-id="SITE_FOOTERinlineContent-gridContainer"] > * {
+  position: relative !important;
+  left: auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 顶栏：外侧黑边 + 内侧与内容同宽白栏 */
+.fuyulev-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100010;
+  background: #000;
+  pointer-events: none;
+}
+
+.fuyulev-topbar-inner {
+  width: var(--km-content);
+  max-width: var(--km-content);
+  margin: 0 auto;
+  padding: 6px 16px 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  background: #fff;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+.fuyulev-topbar-logo {
+  font-family: lulo-clean-w01-one-bold, Georgia, "Times New Roman", serif;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1;
+  color: #000;
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fuyulev-topbar-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0;
+  margin-top: 18px;
+}
+
+.fuyulev-topbar-link {
+  font-family: poppins-black, poppins, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #000;
+  text-decoration: none;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
+.fuyulev-topbar-link:hover,
+.fuyulev-topbar-link.is-active {
+  text-decoration: none;
+  opacity: 0.72;
+}
+
+body.km-home #pinnedTopLeft,
+body.km-home #pinnedTopRight,
+body.km-home #comp-imytorpi-pinned-layer,
+body.km-home #comp-inhcr2i9-pinned-layer,
+body.km-home #comp-imytorpi,
+body.km-home #comp-inhcr2i9 {
+  display: none !important;
+}
+
+body.km-home #masterPage {
+  min-height: 0 !important;
+}
+
+body.km-home #PAGES_CONTAINER,
+body.km-home #SITE_PAGES,
+body.km-home #lcbl2,
+body.km-home #Containerlcbl2,
+body.km-home [data-mesh-id="Containerlcbl2inlineContent"],
+body.km-home [data-mesh-id="Containerlcbl2inlineContent-gridContainer"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+body.km-home [data-mesh-id="Containerlcbl2inlineContent-gridContainer"] > #comp-l6z9resp {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  justify-self: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+body.km-home #comp-l6z9resp,
+body.km-home #comp-j3v9refi,
+body.km-home #comp-j3v9refx,
+body.km-home #comp-iszo7s1m,
+body.km-home #comp-iszo7s7p {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  left: auto !important;
+}
+
+body.km-home [data-mesh-id="comp-l6z9respinlineContent-gridContainer"] > #comp-j3v9refi {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  justify-self: center !important;
+}
+
+/* 隐藏失效 Wix Pro Gallery，并清除占位高度 */
+body.km-home #comp-j3v9reg1,
+body.km-home #gallery-wrapper-comp-j3v9reg1,
+body.km-home #pro-gallery-comp-j3v9reg1,
+body.km-home .layout-fixer-style {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+body.km-home #comp-j3v9refi,
+body.km-home #comp-j3v9refx,
+body.km-home #comp-l6z9resp {
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+body.km-home #comp-j3v9refx {
+  background: #fff !important;
+}
+
+body.km-home #comp-j3v9refi,
+body.km-home #comp-l6z9resp {
+  background: transparent !important;
+}
+
+/* 去掉主内容区多余分隔条 */
+body.km-home #comp-j3v9refi .wixui-horizontal-line,
+body.km-home #comp-l6z9resp .wixui-horizontal-line {
+  display: none !important;
+}
+
+/* 注入画廊 — komowata 比例：栏内左右 80px */
+body.km-home .fuyulev-home-inject {
+  display: block;
+  position: relative;
+  z-index: 8;
+  width: 100%;
+  margin: 24px auto 0;
+  padding: 0 var(--km-gallery-inset, 80px);
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+body.km-home .km-load-btn {
+  font-family: futura-lt-w01-book, "Century Gothic", "Trebuchet MS", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+body.km-home .km-load-wrap {
+  position: relative;
+  z-index: 20;
+  pointer-events: auto;
+}
+
+body.km-home .km-load-btn {
+  pointer-events: auto;
+  position: relative;
+  z-index: 21;
+}
+
+/* 隐藏 Wix 画廊占位，避免挡住「加载更多」 */
+body.km-home #comp-j3v9reg1,
+body.km-home #gallery-wrapper-comp-j3v9reg1,
+body.km-home #pro-gallery-comp-j3v9reg1 {
+  pointer-events: none !important;
+}
+
+body.km-home .km-gallery-wrap {
+  width: 100%;
+}
+
+body.km-home .km-gallery {
+  position: relative;
+  width: 100%;
+  min-height: 80px;
+}
+
+body.km-home .km-gallery-item {
+  background: #eee;
+}
+
+body.km-home .km-gallery-item img {
+  min-height: 40px;
+}
+
+/* 页眉：头像 + 名称 + 虚线 + 横幅 */
+body.km-home #SITE_HEADER {
+  overflow: visible;
+  padding-top: 64px;
+  background: #fff !important;
+}
+
+body.km-home #comp-iszo7s1m,
+body.km-home #comp-iszo7s7p {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+body.km-home [data-mesh-id="comp-iszo7s7pinlineContent-gridContainer"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+body.km-home [data-mesh-id="comp-iszo7s7pinlineContent-gridContainer"] > * {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  grid-area: auto !important;
+}
+
+body.km-home #comp-imyso5rc {
+  width: 120px !important;
+  height: 120px !important;
+  margin: 40px auto 12px !important;
+}
+
+body.km-home #comp-imyso5rc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+body.km-home #comp-iszo71xz,
+body.km-home #comp-j63afz3b {
+  width: auto !important;
+  max-width: min(92vw, 720px);
+  text-align: center !important;
+}
+
+body.km-home #comp-l75umd50 {
+  width: min(365px, 80vw) !important;
+  margin: 16px auto 20px !important;
+}
+
+body.km-home .fuyulev-header-banners {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  width: min(1100px, calc(100vw - 32px));
+  margin: 0 auto 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+body.km-home .fuyulev-header-banners::-webkit-scrollbar {
+  display: none;
+}
+
+body.km-home #comp-mqk7r3rt {
+  width: 166px !important;
+  height: 78px !important;
+  flex: 0 0 auto;
+}
+
+body.km-home #comp-lstqan45 {
+  width: auto !important;
+  height: auto !important;
+  flex: 0 0 auto;
+}
+
+body.km-home #comp-lstqan45inlineContent,
+body.km-home #comp-lstqan45inlineContent-gridContainer {
+  width: auto !important;
+  height: auto !important;
+}
+
+body.km-home #comp-lstqan45inlineContent-gridContainer {
+  display: flex !important;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+}
+
+body.km-home #comp-lstqan45inlineContent-gridContainer > [id^="comp-lstqan4"] {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  width: 156px !important;
+  height: 78px !important;
+  margin: 0 !important;
+}
+
+body.km-home #comp-lstqan45inlineContent-gridContainer > [id^="comp-lstqan4"],
+body.km-home #comp-mqk7r3rt {
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+body.km-home #comp-lstqan45inlineContent-gridContainer > [id^="comp-lstqan4"] a,
+body.km-home #comp-mqk7r3rt a {
+  display: block;
+  width: 156px;
+  height: 78px;
+  overflow: hidden;
+}
+
+body.km-home #comp-mqk7r3rt a {
+  width: 166px;
+}
+
+body.km-home #comp-lstqan45inlineContent-gridContainer img,
+body.km-home #comp-mqk7r3rt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+body.km-home #comp-l76crple,
+body.km-home #comp-l76czo62 {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  body.km-home .fuyulev-home-inject {
+    padding: 0 24px;
+  }
+
+  body.km-home .fuyulev-header-banners {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  body.km-home .fuyulev-home-inject {
+    padding: 0 12px;
+    margin-top: 32px;
+  }
+}

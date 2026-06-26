@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>时雨榧</title>
+  <meta name="description" content="时雨榧 — 手书与视频制作" />
+  <meta name="theme-color" content="#141322" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-bar">
+      <a href="index.html" class="brand">时雨榧<span class="owner-badge owner-badge--sm">站主</span></a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单">≡</button>
+      <ul class="site-nav" id="site-nav">
+        <li><a href="index.html" class="active">主页</a></li>
+        <li><a href="works.html">作品</a></li>
+        <li><a href="links.html">链接</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="hero-panel">
+        <div class="avatar-wrap">
+          <img id="hero-avatar" class="avatar" src="" alt="时雨榧" width="112" height="112" fetchpriority="high" decoding="async" />
+        </div>
+        <div class="hero-meta">
+          <h1 class="hero-name-row">
+            <span id="hero-name">时雨榧</span>
+            <span class="owner-badge">站主</span>
+          </h1>
+          <p class="hero-sign" id="hero-sign">实现愿望程度的能力</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <header class="section-head">
+        <h2>最新投稿</h2>
+        <p>点击封面跳转 B 站观看</p>
+      </header>
+      <div class="tape-grid" id="featured-grid"></div>
+      <div class="btn-row">
+        <a href="works.html" class="btn">全部作品 →</a>
+        <a href="https://space.bilibili.com/109084234" target="_blank" rel="noopener" class="btn btn-ghost" id="bili-space-btn" data-bili-space>B 站空间 ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <section class="site-link-band" id="link-band"></section>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> 时雨榧 · 站主</p>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initHome());</script>
+</body>
+</html>

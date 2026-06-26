@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>链接 · 时雨榧</title>
+  <meta name="theme-color" content="#141322" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-bar">
+      <a href="index.html" class="brand">时雨榧<span class="owner-badge owner-badge--sm">站主</span></a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单">≡</button>
+      <ul class="site-nav" id="site-nav">
+        <li><a href="index.html">主页</a></li>
+        <li><a href="works.html">作品</a></li>
+        <li><a href="links.html" class="active">链接</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <header class="section-head"><h2>链接</h2></header>
+    <div class="link-grid">
+      <a href="https://space.bilibili.com/109084234" target="_blank" rel="noopener" class="link-item" id="bili-space-link">
+        <div><strong>B 站空间</strong><span id="bili-space-url">space.bilibili.com/109084234</span></div>
+        <span class="link-arrow">↗</span>
+      </a>
+    </div>
+  </main>
+
+  <section class="site-link-band" id="link-band"></section>
+  <footer class="site-footer"><p>© <span id="year"></span> 时雨榧 · 站主</p></footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initLinks());</script>
+</body>
+</html>

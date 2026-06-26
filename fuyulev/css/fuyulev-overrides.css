@@ -1,0 +1,374 @@
+/* fuyulev 在 komowata-ref 模板上的少量覆盖 */
+.fuyulev-kaya-corner {
+  position: fixed;
+  left: 14px;
+  bottom: 14px;
+  z-index: 100002;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+  opacity: 0.95;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  background: linear-gradient(145deg, #b8d9f5 0%, #7eb8e8 100%);
+}
+.fuyulev-kaya-corner:hover {
+  opacity: 1;
+  transform: scale(1.06);
+}
+.fuyulev-kaya-corner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 防止画廊撑破页脚布局 */
+#SITE_FOOTER {
+  position: relative;
+  z-index: 5;
+  clear: both;
+}
+#comp-j3v9reg1 {
+  overflow: hidden;
+}
+main .pro-gallery-margin-container {
+  position: relative;
+}
+
+/* 页眉：隐藏邮箱旁多余的小头像 / SNS 图标条 */
+#comp-l76czo62,
+#comp-l797z95r {
+  display: none !important;
+}
+
+/* 浮游注入子页内容（默认隐藏，由各页 body class 开启） */
+.fuyulev-page-inject {
+  display: none;
+  max-width: none;
+  margin: 48px auto 32px;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+.fuyulev-page-title {
+  font-family: poppins-black, poppins, sans-serif;
+  font-size: 28px;
+  margin: 0 0 12px;
+}
+.fuyulev-page-lead {
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0 0 28px;
+  color: #333;
+}
+.fuyulev-work-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.fuyulev-work-item a {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+.fuyulev-work-item a:hover {
+  background: rgba(255, 222, 95, 0.25);
+}
+.fuyulev-work-item img {
+  width: 120px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.fuyulev-work-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.fuyulev-work-meta small {
+  color: #666;
+  font-size: 13px;
+}
+.fuyulev-kakuu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.fuyulev-kakuu-thumb img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+.fuyulev-about-head {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.fuyulev-about-avatar {
+  border-radius: 8px;
+  object-fit: cover;
+}
+.fuyulev-name-en {
+  font-size: 0.72em;
+  font-weight: normal;
+  color: #666;
+}
+.fuyulev-about-sign {
+  font-size: 16px;
+  margin: 8px 0;
+  line-height: 1.6;
+}
+.fuyulev-about-stats {
+  color: #666;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+.fuyulev-bili-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #fb7299;
+  color: #fff !important;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+}
+.fuyulev-bili-btn:hover {
+  opacity: 0.9;
+}
+.fuyulev-subtitle {
+  font-size: 18px;
+  margin: 24px 0 12px;
+}
+.fuyulev-about-picks {
+  margin: 0;
+  padding-left: 1.2em;
+  line-height: 1.8;
+  font-size: 16px;
+}
+.fuyulev-about-picks li {
+  font-size: 16px;
+}
+.fuyulev-about-picks a {
+  color: inherit;
+  font-size: 16px;
+}
+.fuyulev-about-picks a:hover {
+  color: #fb7299;
+}
+.fuyulev-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.fuyulev-kw {
+  padding: 4px 10px;
+  background: rgba(255, 222, 95, 0.35);
+  border-radius: 999px;
+  font-size: 13px;
+}
+.fuyulev-portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+.fuyulev-portfolio-thumb {
+  display: block;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+.fuyulev-portfolio-thumb img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+.fuyulev-portfolio-cap {
+  display: block;
+  font-size: 12px;
+  padding: 6px 4px 0;
+  line-height: 1.4;
+  color: #444;
+}
+
+/* Work：隐藏 komowata 履历正文，只显示浮游视频列表 */
+body.fuyulev-page-work #comp-l7950qj6,
+body.fuyulev-page-work #comp-l796hl8k,
+body.fuyulev-page-work #comp-l797z95r,
+body.fuyulev-page-work section[id^="comp-l79"] {
+  display: none !important;
+}
+body.fuyulev-page-work #fuyulev-work-inject {
+  display: block !important;
+}
+
+/* About：隐藏 komowata 日文简介，显示浮游资料 */
+body.fuyulev-page-about #comp-l6z9reso {
+  display: none !important;
+}
+body.fuyulev-page-about #fuyulev-about-inject {
+  display: block !important;
+}
+
+/* Portfolio：隐藏 komowata 作品集组件 */
+body.fuyulev-page-portfolio #comp-mqk7jjze {
+  display: none !important;
+}
+body.fuyulev-page-portfolio #fuyulev-portfolio-inject {
+  display: block !important;
+}
+
+/* Kakuu：隐藏 komowata 架空游戏正文，只保留页眉与浮游内容 */
+body.fuyulev-page-kakuu main#PAGES_CONTAINER section,
+body.fuyulev-page-kakuu #comp-iszo7s1m,
+body.fuyulev-page-kakuu #comp-l76bpi1t {
+  display: none !important;
+}
+body.fuyulev-page-kakuu #fuyulev-kakuu-inject {
+  display: block !important;
+}
+
+/* 首页：隐藏失效的 Wix Pro Gallery，使用 CollageGallery */
+body.fuyulev-page-index.km-home #comp-j3v9reg1,
+body.fuyulev-page-index.km-home #gallery-wrapper-comp-j3v9reg1,
+body.fuyulev-page-index.km-home #pro-gallery-comp-j3v9reg1 {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+body.fuyulev-page-index.km-home .fuyulev-home-inject {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body.fuyulev-page-index.km-home #comp-l6z9resp,
+body.fuyulev-page-index.km-home #comp-j3v9refi {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  left: auto !important;
+  max-width: 100%;
+}
+body.fuyulev-page-index.km-home #SITE_HEADER {
+  overflow: hidden;
+}
+
+body.fuyulev-page-index.km-home #comp-iszo7s1m,
+body.fuyulev-page-index.km-home #comp-iszo7s7p {
+  width: 100% !important;
+  max-width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+body.fuyulev-page-index.km-home [data-mesh-id="comp-iszo7s7pinlineContent-gridContainer"] {
+  display: block !important;
+}
+
+body.fuyulev-page-index.km-home [data-mesh-id="comp-iszo7s7pinlineContent-gridContainer"] > * {
+  position: relative !important;
+  left: auto !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  grid-area: auto !important;
+}
+
+body.fuyulev-page-index.km-home #comp-imyso5rc {
+  margin-top: 48px !important;
+}
+
+body.fuyulev-page-index.km-home #comp-iszo71xz {
+  width: auto !important;
+  max-width: 92vw;
+  text-align: center !important;
+}
+
+body.fuyulev-page-index.km-home #comp-l75umd50 {
+  margin-bottom: 20px !important;
+}
+
+body.fuyulev-page-index.km-home .fuyulev-header-banners {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  width: min(1100px, calc(100vw - 32px));
+  margin: 0 auto 22px;
+}
+
+body.fuyulev-page-index.km-home #comp-lstqan45 {
+  width: auto !important;
+}
+
+body.fuyulev-page-index.km-home #comp-lstqan45inlineContent,
+body.fuyulev-page-index.km-home #comp-lstqan45inlineContent-gridContainer {
+  width: auto !important;
+  height: auto !important;
+}
+
+body.fuyulev-page-index.km-home #comp-lstqan45inlineContent-gridContainer {
+  display: flex !important;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 28px;
+}
+
+body.fuyulev-page-index.km-home #comp-lstqan45inlineContent-gridContainer > [id^="comp-lstqan4"] {
+  position: relative !important;
+  left: auto !important;
+  margin: 0 !important;
+}
+
+body.fuyulev-page-index.km-home #comp-l76crple,
+body.fuyulev-page-index.km-home #comp-l76czo62 {
+  display: none !important;
+}
+
+body.fuyulev-page-index.km-home #comp-imytorpi {
+  margin-left: 24px !important;
+  margin-top: 16px !important;
+}
+
+body.fuyulev-page-index.km-home #comp-inhcr2i9 {
+  margin-right: 24px !important;
+}
+
+@media (max-width: 1140px) {
+  body.fuyulev-page-index.km-home .fuyulev-header-banners {
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none;
+  }
+}
+
+/* 本地字体缺失时使用系统中文字体回退，避免标题栏排版错乱 */
+body.fuyulev-page-index,
+body.fuyulev-page-index .wixui-rich-text__text,
+body.fuyulev-page-index .YSo0sV,
+body.fuyulev-page-index .wixui-button__label {
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif !important;
+}
+
+/* 以下保留子页规则 */

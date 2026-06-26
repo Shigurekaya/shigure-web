@@ -1,0 +1,43 @@
+/* 离线镜像：强制显示 Wix Pro Gallery SSR 拼贴项（不依赖 layout-fixer） */
+.pro-gallery [data-hook="item-container"] {
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.pro-gallery [data-key="items-styles"] {
+  display: none !important;
+}
+
+.pro-gallery .gallery-item-content img,
+.pro-gallery [data-hook="gallery-item-image-img"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.pro-gallery .show-more-container {
+  display: none !important;
+}
+
+/* 图片懒加载占位与淡入 */
+img.fy-img-deferred {
+  background: #eceae8;
+}
+
+.pro-gallery .gallery-item-content img.fy-img-deferred,
+.pro-gallery [data-hook="gallery-item-image-img"].fy-img-deferred {
+  opacity: 0.35;
+}
+
+img.fy-img-loaded,
+.pro-gallery .gallery-item-content img.fy-img-loaded,
+.pro-gallery [data-hook="gallery-item-image-img"].fy-img-loaded {
+  opacity: 1 !important;
+  transition: opacity 0.28s ease;
+}
+
+.fuyulev-kakuu-thumb img.fy-img-deferred,
+.fuyulev-portfolio-thumb img.fy-img-deferred,
+.km-gallery-item img.fy-img-deferred {
+  opacity: 0.4;
+}

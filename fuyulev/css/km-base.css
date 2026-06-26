@@ -1,0 +1,258 @@
+/* komowata-style shared layout — 浮游Lev */
+
+:root {
+  /* 两侧细黑边，其余全宽给内容（komowata 视觉比例） */
+  --km-side-black: 10px;
+  --km-content: calc(100vw - 2 * var(--km-side-black));
+  --km-gallery-inset: 80px;
+  --km-gap: 23px;
+  --km-radius: 6px;
+  --km-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+  --km-font: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.km-site img {
+  max-width: 100%;
+}
+
+/* ── Collage gallery items ── */
+.km-gallery-item {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--km-radius);
+  overflow: hidden;
+  box-shadow: var(--km-shadow);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.km-gallery-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 3px 4px 24px rgba(0, 0, 0, 0.24);
+}
+
+.km-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.km-gallery-item--video {
+  color: #fff;
+}
+
+.km-gallery-item-cap {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 10px 12px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+  text-align: left;
+}
+
+.km-gallery-item-title {
+  display: block;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.km-gallery-item-meta {
+  display: block;
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* ── Load more ── */
+.km-load-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 36px 0 48px;
+  position: relative;
+  z-index: 20;
+}
+
+.km-load-btn {
+  appearance: none;
+  border: 1px solid #000;
+  border-radius: 14px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.9);
+  font-family: futura-lt-w01-book, "Century Gothic", "Trebuchet MS", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 10px 28px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.km-load-btn:hover {
+  opacity: 0.82;
+}
+
+.km-load-btn.hidden {
+  display: none;
+}
+
+/* ── Profile banner row (komowata header band) ── */
+.profile-banners-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  width: min(1100px, calc(100vw - 32px));
+  margin: 0 auto;
+}
+
+.profile-banner {
+  flex: 0 0 auto;
+  display: block;
+  line-height: 0;
+}
+
+.profile-banner img {
+  width: 156px;
+  height: 78px;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-banner--lead img {
+  width: 166px;
+}
+
+/* ── Footer link band ── */
+.link-band-inner {
+  max-width: var(--km-content);
+  margin: 0 auto;
+  padding: 0 24px 32px;
+  text-align: center;
+  color: #fff;
+}
+
+.link-heading {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 8px;
+}
+
+.link-band-line {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  margin: 0 auto 16px;
+  max-width: 420px;
+}
+
+.link-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: normal;
+  margin: 0 auto 20px;
+  max-width: 640px;
+}
+
+.link-banners {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 28px;
+  margin-bottom: 20px;
+}
+
+.link-banner {
+  display: block;
+  line-height: 0;
+}
+
+.link-banner img {
+  width: 156px;
+  height: 78px;
+  object-fit: cover;
+}
+
+.site-copyright {
+  font-size: 12px;
+  opacity: 0.85;
+  margin: 0;
+}
+
+/* ── Lightbox ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.88);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.lightbox[hidden] {
+  display: none !important;
+}
+
+.lightbox.lightbox--open {
+  opacity: 1;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 36px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 10px;
+}
+
+#lightbox-img {
+  max-width: min(92vw, 1200px);
+  max-height: 78vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+}
+
+.lightbox-title {
+  color: #fff;
+  margin: 14px 0 0;
+  font-size: 15px;
+  text-align: center;
+  max-width: 720px;
+}
+
+.lightbox-link {
+  color: #fb7299;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .profile-banners-row {
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none;
+  }
+
+  .profile-banners-row::-webkit-scrollbar {
+    display: none;
+  }
+}
