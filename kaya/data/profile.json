@@ -18,7 +18,7 @@
     "following": 26,
     "follower": 1461,
     "likes": 55305,
-    "videos": 33
+    "videos": 32
   },
   "videos": [
     {
@@ -128,18 +128,6 @@
       "length": "02:31",
       "typename": "",
       "local_pic": "data/images/video_8.jpg"
-    },
-    {
-      "bvid": "BV1TyeazGEST",
-      "title": "被强迫念了一段雌小鬼台词",
-      "description": "",
-      "pic": "http://i1.hdslb.com/bfs/archive/c697270aaa63e34934e53fa689c646de15c2f43c.jpg",
-      "play": 908,
-      "comment": 0,
-      "created": 1755912600,
-      "length": "00:17",
-      "typename": "",
-      "local_pic": "data/images/video_9.jpg"
     },
     {
       "bvid": "BV12mtSzrESV",
@@ -430,7 +418,6 @@
     "video_6": "data/images/video_6.jpg",
     "video_7": "data/images/video_7.jpg",
     "video_8": "data/images/video_8.jpg",
-    "video_9": "data/images/video_9.jpg",
     "video_10": "data/images/video_10.jpg",
     "video_11": "data/images/video_11.jpg",
     "video_12": "data/images/video_12.jpg",

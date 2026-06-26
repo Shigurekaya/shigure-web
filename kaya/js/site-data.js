@@ -15,7 +15,7 @@ window.SITE_DATA = {
     "following": 26,
     "follower": 1461,
     "likes": 55305,
-    "videos": 33
+    "videos": 32
   },
   "videos": [
     {
@@ -106,16 +106,6 @@ window.SITE_DATA = {
       "length": "02:31",
       "thumb": "assets/images/video_8.jpg",
       "play": 1820,
-      "typename": ""
-    },
-    {
-      "bvid": "BV1TyeazGEST",
-      "title": "被强迫念了一段雌小鬼台词",
-      "description": "",
-      "date": "2025.08.23",
-      "length": "00:17",
-      "thumb": "assets/images/video_9.jpg",
-      "play": 908,
       "typename": ""
     },
     {
