@@ -694,7 +694,7 @@ main {
     justify-content: center;
   }
 
-  .menu-toggle { display: block; margin-left: auto; }
+  .menu-toggle { display: block; margin-left: auto; min-width: 44px; min-height: 44px; }
 
   .site-nav,
   .radio-nav {
@@ -715,4 +715,8 @@ main {
 
   .site-bar,
   .radio-bar { position: relative; flex-wrap: wrap; }
+
+  .tape-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -56,6 +56,27 @@ const Site = (() => {
     if (y) y.textContent = new Date().getFullYear();
   }
 
+  /** 画廊原图 → WebP 缩略图 */
+  function galleryThumbSrc(src) {
+    if (!src || src.includes("/thumbs/") || !/^image\/.+\.(png|jpe?g|webp)$/i.test(src)) {
+      return src;
+    }
+    const base = src.replace(/^image\//, "").replace(/\.(png|jpe?g|webp)$/i, "");
+    return `image/thumbs/${base}.webp`;
+  }
+
+  function isGalleryImage(src) {
+    return !!src && /^image\/.+\.(png|jpe?g|webp)$/i.test(src) && !src.includes("/thumbs/");
+  }
+
+  function galleryAlt(src) {
+    if (!src) return "插画";
+    const name = src.replace(/^image\//, "").replace(/\.(png|jpe?g|webp)$/i, "");
+    return name || "插画";
+  }
+
+  let lightboxTrigger = null;
+
   function openLightbox(title, src, bvid) {
     const lb = document.getElementById("lightbox");
     if (!lb) {
@@ -63,14 +84,39 @@ const Site = (() => {
       return;
     }
     const imgEl = document.getElementById("lightbox-img");
-    imgEl.src = src;
-    imgEl.alt = title;
+    const fullSrc = src;
+    const previewSrc = isGalleryImage(fullSrc) ? galleryThumbSrc(fullSrc) : fullSrc;
+    const altText = title || galleryAlt(fullSrc);
+    imgEl.alt = altText;
     imgEl.classList.remove("lightbox-img--in");
+    lb.classList.remove("lightbox--loading");
+
     const titleEl = document.getElementById("lightbox-title");
     if (titleEl) {
-      titleEl.textContent = title;
-      titleEl.hidden = !title;
+      titleEl.textContent = altText;
+      titleEl.hidden = !bvid && !title;
     }
+
+    const showImage = (url) => {
+      imgEl.src = url;
+      requestAnimationFrame(() => imgEl.classList.add("lightbox-img--in"));
+    };
+
+    if (isGalleryImage(fullSrc) && previewSrc !== fullSrc) {
+      imgEl.src = previewSrc;
+      requestAnimationFrame(() => imgEl.classList.add("lightbox-img--in"));
+      lb.classList.add("lightbox--loading");
+      const hd = new Image();
+      hd.onload = () => {
+        lb.classList.remove("lightbox--loading");
+        showImage(fullSrc);
+      };
+      hd.onerror = () => lb.classList.remove("lightbox--loading");
+      hd.src = fullSrc;
+    } else {
+      showImage(fullSrc);
+    }
+
     const link = document.getElementById("lightbox-link");
     if (link) {
       if (bvid) {
@@ -83,9 +129,10 @@ const Site = (() => {
     lb.hidden = false;
     document.body.style.overflow = "hidden";
     lb.classList.remove("lightbox--open");
+    lightboxTrigger = document.activeElement;
     requestAnimationFrame(() => {
       lb.classList.add("lightbox--open");
-      imgEl.classList.add("lightbox-img--in");
+      document.getElementById("lightbox-close")?.focus();
     });
   }
 
@@ -96,7 +143,48 @@ const Site = (() => {
     setTimeout(() => {
       lb.hidden = true;
       document.body.style.overflow = "";
+      if (lightboxTrigger?.focus) lightboxTrigger.focus();
+      lightboxTrigger = null;
     }, reducedMotion() ? 0 : 220);
+  }
+
+  function initFyTopbar() {
+    const inner = document.querySelector(".fy-topbar-inner");
+    const nav = document.querySelector(".fy-topbar-nav");
+    if (!inner || !nav || document.getElementById("fy-menu-toggle")) return;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.id = "fy-menu-toggle";
+    btn.className = "fy-menu-toggle";
+    btn.setAttribute("aria-label", "菜单");
+    btn.setAttribute("aria-expanded", "false");
+    btn.textContent = "≡";
+    inner.insertBefore(btn, nav);
+
+    const closeMenu = () => {
+      nav.classList.remove("is-open");
+      btn.classList.remove("is-open");
+      btn.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("fy-menu-open");
+    };
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = !nav.classList.contains("is-open");
+      nav.classList.toggle("is-open", open);
+      btn.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+      document.body.classList.toggle("fy-menu-open", open);
+    });
+
+    nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+    document.addEventListener("click", (e) => {
+      if (!inner.contains(e.target)) closeMenu();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeMenu();
+    });
   }
 
   function reducedMotion() {
@@ -144,10 +232,30 @@ const Site = (() => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "km-gallery-item";
+    const alt = galleryAlt(src);
+    const thumb = galleryThumbSrc(src);
+    btn.setAttribute("aria-label", `查看大图：${alt}`);
     btn.innerHTML = `
-      <img src="${esc(src)}" alt="" loading="lazy" decoding="async" />
+      <img src="${esc(thumb)}" alt="${esc(alt)}" loading="lazy" decoding="async"
+           data-full="${esc(src)}"
+           onerror="this.onerror=null;this.src='${esc(src)}'" />
     `;
-    btn.addEventListener("click", () => openLightbox("", src));
+    btn.addEventListener("click", () => openLightbox(alt, src));
+    return btn;
+  }
+
+  function createPortfolioItem(src) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "fuyulev-portfolio-thumb";
+    const alt = galleryAlt(src);
+    const thumb = galleryThumbSrc(src);
+    btn.innerHTML = `
+      <img src="${esc(thumb)}" alt="${esc(alt)}" loading="lazy" decoding="async"
+           data-full="${esc(src)}"
+           onerror="this.onerror=null;this.src='${esc(src)}'" />
+    `;
+    btn.addEventListener("click", () => openLightbox(alt, src));
     return btn;
   }
 
@@ -164,7 +272,9 @@ const Site = (() => {
   }
 
   function bannerImg(src, w, h, alt) {
-    return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" width="${w}" height="${h}" onerror="this.src='assets/images/avatar.jpg'" />`;
+    const thumb = galleryThumbSrc(src);
+    const display = thumb !== src ? thumb : src;
+    return `<img src="${esc(display)}" alt="${esc(alt)}" loading="lazy" width="${w}" height="${h}" onerror="this.onerror=null;this.src='${esc(src)}';this.onerror=function(){this.src='assets/images/avatar.jpg'}" />`;
   }
 
   function bannerGallery() {
@@ -258,6 +368,7 @@ const Site = (() => {
 
   function initCommon(options = {}) {
     if (typeof CollageGallery !== "undefined") CollageGallery.init();
+    initFyTopbar();
     initNav();
     initFooter();
     initLightbox();
@@ -265,6 +376,8 @@ const Site = (() => {
 
   return {
     data, esc, thumb, bili, biliSpace, initCommon, fillUserHero,
-    createWorkItem, createVideoItem, createMasonryItem, createGalleryItem, createSdMasonryItem, openLightbox, renderLinkBand, renderProfileBanners,
+    createWorkItem, createVideoItem, createMasonryItem, createGalleryItem,
+    createPortfolioItem, createSdMasonryItem, openLightbox, renderLinkBand,
+    renderProfileBanners, galleryThumbSrc, isGalleryImage, galleryAlt,
   };
 })();

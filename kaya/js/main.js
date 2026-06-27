@@ -77,24 +77,26 @@ const Kaya = (() => {
   function initNav() {
     const toggle = document.getElementById("menu-toggle");
     const nav = document.getElementById("site-nav");
-    if (toggle && nav) {
-      toggle.addEventListener("click", () => nav.classList.toggle("open"));
-    }
-  }
+    if (!toggle || !nav) return;
 
-  function initDesignNotice() {
-    if (document.getElementById("design-notice")) return;
-    const notice = document.createElement("div");
-    notice.id = "design-notice";
-    notice.className = "design-notice";
-    notice.setAttribute("role", "status");
-    notice.textContent = "尚未完成页面设计";
-    document.querySelector(".site-header")?.insertAdjacentElement("afterend", notice);
+    const closeNav = () => nav.classList.remove("open");
+
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      nav.classList.toggle("open");
+    });
+
+    nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeNav));
+    document.addEventListener("click", (e) => {
+      if (!nav.contains(e.target) && e.target !== toggle) closeNav();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeNav();
+    });
   }
 
   function initCommon() {
     initNav();
-    initDesignNotice();
     applyBiliLinks();
     renderLinkBand(document.getElementById("link-band"));
     const y = document.getElementById("year");

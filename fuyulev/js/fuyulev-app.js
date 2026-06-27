@@ -18,6 +18,7 @@ const FuyulevApp = (() => {
   let loadingMore = false;
   let galleryAnimated = 0;
   let scrollRaf = 0;
+  let lastMobile = isMobile();
 
   function motionEnabled() {
     return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -134,7 +135,41 @@ const FuyulevApp = (() => {
       ensureScrollable();
       requestAnimationFrame(ensureScrollable);
       galleryWrap()?.classList.remove("km-gallery-wrap--loading");
+      updateScrollHint();
     }, 100);
+  }
+
+  function handleResize() {
+    const nowMobile = isMobile();
+    if (nowMobile !== lastMobile) {
+      shown = pageSize();
+      galleryAnimated = 0;
+      lastMobile = nowMobile;
+      renderGrid();
+      return;
+    }
+    const grid = document.getElementById("work-grid");
+    if (grid && typeof CollageGallery !== "undefined") CollageGallery.refresh(grid);
+    updateLoadMore(document.getElementById("load-more"), gallery().length);
+    afterGridLayout();
+  }
+
+  function updateScrollHint() {
+    const hint = document.getElementById("gallery-scroll-hint");
+    if (!hint) return;
+    const show = isMobile() && canLoadMore();
+    hint.hidden = !show;
+  }
+
+  function ensureScrollHint() {
+    const section = document.querySelector(".fy-gallery-section");
+    if (!section || document.getElementById("gallery-scroll-hint")) return;
+    const hint = document.createElement("p");
+    hint.id = "gallery-scroll-hint";
+    hint.className = "fy-gallery-scroll-hint";
+    hint.textContent = "← 左右滑动查看更多 →";
+    hint.hidden = true;
+    section.querySelector(".km-gallery-wrap")?.after(hint);
   }
 
   function initShell() {
@@ -259,33 +294,24 @@ const FuyulevApp = (() => {
     const grid = document.getElementById("portfolio-grid");
     if (!grid) return;
 
-    const items = gallery().map((src) => Site.createGalleryItem(src));
+    grid.innerHTML = "";
+    gallery().forEach((src) => grid.appendChild(Site.createPortfolioItem(src)));
 
-    if (typeof CollageGallery !== "undefined") {
-      CollageGallery.fill(grid, items);
-    } else {
-      grid.innerHTML = "";
-      items.forEach((el) => grid.appendChild(el));
-    }
-
-    revealItems(grid.querySelectorAll(".km-gallery-item"), { stagger: 35, base: 280 });
+    revealItems(grid.querySelectorAll(".fuyulev-portfolio-thumb"), { stagger: 35, base: 280 });
   }
 
   function initHome() {
     initShell();
+    ensureScrollHint();
     bindLoadMore();
     bindMobileScrollLoad();
     document.getElementById("work-grid")?.addEventListener("collage-layout", () => {
       ensureScrollable();
+      updateScrollHint();
     });
     renderGrid();
     revealItems(document.querySelectorAll(".profile-banner"), { stagger: 55, base: 380 });
-    window.addEventListener("resize", () => {
-      const grid = document.getElementById("work-grid");
-      if (grid && typeof CollageGallery !== "undefined") CollageGallery.refresh(grid);
-      updateLoadMore(document.getElementById("load-more"), gallery().length);
-      afterGridLayout();
-    });
+    window.addEventListener("resize", handleResize);
   }
 
   function initWork() {
@@ -301,10 +327,6 @@ const FuyulevApp = (() => {
   function initPortfolio() {
     initShell();
     renderPortfolioGrid();
-    window.addEventListener("resize", () => {
-      const grid = document.getElementById("portfolio-grid");
-      if (grid && typeof CollageGallery !== "undefined") CollageGallery.refresh(grid);
-    });
   }
 
   return { initHome, initWork, initAbout, initPortfolio };
