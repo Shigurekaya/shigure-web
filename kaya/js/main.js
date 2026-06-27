@@ -95,8 +95,21 @@ const Kaya = (() => {
     });
   }
 
+  function initWipBanner() {
+    if (document.getElementById("kaya-wip-banner")) return;
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+    const banner = document.createElement("p");
+    banner.id = "kaya-wip-banner";
+    banner.className = "kaya-wip-banner";
+    banner.setAttribute("role", "status");
+    banner.textContent = "该网页暂未完成";
+    header.insertAdjacentElement("afterend", banner);
+  }
+
   function initCommon() {
     initNav();
+    initWipBanner();
     applyBiliLinks();
     renderLinkBand(document.getElementById("link-band"));
     const y = document.getElementById("year");
