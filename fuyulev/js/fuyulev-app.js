@@ -1,7 +1,7 @@
 /** 浮游Lev 轻量静态站 — 页面逻辑 */
 const FuyulevApp = (() => {
   const BILI = "https://space.bilibili.com/353604313";
-  const PAGE_SIZE = 12;
+  const PAGE_SIZE = 18;
 
   let shown = PAGE_SIZE;
   let loadBound = false;
@@ -92,15 +92,34 @@ const FuyulevApp = (() => {
     const loadBtn = document.getElementById("load-more");
     if (!grid) return;
 
-    const items = gallery()
-      .slice(0, shown)
-      .map((src) => Site.createGalleryItem(src));
+    const sources = gallery().slice(0, shown);
+    const prevCount = grid.querySelectorAll(".km-gallery-item").length;
 
-    if (typeof CollageGallery !== "undefined") {
-      CollageGallery.fill(grid, items);
-    } else {
-      grid.innerHTML = "";
-      items.forEach((el) => grid.appendChild(el));
+    if (prevCount === 0) {
+      const items = sources.map((src) => Site.createGalleryItem(src));
+      if (typeof CollageGallery !== "undefined") {
+        CollageGallery.fill(grid, items);
+      } else {
+        items.forEach((el) => grid.appendChild(el));
+      }
+    } else if (sources.length > prevCount) {
+      const newItems = sources.slice(prevCount).map((src) => Site.createGalleryItem(src));
+      if (typeof CollageGallery !== "undefined") {
+        CollageGallery.append(grid, newItems);
+      } else {
+        newItems.forEach((el) => grid.appendChild(el));
+      }
+    } else if (sources.length < prevCount) {
+      const items = sources.map((src) => Site.createGalleryItem(src));
+      if (typeof CollageGallery !== "undefined") {
+        CollageGallery.fill(grid, items);
+      } else {
+        grid.innerHTML = "";
+        items.forEach((el) => grid.appendChild(el));
+      }
+      galleryAnimated = 0;
+    } else if (typeof CollageGallery !== "undefined") {
+      CollageGallery.refresh(grid);
     }
 
     const allItems = grid.querySelectorAll(".km-gallery-item");
@@ -121,7 +140,7 @@ const FuyulevApp = (() => {
         const thumb = v.thumb || `assets/images/video_${i}.jpg`;
         const meta = [v.date, v.length].filter(Boolean).join(" · ");
         return `<li class="fuyulev-work-item"><a href="https://www.bilibili.com/video/${esc(v.bvid)}" target="_blank" rel="noopener">`
-          + `<img src="${esc(thumb)}" alt="" loading="lazy" decoding="async" />`
+          + `<img src="${esc(thumb)}" alt="${esc(v.title)}" loading="lazy" decoding="async" />`
           + `<span class="fuyulev-work-meta"><strong>${esc(v.title)}</strong>`
           + (meta ? `<small>${esc(meta)}</small>` : "")
           + `</span></a></li>`;
@@ -155,18 +174,17 @@ const FuyulevApp = (() => {
   function renderPortfolioGrid() {
     const grid = document.getElementById("portfolio-grid");
     if (!grid) return;
-    grid.innerHTML = "";
-    gallery()
-      .slice(0, 24)
-      .forEach((src) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "fuyulev-portfolio-thumb";
-        btn.innerHTML = `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" />`;
-        btn.addEventListener("click", () => Site.openLightbox("", src));
-        grid.appendChild(btn);
-      });
-    revealItems(grid.querySelectorAll(".fuyulev-portfolio-thumb"), { stagger: 35, base: 280 });
+
+    const items = gallery().map((src) => Site.createGalleryItem(src));
+
+    if (typeof CollageGallery !== "undefined") {
+      CollageGallery.fill(grid, items);
+    } else {
+      grid.innerHTML = "";
+      items.forEach((el) => grid.appendChild(el));
+    }
+
+    revealItems(grid.querySelectorAll(".km-gallery-item"), { stagger: 35, base: 280 });
   }
 
   function initHome() {
@@ -193,6 +211,10 @@ const FuyulevApp = (() => {
   function initPortfolio() {
     initShell();
     renderPortfolioGrid();
+    window.addEventListener("resize", () => {
+      const grid = document.getElementById("portfolio-grid");
+      if (grid && typeof CollageGallery !== "undefined") CollageGallery.refresh(grid);
+    });
   }
 
   return { initHome, initWork, initAbout, initPortfolio };

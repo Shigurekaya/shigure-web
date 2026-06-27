@@ -6,6 +6,11 @@
   <base href="/fuyulev/" />
   <title>浮游Lev / FuYu Lev</title>
   <meta name="description" content="浮游Lev — Galgame 同人 Q 版插画与绘画过程" />
+  <meta name="theme-color" content="#000000" />
+  <meta property="og:title" content="浮游Lev / FuYu Lev" />
+  <meta property="og:description" content="Galgame 同人 Q 版插画与绘画过程" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/fuyulev/assets/images/avatar.jpg" />
   <link rel="icon" href="assets/images/avatar.jpg" />
   <link rel="stylesheet" href="css/fonts-local.css" />
   <link rel="stylesheet" href="css/site.css" />
@@ -35,7 +40,7 @@
 
       <section class="fy-gallery-section" aria-label="插画画廊">
         <div class="km-gallery-wrap">
-          <div id="work-grid" class="km-gallery" data-layout="komowata"></div>
+          <div id="work-grid" class="km-gallery" data-layout="collage"></div>
         </div>
         <div class="km-load-wrap">
           <button type="button" id="load-more" class="km-load-btn">Load More</button>
@@ -51,7 +56,7 @@
     </footer>
   </div>
 
-  <div id="lightbox" class="lightbox" hidden>
+  <div id="lightbox" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="查看大图" aria-hidden="true">
     <button type="button" id="lightbox-close" class="lightbox-close" aria-label="关闭">×</button>
     <img id="lightbox-img" src="" alt="" />
     <p id="lightbox-title" class="lightbox-title" hidden></p>

@@ -279,9 +279,10 @@ a {
 .profile-banner img {
   width: 156px;
   height: 78px;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center;
   display: block;
+  background: #fafafa;
 }
 
 .profile-banner--lead img {
@@ -290,17 +291,21 @@ a {
 
 /* ── 画廊 ── */
 .fy-gallery-section {
-  padding: 24px var(--km-gallery-inset) 0;
+  padding: 16px var(--km-gallery-inset) 0;
 }
 
 .km-gallery-wrap {
   width: 100%;
 }
 
+.fy-page-content .km-gallery-wrap {
+  padding: 8px 0 24px;
+}
+
 .km-gallery {
   position: relative;
   width: 100%;
-  min-height: 80px;
+  min-height: 40px;
 }
 
 .km-gallery-item {
@@ -308,7 +313,7 @@ a {
   margin: 0;
   padding: 0;
   border: 0;
-  background: #eee;
+  background: #fafafa;
   cursor: pointer;
   border-radius: var(--km-radius);
   overflow: hidden;
@@ -324,8 +329,9 @@ a {
 .km-gallery-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
+  background: #fafafa;
   transition: transform 0.4s var(--fy-ease);
 }
 
@@ -539,8 +545,21 @@ a {
 
 .fuyulev-portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 23px;
+  align-items: start;
+}
+
+@media (max-width: 899px) {
+  .fuyulev-portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 559px) {
+  .fuyulev-portfolio-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .fuyulev-portfolio-thumb {
@@ -562,9 +581,10 @@ a {
 
 .fuyulev-portfolio-thumb img {
   width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   display: block;
+  background: #eee;
   transition: transform 0.4s var(--fy-ease);
 }
 
@@ -643,13 +663,22 @@ a {
 .link-banner img {
   width: 156px;
   height: 78px;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .site-copyright {
   font-size: 12px;
   opacity: 0.85;
   margin: 0;
+}
+
+.site-last-updated {
+  font-size: 11px;
+  opacity: 0.55;
+  margin: 6px 0 0;
+  letter-spacing: 0.02em;
 }
 
 .fy-kaya-corner {
@@ -713,6 +742,11 @@ a {
   cursor: pointer;
 }
 
+.lightbox-close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
 #lightbox-img {
   max-width: min(92vw, 1200px);
   max-height: 78vh;
@@ -726,6 +760,12 @@ a {
 #lightbox-img.lightbox-img--in {
   opacity: 1;
   transform: scale(1);
+}
+
+.lightbox--loading #lightbox-img {
+  opacity: 0.72;
+  filter: blur(2px);
+  transition: opacity 0.2s ease, filter 0.2s ease, transform 0.32s var(--fy-ease);
 }
 
 .lightbox-title {
@@ -742,8 +782,12 @@ a {
 }
 
 @media (max-width: 900px) {
+  :root {
+    --km-gallery-inset: 24px;
+  }
+
   .fy-gallery-section {
-    padding: 24px 24px 0;
+    padding: 12px var(--km-gallery-inset) 0;
   }
 
   .profile-banners-row {
@@ -764,6 +808,12 @@ a {
 
   .fy-topbar-logo {
     font-size: 40px;
+  }
+
+  .fy-topbar-nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: 2px;
   }
 
   .fy-topbar-link {

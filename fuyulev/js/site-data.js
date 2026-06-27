@@ -1,6 +1,7 @@
 // 由 login_scrape.py 自动生成 · 浮游Lev
 window.SITE_DATA = {
   "mid": 353604313,
+  "last_updated": "2026-06-27",
   "bilibili_url": "https://space.bilibili.com/353604313",
   "user": {
     "name": "浮游Lev",
