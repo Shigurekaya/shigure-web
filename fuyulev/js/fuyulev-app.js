@@ -1,11 +1,23 @@
 /** 浮游Lev 轻量静态站 — 页面逻辑 */
 const FuyulevApp = (() => {
   const BILI = "https://space.bilibili.com/353604313";
-  const PAGE_SIZE = 18;
+  const MOBILE_MAX = 768;
+  const SCROLL_LOAD_THRESHOLD = 160;
 
-  let shown = PAGE_SIZE;
+  function pageSize() {
+    return window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches ? 10 : 18;
+  }
+
+  function isMobile() {
+    return window.matchMedia(`(max-width: ${MOBILE_MAX}px)`).matches;
+  }
+
+  let shown = pageSize();
   let loadBound = false;
+  let scrollLoadBound = false;
+  let loadingMore = false;
   let galleryAnimated = 0;
+  let scrollRaf = 0;
 
   function motionEnabled() {
     return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -56,6 +68,75 @@ const FuyulevApp = (() => {
     return window.HOME_GALLERY || [];
   }
 
+  function galleryWrap() {
+    return document.querySelector(".fy-gallery-section .km-gallery-wrap");
+  }
+
+  function canLoadMore() {
+    return shown < gallery().length;
+  }
+
+  function loadMoreBatch() {
+    if (loadingMore || !canLoadMore()) return false;
+    loadingMore = true;
+    galleryWrap()?.classList.add("km-gallery-wrap--loading");
+    shown = Math.min(shown + pageSize(), gallery().length);
+    renderGrid();
+    loadingMore = false;
+    return true;
+  }
+
+  /** 内容不够横向滚动时，自动继续加载 */
+  function ensureScrollable() {
+    if (!isMobile() || !canLoadMore()) return;
+    const wrap = galleryWrap();
+    if (!wrap) return;
+
+    let guard = 0;
+    while (canLoadMore() && wrap.scrollWidth <= wrap.clientWidth + 8 && guard < 24) {
+      if (!loadMoreBatch()) break;
+      guard += 1;
+    }
+  }
+
+  function checkScrollLoad() {
+    if (!isMobile() || !canLoadMore()) return;
+    const wrap = galleryWrap();
+    if (!wrap) return;
+
+    const nearEnd = wrap.scrollLeft + wrap.clientWidth >= wrap.scrollWidth - SCROLL_LOAD_THRESHOLD;
+    if (nearEnd) loadMoreBatch();
+  }
+
+  function bindMobileScrollLoad() {
+    if (scrollLoadBound) return;
+    const wrap = galleryWrap();
+    if (!wrap) return;
+
+    wrap.addEventListener(
+      "scroll",
+      () => {
+        if (!isMobile()) return;
+        cancelAnimationFrame(scrollRaf);
+        scrollRaf = requestAnimationFrame(checkScrollLoad);
+      },
+      { passive: true },
+    );
+
+    scrollLoadBound = true;
+  }
+
+  let ensureTimer;
+
+  function afterGridLayout() {
+    clearTimeout(ensureTimer);
+    ensureTimer = setTimeout(() => {
+      ensureScrollable();
+      requestAnimationFrame(ensureScrollable);
+      galleryWrap()?.classList.remove("km-gallery-wrap--loading");
+    }, 100);
+  }
+
   function initShell() {
     Site.initCommon();
     Site.fillUserHero();
@@ -73,18 +154,20 @@ const FuyulevApp = (() => {
     const wrap = document.querySelector(".fy-gallery-section");
     if (!wrap) return;
     wrap.addEventListener("click", (e) => {
+      if (isMobile()) return;
       const btn = e.target.closest("#load-more");
       if (!btn || btn.classList.contains("hidden")) return;
       e.preventDefault();
-      shown = Math.min(shown + PAGE_SIZE, gallery().length);
-      renderGrid();
+      loadMoreBatch();
     });
     loadBound = true;
   }
 
   function updateLoadMore(btn, total) {
     if (!btn) return;
-    btn.classList.toggle("hidden", shown >= total);
+    const hide = shown >= total || isMobile();
+    btn.classList.toggle("hidden", hide);
+    btn.closest(".km-load-wrap")?.classList.toggle("km-load-wrap--mobile-off", isMobile());
   }
 
   function renderGrid() {
@@ -127,6 +210,7 @@ const FuyulevApp = (() => {
     galleryAnimated = allItems.length;
 
     updateLoadMore(loadBtn, gallery().length);
+    afterGridLayout();
   }
 
   function renderWorkList() {
@@ -190,11 +274,17 @@ const FuyulevApp = (() => {
   function initHome() {
     initShell();
     bindLoadMore();
+    bindMobileScrollLoad();
+    document.getElementById("work-grid")?.addEventListener("collage-layout", () => {
+      ensureScrollable();
+    });
     renderGrid();
     revealItems(document.querySelectorAll(".profile-banner"), { stagger: 55, base: 380 });
     window.addEventListener("resize", () => {
       const grid = document.getElementById("work-grid");
       if (grid && typeof CollageGallery !== "undefined") CollageGallery.refresh(grid);
+      updateLoadMore(document.getElementById("load-more"), gallery().length);
+      afterGridLayout();
     });
   }
 

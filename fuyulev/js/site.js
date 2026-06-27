@@ -56,27 +56,6 @@ const Site = (() => {
     if (y) y.textContent = new Date().getFullYear();
   }
 
-  /** 画廊原图路径 → 列表用 WebP 缩略图（image/foo.png → image/thumbs/foo.webp） */
-  function galleryThumbSrc(src) {
-    if (!src || src.includes("/thumbs/") || !/^image\/.+\.(png|jpe?g|webp)$/i.test(src)) {
-      return src;
-    }
-    const base = src.replace(/^image\//, "").replace(/\.(png|jpe?g|webp)$/i, "");
-    return `image/thumbs/${base}.webp`;
-  }
-
-  function isGalleryImage(src) {
-    return !!src && /^image\/.+\.(png|jpe?g|webp)$/i.test(src) && !src.includes("/thumbs/");
-  }
-
-  function galleryAlt(src) {
-    if (!src) return "插画";
-    const name = src.replace(/^image\//, "").replace(/\.(png|jpe?g|webp)$/i, "");
-    return name || "插画";
-  }
-
-  let lightboxTrigger = null;
-
   function openLightbox(title, src, bvid) {
     const lb = document.getElementById("lightbox");
     if (!lb) {
@@ -84,45 +63,14 @@ const Site = (() => {
       return;
     }
     const imgEl = document.getElementById("lightbox-img");
-    const fullSrc = src;
-    const previewSrc = isGalleryImage(fullSrc) ? galleryThumbSrc(fullSrc) : fullSrc;
-    const altText = title || galleryAlt(fullSrc);
-    imgEl.alt = altText;
+    imgEl.src = src;
+    imgEl.alt = title;
     imgEl.classList.remove("lightbox-img--in");
-    lb.classList.remove("lightbox--loading");
-
     const titleEl = document.getElementById("lightbox-title");
     if (titleEl) {
-      titleEl.textContent = altText;
-      titleEl.hidden = !bvid;
+      titleEl.textContent = title;
+      titleEl.hidden = !title;
     }
-
-    const showImage = (url) => {
-      imgEl.src = url;
-      requestAnimationFrame(() => imgEl.classList.add("lightbox-img--in"));
-    };
-
-    if (isGalleryImage(fullSrc) && previewSrc !== fullSrc) {
-      imgEl.src = previewSrc;
-      requestAnimationFrame(() => imgEl.classList.add("lightbox-img--in"));
-      lb.classList.add("lightbox--loading");
-      const hd = new Image();
-      hd.onload = () => {
-        lb.classList.remove("lightbox--loading");
-        showImage(fullSrc);
-      };
-      hd.onerror = () => {
-        lb.classList.remove("lightbox--loading");
-        if (titleEl) {
-          titleEl.textContent = "高清原图加载失败";
-          titleEl.hidden = false;
-        }
-      };
-      hd.src = fullSrc;
-    } else {
-      showImage(fullSrc);
-    }
-
     const link = document.getElementById("lightbox-link");
     if (link) {
       if (bvid) {
@@ -133,13 +81,11 @@ const Site = (() => {
       }
     }
     lb.hidden = false;
-    lb.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
     lb.classList.remove("lightbox--open");
-    lightboxTrigger = document.activeElement;
     requestAnimationFrame(() => {
       lb.classList.add("lightbox--open");
-      document.getElementById("lightbox-close")?.focus();
+      imgEl.classList.add("lightbox-img--in");
     });
   }
 
@@ -147,12 +93,9 @@ const Site = (() => {
     const lb = document.getElementById("lightbox");
     if (!lb) return;
     lb.classList.remove("lightbox--open");
-    lb.setAttribute("aria-hidden", "true");
     setTimeout(() => {
       lb.hidden = true;
       document.body.style.overflow = "";
-      if (lightboxTrigger?.focus) lightboxTrigger.focus();
-      lightboxTrigger = null;
     }, reducedMotion() ? 0 : 220);
   }
 
@@ -201,15 +144,10 @@ const Site = (() => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "km-gallery-item";
-    const alt = galleryAlt(src);
-    btn.setAttribute("aria-label", `查看大图：${alt}`);
-    const thumb = galleryThumbSrc(src);
     btn.innerHTML = `
-      <img src="${esc(thumb)}" alt="${esc(alt)}" loading="lazy" decoding="async"
-           data-full="${esc(src)}"
-           onerror="this.onerror=null;this.src='${esc(src)}'" />
+      <img src="${esc(src)}" alt="" loading="lazy" decoding="async" />
     `;
-    btn.addEventListener("click", () => openLightbox(alt, src));
+    btn.addEventListener("click", () => openLightbox("", src));
     return btn;
   }
 
@@ -226,9 +164,7 @@ const Site = (() => {
   }
 
   function bannerImg(src, w, h, alt) {
-    const thumb = galleryThumbSrc(src);
-    return `<img src="${esc(thumb)}" alt="${esc(alt)}" loading="lazy" width="${w}" height="${h}"
-      onerror="this.onerror=null;this.src='${esc(src)}';this.onerror=function(){this.src='assets/images/avatar.jpg'}" />`;
+    return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy" width="${w}" height="${h}" onerror="this.src='assets/images/avatar.jpg'" />`;
   }
 
   function bannerGallery() {
@@ -294,16 +230,13 @@ const Site = (() => {
     const desc = isHome
       ? "绘画过程与投稿发布在哔哩哔哩。插画见首页，视频见「作品」与「作品集」。"
       : "绘画视频发布在哔哩哔哩。欢迎订阅与私信约稿。";
-    const year = new Date().getFullYear();
-    const updated = data().last_updated;
     container.innerHTML = `
       <div class="link-band-inner">
         <h5 class="link-heading">链接</h5>
         <hr class="link-band-line" />
         <h6 class="link-desc">${desc}</h6>
         <div class="link-banners">${bannerHtml}</div>
-        <p class="site-copyright">&copy; ${year} 浮游Lev / FUYU LEV</p>
-        ${updated ? `<p class="site-last-updated">最后更新：${esc(updated)}</p>` : ""}
+        <p class="site-copyright">&copy;浮游Lev / FUYU LEV</p>
       </div>
     `;
   }
@@ -332,7 +265,6 @@ const Site = (() => {
 
   return {
     data, esc, thumb, bili, biliSpace, initCommon, fillUserHero,
-    createWorkItem, createVideoItem, createMasonryItem, createGalleryItem, createSdMasonryItem,
-    openLightbox, renderLinkBand, renderProfileBanners, galleryThumbSrc, isGalleryImage,
+    createWorkItem, createVideoItem, createMasonryItem, createGalleryItem, createSdMasonryItem, openLightbox, renderLinkBand, renderProfileBanners,
   };
 })();
