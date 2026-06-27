@@ -86,15 +86,15 @@ const Site = (() => {
     const imgEl = document.getElementById("lightbox-img");
     const fullSrc = src;
     const previewSrc = isGalleryImage(fullSrc) ? galleryThumbSrc(fullSrc) : fullSrc;
-    const altText = title || galleryAlt(fullSrc);
+    const altText = bvid ? (title || "视频") : "插画";
     imgEl.alt = altText;
     imgEl.classList.remove("lightbox-img--in");
     lb.classList.remove("lightbox--loading");
 
     const titleEl = document.getElementById("lightbox-title");
     if (titleEl) {
-      titleEl.textContent = altText;
-      titleEl.hidden = !bvid && !title;
+      titleEl.textContent = bvid ? (title || "") : "";
+      titleEl.hidden = !bvid || !title;
     }
 
     const showImage = (url) => {
@@ -232,15 +232,14 @@ const Site = (() => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "km-gallery-item";
-    const alt = galleryAlt(src);
     const thumb = galleryThumbSrc(src);
-    btn.setAttribute("aria-label", `查看大图：${alt}`);
+    btn.setAttribute("aria-label", "查看大图");
     btn.innerHTML = `
-      <img src="${esc(thumb)}" alt="${esc(alt)}" loading="lazy" decoding="async"
+      <img src="${esc(thumb)}" alt="" loading="lazy" decoding="async"
            data-full="${esc(src)}"
            onerror="this.onerror=null;this.src='${esc(src)}'" />
     `;
-    btn.addEventListener("click", () => openLightbox(alt, src));
+    btn.addEventListener("click", () => openLightbox("", src));
     return btn;
   }
 
@@ -248,14 +247,14 @@ const Site = (() => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "fuyulev-portfolio-thumb";
-    const alt = galleryAlt(src);
     const thumb = galleryThumbSrc(src);
+    btn.setAttribute("aria-label", "查看大图");
     btn.innerHTML = `
-      <img src="${esc(thumb)}" alt="${esc(alt)}" loading="lazy" decoding="async"
+      <img src="${esc(thumb)}" alt="" loading="lazy" decoding="async"
            data-full="${esc(src)}"
            onerror="this.onerror=null;this.src='${esc(src)}'" />
     `;
-    btn.addEventListener("click", () => openLightbox(alt, src));
+    btn.addEventListener("click", () => openLightbox("", src));
     return btn;
   }
 
@@ -271,10 +270,46 @@ const Site = (() => {
     return av;
   }
 
-  function bannerImg(src, w, h, alt) {
+  function shuffleArray(list) {
+    const arr = [...list];
+    for (let i = arr.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function pickRandomGallery(count = 7) {
+    const gallery = bannerGallery();
+    if (gallery.length <= count) return shuffleArray(gallery);
+    return shuffleArray(gallery).slice(0, count);
+  }
+
+  function createBannerButton(src, { lead = false, kind = "profile" } = {}) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    const base = kind === "link" ? "link-banner" : "profile-banner";
+    btn.className = lead && kind === "profile" ? `${base} profile-banner--lead` : base;
+    btn.setAttribute("aria-label", "查看大图");
+
     const thumb = galleryThumbSrc(src);
     const display = thumb !== src ? thumb : src;
-    return `<img src="${esc(display)}" alt="${esc(alt)}" loading="lazy" width="${w}" height="${h}" onerror="this.onerror=null;this.src='${esc(src)}';this.onerror=function(){this.src='assets/images/avatar.jpg'}" />`;
+    const img = document.createElement("img");
+    img.src = display;
+    img.alt = "";
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.dataset.full = src;
+    img.onerror = function onBannerErr() {
+      this.onerror = null;
+      this.src = src;
+      this.onerror = function fallback() {
+        this.src = avatarSrc();
+      };
+    };
+    btn.appendChild(img);
+    btn.addEventListener("click", () => openLightbox("", src));
+    return btn;
   }
 
   function bannerGallery() {
@@ -290,53 +325,26 @@ const Site = (() => {
     ];
   }
 
-  function bannerSrc(i) {
-    const gallery = bannerGallery();
-    return gallery[i] || avatarSrc();
-  }
-
-  /** 首页 profile 下横幅 — komowata：7 张横排（166 + 6×156），仅展示不跳转 */
+  /** 首页 profile 下横幅 — 7 张横排，每次随机，可点击查看高清原图 */
   function renderProfileBanners(container) {
     if (!container) return;
-    const gallery = bannerGallery();
-    const pick = (i) => gallery[i] || avatarSrc();
-    const items = [
-      { img: pick(0), alt: "哔哩哔哩", lead: true },
-      { img: pick(1), alt: "Work" },
-      { img: pick(2), alt: "Portfolio" },
-      { img: pick(3), alt: "视频" },
-      { img: pick(4), alt: "视频" },
-      { img: pick(5), alt: "视频" },
-      { img: pick(6), alt: "About" },
-    ];
-
-    const rowHtml = items.map((b) => {
-      const cls = b.lead ? "profile-banner profile-banner--lead" : "profile-banner";
-      const w = b.lead ? 166 : 156;
-      const src = b.img || avatarSrc();
-      return `<span class="${cls}" role="presentation">${bannerImg(src, w, 78, b.alt)}</span>`;
-    }).join("");
-
-    container.innerHTML = `<div class="profile-banners-row">${rowHtml}</div>`;
+    const row = document.createElement("div");
+    row.className = "profile-banners-row";
+    pickRandomGallery(7).forEach((src, i) => {
+      row.appendChild(createBannerButton(src, { lead: i === 0, kind: "profile" }));
+    });
+    container.replaceChildren(row);
   }
 
-  /** 黑色 LINK 底栏 — komowata SITE_FOOTER */
+  /** 黑色 LINK 底栏 — 7 张横排，每次随机，可点击查看高清原图 */
   function renderLinkBand(container) {
     if (!container) return;
-    const videos = data().videos;
     const isHome = document.body.dataset.page === "home";
-    const linkItems = [
-      { src: bannerSrc(0), alt: "哔哩哔哩" },
-      { src: bannerSrc(1), alt: "Work" },
-      { src: bannerSrc(2), alt: "Portfolio" },
-      { src: bannerSrc(3), alt: videos[0]?.title || "视频" },
-      { src: bannerSrc(4), alt: videos[1]?.title || "视频" },
-      { src: bannerSrc(5), alt: videos[2]?.title || "视频" },
-      { src: bannerSrc(6), alt: "About" },
-    ];
-    const bannerHtml = linkItems.map((b) =>
-      `<span class="link-banner" role="presentation" title="${esc(b.alt)}">${bannerImg(b.src, 156, 78, b.alt)}</span>`
-    ).join("");
+    const bannerRow = document.createElement("div");
+    bannerRow.className = "link-banners";
+    pickRandomGallery(7).forEach((src) => {
+      bannerRow.appendChild(createBannerButton(src, { kind: "link" }));
+    });
     const desc = isHome
       ? "绘画过程与投稿发布在哔哩哔哩。插画见首页，视频见「作品」与「作品集」。"
       : "绘画视频发布在哔哩哔哩。欢迎订阅与私信约稿。";
@@ -345,10 +353,10 @@ const Site = (() => {
         <h5 class="link-heading">链接</h5>
         <hr class="link-band-line" />
         <h6 class="link-desc">${desc}</h6>
-        <div class="link-banners">${bannerHtml}</div>
         <p class="site-copyright">&copy;浮游Lev / FUYU LEV</p>
       </div>
     `;
+    container.querySelector(".link-desc")?.after(bannerRow);
   }
 
   function fillUserHero() {

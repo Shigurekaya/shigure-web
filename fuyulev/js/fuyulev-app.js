@@ -300,6 +300,11 @@ const FuyulevApp = (() => {
     revealItems(grid.querySelectorAll(".fuyulev-portfolio-thumb"), { stagger: 35, base: 280 });
   }
 
+  function initPortfolio() {
+    initShell();
+    renderPortfolioGrid();
+  }
+
   function initHome() {
     initShell();
     ensureScrollHint();
@@ -322,11 +327,6 @@ const FuyulevApp = (() => {
   function initAbout() {
     initShell();
     renderAboutPicks();
-  }
-
-  function initPortfolio() {
-    initShell();
-    renderPortfolioGrid();
   }
 
   return { initHome, initWork, initAbout, initPortfolio };

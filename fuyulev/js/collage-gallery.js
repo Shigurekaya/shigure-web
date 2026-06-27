@@ -1,12 +1,12 @@
 /**
- * 不规则拼贴画廊 — 固定槽位坐标（非瀑布流）
- * 桌面：komowata 槽位拼贴；手机：双行横向紧密排列（完整显示、少留空）
+ * 不规则拼贴画廊 — komowata 固定槽位 + absolute 布局
+ * 桌面：预设槽位坐标紧密拼贴（cover 铺满、无灰边）；手机：双行横向滚动
  */
 const CollageGallery = (() => {
   const BLOCK_COMPACT = 0.68;
   const MOBILE_MAX = 768;
-  const SLOT_GAP = 5;
-  const MOBILE_GAP = 3;
+  const SLOT_GAP = 0;
+  const MOBILE_GAP = 1;
   const MOBILE_ROWS = 2;
 
   const tracked = new Set();
@@ -45,9 +45,11 @@ const CollageGallery = (() => {
     if (!img) return;
     img.style.width = "100%";
     img.style.height = "100%";
-    img.style.objectFit = "contain";
+    img.style.maxWidth = "none";
+    img.style.objectFit = "cover";
     img.style.objectPosition = "center";
     img.style.background = "transparent";
+    el.style.background = "transparent";
   }
 
   function placeFrame(el, left, top, w, h) {
@@ -57,6 +59,19 @@ const CollageGallery = (() => {
     el.style.width = `${w}px`;
     el.style.height = `${h}px`;
     styleItemImg(el);
+  }
+
+  function usedVSpan(slots, count) {
+    return Math.max(...slots.slice(0, count).map((s) => s.top + s.height));
+  }
+
+  function slotRect(slot, block, hSpan, vSpan, width, blockH, blockTop = block * blockH) {
+    const gap = SLOT_GAP;
+    const left = (slot.left / hSpan) * width + gap / 2;
+    const top = (slot.top / vSpan) * blockH + blockTop + gap / 2;
+    const w = Math.max(1, (slot.width / hSpan) * width - gap);
+    const h = Math.max(1, (slot.height / vSpan) * blockH - gap);
+    return { left, top, w, h };
   }
 
   function layoutMobileRows(container, items) {
@@ -127,20 +142,28 @@ const CollageGallery = (() => {
     const vSpan = Math.max(1, ...slots.map((s) => s.top + s.height));
     const blockAspect = (layout.canvasHeight / layout.canvasWidth) * (vSpan / hSpan) * BLOCK_COMPACT;
     const blockH = width * blockAspect;
+    const fullBlocks = Math.floor(items.length / slotCount);
+    const remainder = items.length % slotCount;
 
     let maxBottom = 0;
 
     items.forEach((el, globalIdx) => {
-      const block = Math.floor(globalIdx / slotCount);
-      const slot = slots[globalIdx % slotCount];
+      let rect;
 
-      const left = (slot.left / hSpan) * width + SLOT_GAP / 2;
-      const top = (slot.top / vSpan) * blockH + block * blockH + SLOT_GAP / 2;
-      const slotW = Math.max(1, (slot.width / hSpan) * width - SLOT_GAP);
-      const slotH = Math.max(1, (slot.height / vSpan) * blockH - SLOT_GAP);
+      if (remainder > 0 && globalIdx >= fullBlocks * slotCount) {
+        const tailIdx = globalIdx - fullBlocks * slotCount;
+        const blockTop = fullBlocks * blockH;
+        const vUsed = usedVSpan(slots, remainder);
+        const blockHUsed = blockH * (vUsed / vSpan);
+        rect = slotRect(slots[tailIdx], 0, hSpan, vUsed, width, blockHUsed, blockTop);
+      } else {
+        const block = Math.floor(globalIdx / slotCount);
+        const slotIdx = globalIdx % slotCount;
+        rect = slotRect(slots[slotIdx], block, hSpan, vSpan, width, blockH);
+      }
 
-      placeFrame(el, left, top, slotW, slotH);
-      maxBottom = Math.max(maxBottom, top + slotH);
+      placeFrame(el, rect.left, rect.top, rect.w, rect.h);
+      maxBottom = Math.max(maxBottom, rect.top + rect.h);
     });
 
     container.style.position = "relative";
@@ -159,8 +182,7 @@ const CollageGallery = (() => {
       return;
     }
 
-    const width = viewportWidth(container);
-    if (width <= MOBILE_MAX) {
+    if (viewportWidth(container) <= MOBILE_MAX) {
       container.classList.add("km-gallery--mobile-scroll");
       container.classList.remove("km-gallery--mobile-grid");
       setScrollWrap(container, true);

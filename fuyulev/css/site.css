@@ -245,18 +245,22 @@ a {
 
 .fy-banners {
   margin-bottom: 8px;
+  width: 100%;
+  overflow: visible;
 }
 
 .profile-banners-row {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 28px;
-  width: min(1100px, calc(100vw - 32px));
+  gap: clamp(6px, 1.2vw, 20px);
+  width: 100%;
+  max-width: min(1100px, 100%);
   margin: 0 auto;
-  overflow-x: auto;
-  scrollbar-width: none;
+  padding: 0 8px;
+  box-sizing: border-box;
+  overflow: visible;
 }
 
 .profile-banners-row::-webkit-scrollbar {
@@ -264,28 +268,35 @@ a {
 }
 
 .profile-banner {
-  flex: 0 0 auto;
-  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   line-height: 0;
-  cursor: default;
-  transition: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  transition: transform 0.22s var(--fy-ease), opacity 0.22s ease;
+}
+
+.profile-banner--lead {
+  flex: 1.08 1 0;
 }
 
 .profile-banner:hover {
-  transform: none;
-  box-shadow: none;
+  transform: translateY(-2px);
+  opacity: 0.92;
 }
 
 .profile-banner img {
-  width: 156px;
-  height: 78px;
-  object-fit: cover;
-  object-position: center top;
+  width: 100%;
+  height: auto;
+  max-height: clamp(72px, 9vw, 96px);
+  object-fit: contain;
+  object-position: center;
   display: block;
-}
-
-.profile-banner--lead img {
-  width: 166px;
 }
 
 /* ── 画廊 ── */
@@ -369,29 +380,32 @@ body.fy-menu-open {
   margin: 0;
   padding: 0;
   border: 0;
-  background: #eee;
+  background: transparent;
   cursor: pointer;
-  border-radius: var(--km-radius);
+  border-radius: 0;
   overflow: hidden;
-  box-shadow: var(--km-shadow);
-  transition: transform 0.28s var(--fy-ease), box-shadow 0.28s ease;
+  box-shadow: none;
+  transition: transform 0.22s var(--fy-ease), opacity 0.22s ease;
 }
 
 .km-gallery-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 4px 8px 28px rgba(0, 0, 0, 0.22);
+  transform: translateY(-2px);
+  z-index: 2;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .km-gallery-item img {
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
+  object-position: center;
   display: block;
-  transition: transform 0.4s var(--fy-ease);
+  transition: opacity 0.3s var(--fy-ease);
 }
 
 .km-gallery-item:hover img {
-  transform: scale(1.05);
+  transform: none;
 }
 
 .fy-motion-item {
@@ -647,18 +661,6 @@ body.fy-menu-open {
   animation: fy-footer-up 0.65s var(--fy-ease) both;
 }
 
-.link-banner {
-  display: block;
-  line-height: 0;
-  cursor: default;
-  transition: none;
-}
-
-.link-banner:hover {
-  transform: none;
-  opacity: 1;
-}
-
 .link-band-inner {
   max-width: var(--km-content);
   margin: 0 auto;
@@ -708,12 +710,25 @@ body.fy-menu-open {
   flex: 0 0 auto;
   display: block;
   line-height: 0;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  transition: transform 0.22s var(--fy-ease), opacity 0.22s ease;
+}
+
+.link-banner:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
 }
 
 .link-banner img {
   width: 156px;
-  height: 78px;
-  object-fit: cover;
+  height: auto;
+  max-height: 96px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
 }
 
 .site-copyright {
@@ -832,7 +847,8 @@ body.fy-menu-open {
   }
 
   .profile-banners-row {
-    justify-content: flex-start;
+    gap: clamp(4px, 1vw, 12px);
+    padding: 0 4px;
   }
 
   .link-banners {
@@ -882,7 +898,7 @@ body.fy-menu-open {
 
   .km-gallery-item:hover {
     transform: none;
-    box-shadow: var(--km-shadow);
+    box-shadow: none;
   }
 
   .km-gallery-item:hover img {
@@ -915,17 +931,13 @@ body.fy-menu-open {
   }
 
   .profile-banner img {
-    width: 132px;
-    height: 66px;
-  }
-
-  .profile-banner--lead img {
-    width: 140px;
+    max-height: clamp(64px, 14vw, 84px);
   }
 
   .link-banner img {
     width: 132px;
-    height: 66px;
+    max-height: 84px;
+    height: auto;
   }
 
   .fuyulev-portfolio-grid {
