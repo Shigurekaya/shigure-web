@@ -97,6 +97,54 @@ a:hover { color: var(--th-link-hover); text-decoration: underline; }
   background: linear-gradient(90deg, #2a1f28 0%, #3d2834 50%, #2a1f28 100%);
   border-bottom: 1px solid rgba(232, 83, 122, 0.35);
   border-radius: 6px 6px 0 0;
+  cursor: default;
+  position: relative;
+  z-index: 2;
+}
+
+.th-disclaimer-hint {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(420px, calc(100vw - 24px));
+  padding: 9px 16px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-align: center;
+  color: #f5eef2;
+  background: rgba(42, 31, 40, 0.96);
+  border: 1px solid rgba(232, 83, 122, 0.42);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.32s ease, transform 0.32s ease;
+  white-space: nowrap;
+  left: 0;
+  top: 0;
+}
+
+.th-disclaimer-hint[hidden] {
+  display: none !important;
+}
+
+.th-disclaimer-hint:not([hidden]) {
+  display: block;
+}
+
+.th-disclaimer-hint.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .th-disclaimer-hint {
+    white-space: normal;
+    font-size: 0.74rem;
+  }
 }
 
 .th-disclaimer strong {
