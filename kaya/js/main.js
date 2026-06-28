@@ -107,16 +107,33 @@ const Kaya = (() => {
     });
   }
 
+  function syncHeaderHeights() {
+    const wip = document.querySelector(".kaya-wip-banner");
+    const header = document.querySelector(".site-header, .radio-header");
+    const wipH = wip?.offsetHeight ?? 0;
+    const headerH = header?.offsetHeight ?? 52;
+    const root = document.documentElement;
+    root.style.setProperty("--kaya-wip-h", `${wipH}px`);
+    root.style.setProperty("--kaya-site-head-h", `${wipH + headerH}px`);
+  }
+
   function initWipBanner() {
     if (document.getElementById("kaya-wip-banner")) return;
-    const header = document.querySelector(".site-header");
+    const header = document.querySelector(".site-header, .radio-header");
     if (!header) return;
     const banner = document.createElement("p");
     banner.id = "kaya-wip-banner";
     banner.className = "kaya-wip-banner";
     banner.setAttribute("role", "status");
-    banner.textContent = "该网页暂未完成";
-    header.insertAdjacentElement("afterend", banner);
+    banner.textContent = "暂未完成全部网页设计，仍需整改";
+    header.parentNode.insertBefore(banner, header);
+    syncHeaderHeights();
+    if (typeof ResizeObserver !== "undefined") {
+      const ro = new ResizeObserver(syncHeaderHeights);
+      ro.observe(banner);
+      if (header) ro.observe(header);
+    }
+    window.addEventListener("resize", syncHeaderHeights, { passive: true });
   }
 
   function renderDataSyncNote() {
@@ -133,6 +150,7 @@ const Kaya = (() => {
   }
 
   function initCommon() {
+    initWipBanner();
     initNav();
     applyBiliLinks();
     renderLinkBand(document.getElementById("link-band"));

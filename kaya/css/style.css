@@ -20,6 +20,8 @@
   --font-ui: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-mono: "Cascadia Mono", "Consolas", "Courier New", monospace;
   --ease: cubic-bezier(0.33, 1, 0.68, 1);
+  --kaya-wip-h: 0px;
+  --kaya-site-head-h: 52px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,6 +37,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body:has(.kaya-wip-banner) {
+  padding-top: var(--kaya-wip-h);
+}
+
 ::selection {
   background: var(--violet);
   color: #fff;
@@ -45,11 +51,17 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ── 顶栏 ── */
 .kaya-wip-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 110;
   margin: 0;
   padding: 0.6rem var(--page-pad);
   text-align: center;
-  font-size: 0.875rem;
-  letter-spacing: 0.08em;
+  font-size: clamp(0.8125rem, 2.8vw, 0.875rem);
+  line-height: 1.45;
+  letter-spacing: 0.06em;
   color: var(--amber);
   background: rgba(232, 184, 109, 0.12);
   border-bottom: 1px solid var(--line);
@@ -58,7 +70,7 @@ img { max-width: 100%; height: auto; display: block; }
 .site-header,
 .radio-header {
   position: sticky;
-  top: 0;
+  top: var(--kaya-wip-h);
   z-index: 100;
   background: rgba(12, 11, 20, 0.88);
   backdrop-filter: blur(8px);
@@ -955,6 +967,7 @@ main {
     background: rgba(12, 11, 20, 0.96);
     padding: 0.75rem var(--page-pad) 1rem;
     border-bottom: 1px solid var(--line);
+    z-index: 120;
   }
 
   .site-nav.open,
