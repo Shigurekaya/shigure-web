@@ -846,6 +846,11 @@ body.fy-menu-open .fy-topbar {
   display: block;
 }
 
+/* 主页左下角隐秘跳转头像（时雨） */
+.fy-home .fy-kaya-corner {
+  opacity: 0.05;
+}
+
 /* ── Lightbox ── */
 .lightbox {
   position: fixed;
@@ -1203,6 +1208,10 @@ body.fy-menu-open .fy-topbar {
     left: 4px;
     bottom: 4px;
     opacity: 0.18;
+  }
+
+  .fy-home .fy-kaya-corner {
+    opacity: 0.05;
   }
 
   .fy-kaya-corner:hover,

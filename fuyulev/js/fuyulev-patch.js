@@ -1,13 +1,13 @@
 /** fuyulev 运行时补丁 */
 (() => {
   const BAND = [
-    ["mqk7r3rt", "image/alice.png"],
-    ["lstqan4q6", "image/key.png"],
-    ["lstqan4n1", "image/q.png"],
-    ["lstqan4o4", "image/rance.png"],
-    ["lstqan4p1", "image/shining2.png"],
-    ["lstqan4p8", "image/yiji.png"],
-    ["lstqan4s", "image/白琴里.png"],
+    ["mqk7r3rt", "image/alice.jpg"],
+    ["lstqan4q6", "image/key.jpg"],
+    ["lstqan4n1", "image/q.jpg"],
+    ["lstqan4o4", "image/rance.jpg"],
+    ["lstqan4p1", "image/shining2.jpg"],
+    ["lstqan4p8", "image/yiji.jpg"],
+    ["lstqan4s", "image/白琴里.jpg"],
   ];
 
   const fix = () => {

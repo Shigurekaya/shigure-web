@@ -5,3 +5,7 @@ Thumbs.db
 *.log
 node_modules/
 scrapers/
+
+# 本地归档与原始高清图（勿上传）
+fuyulev/image.rar
+fuyulev/image/*.png

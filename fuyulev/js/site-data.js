@@ -8,7 +8,7 @@ window.SITE_DATA = {
     "sign": "梦想成为自由的旮旯给木画师",
     "pendant_name": "Kizuna AI",
     "avatar": "assets/images/avatar.jpg",
-    "pendant": "assets/images/pendant.png",
+    "pendant": "assets/images/pendant.jpg",
     "level": 6,
     "sex": "男"
   },

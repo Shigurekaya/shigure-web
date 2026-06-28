@@ -372,13 +372,13 @@ const Site = (() => {
   function bannerGallery() {
     if (window.HOME_GALLERY?.length) return window.HOME_GALLERY;
     return [
-      "image/alice.png",
-      "image/key.png",
-      "image/q.png",
-      "image/rance.png",
-      "image/shining2.png",
-      "image/yiji.png",
-      "image/白琴里.png",
+      "image/alice.jpg",
+      "image/key.jpg",
+      "image/q.jpg",
+      "image/rance.jpg",
+      "image/shining2.jpg",
+      "image/yiji.jpg",
+      "image/白琴里.jpg",
     ];
   }
 
