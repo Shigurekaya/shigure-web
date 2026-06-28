@@ -70,15 +70,16 @@ body.km-home #SITE_FOOTER {
 /* 时雨榧头像：页脚左下角（随页面滚动，非 fixed） */
 body.km-home .fuyulev-kaya-corner {
   position: absolute !important;
-  left: 10px !important;
-  bottom: 10px !important;
+  left: 4px !important;
+  bottom: 4px !important;
   top: auto !important;
   right: auto !important;
-  width: 40px !important;
-  height: 40px !important;
+  width: 24px !important;
+  height: 24px !important;
   z-index: 6;
-  border: 2px solid rgba(255, 255, 255, 0.45);
-  background: linear-gradient(145deg, #b8d9f5 0%, #7eb8e8 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(0, 0, 0, 0.35) !important;
+  opacity: 0.18;
 }
 
 body.km-home #SITE_FOOTERinlineContent-gridContainer {

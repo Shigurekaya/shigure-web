@@ -18,6 +18,7 @@
       <ul class="site-nav" id="site-nav">
         <li><a href="index.html" class="active">主页</a></li>
         <li><a href="works.html">作品</a></li>
+        <li><a href="sites.html">个人站</a></li>
         <li><a href="links.html">链接</a></li>
       </ul>
     </div>
@@ -27,7 +28,7 @@
     <section class="page-hero">
       <div class="hero-panel">
         <div class="avatar-wrap">
-          <img id="hero-avatar" class="avatar" src="" alt="时雨榧" width="112" height="112" fetchpriority="high" decoding="async" />
+          <img id="hero-avatar" class="avatar" src="assets/images/avatar.jpg" alt="时雨榧" width="112" height="112" fetchpriority="high" decoding="async" />
         </div>
         <div class="hero-meta">
           <h1 class="hero-name-row">
@@ -36,6 +37,7 @@
           </h1>
           <p class="hero-sign" id="hero-sign">实现愿望程度的能力</p>
         </div>
+        <aside class="hero-other-sites" id="hero-other-sites" aria-label="其它个人站"></aside>
       </div>
     </section>
 
@@ -55,10 +57,12 @@
   <section class="site-link-band" id="link-band"></section>
 
   <footer class="site-footer">
+    <!-- 页面最后更新：2026-06-28。仅在主页 index 本身被改动或优化时更新此日期；B 站数据抓取不会改动此日期。 -->
+    <p class="page-updated"><time datetime="2026-06-28">页面最后更新 2026.06.28</time></p>
     <p>© <span id="year"></span> 时雨榧 · 站主</p>
   </footer>
 
-  <script src="js/site-data.js"></script>
+  <script src="js/site-data.js?v=202606281555"></script>
   <script src="js/main.js" defer></script>
   <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initHome());</script>
 </body>

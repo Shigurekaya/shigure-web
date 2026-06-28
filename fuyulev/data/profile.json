@@ -16,250 +16,262 @@
   },
   "stats": {
     "following": 302,
-    "follower": 4990,
-    "likes": 41587,
-    "videos": 69
+    "follower": 5018,
+    "likes": 41957,
+    "videos": 70
   },
   "videos": [
+    {
+      "bvid": "BV1Bz7v65EQ8",
+      "title": "画这张真白妈妈时录了",
+      "description": "录了视频\n有张小黑的也想录来着，画完发现没点录制）",
+      "pic": "http://i0.hdslb.com/bfs/archive/d380ac3aca662649302a0f2017161b17be70ec57.jpg",
+      "play": 2790,
+      "comment": 144,
+      "created": 1782447180,
+      "length": "00:20",
+      "typename": "",
+      "local_pic": "data/images/covers/BV1Bz7v65EQ8.jpg"
+    },
     {
       "bvid": "BV1WREY6JEJV",
       "title": "【莱娜异画】柚子小人也可以画的很帅吗",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/4e865d5c7a7ace4f42ee4030fe2c36bd2933da2a.jpg",
-      "play": 1334,
+      "play": 1365,
       "comment": 9,
       "created": 1781148440,
       "length": "01:05",
       "typename": "",
-      "local_pic": "data/images/video_0.jpg"
+      "local_pic": "data/images/covers/BV1WREY6JEJV.jpg"
     },
     {
       "bvid": "BV1PKVr6tEvL",
       "title": "喜欢草宝可梦",
       "description": "感谢@奇迹种子Fushigiだね 的约稿！",
       "pic": "http://i0.hdslb.com/bfs/archive/3ab1b8a522f5ac972f73e3aa13acf78549ab6cda.jpg",
-      "play": 1344,
+      "play": 1383,
       "comment": 10,
       "created": 1780405616,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_1.jpg"
+      "local_pic": "data/images/covers/BV1PKVr6tEvL.jpg"
     },
     {
       "bvid": "BV1wGoJBKE5y",
       "title": "【绘画】常陆茉子异画（x）小夜你怎么穿莱娜的衣服",
       "description": "-",
       "pic": "http://i0.hdslb.com/bfs/archive/681563e94290362254a2bb5577975b118adb39fc.jpg",
-      "play": 2137,
+      "play": 2140,
       "comment": 7,
       "created": 1777072317,
       "length": "01:13",
       "typename": "",
-      "local_pic": "data/images/video_2.jpg"
+      "local_pic": "data/images/covers/BV1wGoJBKE5y.jpg"
     },
     {
       "bvid": "BV1ZDosBCEhA",
       "title": "路上遇见喜欢吃吃冰的普通小女孩",
       "description": "-",
       "pic": "http://i0.hdslb.com/bfs/archive/69433aaf445d1fad766a90e6d09ec943684b2df1.jpg",
-      "play": 2621,
+      "play": 2625,
       "comment": 23,
       "created": 1776852843,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_3.jpg"
+      "local_pic": "data/images/covers/BV1ZDosBCEhA.jpg"
     },
     {
       "bvid": "BV1kH9jBDE7P",
       "title": "（愚人节专题）~Ciallo～(∠・ω< )⌒★模式！暗色神具的魔王",
       "description": "愚人节快乐！\n感谢 @浮游Lev  老师曲绘和@w小璃  的配音协助！~",
       "pic": "http://i0.hdslb.com/bfs/archive/99941bfcfe4564f7d5e09708ee338999825e6177.jpg",
-      "play": 1944,
+      "play": 1957,
       "comment": 17,
       "created": 1775039181,
       "length": "00:20",
       "typename": "",
-      "local_pic": "data/images/video_4.jpg"
+      "local_pic": "data/images/covers/BV1kH9jBDE7P.jpg"
     },
     {
       "bvid": "BV1r297BpEBb",
       "title": "【绘画】我们需要更多的露露卡！",
       "description": "感谢@绯月澪奈 的约稿！",
       "pic": "http://i0.hdslb.com/bfs/archive/371f09f079284981279ed63a236706efac84a236.jpg",
-      "play": 2704,
+      "play": 2706,
       "comment": 25,
       "created": 1775029166,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_5.jpg"
+      "local_pic": "data/images/covers/BV1r297BpEBb.jpg"
     },
     {
       "bvid": "BV1z8XYBxE7x",
       "title": "我的国产galgame请到了顶级的日语配音！日配声优的详细介绍。",
       "description": "感谢！@夢野サファイア   老师的视频制作和配音录制！\n老师不求回报的帮了我很多  真的太幸运了！！！> <",
       "pic": "http://i0.hdslb.com/bfs/archive/49befd200aa26423e03b154a8c9d9696b9f6f5f9.jpg",
-      "play": 11473,
+      "play": 11496,
       "comment": 93,
       "created": 1774867621,
       "length": "05:20",
       "typename": "",
-      "local_pic": "data/images/video_6.jpg"
+      "local_pic": "data/images/covers/BV1z8XYBxE7x.jpg"
     },
     {
       "bvid": "BV17UQ2BoEAv",
       "title": "【小黑】摸摸小笨猫肚子",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/a82ac8932bfbc3983463a089b9147ff418e968a7.jpg",
-      "play": 2417,
+      "play": 2438,
       "comment": 44,
       "created": 1774434326,
       "length": "00:45",
       "typename": "",
-      "local_pic": "data/images/video_7.jpg"
+      "local_pic": "data/images/covers/BV17UQ2BoEAv.jpg"
     },
     {
       "bvid": "BV1bZfJBHEJv",
       "title": "【久田泉奈】キスキツネ（亲亲小狐狸）",
       "description": "本家：BV14kQgY1E9L\nIllustration:我\n特别感谢：\n @時雨榧 \n @時雨榧 \n @時雨榧 \n @時雨榧  \n @時雨榧  \n @時雨榧  \n守护了宇智波的荣耀",
       "pic": "http://i0.hdslb.com/bfs/archive/1f9c47a172ae111e3ce2e5378b3730058613e4e3.jpg",
-      "play": 4566,
+      "play": 4583,
       "comment": 65,
       "created": 1771671585,
       "length": "03:00",
       "typename": "",
-      "local_pic": "data/images/video_8.jpg"
+      "local_pic": "data/images/covers/BV1bZfJBHEJv.jpg"
     },
     {
       "bvid": "BV1nVfuBrEqK",
       "title": "【绘画/稿】一只萌萌哒粉色小女孩",
       "description": "角色出自@退役飞兵 的游戏《异世界超级战争》",
       "pic": "http://i1.hdslb.com/bfs/archive/33eb1d9e70c58b0fa039a1daaa9fac459cd93f70.jpg",
-      "play": 894,
+      "play": 895,
       "comment": 6,
       "created": 1771582654,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_9.jpg"
+      "local_pic": "data/images/covers/BV1nVfuBrEqK.jpg"
     },
     {
       "bvid": "BV1imFDzpEWR",
       "title": "露露卡妈妈很担心你",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/b33abf6e8cad4db6b51dff48a7b8e6432f68a91c.jpg",
-      "play": 8791,
+      "play": 8800,
       "comment": 50,
       "created": 1770726567,
       "length": "01:33",
       "typename": "",
-      "local_pic": "data/images/video_10.jpg"
+      "local_pic": "data/images/covers/BV1imFDzpEWR.jpg"
     },
     {
       "bvid": "BV1dZF3zGEcF",
       "title": "【兰斯】只是区区一个希露",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/fe752d78bee7c01b17d36d748d1b1a3d6e6dcfa1.jpg",
-      "play": 4636,
+      "play": 4654,
       "comment": 74,
       "created": 1770093783,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_11.jpg"
+      "local_pic": "data/images/covers/BV1dZF3zGEcF.jpg"
     },
     {
       "bvid": "BV1tJ64BdEUG",
       "title": "【兰斯】达令喜欢这样的莉娅吗∽",
       "description": "-",
       "pic": "http://i0.hdslb.com/bfs/archive/2eac75dd1d223946511b79da5efedfec4582f910.jpg",
-      "play": 5910,
+      "play": 5931,
       "comment": 112,
       "created": 1769940575,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_12.jpg"
+      "local_pic": "data/images/covers/BV1tJ64BdEUG.jpg"
     },
     {
       "bvid": "BV1nYzrBJEaN",
       "title": "【朱雀院抚子】爱你越深打人越狠的朱雀院家二姐",
       "description": "",
       "pic": "http://i2.hdslb.com/bfs/archive/8381427e69326a32ebd33f27f602dfc5eb73645a.jpg",
-      "play": 2776,
+      "play": 2779,
       "comment": 17,
       "created": 1769232158,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_13.jpg"
+      "local_pic": "data/images/covers/BV1nYzrBJEaN.jpg"
     },
     {
       "bvid": "BV1tvzKBcEp7",
       "title": "【兰斯/铃女】这次画的真是天才忍者了",
       "description": "-",
       "pic": "http://i1.hdslb.com/bfs/archive/16efcdc8d5f4069d5bda101f783a3f7f864e61b5.jpg",
-      "play": 3832,
+      "play": 3841,
       "comment": 46,
       "created": 1769145411,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_14.jpg"
+      "local_pic": "data/images/covers/BV1tvzKBcEp7.jpg"
     },
     {
       "bvid": "BV12CBfBrEQm",
       "title": "【蔚蓝档案】爱丽丝也要以高达形态出击！",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/f41a974aa2232a16cb3af3cf2ad062553db59669.jpg",
-      "play": 1794,
+      "play": 1795,
       "comment": 9,
       "created": 1769083123,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_15.jpg"
+      "local_pic": "data/images/covers/BV12CBfBrEQm.jpg"
     },
     {
       "bvid": "BV1K7zjBWEKV",
       "title": "【蔚蓝档案】白毛，名字叫KEI，所以是key社女主）",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/9a7a1af16ad7a6dcb21870e7703cab699ff55b56.jpg",
-      "play": 3415,
+      "play": 3417,
       "comment": 13,
       "created": 1768986712,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_16.jpg"
+      "local_pic": "data/images/covers/BV1K7zjBWEKV.jpg"
     },
     {
       "bvid": "BV1Agk7BZEjp",
       "title": "【不/存在的你，和我】莉莉丝爱你哦❤️",
       "description": "-",
       "pic": "http://i0.hdslb.com/bfs/archive/bb8be6c079ee9c8fcc11f794e9f626e2624c2811.jpg",
-      "play": 1860,
+      "play": 1863,
       "comment": 43,
       "created": 1768903266,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_17.jpg"
+      "local_pic": "data/images/covers/BV1Agk7BZEjp.jpg"
     },
     {
       "bvid": "BV1tqk4BcEYe",
       "title": "【朱雀院红叶】看起来很正经（？的的朱雀院家大姐",
       "description": "到处都找不到游戏主界面的音乐，结果最后是自己录下来的ww",
       "pic": "http://i0.hdslb.com/bfs/archive/245c6b5d35903655adb0616ed8515f698c35e754.jpg",
-      "play": 4104,
+      "play": 4150,
       "comment": 39,
       "created": 1768781280,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_18.jpg"
+      "local_pic": "data/images/covers/BV1tqk4BcEYe.jpg"
     },
     {
       "bvid": "BV1JDksBCEk8",
       "title": "【Happy Sugar Life】2026年了还有人画糖盐吗",
       "description": "-",
       "pic": "http://i1.hdslb.com/bfs/archive/69be0d40d5cfb123bc640fd881be384eb64c3dcc.jpg",
-      "play": 2370,
+      "play": 2375,
       "comment": 68,
       "created": 1768728243,
       "length": "01:07",
       "typename": "",
-      "local_pic": "data/images/video_19.jpg"
+      "local_pic": "data/images/covers/BV1JDksBCEk8.jpg"
     },
     {
       "bvid": "BV1XkrSBwEMT",
@@ -271,43 +283,43 @@
       "created": 1768648390,
       "length": "01:04",
       "typename": "",
-      "local_pic": "data/images/video_20.jpg"
+      "local_pic": "data/images/covers/BV1XkrSBwEMT.jpg"
     },
     {
       "bvid": "BV1cirdBhET5",
       "title": "【GINKA】用遥华画风画一只小银花",
       "description": "-",
       "pic": "http://i1.hdslb.com/bfs/archive/8a834af71b6fb38ea7f0c32edb2f8d1ee1370ce5.jpg",
-      "play": 2350,
+      "play": 2352,
       "comment": 36,
       "created": 1768453948,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_21.jpg"
+      "local_pic": "data/images/covers/BV1cirdBhET5.jpg"
     },
     {
       "bvid": "BV1Dnr5B8En7",
       "title": "【碧蓝航线】用遥华画风画一下萌萌哒的撒丁猫猫～",
       "description": "想和维托里奥深入进行学术交流）",
       "pic": "http://i1.hdslb.com/bfs/archive/04ee3c5dc1996a6a620d8b57322131c44e6ad316.jpg",
-      "play": 1988,
+      "play": 1989,
       "comment": 11,
       "created": 1768304236,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_22.jpg"
+      "local_pic": "data/images/covers/BV1Dnr5B8En7.jpg"
     },
     {
       "bvid": "BV12WrYBgEgd",
       "title": "【白色相簿】又到了白色相簿的季节…",
       "description": "",
       "pic": "http://i0.hdslb.com/bfs/archive/bea59889c16065383bd187297f55397a7393a822.jpg",
-      "play": 1367,
+      "play": 1368,
       "comment": 19,
       "created": 1768220862,
       "length": "01:03",
       "typename": "",
-      "local_pic": "data/images/video_23.jpg"
+      "local_pic": "data/images/covers/BV12WrYBgEgd.jpg"
     },
     {
       "bvid": "BV1VE69B3Eh5",
@@ -319,19 +331,19 @@
       "created": 1768111782,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_24.jpg"
+      "local_pic": "data/images/covers/BV1VE69B3Eh5.jpg"
     },
     {
       "bvid": "BV1tz6UBHEU4",
       "title": "【少女*领域】风莉大小姐手上拿的是…？",
       "description": "-",
       "pic": "http://i0.hdslb.com/bfs/archive/48b12e8a975081b1060b3fec19f54bc13b7c9717.jpg",
-      "play": 2996,
+      "play": 3001,
       "comment": 30,
       "created": 1768054808,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_25.jpg"
+      "local_pic": "data/images/covers/BV1tz6UBHEU4.jpg"
     },
     {
       "bvid": "BV1t3rKBeEPN",
@@ -343,79 +355,79 @@
       "created": 1767958827,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_26.jpg"
+      "local_pic": "data/images/covers/BV1t3rKBeEPN.jpg"
     },
     {
       "bvid": "BV1xyidB4ETx",
       "title": "【二阶堂真红】画了十次真红麻麻能画到什么程度",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/4121959c8acf5f3434a1d5cfd7f5e6851cbca74c.jpg",
-      "play": 2732,
+      "play": 2739,
       "comment": 111,
       "created": 1767883569,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_27.jpg"
+      "local_pic": "data/images/covers/BV1xyidB4ETx.jpg"
     },
     {
       "bvid": "BV1nGqNBgEcJ",
       "title": "【年终总结】出道成为旮旯给木画师？学习遥华画风第二年",
       "description": "我真的不是柚子社画师",
       "pic": "http://i2.hdslb.com/bfs/archive/6d8d2cb1987a28bcc26251c3978e812a560ce74f.jpg",
-      "play": 6165,
+      "play": 6182,
       "comment": 57,
       "created": 1767741660,
       "length": "02:23",
       "typename": "",
-      "local_pic": "data/images/video_28.jpg"
+      "local_pic": "data/images/covers/BV1nGqNBgEcJ.jpg"
     },
     {
       "bvid": "BV1xFqNBEED5",
       "title": "【蔚蓝档案/泉奈】又又又又又画了最喜欢的小狐狸",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/36740a25b64cc685bee815cd01321b1ed64936af.jpg",
-      "play": 2862,
+      "play": 2863,
       "comment": 31,
       "created": 1767705809,
       "length": "01:06",
       "typename": "",
-      "local_pic": "data/images/video_29.jpg"
+      "local_pic": "data/images/covers/BV1xFqNBEED5.jpg"
     },
     {
       "bvid": "BV1wtinBHEjf",
       "title": "【朱雀院椿】来看看可爱又帅气的椿姐",
       "description": "",
       "pic": "http://i0.hdslb.com/bfs/archive/cbe3f958966bf0661b8c79b90858d2e6df0f1118.jpg",
-      "play": 3855,
+      "play": 3857,
       "comment": 36,
       "created": 1767541771,
       "length": "01:06",
       "typename": "",
-      "local_pic": "data/images/video_30.jpg"
+      "local_pic": "data/images/covers/BV1wtinBHEjf.jpg"
     },
     {
       "bvid": "BV1TiihBdEMj",
       "title": "【兰斯】兰斯大人来了都干了",
       "description": "嘎哈哈哈哈哈哈哈哈哈",
       "pic": "http://i2.hdslb.com/bfs/archive/466813fa19aa4c875e1713f33c53539128c6e437.jpg",
-      "play": 3813,
+      "play": 3823,
       "comment": 59,
       "created": 1767404462,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_31.jpg"
+      "local_pic": "data/images/covers/BV1TiihBdEMj.jpg"
     },
     {
       "bvid": "BV1WcvoBQEse",
       "title": "【兰斯/莉赛特】可爱，喜欢红宝石",
       "description": "",
       "pic": "http://i0.hdslb.com/bfs/archive/4f588d708c14276fa4e23be5e12f27ac3a20ede9.jpg",
-      "play": 4842,
+      "play": 4856,
       "comment": 61,
       "created": 1767313885,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_32.jpg"
+      "local_pic": "data/images/covers/BV1WcvoBQEse.jpg"
     },
     {
       "bvid": "BV1eMi3BVEFb",
@@ -427,7 +439,7 @@
       "created": 1767224520,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_33.jpg"
+      "local_pic": "data/images/covers/BV1eMi3BVEFb.jpg"
     },
     {
       "bvid": "BV1hoiwBUEX6",
@@ -439,43 +451,43 @@
       "created": 1767139260,
       "length": "01:04",
       "typename": "",
-      "local_pic": "data/images/video_34.jpg"
+      "local_pic": "data/images/covers/BV1hoiwBUEX6.jpg"
     },
     {
       "bvid": "BV14TvhBQEJS",
       "title": "【蔚蓝档案/睦月】当sensei的小恶魔穿上礼服",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/9dddbdb6521a69786f823954fc92ac78c8d4ec53.jpg",
-      "play": 1557,
+      "play": 1558,
       "comment": 7,
       "created": 1767072787,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_35.jpg"
+      "local_pic": "data/images/covers/BV14TvhBQEJS.jpg"
     },
     {
       "bvid": "BV1mVvWBeEXr",
       "title": "【崩坏3】格蕾修：画笔，臣服于我！",
       "description": "嘿嘿嘿我的小格蕾修",
       "pic": "http://i0.hdslb.com/bfs/archive/6908f86d164ba0af058ac7be1cc9074f1660e848.jpg",
-      "play": 1374,
+      "play": 1375,
       "comment": 32,
       "created": 1767013895,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_36.jpg"
+      "local_pic": "data/images/covers/BV1mVvWBeEXr.jpg"
     },
     {
       "bvid": "BV1kRv6B6Ege",
       "title": "【少女理论及其周边】喜欢遥华画风的里想奈吗",
       "description": "-",
       "pic": "http://i1.hdslb.com/bfs/archive/7e25063eeea2f0cb7633849991d48abc92cdb493.jpg",
-      "play": 2568,
+      "play": 2569,
       "comment": 34,
       "created": 1766907953,
       "length": "00:38",
       "typename": "",
-      "local_pic": "data/images/video_37.jpg"
+      "local_pic": "data/images/covers/BV1kRv6B6Ege.jpg"
     },
     {
       "bvid": "BV1v7BaByEhe",
@@ -487,7 +499,7 @@
       "created": 1766731346,
       "length": "01:04",
       "typename": "",
-      "local_pic": "data/images/video_38.jpg"
+      "local_pic": "data/images/covers/BV1v7BaByEhe.jpg"
     },
     {
       "bvid": "BV12eBXBWEMx",
@@ -499,43 +511,43 @@
       "created": 1766654336,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_39.jpg"
+      "local_pic": "data/images/covers/BV12eBXBWEMx.jpg"
     },
     {
       "bvid": "BV11GB7BQE3r",
       "title": "【绘画/金色暗影】才不会把鲷鱼烧分给你哦",
       "description": "-",
       "pic": "http://i0.hdslb.com/bfs/archive/cb8ac7a4a69811db92bff0b7d1aee80f36a593fd.jpg",
-      "play": 2656,
+      "play": 2657,
       "comment": 42,
       "created": 1766572328,
       "length": "00:46",
       "typename": "",
-      "local_pic": "data/images/video_40.jpg"
+      "local_pic": "data/images/covers/BV11GB7BQE3r.jpg"
     },
     {
       "bvid": "BV1gJBNBbEq1",
       "title": "【绘画/加奈美】哎，难道我不是天才忍者吗",
       "description": "-",
       "pic": "http://i1.hdslb.com/bfs/archive/983fa9fd09166ff7a7e174a5a17b7290070c0d2d.jpg",
-      "play": 4952,
+      "play": 4955,
       "comment": 56,
       "created": 1766463238,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_41.jpg"
+      "local_pic": "data/images/covers/BV1gJBNBbEq1.jpg"
     },
     {
       "bvid": "BV1gvmNBDEBw",
       "title": "【游戏王？】常陆茉子：得到了除外祟神的力量",
       "description": "-",
       "pic": "http://i1.hdslb.com/bfs/archive/dc1641dde951a2010466f1cb1c488c2fafd34d45.jpg",
-      "play": 3707,
+      "play": 3713,
       "comment": 21,
       "created": 1765166880,
       "length": "01:28",
       "typename": "",
-      "local_pic": "data/images/video_42.jpg"
+      "local_pic": "data/images/covers/BV1gvmNBDEBw.jpg"
     },
     {
       "bvid": "BV1ycyNBAEo8",
@@ -547,43 +559,43 @@
       "created": 1763683200,
       "length": "01:21",
       "typename": "",
-      "local_pic": "data/images/video_43.jpg"
+      "local_pic": "data/images/covers/BV1ycyNBAEo8.jpg"
     },
     {
       "bvid": "BV1HrkRBwE4e",
       "title": "【游戏王】我是妹卡王（码丽丝&闪刀姬零露绘画）",
       "description": "这份力量，太强大了",
       "pic": "http://i1.hdslb.com/bfs/archive/e055168ef01e4fccc55075390c46cda59afd4db8.jpg",
-      "play": 5443,
+      "play": 5447,
       "comment": 37,
       "created": 1762747200,
       "length": "01:39",
       "typename": "",
-      "local_pic": "data/images/video_44.jpg"
+      "local_pic": "data/images/covers/BV1HrkRBwE4e.jpg"
     },
     {
       "bvid": "BV1vX2wBmE3a",
       "title": "我说过生日就该听天狐唱生日歌",
       "description": "-",
       "pic": "http://i0.hdslb.com/bfs/archive/c5788edb21006dc26b671586036bb810df64d49d.jpg",
-      "play": 578,
+      "play": 579,
       "comment": 6,
       "created": 1762433329,
       "length": "06:06",
       "typename": "",
-      "local_pic": "data/images/video_45.jpg"
+      "local_pic": "data/images/covers/BV1vX2wBmE3a.jpg"
     },
     {
       "bvid": "BV1Gh4DzEEb3",
       "title": "Mega宝石海星使用了高速移动",
       "description": "第一次画动画居然画了个抽象东西",
       "pic": "http://i0.hdslb.com/bfs/archive/d91dcfa5811470465da044ce2c674f4b4d939fdb.jpg",
-      "play": 134247,
+      "play": 134257,
       "comment": 151,
       "created": 1760400000,
       "length": "00:28",
       "typename": "",
-      "local_pic": "data/images/video_46.jpg"
+      "local_pic": "data/images/covers/BV1Gh4DzEEb3.jpg"
     },
     {
       "bvid": "BV1nGxgzLE75",
@@ -595,43 +607,43 @@
       "created": 1759712640,
       "length": "01:15",
       "typename": "",
-      "local_pic": "data/images/video_47.jpg"
+      "local_pic": "data/images/covers/BV1nGxgzLE75.jpg"
     },
     {
       "bvid": "BV1sohBz2E3d",
       "title": "【绘画过程】画一只miku，祝生日快乐！",
       "description": "第一次画了こもわた画风的初音（也许算第二次？之前的一个手书里其实画了很小的一个，不知道有没有人发现w",
       "pic": "http://i2.hdslb.com/bfs/archive/33a50005ed970ad2cd262f122f106e12ffb6e183.jpg",
-      "play": 1185,
+      "play": 1186,
       "comment": 19,
       "created": 1756569624,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_48.jpg"
+      "local_pic": "data/images/covers/BV1sohBz2E3d.jpg"
     },
     {
       "bvid": "BV1jZYkzJEVT",
       "title": "【Yuzusoft】三司绫濑的Cherry Pop（描改手书）",
       "description": "绘画：浮游Lev\nBGM：Cherry Pop-DECO*27\n本家： BV1Jsu3zMEpY\n特别感谢：@時雨榧  \nCiallo～(∠・ω< )⌒☆",
       "pic": "http://i1.hdslb.com/bfs/archive/61f0e0384b0e0dba24092abbc96afe93c5bdc6eb.jpg",
-      "play": 22237,
+      "play": 22242,
       "comment": 291,
       "created": 1755428020,
       "length": "02:21",
       "typename": "",
-      "local_pic": "data/images/video_49.jpg"
+      "local_pic": "data/images/covers/BV1jZYkzJEVT.jpg"
     },
     {
       "bvid": "BV1d4gBzyERb",
       "title": "【绫地宁宁绘画】你今天0721了吗",
       "description": "07：21pm不也是0721吗）\n时间有限所以没办法像之前画的那么精细致歉，这个月画了三四十张sd了，也算是换换手感。\n最后，Ciallo～(∠・ω< )⌒☆",
       "pic": "http://i1.hdslb.com/bfs/archive/e8475784fcec071444078f12b743e122d8c7cd0d.jpg",
-      "play": 5580,
+      "play": 5582,
       "comment": 58,
       "created": 1753096912,
       "length": "02:05",
       "typename": "",
-      "local_pic": "data/images/video_50.jpg"
+      "local_pic": "data/images/covers/BV1d4gBzyERb.jpg"
     },
     {
       "bvid": "BV1UNVfzcET6",
@@ -643,7 +655,7 @@
       "created": 1746886026,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_51.jpg"
+      "local_pic": "data/images/covers/BV1UNVfzcET6.jpg"
     },
     {
       "bvid": "BV1KFGqzwEU2",
@@ -655,31 +667,31 @@
       "created": 1746102208,
       "length": "01:05",
       "typename": "",
-      "local_pic": "data/images/video_52.jpg"
+      "local_pic": "data/images/covers/BV1KFGqzwEU2.jpg"
     },
     {
       "bvid": "BV1yzL9zJEh2",
       "title": "一分钟教你画一只久岛鸥",
       "description": "-",
       "pic": "http://i0.hdslb.com/bfs/archive/249782b8903560081b3b41cd597ec61abc4b940d.jpg",
-      "play": 8492,
+      "play": 8494,
       "comment": 61,
       "created": 1745633382,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_53.jpg"
+      "local_pic": "data/images/covers/BV1yzL9zJEh2.jpg"
     },
     {
       "bvid": "BV1EE56zYE5r",
       "title": "教你一分钟摸一张苍∽",
       "description": "-",
       "pic": "http://i2.hdslb.com/bfs/archive/b417ae8be284b43f7f6dbca59a9f5b9733b84aff.jpg",
-      "play": 5678,
+      "play": 5679,
       "comment": 63,
       "created": 1744943918,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_54.jpg"
+      "local_pic": "data/images/covers/BV1EE56zYE5r.jpg"
     },
     {
       "bvid": "BV19xoTYtEe9",
@@ -691,19 +703,19 @@
       "created": 1744807774,
       "length": "01:01",
       "typename": "",
-      "local_pic": "data/images/video_55.jpg"
+      "local_pic": "data/images/covers/BV19xoTYtEe9.jpg"
     },
     {
       "bvid": "BV1bxd6YCErF",
       "title": "教你一分钟简单摸一张白羽",
       "description": "都去玩夏日口袋！",
       "pic": "http://i1.hdslb.com/bfs/archive/5f5cd63409529938e4b661811a647bbeacba6842.jpg",
-      "play": 3289,
+      "play": 3290,
       "comment": 41,
       "created": 1744547068,
       "length": "01:00",
       "typename": "",
-      "local_pic": "data/images/video_56.jpg"
+      "local_pic": "data/images/covers/BV1bxd6YCErF.jpg"
     },
     {
       "bvid": "BV1ovdaYeESd",
@@ -715,31 +727,31 @@
       "created": 1744458561,
       "length": "00:17",
       "typename": "",
-      "local_pic": "data/images/video_57.jpg"
+      "local_pic": "data/images/covers/BV1ovdaYeESd.jpg"
     },
     {
       "bvid": "BV1vHNfehEkM",
       "title": "【SD绘画】请问你掉的是这只兔耳艾莉娜，还是这只猫耳艾莉娜呢",
       "description": "封面描改自riddle joker四格漫画vol.1",
       "pic": "http://i1.hdslb.com/bfs/archive/15b302b1518fc488a45ab7ca1407f1d0319e93ca.jpg",
-      "play": 1608,
+      "play": 1609,
       "comment": 31,
       "created": 1739488904,
       "length": "02:58",
       "typename": "",
-      "local_pic": "data/images/video_58.jpg"
+      "local_pic": "data/images/covers/BV1vHNfehEkM.jpg"
     },
     {
       "bvid": "BV1XdN8eyEXk",
       "title": "【初音ミク・重音テト】ワンルームシュガーライフ",
       "description": "本家: sm33668425\n\nVocal: 初音ミク・重音テト\nMusic・Words:@ナユタン星人_官方  \nIllustration:@浮游Lev  \nMovie: 我\nTuning:@ジピク  \n素敵な音源お借りしました: BV1aH4y1z7FX",
       "pic": "http://i1.hdslb.com/bfs/archive/495ed9e7eae66780078b7dfa5ce98799a049a618.jpg",
-      "play": 16396,
+      "play": 16402,
       "comment": 64,
       "created": 1738944000,
       "length": "02:47",
       "typename": "",
-      "local_pic": "data/images/video_59.jpg"
+      "local_pic": "data/images/covers/BV1XdN8eyEXk.jpg"
     },
     {
       "bvid": "BV1qHwke1EkW",
@@ -751,19 +763,19 @@
       "created": 1737328871,
       "length": "01:55",
       "typename": "",
-      "local_pic": "data/images/video_60.jpg"
+      "local_pic": "data/images/covers/BV1qHwke1EkW.jpg"
     },
     {
       "bvid": "BV11scGeME3o",
       "title": "自研自修模仿遥华老师画风，一年可以画到什么程度",
       "description": "然而此视频不含任何柚子社成分，除了封面）",
       "pic": "http://i1.hdslb.com/bfs/archive/7b3f1e44203f694ea8a9ecfe9a19d040267c1046.jpg",
-      "play": 31606,
+      "play": 31613,
       "comment": 175,
       "created": 1736724103,
       "length": "01:19",
       "typename": "",
-      "local_pic": "data/images/video_61.jpg"
+      "local_pic": "data/images/covers/BV11scGeME3o.jpg"
     },
     {
       "bvid": "BV1hj6DYiEKB",
@@ -775,19 +787,19 @@
       "created": 1735660380,
       "length": "02:40",
       "typename": "",
-      "local_pic": "data/images/video_62.jpg"
+      "local_pic": "data/images/covers/BV1hj6DYiEKB.jpg"
     },
     {
       "bvid": "BV1KoChYEE7q",
       "title": "【SD绘画过程】爱画萌萌哒的小孩",
       "description": "想不出好的标题）\n看上去画得越来越像遥华老师的画风了，但是仍然感到存在着不小的差距",
       "pic": "http://i0.hdslb.com/bfs/archive/56c933062e84806175baa5c4ef83c83d8f821e1c.jpg",
-      "play": 827,
+      "play": 828,
       "comment": 17,
       "created": 1735378334,
       "length": "01:36",
       "typename": "",
-      "local_pic": "data/images/video_63.jpg"
+      "local_pic": "data/images/covers/BV1KoChYEE7q.jpg"
     },
     {
       "bvid": "BV1QWqmYpEir",
@@ -799,7 +811,7 @@
       "created": 1733897078,
       "length": "01:32",
       "typename": "",
-      "local_pic": "data/images/video_64.jpg"
+      "local_pic": "data/images/covers/BV1QWqmYpEir.jpg"
     },
     {
       "bvid": "BV1SNpJeDEwD",
@@ -811,19 +823,19 @@
       "created": 1725875520,
       "length": "127:31",
       "typename": "",
-      "local_pic": "data/images/video_65.jpg"
+      "local_pic": "data/images/covers/BV1SNpJeDEwD.jpg"
     },
     {
       "bvid": "BV1UfWCeRE2P",
       "title": "【绘画过程加速】笑面教授",
       "description": "画了ba新卫星角色笑面教授，其实并没看游戏剧情只看过一些逆天二创，所以只靠第一印象来画了",
       "pic": "http://i0.hdslb.com/bfs/archive/656f8bb0c44975b78a3be7136e0b207fd7bee184.jpg",
-      "play": 622,
+      "play": 623,
       "comment": 7,
       "created": 1724596482,
       "length": "02:12",
       "typename": "",
-      "local_pic": "data/images/video_66.jpg"
+      "local_pic": "data/images/covers/BV1UfWCeRE2P.jpg"
     },
     {
       "bvid": "BV1YKYyeWE4H",
@@ -835,7 +847,7 @@
       "created": 1723533899,
       "length": "03:24",
       "typename": "",
-      "local_pic": "data/images/video_67.jpg"
+      "local_pic": "data/images/covers/BV1YKYyeWE4H.jpg"
     },
     {
       "bvid": "BV18EYxeaEQm",
@@ -847,9 +859,11 @@
       "created": 1723118214,
       "length": "00:33",
       "typename": "",
-      "local_pic": "data/images/video_68.jpg"
+      "local_pic": "data/images/covers/BV18EYxeaEQm.jpg"
     }
   ],
+  "seasons": [],
+  "series": [],
   "images": {
     "avatar": "data/images/avatar.jpg",
     "pendant": "data/images/pendant.png",
@@ -921,7 +935,8 @@
     "video_65": "data/images/video_65.jpg",
     "video_66": "data/images/video_66.jpg",
     "video_67": "data/images/video_67.jpg",
-    "video_68": "data/images/video_68.jpg"
+    "video_68": "data/images/video_68.jpg",
+    "video_69": "data/images/video_69.jpg"
   },
-  "scraped_at": "2026-06-26T03:40:09.012374+00:00"
+  "scraped_at": "2026-06-28T07:54:43.725595+00:00"
 }

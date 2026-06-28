@@ -19,25 +19,42 @@ const FuyulevApp = (() => {
   let galleryAnimated = 0;
   let scrollRaf = 0;
   let lastMobile = isMobile();
+  let revealObserver = null;
 
   function motionEnabled() {
     return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  /** komowata 风格：滚入视口时透明度 0 → 1 */
+  function getRevealObserver() {
+    if (revealObserver || !("IntersectionObserver" in window)) return revealObserver;
+    revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("fy-in");
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      { root: null, rootMargin: "0px 0px -4% 0px", threshold: 0.06 },
+    );
+    return revealObserver;
+  }
+
   function revealItems(nodes, { stagger = 45, base = 0 } = {}) {
-    const list = [...nodes];
+    const list = [...nodes].filter((el) => el && !el.classList.contains("fy-in"));
     if (!list.length) return;
     if (!motionEnabled()) {
       list.forEach((el) => el.classList.add("fy-in"));
       return;
     }
+    const io = getRevealObserver();
     list.forEach((el, i) => {
       el.classList.add("fy-motion-item");
       el.style.setProperty("--fy-i", String(i));
       el.style.setProperty("--fy-base", `${base}ms`);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => el.classList.add("fy-in"));
-      });
+      if (io) io.observe(el);
+      else el.classList.add("fy-in");
     });
   }
 
@@ -174,13 +191,16 @@ const FuyulevApp = (() => {
 
   function initShell() {
     Site.initCommon();
-    Site.fillUserHero();
-    const sign = document.getElementById("hero-sign");
-    if (sign && window.SITE_DATA?.user?.sign) {
-      sign.textContent = window.SITE_DATA.user.sign;
+    const isHome = document.body.dataset.page === "home";
+    if (isHome) {
+      Site.fillUserHero();
+      const sign = document.getElementById("hero-sign");
+      if (sign && window.SITE_DATA?.user?.sign) {
+        sign.textContent = window.SITE_DATA.user.sign;
+      }
+      const band = document.getElementById("link-band");
+      if (band) Site.renderLinkBand(band);
     }
-    const band = document.getElementById("link-band");
-    if (band) Site.renderLinkBand(band);
     observeFooter();
   }
 
@@ -248,32 +268,42 @@ const FuyulevApp = (() => {
     afterGridLayout();
   }
 
+  function renderWorkSyncNote() {
+    const lead = document.querySelector(".fuyulev-page-lead");
+    const updated = window.SITE_DATA?.data_updated;
+    if (!lead || !updated) return;
+    let note = document.getElementById("work-sync-note");
+    if (!note) {
+      note = document.createElement("p");
+      note.id = "work-sync-note";
+      note.className = "data-sync-note";
+      lead.after(note);
+    }
+    note.textContent = `B 站数据同步于 ${updated}`;
+  }
+
   function renderWorkList() {
     const ul = document.getElementById("work-list");
     const videos = window.SITE_DATA?.videos;
     if (!ul || !videos?.length) return;
 
     ul.innerHTML = videos
-      .slice(0, 30)
-      .map((v, i) => {
-        const thumb = v.thumb || `assets/images/video_${i}.jpg`;
+      .map((v) => {
+        const thumb = Site.videoThumb(v);
         const meta = [v.date, v.length].filter(Boolean).join(" · ");
-        return `<li class="fuyulev-work-item"><a href="https://www.bilibili.com/video/${esc(v.bvid)}" target="_blank" rel="noopener">`
-          + `<img src="${esc(thumb)}" alt="${esc(v.title)}" loading="lazy" decoding="async" />`
+        return `<li class="fuyulev-work-item"><a href="${Site.bili(v.bvid)}" target="_blank" rel="noopener">`
+          + `<img src="${esc(thumb)}" alt="${esc(v.title)}" loading="lazy" decoding="async" ${Site.videoThumbOnError(v)} />`
           + `<span class="fuyulev-work-meta"><strong>${esc(v.title)}</strong>`
           + (meta ? `<small>${esc(meta)}</small>` : "")
           + `</span></a></li>`;
       })
       .join("");
 
-    if (videos.length > 30) {
-      const p = document.createElement("p");
-      p.className = "fuyulev-more-link";
-      p.innerHTML = `更多投稿见 <a href="${BILI}" target="_blank" rel="noopener">哔哩哔哩主页</a>。`;
-      ul.after(p);
-    }
+    const existingMore = ul.parentElement?.querySelector(".fuyulev-more-link");
+    if (existingMore) existingMore.remove();
 
     revealItems(ul.querySelectorAll(".fuyulev-work-item"), { stagger: 35, base: 280 });
+    renderWorkSyncNote();
   }
 
   function renderAboutPicks() {

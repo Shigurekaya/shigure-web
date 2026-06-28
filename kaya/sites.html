@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/kaya/" />
+  <title>其它个人站 · 时雨榧</title>
+  <meta name="description" content="其它个人站一览" />
+  <meta name="theme-color" content="#141322" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body data-page="sites">
+  <header class="site-header">
+    <div class="site-bar">
+      <a href="index.html" class="brand">时雨榧<span class="owner-badge owner-badge--sm">站主</span></a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单">≡</button>
+      <ul class="site-nav" id="site-nav">
+        <li><a href="index.html">主页</a></li>
+        <li><a href="works.html">作品</a></li>
+        <li><a href="sites.html" class="active">个人站</a></li>
+        <li><a href="links.html">链接</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <header class="section-head">
+      <h2>其它个人站</h2>
+      <p>相关创作者的个人主页，点击头像即可跳转。标签「已上线」「暂未完成」表示站点当前状态。</p>
+    </header>
+
+    <div class="site-roster site-roster--page" id="site-roster"></div>
+
+    <header class="section-head section-head--spaced">
+      <h2>筹备中</h2>
+      <p>以下其它个人站尚未上线，敬请期待。</p>
+    </header>
+    <ul class="site-planned" id="site-planned"></ul>
+  </main>
+
+  <section class="site-link-band" id="link-band"></section>
+  <footer class="site-footer"><p>© <span id="year"></span> 时雨榧 · 站主</p></footer>
+
+  <script src="js/site-data.js?v=202606281555"></script>
+  <script src="js/main.js" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initSites());</script>
+</body>
+</html>

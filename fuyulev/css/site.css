@@ -348,25 +348,89 @@ a {
 .fy-menu-toggle {
   display: none;
   margin-left: auto;
-  margin-top: 12px;
+  margin-top: 8px;
   flex-shrink: 0;
+  width: 44px;
+  height: 44px;
   border: 1px solid #000;
   background: #fff;
   color: #000;
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 22px;
-  line-height: 1;
+  border-radius: 8px;
+  padding: 0;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.28s var(--fy-ease), border-color 0.28s var(--fy-ease), transform 0.22s var(--fy-ease);
+}
+
+.fy-menu-toggle:active {
+  transform: scale(0.96);
 }
 
 .fy-menu-toggle.is-open {
   background: #000;
-  color: #fff;
+  border-color: #000;
+}
+
+.fy-menu-toggle-icon {
+  display: block;
+  width: 22px;
+  height: 16px;
+  position: relative;
+}
+
+.fy-menu-toggle-icon span {
+  display: block;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #000;
+  border-radius: 1px;
+  transition: transform 0.32s var(--fy-ease), opacity 0.22s ease, top 0.32s var(--fy-ease);
+}
+
+.fy-menu-toggle-icon span:nth-child(1) { top: 0; }
+.fy-menu-toggle-icon span:nth-child(2) { top: 7px; }
+.fy-menu-toggle-icon span:nth-child(3) { top: 14px; }
+
+.fy-menu-toggle.is-open .fy-menu-toggle-icon span {
+  background: #fff;
+}
+
+.fy-menu-toggle.is-open .fy-menu-toggle-icon span:nth-child(1) {
+  top: 7px;
+  transform: rotate(45deg);
+}
+
+.fy-menu-toggle.is-open .fy-menu-toggle-icon span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.fy-menu-toggle.is-open .fy-menu-toggle-icon span:nth-child(3) {
+  top: 7px;
+  transform: rotate(-45deg);
+}
+
+.fy-menu-backdrop {
+  display: none;
+}
+
+.fy-menu-backdrop[hidden] {
+  display: none !important;
+}
+
+.fy-drawer-head {
+  display: none;
 }
 
 body.fy-menu-open {
   overflow: hidden;
+}
+
+body.fy-menu-open .fy-topbar {
+  z-index: 100020;
 }
 
 .km-gallery {
@@ -410,16 +474,12 @@ body.fy-menu-open {
 
 .fy-motion-item {
   opacity: 0;
-  transform: translateY(16px) scale(0.98);
-  transition:
-    opacity 0.48s var(--fy-ease),
-    transform 0.48s var(--fy-ease);
+  transition: opacity 0.55s var(--fy-ease);
   transition-delay: calc(var(--fy-base, 0ms) + var(--fy-i, 0) * var(--fy-stagger));
 }
 
 .fy-motion-item.fy-in {
   opacity: 1;
-  transform: none;
 }
 
 .km-load-wrap {
@@ -477,6 +537,13 @@ body.fy-menu-open {
 .fuyulev-page-lead a {
   color: #000;
   font-weight: 600;
+}
+
+.data-sync-note {
+  margin: -20px 0 28px;
+  font-size: 13px;
+  color: #888;
+  letter-spacing: 0.02em;
 }
 
 .fuyulev-work-list {
@@ -668,6 +735,19 @@ body.fy-menu-open {
   text-align: center;
 }
 
+.page-updated {
+  margin: 0;
+  padding: 0 24px 16px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.page-updated time {
+  font-variant-numeric: tabular-nums;
+}
+
 .link-heading {
   font-size: 18px;
   font-weight: 700;
@@ -739,21 +819,24 @@ body.fy-menu-open {
 
 .fy-kaya-corner {
   position: absolute;
-  left: 10px;
-  bottom: 10px;
-  width: 40px;
-  height: 40px;
+  left: 6px;
+  bottom: 6px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.45);
-  opacity: 0.95;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  background: linear-gradient(145deg, #b8d9f5 0%, #7eb8e8 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  opacity: 0.28;
+  transition: opacity 0.35s ease, transform 0.25s ease, border-color 0.25s ease;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 2;
 }
 
-.fy-kaya-corner:hover {
-  opacity: 1;
-  transform: scale(1.06);
+.fy-kaya-corner:hover,
+.fy-kaya-corner:focus-visible {
+  opacity: 0.88;
+  transform: scale(1.08);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .fy-kaya-corner img {
@@ -859,41 +942,181 @@ body.fy-menu-open {
 @media (max-width: 768px) {
   .fy-topbar-inner {
     position: relative;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
   }
 
   .fy-menu-toggle {
-    display: block;
+    display: flex;
+    z-index: 100013;
   }
 
-  .fy-topbar-nav {
-    display: none;
-    width: 100%;
+  .fy-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 100011;
+    background: rgba(0, 0, 0, 0.58);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.38s var(--fy-ease), visibility 0.38s var(--fy-ease);
+  }
+
+  body.fy-menu-open .fy-menu-backdrop {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .fy-topbar-nav.fy-mobile-drawer {
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(320px, 88vw);
+    height: 100%;
+    height: 100dvh;
+    margin: 0;
     flex-direction: column;
     align-items: stretch;
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    gap: 4px;
+    justify-content: flex-start;
+    padding: 0 0 48px;
+    background: #000;
+    color: #fff;
+    z-index: 100012;
+    clip-path: inset(0 0 0 100%);
+    transition: clip-path 0.44s var(--fy-ease);
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.45);
+    overflow-y: auto;
+    overflow-x: hidden;
+    pointer-events: none;
+    border: none;
+    gap: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    touch-action: manipulation;
   }
 
-  .fy-topbar-nav.is-open {
+  .fy-topbar-nav.fy-mobile-drawer.is-open {
+    clip-path: inset(0 0 0 0);
+    pointer-events: auto;
+  }
+
+  .fy-drawer-head {
     display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 22px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    opacity: 0;
+    transition: opacity 0.35s var(--fy-ease);
   }
 
-  .fy-topbar-link {
-    padding: 10px 8px;
-    font-size: 16px;
+  .fy-topbar-nav.is-open .fy-drawer-head {
+    opacity: 1;
+    transition-delay: 0.06s;
   }
 
-  .fy-topbar-link::after {
+  .fy-drawer-logo {
+    font-family: lulo-clean-w01-one-bold, Georgia, "Times New Roman", serif;
+    font-size: 48px;
+    line-height: 1;
+    color: #ffffff;
+  }
+
+  .fy-drawer-close {
+    flex-shrink: 0;
+    margin-top: 4px;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #ffffff;
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 1;
+    touch-action: manipulation;
+    transition: opacity 0.2s ease, transform 0.2s var(--fy-ease);
+  }
+
+  .fy-drawer-close:hover,
+  .fy-drawer-close:focus-visible {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+
+  .fy-topbar-nav.fy-mobile-drawer .fy-topbar-link {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 18px 24px;
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.12);
+    transition:
+      opacity 0.38s var(--fy-ease),
+      background 0.2s ease;
+  }
+
+  .fy-topbar-nav.fy-mobile-drawer.is-open .fy-topbar-link {
+    opacity: 1;
+    color: #ffffff;
+  }
+
+  .fy-topbar-nav.fy-mobile-drawer.is-open .fy-topbar-link:nth-of-type(1) { transition-delay: 0.1s; }
+  .fy-topbar-nav.fy-mobile-drawer.is-open .fy-topbar-link:nth-of-type(2) { transition-delay: 0.14s; }
+  .fy-topbar-nav.fy-mobile-drawer.is-open .fy-topbar-link:nth-of-type(3) { transition-delay: 0.18s; }
+  .fy-topbar-nav.fy-mobile-drawer.is-open .fy-topbar-link:nth-of-type(4) { transition-delay: 0.22s; }
+
+  .fy-topbar-nav.fy-mobile-drawer .fy-topbar-link::after {
     display: none;
+  }
+
+  .fy-topbar-nav.fy-mobile-drawer .fy-topbar-link:hover,
+  .fy-topbar-nav.fy-mobile-drawer .fy-topbar-link:focus-visible,
+  .fy-topbar-nav.fy-mobile-drawer .fy-topbar-link:active {
+    opacity: 1;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .fy-topbar-nav.fy-mobile-drawer .fy-topbar-link.is-active {
+    opacity: 1;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
   }
 
   .fy-shell {
-    padding-top: 72px;
+    padding-top: 68px;
+  }
+
+  .fy-page-content {
+    padding: 28px 20px 40px;
+  }
+
+  .fuyulev-page-title {
+    font-size: 28px;
+    line-height: 1.25;
+  }
+
+  .fuyulev-about-head {
+    gap: 20px;
+  }
+
+  .fuyulev-about-avatar {
+    width: min(140px, 36vw);
   }
 
   .km-gallery-item:hover {
@@ -914,20 +1137,45 @@ body.fy-menu-open {
 
 @media (max-width: 640px) {
   :root {
-    --km-gallery-inset: 12px;
+    --km-gallery-inset: 8px;
   }
 
   .fy-gallery-section {
-    padding: 16px var(--km-gallery-inset) 0;
+    padding: 12px var(--km-gallery-inset) 0;
+  }
+
+  .fy-hero {
+    padding: 28px 14px 6px;
   }
 
   .fy-topbar-logo {
     font-size: 36px;
   }
 
-  .fy-topbar-link {
+  .fy-page-content {
+    padding: 24px 16px 36px;
+  }
+
+  .fuyulev-page-title {
+    font-size: 24px;
+  }
+
+  .fuyulev-page-lead {
     font-size: 15px;
-    padding: 8px 6px;
+    margin-bottom: 24px;
+  }
+
+  .fuyulev-work-item a {
+    padding: 10px 12px;
+    gap: 12px;
+  }
+
+  .fuyulev-work-item img {
+    width: min(120px, 38%);
+  }
+
+  .link-band-inner {
+    padding: 20px 16px 28px;
   }
 
   .profile-banner img {
@@ -941,12 +1189,25 @@ body.fy-menu-open {
   }
 
   .fuyulev-portfolio-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
   }
 
   #lightbox-img {
     max-height: 70vh;
+  }
+
+  .fy-kaya-corner {
+    width: 24px;
+    height: 24px;
+    left: 4px;
+    bottom: 4px;
+    opacity: 0.18;
+  }
+
+  .fy-kaya-corner:hover,
+  .fy-kaya-corner:focus-visible {
+    opacity: 0.75;
   }
 }
 
@@ -971,5 +1232,19 @@ body.fy-menu-open {
   .fy-footer {
     opacity: 1;
     transform: none;
+  }
+
+  body.fy-menu-open .fy-menu-backdrop,
+  .fy-topbar-nav,
+  .fy-topbar-link,
+  .fy-drawer-head,
+  .fy-menu-toggle-icon span {
+    transition-duration: 0.01ms !important;
+  }
+
+  .fy-topbar-nav.is-open .fy-topbar-link,
+  .fy-topbar-nav.is-open .fy-drawer-head {
+    opacity: 1;
+    transition-delay: 0ms !important;
   }
 }

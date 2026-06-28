@@ -1,7 +1,8 @@
-// 由 login_scrape.py 自动生成 · 时雨榧
+// 由 scrapers/scrape.py 自动生成 · 时雨榧
 window.SITE_DATA = {
   "mid": 109084234,
   "bilibili_url": "https://space.bilibili.com/109084234",
+  "data_updated": "2026.06.28",
   "user": {
     "name": "时雨榧",
     "sign": "实现愿望程度的能力",
@@ -11,21 +12,14 @@ window.SITE_DATA = {
     "level": 6,
     "sex": "男"
   },
-  "stats": {
-    "following": 26,
-    "follower": 1461,
-    "likes": 55305,
-    "videos": 32
-  },
   "videos": [
     {
       "bvid": "BV1yP7F6HEck",
       "title": "【初音ミク】愛包ダンスホール",
       "description": "Lyric：Gohgo / https://twitter.com/Gohgo55\nMusic：涼木シンジ & Gohgo\nArrange：涼木シンジ\nVocal：初音ミク\nIllust:@优优usaki  \nTuning:@ジピク  \nUST:スヲウ https://bowlroll.net/file/315307\nOriginated from HIMEHINA",
-      "date": "2026.06.25",
+      "date": "2026.06.26",
       "length": "03:42",
-      "thumb": "assets/images/video_0.jpg",
-      "play": 356,
+      "thumb": "assets/images/covers/BV1yP7F6HEck.jpg",
       "typename": ""
     },
     {
@@ -34,8 +28,7 @@ window.SITE_DATA = {
       "description": "本家：sm17546768\nIllustration:@小春日向  \n\n这可是我最喜欢的小猫咪之一啊",
       "date": "2026.06.02",
       "length": "01:22",
-      "thumb": "assets/images/video_1.jpg",
-      "play": 6336,
+      "thumb": "assets/images/covers/BV1sPVr6ZExe.jpg",
       "typename": ""
     },
     {
@@ -44,18 +37,16 @@ window.SITE_DATA = {
       "description": "本家：https://youtu.be/RyRfLSOewbU\n\nArtwork:@优优usaki  \nVideo:@时雨榧",
       "date": "2026.04.30",
       "length": "02:10",
-      "thumb": "assets/images/video_2.jpg",
-      "play": 72722,
+      "thumb": "assets/images/covers/BV18PovBdEiK.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1VFXyB2EX5",
       "title": "【Ave Mujica】D/N/A ( 愚人节特供",
       "description": "屏幕黑了 点两下\n\n你问我完整版在哪？\n画师还没画完↓\nArtwork: @优优usaki",
-      "date": "2026.03.31",
+      "date": "2026.04.01",
       "length": "00:24",
-      "thumb": "assets/images/video_3.jpg",
-      "play": 9550,
+      "thumb": "assets/images/covers/BV1VFXyB2EX5.jpg",
       "typename": ""
     },
     {
@@ -64,8 +55,7 @@ window.SITE_DATA = {
       "description": "本家：BV1DZugzdEQW\n\nIllustration:@优优usaki  \nMovie：我",
       "date": "2026.02.23",
       "length": "03:18",
-      "thumb": "assets/images/video_4.jpg",
-      "play": 4175,
+      "thumb": "assets/images/covers/BV1ZXfNBtE1F.jpg",
       "typename": ""
     },
     {
@@ -74,8 +64,7 @@ window.SITE_DATA = {
       "description": "本家：so40968836\n\nIllustration:@优优usaki  \nMovie: @時雨榧",
       "date": "2026.02.19",
       "length": "03:42",
-      "thumb": "assets/images/video_5.jpg",
-      "play": 6090,
+      "thumb": "assets/images/covers/BV1tocnzZEMQ.jpg",
       "typename": ""
     },
     {
@@ -84,28 +73,34 @@ window.SITE_DATA = {
       "description": "本家：https://www.youtube.com/watch?v=Dcaby0YwOkM\n\nIllustration:@汐月空poi  \nMovie: 我",
       "date": "2026.02.19",
       "length": "02:18",
-      "thumb": "assets/images/video_6.jpg",
-      "play": 11721,
+      "thumb": "assets/images/covers/BV1N6cJzDESM.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1TFpAz8EBs",
       "title": "【魔女审判】妄想感伤代偿联盟",
       "description": "本家：sm30067009\n参考：BV1ax4y1e7pu\n\nmovie：我\n找不到画魔判的画师，只能用原作立绘了",
-      "date": "2025.09.14",
+      "date": "2025.09.15",
       "length": "04:29",
-      "thumb": "assets/images/video_7.jpg",
-      "play": 191562,
+      "thumb": "assets/images/covers/BV1TFpAz8EBs.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1xzeUzSEEZ",
       "title": "【糖糖/手书】ライアーメイデン / 说谎的少女",
       "description": "本家：BV1Kg4y1A7LD\n\nIllustration:@汐月空poi  \nMovie: 我",
-      "date": "2025.08.27",
+      "date": "2025.08.28",
       "length": "02:31",
-      "thumb": "assets/images/video_8.jpg",
-      "play": 1820,
+      "thumb": "assets/images/covers/BV1xzeUzSEEZ.jpg",
+      "typename": ""
+    },
+    {
+      "bvid": "BV1TyeazGEST",
+      "title": "被强迫念了一段雌小鬼台词",
+      "description": "",
+      "date": "2025.08.23",
+      "length": "00:17",
+      "thumb": "assets/images/covers/BV1TyeazGEST.jpg",
       "typename": ""
     },
     {
@@ -114,28 +109,25 @@ window.SITE_DATA = {
       "description": "本家：sm23762151\n\nIllustration:@汐月空poi  \nMovie: 我\n\n声源: 小黑 (樱花，萌放。)\n项目地址：https://github.com/yxlllc/DDSP-SVC",
       "date": "2025.08.12",
       "length": "04:14",
-      "thumb": "assets/images/video_10.jpg",
-      "play": 4871,
+      "thumb": "assets/images/covers/BV12mtSzrESV.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1hZu9z1E7L",
       "title": "【绫地宁宁 / 手书】恋爱裁判",
       "description": "本家：sm23750267\n\nIllustration:@优优usaki \nMovie: 我",
-      "date": "2025.07.20",
+      "date": "2025.07.21",
       "length": "03:42",
-      "thumb": "assets/images/video_11.jpg",
-      "play": 25567,
+      "thumb": "assets/images/covers/BV1hZu9z1E7L.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1d8uRzXEgd",
       "title": "【素晴日/手书】ウォロでオルソドクシア / 正统观念",
       "description": "本家：sm37395304\n\nIllustration:@小春日向  \nMovie: 我",
-      "date": "2025.07.19",
+      "date": "2025.07.20",
       "length": "04:22",
-      "thumb": "assets/images/video_12.jpg",
-      "play": 4730,
+      "thumb": "assets/images/covers/BV1d8uRzXEgd.jpg",
       "typename": ""
     },
     {
@@ -144,8 +136,7 @@ window.SITE_DATA = {
       "description": "本家：インドア系ならトラックメイカー- Yunomi & nicamoq\nIllustration：小春日向\nMovie: 時雨榧",
       "date": "2025.06.14",
       "length": "03:23",
-      "thumb": "assets/images/video_13.jpg",
-      "play": 6372,
+      "thumb": "assets/images/covers/BV1ZGMkzXEiq.jpg",
       "typename": ""
     },
     {
@@ -154,18 +145,16 @@ window.SITE_DATA = {
       "description": "完整版什么时候发呢 好难猜啊\n\n\n\n0721",
       "date": "2025.06.12",
       "length": "00:24",
-      "thumb": "assets/images/video_14.jpg",
-      "play": 3631,
+      "thumb": "assets/images/covers/BV1JBMVzVEZr.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1AfTYzqEWq",
       "title": "【千之刃涛，桃花染之皇姬 / 手书】千本樱",
       "description": "本家：sm15630734\n\nIllustration:@鹭鸶翎子  \nMovie: 我",
-      "date": "2025.06.09",
+      "date": "2025.06.10",
       "length": "04:05",
-      "thumb": "assets/images/video_15.jpg",
-      "play": 1350,
+      "thumb": "assets/images/covers/BV1AfTYzqEWq.jpg",
       "typename": ""
     },
     {
@@ -174,18 +163,16 @@ window.SITE_DATA = {
       "description": "游戏名：GINKA\n如果您喜欢这个视频 记得关注我 还有三连支持一下\n\n一月做的，被我遗忘了五个月 (做某手书的时候偶然发现",
       "date": "2025.06.09",
       "length": "07:00",
-      "thumb": "assets/images/video_16.jpg",
-      "play": 58,
+      "thumb": "assets/images/covers/BV13kTYzEEpd.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1XdN8eyEXk",
       "title": "【初音ミク・重音テト】ワンルームシュガーライフ",
       "description": "本家: sm33668425\n\nVocal: 初音ミク・重音テト\nMusic・Words:@ナユタン星人_官方  \nIllustration:@浮游Lev  \nMovie: 我\nTuning:@ジピク  \n素敵な音源お借りしました: BV1aH4y1z7FX",
-      "date": "2025.02.07",
+      "date": "2025.02.08",
       "length": "02:47",
-      "thumb": "assets/images/video_17.jpg",
-      "play": 16396,
+      "thumb": "assets/images/covers/BV1XdN8eyEXk.jpg",
       "typename": ""
     },
     {
@@ -194,18 +181,16 @@ window.SITE_DATA = {
       "description": "游戏名：饿殍：明末千里行\n如果您喜欢这个视频 记得关注我 还有三连支持一下\n\n优于葬花，真·进步",
       "date": "2024.12.31",
       "length": "07:55",
-      "thumb": "assets/images/video_18.jpg",
-      "play": 3262,
+      "thumb": "assets/images/covers/BV1BWknYKEkr.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1cEknY6EGj",
       "title": "🎄真白也要Padoru~Padoru~🎄",
       "description": "圣诞节快乐 !\n绘: @小春日向",
-      "date": "2024.12.24",
+      "date": "2024.12.25",
       "length": "00:12",
-      "thumb": "assets/images/video_19.jpg",
-      "play": 331,
+      "thumb": "assets/images/covers/BV1cEknY6EGj.jpg",
       "typename": ""
     },
     {
@@ -214,8 +199,7 @@ window.SITE_DATA = {
       "description": "游戏名：冷血症骰子 第七天堂\n如果您喜欢这个视频 记得关注我 还有三连支持一下",
       "date": "2024.10.25",
       "length": "08:01",
-      "thumb": "assets/images/video_20.jpg",
-      "play": 2790,
+      "thumb": "assets/images/covers/BV1rRykYGE3x.jpg",
       "typename": ""
     },
     {
@@ -224,38 +208,34 @@ window.SITE_DATA = {
       "description": "游戏名：樱色之云＊绯色之恋\n如果您喜欢这个视频 记得关注我 还有三连支持一下",
       "date": "2024.10.06",
       "length": "05:50",
-      "thumb": "assets/images/video_21.jpg",
-      "play": 18318,
+      "thumb": "assets/images/covers/BV16V1qYZEYr.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1rgtvecEfx",
       "title": "【GAL人物志】取代真物的伪物 水无月萤，我想要活下去，不择手段",
       "description": "游戏名：天津罪\n如果您喜欢这个视频 记得关注我 还有三连支持一下\n\n以后可能单独做一期神代诚  (也可能不会)\n素材被台风吹走了",
-      "date": "2024.09.17",
+      "date": "2024.09.18",
       "length": "07:32",
-      "thumb": "assets/images/video_22.jpg",
-      "play": 12106,
+      "thumb": "assets/images/covers/BV1rgtvecEfx.jpg",
       "typename": ""
     },
     {
       "bvid": "BV16AsHemEdc",
       "title": "【GAL人物志】追逐岛之传承的少女，空门苍  我会睡着等待你的好消息",
       "description": "游戏名：Summer Pockets REFLECTION BLUE\r\n如果您喜欢这个视频 记得关注我 还有三连支持一下",
-      "date": "2024.08.26",
+      "date": "2024.08.27",
       "length": "04:53",
-      "thumb": "assets/images/video_23.png",
-      "play": 2987,
+      "thumb": "assets/images/covers/BV16AsHemEdc.png",
       "typename": ""
     },
     {
       "bvid": "BV1J9WMeGEES",
       "title": "【GAL人物志】可爱的美少男，觋夕摩 我会毁掉一切，创造一个坚固的鸟笼",
       "description": "游戏名：美少女万华镜 -罪与罚的少女-\r\n如果您喜欢这个视频 记得关注我 还有三连支持一下",
-      "date": "2024.08.21",
+      "date": "2024.08.22",
       "length": "04:51",
-      "thumb": "assets/images/video_24.png",
-      "play": 83416,
+      "thumb": "assets/images/covers/BV1J9WMeGEES.png",
       "typename": ""
     },
     {
@@ -264,18 +244,16 @@ window.SITE_DATA = {
       "description": "游戏名：千恋＊万花\r\n如果您喜欢这个视频 记得关注我 还有三连支持一下",
       "date": "2024.08.07",
       "length": "03:45",
-      "thumb": "assets/images/video_25.jpg",
-      "play": 13833,
+      "thumb": "assets/images/covers/BV1xGa1e5Ey1.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1hHvkeHEiz",
       "title": "【神秘列车篇】目的地不明的神秘列车。两次盗窃谋杀事件  『 樱色之云＊绯色之恋』",
       "description": "游戏名：樱色之云＊绯色之恋\r\n\r\n本来在做梅利莎人物志，然后就变成这个东西了(\r\n感谢绿茶汉化组\r\n如果您喜欢这个视频 记得关注我 还有三连支持一下",
-      "date": "2024.07.30",
+      "date": "2024.07.31",
       "length": "12:21",
-      "thumb": "assets/images/video_26.jpg",
-      "play": 298,
+      "thumb": "assets/images/covers/BV1hHvkeHEiz.jpg",
       "typename": ""
     },
     {
@@ -284,38 +262,34 @@ window.SITE_DATA = {
       "description": "游戏名：7days -与你共度的七日间-\r\n如果您喜欢这个视频 记得关注我 还有三连支持一下",
       "date": "2024.07.26",
       "length": "04:28",
-      "thumb": "assets/images/video_27.jpg",
-      "play": 913,
+      "thumb": "assets/images/covers/BV122eYeJEkg.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1qN8re1E97",
       "title": "【GAL人物志】拥有读档能力的少年，新海翔  无论重来多少次，都要守护你们",
       "description": "游戏名：9-nine-九次九日九重色\r\n            9-nine-天色天歌天籁音\r\n            9-nine-春色春恋春熙风\r\n            9-nine-雪色雪花雪之痕\r\n            9-nine-New Episode\r\n如果您喜欢这个视频 记得关注我 还有三连支持一下",
-      "date": "2024.07.20",
+      "date": "2024.07.21",
       "length": "08:22",
-      "thumb": "assets/images/video_28.jpg",
-      "play": 71525,
+      "thumb": "assets/images/covers/BV1qN8re1E97.jpg",
       "typename": ""
     },
     {
       "bvid": "BV1QSbMekE88",
       "title": "Summer Pockets 乒乓球小游戏（打上头了）",
       "description": "启动Summer Pockets\r\n过剧情         ×\r\n打乒乓球      √",
-      "date": "2024.07.13",
+      "date": "2024.07.14",
       "length": "25:52",
-      "thumb": "assets/images/video_29.png",
-      "play": 3564,
+      "thumb": "assets/images/covers/BV1QSbMekE88.png",
       "typename": ""
     },
     {
       "bvid": "BV17zbMenEws",
       "title": "【GAL人物志】追寻鬼的少女，神山识  堵上御结的名分，实现你的一个愿望",
       "description": "游戏名：Summer Pockets REFLECTION BLUE\r\n如果您喜欢这个视频  记得关注我  还有三连支持一下",
-      "date": "2024.07.13",
+      "date": "2024.07.14",
       "length": "05:36",
-      "thumb": "assets/images/video_30.jpg",
-      "play": 10588,
+      "thumb": "assets/images/covers/BV17zbMenEws.jpg",
       "typename": ""
     },
     {
@@ -324,19 +298,19 @@ window.SITE_DATA = {
       "description": "游戏名：ATRI -My Dear Moments-\r\n如果您喜欢这个视频  记得关注我  还有三连支持一下",
       "date": "2024.07.07",
       "length": "09:44",
-      "thumb": "assets/images/video_31.png",
-      "play": 2752,
+      "thumb": "assets/images/covers/BV1Ttage7EPF.png",
       "typename": ""
     },
     {
       "bvid": "BV1Z2agePEzz",
       "title": "【GAL人物志】“夜”实至名归的管理者，真白，为唤醒大人的心灵甘愿变成噩梦",
       "description": "游戏名：樱花，萌放。-as the Night's, Reincarnation-\r\n如果您喜欢这个视频  记得关注我  还有三连支持一下\r\n一个从零开始的萌新up",
-      "date": "2024.07.06",
+      "date": "2024.07.07",
       "length": "05:12",
-      "thumb": "assets/images/video_32.png",
-      "play": 1332,
+      "thumb": "assets/images/covers/BV1Z2agePEzz.png",
       "typename": ""
     }
-  ]
+  ],
+  "seasons": [],
+  "series": []
 };

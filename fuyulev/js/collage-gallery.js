@@ -8,6 +8,8 @@ const CollageGallery = (() => {
   const SLOT_GAP = 0;
   const MOBILE_GAP = 1;
   const MOBILE_ROWS = 2;
+  /** 单行基准高度占画廊宽度的比例 */
+  const MOBILE_BASE_H_RATIO = 0.66;
 
   const tracked = new Set();
   let resizeTimer;
@@ -86,7 +88,7 @@ const CollageGallery = (() => {
     if (vw <= 0) return;
 
     const gap = MOBILE_GAP;
-    const baseH = vw * 0.4;
+    const baseH = vw * MOBILE_BASE_H_RATIO;
     const rowX = Array(MOBILE_ROWS).fill(0);
 
     const planned = items.map((el, i) => {

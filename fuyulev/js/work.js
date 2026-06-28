@@ -1,16 +1,5 @@
-/** 作品履历 WORK */
+/** 作品履历 WORK（legacy，当前 work 页由 fuyulev-app.js 驱动） */
 (() => {
-  function renderStats() {
-    const el = document.getElementById("work-stats");
-    if (!el) return;
-    const videos = Site.data().videos;
-    const years = new Set(videos.map((v) => (v.date || "").split(".")[0]).filter(Boolean));
-    el.innerHTML = `
-      <div class="stat-card"><span class="stat-num" data-count="${videos.length}">0</span><span class="stat-label">投稿作品</span></div>
-      <div class="stat-card"><span class="stat-num" data-count="${years.size}">0</span><span class="stat-label">活跃年份</span></div>
-    `;
-  }
-
   function renderTimeline() {
     const root = document.getElementById("work-timeline");
     if (!root) return;
@@ -44,7 +33,7 @@
         .join("");
       return `
         <section class="work-year reveal">
-          <h3 class="work-year-title">${Site.esc(year)}<span class="work-year-count">${byYear[year].length}</span></h3>
+          <h3 class="work-year-title">${Site.esc(year)}</h3>
           <ul class="work-year-list">${items}</ul>
         </section>
       `;
@@ -53,7 +42,6 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     Site.initCommon();
-    renderStats();
     renderTimeline();
     Site.renderLinkBand(document.getElementById("link-band"));
     Motion.refresh();

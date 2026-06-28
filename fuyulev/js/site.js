@@ -13,8 +13,19 @@ const Site = (() => {
   }
 
   function thumb(v, i) {
-    if (v.thumb && !v.thumb.includes("..")) return v.thumb;
-    return `assets/images/video_${i}.jpg`;
+    return videoThumb(v);
+  }
+
+  /** 视频封面：优先 site-data 中的 thumb，回退到 bvid 路径（永不使用序号） */
+  function videoThumb(v) {
+    if (v?.thumb && !v.thumb.includes("..")) return v.thumb;
+    if (v?.bvid) return `assets/images/covers/${v.bvid}.jpg`;
+    return avatarSrc();
+  }
+
+  function videoThumbOnError(v) {
+    const fb = v?.bvid ? `assets/images/covers/${v.bvid}.jpg` : avatarSrc();
+    return `onerror="if(!this.dataset.fbf){this.dataset.fbf='1';this.src='${fb}'}else{this.src='${avatarSrc()}'}"`;
   }
 
   function bili(bvid) {
@@ -153,13 +164,31 @@ const Site = (() => {
     const nav = document.querySelector(".fy-topbar-nav");
     if (!inner || !nav || document.getElementById("fy-menu-toggle")) return;
 
+    const mobileMq = window.matchMedia("(max-width: 768px)");
+
+    const backdrop = document.createElement("div");
+    backdrop.className = "fy-menu-backdrop";
+    backdrop.hidden = true;
+    document.body.appendChild(backdrop);
+
+    const drawerHead = document.createElement("div");
+    drawerHead.className = "fy-drawer-head";
+    drawerHead.innerHTML =
+      '<span class="fy-drawer-logo" aria-hidden="true">F</span>'
+      + '<button type="button" class="fy-drawer-close" aria-label="关闭菜单">×</button>';
+    nav.insertBefore(drawerHead, nav.firstChild);
+    nav.id = "fy-site-nav";
+    nav.classList.add("fy-mobile-drawer");
+
     const btn = document.createElement("button");
     btn.type = "button";
     btn.id = "fy-menu-toggle";
     btn.className = "fy-menu-toggle";
     btn.setAttribute("aria-label", "菜单");
     btn.setAttribute("aria-expanded", "false");
-    btn.textContent = "≡";
+    btn.setAttribute("aria-controls", "fy-site-nav");
+    btn.innerHTML =
+      '<span class="fy-menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>';
     inner.insertBefore(btn, nav);
 
     const closeMenu = () => {
@@ -167,21 +196,49 @@ const Site = (() => {
       btn.classList.remove("is-open");
       btn.setAttribute("aria-expanded", "false");
       document.body.classList.remove("fy-menu-open");
+      const delay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 420;
+      setTimeout(() => {
+        if (!nav.classList.contains("is-open")) backdrop.hidden = true;
+      }, delay);
+    };
+
+    const placeNav = () => {
+      if (mobileMq.matches) {
+        if (nav.parentElement !== document.body) document.body.appendChild(nav);
+      } else if (nav.parentElement !== inner) {
+        inner.appendChild(nav);
+      }
+    };
+
+    placeNav();
+    mobileMq.addEventListener("change", () => {
+      closeMenu();
+      placeNav();
+    });
+
+    const openMenu = () => {
+      placeNav();
+      backdrop.hidden = false;
+      requestAnimationFrame(() => {
+        nav.classList.add("is-open");
+        btn.classList.add("is-open");
+        btn.setAttribute("aria-expanded", "true");
+        document.body.classList.add("fy-menu-open");
+      });
     };
 
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
-      const open = !nav.classList.contains("is-open");
-      nav.classList.toggle("is-open", open);
-      btn.classList.toggle("is-open", open);
-      btn.setAttribute("aria-expanded", String(open));
-      document.body.classList.toggle("fy-menu-open", open);
+      if (nav.classList.contains("is-open")) closeMenu();
+      else openMenu();
     });
 
-    nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
-    document.addEventListener("click", (e) => {
-      if (!inner.contains(e.target)) closeMenu();
+    backdrop.addEventListener("click", closeMenu);
+    drawerHead.querySelector(".fy-drawer-close")?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeMenu();
     });
+    nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeMenu();
     });
@@ -206,10 +263,10 @@ const Site = (() => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "km-gallery-item km-gallery-item--video";
-    const src = thumb(v, index);
+    const src = videoThumb(v);
     const meta = [v.date, v.length].filter(Boolean).join(" · ");
     btn.innerHTML = `
-      <img src="${esc(src)}" alt="${esc(v.title)}" decoding="async" onerror="this.src='assets/images/avatar.jpg'" />
+      <img src="${esc(src)}" alt="${esc(v.title)}" decoding="async" ${videoThumbOnError(v)} />
       <span class="km-gallery-item-cap">
         <span class="km-gallery-item-title">${esc(v.title)}</span>
         ${meta ? `<span class="km-gallery-item-meta">${esc(meta)}</span>` : ""}
@@ -235,7 +292,7 @@ const Site = (() => {
     const thumb = galleryThumbSrc(src);
     btn.setAttribute("aria-label", "查看大图");
     btn.innerHTML = `
-      <img src="${esc(thumb)}" alt="" loading="lazy" decoding="async"
+      <img src="${esc(thumb)}" alt="${esc(galleryAlt(src))}" loading="lazy" decoding="async"
            data-full="${esc(src)}"
            onerror="this.onerror=null;this.src='${esc(src)}'" />
     `;
@@ -248,9 +305,9 @@ const Site = (() => {
     btn.type = "button";
     btn.className = "fuyulev-portfolio-thumb";
     const thumb = galleryThumbSrc(src);
-    btn.setAttribute("aria-label", "查看大图");
+    btn.setAttribute("aria-label", `查看 ${galleryAlt(src)}`);
     btn.innerHTML = `
-      <img src="${esc(thumb)}" alt="" loading="lazy" decoding="async"
+      <img src="${esc(thumb)}" alt="${esc(galleryAlt(src))}" loading="lazy" decoding="async"
            data-full="${esc(src)}"
            onerror="this.onerror=null;this.src='${esc(src)}'" />
     `;
@@ -377,13 +434,12 @@ const Site = (() => {
   function initCommon(options = {}) {
     if (typeof CollageGallery !== "undefined") CollageGallery.init();
     initFyTopbar();
-    initNav();
     initFooter();
     initLightbox();
   }
 
   return {
-    data, esc, thumb, bili, biliSpace, initCommon, fillUserHero,
+    data, esc, thumb, videoThumb, videoThumbOnError, bili, biliSpace, initCommon, fillUserHero,
     createWorkItem, createVideoItem, createMasonryItem, createGalleryItem,
     createPortfolioItem, createSdMasonryItem, openLightbox, renderLinkBand,
     renderProfileBanners, galleryThumbSrc, isGalleryImage, galleryAlt,

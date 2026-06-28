@@ -24,7 +24,7 @@
     ul.innerHTML = videos
       .slice(0, 30)
       .map((v, i) => {
-        const thumb = v.thumb || `assets/images/video_${i}.jpg`;
+        const thumb = v.thumb ? v.thumb : (v.bvid ? `assets/images/covers/${v.bvid}.jpg` : `assets/images/avatar.jpg`);
         const meta = [v.date, v.length].filter(Boolean).join(" · ");
         return `<li class="fuyulev-work-item"><a href="https://www.bilibili.com/video/${esc(v.bvid)}" target="_blank" rel="noopener">`
           + `<img src="${esc(thumb)}" alt="" loading="lazy" decoding="async" />`
