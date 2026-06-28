@@ -2,15 +2,7 @@
   "name": "shigure-web",
   "private": true,
   "scripts": {
-    "thumbs": "node scripts/generate-gallery-thumbs.mjs",
-    "scrape:kaya": "cd scrapers && uv run python scrape.py kaya",
-    "scrape:fuyulev": "cd scrapers && uv run python scrape.py fuyulev",
-    "scrape:fuyulev:force": "cd scrapers && uv run python scrape.py fuyulev --force",
-    "scrape:koharu": "cd scrapers && uv run python scrape.py koharu",
-    "scrape:shiotsuki": "cd scrapers && uv run python scrape.py shiotsuki",
-    "scrape:all": "cd scrapers && uv run python scrape.py all",
-    "scrape:regenerate": "cd scrapers && uv run python scrape.py regenerate",
-    "scrape:refresh-covers": "cd scrapers && uv run python scrape.py refresh-covers"
+    "thumbs": "node scripts/generate-gallery-thumbs.mjs"
   },
   "devDependencies": {
     "sharp": "^0.34.2"

@@ -4,5 +4,4 @@ __pycache__/
 Thumbs.db
 *.log
 node_modules/
-scrapers/data/cookies.json
-scrapers/.venv/
+scrapers/
