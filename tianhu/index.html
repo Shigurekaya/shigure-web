@@ -12,45 +12,53 @@
 </head>
 <body class="th-site">
 
+  <div class="th-ambient" aria-hidden="true">
+    <span class="th-spark th-spark--1">🔔</span>
+    <span class="th-spark th-spark--2">✦</span>
+    <span class="th-spark th-spark--3">🔔</span>
+    <span class="th-spark th-spark--4">✦</span>
+  </div>
+
+  <div class="wiki-progress" id="wiki-progress" aria-hidden="true"></div>
+
   <div class="th-frame">
-    <div class="wiki-progress" id="wiki-progress" aria-hidden="true"></div>
-
     <div class="th-paper">
-      <p class="th-disclaimer" role="note">
-        <strong>非官方声明：</strong>本页为粉丝个人制作的资料展示站点，仅供排版与内容测试之用；未经蓬莱天狐或局长きょくちょ 授权，不代表官方立场。
-      </p>
+      <div class="th-chrome" id="th-chrome">
+        <p class="th-disclaimer" role="note">
+          <strong>非官方声明：</strong>本页为粉丝个人制作的资料展示站点，仅供排版与内容测试之用；未经蓬莱天狐或局长きょくちょ 授权，不代表官方立场。
+        </p>
 
-      <header class="wiki-header" id="wiki-header">
-      <div class="wiki-header-inner">
-        <div class="wiki-brand" aria-label="蓬莱天狐">
-          <span class="wiki-brand-mark" aria-hidden="true">狐</span>
-          <span class="wiki-brand-text">蓬莱天狐</span>
-        </div>
-        <nav class="wiki-nav" aria-label="外部链接">
-          <a href="https://space.bilibili.com/3546880644483627" target="_blank" rel="noopener">B 站空间</a>
-          <a href="https://live.bilibili.com/1871970996" target="_blank" rel="noopener">直播间</a>
-          <a href="https://space.bilibili.com/1517060220" target="_blank" rel="noopener">局长きょくちょ</a>
-        </nav>
+        <header class="wiki-header" id="wiki-header">
+          <div class="wiki-header-inner">
+            <div class="wiki-brand" aria-label="蓬莱天狐">
+              <span class="wiki-brand-mark" aria-hidden="true">狐</span>
+              <span class="wiki-brand-text">蓬莱天狐</span>
+            </div>
+            <nav class="wiki-nav" aria-label="外部链接">
+              <a href="https://space.bilibili.com/3546880644483627" target="_blank" rel="noopener">B 站空间</a>
+              <a href="https://live.bilibili.com/1871970996" target="_blank" rel="noopener">直播间</a>
+              <a href="https://space.bilibili.com/1517060220" target="_blank" rel="noopener">局长きょくちょ</a>
+            </nav>
+          </div>
+        </header>
       </div>
-      </header>
 
       <div class="wiki-layout">
-
         <article class="wiki-main">
 
           <header class="wiki-title-block">
             <p class="wiki-eyebrow">Hourai Tenko · 虚拟 UP 主</p>
             <h1 class="wiki-h1">蓬莱天狐</h1>
             <blockquote class="wiki-quote">
-              努力还债的宅女天狐大人——<strong>不是橘猫！</strong>
+              努力还债的宅女天狐大人——<strong>不是橘猫，是狐娘！</strong>
             </blockquote>
           </header>
 
           <p class="wiki-lead">
             <strong>蓬莱天狐</strong>（<ruby>蓬莱<rt>ほうらい</rt></ruby> <ruby>天狐<rt>てんこ</rt></ruby> / Hourai Tenko）是 B 站账号
             <strong>蓬莱天狐_official</strong> 使用的虚拟形象，主要在 bilibili 直播。
-            形象由漫画家 <a href="https://space.bilibili.com/1517060220" target="_blank" rel="noopener">局长きょくちょ</a> 设计，设定上是「局长的女儿」。
-            2025 年 8 月起开始固定开播。
+            形象由漫画家 <a href="https://space.bilibili.com/1517060220" target="_blank" rel="noopener">局长きょくちょ</a> 设计，设定为「局长的女儿」。
+            自 2025 年 8 月起在 B 站固定开播。
           </p>
 
           <nav class="wiki-toc" aria-label="目录">
@@ -97,7 +105,7 @@
 
             <p>
               狐娘女仆，局长きょくちょ 的原创角色。
-              2024 年 11 月局长发过招募视频；现在这位中之人从 2025 年 8 月起用这个号直播。
+              2024 年 11 月局长发布过招募视频；现任主播自 2025 年 8 月起用这个账号直播。
             </p>
 
             <ul class="wiki-list">
@@ -106,7 +114,7 @@
               <li><strong>女仆、被教育</strong> — 常穿女仆装；「被局长教育」是固定节目名。</li>
               <li><strong>不是橘猫</strong> — 签名和直播里反复提，已成梗。</li>
               <li><strong>ご主人</strong> — 对观众的称呼。</li>
-              <li><strong>要钱</strong> — 设定稿里有「お金くれんのじゃ？」之类台词，和爱买周边的人设对得上。</li>
+              <li><strong>お金くれんのじゃ？</strong> — 设定稿里的口头禅，和爱买周边、总喊「还债」的人设一致。</li>
             </ul>
           </section>
 
@@ -338,7 +346,7 @@
 
         </article>
 
-        <aside class="wiki-infobox" aria-label="基本资料">
+        <aside class="wiki-infobox" id="wiki-infobox" aria-label="基本资料">
           <div class="wiki-infobox-head">
             <span class="wiki-infobox-bell" aria-hidden="true">🔔</span>
             蓬莱天狐
@@ -347,6 +355,7 @@
             <img src="images/蓬莱天狐.jpeg" alt="蓬莱天狐" width="260" fetchpriority="high" decoding="async" />
           </div>
           <table>
+            <tbody>
             <tr class="section-head"><th colspan="2">基本资料</th></tr>
             <tr><th>本名</th><td>蓬莱天狐<br><small>ほうらい てんこ</small></td></tr>
             <tr><th>别名</th><td>天狐、天狐大人</td></tr>
@@ -367,15 +376,15 @@
             <tr class="section-head"><th colspan="2">人际关系</th></tr>
             <tr><th>设计者</th><td><a href="https://space.bilibili.com/1517060220" target="_blank" rel="noopener">局长きょくちょ</a></td></tr>
             <tr><th>妈咪</th><td>局长<small>（签名自称）</small></td></tr>
+            </tbody>
           </table>
         </aside>
-
       </div>
 
       <footer class="wiki-footer">
-        <p>非官方资料 · 形象版权归局长きょくちょ 及相关权利人所有</p>
-        <p>更新 <time datetime="2026-06-28">2026.06.28</time></p>
-      </footer>
+          <p>非官方资料 · 形象版权归局长きょくちょ 及相关权利人所有</p>
+          <p>更新 <time datetime="2026-06-29">2026.06.29</time></p>
+        </footer>
     </div>
   </div>
 

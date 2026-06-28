@@ -16,8 +16,11 @@
   --th-link-hover: #2a4d68;
   --th-max: 1060px;
   --th-infobox: 280px;
+  --th-paper-max: calc(var(--th-max) + var(--th-infobox) + 60px);
   --th-header-h: 56px;
   --th-disclaimer-h: 44px;
+  --th-glass: rgba(255, 249, 251, 0.72);
+  --th-glass-panel: rgba(255, 255, 255, 0.68);
   --th-serif: "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", serif;
   --th-sans: "PingFang SC", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", sans-serif;
 }
@@ -26,7 +29,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--th-frame) + var(--th-disclaimer-h) + var(--th-header-h) + 16px);
+  scroll-padding-top: calc(var(--th-frame) + 16px);
   background: var(--th-frame-bg);
 }
 
@@ -53,6 +56,8 @@ a:hover { color: var(--th-link-hover); text-decoration: underline; }
 
 /* ── 项目框线 ── */
 .th-frame {
+  position: relative;
+  z-index: 1;
   min-height: 100dvh;
   padding: var(--th-frame);
   background:
@@ -61,7 +66,7 @@ a:hover { color: var(--th-link-hover); text-decoration: underline; }
 }
 
 .th-paper {
-  max-width: calc(var(--th-max) + var(--th-infobox) + 60px);
+  max-width: var(--th-paper-max);
   margin: 0 auto;
   background: var(--th-paper);
   border-radius: 6px;
@@ -71,7 +76,12 @@ a:hover { color: var(--th-link-hover); text-decoration: underline; }
   overflow: visible;
 }
 
-/* ── 非官方声明（置顶，与导航分栏不重叠） ── */
+/* ── 顶栏区（声明 + 导航，随页面一起滚动） ── */
+.th-chrome {
+  border-radius: 6px 6px 0 0;
+}
+
+/* ── 非官方声明 ── */
 .th-disclaimer {
   margin: 0;
   padding: 11px 20px;
@@ -86,9 +96,7 @@ a:hover { color: var(--th-link-hover); text-decoration: underline; }
   color: #f0e4ea;
   background: linear-gradient(90deg, #2a1f28 0%, #3d2834 50%, #2a1f28 100%);
   border-bottom: 1px solid rgba(232, 83, 122, 0.35);
-  position: sticky;
-  top: var(--th-frame);
-  z-index: 60;
+  border-radius: 6px 6px 0 0;
 }
 
 .th-disclaimer strong {
@@ -111,13 +119,8 @@ a:hover { color: var(--th-link-hover); text-decoration: underline; }
 
 /* ── 顶栏 ── */
 .wiki-header {
-  background: rgba(255, 249, 251, 0.94);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: var(--th-paper);
   border-bottom: 1px solid var(--th-line);
-  position: sticky;
-  top: calc(var(--th-frame) + var(--th-disclaimer-h));
-  z-index: 50;
   transition: box-shadow 0.2s ease;
 }
 
@@ -156,6 +159,12 @@ a:hover { color: var(--th-link-hover); text-decoration: underline; }
   color: #fff;
   font-size: 0.85rem;
   box-shadow: 0 2px 8px rgba(232, 83, 122, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.wiki-brand:hover .wiki-brand-mark {
+  transform: rotate(-8deg) scale(1.06);
+  box-shadow: 0 4px 16px rgba(232, 83, 122, 0.45);
 }
 
 .wiki-brand-text {
@@ -186,7 +195,7 @@ a:hover { color: var(--th-link-hover); text-decoration: underline; }
   text-decoration: none;
 }
 
-/* ── 主布局 ── */
+/* ── 主布局（萌百式：正文 + 侧栏同页滚动） ── */
 .wiki-layout {
   max-width: calc(var(--th-max) + var(--th-infobox) + 28px);
   margin: 0 auto;
@@ -235,6 +244,20 @@ body.wiki-animate .wiki-section.is-visible {
   margin: 0 0 14px;
   letter-spacing: 0.06em;
   color: var(--th-ink);
+  position: relative;
+  display: inline-block;
+}
+
+.wiki-h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--th-gold), var(--th-accent), transparent);
+  opacity: 0.75;
 }
 
 .wiki-ruby rt {
@@ -251,6 +274,12 @@ body.wiki-animate .wiki-section.is-visible {
   font-size: 0.94rem;
   color: var(--th-muted);
   border-radius: 0 6px 6px 0;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.wiki-quote:hover {
+  border-left-color: var(--th-accent);
+  box-shadow: 0 4px 20px rgba(232, 83, 122, 0.12);
 }
 
 .wiki-lead {
@@ -318,7 +347,7 @@ body.wiki-animate .wiki-section.is-visible {
   margin: 0 0 14px;
   padding: 0 0 8px;
   border-bottom: 2px solid var(--th-accent-soft);
-  scroll-margin-top: calc(var(--th-frame) + var(--th-disclaimer-h) + var(--th-header-h) + 20px);
+  scroll-margin-top: calc(var(--th-frame) + 16px);
 }
 
 .wiki-h2-no {
@@ -499,6 +528,13 @@ body.wiki-animate .wiki-section.is-visible {
   font-size: 0.76rem;
   margin: 3px 6px 3px 0;
   border: 1px solid var(--th-line);
+  transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.wiki-tag:hover {
+  transform: translateY(-1px);
+  border-color: var(--th-accent);
+  color: var(--th-accent-dark);
 }
 
 .wiki-footnote {
@@ -509,14 +545,13 @@ body.wiki-animate .wiki-section.is-visible {
   border-top: 1px dashed var(--th-line);
 }
 
-/* 信息框 */
+/* 信息框（侧栏，随页面一起滚动） */
 .wiki-infobox {
+  align-self: start;
   border: 1px solid var(--th-line);
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
-  position: sticky;
-  top: calc(var(--th-frame) + var(--th-disclaimer-h) + var(--th-header-h) + 16px);
   font-size: 0.84rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
@@ -535,6 +570,46 @@ body.wiki-animate .wiki-section.is-visible {
 .wiki-infobox-bell {
   margin-right: 4px;
   filter: grayscale(0.2);
+  display: inline-block;
+  animation: th-bell-swing 3s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes th-bell-swing {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(12deg); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: rotate(6deg); }
+  80% { transform: rotate(-4deg); }
+}
+
+/* 浮动装饰（仅桌面端背景氛围） */
+.th-ambient {
+  display: none;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.th-spark {
+  position: absolute;
+  font-size: 0.85rem;
+  opacity: 0;
+  animation: th-float 14s ease-in-out infinite;
+}
+
+.th-spark--1 { left: 8%; top: 18%; animation-delay: 0s; }
+.th-spark--2 { left: 88%; top: 28%; animation-delay: 3s; font-size: 0.65rem; }
+.th-spark--3 { left: 14%; top: 62%; animation-delay: 6s; font-size: 0.7rem; }
+.th-spark--4 { left: 82%; top: 72%; animation-delay: 9s; font-size: 0.6rem; }
+
+@keyframes th-float {
+  0%, 100% { opacity: 0; transform: translateY(0) scale(0.8); }
+  15% { opacity: 0.35; }
+  50% { opacity: 0.2; transform: translateY(-24px) scale(1); }
+  85% { opacity: 0; }
 }
 
 .wiki-infobox-img {
@@ -668,6 +743,65 @@ body.wiki-animate .wiki-section.is-visible {
 
 .wiki-footer p { margin: 4px 0; }
 
+/* ── 桌面端：半身背景 + 半透明毛玻璃 ── */
+@media (min-width: 861px) {
+  body.th-site {
+    background:
+      linear-gradient(180deg, rgba(26, 21, 32, 0.25) 0%, rgba(26, 21, 32, 0.5) 100%),
+      url("../images/半身.jpg") center 12% / cover no-repeat fixed;
+    background-color: var(--th-frame-bg);
+  }
+
+  .th-ambient {
+    display: block;
+  }
+
+  .th-frame {
+    background: transparent;
+  }
+
+  .th-paper {
+    background: var(--th-glass);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .wiki-header {
+    background: rgba(255, 249, 251, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .wiki-infobox {
+    background: rgba(255, 255, 255, 0.84);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .wiki-toc,
+  .wiki-table,
+  .wiki-details,
+  .wiki-gallery--design figure {
+    background: var(--th-glass-panel);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .wiki-table tbody tr:nth-child(even) td {
+    background: rgba(255, 240, 244, 0.45);
+  }
+
+  .wiki-footer {
+    background: rgba(255, 240, 244, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .wiki-quote {
+    background: rgba(255, 240, 244, 0.65);
+  }
+}
+
 @media (max-width: 860px) {
   :root { --th-frame: 6px; }
 
@@ -677,7 +811,6 @@ body.wiki-animate .wiki-section.is-visible {
   }
 
   .wiki-infobox {
-    position: static;
     order: -1;
   }
 
@@ -697,7 +830,11 @@ body.wiki-animate .wiki-section.is-visible {
   }
   .wiki-progress,
   .wiki-gallery--design figure,
-  .wiki-gallery--design img {
+  .wiki-gallery--design img,
+  .wiki-brand-mark,
+  .wiki-infobox-bell,
+  .th-spark {
     transition: none;
+    animation: none;
   }
 }

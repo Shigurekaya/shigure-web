@@ -19,6 +19,7 @@
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+    if (closeBtn) closeBtn.focus();
   }
 
   function closeLightbox() {
@@ -45,7 +46,7 @@
     if (e.key === "Escape") closeLightbox();
   });
 
-  /* ── 阅读进度 & 顶栏阴影 & 回到顶部 ── */
+  /* ── 阅读进度 & 回到顶部 ── */
   function onScroll() {
     var scrollY = window.scrollY || document.documentElement.scrollTop;
     var docH = document.documentElement.scrollHeight - window.innerHeight;
@@ -54,6 +55,7 @@
     if (progress) progress.style.width = pct + "%";
     if (header) header.classList.toggle("is-scrolled", scrollY > 8);
     if (topBtn) topBtn.classList.toggle("is-visible", scrollY > 400);
+    updateTocActive();
   }
 
   function revealSectionsInView() {
@@ -72,7 +74,7 @@
     });
   }
 
-  /* ── 章节淡入（JS 失败时 CSS 仍保证可见） ── */
+  /* ── 章节淡入 ── */
   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     document.body.classList.add("wiki-animate");
     var fadeObs = new IntersectionObserver(
@@ -98,31 +100,33 @@
 
   revealSectionsInView();
 
-  /* ── 目录高亮当前章节 ── */
+  /* ── 目录高亮（按滚动位置取最近章节） ── */
   var tocLinks = document.querySelectorAll(".wiki-toc a[href^='#']");
-  var headings = [];
+  var tocSections = [];
+
   tocLinks.forEach(function (link) {
     var id = link.getAttribute("href").slice(1);
     var el = document.getElementById(id);
-    if (el) headings.push({ link: link, el: el });
+    if (el) tocSections.push({ link: link, el: el });
   });
 
-  if ("IntersectionObserver" in window && headings.length) {
-    var tocObs = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            var activeId = entry.target.id;
-            tocLinks.forEach(function (l) {
-              l.classList.toggle("is-active", l.getAttribute("href") === "#" + activeId);
-            });
-          }
-        });
-      },
-      { rootMargin: "-20% 0px -60% 0px", threshold: 0 }
-    );
-    headings.forEach(function (h) {
-      tocObs.observe(h.el);
+  function updateTocActive() {
+    if (!tocSections.length) return;
+    var marker = window.innerHeight * 0.32;
+    var current = tocSections[0];
+
+    tocSections.forEach(function (item) {
+      var top = item.el.getBoundingClientRect().top;
+      if (top <= marker) current = item;
+    });
+
+    tocLinks.forEach(function (l) {
+      l.classList.toggle("is-active", l === current.link);
     });
   }
+
+  /* ── 外链标记 ── */
+  document.querySelectorAll('.wiki-nav a[target="_blank"], .wiki-links a[target="_blank"]').forEach(function (a) {
+    a.setAttribute("rel", "noopener noreferrer");
+  });
 })();
