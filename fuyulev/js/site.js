@@ -423,6 +423,9 @@ const Site = (() => {
       nameEl.innerHTML = `<a href="about.html">${esc(user.name)} / FuYu Lev</a>`;
     }
 
+    const avatarLink = document.getElementById("profile-avatar-link");
+    if (avatarLink) avatarLink.href = biliSpace();
+
     const avatar = document.getElementById("profile-avatar");
     if (avatar && user.avatar) {
       avatar.src = user.avatar.includes("..") ? "assets/images/avatar.jpg" : user.avatar;

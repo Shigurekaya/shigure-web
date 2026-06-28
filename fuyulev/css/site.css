@@ -171,7 +171,7 @@ a {
   padding: 40px 24px 8px;
 }
 
-.fy-home .fy-avatar {
+.fy-home .fy-avatar-link {
   animation: fy-rise 0.55s var(--fy-ease) 0.06s both;
 }
 
@@ -204,13 +204,25 @@ a {
   animation: fy-rise 0.48s var(--fy-ease) 0.24s both;
 }
 
+.fy-avatar-link {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 12px;
+  border-radius: 4px;
+  transition: opacity 0.2s var(--fy-ease), transform 0.2s var(--fy-ease);
+}
+
+.fy-avatar-link:hover {
+  opacity: 0.88;
+  transform: scale(1.02);
+}
+
 .fy-avatar {
   width: 120px;
   height: 120px;
   object-fit: cover;
   border-radius: 4px;
   display: block;
-  margin: 0 auto 12px;
 }
 
 .fy-hero-name {
