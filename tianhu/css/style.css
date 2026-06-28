@@ -770,7 +770,7 @@ body.wiki-animate .wiki-section.is-visible {
   body.th-site {
     background:
       linear-gradient(180deg, rgba(26, 21, 32, 0.25) 0%, rgba(26, 21, 32, 0.5) 100%),
-      url("../images/半身.jpg") center 12% / cover no-repeat fixed;
+      url("/tianhu/images/半身.jpg") center 12% / cover no-repeat fixed;
     background-color: var(--th-frame-bg);
   }
 
