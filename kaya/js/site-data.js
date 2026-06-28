@@ -1,4 +1,4 @@
-// 由 scrapers/scrape.py 自动生成 · 时雨榧
+// 站点数据（本地同步生成）· 时雨榧
 window.SITE_DATA = {
   "mid": 109084234,
   "bilibili_url": "https://space.bilibili.com/109084234",

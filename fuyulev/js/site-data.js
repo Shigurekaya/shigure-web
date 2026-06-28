@@ -1,4 +1,4 @@
-// 由 scrapers/scrape.py 自动生成 · 浮游Lev
+// 站点数据（本地同步生成）· 浮游Lev
 window.SITE_DATA = {
   "mid": 353604313,
   "bilibili_url": "https://space.bilibili.com/353604313",

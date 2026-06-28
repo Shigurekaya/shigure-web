@@ -1,4 +1,4 @@
-// 由 scrapers/scrape.py 自动生成 · 小春日向
+// 站点数据（本地同步生成）· 小春日向
 window.SITE_DATA = {
   "mid": 228092838,
   "bilibili_url": "https://space.bilibili.com/228092838",

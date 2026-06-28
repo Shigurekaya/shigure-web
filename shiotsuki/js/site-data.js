@@ -1,4 +1,4 @@
-// 由 scrapers/scrape.py 自动生成 · 汐月空_poi
+// 站点数据（本地同步生成）· 汐月空_poi
 window.SITE_DATA = {
   "mid": 354947753,
   "bilibili_url": "https://space.bilibili.com/354947753",
