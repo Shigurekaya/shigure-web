@@ -6,6 +6,10 @@ Thumbs.db
 node_modules/
 scrapers/
 
+# 天狐本地研究与抓取（勿上传）
+tianhu/data/
+tianhu/scripts/
+
 # 本地归档与原始高清图（勿上传）
 fuyulev/image.rar
 fuyulev/image/*.png
