@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Convert all PNG images under fuyulev/ to half-size JPG with white background."""
+"""Convert all PNG images under fuyuu/ to half-size JPG with white background."""
 
 from pathlib import Path
 
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent.parent / "fuyulev"
+ROOT = Path(__file__).resolve().parent.parent / "fuyuu"
 
 
 def convert_png(png_path: Path) -> tuple[str, str, int]:

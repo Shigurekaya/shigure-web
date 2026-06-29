@@ -5,7 +5,7 @@ Allow: /tianhu/images/
 Allow: /sitemap.xml
 
 # 其余子站允许抓取首页，便于搜索引擎发现站点结构
-Allow: /fuyulev/
+Allow: /fuyuu/
 Allow: /kaya/
 Allow: /koharu/
 Allow: /shiotsuki/

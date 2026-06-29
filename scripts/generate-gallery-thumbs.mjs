@@ -1,5 +1,5 @@
 /**
- * 从 fuyulev/image 原图生成 WebP 缩略图 → fuyulev/image/thumbs/
+ * 从 fuyuu/image 原图生成 WebP 缩略图 → fuyuu/image/thumbs/
  * 用法: npm run thumbs
  */
 import fs from "fs/promises";
@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 import sharp from "sharp";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const IMAGE_DIR = path.join(__dirname, "../fuyulev/image");
+const IMAGE_DIR = path.join(__dirname, "../fuyuu/image");
 const THUMB_DIR = path.join(IMAGE_DIR, "thumbs");
 const MAX_WIDTH = 640;
 const QUALITY = 82;
@@ -19,7 +19,7 @@ async function main() {
   const images = files.filter((f) => /\.(png|jpe?g)$/i.test(f));
 
   if (!images.length) {
-    console.log("No images found in fuyulev/image/");
+    console.log("No images found in fuyuu/image/");
     return;
   }
 

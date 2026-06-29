@@ -3,10 +3,10 @@ from pathlib import Path
 import re
 
 files = [
-    Path(__file__).resolve().parent.parent / "fuyulev/js/fuyulev-image-fix.js",
-    Path(__file__).resolve().parent.parent / "fuyulev/js/site.js",
-    Path(__file__).resolve().parent.parent / "fuyulev/js/site-data.js",
-    Path(__file__).resolve().parent.parent / "fuyulev/data/profile.json",
+    Path(__file__).resolve().parent.parent / "fuyuu/js/fuyulev-image-fix.js",
+    Path(__file__).resolve().parent.parent / "fuyuu/js/site.js",
+    Path(__file__).resolve().parent.parent / "fuyuu/js/site-data.js",
+    Path(__file__).resolve().parent.parent / "fuyuu/data/profile.json",
 ]
 
 for f in files:

@@ -1,4 +1,4 @@
-/** 首页插画 · fuyulev/image */
+/** 首页插画 · fuyuu/image */
 window.HOME_GALLERY = [
   "image/alice.jpg",
   "image/key.jpg",

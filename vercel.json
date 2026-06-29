@@ -5,13 +5,28 @@
   "redirects": [
     {
       "source": "/",
-      "destination": "/fuyulev/",
+      "destination": "/fuyuu/",
       "permanent": false
+    },
+    {
+      "source": "/fuyulev",
+      "destination": "/fuyuu/",
+      "permanent": true
+    },
+    {
+      "source": "/fuyulev/",
+      "destination": "/fuyuu/",
+      "permanent": true
+    },
+    {
+      "source": "/fuyulev/:path*",
+      "destination": "/fuyuu/:path*",
+      "permanent": true
     }
   ],
   "headers": [
     {
-      "source": "/fuyulev/assets/images/covers/:path*",
+      "source": "/fuyuu/assets/images/covers/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
@@ -35,7 +50,7 @@
       ]
     },
     {
-      "source": "/fuyulev/js/site-data.js",
+      "source": "/fuyuu/js/site-data.js",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
       ]
@@ -59,13 +74,13 @@
       ]
     },
     {
-      "source": "/fuyulev/js/:path*",
+      "source": "/fuyuu/js/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
       ]
     },
     {
-      "source": "/fuyulev/css/:path*",
+      "source": "/fuyuu/css/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
       ]
@@ -83,7 +98,7 @@
       ]
     },
     {
-      "source": "/fuyulev/assets/:path*",
+      "source": "/fuyuu/assets/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
@@ -95,19 +110,19 @@
       ]
     },
     {
-      "source": "/fuyulev/data/images/:path*",
+      "source": "/fuyuu/data/images/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
       ]
     },
     {
-      "source": "/fuyulev/image/thumbs/:path*",
+      "source": "/fuyuu/image/thumbs/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
     {
-      "source": "/fuyulev/image/:path*",
+      "source": "/fuyuu/image/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
       ]

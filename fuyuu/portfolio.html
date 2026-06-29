@@ -3,34 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <base href="/fuyulev/" />
-  <title>WORK · 浮游Lev</title>
-  <meta name="description" content="浮游Lev 绘画过程与投稿视频" />
+  <base href="/fuyuu/" />
+  <title>PORTFOLIO · 浮游Lev</title>
+  <meta name="description" content="浮游Lev Q 版插画作品集" />
   <link rel="icon" href="assets/images/avatar.jpg" />
   <link rel="stylesheet" href="css/fonts-local.css" />
   <link rel="stylesheet" href="css/site.css" />
 </head>
-<body class="fy-site fy-work" data-page="work">
+<body class="fy-site fy-portfolio" data-page="portfolio">
   <header class="fy-topbar">
     <div class="fy-topbar-inner">
       <a href="index.html" class="fy-topbar-logo" aria-label="浮游Lev Home">F</a>
       <nav class="fy-topbar-nav" aria-label="Site">
         <a href="index.html" class="fy-topbar-link">HOME</a>
-        <a href="work.html" class="fy-topbar-link is-active">WORK</a>
+        <a href="work.html" class="fy-topbar-link">WORK</a>
         <a href="about.html" class="fy-topbar-link">ABOUT</a>
-        <a href="portfolio.html" class="fy-topbar-link">PORTFOLIO</a>
+        <a href="portfolio.html" class="fy-topbar-link is-active">PORTFOLIO</a>
       </nav>
     </div>
   </header>
 
   <div class="fy-shell">
     <main class="fy-main fy-page-content">
-      <h1 class="fuyulev-page-title">WORK · 绘画过程</h1>
+      <h1 class="fuyulev-page-title">插画精选</h1>
       <p class="fuyulev-page-lead">
-        哔哩哔哩投稿的绘画过程与 Q 版插画视频。完整列表同步自
-        <a href="https://space.bilibili.com/353604313" target="_blank" rel="noopener">哔哩哔哩空间</a>。
+        全部 Q 版插画作品一览。绘画过程见
+        <a href="work.html">WORK</a> 或
+        <a href="https://space.bilibili.com/353604313" target="_blank" rel="noopener">哔哩哔哩</a>。
       </p>
-      <ul id="work-list" class="fuyulev-work-list"></ul>
+      <div id="portfolio-grid" class="fuyulev-portfolio-grid"></div>
     </main>
 
     <footer class="fy-footer">
@@ -41,9 +42,17 @@
     </footer>
   </div>
 
+  <div id="lightbox" class="lightbox" hidden>
+    <button type="button" id="lightbox-close" class="lightbox-close" aria-label="关闭">×</button>
+    <img id="lightbox-img" src="" alt="" />
+    <p id="lightbox-title" class="lightbox-title" hidden></p>
+    <a id="lightbox-link" class="lightbox-link" hidden target="_blank" rel="noopener">在哔哩哔哩打开</a>
+  </div>
+
+  <script src="js/gallery-images.js" defer></script>
   <script src="js/site-data.js?v=202606281554" defer></script>
   <script src="js/site.js" defer></script>
   <script src="js/fuyulev-app.js" defer></script>
-  <script defer>document.addEventListener("DOMContentLoaded", () => FuyulevApp.initWork());</script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => FuyulevApp.initPortfolio());</script>
 </body>
 </html>

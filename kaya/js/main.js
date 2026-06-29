@@ -191,8 +191,8 @@ const Kaya = (() => {
   const PERSONAL_SITES = [
     {
       name: "浮游Lev",
-      url: "/fuyulev/",
-      avatar: "/fuyulev/assets/images/avatar.jpg",
+      url: "/fuyuu/",
+      avatar: "/fuyuu/assets/images/avatar.jpg",
       note: "Galgame 同人插画",
       status: "online",
     },
