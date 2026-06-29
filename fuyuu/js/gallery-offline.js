@@ -1,6 +1,6 @@
 /** 离线 Pro Gallery：保留 SSR 拼贴布局，阻止 layout-fixer 与 hydration 隐藏图片 */
 (() => {
-  if (document.body.classList.contains("fuyulev-page-index")) return;
+  if (document.body.classList.contains("fy-page-index")) return;
 
   let patchTimer;
   let stableTimer;

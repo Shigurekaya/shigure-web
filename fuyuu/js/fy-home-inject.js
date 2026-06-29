@@ -9,7 +9,7 @@
   }
 
   function ensureInject() {
-    if (document.getElementById("fuyulev-home-inject")) return;
+    if (document.getElementById("fy-home-inject")) return;
 
     const host = document.getElementById("comp-j3v9refx")
       || document.getElementById("comp-j3v9refi")
@@ -17,8 +17,8 @@
     if (!host) return;
 
     const wrap = document.createElement("div");
-    wrap.id = "fuyulev-home-inject";
-    wrap.className = "fuyulev-home-inject";
+    wrap.id = "fy-home-inject";
+    wrap.className = "fy-home-inject";
     wrap.innerHTML = `
       <div class="km-gallery-wrap">
         <div id="work-grid" class="km-gallery" data-layout="komowata" aria-label="插画画廊"></div>
@@ -32,7 +32,7 @@
 
   function bindLoadMore() {
     if (loadBound) return;
-    const wrap = document.getElementById("fuyulev-home-inject");
+    const wrap = document.getElementById("fy-home-inject");
     if (!wrap) return;
     wrap.addEventListener("click", (e) => {
       const btn = e.target.closest("#load-more");
@@ -74,7 +74,7 @@
   }
 
   function placeKayaInFooter() {
-    const kaya = document.querySelector(".fuyulev-kaya-corner");
+    const kaya = document.querySelector(".fy-kaya-corner");
     const footer = document.getElementById("SITE_FOOTER");
     if (!kaya || !footer || footer.contains(kaya)) return;
     footer.appendChild(kaya);
@@ -115,7 +115,7 @@
   }
 
   function init() {
-    if (!document.body.classList.contains("fuyulev-page-index")) return;
+    if (!document.body.classList.contains("fy-page-index")) return;
     ensureLightbox();
     ensureInject();
     hideWixGallery();

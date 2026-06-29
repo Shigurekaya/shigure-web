@@ -1,5 +1,5 @@
 /** 浮游Lev 轻量静态站 — 页面逻辑 */
-const FuyulevApp = (() => {
+const FyApp = (() => {
   const BILI = "https://space.bilibili.com/353604313";
   const MOBILE_MAX = 768;
   const SCROLL_LOAD_THRESHOLD = 160;
@@ -269,7 +269,7 @@ const FuyulevApp = (() => {
   }
 
   function renderWorkSyncNote() {
-    const lead = document.querySelector(".fuyulev-page-lead");
+    const lead = document.querySelector(".fy-page-lead");
     const updated = window.SITE_DATA?.data_updated;
     if (!lead || !updated) return;
     let note = document.getElementById("work-sync-note");
@@ -291,18 +291,18 @@ const FuyulevApp = (() => {
       .map((v) => {
         const thumb = Site.videoThumb(v);
         const meta = [v.date, v.length].filter(Boolean).join(" · ");
-        return `<li class="fuyulev-work-item"><a href="${Site.bili(v.bvid)}" target="_blank" rel="noopener">`
+        return `<li class="fy-work-item"><a href="${Site.bili(v.bvid)}" target="_blank" rel="noopener">`
           + `<img src="${esc(thumb)}" alt="${esc(v.title)}" loading="lazy" decoding="async" ${Site.videoThumbOnError(v)} />`
-          + `<span class="fuyulev-work-meta"><strong>${esc(v.title)}</strong>`
+          + `<span class="fy-work-meta"><strong>${esc(v.title)}</strong>`
           + (meta ? `<small>${esc(meta)}</small>` : "")
           + `</span></a></li>`;
       })
       .join("");
 
-    const existingMore = ul.parentElement?.querySelector(".fuyulev-more-link");
+    const existingMore = ul.parentElement?.querySelector(".fy-more-link");
     if (existingMore) existingMore.remove();
 
-    revealItems(ul.querySelectorAll(".fuyulev-work-item"), { stagger: 35, base: 280 });
+    revealItems(ul.querySelectorAll(".fy-work-item"), { stagger: 35, base: 280 });
     renderWorkSyncNote();
   }
 
@@ -327,7 +327,7 @@ const FuyulevApp = (() => {
     grid.innerHTML = "";
     gallery().forEach((src) => grid.appendChild(Site.createPortfolioItem(src)));
 
-    revealItems(grid.querySelectorAll(".fuyulev-portfolio-thumb"), { stagger: 35, base: 280 });
+    revealItems(grid.querySelectorAll(".fy-portfolio-thumb"), { stagger: 35, base: 280 });
   }
 
   function initPortfolio() {

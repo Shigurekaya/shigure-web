@@ -16,24 +16,24 @@
     return p === h;
   }
 
-  function isFuyulevPage() {
-    return [...document.body.classList].some((c) => c.startsWith("fuyulev-page-"));
+  function isFyPage() {
+    return [...document.body.classList].some((c) => c.startsWith("fy-page-"));
   }
 
   function inject() {
-    if (!isFuyulevPage()) return;
-    if (document.getElementById("fuyulev-topbar")) return;
+    if (!isFyPage()) return;
+    if (document.getElementById("fy-topbar")) return;
 
     const bar = document.createElement("header");
-    bar.id = "fuyulev-topbar";
-    bar.className = "fuyulev-topbar";
+    bar.id = "fy-topbar";
+    bar.className = "fy-topbar";
     bar.innerHTML = `
-      <div class="fuyulev-topbar-inner">
-        <a href="index.html" class="fuyulev-topbar-logo" aria-label="浮游Lev Home">F</a>
-        <nav class="fuyulev-topbar-nav" aria-label="Site">
+      <div class="fy-topbar-inner">
+        <a href="index.html" class="fy-topbar-logo" aria-label="浮游Lev Home">F</a>
+        <nav class="fy-topbar-nav" aria-label="Site">
           ${LINKS.map(
             (l) =>
-              `<a href="${l.href}" class="fuyulev-topbar-link${active(l.href) ? " is-active" : ""}">${l.label}</a>`
+              `<a href="${l.href}" class="fy-topbar-link${active(l.href) ? " is-active" : ""}">${l.label}</a>`
           ).join("")}
         </nav>
       </div>

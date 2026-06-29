@@ -303,7 +303,7 @@ const Site = (() => {
   function createPortfolioItem(src) {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "fuyulev-portfolio-thumb";
+    btn.className = "fy-portfolio-thumb";
     const thumb = galleryThumbSrc(src);
     btn.setAttribute("aria-label", `查看 ${galleryAlt(src)}`);
     btn.innerHTML = `
@@ -410,7 +410,7 @@ const Site = (() => {
         <h5 class="link-heading">链接</h5>
         <hr class="link-band-line" />
         <h6 class="link-desc">${desc}</h6>
-        <p class="site-copyright">&copy;浮游Lev / FUYU LEV</p>
+        <p class="site-copyright">&copy;浮游Lev</p>
       </div>
     `;
     container.querySelector(".link-desc")?.after(bannerRow);
@@ -420,7 +420,7 @@ const Site = (() => {
     const { user } = data();
     const nameEl = document.getElementById("hero-name");
     if (nameEl && user.name) {
-      nameEl.innerHTML = `<a href="about.html">${esc(user.name)} / FuYu Lev</a>`;
+      nameEl.innerHTML = `<a href="about.html">${esc(user.name)}</a>`;
     }
 
     const avatarLink = document.getElementById("profile-avatar-link");

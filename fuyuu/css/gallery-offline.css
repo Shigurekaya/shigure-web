@@ -36,8 +36,8 @@ img.fy-img-loaded,
   transition: opacity 0.28s ease;
 }
 
-.fuyulev-kakuu-thumb img.fy-img-deferred,
-.fuyulev-portfolio-thumb img.fy-img-deferred,
+.fy-kakuu-thumb img.fy-img-deferred,
+.fy-portfolio-thumb img.fy-img-deferred,
 .km-gallery-item img.fy-img-deferred {
   opacity: 0.4;
 }

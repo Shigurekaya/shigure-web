@@ -3,8 +3,8 @@
   const EAGER_GALLERY = 6;
   const ROOT_MARGIN = "320px 0px";
   const SELECTOR =
-    ".pro-gallery img, .fuyulev-kakuu-thumb img, .fuyulev-portfolio-thumb img, " +
-    ".km-gallery-item img, .fuyulev-work-item img, .link-banner img, .profile-banner img";
+    ".pro-gallery img, .fy-kakuu-thumb img, .fy-portfolio-thumb img, " +
+    ".km-gallery-item img, .fy-work-item img, .link-banner img, .profile-banner img";
 
   let observer;
   let parseObserver;
@@ -12,10 +12,10 @@
 
   function resolveSrc(img) {
     const raw = img.getAttribute("src") || img.getAttribute("data-src") || "";
-    if (!raw || !window.FuyulevImageFix) return raw;
+    if (!raw || !window.FyImageFix) return raw;
     const item = img.closest("[data-idx]");
     const idx = item ? parseInt(item.getAttribute("data-idx"), 10) : undefined;
-    return window.FuyulevImageFix.resolveSrc(raw, Number.isNaN(idx) ? undefined : idx);
+    return window.FyImageFix.resolveSrc(raw, Number.isNaN(idx) ? undefined : idx);
   }
 
   function markLoaded(img) {
@@ -47,14 +47,14 @@
   }
 
   function shouldEager(img) {
-    if (img.closest(".km-header, .fuyulev-about-head, .fuyulev-kaya-corner")) return true;
+    if (img.closest(".km-header, .fy-about-head, .fy-kaya-corner")) return true;
     if (img.id && /^img_comp-(imyso5rc|imytorpi|mqk7r3rt|lstqan4)/.test(img.id)) return true;
     const item = img.closest("[data-idx]");
     if (item) {
       const idx = parseInt(item.getAttribute("data-idx"), 10);
       if (!Number.isNaN(idx) && idx < EAGER_GALLERY) return true;
     }
-    const grid = img.closest(".fuyulev-kakuu-grid, .fuyulev-portfolio-grid");
+    const grid = img.closest(".fy-kakuu-grid, .fy-portfolio-grid");
     if (grid) {
       const thumbs = [...grid.querySelectorAll("img")];
       return thumbs.indexOf(img) < 8;
@@ -147,7 +147,7 @@
 
   function init() {
     initObserver();
-    if (window.FuyulevImageFix) window.FuyulevImageFix.run();
+    if (window.FyImageFix) window.FyImageFix.run();
     scan(document);
     document.querySelectorAll("img[data-src]").forEach((img) => {
       if (observer) observer.observe(img);
@@ -173,5 +173,5 @@
   }
 
   window.addEventListener("load", init, { once: true });
-  window.FuyulevImages = { defer, reveal, scan, markLoaded };
+  window.FyImages = { defer, reveal, scan, markLoaded };
 })();

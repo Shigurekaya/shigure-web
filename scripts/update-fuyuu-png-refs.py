@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 
 files = [
-    Path(__file__).resolve().parent.parent / "fuyuu/js/fuyulev-image-fix.js",
+    Path(__file__).resolve().parent.parent / "fuyuu/js/fy-image-fix.js",
     Path(__file__).resolve().parent.parent / "fuyuu/js/site.js",
     Path(__file__).resolve().parent.parent / "fuyuu/js/site-data.js",
     Path(__file__).resolve().parent.parent / "fuyuu/data/profile.json",

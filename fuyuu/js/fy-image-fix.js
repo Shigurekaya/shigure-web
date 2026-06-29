@@ -1,6 +1,6 @@
 /** 首页图片：仅映射 Wix 哈希路径，不做懒加载 defer */
 (() => {
-  window.FUYULEV_IMAGE_MAP = window.FUYULEV_IMAGE_MAP || {
+  window.FY_IMAGE_MAP = window.FY_IMAGE_MAP || {
     "6604cd_634729c4c4d64e6da9921b0b35afd0a2~mv2.jpg": "image/alice.jpg",
     "6604cd_634729c4c4d64e6da9921b0b35afd0a2.jpg": "image/q.jpg",
     "6604cd_618208bc28264ee9b9cd212d492d1df2.jpg": "image/rance.jpg",
@@ -46,7 +46,7 @@
   }
 
   function lookup(key) {
-    const map = window.FUYULEV_IMAGE_MAP || {};
+    const map = window.FY_IMAGE_MAP || {};
     if (!key) return "";
     if (map[key]) return map[key];
     const noExt = key.replace(/\.(jpg|jpeg|png|webp)$/i, "");
@@ -85,7 +85,7 @@
     document.querySelectorAll("[data-hook='gallery-item-image-img']").forEach(fixImg);
   }
 
-  window.FuyulevImageFix = { resolveSrc, run, fixImg, setImg };
+  window.FyImageFix = { resolveSrc, run, fixImg, setImg };
   run();
   document.addEventListener("DOMContentLoaded", run, { once: true });
   window.addEventListener("load", run, { once: true });

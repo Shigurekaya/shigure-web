@@ -1,4 +1,4 @@
-/** 作品履历 WORK（legacy，当前 work 页由 fuyulev-app.js 驱动） */
+/** 作品履历 WORK（legacy，当前 work 页由 fy-app.js 驱动） */
 (() => {
   function renderTimeline() {
     const root = document.getElementById("work-timeline");

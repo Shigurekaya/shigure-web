@@ -1,4 +1,4 @@
-/** fuyulev 运行时补丁 */
+/** fy 运行时补丁 */
 (() => {
   const BAND = [
     ["mqk7r3rt", "image/alice.jpg"],

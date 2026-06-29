@@ -7,25 +7,25 @@
   const TEXT_MAP = [
     [/こもわた遙華/g, "浮游Lev"],
     [/こもわた/g, "浮游Lev"],
-    [/Haruka Komowata/g, "FuYu Lev"],
+    [/Haruka Komowata/g, "浮游Lev"],
     [/Mini characters, illustrations & work/g, "Q版角色、插画与绘画过程"],
     [/Load More/g, "加载更多"],
     [/top of page/g, "回到顶部"],
     [/Use tab to navigate through the menu items\./g, "使用 Tab 键浏览菜单。"],
     [/LINK/g, "链接"],
-    [/©KOMOWA\/Haruka Komowata/g, "©浮游Lev / FUYU LEV"],
-    [/©KOMOWA\/FuYu Lev/g, "©浮游Lev / FUYU LEV"],
+    [/©KOMOWA\/Haruka Komowata/g, "©浮游Lev"],
+    [/©KOMOWA\\/浮游Lev/g, "©浮游Lev"],
     [/©KOMOWA/g, "©浮游Lev"],
     [/Mail/g, "哔哩哔哩"],
     [/Twitter/g, "哔哩哔哩"],
   ];
 
   const fixTextNodes = () => {
-    const keepEnglish = document.body.classList.contains("fuyulev-page-index");
+    const keepEnglish = document.body.classList.contains("fy-page-index");
     document.querySelectorAll(
       ".wixui-rich-text__text, [data-testid='richTextElement'], .TvbeET, nav a, .wixui-dropdown-menu a"
     ).forEach((el) => {
-      if (!el.textContent || el.closest("script, style, .fuyulev-topbar, .fuyulev-home-inject")) return;
+      if (!el.textContent || el.closest("script, style, .fy-topbar, .fy-home-inject")) return;
       let html = el.innerHTML;
       let changed = false;
       for (const [pat, rep] of TEXT_MAP) {
@@ -47,7 +47,7 @@
       if (!el) return;
       el.innerHTML =
         '<p class="font_6 wixui-rich-text__text" style="text-align:center;">'
-        + `<span class="wixui-rich-text__text"><a href="about.html">${name} / FuYu Lev</a></span></p>`;
+        + `<span class="wixui-rich-text__text"><a href="about.html">${name}</a></span></p>`;
     });
     ["comp-iszo71xz", "comp-j6397vpq"].forEach((id) => {
       const el = document.getElementById(id);
@@ -63,12 +63,12 @@
   };
 
   const fixFooter = () => {
-    const isIndex = document.body.classList.contains("fuyulev-page-index");
+    const isIndex = document.body.classList.contains("fy-page-index");
     const copy = document.getElementById("comp-l720aboy");
     if (copy) {
       copy.innerHTML =
         '<p class="font_8 wixui-rich-text__text" style="text-align:center;">'
-        + '<span class="wixui-rich-text__text">©浮游Lev / FUYU LEV</span></p>';
+        + '<span class="wixui-rich-text__text">©浮游Lev</span></p>';
     }
     const desc = document.getElementById("comp-l70jwtsp");
     if (desc) {
@@ -89,7 +89,7 @@
   const fixNav = () => {
     const navMap = { HOME: "首页", WORK: "作品", ABOUT: "关于", PORTFOLIO: "作品集" };
     document.querySelectorAll("nav a, .wixui-dropdown-menu a").forEach((a) => {
-      if (a.closest(".fuyulev-topbar")) return;
+      if (a.closest(".fy-topbar")) return;
       const t = (a.textContent || "").trim();
       const href = (a.getAttribute("href") || "").toLowerCase();
       if (href.includes("kakuu") || t === "KAKUU" || t === "原创") {
@@ -111,7 +111,7 @@
   };
 
   const fixIndexGallery = () => {
-    if (!document.body.classList.contains("fuyulev-page-index")) return;
+    if (!document.body.classList.contains("fy-page-index")) return;
     const gallery = window.HOME_GALLERY || [];
     document.querySelectorAll("#pro-gallery-comp-j3v9reg1 .info-element-title").forEach((el, i) => {
       const src = gallery[i % gallery.length];
@@ -141,8 +141,8 @@
   };
 
     const fixAboutPicks = () => {
-        if (!DATA.videos || !document.getElementById("fuyulev-about-inject")) return;
-        const ul = document.querySelector("#fuyulev-about-inject .fuyulev-about-picks");
+        if (!DATA.videos || !document.getElementById("fy-about-inject")) return;
+        const ul = document.querySelector("#fy-about-inject .fy-about-picks");
         if (!ul || ul.children.length) return;
         ul.innerHTML = DATA.videos.slice(0, 8).map((v) =>
             `<li><a href="https://www.bilibili.com/video/${v.bvid}" target="_blank" rel="noopener">${v.title}</a></li>`
@@ -150,13 +150,13 @@
     };
 
   const fixHeaderBanners = () => {
-    if (!document.body.classList.contains("fuyulev-page-index")) return;
+    if (!document.body.classList.contains("fy-page-index")) return;
     const lead = document.getElementById("comp-mqk7r3rt");
     const row = document.getElementById("comp-lstqan45");
-    if (!lead || !row || document.getElementById("fuyulev-header-banners")) return;
+    if (!lead || !row || document.getElementById("fy-header-banners")) return;
     const wrap = document.createElement("div");
-    wrap.id = "fuyulev-header-banners";
-    wrap.className = "fuyulev-header-banners";
+    wrap.id = "fy-header-banners";
+    wrap.className = "fy-header-banners";
     lead.parentNode.insertBefore(wrap, lead);
     wrap.appendChild(lead);
     wrap.appendChild(row);

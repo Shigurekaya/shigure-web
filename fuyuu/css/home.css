@@ -68,7 +68,7 @@ body.km-home #SITE_FOOTER {
 }
 
 /* 时雨榧头像：页脚左下角（随页面滚动，非 fixed） */
-body.km-home .fuyulev-kaya-corner {
+body.km-home .fy-kaya-corner {
   position: absolute !important;
   left: 4px !important;
   bottom: 4px !important;
@@ -105,7 +105,7 @@ body.km-home [data-mesh-id="SITE_FOOTERinlineContent-gridContainer"] > * {
 }
 
 /* 顶栏：外侧黑边 + 内侧与内容同宽白栏 */
-.fuyulev-topbar {
+.fy-topbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -115,7 +115,7 @@ body.km-home [data-mesh-id="SITE_FOOTERinlineContent-gridContainer"] > * {
   pointer-events: none;
 }
 
-.fuyulev-topbar-inner {
+.fy-topbar-inner {
   width: var(--km-content);
   max-width: var(--km-content);
   margin: 0 auto;
@@ -129,7 +129,7 @@ body.km-home [data-mesh-id="SITE_FOOTERinlineContent-gridContainer"] > * {
   box-sizing: border-box;
 }
 
-.fuyulev-topbar-logo {
+.fy-topbar-logo {
   font-family: lulo-clean-w01-one-bold, Georgia, "Times New Roman", serif;
   font-size: 52px;
   font-weight: 400;
@@ -140,7 +140,7 @@ body.km-home [data-mesh-id="SITE_FOOTERinlineContent-gridContainer"] > * {
   margin-top: 2px;
 }
 
-.fuyulev-topbar-nav {
+.fy-topbar-nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -149,7 +149,7 @@ body.km-home [data-mesh-id="SITE_FOOTERinlineContent-gridContainer"] > * {
   margin-top: 18px;
 }
 
-.fuyulev-topbar-link {
+.fy-topbar-link {
   font-family: poppins-black, poppins, sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -160,8 +160,8 @@ body.km-home [data-mesh-id="SITE_FOOTERinlineContent-gridContainer"] > * {
   white-space: nowrap;
 }
 
-.fuyulev-topbar-link:hover,
-.fuyulev-topbar-link.is-active {
+.fy-topbar-link:hover,
+.fy-topbar-link.is-active {
   text-decoration: none;
   opacity: 0.72;
 }
@@ -257,7 +257,7 @@ body.km-home #comp-l6z9resp .wixui-horizontal-line {
 }
 
 /* 注入画廊 — komowata 比例：栏内左右 80px */
-body.km-home .fuyulev-home-inject {
+body.km-home .fy-home-inject {
   display: block;
   position: relative;
   z-index: 8;
@@ -368,7 +368,7 @@ body.km-home #comp-l75umd50 {
   margin: 16px auto 20px !important;
 }
 
-body.km-home .fuyulev-header-banners {
+body.km-home .fy-header-banners {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -380,7 +380,7 @@ body.km-home .fuyulev-header-banners {
   scrollbar-width: none;
 }
 
-body.km-home .fuyulev-header-banners::-webkit-scrollbar {
+body.km-home .fy-header-banners::-webkit-scrollbar {
   display: none;
 }
 
@@ -452,17 +452,17 @@ body.km-home #comp-l76czo62 {
 }
 
 @media (max-width: 900px) {
-  body.km-home .fuyulev-home-inject {
+  body.km-home .fy-home-inject {
     padding: 0 24px;
   }
 
-  body.km-home .fuyulev-header-banners {
+  body.km-home .fy-header-banners {
     justify-content: flex-start;
   }
 }
 
 @media (max-width: 640px) {
-  body.km-home .fuyulev-home-inject {
+  body.km-home .fy-home-inject {
     padding: 0 12px;
     margin-top: 32px;
   }

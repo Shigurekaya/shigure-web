@@ -191,16 +191,16 @@ a {
   animation: fy-rise 0.6s var(--fy-ease) 0.38s both;
 }
 
-.fy-page-content > .fuyulev-page-title {
+.fy-page-content > .fy-page-title {
   animation: fy-rise 0.52s var(--fy-ease) 0.08s both;
 }
 
-.fy-page-content > .fuyulev-page-lead,
-.fy-page-content > .fuyulev-about-head {
+.fy-page-content > .fy-page-lead,
+.fy-page-content > .fy-about-head {
   animation: fy-rise 0.52s var(--fy-ease) 0.16s both;
 }
 
-.fy-page-content > .fuyulev-subtitle {
+.fy-page-content > .fy-subtitle {
   animation: fy-rise 0.48s var(--fy-ease) 0.24s both;
 }
 
@@ -532,21 +532,21 @@ body.fy-menu-open .fy-topbar {
   padding: 32px clamp(24px, 6vw, 80px) 48px;
 }
 
-.fuyulev-page-title {
+.fy-page-title {
   font-family: poppins-black, poppins, sans-serif;
   font-size: 32px;
   font-weight: 400;
   margin: 0 0 14px;
 }
 
-.fuyulev-page-lead {
+.fy-page-lead {
   font-size: 16px;
   line-height: 1.75;
   margin: 0 0 32px;
   max-width: 72ch;
 }
 
-.fuyulev-page-lead a {
+.fy-page-lead a {
   color: #000;
   font-weight: 600;
 }
@@ -558,7 +558,7 @@ body.fy-menu-open .fy-topbar {
   letter-spacing: 0.02em;
 }
 
-.fuyulev-work-list {
+.fy-work-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -567,7 +567,7 @@ body.fy-menu-open .fy-topbar {
   gap: 16px 20px;
 }
 
-.fuyulev-work-item a {
+.fy-work-item a {
   display: flex;
   gap: 16px;
   align-items: flex-start;
@@ -580,13 +580,13 @@ body.fy-menu-open .fy-topbar {
   transition: background 0.22s ease, transform 0.22s var(--fy-ease), box-shadow 0.22s ease;
 }
 
-.fuyulev-work-item a:hover {
+.fy-work-item a:hover {
   background: rgba(255, 222, 95, 0.25);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
 }
 
-.fuyulev-work-item img {
+.fy-work-item img {
   width: min(168px, 42%);
   aspect-ratio: 16 / 9;
   object-fit: cover;
@@ -594,34 +594,34 @@ body.fy-menu-open .fy-topbar {
   flex-shrink: 0;
 }
 
-.fuyulev-work-meta {
+.fy-work-meta {
   display: flex;
   flex-direction: column;
   gap: 4px;
   min-width: 0;
 }
 
-.fuyulev-work-meta strong {
+.fy-work-meta strong {
   font-size: 15px;
   line-height: 1.4;
 }
 
-.fuyulev-work-meta small {
+.fy-work-meta small {
   color: #666;
   font-size: 13px;
 }
 
-.fuyulev-more-link {
+.fy-more-link {
   margin-top: 24px;
   font-size: 15px;
   color: #333;
 }
 
-.fuyulev-more-link a {
+.fy-more-link a {
   font-weight: 600;
 }
 
-.fuyulev-about-head {
+.fy-about-head {
   display: flex;
   gap: 32px;
   align-items: flex-start;
@@ -629,25 +629,25 @@ body.fy-menu-open .fy-topbar {
   flex-wrap: wrap;
 }
 
-.fuyulev-about-avatar {
+.fy-about-avatar {
   width: min(200px, 28vw);
   border-radius: 8px;
   object-fit: cover;
 }
 
-.fuyulev-name-en {
+.fy-name-en {
   font-size: 0.72em;
   font-weight: normal;
   color: #666;
 }
 
-.fuyulev-about-sign {
+.fy-about-sign {
   font-size: 16px;
   margin: 8px 0 16px;
   line-height: 1.6;
 }
 
-.fuyulev-bili-btn {
+.fy-bili-btn {
   display: inline-block;
   padding: 8px 16px;
   background: #fb7299;
@@ -658,18 +658,18 @@ body.fy-menu-open .fy-topbar {
   transition: transform 0.2s var(--fy-ease), box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.fuyulev-bili-btn:hover {
+.fy-bili-btn:hover {
   opacity: 0.95;
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(251, 114, 153, 0.35);
 }
 
-.fuyulev-subtitle {
+.fy-subtitle {
   font-size: 20px;
   margin: 28px 0 14px;
 }
 
-.fuyulev-about-picks {
+.fy-about-picks {
   margin: 0;
   padding-left: 1.4em;
   line-height: 1.75;
@@ -677,27 +677,27 @@ body.fy-menu-open .fy-topbar {
   max-width: 72ch;
 }
 
-.fuyulev-about-picks li + li {
+.fy-about-picks li + li {
   margin-top: 6px;
 }
 
-.fuyulev-about-picks a {
+.fy-about-picks a {
   transition: color 0.2s ease, transform 0.2s var(--fy-ease);
   display: inline-block;
 }
 
-.fuyulev-about-picks a:hover {
+.fy-about-picks a:hover {
   color: #fb7299;
   transform: translateX(4px);
 }
 
-.fuyulev-portfolio-grid {
+.fy-portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
   gap: 16px;
 }
 
-.fuyulev-portfolio-thumb {
+.fy-portfolio-thumb {
   display: block;
   border: 0;
   padding: 0;
@@ -709,12 +709,12 @@ body.fy-menu-open .fy-topbar {
   transition: transform 0.28s var(--fy-ease), box-shadow 0.28s ease;
 }
 
-.fuyulev-portfolio-thumb:hover {
+.fy-portfolio-thumb:hover {
   transform: translateY(-3px) scale(1.02);
   box-shadow: 4px 8px 26px rgba(0, 0, 0, 0.2);
 }
 
-.fuyulev-portfolio-thumb img {
+.fy-portfolio-thumb img {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
@@ -722,7 +722,7 @@ body.fy-menu-open .fy-topbar {
   transition: transform 0.4s var(--fy-ease);
 }
 
-.fuyulev-portfolio-thumb:hover img {
+.fy-portfolio-thumb:hover img {
   transform: scale(1.06);
 }
 
@@ -1123,16 +1123,16 @@ body.fy-menu-open .fy-topbar {
     padding: 28px 20px 40px;
   }
 
-  .fuyulev-page-title {
+  .fy-page-title {
     font-size: 28px;
     line-height: 1.25;
   }
 
-  .fuyulev-about-head {
+  .fy-about-head {
     gap: 20px;
   }
 
-  .fuyulev-about-avatar {
+  .fy-about-avatar {
     width: min(140px, 36vw);
   }
 
@@ -1147,7 +1147,7 @@ body.fy-menu-open .fy-topbar {
 }
 
 @media (max-width: 780px) {
-  .fuyulev-work-list {
+  .fy-work-list {
     grid-template-columns: 1fr;
   }
 }
@@ -1173,21 +1173,21 @@ body.fy-menu-open .fy-topbar {
     padding: 24px 16px 36px;
   }
 
-  .fuyulev-page-title {
+  .fy-page-title {
     font-size: 24px;
   }
 
-  .fuyulev-page-lead {
+  .fy-page-lead {
     font-size: 15px;
     margin-bottom: 24px;
   }
 
-  .fuyulev-work-item a {
+  .fy-work-item a {
     padding: 10px 12px;
     gap: 12px;
   }
 
-  .fuyulev-work-item img {
+  .fy-work-item img {
     width: min(120px, 38%);
   }
 
@@ -1205,7 +1205,7 @@ body.fy-menu-open .fy-topbar {
     height: auto;
   }
 
-  .fuyulev-portfolio-grid {
+  .fy-portfolio-grid {
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 10px;
   }

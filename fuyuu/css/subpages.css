@@ -60,7 +60,7 @@ body.km-site:not(.km-home) #SITE_HEADER {
   background: #fff !important;
 }
 
-body.km-site:not(.km-home) .fuyulev-kaya-corner {
+body.km-site:not(.km-home) .fy-kaya-corner {
   position: absolute !important;
   left: 10px !important;
   bottom: 10px !important;
@@ -71,7 +71,7 @@ body.km-site:not(.km-home) .fuyulev-kaya-corner {
 }
 
 /* 顶栏（子页共用，与 home.css 一致） */
-.fuyulev-topbar {
+.fy-topbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -81,7 +81,7 @@ body.km-site:not(.km-home) .fuyulev-kaya-corner {
   pointer-events: none;
 }
 
-.fuyulev-topbar-inner {
+.fy-topbar-inner {
   width: var(--km-content);
   max-width: var(--km-content);
   margin: 0 auto;
@@ -95,7 +95,7 @@ body.km-site:not(.km-home) .fuyulev-kaya-corner {
   box-sizing: border-box;
 }
 
-.fuyulev-topbar-logo {
+.fy-topbar-logo {
   font-family: lulo-clean-w01-one-bold, Georgia, "Times New Roman", serif;
   font-size: 52px;
   font-weight: 400;
@@ -106,7 +106,7 @@ body.km-site:not(.km-home) .fuyulev-kaya-corner {
   margin-top: 2px;
 }
 
-.fuyulev-topbar-nav {
+.fy-topbar-nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -115,7 +115,7 @@ body.km-site:not(.km-home) .fuyulev-kaya-corner {
   margin-top: 18px;
 }
 
-.fuyulev-topbar-link {
+.fy-topbar-link {
   font-family: poppins-black, poppins, sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -126,13 +126,13 @@ body.km-site:not(.km-home) .fuyulev-kaya-corner {
   white-space: nowrap;
 }
 
-.fuyulev-topbar-link:hover,
-.fuyulev-topbar-link.is-active {
+.fy-topbar-link:hover,
+.fy-topbar-link.is-active {
   opacity: 0.72;
 }
 
 /* 注入内容区：全宽 + 适当内边距 */
-body.km-site:not(.km-home) .fuyulev-page-inject {
+body.km-site:not(.km-home) .fy-page-inject {
   width: 100% !important;
   max-width: none !important;
   margin: 32px 0 48px !important;
@@ -140,7 +140,7 @@ body.km-site:not(.km-home) .fuyulev-page-inject {
   box-sizing: border-box;
 }
 
-body.fuyulev-page-work [data-mesh-id="ContainerwmpkcinlineContent-gridContainer"] > #fuyulev-work-inject {
+body.fy-page-work [data-mesh-id="ContainerwmpkcinlineContent-gridContainer"] > #fy-work-inject {
   grid-column: 1 / -1;
   justify-self: stretch;
 }
@@ -159,30 +159,30 @@ body.km-site:not(.km-home) #SITE_PAGES [data-testid="mesh-container-content"] > 
 }
 
 /* 解除 Wix 980px 网格导致的左偏（WORK 页） */
-body.fuyulev-page-work [data-mesh-id="ContainerwmpkcinlineContent-gridContainer"] {
+body.fy-page-work [data-mesh-id="ContainerwmpkcinlineContent-gridContainer"] {
   display: block !important;
   width: 100% !important;
 }
 
-body.fuyulev-page-work [data-mesh-id="ContainerwmpkcinlineContent-gridContainer"] > * {
+body.fy-page-work [data-mesh-id="ContainerwmpkcinlineContent-gridContainer"] > * {
   margin-left: 0 !important;
   left: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
 }
 
-body.fuyulev-page-work #fuyulev-work-inject {
+body.fy-page-work #fy-work-inject {
   position: relative !important;
 }
 
-body.km-site:not(.km-home) .fuyulev-page-title {
+body.km-site:not(.km-home) .fy-page-title {
   font-family: poppins-black, poppins, sans-serif;
   font-size: 32px;
   font-weight: 400;
   margin: 0 0 14px;
 }
 
-body.km-site:not(.km-home) .fuyulev-page-lead {
+body.km-site:not(.km-home) .fy-page-lead {
   font-size: 16px;
   line-height: 1.75;
   margin: 0 0 32px;
@@ -190,103 +190,103 @@ body.km-site:not(.km-home) .fuyulev-page-lead {
 }
 
 /* WORK — 两列视频列表 */
-body.fuyulev-page-work .fuyulev-work-list {
+body.fy-page-work .fy-work-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px 20px;
 }
 
-body.fuyulev-page-work .fuyulev-work-item {
+body.fy-page-work .fy-work-item {
   min-width: 0;
 }
 
-body.fuyulev-page-work .fuyulev-work-item a {
+body.fy-page-work .fy-work-item a {
   padding: 12px 14px;
   border-radius: 10px;
   height: 100%;
   align-items: flex-start;
 }
 
-body.fuyulev-page-work .fuyulev-work-item img {
+body.fy-page-work .fy-work-item img {
   width: min(168px, 42%);
   height: auto;
   aspect-ratio: 16 / 9;
   border-radius: 6px;
 }
 
-body.fuyulev-page-work .fuyulev-work-meta strong {
+body.fy-page-work .fy-work-meta strong {
   font-size: 15px;
   line-height: 1.4;
 }
 
-body.fuyulev-page-work .fuyulev-work-meta small {
+body.fy-page-work .fy-work-meta small {
   font-size: 13px;
 }
 
 @media (max-width: 780px) {
-  body.fuyulev-page-work .fuyulev-work-list {
+  body.fy-page-work .fy-work-list {
     grid-template-columns: 1fr;
   }
 
-  body.fuyulev-page-work .fuyulev-work-item img {
+  body.fy-page-work .fy-work-item img {
     width: min(200px, 40vw);
   }
 }
 
 /* 隐藏 komowata 残留块 */
-body.fuyulev-page-work #comp-l7950qkt {
+body.fy-page-work #comp-l7950qkt {
   display: none !important;
 }
 
-body.fuyulev-page-portfolio #comp-mqk7jjze {
+body.fy-page-portfolio #comp-mqk7jjze {
   display: none !important;
 }
 
 /* KAKUU / PORTFOLIO 网格放大 */
-body.fuyulev-page-kakuu .fuyulev-kakuu-grid,
-body.fuyulev-page-portfolio .fuyulev-portfolio-grid {
+body.fy-page-kakuu .fy-kakuu-grid,
+body.fy-page-portfolio .fy-portfolio-grid {
   grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
   gap: 16px;
 }
 
-body.fuyulev-page-about .fuyulev-about-avatar {
+body.fy-page-about .fy-about-avatar {
   width: min(200px, 28vw);
   height: auto;
 }
 
-body.fuyulev-page-about .fuyulev-about-head {
+body.fy-page-about .fy-about-head {
   gap: 32px;
 }
 
-body.fuyulev-page-about .fuyulev-subtitle {
+body.fy-page-about .fy-subtitle {
   font-size: 20px;
   margin: 28px 0 14px;
 }
 
-body.fuyulev-page-about .fuyulev-about-picks,
-body.fuyulev-page-about .fuyulev-about-picks li,
-body.fuyulev-page-about .fuyulev-about-picks a {
+body.fy-page-about .fy-about-picks,
+body.fy-page-about .fy-about-picks li,
+body.fy-page-about .fy-about-picks a {
   font-size: 16px !important;
   line-height: 1.75;
 }
 
-body.fuyulev-page-about .fuyulev-about-picks {
+body.fy-page-about .fy-about-picks {
   padding-left: 1.4em;
   max-width: 72ch;
 }
 
-body.fuyulev-page-about .fuyulev-about-picks li + li {
+body.fy-page-about .fy-about-picks li + li {
   margin-top: 6px;
 }
 
-.fuyulev-more-link {
+.fy-more-link {
   display: inline-block;
   margin-top: 24px;
   font-size: 15px;
   color: #333;
 }
 
-.fuyulev-more-link a {
+.fy-more-link a {
   color: #000;
   font-weight: 600;
 }
