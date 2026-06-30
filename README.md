@@ -4,7 +4,7 @@
 
 - `/fuyuu` — 浮游Lev 作品集
 - `/kaya` — 时雨榧 主页
-- `/koharu` — 小春日向 主页
+- `/koharu` — 小春日向 主页（建设中）
 - `/shiotsuki` — 汐月空_poi 主页（建设中）
 
 
