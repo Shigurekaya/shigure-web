@@ -1,10 +1,11 @@
 {
   "name": "shigure-web",
   "private": true,
+  "type": "module",
   "scripts": {
     "thumbs": "node scripts/generate-gallery-thumbs.mjs"
   },
-  "devDependencies": {
+  "dependencies": {
     "sharp": "^0.34.2"
   }
 }
