@@ -1,5 +1,6 @@
 /** 首页插画 · fuyuu/image */
 window.HOME_GALLERY = [
+  "image/春睦月.jpg",
   "image/alice.jpg",
   "image/key.jpg",
   "image/q.jpg",
