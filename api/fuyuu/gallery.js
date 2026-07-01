@@ -10,14 +10,14 @@ export default async function handler(req, res) {
     return res.status(204).end();
   }
 
+  const auth = verifyAdmin(req);
+  if (!auth.ok) return res.status(auth.status).json({ ok: false, error: auth.error });
+
   try {
     if (req.method === "GET") {
       const items = await listGallery();
       return res.status(200).json({ ok: true, items, total: items.length });
     }
-
-    const auth = verifyAdmin(req);
-    if (!auth.ok) return res.status(auth.status).json({ ok: false, error: auth.error });
 
     if (req.method === "DELETE") {
       const path = req.body?.path || req.query?.path;

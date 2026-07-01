@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex, nofollow" />
   <base href="/fuyuu/" />
   <title>作品集管理 · 浮游Lev</title>
-  <link rel="icon" href="../assets/images/avatar.jpg" />
+  <link rel="icon" href="/fuyuu/assets/images/avatar.jpg" />
   <style>
     :root {
       --bg: #0a0a0a;
@@ -133,7 +133,8 @@
     <div id="login-gate" class="card login-gate">
       <label for="token">管理密钥</label>
       <input type="password" id="token" placeholder="FUYUU_ADMIN_TOKEN" autocomplete="current-password" />
-      <p class="hint">密钥保存在浏览器本地，仅用于调用 API，不会上传到第三方。</p>
+      <p class="hint">密钥保存在浏览器本地，登录时发送至本站 API 验证，不会发送给第三方。</p>
+      <div id="login-status" class="status"></div>
       <div style="margin-top:14px">
         <button class="btn-primary" id="btn-login">进入管理</button>
       </div>
@@ -173,7 +174,8 @@
 
   <script>
     const TOKEN_KEY = "fuyuu_admin_token";
-    const API_BASE = "/api/fuyuu";
+    const API_GALLERY = "/api/fuyuu/gallery/";
+    const API_UPLOAD = "/api/fuyuu/upload/";
 
     const $ = (id) => document.getElementById(id);
 
@@ -193,6 +195,25 @@
       el.className = "status " + type;
     }
 
+    function clearStatus(el) {
+      el.textContent = "";
+      el.className = "status";
+    }
+
+    async function apiFetch(url, options = {}) {
+      const res = await fetch(url, options);
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error(`服务器响应异常 (${res.status})`);
+      }
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || `请求失败 (${res.status})`);
+      }
+      return data;
+    }
+
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         const r = new FileReader();
@@ -202,39 +223,52 @@
       });
     }
 
+    function renderGalleryItem(item, index) {
+      const div = document.createElement("div");
+      div.className = "item";
+
+      const badge = document.createElement("span");
+      badge.className = "badge";
+      badge.textContent = `#${index + 1}`;
+
+      const img = document.createElement("img");
+      img.src = item.thumb;
+      img.alt = "";
+      img.loading = "lazy";
+      img.addEventListener("error", () => { img.src = item.image; });
+
+      const meta = document.createElement("div");
+      meta.className = "item-meta";
+      meta.textContent = item.path;
+
+      const actions = document.createElement("div");
+      actions.className = "item-actions";
+
+      const btnTop = document.createElement("button");
+      btnTop.className = "btn-ghost btn-top";
+      btnTop.textContent = "置顶";
+      btnTop.addEventListener("click", () => moveTop(item.path));
+
+      const btnDel = document.createElement("button");
+      btnDel.className = "btn-danger btn-del";
+      btnDel.textContent = "删除";
+      btnDel.addEventListener("click", () => deleteItem(item.path));
+
+      actions.append(btnTop, btnDel);
+      div.append(badge, img, meta, actions);
+      return div;
+    }
+
     async function loadGallery() {
       const status = $("list-status");
-      status.className = "status";
-      try {
-        const res = await fetch(API_BASE + "/gallery");
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || "加载失败");
-        $("count").textContent = data.total;
-        const grid = $("grid");
-        grid.innerHTML = "";
-        data.items.forEach((item, i) => {
-          const div = document.createElement("div");
-          div.className = "item";
-          div.innerHTML = `
-            <span class="badge">#${i + 1}</span>
-            <img src="${item.thumb}" alt="" loading="lazy"
-                 onerror="this.src='${item.image}'" />
-            <div class="item-meta">${item.path}</div>
-            <div class="item-actions">
-              <button class="btn-ghost btn-top" data-path="${item.path}">置顶</button>
-              <button class="btn-danger btn-del" data-path="${item.path}">删除</button>
-            </div>`;
-          grid.appendChild(div);
-        });
-        grid.querySelectorAll(".btn-del").forEach((btn) => {
-          btn.addEventListener("click", () => deleteItem(btn.dataset.path));
-        });
-        grid.querySelectorAll(".btn-top").forEach((btn) => {
-          btn.addEventListener("click", () => moveTop(btn.dataset.path));
-        });
-      } catch (e) {
-        showStatus(status, e.message, "err");
-      }
+      clearStatus(status);
+      const data = await apiFetch(API_GALLERY, { headers: headers() });
+      $("count").textContent = data.total;
+      const grid = $("grid");
+      grid.replaceChildren();
+      data.items.forEach((item, i) => {
+        grid.appendChild(renderGalleryItem(item, i));
+      });
     }
 
     async function deleteItem(path) {
@@ -242,13 +276,11 @@
       const status = $("list-status");
       showStatus(status, "删除中…", "info");
       try {
-        const res = await fetch(API_BASE + "/gallery", {
+        const data = await apiFetch(API_GALLERY, {
           method: "DELETE",
           headers: headers(),
           body: JSON.stringify({ path }),
         });
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || "删除失败");
         showStatus(status, data.message + " commit: " + data.commitSha.slice(0, 7), "ok");
         await loadGallery();
       } catch (e) {
@@ -260,13 +292,11 @@
       const status = $("list-status");
       showStatus(status, "调整顺序…", "info");
       try {
-        const res = await fetch(API_BASE + "/gallery", {
+        await apiFetch(API_GALLERY, {
           method: "PATCH",
           headers: headers(),
           body: JSON.stringify({ path, index: 0 }),
         });
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || "操作失败");
         showStatus(status, "已置顶", "ok");
         await loadGallery();
       } catch (e) {
@@ -291,13 +321,11 @@
       $("btn-upload").disabled = true;
       try {
         const imageBase64 = await fileToBase64(file);
-        const res = await fetch(API_BASE + "/upload", {
+        const data = await apiFetch(API_UPLOAD, {
           method: "POST",
           headers: headers(),
           body: JSON.stringify({ filename: name, imageBase64 }),
         });
-        const data = await res.json();
-        if (!data.ok) throw new Error(data.error || "上传失败");
         showStatus(status, data.message + " → " + data.path, "ok");
         $("file").value = "";
         $("filename").value = "";
@@ -310,23 +338,46 @@
       }
     }
 
-    function enterPanel() {
+    async function enterPanel() {
       const t = $("token").value.trim();
-      if (!t) return;
+      const loginStatus = $("login-status");
+      if (!t) {
+        showStatus(loginStatus, "请输入管理密钥", "err");
+        return;
+      }
+      clearStatus(loginStatus);
+      $("btn-login").disabled = true;
       localStorage.setItem(TOKEN_KEY, t);
-      $("login-gate").hidden = true;
-      $("panel").hidden = false;
-      loadGallery();
+      try {
+        await loadGallery();
+        $("login-gate").hidden = true;
+        $("panel").hidden = false;
+      } catch (e) {
+        localStorage.removeItem(TOKEN_KEY);
+        const msg =
+          e.message === "未授权" ? "密钥错误或已失效"
+          : e.message === "FUYUU_ADMIN_TOKEN 未配置" ? "服务端未配置管理密钥，请在 Vercel 添加 FUYUU_ADMIN_TOKEN"
+          : e.message;
+        showStatus(loginStatus, msg, "err");
+      } finally {
+        $("btn-login").disabled = false;
+      }
     }
 
-    $("btn-login").addEventListener("click", enterPanel);
+    $("btn-login").addEventListener("click", () => { enterPanel(); });
     $("token").addEventListener("keydown", (e) => { if (e.key === "Enter") enterPanel(); });
     $("btn-logout").addEventListener("click", () => {
       localStorage.removeItem(TOKEN_KEY);
       location.reload();
     });
     $("btn-upload").addEventListener("click", upload);
-    $("btn-refresh").addEventListener("click", loadGallery);
+    $("btn-refresh").addEventListener("click", async () => {
+      try {
+        await loadGallery();
+      } catch (e) {
+        showStatus($("list-status"), e.message, "err");
+      }
+    });
     $("file").addEventListener("change", () => {
       const f = $("file").files[0];
       const img = $("preview");
