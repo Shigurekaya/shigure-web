@@ -1,6 +1,5 @@
 /** 首页插画 · fuyuu/image */
 window.HOME_GALLERY = [
-  "image/sprb.jpg",
   "image/shining2.jpg",
   "image/春睦月.jpg",
   "image/alice.jpg",
