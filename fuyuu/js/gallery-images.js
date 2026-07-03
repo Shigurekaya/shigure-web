@@ -36,7 +36,6 @@ window.HOME_GALLERY = [
   "image/小夜异画.jpg",
   "image/雪菜.jpg",
   "image/银花.jpg",
-  "image/游云.jpg",
   "image/游云1.jpg",
   "image/真红.jpg",
 ];
