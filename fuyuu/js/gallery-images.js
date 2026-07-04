@@ -1,11 +1,11 @@
 /** 首页插画 · fuyuu/image */
 window.HOME_GALLERY = [
-  "image/q.jpg",
   "image/妙蛙种子.jpg",
   "image/shining2.jpg",
   "image/春睦月.jpg",
   "image/alice.jpg",
   "image/key.jpg",
+  "image/q.jpg",
   "image/rance.jpg",
   "image/yiji.jpg",
   "image/白琴里.jpg",
