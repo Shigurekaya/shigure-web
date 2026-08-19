@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "cleanUrls": true,
+  "installCommand": "echo skip-install",`r`n  "buildCommand": "echo skip-build",`r`n  "cleanUrls": true,
   "trailingSlash": true,
   "redirects": [
     {
