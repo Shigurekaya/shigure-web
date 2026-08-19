@@ -14,6 +14,15 @@ window.SITE_DATA = {
   },
   "videos": [
     {
+      "bvid": "BV11Y876BEso",
+      "title": "【梅蒂可】可可爱爱土妹子",
+      "description": "其实我是梅蒂可厨，土妹子真是萌萌哒",
+      "date": "2026.08.19",
+      "length": "00:31",
+      "thumb": "assets/images/covers/BV11Y876BEso.jpg",
+      "typename": ""
+    },
+    {
       "bvid": "BV1H7gP6CES6",
       "title": "珀尔诺这么萌萌哒一定是个纯洁的孩子吧）",
       "description": "-",
