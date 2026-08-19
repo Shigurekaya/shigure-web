@@ -7,6 +7,9 @@
 - `/koharu` — 小春日向 主页（建设中）
 - `/shiotsuki` — 汐月空_poi 主页（建设中）
 
+## 运维
+
+- [更新浮游 WORK 页（B 站投稿）](docs/update-fuyuu-videos.md)
 
 ## 站点互链规则
 
