@@ -2,7 +2,7 @@
 window.SITE_DATA = {
   "mid": 353604313,
   "bilibili_url": "https://space.bilibili.com/353604313",
-  "data_updated": "2026.06.28",
+  "data_updated": "2026.08.19",
   "user": {
     "name": "浮游Lev",
     "sign": "梦想成为自由的旮旯给木画师",
@@ -13,6 +13,60 @@ window.SITE_DATA = {
     "sex": "男"
   },
   "videos": [
+    {
+      "bvid": "BV1H7gP6CES6",
+      "title": "珀尔诺这么萌萌哒一定是个纯洁的孩子吧）",
+      "description": "-",
+      "date": "2026.08.14",
+      "length": "00:31",
+      "thumb": "assets/images/covers/BV1H7gP6CES6.jpg",
+      "typename": ""
+    },
+    {
+      "bvid": "BV1BQud67E5y",
+      "title": "我们能驾驭多娜多娜的画风吗",
+      "description": "-",
+      "date": "2026.08.10",
+      "length": "01:15",
+      "thumb": "assets/images/covers/BV1BQud67E5y.jpg",
+      "typename": ""
+    },
+    {
+      "bvid": "BV1Cuuj6CEKh",
+      "title": "【超时空辉夜姬】来点女同事贴贴",
+      "description": "关注晒你动漫社谢谢喵",
+      "date": "2026.08.09",
+      "length": "01:19",
+      "thumb": "assets/images/covers/BV1Cuuj6CEKh.jpg",
+      "typename": ""
+    },
+    {
+      "bvid": "BV1SVKb6mE2p",
+      "title": "为真红诞生日纪念画了sd插图",
+      "description": "-",
+      "date": "2026.07.21",
+      "length": "00:16",
+      "thumb": "assets/images/covers/BV1SVKb6mE2p.jpg",
+      "typename": ""
+    },
+    {
+      "bvid": "BV12uTb65EGw",
+      "title": "时隔一年重置以前画的夏日口袋sd立绘会发生什么",
+      "description": "-",
+      "date": "2026.07.03",
+      "length": "01:46",
+      "thumb": "assets/images/covers/BV12uTb65EGw.jpg",
+      "typename": ""
+    },
+    {
+      "bvid": "BV1SGTv6iEUf",
+      "title": "【塞拉之虫惑魔】800攻击力的小女孩能有什么坏心眼",
+      "description": "-",
+      "date": "2026.07.01",
+      "length": "01:08",
+      "thumb": "assets/images/covers/BV1SGTv6iEUf.jpg",
+      "typename": ""
+    },
     {
       "bvid": "BV1Bz7v65EQ8",
       "title": "画这张真白妈妈时录了",
