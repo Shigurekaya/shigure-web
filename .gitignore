@@ -13,3 +13,5 @@ tianhu/scripts/
 # 本地归档与原始高清图（勿上传）
 fuyuu/image.rar
 fuyuu/image/*.png
+.vercel
+.env*
