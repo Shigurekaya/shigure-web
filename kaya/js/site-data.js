@@ -2,15 +2,41 @@
 window.SITE_DATA = {
   "mid": 109084234,
   "bilibili_url": "https://space.bilibili.com/109084234",
-  "data_updated": "2026.06.28",
+  "youtube_url": "https://www.youtube.com/@ShigureKaya",
+  "twitter_url": "https://x.com/ShigureKaya",
+  "links": [
+    {
+      "icon": "bilibili",
+      "title": "B 站空间",
+      "url": "https://space.bilibili.com/109084234"
+    },
+    {
+      "icon": "youtube",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/@ShigureKaya"
+    },
+    {
+      "icon": "x",
+      "title": "X（Twitter）",
+      "url": "https://x.com/ShigureKaya"
+    }
+  ],
+  "data_updated": "2026.08.19",
+  "intro": null,
   "user": {
     "name": "时雨榧",
-    "sign": "实现愿望程度的能力",
+    "sign": "实现愿望程度的能力\n——时雨榧三代目",
     "pendant_name": "东方收藏集·浮生若梦",
     "avatar": "assets/images/avatar.jpg",
     "pendant": "assets/images/pendant.png",
     "level": 6,
     "sex": "男"
+  },
+  "stats": {
+    "follower": 1493,
+    "following": 24,
+    "likes": 57990,
+    "videos": 33
   },
   "videos": [
     {

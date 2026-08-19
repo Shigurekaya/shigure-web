@@ -15,3 +15,7 @@ fuyuu/image.rar
 fuyuu/image/*.png
 .vercel
 .env*
+
+# Temporary files
+.temp/
+

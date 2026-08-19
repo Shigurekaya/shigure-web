@@ -335,7 +335,148 @@ const FyApp = (() => {
     renderPortfolioGrid();
   }
 
+  function startIntroFloat(canvas) {
+    const ctx = canvas?.getContext("2d");
+    if (!ctx) return () => {};
+
+    // 与片头 RGB 色差呼应：粉 / 青 / 琥珀 / 紫 / 薄荷
+    const PALETTE = [
+      [214, 69, 106],
+      [78, 156, 200],
+      [232, 168, 72],
+      [148, 112, 214],
+      [72, 186, 158],
+    ];
+
+    const dots = [];
+    let raf = 0;
+    let running = true;
+    let t0 = performance.now();
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const makeDot = (ySpread) => {
+      const [r, g, b] = PALETTE[(Math.random() * PALETTE.length) | 0];
+      const glow = Math.random() < 0.42;
+      return {
+        x: Math.random() * window.innerWidth,
+        y: ySpread
+          ? Math.random() * window.innerHeight
+          : window.innerHeight + 8 + Math.random() * 40,
+        r: glow ? 1.4 + Math.random() * 2.8 : 0.55 + Math.random() * 1.6,
+        vx: (Math.random() - 0.5) * (glow ? 0.32 : 0.5),
+        vy: -(glow ? 0.22 : 0.35) - Math.random() * (glow ? 0.55 : 0.9),
+        alpha: glow ? 0.35 + Math.random() * 0.45 : 0.16 + Math.random() * 0.35,
+        rgb: [r, g, b],
+        glow,
+        phase: Math.random() * Math.PI * 2,
+        pulse: 0.6 + Math.random() * 1.4,
+      };
+    };
+
+    const spawn = (n) => {
+      for (let i = 0; i < n; i += 1) dots.push(makeDot(true));
+    };
+
+    const tick = (now) => {
+      if (!running) return;
+      const t = (now - t0) / 1000;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      dots.forEach((d) => {
+        const breathe = 0.72 + 0.28 * Math.sin(t * d.pulse + d.phase);
+        const a = d.alpha * breathe;
+        const [cr, cg, cb] = d.rgb;
+
+        if (d.glow) {
+          const glowR = d.r * (3.2 + breathe);
+          const grad = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, glowR);
+          grad.addColorStop(0, `rgba(${cr},${cg},${cb},${a * 0.85})`);
+          grad.addColorStop(0.35, `rgba(${cr},${cg},${cb},${a * 0.28})`);
+          grad.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
+          ctx.beginPath();
+          ctx.fillStyle = grad;
+          ctx.arc(d.x, d.y, glowR, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(${cr},${cg},${cb},${a * (d.glow ? 0.95 : 0.55)})`;
+        ctx.arc(d.x, d.y, d.r * (d.glow ? 0.55 + 0.2 * breathe : 1), 0, Math.PI * 2);
+        ctx.fill();
+
+        d.x += d.vx + Math.sin(t * 0.7 + d.phase) * 0.08;
+        d.y += d.vy;
+        if (d.y < -12) {
+          Object.assign(d, makeDot(false), { y: window.innerHeight + 8 });
+        }
+        if (d.x < -12) d.x = window.innerWidth + 12;
+        if (d.x > window.innerWidth + 12) d.x = -12;
+      });
+      raf = window.requestAnimationFrame(tick);
+    };
+
+    resize();
+    spawn(88);
+    window.addEventListener("resize", resize);
+    raf = window.requestAnimationFrame(tick);
+
+    return () => {
+      running = false;
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
+  }
+
+  function shouldPlayHomeIntro(sitePrefix) {
+    const nav = performance.getEntriesByType("navigation")[0];
+    if (nav?.type === "reload") return true;
+    if (nav?.type === "back_forward") return false;
+
+    const ref = document.referrer;
+    if (!ref) return true;
+
+    try {
+      const refUrl = new URL(ref);
+      if (refUrl.origin !== location.origin) return true;
+      const p = refUrl.pathname;
+      if (!p.includes(sitePrefix)) return true;
+      const home = p.endsWith(sitePrefix) || p.endsWith(`${sitePrefix}index.html`);
+      return home;
+    } catch {
+      return true;
+    }
+  }
+
+  function initHomeIntro() {
+    const intro = document.getElementById("fy-intro");
+    const reduced = !motionEnabled();
+    const play = shouldPlayHomeIntro("/fuyuu/");
+
+    if (!intro || reduced || !play) {
+      document.body.classList.add("fy-home-ready");
+      intro?.remove();
+      return;
+    }
+
+    document.body.classList.add("fy-intro-playing");
+    const stop = startIntroFloat(document.getElementById("fy-intro-float"));
+
+    window.setTimeout(() => {
+      document.body.classList.remove("fy-intro-playing");
+      document.body.classList.add("fy-home-ready");
+      intro.classList.add("is-done");
+      stop();
+      window.setTimeout(() => intro.remove(), 800);
+    }, 2600);
+  }
+
   function initHome() {
+    initHomeIntro();
     initShell();
     ensureScrollHint();
     bindLoadMore();

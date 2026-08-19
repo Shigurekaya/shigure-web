@@ -5,39 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/kaya/" />
   <title>链接 · 时雨榧</title>
-  <meta name="theme-color" content="#141322" />
+  <meta name="theme-color" content="#f6f4f1" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
-<body>
+<body class="page-links">
+  <div class="site-bg" aria-hidden="true"></div>
+
   <header class="site-header">
     <div class="site-bar">
-      <a href="index.html" class="brand">时雨榧<span class="owner-badge owner-badge--sm">站主</span></a>
-      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单">≡</button>
-      <ul class="site-nav" id="site-nav">
-        <li><a href="index.html">主页</a></li>
-        <li><a href="works.html">作品</a></li>
-        <li><a href="sites.html">个人站</a></li>
-        <li><a href="links.html" class="active">链接</a></li>
-      </ul>
+      <a href="index.html" class="brand">时雨榧</a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <nav>
+        <ul class="site-nav" id="site-nav">
+          <li><a href="index.html">主页</a></li>
+          <li><a href="works.html">作品</a></li>
+          <li><a href="links.html" class="active">链接</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <header class="section-head"><h2>链接</h2></header>
-    <div class="link-grid">
-      <a href="https://space.bilibili.com/109084234" target="_blank" rel="noopener" class="link-item" id="bili-space-link">
-        <div><strong>B 站空间</strong><span id="bili-space-url">space.bilibili.com/109084234</span></div>
-        <span class="link-arrow">↗</span>
-      </a>
-    </div>
+  <main class="page-main page-main--narrow">
+    <header class="page-head page-head--center">
+      <p class="page-head__eyebrow">Links</p>
+      <h1>链接</h1>
+      <p class="page-head__sub">各平台主页</p>
+    </header>
+    <nav class="link-cards" id="link-cards" aria-label="外部链接"></nav>
   </main>
 
-  <section class="site-link-band" id="link-band"></section>
-  <footer class="site-footer"><p>© <span id="year"></span> 时雨榧 · 站主</p></footer>
+  <footer class="site-footer">
+    <p>© <span id="year"></span> 时雨榧</p>
+  </footer>
 
-  <script src="js/site-data.js?v=202606281555"></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/site-data.js?v=202608191710"></script>
+  <script src="js/main.js?v=202608191710" defer></script>
   <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initLinks());</script>
 </body>
 </html>
