@@ -39,7 +39,6 @@
 html {
   scroll-behavior: auto;
   -webkit-text-size-adjust: 100%;
-  overscroll-behavior-y: none;
 }
 
 body {
@@ -51,7 +50,6 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   position: relative;
-  overscroll-behavior-y: none;
   touch-action: manipulation;
 }
 
@@ -192,7 +190,7 @@ body,
 .profile-name,
 .profile-roman,
 .profile-sign,
-.site-footer p {
+.site-footer > p {
   transition:
     color 0.85s var(--ease),
     background 0.85s var(--ease),
@@ -226,20 +224,28 @@ body.heavy-rain .site-bg::after {
 }
 
 body.heavy-rain {
+  --bg: #121a28;
   --ink: #e8eef8;
   --ink-soft: #c5d0e0;
   --ink-faint: #8a97ab;
+  --accent: #b9a6ef;
+  --accent-deep: #d4c6f8;
+  --accent-soft: rgba(185, 166, 239, 0.18);
+  --accent-ring: rgba(185, 166, 239, 0.35);
   --bg-elevated: rgba(22, 32, 52, 0.58);
   --line: rgba(180, 200, 230, 0.18);
+  --border: rgba(180, 200, 230, 0.22);
   --glass-blur: blur(14px) saturate(1.05);
   color: var(--ink);
+  background: var(--bg);
 }
 
 body.heavy-rain .site-bar,
 body.heavy-rain .intro-panel__body,
 body.heavy-rain .home-card,
 body.heavy-rain .work-card,
-body.heavy-rain .link-card {
+body.heavy-rain .link-card,
+body.heavy-rain .footer-fuyuu {
   border-color: rgba(180, 200, 230, 0.22);
   box-shadow: 0 12px 40px rgba(4, 10, 22, 0.35);
 }
@@ -256,6 +262,27 @@ body.heavy-rain .profile-avatar::before {
 body.heavy-rain .profile-avatar .avatar {
   border-color: rgba(180, 200, 230, 0.22);
   box-shadow: 0 14px 44px rgba(4, 10, 22, 0.4);
+}
+
+body.heavy-rain .site-nav a:hover {
+  background: rgba(200, 220, 255, 0.08);
+}
+
+body.heavy-rain .brand:hover,
+body.heavy-rain .work-card:hover .work-card__title {
+  color: var(--accent);
+}
+
+body.heavy-rain .work-card {
+  content-visibility: visible;
+}
+
+body.heavy-rain .work-card__thumb {
+  background: rgba(16, 24, 40, 0.95);
+}
+
+body.heavy-rain .link-card__icon {
+  background: rgba(200, 220, 255, 0.08);
 }
 
 .site-fx {
@@ -964,43 +991,91 @@ body.heavy-rain .profile-avatar .avatar {
   text-align: center;
 }
 
-.site-footer p {
+.site-footer > p {
   font-size: 0.75rem;
   color: var(--ink-faint);
   letter-spacing: 0.03em;
   transition: color var(--dur) var(--ease);
 }
 
-.site-footer:hover p {
+.site-footer:hover > p {
   color: var(--ink-soft);
 }
 
-.footer-jump {
-  margin-bottom: 0.55rem;
-}
-
-.footer-jump a {
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  color: var(--ink-soft);
+.footer-fuyuu {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto 1.15rem;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  background: var(--bg-elevated);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
+  color: inherit;
   transition:
-    color var(--dur) var(--ease),
-    border-color var(--dur) var(--ease);
+    transform var(--dur-slow) var(--ease-out),
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur-slow) var(--ease),
+    background var(--dur) var(--ease);
 }
 
-.footer-jump a:hover {
-  color: var(--ink);
-  border-bottom-color: currentColor;
+.footer-fuyuu:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-ring);
+  box-shadow: var(--shadow-md);
 }
 
-body.heavy-rain .footer-jump a {
-  color: rgba(190, 210, 235, 0.75);
+.footer-fuyuu__avatar {
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border, rgba(26, 25, 34, 0.08));
+  background: rgba(26, 25, 34, 0.06);
 }
 
-body.heavy-rain .footer-jump a:hover {
-  color: rgba(220, 230, 255, 0.95);
+.footer-fuyuu__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.footer-fuyuu__text strong {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.footer-fuyuu__text small {
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--ink-faint);
+}
+
+.footer-fuyuu__arrow {
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: var(--ink-soft);
+  transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.footer-fuyuu:hover .footer-fuyuu__arrow {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+body.heavy-rain .footer-fuyuu__avatar {
+  border-color: rgba(180, 200, 230, 0.22);
 }
 
 /* 隐藏暴雨测试入口（源码可见；直达 storm.html 或 ?rain=storm） */
@@ -1367,6 +1442,12 @@ body.heavy-rain .footer-jump a:hover {
       opacity var(--dur) var(--ease),
       transform var(--dur) var(--ease),
       visibility var(--dur) var(--ease);
+  }
+
+  body.heavy-rain .site-nav {
+    background: rgba(18, 26, 40, 0.94);
+    border-color: rgba(180, 200, 230, 0.22);
+    box-shadow: 0 16px 40px rgba(4, 10, 22, 0.45);
   }
 
   .site-nav.open {

@@ -154,8 +154,11 @@ const Kaya = (() => {
     ".home-card",
     ".work-card",
     ".link-card",
-    ".page-head",
+    ".footer-fuyuu",
   ].join(",");
+
+  /** @type {{ refreshLedges?: () => void } | null} */
+  let rainApi = null;
 
   /** URL `?rain=storm`（或 `?storm`）强制暴雨，供隐藏测试入口使用 */
   function forceStormFromUrl() {
@@ -397,6 +400,19 @@ const Kaya = (() => {
       resize();
       ensureLightFx()?.start();
     }
+
+    rainApi = {
+      refreshLedges: () => {
+        if (!heavy || !running) return;
+        ensureSplashNodes(true);
+        collectLedges();
+      },
+    };
+  }
+
+  function refreshRainLedges() {
+    rainApi?.refreshLedges?.();
+    window.requestAnimationFrame(() => rainApi?.refreshLedges?.());
   }
 
   function markPageReady() {
@@ -784,12 +800,14 @@ const Kaya = (() => {
   function initWorks() {
     initCommon();
     renderGrid(document.getElementById("works-grid"), data().videos);
+    refreshRainLedges();
     markPageReady();
   }
 
   function initLinks() {
     initCommon();
     renderLinkCards(document.getElementById("link-cards"));
+    refreshRainLedges();
     markPageReady();
   }
 
