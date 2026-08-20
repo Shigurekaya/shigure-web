@@ -149,7 +149,6 @@ const Kaya = (() => {
   const HEAVY_RAIN_KEY = "kaya-heavy-rain";
   const SPLASH_SELECTORS = [
     ".site-bar",
-    ".profile-avatar",
     ".intro-panel__body",
     ".home-card",
     ".work-card",

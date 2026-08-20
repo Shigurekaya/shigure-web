@@ -1,21 +1,51 @@
 /**
- * 时雨榧 · 大雨特效（对齐小米天气暴雨观感）
+ * 时雨榧 · 大雨特效
  *
- * 修复点：
- * - 原 WebGL 片元过重易卡死；整屏半透明风暴雾挡住 UI
- * - UV 未翻转可能导致雨丝方向错误
- * - WebGL2 失败时无降级
- *
- * 分层（V2EX/MIUI：雨效夹住 UI）：
- * 0 CSS 冷蓝氛围
- * 1 site-bg 远/中景短密竖直雨丝
- * 2 页面 UI
- * 3 前景近景雨丝 + 玻璃水珠/拖尾
- * 4 卡片顶边溅花
+ * 核心玻璃层：SardineFish/raindrop-fx（MIT，WebGL2 物理水珠 + 折射）
+ * 雨丝夹层 + 卡片溅花：Canvas 2D（对齐小米天气 UI 夹层）
+ * WebGL2 / 库不可用时：退回 Canvas 粒子水珠
  */
 (() => {
   const FADE_SEC = 0.85;
   const FRAME_MS = 1000 / 30;
+
+  /** raindrop-fx 暴雨档（在官方推荐区间内拉满真实感） */
+  const GLASS_OPTS = {
+    spawnInterval: [0.05, 0.12],
+    spawnSize: [22, 88],
+    spawnLimit: 900,
+    slipRate: 0.82,
+    motionInterval: [0.18, 0.48],
+    xShifting: [0, 0.055],
+    colliderSize: 0.88,
+    trailDropDensity: 0.22,
+    trailDropSize: [0.32, 0.48],
+    trailDistance: [16, 34],
+    trailSpread: 0.5,
+    initialSpread: 0.58,
+    shrinkRate: 0.014,
+    velocitySpread: 0.34,
+    evaporate: 16,
+    gravity: 2650,
+    backgroundBlurSteps: 4,
+    mist: true,
+    mistColor: [0.02, 0.035, 0.07, 0.72],
+    mistTime: 7,
+    mistBlurStep: 5,
+    dropletsPerSeconds: 720,
+    dropletSize: [8, 26],
+    smoothRaindrop: [0.96, 1],
+    refractBase: 0.38,
+    refractScale: 0.58,
+    raindropCompose: "smoother",
+    raindropLightPos: [-0.55, 1.05, 2.1, 0],
+    raindropDiffuseLight: [0.26, 0.3, 0.36],
+    raindropShadowOffset: 0.68,
+    raindropEraserSize: [0.93, 1],
+    raindropSpecularLight: [0.12, 0.15, 0.2],
+    raindropSpecularShininess: 56,
+    raindropLightBump: 0.52,
+  };
 
   function clamp(n, lo, hi) {
     return Math.max(lo, Math.min(hi, n));
@@ -23,6 +53,59 @@
 
   function rand(a, b) {
     return a + Math.random() * (b - a);
+  }
+
+  function paintStormBg(canvas, w, h) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return canvas;
+    const tw = Math.max(2, Math.floor(w));
+    const th = Math.max(2, Math.floor(h));
+    if (canvas.width !== tw || canvas.height !== th) {
+      canvas.width = tw;
+      canvas.height = th;
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "#121a28";
+    ctx.fillRect(0, 0, tw, th);
+
+    const layers = [
+      { x: tw * 0.22, y: th * 0.3, r: tw * 0.55, c: "rgba(70,100,150,0.55)" },
+      { x: tw * 0.78, y: th * 0.22, r: tw * 0.5, c: "rgba(50,70,110,0.5)" },
+      { x: tw * 0.55, y: th * 0.7, r: tw * 0.58, c: "rgba(40,60,95,0.55)" },
+      { x: tw * 0.3, y: th * 0.85, r: tw * 0.48, c: "rgba(30,45,70,0.6)" },
+    ];
+    for (let i = 0; i < layers.length; i += 1) {
+      const L = layers[i];
+      const g = ctx.createRadialGradient(L.x, L.y, 0, L.x, L.y, L.r);
+      g.addColorStop(0, L.c);
+      g.addColorStop(1, "rgba(18,26,40,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, tw, th);
+    }
+
+    const veil = ctx.createLinearGradient(0, 0, 0, th);
+    veil.addColorStop(0, "rgba(10,16,28,0.55)");
+    veil.addColorStop(0.3, "rgba(10,16,28,0)");
+    veil.addColorStop(0.65, "rgba(10,16,28,0)");
+    veil.addColorStop(1, "rgba(8,12,22,0.65)");
+    ctx.fillStyle = veil;
+    ctx.fillRect(0, 0, tw, th);
+
+    const haze = ctx.createRadialGradient(tw * 0.5, 0, 0, tw * 0.5, 0, th * 0.55);
+    haze.addColorStop(0, "rgba(90,120,170,0.2)");
+    haze.addColorStop(1, "rgba(90,120,170,0)");
+    ctx.fillStyle = haze;
+    ctx.fillRect(0, 0, tw, th);
+    return canvas;
+  }
+
+  function applyGlassOpts(fx) {
+    if (!fx?.options) return;
+    const keys = Object.keys(GLASS_OPTS);
+    for (let i = 0; i < keys.length; i += 1) {
+      const k = keys[i];
+      fx.options[k] = GLASS_OPTS[k];
+    }
   }
 
   /**
@@ -34,6 +117,14 @@
    */
   function attach(fxRoot, opts) {
     const bgHost = opts.bgHost || null;
+    const RaindropCtor = typeof window.RaindropFX === "function"
+      ? window.RaindropFX
+      : window.RaindropFX?.default;
+
+    const glassCanvas = document.createElement("canvas");
+    glassCanvas.className = "site-bg__glass";
+    glassCanvas.setAttribute("aria-hidden", "true");
+    if (bgHost) bgHost.appendChild(glassCanvas);
 
     const bgCanvas = document.createElement("canvas");
     bgCanvas.className = "site-bg__heavy";
@@ -55,6 +146,7 @@
     const bgCtx = bgCanvas.getContext("2d", { alpha: true });
     const fgCtx = fgCanvas.getContext("2d", { alpha: true });
     const sctx = splashCanvas.getContext("2d", { alpha: true });
+    const stormBg = document.createElement("canvas");
 
     let w = 0;
     let h = 0;
@@ -67,6 +159,11 @@
     let targetIntensity = 0;
     let stopTimer = 0;
     let splashAcc = 0;
+    let glassFx = null;
+    let glassReady = false;
+    let glassFailed = false;
+    let glassAnimating = false;
+    let useParticleBeads = true;
 
     /** @type {Array<any>} */
     const far = [];
@@ -96,7 +193,6 @@
     };
 
     const makeStreak = (layer) => {
-      /* 参考片：倾角≈0，长度≈0.6%–2.8% 屏高，短密冷白 */
       const spec = layer === "far"
         ? { lenH: [0.004, 0.01], speed: [520, 780], alpha: [0.1, 0.22], width: [0.7, 1.05] }
         : layer === "mid"
@@ -137,7 +233,6 @@
     const rebuild = () => {
       if (w < 2 || h < 2) return;
       const mpx = (w * h) / 1e6;
-      /* 参考约 223/MPx，桌面略降 */
       const total = clamp(Math.round(mpx * 190), 160, 460);
       const nFar = Math.round(total * 0.5);
       const nMid = Math.round(total * 0.32);
@@ -150,14 +245,71 @@
       for (let i = 0; i < nMid; i += 1) mid.push(makeStreak("mid"));
       for (let i = 0; i < nNear; i += 1) near.push(makeStreak("near"));
 
-      const beadN = clamp(Math.round(mpx * 24), 30, 70);
-      const slideN = Math.max(5, Math.round(beadN * 0.22));
       beads.length = 0;
-      for (let i = 0; i < beadN - slideN; i += 1) beads.push(makeBead(false));
-      for (let i = 0; i < slideN; i += 1) beads.push(makeBead(true));
+      if (useParticleBeads) {
+        const beadN = clamp(Math.round(mpx * 24), 30, 70);
+        const slideN = Math.max(5, Math.round(beadN * 0.22));
+        for (let i = 0; i < beadN - slideN; i += 1) beads.push(makeBead(false));
+        for (let i = 0; i < slideN; i += 1) beads.push(makeBead(true));
+      }
       trails.length = 0;
       splashes.length = 0;
       rims.length = 0;
+    };
+
+    const syncGlassOpacity = () => {
+      glassCanvas.style.opacity = String(clamp(intensity, 0, 1));
+    };
+
+    const ensureGlass = async () => {
+      if (glassReady || glassFailed) return glassReady;
+      if (!RaindropCtor || !bgHost) {
+        glassFailed = true;
+        useParticleBeads = true;
+        return false;
+      }
+      try {
+        paintStormBg(stormBg, w || window.innerWidth, h || window.innerHeight);
+        glassCanvas.width = Math.max(1, Math.floor(w));
+        glassCanvas.height = Math.max(1, Math.floor(h));
+
+        glassFx = new RaindropCtor({
+          canvas: glassCanvas,
+          width: glassCanvas.width,
+          height: glassCanvas.height,
+          background: stormBg,
+          ...GLASS_OPTS,
+        });
+        applyGlassOpts(glassFx);
+        await glassFx.setBackground(stormBg);
+        await glassFx.start();
+        glassReady = true;
+        glassAnimating = true;
+        useParticleBeads = false;
+        beads.length = 0;
+        trails.length = 0;
+        mist.style.opacity = "0.35";
+        return true;
+      } catch (err) {
+        console.warn("[kaya] raindrop-fx unavailable, using particle beads", err);
+        glassFailed = true;
+        glassFx = null;
+        useParticleBeads = true;
+        mist.style.opacity = "";
+        return false;
+      }
+    };
+
+    const resizeGlass = async () => {
+      if (!glassReady || !glassFx || w < 2 || h < 2) return;
+      try {
+        paintStormBg(stormBg, w, h);
+        glassFx.resize(Math.floor(w), Math.floor(h));
+        await glassFx.setBackground(stormBg);
+        applyGlassOpts(glassFx);
+      } catch (err) {
+        console.warn("[kaya] raindrop-fx resize failed", err);
+      }
     };
 
     const resize = () => {
@@ -168,6 +320,8 @@
       fitCanvas(fgCanvas, fgCtx);
       fitCanvas(splashCanvas, sctx);
       rebuild();
+      void resizeGlass();
+      syncGlassOpacity();
     };
 
     const stepStreak = (d, dt) => {
@@ -277,6 +431,11 @@
       if (bgCtx) bgCtx.clearRect(0, 0, w, h);
       if (fgCtx) fgCtx.clearRect(0, 0, w, h);
       if (sctx) sctx.clearRect(0, 0, w, h);
+      syncGlassOpacity();
+      try {
+        glassFx?.stop();
+        glassAnimating = false;
+      } catch { /* ignore */ }
     };
 
     const tick = (now) => {
@@ -295,6 +454,7 @@
           intensity = targetIntensity;
         }
       }
+      syncGlassOpacity();
       const aMul = intensity;
       if (aMul <= 0.001) {
         if (bgCtx) bgCtx.clearRect(0, 0, w, h);
@@ -303,22 +463,20 @@
         return;
       }
 
-      /* —— 背景雨丝（UI 下方） —— */
       if (bgCtx) {
         bgCtx.clearRect(0, 0, w, h);
         for (let i = 0; i < far.length; i += 1) {
           const d = far[i];
-          drawStreak(bgCtx, d, aMul);
+          drawStreak(bgCtx, d, aMul * (glassReady ? 0.85 : 1));
           stepStreak(d, dt);
         }
         for (let i = 0; i < mid.length; i += 1) {
           const d = mid[i];
-          drawStreak(bgCtx, d, aMul);
+          drawStreak(bgCtx, d, aMul * (glassReady ? 0.9 : 1));
           stepStreak(d, dt);
         }
       }
 
-      /* —— 前景雨丝 + 玻璃水珠 —— */
       if (fgCtx) {
         fgCtx.clearRect(0, 0, w, h);
         for (let i = 0; i < near.length; i += 1) {
@@ -327,67 +485,68 @@
           stepStreak(d, dt);
         }
 
-        for (let i = trails.length - 1; i >= 0; i -= 1) {
-          const t = trails[i];
-          t.age += dt;
-          const p = 1 - t.age / t.life;
-          if (p <= 0) { trails.splice(i, 1); continue; }
-          const tg = fgCtx.createLinearGradient(t.x, t.y, t.x + t.dx, t.y + t.dy);
-          tg.addColorStop(0, `rgba(200,220,245,${0.22 * p * aMul})`);
-          tg.addColorStop(1, "rgba(200,220,245,0)");
-          fgCtx.strokeStyle = tg;
-          fgCtx.lineWidth = t.w;
-          fgCtx.beginPath();
-          fgCtx.moveTo(t.x, t.y);
-          fgCtx.lineTo(t.x + t.dx, t.y + t.dy);
-          fgCtx.stroke();
-        }
+        if (useParticleBeads) {
+          for (let i = trails.length - 1; i >= 0; i -= 1) {
+            const t = trails[i];
+            t.age += dt;
+            const p = 1 - t.age / t.life;
+            if (p <= 0) { trails.splice(i, 1); continue; }
+            const tg = fgCtx.createLinearGradient(t.x, t.y, t.x + t.dx, t.y + t.dy);
+            tg.addColorStop(0, `rgba(200,220,245,${0.22 * p * aMul})`);
+            tg.addColorStop(1, "rgba(200,220,245,0)");
+            fgCtx.strokeStyle = tg;
+            fgCtx.lineWidth = t.w;
+            fgCtx.beginPath();
+            fgCtx.moveTo(t.x, t.y);
+            fgCtx.lineTo(t.x + t.dx, t.y + t.dy);
+            fgCtx.stroke();
+          }
 
-        for (let i = beads.length - 1; i >= 0; i -= 1) {
-          const b = beads[i];
-          b.wobble += dt * 1.35;
-          if (b.sliding) {
-            b.age += dt;
-            b.vy += 16 * dt;
-            b.vx += Math.sin(b.wobble) * 3.5 * dt;
-            b._trail -= dt;
-            if (b._trail <= 0) {
-              b._trail = 0.04;
-              if (trails.length < 120) {
-                trails.push({
-                  x: b.x,
-                  y: b.y - b.r * b.stretch * 0.2,
-                  dx: b.vx * 0.05,
-                  dy: -b.r * b.stretch * 2.1,
-                  w: Math.max(1.2, b.r * 0.45),
-                  life: rand(0.35, 0.65),
-                  age: 0,
-                });
+          for (let i = beads.length - 1; i >= 0; i -= 1) {
+            const b = beads[i];
+            b.wobble += dt * 1.35;
+            if (b.sliding) {
+              b.age += dt;
+              b.vy += 16 * dt;
+              b.vx += Math.sin(b.wobble) * 3.5 * dt;
+              b._trail -= dt;
+              if (b._trail <= 0) {
+                b._trail = 0.04;
+                if (trails.length < 120) {
+                  trails.push({
+                    x: b.x,
+                    y: b.y - b.r * b.stretch * 0.2,
+                    dx: b.vx * 0.05,
+                    dy: -b.r * b.stretch * 2.1,
+                    w: Math.max(1.2, b.r * 0.45),
+                    life: rand(0.35, 0.65),
+                    age: 0,
+                  });
+                }
+              }
+              b.y += b.vy * dt;
+              b.x += b.vx * dt;
+              if (b.age > b.life || b.y > h + 24) {
+                beads[i] = makeBead(Math.random() < 0.4);
+                continue;
+              }
+            } else {
+              b.x += Math.sin(b.wobble) * 0.3 * dt;
+              b.y += (0.7 + Math.cos(b.wobble * 0.7)) * dt;
+              if (b.y > h + 10) b.y = -8;
+              if (Math.random() < 0.0008) {
+                b.sliding = true;
+                b.vy = rand(42, 85);
+                b.stretch = rand(1.55, 2.4);
+                b.life = rand(3, 7);
+                b.age = 0;
               }
             }
-            b.y += b.vy * dt;
-            b.x += b.vx * dt;
-            if (b.age > b.life || b.y > h + 24) {
-              beads[i] = makeBead(Math.random() < 0.4);
-              continue;
-            }
-          } else {
-            b.x += Math.sin(b.wobble) * 0.3 * dt;
-            b.y += (0.7 + Math.cos(b.wobble * 0.7)) * dt;
-            if (b.y > h + 10) b.y = -8;
-            if (Math.random() < 0.0008) {
-              b.sliding = true;
-              b.vy = rand(42, 85);
-              b.stretch = rand(1.55, 2.4);
-              b.life = rand(3, 7);
-              b.age = 0;
-            }
+            drawBead(b, aMul);
           }
-          drawBead(b, aMul);
         }
       }
 
-      /* —— 溅花 —— */
       if (sctx) {
         sctx.clearRect(0, 0, w, h);
         const ledges = opts.getLedges() || [];
@@ -460,6 +619,18 @@
           t0 = performance.now();
           last = t0;
           raf = requestAnimationFrame(tick);
+          void ensureGlass().then((ok) => {
+            if (!ok || !running || targetIntensity <= 0) return;
+            if (!glassAnimating) {
+              try {
+                glassFx.start();
+                glassAnimating = true;
+              } catch (err) {
+                console.warn("[kaya] raindrop-fx restart failed", err);
+              }
+            }
+            rebuild();
+          });
         }
       },
       stop() {
@@ -470,6 +641,7 @@
       resize,
       destroy() {
         hardStop();
+        glassCanvas.remove();
         bgCanvas.remove();
         fgCanvas.remove();
         splashCanvas.remove();
