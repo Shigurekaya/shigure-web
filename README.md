@@ -2,10 +2,37 @@
 
 个人网站静态页面，部署于 [Vercel](https://shigure-web.vercel.app)。
 
+当前线上仅开放：
+
 - `/fuyuu` — 浮游Lev 作品集
 - `/kaya` — 时雨榧 主页
-- `/koharu` — 小春日向 主页（建设中）
-- `/shiotsuki` — 汐月空_poi 主页（建设中）
+
+本地仍保留、但 **不部署到 Vercel**（见 `.vercelignore`）：
+
+- `/koharu` — 小春日向（暂缓）
+- `/shiotsuki` — 汐月空_poi（暂缓）
+- `/tianhu` — 天狐页（暂缓）
+
+恢复上线：从 `.vercelignore` 去掉对应目录，并去掉 `vercel.json` 里相关 redirects。
+
+## 本地启动
+
+页面使用绝对路径（如 `/fuyuu/`），**必须从本仓库根目录**起静态服务，不要直接双击 HTML。
+
+```powershell
+cd E:\网站\测试框架\shigure-web
+py -3 -m http.server 3000
+```
+
+浏览器打开：
+
+| 路径 | 页面 |
+|------|------|
+| http://localhost:3000/ | 入口（重定向到 `/fuyuu/`） |
+| http://localhost:3000/fuyuu/ | 浮游Lev |
+| http://localhost:3000/kaya/ | 时雨榧 |
+
+无需 `npm install`；`package.json` 仅用于缩略图脚本（`npm run thumbs`）。线上部署由 Vercel 在推送 `main` 后自动完成。
 
 ## 运维
 
@@ -15,4 +42,3 @@
 
 - **kaya**（`/kaya`）为时雨榧主页；不再提供其它个人站聚合页。
 - **fuyuu** 仅保留页脚隐秘入口 `fy-kaya-corner` 指向 kaya，不链接其它 creator 站。
-- **koharu、shiotsuki** 等 creator 站**互不链接**，链接页仅展示 B 站等外部平台。

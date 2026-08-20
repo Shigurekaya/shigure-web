@@ -25,6 +25,51 @@
       "source": "/fuyulev/:path*",
       "destination": "/fuyuu/:path*",
       "permanent": true
+    },
+    {
+      "source": "/koharu",
+      "destination": "/fuyuu/",
+      "permanent": false
+    },
+    {
+      "source": "/koharu/",
+      "destination": "/fuyuu/",
+      "permanent": false
+    },
+    {
+      "source": "/koharu/:path*",
+      "destination": "/fuyuu/",
+      "permanent": false
+    },
+    {
+      "source": "/shiotsuki",
+      "destination": "/fuyuu/",
+      "permanent": false
+    },
+    {
+      "source": "/shiotsuki/",
+      "destination": "/fuyuu/",
+      "permanent": false
+    },
+    {
+      "source": "/shiotsuki/:path*",
+      "destination": "/fuyuu/",
+      "permanent": false
+    },
+    {
+      "source": "/tianhu",
+      "destination": "/fuyuu/",
+      "permanent": false
+    },
+    {
+      "source": "/tianhu/",
+      "destination": "/fuyuu/",
+      "permanent": false
+    },
+    {
+      "source": "/tianhu/:path*",
+      "destination": "/fuyuu/",
+      "permanent": false
     }
   ],
   "headers": [
@@ -41,18 +86,6 @@
       ]
     },
     {
-      "source": "/koharu/assets/images/covers/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/shiotsuki/assets/images/covers/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
       "source": "/fuyuu/js/site-data.js",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
@@ -60,18 +93,6 @@
     },
     {
       "source": "/kaya/js/site-data.js",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/koharu/js/site-data.js",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/shiotsuki/js/site-data.js",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
       ]
@@ -143,54 +164,6 @@
       ]
     },
     {
-      "source": "/koharu/js/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
-      ]
-    },
-    {
-      "source": "/koharu/css/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
-      ]
-    },
-    {
-      "source": "/koharu/assets/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/koharu/data/images/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
-      ]
-    },
-    {
-      "source": "/shiotsuki/js/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
-      ]
-    },
-    {
-      "source": "/shiotsuki/css/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
-      ]
-    },
-    {
-      "source": "/shiotsuki/assets/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/shiotsuki/data/images/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
-      ]
-    },
-    {
       "source": "/robots.txt",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, must-revalidate" },
@@ -202,42 +175,6 @@
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, must-revalidate" },
         { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/tianhu/js/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/tianhu/css/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/tianhu/images/:path*",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
-      ]
-    },
-    {
-      "source": "/tianhu",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/tianhu/",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/tianhu/index.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
       ]
     },
     {

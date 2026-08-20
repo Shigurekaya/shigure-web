@@ -465,14 +465,20 @@ const FyApp = (() => {
 
     document.body.classList.add("fy-intro-playing");
     const stop = startIntroFloat(document.getElementById("fy-intro-float"));
+    const OUT_MS = 1100;
+    const REVEAL_DELAY = 220;
 
     window.setTimeout(() => {
-      document.body.classList.remove("fy-intro-playing");
-      document.body.classList.add("fy-home-ready");
       intro.classList.add("is-done");
-      stop();
-      window.setTimeout(() => intro.remove(), 800);
-    }, 2600);
+      window.setTimeout(() => {
+        document.body.classList.add("fy-home-ready");
+      }, REVEAL_DELAY);
+      window.setTimeout(() => {
+        document.body.classList.remove("fy-intro-playing");
+        stop();
+        intro.remove();
+      }, OUT_MS);
+    }, 2700);
   }
 
   function initHome() {

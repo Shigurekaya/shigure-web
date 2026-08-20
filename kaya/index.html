@@ -6,8 +6,8 @@
   <base href="/kaya/" />
   <title>时雨榧</title>
   <meta name="description" content="时雨榧 — 个人主页" />
-  <meta name="theme-color" content="#f6f4f1" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <link rel="stylesheet" href="css/style.css?v=202608201210" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
 <body class="page-home">
@@ -19,11 +19,8 @@
     <div class="home-intro__grain"></div>
     <div class="home-intro__stage">
       <div class="home-intro__wrap">
-        <span class="home-intro__rgb home-intro__rgb--r" aria-hidden="true">ShigureKaya</span>
-        <span class="home-intro__rgb home-intro__rgb--c" aria-hidden="true">ShigureKaya</span>
-        <p class="home-intro__mark">ShigureKaya</p>
+        <canvas class="home-intro__liquid" id="intro-liquid" role="img" aria-label="ShigureKaya"></canvas>
       </div>
-      <span class="home-intro__shine"></span>
       <span class="home-intro__rule"></span>
     </div>
   </div>
@@ -66,12 +63,6 @@
         <span class="home-card__desc">视频与投稿列表</span>
         <span class="home-card__arrow" aria-hidden="true">→</span>
       </a>
-      <a href="links.html" class="home-card">
-        <span class="home-card__label">Links</span>
-        <span class="home-card__title">链接</span>
-        <span class="home-card__desc">各平台主页</span>
-        <span class="home-card__arrow" aria-hidden="true">→</span>
-      </a>
     </section>
   </main>
 
@@ -80,7 +71,7 @@
   </footer>
 
   <script src="js/site-data.js?v=202608191740"></script>
-  <script src="js/main.js?v=202608191800" defer></script>
+  <script src="js/main.js?v=202608201220" defer></script>
   <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initHome());</script>
 </body>
 </html>
