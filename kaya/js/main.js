@@ -266,6 +266,7 @@ const Kaya = (() => {
       }
       heavyFx = window.KayaHeavyRain.attach(fx, {
         getLedges: () => ledges,
+        bgHost: host,
       });
       return heavyFx;
     };
