@@ -432,6 +432,12 @@ const FyApp = (() => {
     };
   }
 
+  function normalizePathname(pathname) {
+    let p = pathname || "/";
+    if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
+    return p || "/";
+  }
+
   function shouldPlayHomeIntro(sitePrefix) {
     const nav = performance.getEntriesByType("navigation")[0];
     if (nav?.type === "reload") return true;
@@ -443,10 +449,12 @@ const FyApp = (() => {
     try {
       const refUrl = new URL(ref);
       if (refUrl.origin !== location.origin) return true;
-      const p = refUrl.pathname;
-      if (!p.includes(sitePrefix)) return true;
-      const home = p.endsWith(sitePrefix) || p.endsWith(`${sitePrefix}index.html`);
-      return home;
+
+      const p = normalizePathname(refUrl.pathname);
+      const prefix = String(sitePrefix || "").replace(/\/+$/, "") || "";
+      if (!prefix) return p === "/" || p === "/index.html";
+      if (p !== prefix && !p.startsWith(`${prefix}/`)) return true;
+      return p === prefix || p === `${prefix}/index.html`;
     } catch {
       return true;
     }

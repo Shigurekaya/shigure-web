@@ -147,6 +147,7 @@ const Kaya = (() => {
   }
 
   const HEAVY_RAIN_CHANCE = 0.1;
+  const RAIN_MODE_KEY = "kaya-rain-heavy";
   const SPLASH_SELECTORS = [
     ".site-bar",
     ".intro-panel__body",
@@ -167,10 +168,56 @@ const Kaya = (() => {
     }
   }
 
-  /** 进入页面：强制暴雨 > 否则 10% 暴雨 / 90% 小雨 */
+  function navigationType() {
+    try {
+      const entry = performance.getEntriesByType?.("navigation")?.[0];
+      if (entry?.type) return entry.type;
+    } catch { /* ignore */ }
+    try {
+      // 0=navigate 1=reload 2=back_forward
+      const t = performance.navigation?.type;
+      if (t === 1) return "reload";
+      if (t === 2) return "back_forward";
+    } catch { /* ignore */ }
+    return "navigate";
+  }
+
+  function readStoredHeavy() {
+    try {
+      const v = sessionStorage.getItem(RAIN_MODE_KEY);
+      if (v === "1") return true;
+      if (v === "0") return false;
+    } catch { /* ignore */ }
+    return null;
+  }
+
+  function writeStoredHeavy(heavy) {
+    try {
+      sessionStorage.setItem(RAIN_MODE_KEY, heavy ? "1" : "0");
+    } catch { /* ignore */ }
+  }
+
+  /**
+   * 雨效模式：
+   * - URL 强制暴雨优先
+   * - 刷新（reload）才重新 10% 抽签
+   * - 站内点「作品 / 链接 / 首页」沿用本次会话已选模式，不重抽
+   */
   function pickInitialHeavy() {
-    if (forceStormFromUrl()) return true;
-    return Math.random() < HEAVY_RAIN_CHANCE;
+    if (forceStormFromUrl()) {
+      writeStoredHeavy(true);
+      return true;
+    }
+
+    const isReload = navigationType() === "reload";
+    if (!isReload) {
+      const saved = readStoredHeavy();
+      if (saved !== null) return saved;
+    }
+
+    const heavy = Math.random() < HEAVY_RAIN_CHANCE;
+    writeStoredHeavy(heavy);
+    return heavy;
   }
 
   function initSiteRain(host) {
@@ -191,47 +238,28 @@ const Kaya = (() => {
     if (!bgCtx) return;
 
     const heavy = pickInitialHeavy();
-    let raf = 0;
     let running = true;
     let w = 0;
     let h = 0;
-    let last = performance.now();
     let resizeTimer = 0;
     let lastScrollAt = 0;
     let scrollRaf = 0;
     let lastScrollY = window.scrollY || 0;
-    const FRAME_MS = 1000 / 30;
-    const classic = [];
     /** @type {Array<{x:number,y:number,w:number,radius:number}>} */
     let ledges = [];
     /** @type {WeakMap<Element, number>} */
     const radiusCache = new WeakMap();
     let heavyFx = null;
+    let lightFx = null;
     let splashNodes = null;
     let splashNodesAt = 0;
 
-    const clampCount = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
-
-    const makeClassic = () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      len: 7 + Math.random() * 12,
-      speed: 150 + Math.random() * 170,
-      alpha: 0.08 + Math.random() * 0.18,
-      drift: 16 + Math.random() * 22,
-    });
-
     const applyRainMode = () => {
       document.body.classList.toggle("heavy-rain", heavy);
+      document.body.classList.toggle("light-rain", !heavy);
       fx.classList.toggle("is-active", heavy);
       const theme = document.querySelector('meta[name="theme-color"]');
       if (theme) theme.setAttribute("content", heavy ? "#121a28" : "#f7f8fc");
-    };
-
-    const rebuildClassic = () => {
-      const n = clampCount(Math.round((w * h) / 15000), 43, 86);
-      while (classic.length < n) classic.push(makeClassic());
-      if (classic.length > n) classic.length = n;
     };
 
     const ensureSplashNodes = (force = false) => {
@@ -282,6 +310,16 @@ const Kaya = (() => {
       return heavyFx;
     };
 
+    const ensureLightFx = () => {
+      if (lightFx) return lightFx;
+      if (!window.KayaLightRain?.attach) {
+        console.warn("[kaya] KayaLightRain missing");
+        return null;
+      }
+      lightFx = window.KayaLightRain.attach(bgCanvas, { mistHost: host });
+      return lightFx;
+    };
+
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
@@ -289,50 +327,13 @@ const Kaya = (() => {
         w = Math.round(window.visualViewport.width);
         h = Math.round(window.visualViewport.height);
       }
-      const dpr = Math.min(window.devicePixelRatio || 1, w > 1200 ? 1.25 : 1.5);
-      bgCanvas.width = Math.floor(w * dpr);
-      bgCanvas.height = Math.floor(h * dpr);
-      bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      bgCtx.lineCap = "round";
-      rebuildClassic();
       if (heavy) {
         ensureSplashNodes(true);
         collectLedges();
+        heavyFx?.resize();
+      } else {
+        lightFx?.resize();
       }
-      heavyFx?.resize();
-    };
-
-    const drawClassic = (dt) => {
-      bgCtx.clearRect(0, 0, w, h);
-      bgCtx.strokeStyle = "rgba(107, 79, 184, 1)";
-      bgCtx.lineWidth = 1;
-      for (let i = 0; i < classic.length; i += 1) {
-        const d = classic[i];
-        bgCtx.globalAlpha = d.alpha;
-        bgCtx.beginPath();
-        bgCtx.moveTo(d.x, d.y);
-        bgCtx.lineTo(d.x + d.drift * 0.04, d.y + d.len);
-        bgCtx.stroke();
-        d.y += d.speed * dt;
-        d.x += d.drift * dt;
-        if (d.y > h + 16) {
-          d.y = -16;
-          d.x = Math.random() * w;
-        } else if (d.x > w + 12) {
-          d.x = -8;
-        }
-      }
-      bgCtx.globalAlpha = 1;
-    };
-
-    const tick = (now) => {
-      if (!running || heavy) return;
-      raf = window.requestAnimationFrame(tick);
-      const elapsed = now - last;
-      if (elapsed < FRAME_MS) return;
-      const dt = Math.min(0.05, elapsed / 1000);
-      last = now;
-      drawClassic(dt);
     };
 
     const onResize = () => {
@@ -361,30 +362,28 @@ const Kaya = (() => {
       host.classList.toggle("is-paused", hidden);
       if (hidden) {
         running = false;
-        window.cancelAnimationFrame(raf);
         window.cancelAnimationFrame(scrollRaf);
         scrollRaf = 0;
         heavyFx?.stop();
+        lightFx?.stop();
         return;
       }
       if (!running) {
         running = true;
-        last = performance.now();
         if (heavy) ensureHeavyFx()?.start();
-        else raf = window.requestAnimationFrame(tick);
+        else ensureLightFx()?.start();
       }
     };
 
     applyRainMode();
-    resize();
     host.classList.toggle("is-paused", document.hidden);
     window.addEventListener("resize", onResize, { passive: true });
     window.visualViewport?.addEventListener("resize", onResize, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
 
     if (heavy) {
-      bgCtx.clearRect(0, 0, w, h);
       window.addEventListener("scroll", onScroll, { passive: true, capture: true });
+      resize();
       ensureHeavyFx()?.start();
       window.setTimeout(() => {
         ensureSplashNodes(true);
@@ -395,7 +394,8 @@ const Kaya = (() => {
         collectLedges();
       }, 1100);
     } else {
-      raf = window.requestAnimationFrame(tick);
+      resize();
+      ensureLightFx()?.start();
     }
   }
 
@@ -499,6 +499,13 @@ const Kaya = (() => {
     };
   }
 
+  function normalizePathname(pathname) {
+    let p = pathname || "/";
+    if (p.length > 1 && p.endsWith("/")) p = p.slice(0, -1);
+    return p || "/";
+  }
+
+  /** Home intro: play on direct/external/reload; skip when arriving from another page of the same site. */
   function shouldPlayHomeIntro(sitePrefix) {
     const nav = performance.getEntriesByType("navigation")[0];
     if (nav?.type === "reload") return true;
@@ -510,10 +517,27 @@ const Kaya = (() => {
     try {
       const refUrl = new URL(ref);
       if (refUrl.origin !== location.origin) return true;
-      const p = refUrl.pathname;
-      if (!p.includes(sitePrefix)) return true;
-      const home = p.endsWith(sitePrefix) || p.endsWith(`${sitePrefix}index.html`);
-      return home;
+
+      const p = normalizePathname(refUrl.pathname);
+      const prefix = sitePrefix === "/" ? "" : String(sitePrefix || "").replace(/\/+$/, "");
+
+      if (!prefix) {
+        // Root site: treat /fuyuu and deferred creator paths as outside.
+        if (
+          p === "/fuyuu" ||
+          p.startsWith("/fuyuu/") ||
+          p.startsWith("/koharu") ||
+          p.startsWith("/shiotsuki") ||
+          p.startsWith("/tianhu") ||
+          p.startsWith("/api")
+        ) {
+          return true;
+        }
+        return p === "/" || p === "/index.html";
+      }
+
+      if (p !== prefix && !p.startsWith(`${prefix}/`)) return true;
+      return p === prefix || p === `${prefix}/index.html`;
     } catch {
       return true;
     }
@@ -718,7 +742,7 @@ const Kaya = (() => {
   function initHomeIntro() {
     const intro = document.getElementById("home-intro");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const play = shouldPlayHomeIntro("/kaya/");
+    const play = shouldPlayHomeIntro("/");
 
     if (!intro || reduced || !play) {
       document.body.classList.add("home-ready");

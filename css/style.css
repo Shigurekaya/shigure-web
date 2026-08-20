@@ -127,6 +127,27 @@ body.heavy-rain .site-bg__rain {
   pointer-events: none;
 }
 
+.site-bg__light-mist {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background:
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(186, 170, 245, 0.14), transparent 70%),
+    radial-gradient(ellipse 80% 40% at 20% 90%, rgba(194, 233, 251, 0.1), transparent 65%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 35%, transparent 70%, rgba(139, 111, 212, 0.05));
+}
+
+body.light-rain .site-bg__light-mist {
+  opacity: 1;
+}
+
+body.light-rain .site-bg__rain {
+  opacity: 0.85;
+}
+
 .site-bg__glass {
   position: absolute;
   inset: 0;
@@ -292,7 +313,9 @@ body.heavy-rain .profile-avatar .avatar {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-fx {
+  .site-fx,
+  .site-bg__rain,
+  .site-bg__light-mist {
     display: none !important;
   }
   .site-fx__mist {
@@ -950,6 +973,34 @@ body.heavy-rain .profile-avatar .avatar {
 
 .site-footer:hover p {
   color: var(--ink-soft);
+}
+
+.footer-jump {
+  margin-bottom: 0.55rem;
+}
+
+.footer-jump a {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.footer-jump a:hover {
+  color: var(--ink);
+  border-bottom-color: currentColor;
+}
+
+body.heavy-rain .footer-jump a {
+  color: rgba(190, 210, 235, 0.75);
+}
+
+body.heavy-rain .footer-jump a:hover {
+  color: rgba(220, 230, 255, 0.95);
 }
 
 /* 隐藏暴雨测试入口（源码可见；直达 storm.html 或 ?rain=storm） */

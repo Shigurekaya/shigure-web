@@ -2,79 +2,11 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <base href="/kaya/" />
+  <meta http-equiv="refresh" content="0; url=/" />
   <title>时雨榧</title>
-  <meta name="description" content="时雨榧 — 个人主页" />
-  <meta name="theme-color" content="#f7f8fc" />
-  <link rel="stylesheet" href="css/style.css?v=202608201700" />
-  <link rel="icon" href="assets/images/avatar.jpg" />
+  <script>location.replace("/");</script>
 </head>
-<body class="page-home">
-  <div class="site-bg" aria-hidden="true"></div>
-
-  <div class="home-intro" id="home-intro" aria-hidden="true">
-    <canvas class="home-intro__rain" id="intro-rain"></canvas>
-    <div class="home-intro__mist"></div>
-    <div class="home-intro__grain"></div>
-    <div class="home-intro__stage">
-      <div class="home-intro__wrap">
-        <canvas class="home-intro__liquid" id="intro-liquid" role="img" aria-label="ShigureKaya"></canvas>
-      </div>
-      <span class="home-intro__rule"></span>
-    </div>
-  </div>
-
-  <header class="site-header">
-    <div class="site-bar">
-      <a href="index.html" class="brand">时雨榧</a>
-      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单" aria-expanded="false">
-        <span></span><span></span>
-      </button>
-      <nav>
-        <ul class="site-nav" id="site-nav">
-          <li><a href="index.html" class="active">主页</a></li>
-          <li><a href="works.html">作品</a></li>
-          <li><a href="links.html">链接</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main class="home-main">
-    <section class="profile-hero">
-      <div class="profile-avatar">
-        <img id="hero-avatar" class="avatar" src="assets/images/avatar.jpg" alt="时雨榧" width="128" height="128" fetchpriority="high" decoding="async" />
-      </div>
-      <h1 class="profile-name" id="hero-name">时雨榧</h1>
-      <p class="profile-roman">ShigureKaya</p>
-      <p class="profile-sign" id="hero-sign">实现愿望程度的能力</p>
-      <nav class="social-row" id="social-icons" aria-label="外部链接"></nav>
-    </section>
-
-    <section class="intro-panel" aria-label="简介">
-      <div class="intro-panel__body" id="intro-body"></div>
-    </section>
-
-    <section class="home-cards" aria-label="快捷入口">
-      <a href="works.html" class="home-card">
-        <span class="home-card__label">Portfolio</span>
-        <span class="home-card__title">作品集</span>
-        <span class="home-card__desc">视频与投稿列表</span>
-        <span class="home-card__arrow" aria-hidden="true">→</span>
-      </a>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <p>© <span id="year"></span> 时雨榧</p>
-    <a class="storm-gate" href="storm.html" tabindex="-1" aria-hidden="true">暴雨测试</a>
-  </footer>
-
-  <script src="js/site-data.js?v=202608191740"></script>
-  <script src="js/vendor/raindrop-fx.js"></script>
-  <script src="js/heavy-rain.js?v=202608201700"></script>
-  <script src="js/main.js?v=202608201700" defer></script>
-  <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initHome());</script>
+<body>
+  <p><a href="/">时雨榧</a></p>
 </body>
 </html>

@@ -4,8 +4,8 @@
 
 当前线上仅开放：
 
-- `/fuyuu` — 浮游Lev 作品集
-- `/kaya` — 时雨榧 主页
+- `/` — 时雨榧（站点主页，无 `/kaya` 后缀）
+- `/fuyuu/` — 浮游Lev 作品集
 
 本地仍保留、但 **不部署到 Vercel**（见 `.vercelignore`）：
 
@@ -15,22 +15,27 @@
 
 恢复上线：从 `.vercelignore` 去掉对应目录，并去掉 `vercel.json` 里相关 redirects。
 
+旧路径 `/kaya/` 会永久重定向到 `/`（兼容旧书签）。
+
 ## 本地启动
 
-页面使用绝对路径（如 `/fuyuu/`），**必须从本仓库根目录**起静态服务，不要直接双击 HTML。
+页面使用绝对路径（如 `/fuyuu/`、`/css/`），**必须从本仓库根目录**起静态服务，不要直接双击 HTML。
 
 ```powershell
 cd E:\网站\测试框架\shigure-web
-py -3 -m http.server 3000
+py -3 .\serve-local.py
 ```
+
+（也可用 `py -3 -m http.server 3000`，但无 clean URL，且 HTML 可能被浏览器缓存旧跳转页；`serve-local.py` 会对 HTML 发 `Cache-Control: no-store`，并支持 `/works/` 等 clean 路径。）
 
 浏览器打开：
 
 | 路径 | 页面 |
 |------|------|
-| http://localhost:3000/ | 入口（重定向到 `/fuyuu/`） |
+| http://localhost:3000/ | 时雨榧（主站） |
+| http://localhost:3000/works/ | 作品 |
+| http://localhost:3000/links/ | 链接 |
 | http://localhost:3000/fuyuu/ | 浮游Lev |
-| http://localhost:3000/kaya/ | 时雨榧 |
 
 无需 `npm install`；`package.json` 仅用于缩略图脚本（`npm run thumbs`）。线上部署由 Vercel 在推送 `main` 后自动完成。
 
@@ -74,5 +79,5 @@ cd E:\网站\测试框架\shigure-web
 
 ## 站点互链规则
 
-- **kaya**（`/kaya`）为时雨榧主页；不再提供其它个人站聚合页。
-- **fuyuu** 仅保留页脚隐秘入口 `fy-kaya-corner` 指向 kaya，不链接其它 creator 站。
+- 根路径 `/` 为时雨榧主页；页脚可见链接「浮游Lev」→ `/fuyuu/`。
+- **fuyuu** 仅保留页脚隐秘入口 `fy-kaya-corner` 指向 `/`，不链接其它 creator 站。

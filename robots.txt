@@ -1,7 +1,7 @@
 # https://www.shigurekaya.com/
 User-agent: *
+Allow: /
 Allow: /fuyuu/
-Allow: /kaya/
 Allow: /sitemap.xml
 
 # 暂未上线：koharu / shiotsuki / tianhu（见 .vercelignore）

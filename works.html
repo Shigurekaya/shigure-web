@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/" />
+  <title>作品 · 时雨榧</title>
+  <meta name="theme-color" content="#f7f8fc" />
+  <link rel="stylesheet" href="css/style.css?v=202608201800" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body class="page-works">
+  <div class="site-bg" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="site-bar">
+      <a href="/" class="brand">时雨榧</a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <nav>
+        <ul class="site-nav" id="site-nav">
+          <li><a href="/">主页</a></li>
+          <li><a href="/works/" class="active">作品</a></li>
+          <li><a href="/links/">链接</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <header class="page-head">
+      <p class="page-head__eyebrow">Portfolio</p>
+      <h1>作品集</h1>
+      <p class="page-head__sub">点击封面跳转 B 站观看</p>
+    </header>
+    <div class="works-grid" id="works-grid"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-jump"><a href="/fuyuu/">浮游Lev</a></p>
+    <p>© <span id="year"></span> 时雨榧</p>
+    <a class="storm-gate" href="/storm/" tabindex="-1" aria-hidden="true">暴雨测试</a>
+  </footer>
+
+  <script src="js/site-data.js?v=202608191710"></script>
+  <script src="js/vendor/raindrop-fx.js"></script>
+  <script src="js/light-rain.js?v=202608201720"></script>
+  <script src="js/heavy-rain.js?v=202608201700"></script>
+  <script src="js/main.js?v=202608201820" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initWorks());</script>
+</body>
+</html>

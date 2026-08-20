@@ -4,7 +4,7 @@
 const Site = (() => {
   const data = () => window.SITE_DATA || { user: {}, videos: [], stats: {} };
 
-  const KAYA_SITE = "../kaya/";
+  const KAYA_SITE = "/";
 
   function esc(s) {
     const d = document.createElement("div");
