@@ -155,7 +155,7 @@ const Kaya = (() => {
     canvas.setAttribute("aria-hidden", "true");
     host.appendChild(canvas);
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     const drops = [];
@@ -164,16 +164,23 @@ const Kaya = (() => {
     let w = 0;
     let h = 0;
     let last = performance.now();
+    let resizeTimer = 0;
+    /* 约 30fps 绘制，降低常驻开销 */
+    const FRAME_MS = 1000 / 30;
 
-    const countFor = () => Math.max(36, Math.min(72, Math.round((w * h) / 18000)));
+    /* +20% 雨量：分母缩小，上下限同步提高 */
+    const countFor = () => Math.max(43, Math.min(86, Math.round((w * h) / 15000)));
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = window.innerWidth;
       h = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, w > 1200 ? 1.25 : 1.5);
       canvas.width = Math.floor(w * dpr);
       canvas.height = Math.floor(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.lineWidth = 1;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "rgba(107, 79, 184, 1)";
 
       const n = countFor();
       while (drops.length < n) {
@@ -181,7 +188,6 @@ const Kaya = (() => {
           x: Math.random() * w,
           y: Math.random() * h,
           len: 7 + Math.random() * 12,
-          /* 像素/秒，避免跟刷新率挂钩 */
           speed: 150 + Math.random() * 170,
           alpha: 0.08 + Math.random() * 0.18,
           drift: 16 + Math.random() * 22,
@@ -190,16 +196,24 @@ const Kaya = (() => {
       if (drops.length > n) drops.length = n;
     };
 
+    const onResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(resize, 120);
+    };
+
     const tick = (now) => {
       if (!running) return;
-      const dt = Math.min(0.05, (now - last) / 1000);
+      raf = window.requestAnimationFrame(tick);
+
+      const elapsed = now - last;
+      if (elapsed < FRAME_MS) return;
+      const dt = Math.min(0.05, elapsed / 1000);
       last = now;
 
       ctx.clearRect(0, 0, w, h);
-      ctx.lineWidth = 1;
-      ctx.lineCap = "round";
-      drops.forEach((d) => {
-        ctx.strokeStyle = `rgba(107, 79, 184, ${d.alpha})`;
+      for (let i = 0; i < drops.length; i += 1) {
+        const d = drops[i];
+        ctx.globalAlpha = d.alpha;
         ctx.beginPath();
         ctx.moveTo(d.x, d.y);
         ctx.lineTo(d.x + d.drift * 0.04, d.y + d.len);
@@ -212,12 +226,14 @@ const Kaya = (() => {
         } else if (d.x > w + 12) {
           d.x = -8;
         }
-      });
-      raf = window.requestAnimationFrame(tick);
+      }
+      ctx.globalAlpha = 1;
     };
 
     const onVisibility = () => {
-      if (document.hidden) {
+      const hidden = document.hidden;
+      host.classList.toggle("is-paused", hidden);
+      if (hidden) {
         running = false;
         window.cancelAnimationFrame(raf);
         return;
@@ -230,9 +246,21 @@ const Kaya = (() => {
     };
 
     resize();
-    window.addEventListener("resize", resize);
+    host.classList.toggle("is-paused", document.hidden);
+    window.addEventListener("resize", onResize, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
     raf = window.requestAnimationFrame(tick);
+  }
+
+  function markPageReady() {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      document.body.classList.add("page-ready");
+      return;
+    }
+    window.requestAnimationFrame(() => {
+      document.body.classList.add("page-ready");
+    });
   }
 
   function initCommon() {
@@ -585,11 +613,13 @@ const Kaya = (() => {
   function initWorks() {
     initCommon();
     renderGrid(document.getElementById("works-grid"), data().videos);
+    markPageReady();
   }
 
   function initLinks() {
     initCommon();
     renderLinkCards(document.getElementById("link-cards"));
+    markPageReady();
   }
 
   return { initHome, initWorks, initLinks, data };
