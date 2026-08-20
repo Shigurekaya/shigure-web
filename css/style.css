@@ -164,7 +164,7 @@ body.light-rain .site-bg__rain {
   height: 100%;
   z-index: 3;
   pointer-events: none;
-  opacity: 0.95;
+  opacity: 0.82;
 }
 
 .site-bg,
@@ -199,32 +199,31 @@ body,
     box-shadow 0.85s var(--ease);
 }
 
-/* 大雨：贴近小米天气冷蓝暴雨（参考片 bg≈85V，冷蓝灰） */
+/* 大雨：贴近小米天气冷蓝暴雨（参考片天空≈#344961 / 亮区≈#3d5777） */
 body.heavy-rain .site-bg {
-  background: #121a28;
+  background: #243448;
 }
 
 body.heavy-rain .site-bg::before {
-  filter: blur(80px) brightness(0.42) saturate(0.7);
-  opacity: 0.95;
+  filter: blur(88px) brightness(0.55) saturate(0.78);
+  opacity: 0.98;
   background:
-    radial-gradient(circle at 22% 30%, rgba(70, 100, 150, 0.55) 0%, transparent 42%),
-    radial-gradient(circle at 78% 22%, rgba(50, 70, 110, 0.5) 0%, transparent 40%),
-    radial-gradient(circle at 55% 70%, rgba(40, 60, 95, 0.55) 0%, transparent 45%),
-    radial-gradient(circle at 30% 85%, rgba(30, 45, 70, 0.6) 0%, transparent 40%);
+    radial-gradient(circle at 22% 26%, rgba(90, 125, 170, 0.62) 0%, transparent 46%),
+    radial-gradient(circle at 78% 18%, rgba(52, 73, 97, 0.7) 0%, transparent 44%),
+    radial-gradient(circle at 55% 70%, rgba(45, 68, 100, 0.58) 0%, transparent 48%),
+    radial-gradient(circle at 30% 90%, rgba(32, 48, 72, 0.7) 0%, transparent 42%),
+    radial-gradient(circle at 48% 6%, rgba(120, 155, 195, 0.28) 0%, transparent 40%);
 }
 
 body.heavy-rain .site-bg::after {
   opacity: 0.9;
   background:
-    linear-gradient(180deg, rgba(10, 16, 28, 0.55) 0%, transparent 30%, transparent 60%, rgba(8, 12, 22, 0.65) 100%),
-    radial-gradient(ellipse 95% 50% at 50% 0%, rgba(90, 120, 170, 0.18), transparent 70%),
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: auto, auto, 24px 24px;
+    linear-gradient(180deg, rgba(18, 28, 44, 0.42) 0%, transparent 30%, transparent 55%, rgba(12, 18, 30, 0.55) 100%),
+    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(100, 135, 180, 0.18), transparent 72%);
 }
 
 body.heavy-rain {
-  --bg: #121a28;
+  --bg: #243448;
   --ink: #e8eef8;
   --ink-soft: #c5d0e0;
   --ink-faint: #8a97ab;
@@ -232,7 +231,7 @@ body.heavy-rain {
   --accent-deep: #d4c6f8;
   --accent-soft: rgba(185, 166, 239, 0.18);
   --accent-ring: rgba(185, 166, 239, 0.35);
-  --bg-elevated: rgba(22, 32, 52, 0.58);
+  --bg-elevated: rgba(28, 40, 60, 0.58);
   --line: rgba(180, 200, 230, 0.18);
   --border: rgba(180, 200, 230, 0.22);
   --glass-blur: blur(14px) saturate(1.05);
@@ -307,36 +306,52 @@ body.heavy-rain .link-card__icon {
   position: absolute;
   inset: 0;
   z-index: 1;
+  /* 参考片：体积感来自密雨丝+低对比雾，无周期竖向雨幕光柱 */
   background:
-    radial-gradient(ellipse 70% 40% at 50% 12%, rgba(120, 150, 190, 0.08), transparent 70%),
-    radial-gradient(ellipse 80% 45% at 28% 82%, rgba(80, 110, 150, 0.06), transparent 65%),
-    linear-gradient(180deg, rgba(12, 20, 36, 0.04), transparent 40%, transparent 70%, rgba(8, 14, 26, 0.1));
-  opacity: 0.85;
-  animation: heavy-mist-drift 14s ease-in-out infinite alternate;
+    radial-gradient(ellipse 82% 46% at 50% 4%, rgba(120, 155, 195, 0.14), transparent 74%),
+    radial-gradient(ellipse 92% 52% at 14% 82%, rgba(52, 73, 97, 0.16), transparent 70%),
+    radial-gradient(ellipse 72% 42% at 86% 70%, rgba(70, 100, 140, 0.1), transparent 66%),
+    linear-gradient(180deg, rgba(18, 28, 44, 0.12), transparent 38%, transparent 64%, rgba(10, 16, 28, 0.28));
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
   pointer-events: none;
+}
+
+.site-fx__mist.is-on {
+  opacity: 0.88;
+  animation: heavy-mist-drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes heavy-mist-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.82; }
+  to { transform: translate3d(0, -0.8%, 0) scale(1.02); opacity: 0.94; }
 }
 
 .site-fx__gl,
 .site-fx__splash,
+.site-fx__glass-drops,
 .site-fx__canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
+  pointer-events: none;
 }
 
 .site-fx__gl {
   z-index: 2;
 }
 
-.site-fx__splash {
+/* 玻璃水珠在中；溅花压在最上，保证卡片顶缘撞击可见 */
+.site-fx__glass-drops {
   z-index: 3;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
 }
 
-@keyframes heavy-mist-drift {
-  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
-  to { transform: translate3d(0, -1.2%, 0) scale(1.03); opacity: 1; }
+.site-fx__splash {
+  z-index: 5;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1127,11 +1142,37 @@ body.heavy-rain .footer-fuyuu__avatar {
   opacity: 0.7;
 }
 
+body.heavy-rain .home-intro__rain {
+  opacity: 0.95;
+}
+
 .home-intro__mist {
   background:
     radial-gradient(ellipse 55% 40% at 50% 48%, rgba(255, 255, 255, 0.55), transparent 70%),
     radial-gradient(ellipse 80% 50% at 50% 100%, rgba(139, 111, 212, 0.12), transparent 60%);
   animation: mist-breathe 2.6s ease-in-out both;
+}
+
+/* 暴雨开幕：冷青雾 + 顶部雨幕，贴近小米天气 */
+body.heavy-rain .home-intro__mist {
+  background:
+    radial-gradient(ellipse 62% 44% at 50% 46%, rgba(170, 200, 230, 0.22), transparent 72%),
+    radial-gradient(ellipse 95% 50% at 50% 0%, rgba(100, 140, 190, 0.26), transparent 70%),
+    radial-gradient(ellipse 80% 45% at 50% 100%, rgba(52, 73, 97, 0.42), transparent 65%),
+    linear-gradient(180deg, rgba(18, 28, 44, 0.3), transparent 45%);
+}
+
+body.heavy-rain .home-intro__wrap {
+  filter: drop-shadow(0 0 28px rgba(180, 210, 245, 0.35));
+}
+
+body.heavy-rain .home-intro__rule {
+  background: linear-gradient(90deg, transparent, rgba(220, 235, 255, 0.85), rgba(180, 205, 235, 0.7), transparent);
+}
+
+body.heavy-rain .home-intro__grain {
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
 }
 
 .home-intro__grain {

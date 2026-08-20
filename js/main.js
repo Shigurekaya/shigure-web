@@ -17,6 +17,10 @@ const Kaya = (() => {
     return d.innerHTML;
   }
 
+  function clamp(n, lo, hi) {
+    return Math.max(lo, Math.min(hi, n));
+  }
+
   function biliUrl(bvid) {
     return `https://www.bilibili.com/video/${bvid}`;
   }
@@ -149,12 +153,12 @@ const Kaya = (() => {
   const HEAVY_RAIN_CHANCE = 0.1;
   const RAIN_MODE_KEY = "kaya-rain-heavy";
   const SPLASH_SELECTORS = [
-    ".site-bar",
     ".intro-panel__body",
     ".home-card",
     ".work-card",
     ".link-card",
     ".footer-fuyuu",
+    ".profile-avatar",
   ].join(",");
 
   /** @type {{ refreshLedges?: () => void } | null} */
@@ -258,11 +262,8 @@ const Kaya = (() => {
     let splashNodesAt = 0;
 
     const applyRainMode = () => {
-      document.body.classList.toggle("heavy-rain", heavy);
-      document.body.classList.toggle("light-rain", !heavy);
+      applyRainTheme(heavy);
       fx.classList.toggle("is-active", heavy);
-      const theme = document.querySelector('meta[name="theme-color"]');
-      if (theme) theme.setAttribute("content", heavy ? "#121a28" : "#f7f8fc");
     };
 
     const ensureSplashNodes = (force = false) => {
@@ -290,7 +291,18 @@ const Kaya = (() => {
           radius = Math.min(22, parseFloat(getComputedStyle(el).borderTopLeftRadius) || 14);
           radiusCache.set(el, radius);
         }
-        next.push({ x: r.left, y: r.top, w: r.width, radius });
+        const minSide = Math.min(r.width, r.height);
+        const roundish = el.classList.contains("profile-avatar")
+          || radius >= minSide * 0.42
+          || getComputedStyle(el).borderRadius === "50%";
+        next.push({
+          x: r.left,
+          y: r.top,
+          w: r.width,
+          h: r.height,
+          radius,
+          shape: roundish ? "circle" : "rect",
+        });
       }
       ledges = next;
       return ledges;
@@ -387,11 +399,26 @@ const Kaya = (() => {
     if (heavy) {
       window.addEventListener("scroll", onScroll, { passive: true, capture: true });
       resize();
-      ensureHeavyFx()?.start();
-      window.setTimeout(() => {
+      /* 开幕播放中延迟启动主雨，避免叠两层雨 + 抢资源 */
+      const introPlaying = document.body.classList.contains("home-intro-playing");
+      const startHeavy = () => {
+        if (!running) return;
+        ensureHeavyFx()?.start();
         ensureSplashNodes(true);
         collectLedges();
-      }, 350);
+      };
+      if (introPlaying) {
+        const waitIntro = () => {
+          if (!document.body.classList.contains("home-intro-playing")) {
+            startHeavy();
+            return;
+          }
+          window.setTimeout(waitIntro, 120);
+        };
+        window.setTimeout(waitIntro, 200);
+      } else {
+        startHeavy();
+      }
       window.setTimeout(() => {
         ensureSplashNodes(true);
         collectLedges();
@@ -455,62 +482,79 @@ const Kaya = (() => {
   }
 
   function startIntroRain(canvas) {
+    /* 开幕只用 2D，避免与主站 GPU 雨丝抢 WebGL 上下文 */
     const ctx = canvas?.getContext("2d");
     if (!ctx) return () => {};
 
+    const heavy = document.body.classList.contains("heavy-rain");
     const drops = [];
     let raf = 0;
     let running = true;
+    let last = performance.now();
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    const area = clamp((w * h) / (1280 * 720), 0.7, 1.5);
+    const n = Math.round((heavy ? 360 : 90) * area);
+
+    for (let i = 0; i < n; i += 1) {
+      drops.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        len: h * (heavy ? (0.008 + Math.random() * 0.02) : (0.01 + Math.random() * 0.016)),
+        speed: heavy ? (900 + Math.random() * 700) : (180 + Math.random() * 200),
+        alpha: heavy ? (0.14 + Math.random() * 0.36) : (0.1 + Math.random() * 0.22),
+        width: heavy ? (0.9 + Math.random() * 0.7) : (0.8 + Math.random() * 0.5),
+      });
+    }
 
     const resize = () => {
+      w = window.innerWidth;
+      h = window.innerHeight;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.lineCap = "round";
     };
 
-    const spawn = (n) => {
-      for (let i = 0; i < n; i += 1) {
-        drops.push({
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-          len: 8 + Math.random() * 16,
-          speed: 4.2 + Math.random() * 6.5,
-          alpha: 0.12 + Math.random() * 0.28,
-        });
-      }
-    };
-
-    const tick = () => {
+    const tick = (now) => {
       if (!running) return;
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      ctx.strokeStyle = "rgba(107, 79, 184, 0.45)";
-      ctx.lineWidth = 1;
-      drops.forEach((d) => {
-        ctx.globalAlpha = d.alpha;
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < drops.length; i += 1) {
+        const d = drops[i];
+        const g = ctx.createLinearGradient(d.x, d.y, d.x + 1.2, d.y + d.len);
+        if (heavy) {
+          g.addColorStop(0, "rgba(160,200,224,0)");
+          g.addColorStop(0.45, `rgba(230,245,255,${d.alpha})`);
+          g.addColorStop(1, "rgba(140,180,210,0)");
+        } else {
+          g.addColorStop(0, "rgba(139,111,212,0)");
+          g.addColorStop(0.5, `rgba(174,160,230,${d.alpha})`);
+          g.addColorStop(1, "rgba(174,194,224,0)");
+        }
+        ctx.strokeStyle = g;
+        ctx.lineWidth = d.width;
         ctx.beginPath();
         ctx.moveTo(d.x, d.y);
-        ctx.lineTo(d.x + 1.4, d.y + d.len);
+        ctx.lineTo(d.x + (heavy ? 1.2 : 2.2), d.y + d.len);
         ctx.stroke();
-        d.y += d.speed;
-        d.x += 0.55;
-        if (d.y > window.innerHeight + 20) {
-          d.y = -20;
-          d.x = Math.random() * window.innerWidth;
+        d.y += d.speed * dt;
+        if (d.y > h + d.len) {
+          d.y = -d.len;
+          d.x = Math.random() * w;
         }
-      });
-      ctx.globalAlpha = 1;
-      raf = window.requestAnimationFrame(tick);
+      }
+      raf = requestAnimationFrame(tick);
     };
 
     resize();
-    spawn(90);
     window.addEventListener("resize", resize);
-    tick();
-
+    raf = requestAnimationFrame(tick);
     return () => {
       running = false;
-      window.cancelAnimationFrame(raf);
+      cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };
   }
@@ -570,6 +614,7 @@ const Kaya = (() => {
   function startIntroLiquid(canvas, src) {
     const ctx = canvas?.getContext("2d");
     if (!ctx) return Promise.resolve(() => {});
+    const heavy = document.body.classList.contains("heavy-rain");
 
     return new Promise((resolve) => {
       const img = new Image();
@@ -651,7 +696,6 @@ const Kaya = (() => {
             drawOrganicBlob(target, cx, cy, radius, t, b.seed);
           });
 
-          // 接近收束时用大团抹平空隙，避免留白
           if (level > 0.72) {
             const fin = easeOutCubic((level - 0.72) / 0.28);
             drawOrganicBlob(target, w * 0.5, h * 0.5, maxR * 0.95 * fin, t, 3.1);
@@ -665,6 +709,17 @@ const Kaya = (() => {
           const dw = img.naturalWidth * scale;
           const dh = img.naturalHeight * scale;
           target.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
+        };
+
+        /* 暴雨开幕：墨色字改白，深色底上才可读 */
+        const paintInkGlyph = (target, w, h) => {
+          drawWord(target, w, h);
+          if (!heavy) return;
+          target.save();
+          target.globalCompositeOperation = "source-in";
+          target.fillStyle = "#f5f8ff";
+          target.fillRect(0, 0, w, h);
+          target.restore();
         };
 
         const paint = (now) => {
@@ -689,7 +744,7 @@ const Kaya = (() => {
           if (!settled && settleRaw >= 1) {
             settled = true;
             ctx.clearRect(0, 0, w, h);
-            drawWord(ctx, w, h);
+            paintInkGlyph(ctx, w, h);
             resolve(() => {
               running = false;
               window.cancelAnimationFrame(raf);
@@ -707,7 +762,6 @@ const Kaya = (() => {
 
           ctx.clearRect(0, 0, w, h);
 
-          // 紫色水洗：收束阶段淡出，颜色同步向墨色靠拢
           const washAlpha = (1 - settle) * (0.75 + level * 0.25);
           if (washAlpha > 0.02) {
             ctx.save();
@@ -715,25 +769,32 @@ const Kaya = (() => {
             ctx.drawImage(mask, 0, 0);
             ctx.globalCompositeOperation = "source-in";
             const u = settle;
-            const r1 = Math.round(210 - 50 * u);
-            const g1 = Math.round(195 - 70 * u);
-            const b1 = Math.round(235 - 100 * u);
-            const r2 = Math.round(115 - 70 * u);
-            const g2 = Math.round(90 - 55 * u);
-            const b2 = Math.round(175 - 100 * u);
-            const grad = ctx.createLinearGradient(0, h * 0.2, w, h * 0.85);
-            grad.addColorStop(0, `rgba(${r1}, ${g1}, ${b1}, 0.5)`);
-            grad.addColorStop(0.55, `rgba(${r2}, ${g2}, ${b2}, 0.78)`);
-            grad.addColorStop(1, "rgba(26, 21, 32, 0.88)");
+            let grad;
+            if (heavy) {
+              grad = ctx.createLinearGradient(0, h * 0.2, w, h * 0.85);
+              grad.addColorStop(0, `rgba(245, 250, 255, ${0.75 - 0.15 * u})`);
+              grad.addColorStop(0.55, `rgba(200, 220, 245, ${0.85 - 0.1 * u})`);
+              grad.addColorStop(1, `rgba(170, 195, 230, ${0.9 - 0.05 * u})`);
+            } else {
+              const r1 = Math.round(210 - 50 * u);
+              const g1 = Math.round(195 - 70 * u);
+              const b1 = Math.round(235 - 100 * u);
+              const r2 = Math.round(115 - 70 * u);
+              const g2 = Math.round(90 - 55 * u);
+              const b2 = Math.round(175 - 100 * u);
+              grad = ctx.createLinearGradient(0, h * 0.2, w, h * 0.85);
+              grad.addColorStop(0, `rgba(${r1}, ${g1}, ${b1}, 0.5)`);
+              grad.addColorStop(0.55, `rgba(${r2}, ${g2}, ${b2}, 0.78)`);
+              grad.addColorStop(1, "rgba(26, 21, 32, 0.88)");
+            }
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, w, h);
             ctx.restore();
           }
 
-          // 墨色独立叠上（不依赖水洗），透明度平滑升到 1
           ctx.save();
           ctx.globalAlpha = Math.min(1, 0.22 + level * 0.4 + settle * 0.55);
-          drawWord(ctx, w, h);
+          paintInkGlyph(ctx, w, h);
           ctx.globalCompositeOperation = "destination-in";
           ctx.drawImage(mask, 0, 0);
           ctx.restore();
@@ -753,6 +814,13 @@ const Kaya = (() => {
       img.onerror = () => resolve(() => {});
       img.src = src;
     });
+  }
+
+  function applyRainTheme(heavy) {
+    document.body.classList.toggle("heavy-rain", heavy);
+    document.body.classList.toggle("light-rain", !heavy);
+    const theme = document.querySelector('meta[name="theme-color"]');
+    if (theme) theme.setAttribute("content", heavy ? "#243448" : "#f7f8fc");
   }
 
   function initHomeIntro() {
@@ -792,12 +860,15 @@ const Kaya = (() => {
   }
 
   function initHome() {
+    /* 开幕前先定雨模式，暴雨开场才能用冷蓝底+密雨丝 */
+    applyRainTheme(pickInitialHeavy());
     initHomeIntro();
     initCommon();
     initHero();
   }
 
   function initWorks() {
+    applyRainTheme(pickInitialHeavy());
     initCommon();
     renderGrid(document.getElementById("works-grid"), data().videos);
     refreshRainLedges();
@@ -805,6 +876,7 @@ const Kaya = (() => {
   }
 
   function initLinks() {
+    applyRainTheme(pickInitialHeavy());
     initCommon();
     renderLinkCards(document.getElementById("link-cards"));
     refreshRainLedges();
