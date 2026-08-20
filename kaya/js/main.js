@@ -197,11 +197,18 @@ const Kaya = (() => {
     let h = 0;
     let last = performance.now();
     let resizeTimer = 0;
-    let ledgeTimer = 0;
+    let lastScrollAt = 0;
+    let scrollRaf = 0;
+    let lastScrollY = window.scrollY || 0;
     const FRAME_MS = 1000 / 30;
     const classic = [];
+    /** @type {Array<{x:number,y:number,w:number,radius:number}>} */
     let ledges = [];
+    /** @type {WeakMap<Element, number>} */
+    const radiusCache = new WeakMap();
     let heavyFx = null;
+    let splashNodes = null;
+    let splashNodesAt = 0;
 
     const clampCount = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 
@@ -227,26 +234,38 @@ const Kaya = (() => {
       if (classic.length > n) classic.length = n;
     };
 
-    const refreshLedges = () => {
-      const nodes = document.querySelectorAll(SPLASH_SELECTORS);
+    const ensureSplashNodes = (force = false) => {
+      const now = performance.now();
+      if (!force && splashNodes && now - splashNodesAt < 1000) return splashNodes;
+      splashNodes = document.querySelectorAll(SPLASH_SELECTORS);
+      splashNodesAt = now;
+      return splashNodes;
+    };
+
+    const collectLedges = () => {
+      const nodes = ensureSplashNodes();
       const next = [];
       const max = 32;
+      const vh = h || window.innerHeight;
+      const vw = w || window.innerWidth;
       for (let i = 0; i < nodes.length && next.length < max; i += 1) {
         const el = nodes[i];
         if (!(el instanceof HTMLElement)) continue;
         const r = el.getBoundingClientRect();
         if (r.width < 36 || r.height < 16) continue;
-        if (r.bottom < -20 || r.top > h + 20 || r.right < 0 || r.left > w) continue;
-        const cs = getComputedStyle(el);
-        next.push({
-          x: r.left,
-          y: r.top,
-          w: r.width,
-          radius: Math.min(22, parseFloat(cs.borderTopLeftRadius) || 14),
-        });
+        if (r.bottom < -40 || r.top > vh + 40 || r.right < -20 || r.left > vw + 20) continue;
+        let radius = radiusCache.get(el);
+        if (radius == null) {
+          radius = Math.min(22, parseFloat(getComputedStyle(el).borderTopLeftRadius) || 14);
+          radiusCache.set(el, radius);
+        }
+        next.push({ x: r.left, y: r.top, w: r.width, radius });
       }
       ledges = next;
+      return ledges;
     };
+
+    const isScrolling = () => performance.now() - lastScrollAt < 140;
 
     const ensureHeavyFx = () => {
       if (heavyFx) return heavyFx;
@@ -256,6 +275,8 @@ const Kaya = (() => {
       }
       heavyFx = window.KayaHeavyRain.attach(fx, {
         getLedges: () => ledges,
+        collectLedges,
+        isScrolling,
         bgHost: host,
       });
       return heavyFx;
@@ -264,13 +285,20 @@ const Kaya = (() => {
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
+      if (window.visualViewport) {
+        w = Math.round(window.visualViewport.width);
+        h = Math.round(window.visualViewport.height);
+      }
       const dpr = Math.min(window.devicePixelRatio || 1, w > 1200 ? 1.25 : 1.5);
       bgCanvas.width = Math.floor(w * dpr);
       bgCanvas.height = Math.floor(h * dpr);
       bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
       bgCtx.lineCap = "round";
       rebuildClassic();
-      refreshLedges();
+      if (heavy) {
+        ensureSplashNodes(true);
+        collectLedges();
+      }
       heavyFx?.resize();
     };
 
@@ -309,12 +337,23 @@ const Kaya = (() => {
 
     const onResize = () => {
       window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(resize, 120);
+      resizeTimer = window.setTimeout(resize, 100);
+    };
+
+    const flushScroll = () => {
+      scrollRaf = 0;
+      if (!heavy) return;
+      const y = window.scrollY || 0;
+      const dy = Math.abs(y - lastScrollY);
+      lastScrollY = y;
+      collectLedges();
+      if (dy > 2) heavyFx?.onScroll?.(dy);
     };
 
     const onScroll = () => {
-      window.clearTimeout(ledgeTimer);
-      ledgeTimer = window.setTimeout(refreshLedges, 80);
+      if (!heavy) return;
+      lastScrollAt = performance.now();
+      if (!scrollRaf) scrollRaf = window.requestAnimationFrame(flushScroll);
     };
 
     const onVisibility = () => {
@@ -323,6 +362,8 @@ const Kaya = (() => {
       if (hidden) {
         running = false;
         window.cancelAnimationFrame(raf);
+        window.cancelAnimationFrame(scrollRaf);
+        scrollRaf = 0;
         heavyFx?.stop();
         return;
       }
@@ -338,14 +379,21 @@ const Kaya = (() => {
     resize();
     host.classList.toggle("is-paused", document.hidden);
     window.addEventListener("resize", onResize, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.visualViewport?.addEventListener("resize", onResize, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
 
     if (heavy) {
       bgCtx.clearRect(0, 0, w, h);
+      window.addEventListener("scroll", onScroll, { passive: true, capture: true });
       ensureHeavyFx()?.start();
-      window.setTimeout(refreshLedges, 400);
-      window.setTimeout(refreshLedges, 1200);
+      window.setTimeout(() => {
+        ensureSplashNodes(true);
+        collectLedges();
+      }, 350);
+      window.setTimeout(() => {
+        ensureSplashNodes(true);
+        collectLedges();
+      }, 1100);
     } else {
       raf = window.requestAnimationFrame(tick);
     }

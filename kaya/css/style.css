@@ -37,8 +37,9 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   -webkit-text-size-adjust: 100%;
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -50,6 +51,8 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   position: relative;
+  overscroll-behavior-y: none;
+  touch-action: manipulation;
 }
 
 ::selection {
@@ -242,6 +245,9 @@ body.heavy-rain .profile-avatar .avatar {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.85s var(--ease), visibility 0.85s var(--ease);
+  /* 滚动时避免合成层抖动 */
+  transform: translateZ(0);
+  contain: strict;
 }
 
 .site-fx.is-active {

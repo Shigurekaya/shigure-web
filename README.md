@@ -55,6 +55,19 @@ git config --local user.email "163858348+Shigurekaya@users.noreply.github.com"
 
 **禁止**使用其它身份（例如未绑定的 QQ 邮箱）向本仓库提交。
 
+### 一键推送
+
+仓库根目录脚本会：强制本仓库作者为 Shigurekaya → 暂存改动（排除 `_rain_analysis/`）→ commit → 走代理 `git push origin main`。
+
+```powershell
+cd E:\网站\测试框架\shigure-web
+.\push.ps1
+.\push.ps1 -Message "简述本次改动"
+.\push.ps1 -DryRun   # 只预览，不提交不推送
+```
+
+需本机 Clash 等代理在 `127.0.0.1:7890`（或改 `gal-\ops\proxy.ps1`）。
+
 ## 运维
 
 - [更新浮游 WORK 页（B 站投稿）](docs/update-fuyuu-videos.md)

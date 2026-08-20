@@ -6,6 +6,9 @@ Thumbs.db
 node_modules/
 scrapers/
 
+# 本地雨效分析（脚本/venv/参考视频）
+_rain_analysis/
+
 # 天狐本地研究与抓取（勿上传）
 tianhu/data/
 tianhu/scripts/

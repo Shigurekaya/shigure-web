@@ -183,7 +183,9 @@
   /**
    * @param {HTMLElement} fxRoot
    * @param {{
-   *   getLedges: () => Array<{x:number,y:number,w:number,radius:number}>,
+   *   getLedges?: () => Array<{x:number,y:number,w:number,radius:number}>,
+   *   collectLedges?: () => Array<{x:number,y:number,w:number,radius:number}>,
+   *   isScrolling?: () => boolean,
    *   bgHost?: HTMLElement | null,
    * }} opts
    */
@@ -639,29 +641,43 @@
 
       if (sctx) {
         sctx.clearRect(0, 0, w, h);
-        const ledges = opts.getLedges() || [];
+        const scrolling = !!opts.isScrolling?.();
+        const ledges = (opts.collectLedges
+          ? opts.collectLedges()
+          : opts.getLedges?.()) || [];
+
+        /* 滚动中只画湿边（实时锚点），清空游离溅花避免拖影错位 */
+        if (scrolling) {
+          splashes.length = 0;
+          rims.length = 0;
+          splashAcc = 0;
+        }
+
         for (let i = 0; i < ledges.length; i += 1) {
           const L = ledges[i];
           const pulse = 0.5 + 0.5 * Math.sin(time * 5.5 + i * 1.3);
+          const wetA = scrolling ? 0.55 : 1;
           const g = sctx.createLinearGradient(L.x, L.y, L.x + L.w, L.y);
           g.addColorStop(0, "rgba(255,255,255,0)");
-          g.addColorStop(0.12, `rgba(210,230,255,${0.1 * pulse * aMul})`);
-          g.addColorStop(0.5, `rgba(255,255,255,${0.26 * pulse * aMul})`);
-          g.addColorStop(0.88, `rgba(210,230,255,${0.1 * pulse * aMul})`);
+          g.addColorStop(0.12, `rgba(210,230,255,${0.1 * pulse * aMul * wetA})`);
+          g.addColorStop(0.5, `rgba(255,255,255,${0.26 * pulse * aMul * wetA})`);
+          g.addColorStop(0.88, `rgba(210,230,255,${0.1 * pulse * aMul * wetA})`);
           g.addColorStop(1, "rgba(255,255,255,0)");
           sctx.fillStyle = g;
           sctx.fillRect(L.x, L.y - 0.5, L.w, 2.3);
         }
 
-        splashAcc += dt;
-        const rate = Math.min(18, 3.5 + ledges.length * 0.75) * aMul;
-        let spawned = 0;
-        while (rate > 0.2 && splashAcc > 1 / rate && ledges.length && spawned < 6) {
-          splashAcc -= 1 / rate;
-          spawnSplash(ledges[(Math.random() * ledges.length) | 0]);
-          spawned += 1;
+        if (!scrolling) {
+          splashAcc += dt;
+          const rate = Math.min(18, 3.5 + ledges.length * 0.75) * aMul;
+          let spawned = 0;
+          while (rate > 0.2 && splashAcc > 1 / rate && ledges.length && spawned < 6) {
+            splashAcc -= 1 / rate;
+            spawnSplash(ledges[(Math.random() * ledges.length) | 0]);
+            spawned += 1;
+          }
+          if (splashAcc > 1) splashAcc = 1;
         }
-        if (splashAcc > 1) splashAcc = 1;
 
         for (let i = rims.length - 1; i >= 0; i -= 1) {
           const r = rims[i];
@@ -727,6 +743,11 @@
         targetIntensity = 0;
         window.clearTimeout(stopTimer);
         stopTimer = window.setTimeout(hardStop, FADE_SEC * 1000 + 80);
+      },
+      onScroll() {
+        splashes.length = 0;
+        rims.length = 0;
+        splashAcc = 0;
       },
       resize,
       destroy() {
