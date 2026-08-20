@@ -185,17 +185,10 @@ const Kaya = (() => {
     const fx = document.createElement("div");
     fx.className = "site-fx";
     fx.setAttribute("aria-hidden", "true");
-    const mist = document.createElement("div");
-    mist.className = "site-fx__mist";
-    const fxCanvas = document.createElement("canvas");
-    fxCanvas.className = "site-fx__canvas";
-    fx.appendChild(mist);
-    fx.appendChild(fxCanvas);
     document.body.appendChild(fx);
 
     const bgCtx = bgCanvas.getContext("2d", { alpha: true });
-    const fxCtx = fxCanvas.getContext("2d", { alpha: true });
-    if (!bgCtx || !fxCtx) return;
+    if (!bgCtx) return;
 
     const toggle = document.createElement("button");
     toggle.type = "button";
@@ -212,24 +205,12 @@ const Kaya = (() => {
     let last = performance.now();
     let resizeTimer = 0;
     let ledgeTimer = 0;
-    let splashAcc = 0;
-    let mistPhase = 0;
     const FRAME_MS = 1000 / 30;
-    /* 参考片约 193 条/百万像素；桌面略降以保流畅 */
-    const STREAK_PER_MPX = 165;
-
     const classic = [];
-    /* 0远 1中 2近(背景) 3极近(前景盖 UI) */
-    const layers = [[], [], [], []];
-    const beads = [];
-    const trails = [];
-    const splashes = [];
-    const rims = [];
     let ledges = [];
+    let heavyFx = null;
 
     const clampCount = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
-    const rand = (a, b) => a + Math.random() * (b - a);
-    const areaMpx = () => (w * h) / 1e6;
 
     const makeClassic = () => ({
       x: Math.random() * w,
@@ -240,58 +221,6 @@ const Kaya = (() => {
       drift: 16 + Math.random() * 22,
     });
 
-    /*
-     * 对齐参考片：近乎竖直、短而密、运动模糊头尾淡出。
-     * 长度按视口高度比例；速度远快近慢（视差）。
-     */
-    const LAYER_SPEC = [
-      { share: 0.48, lenH: [0.004, 0.012], speed: [520, 780], alpha: [0.07, 0.16], wind: [2, 8], width: [0.7, 1.05], front: false },
-      { share: 0.28, lenH: [0.008, 0.02], speed: [380, 580], alpha: [0.12, 0.26], wind: [3, 10], width: [0.9, 1.25], front: false },
-      { share: 0.16, lenH: [0.014, 0.032], speed: [260, 420], alpha: [0.2, 0.4], wind: [4, 12], width: [1.1, 1.7], front: false },
-      { share: 0.08, lenH: [0.018, 0.04], speed: [200, 340], alpha: [0.28, 0.52], wind: [5, 14], width: [1.3, 2.1], front: true },
-    ];
-
-    const makeLayerDrop = (spec) => {
-      const len = h * rand(spec.lenH[0], spec.lenH[1]);
-      return {
-        x: Math.random() * w,
-        y: Math.random() * h,
-        len,
-        speed: rand(spec.speed[0], spec.speed[1]),
-        alpha: rand(spec.alpha[0], spec.alpha[1]),
-        wind: rand(spec.wind[0], spec.wind[1]) * (Math.random() < 0.5 ? 1 : -1) * 0.15,
-        width: rand(spec.width[0], spec.width[1]),
-        front: spec.front,
-        z: Math.random(),
-      };
-    };
-
-    const makeBead = (sliding) => {
-      /* 多数小珠 + 少数大珠；滑落珠略拉长 */
-      const roll = Math.random();
-      const r = roll < 0.55
-        ? rand(1.6, 3.4)
-        : roll < 0.85
-          ? rand(3.4, 6.5)
-          : rand(6.5, 11);
-      const isSlide = sliding || Math.random() < 0.08;
-      return {
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r,
-        alpha: rand(0.28, 0.55),
-        sliding: isSlide,
-        vy: isSlide ? rand(36, 95) : rand(0, 2.5),
-        vx: isSlide ? rand(-6, 6) : rand(-1.2, 1.2),
-        stretch: isSlide ? rand(1.55, 2.6) : rand(0.92, 1.12),
-        life: isSlide ? rand(3.5, 9) : Infinity,
-        age: 0,
-        _trail: 0,
-        wobble: rand(0, Math.PI * 2),
-        highlight: rand(0.55, 1),
-      };
-    };
-
     const syncToggle = () => {
       toggle.setAttribute("aria-pressed", heavy ? "true" : "false");
       toggle.classList.toggle("is-on", heavy);
@@ -299,26 +228,7 @@ const Kaya = (() => {
       document.body.classList.toggle("heavy-rain", heavy);
       fx.classList.toggle("is-active", heavy);
       const theme = document.querySelector('meta[name="theme-color"]');
-      if (theme) theme.setAttribute("content", heavy ? "#1a2436" : "#f7f8fc");
-    };
-
-    const rebuildHeavy = () => {
-      const total = clampCount(Math.round(areaMpx() * STREAK_PER_MPX), 140, 420);
-      LAYER_SPEC.forEach((spec, i) => {
-        const n = Math.max(8, Math.round(total * spec.share));
-        const arr = layers[i];
-        arr.length = 0;
-        for (let k = 0; k < n; k += 1) arr.push(makeLayerDrop(spec));
-      });
-
-      const beadN = clampCount(Math.round(areaMpx() * 22), 28, 64);
-      const slideN = Math.max(5, Math.round(beadN * 0.2));
-      beads.length = 0;
-      for (let i = 0; i < beadN - slideN; i += 1) beads.push(makeBead(false));
-      for (let i = 0; i < slideN; i += 1) beads.push(makeBead(true));
-      trails.length = 0;
-      splashes.length = 0;
-      rims.length = 0;
+      if (theme) theme.setAttribute("content", heavy ? "#121a28" : "#f7f8fc");
     };
 
     const rebuildClassic = () => {
@@ -342,74 +252,39 @@ const Kaya = (() => {
           x: r.left,
           y: r.top,
           w: r.width,
-          h: Math.min(10, r.height * 0.08),
           radius: Math.min(22, parseFloat(cs.borderTopLeftRadius) || 14),
         });
       }
       ledges = next;
     };
 
+    const ensureHeavyFx = () => {
+      if (heavyFx) return heavyFx;
+      if (!window.KayaHeavyRain?.attach) {
+        console.warn("[kaya] KayaHeavyRain missing");
+        return null;
+      }
+      heavyFx = window.KayaHeavyRain.attach(fx, {
+        getLedges: () => ledges,
+      });
+      return heavyFx;
+    };
+
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
       const dpr = Math.min(window.devicePixelRatio || 1, w > 1200 ? 1.25 : 1.5);
-      [bgCanvas, fxCanvas].forEach((c) => {
-        c.width = Math.floor(w * dpr);
-        c.height = Math.floor(h * dpr);
-      });
+      bgCanvas.width = Math.floor(w * dpr);
+      bgCanvas.height = Math.floor(h * dpr);
       bgCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
       bgCtx.lineCap = "round";
-      fxCtx.lineCap = "round";
       rebuildClassic();
-      rebuildHeavy();
       refreshLedges();
-    };
-
-    const spawnSplash = (ledge) => {
-      const inset = Math.min(ledge.radius * 0.65, ledge.w * 0.08);
-      const x = ledge.x + inset + Math.random() * Math.max(4, ledge.w - inset * 2);
-      const y = ledge.y + Math.random() * 1.5;
-      const burst = 4 + Math.floor(Math.random() * 5);
-      for (let i = 0; i < burst; i += 1) {
-        const ang = -Math.PI * 0.08 - Math.random() * Math.PI * 0.84;
-        const spd = rand(55, 140);
-        splashes.push({
-          x,
-          y,
-          vx: Math.cos(ang) * spd,
-          vy: Math.sin(ang) * spd,
-          life: rand(0.18, 0.42),
-          age: 0,
-          r: rand(0.9, 2.2),
-          kind: "spark",
-        });
-      }
-      /* 撞击冠：短弧向外 */
-      if (Math.random() < 0.55) {
-        splashes.push({
-          x,
-          y: y + 1,
-          vx: 0,
-          vy: 0,
-          life: rand(0.2, 0.34),
-          age: 0,
-          r: rand(3.5, 7),
-          kind: "ring",
-        });
-      }
-      /* 顶边积水亮点 */
-      rims.push({
-        x,
-        y: y + 0.8,
-        life: rand(0.45, 0.9),
-        age: 0,
-        w: rand(6, 16),
-        a: rand(0.35, 0.7),
-      });
+      heavyFx?.resize();
     };
 
     const drawClassic = (dt) => {
+      bgCtx.clearRect(0, 0, w, h);
       bgCtx.strokeStyle = "rgba(107, 79, 184, 1)";
       bgCtx.lineWidth = 1;
       for (let i = 0; i < classic.length; i += 1) {
@@ -431,261 +306,30 @@ const Kaya = (() => {
       bgCtx.globalAlpha = 1;
     };
 
-    const strokeStreak = (ctx, d, fancy) => {
-      const tilt = d.wind * 0.9;
-      const x0 = d.x;
-      const y0 = d.y;
-      const x1 = d.x + tilt;
-      const y1 = d.y + d.len;
-      if (fancy) {
-        const g = ctx.createLinearGradient(x0, y0, x1, y1);
-        g.addColorStop(0, `rgba(210, 230, 255, 0)`);
-        g.addColorStop(0.18, `rgba(235, 245, 255, ${d.alpha * 0.55})`);
-        g.addColorStop(0.55, `rgba(255, 255, 255, ${d.alpha})`);
-        g.addColorStop(0.88, `rgba(190, 215, 245, ${d.alpha * 0.45})`);
-        g.addColorStop(1, `rgba(150, 180, 220, 0)`);
-        ctx.strokeStyle = g;
-      } else {
-        ctx.strokeStyle = `rgba(220, 235, 255, ${d.alpha})`;
-      }
-      ctx.lineWidth = d.width;
-      ctx.beginPath();
-      ctx.moveTo(x0, y0);
-      ctx.lineTo(x1, y1);
-      ctx.stroke();
-    };
-
-    const stepStreak = (d, dt) => {
-      d.y += d.speed * dt;
-      d.x += d.wind * dt;
-      if (d.y > h + d.len) {
-        d.y = -d.len - Math.random() * 40;
-        d.x = Math.random() * w;
-      } else if (d.x > w + 12) {
-        d.x = -8;
-      } else if (d.x < -12) {
-        d.x = w + 6;
-      }
-    };
-
-    const drawHeavyStreaksBg = (dt) => {
-      bgCtx.globalCompositeOperation = "source-over";
-      for (let li = 0; li < 3; li += 1) {
-        const arr = layers[li];
-        const fancy = li >= 2;
-        for (let i = 0; i < arr.length; i += 1) {
-          const d = arr[i];
-          strokeStreak(bgCtx, d, fancy);
-          stepStreak(d, dt);
-        }
-      }
-    };
-
-    const drawBead = (b) => {
-      const rx = b.r;
-      const ry = b.r * b.stretch;
-      /* 外圈湿润暗边 */
-      fxCtx.beginPath();
-      fxCtx.ellipse(b.x, b.y + 0.6, rx * 1.05, ry * 1.05, 0, 0, Math.PI * 2);
-      fxCtx.fillStyle = `rgba(40, 70, 110, ${0.14 * b.alpha})`;
-      fxCtx.fill();
-
-      const g = fxCtx.createRadialGradient(
-        b.x - rx * 0.32,
-        b.y - ry * 0.42,
-        rx * 0.08,
-        b.x,
-        b.y + ry * 0.1,
-        rx * 1.2
-      );
-      g.addColorStop(0, `rgba(255, 255, 255, ${Math.min(0.98, 0.55 + b.highlight * 0.4)})`);
-      g.addColorStop(0.22, `rgba(230, 240, 255, ${b.alpha * 0.85})`);
-      g.addColorStop(0.55, `rgba(170, 200, 235, ${b.alpha * 0.42})`);
-      g.addColorStop(0.82, `rgba(110, 150, 200, ${b.alpha * 0.18})`);
-      g.addColorStop(1, "rgba(90, 130, 180, 0)");
-      fxCtx.fillStyle = g;
-      fxCtx.beginPath();
-      fxCtx.ellipse(b.x, b.y, rx, ry, 0, 0, Math.PI * 2);
-      fxCtx.fill();
-
-      /* 高光点 */
-      fxCtx.fillStyle = `rgba(255, 255, 255, ${0.55 * b.highlight * b.alpha})`;
-      fxCtx.beginPath();
-      fxCtx.ellipse(b.x - rx * 0.3, b.y - ry * 0.36, rx * 0.26, ry * 0.18, -0.4, 0, Math.PI * 2);
-      fxCtx.fill();
-    };
-
-    const drawHeavyFx = (dt) => {
-      fxCtx.clearRect(0, 0, w, h);
-      mistPhase += dt * 0.15;
-
-      /* 前景雨丝（盖在 UI 上） */
-      const front = layers[3];
-      for (let i = 0; i < front.length; i += 1) {
-        const d = front[i];
-        strokeStreak(fxCtx, d, true);
-        stepStreak(d, dt);
-      }
-
-      /* 卡片顶边持续湿边 */
-      for (let i = 0; i < ledges.length; i += 1) {
-        const L = ledges[i];
-        const pulse = 0.55 + 0.45 * Math.sin(mistPhase * 6 + i * 1.7);
-        const lg = fxCtx.createLinearGradient(L.x, L.y, L.x + L.w, L.y);
-        lg.addColorStop(0, "rgba(255,255,255,0)");
-        lg.addColorStop(0.15, `rgba(220, 235, 255, ${0.1 * pulse})`);
-        lg.addColorStop(0.5, `rgba(255, 255, 255, ${0.22 * pulse})`);
-        lg.addColorStop(0.85, `rgba(220, 235, 255, ${0.1 * pulse})`);
-        lg.addColorStop(1, "rgba(255,255,255,0)");
-        fxCtx.fillStyle = lg;
-        fxCtx.beginPath();
-        if (typeof fxCtx.roundRect === "function") {
-          fxCtx.roundRect(L.x, L.y - 0.5, L.w, 2.2, [L.radius, L.radius, 0, 0]);
-        } else {
-          fxCtx.rect(L.x, L.y - 0.5, L.w, 2.2);
-        }
-        fxCtx.fill();
-      }
-
-      for (let i = trails.length - 1; i >= 0; i -= 1) {
-        const t = trails[i];
-        t.age += dt;
-        const p = 1 - t.age / t.life;
-        if (p <= 0) {
-          trails.splice(i, 1);
-          continue;
-        }
-        const tg = fxCtx.createLinearGradient(t.x, t.y, t.x + t.dx, t.y + t.dy);
-        tg.addColorStop(0, `rgba(200, 220, 245, ${0.22 * p})`);
-        tg.addColorStop(1, `rgba(200, 220, 245, 0)`);
-        fxCtx.strokeStyle = tg;
-        fxCtx.lineWidth = t.w;
-        fxCtx.beginPath();
-        fxCtx.moveTo(t.x, t.y);
-        fxCtx.lineTo(t.x + t.dx, t.y + t.dy);
-        fxCtx.stroke();
-      }
-
-      for (let i = beads.length - 1; i >= 0; i -= 1) {
-        const b = beads[i];
-        b.wobble += dt * 1.4;
-        if (b.sliding) {
-          b.age += dt;
-          b.vy += 18 * dt;
-          b.vx += Math.sin(b.wobble) * 4 * dt;
-          b._trail -= dt;
-          if (b._trail <= 0) {
-            b._trail = 0.04;
-            trails.push({
-              x: b.x,
-              y: b.y - b.r * b.stretch * 0.2,
-              dx: b.vx * 0.05,
-              dy: -b.r * b.stretch * 2.2,
-              w: Math.max(1.2, b.r * 0.45),
-              life: rand(0.4, 0.7),
-              age: 0,
-            });
-          }
-          b.y += b.vy * dt;
-          b.x += b.vx * dt;
-          if (b.age > b.life || b.y > h + 24) {
-            beads[i] = makeBead(Math.random() < 0.4);
-            continue;
-          }
-        } else {
-          /* 静珠微颤 + 极慢蠕动，贴近参考片「粘在玻璃上」 */
-          b.x += Math.sin(b.wobble) * 0.35 * dt;
-          b.y += (0.8 + Math.cos(b.wobble * 0.7)) * dt;
-          if (b.y > h + 10) b.y = -10;
-          if (Math.random() < 0.0009) {
-            b.sliding = true;
-            b.vy = rand(40, 80);
-            b.stretch = rand(1.6, 2.4);
-            b.life = rand(3, 7);
-            b.age = 0;
-          }
-        }
-        drawBead(b);
-      }
-
-      splashAcc += dt;
-      const rate = Math.min(22, 4 + ledges.length * 0.85);
-      while (splashAcc > 1 / Math.max(rate, 1) && ledges.length) {
-        splashAcc -= 1 / rate;
-        spawnSplash(ledges[Math.floor(Math.random() * ledges.length)]);
-      }
-
-      for (let i = rims.length - 1; i >= 0; i -= 1) {
-        const r = rims[i];
-        r.age += dt;
-        const p = 1 - r.age / r.life;
-        if (p <= 0) {
-          rims.splice(i, 1);
-          continue;
-        }
-        fxCtx.fillStyle = `rgba(255, 255, 255, ${r.a * p})`;
-        fxCtx.beginPath();
-        fxCtx.ellipse(r.x, r.y, r.w * 0.5, 1.1 + (1 - p) * 0.6, 0, 0, Math.PI * 2);
-        fxCtx.fill();
-      }
-
-      for (let i = splashes.length - 1; i >= 0; i -= 1) {
-        const s = splashes[i];
-        s.age += dt;
-        const p = 1 - s.age / s.life;
-        if (p <= 0) {
-          splashes.splice(i, 1);
-          continue;
-        }
-        if (s.kind === "ring") {
-          fxCtx.strokeStyle = `rgba(230, 245, 255, ${0.55 * p})`;
-          fxCtx.lineWidth = 1.1;
-          fxCtx.beginPath();
-          fxCtx.arc(s.x, s.y, s.r * (0.35 + (1 - p) * 1.4), Math.PI * 1.05, Math.PI * 1.95);
-          fxCtx.stroke();
-        } else {
-          s.x += s.vx * dt;
-          s.y += s.vy * dt;
-          s.vy += 260 * dt;
-          fxCtx.fillStyle = `rgba(255, 255, 255, ${0.75 * p})`;
-          fxCtx.beginPath();
-          fxCtx.arc(s.x, s.y, s.r * (0.7 + p * 0.4), 0, Math.PI * 2);
-          fxCtx.fill();
-        }
-      }
-    };
-
     const tick = (now) => {
-      if (!running) return;
+      if (!running || heavy) return;
       raf = window.requestAnimationFrame(tick);
       const elapsed = now - last;
       if (elapsed < FRAME_MS) return;
       const dt = Math.min(0.05, elapsed / 1000);
       last = now;
-
-      bgCtx.clearRect(0, 0, w, h);
-      if (heavy) {
-        drawHeavyStreaksBg(dt);
-        drawHeavyFx(dt);
-      } else {
-        fxCtx.clearRect(0, 0, w, h);
-        drawClassic(dt);
-      }
+      drawClassic(dt);
     };
 
     const setHeavy = (on) => {
       heavy = !!on;
       writeHeavyRainPref(heavy);
       syncToggle();
-      splashAcc = 0;
       if (heavy) {
-        rebuildHeavy();
+        window.cancelAnimationFrame(raf);
         refreshLedges();
+        const fxApi = ensureHeavyFx();
+        fxApi?.start();
+        bgCtx.clearRect(0, 0, w, h);
       } else {
-        trails.length = 0;
-        splashes.length = 0;
-        rims.length = 0;
-        fxCtx.clearRect(0, 0, w, h);
+        heavyFx?.stop();
+        last = performance.now();
+        if (running) raf = window.requestAnimationFrame(tick);
       }
     };
 
@@ -705,12 +349,14 @@ const Kaya = (() => {
       if (hidden) {
         running = false;
         window.cancelAnimationFrame(raf);
+        heavyFx?.stop();
         return;
       }
       if (!running) {
         running = true;
         last = performance.now();
-        raf = window.requestAnimationFrame(tick);
+        if (heavy) ensureHeavyFx()?.start();
+        else raf = window.requestAnimationFrame(tick);
       }
     };
 
@@ -723,6 +369,10 @@ const Kaya = (() => {
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
     raf = window.requestAnimationFrame(tick);
+
+    if (heavy) {
+      ensureHeavyFx()?.start();
+    }
 
     window.setTimeout(refreshLedges, 400);
     window.setTimeout(refreshLedges, 1200);

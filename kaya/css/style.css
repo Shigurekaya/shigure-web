@@ -120,35 +120,74 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 body.heavy-rain .site-bg__rain {
-  opacity: 1;
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* 大雨：贴近参考片冷蓝暴雨氛围（浅色站需明显压暗） */
+.site-bg,
+.site-bg::before,
+.site-bg::after,
+.site-bg__rain {
+  transition:
+    background 0.85s var(--ease),
+    background-color 0.85s var(--ease),
+    filter 0.85s var(--ease),
+    opacity 0.85s var(--ease);
+}
+
+body,
+.site-bar,
+.intro-panel__body,
+.home-card,
+.work-card,
+.link-card,
+.profile-avatar,
+.brand,
+.site-nav a,
+.profile-name,
+.profile-roman,
+.profile-sign,
+.site-footer p {
+  transition:
+    color 0.85s var(--ease),
+    background 0.85s var(--ease),
+    background-color 0.85s var(--ease),
+    border-color 0.85s var(--ease),
+    box-shadow 0.85s var(--ease);
+}
+
+/* 大雨：贴近小米天气冷蓝暴雨（参考片 bg≈85V，冷蓝灰） */
 body.heavy-rain .site-bg {
-  background: #1a2436;
+  background: #121a28;
 }
 
 body.heavy-rain .site-bg::before {
-  filter: blur(72px) brightness(0.55) saturate(0.75);
-  opacity: 0.9;
+  filter: blur(80px) brightness(0.42) saturate(0.7);
+  opacity: 0.95;
+  background:
+    radial-gradient(circle at 22% 30%, rgba(70, 100, 150, 0.55) 0%, transparent 42%),
+    radial-gradient(circle at 78% 22%, rgba(50, 70, 110, 0.5) 0%, transparent 40%),
+    radial-gradient(circle at 55% 70%, rgba(40, 60, 95, 0.55) 0%, transparent 45%),
+    radial-gradient(circle at 30% 85%, rgba(30, 45, 70, 0.6) 0%, transparent 40%);
 }
 
 body.heavy-rain .site-bg::after {
-  opacity: 0.85;
+  opacity: 0.9;
   background:
-    linear-gradient(180deg, rgba(18, 28, 48, 0.45) 0%, transparent 28%, transparent 62%, rgba(12, 20, 36, 0.55) 100%),
-    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(70, 100, 150, 0.22), transparent 70%),
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: auto, auto, 26px 26px;
+    linear-gradient(180deg, rgba(10, 16, 28, 0.55) 0%, transparent 30%, transparent 60%, rgba(8, 12, 22, 0.65) 100%),
+    radial-gradient(ellipse 95% 50% at 50% 0%, rgba(90, 120, 170, 0.18), transparent 70%),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: auto, auto, 24px 24px;
 }
 
 body.heavy-rain {
   --ink: #e8eef8;
   --ink-soft: #c5d0e0;
   --ink-faint: #8a97ab;
-  --bg-elevated: rgba(28, 40, 62, 0.55);
+  --bg-elevated: rgba(22, 32, 52, 0.58);
   --line: rgba(180, 200, 230, 0.18);
   --glass-blur: blur(14px) saturate(1.05);
+  color: var(--ink);
 }
 
 body.heavy-rain .site-bar,
@@ -157,11 +196,11 @@ body.heavy-rain .home-card,
 body.heavy-rain .work-card,
 body.heavy-rain .link-card {
   border-color: rgba(180, 200, 230, 0.22);
-  box-shadow: 0 10px 36px rgba(8, 14, 28, 0.28);
+  box-shadow: 0 12px 40px rgba(4, 10, 22, 0.35);
 }
 
 body.heavy-rain .profile-avatar {
-  box-shadow: 0 12px 40px rgba(8, 14, 28, 0.35);
+  box-shadow: 0 14px 44px rgba(4, 10, 22, 0.4);
 }
 
 .site-fx {
@@ -171,7 +210,7 @@ body.heavy-rain .profile-avatar {
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.45s var(--ease), visibility 0.45s var(--ease);
+  transition: opacity 0.85s var(--ease), visibility 0.85s var(--ease);
 }
 
 .site-fx.is-active {
@@ -182,14 +221,17 @@ body.heavy-rain .profile-avatar {
 .site-fx__mist {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
-    radial-gradient(ellipse 70% 40% at 50% 15%, rgba(120, 150, 190, 0.14), transparent 70%),
-    radial-gradient(ellipse 80% 45% at 30% 80%, rgba(90, 120, 160, 0.1), transparent 65%),
-    linear-gradient(180deg, rgba(20, 30, 48, 0.08), transparent 35%, transparent 70%, rgba(15, 24, 40, 0.16));
-  opacity: 0.9;
+    radial-gradient(ellipse 70% 40% at 50% 12%, rgba(120, 150, 190, 0.16), transparent 70%),
+    radial-gradient(ellipse 80% 45% at 28% 82%, rgba(80, 110, 150, 0.12), transparent 65%),
+    linear-gradient(180deg, rgba(12, 20, 36, 0.12), transparent 35%, transparent 68%, rgba(8, 14, 26, 0.2));
+  opacity: 0.95;
   animation: heavy-mist-drift 14s ease-in-out infinite alternate;
 }
 
+.site-fx__gl,
+.site-fx__splash,
 .site-fx__canvas {
   position: absolute;
   inset: 0;
@@ -198,15 +240,23 @@ body.heavy-rain .profile-avatar {
   display: block;
 }
 
+.site-fx__gl {
+  z-index: 2;
+}
+
+.site-fx__splash {
+  z-index: 3;
+}
+
 @keyframes heavy-mist-drift {
-  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.82; }
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
   to { transform: translate3d(0, -1.2%, 0) scale(1.03); opacity: 1; }
 }
 
 .rain-toggle {
   position: fixed;
-  right: max(0.85rem, env(safe-area-inset-right));
-  bottom: max(0.95rem, env(safe-area-inset-bottom));
+  left: max(0.85rem, env(safe-area-inset-left));
+  top: max(0.85rem, env(safe-area-inset-top));
   z-index: 130;
   display: inline-flex;
   align-items: center;
@@ -224,11 +274,12 @@ body.heavy-rain .profile-avatar {
   letter-spacing: 0.04em;
   cursor: pointer;
   transition:
-    background var(--dur) var(--ease),
-    color var(--dur) var(--ease),
-    border-color var(--dur) var(--ease),
-    box-shadow var(--dur) var(--ease),
-    transform var(--dur) var(--ease);
+    background 0.45s var(--ease),
+    color 0.45s var(--ease),
+    border-color 0.45s var(--ease),
+    box-shadow 0.45s var(--ease),
+    transform 0.45s var(--ease),
+    opacity 0.35s var(--ease);
 }
 
 .rain-toggle:hover {
@@ -248,18 +299,26 @@ body.heavy-rain .profile-avatar {
   border-radius: 50%;
   background: rgba(107, 79, 184, 0.35);
   box-shadow: inset 0 0 0 1px rgba(107, 79, 184, 0.2);
-  transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  transition: background 0.45s var(--ease), box-shadow 0.45s var(--ease), transform 0.45s var(--ease);
 }
 
 .rain-toggle.is-on {
-  color: #3a4a6a;
-  border-color: rgba(160, 185, 230, 0.85);
-  background: rgba(230, 238, 255, 0.82);
+  color: #dce6f5;
+  border-color: rgba(160, 185, 230, 0.55);
+  background: rgba(28, 40, 62, 0.72);
+  box-shadow: 0 8px 28px rgba(4, 10, 22, 0.35);
 }
 
 .rain-toggle.is-on .rain-toggle__dot {
-  background: #6a8fd4;
-  box-shadow: 0 0 0 3px rgba(106, 143, 212, 0.22);
+  background: #7aa4e8;
+  box-shadow: 0 0 0 3px rgba(122, 164, 232, 0.28);
+  transform: scale(1.08);
+}
+
+.rain-toggle.is-on:hover {
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 32px rgba(4, 10, 22, 0.42);
 }
 
 .home-intro-playing .rain-toggle {
@@ -283,6 +342,7 @@ body.heavy-rain .profile-avatar {
   top: 0;
   z-index: 100;
   padding: 0.85rem var(--pad);
+  padding-left: max(calc(var(--pad) + 4.6rem), calc(env(safe-area-inset-left) + 4.6rem));
 }
 
 .site-bar {
@@ -1231,7 +1291,10 @@ body.heavy-rain .profile-avatar {
     --glass-blur: blur(10px) saturate(1.15);
   }
 
-  .site-header { padding-top: 0.65rem; }
+  .site-header {
+    padding-top: 0.65rem;
+    padding-left: max(calc(var(--pad) + 4.6rem), calc(env(safe-area-inset-left) + 4.6rem));
+  }
 
   .site-bar {
     padding-right: 0.65rem;
