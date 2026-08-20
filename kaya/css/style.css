@@ -119,6 +119,164 @@ img { max-width: 100%; height: auto; display: block; }
   opacity: 0.7;
 }
 
+body.heavy-rain .site-bg__rain {
+  opacity: 1;
+}
+
+/* 大雨：贴近参考片冷蓝暴雨氛围（浅色站需明显压暗） */
+body.heavy-rain .site-bg {
+  background: #1a2436;
+}
+
+body.heavy-rain .site-bg::before {
+  filter: blur(72px) brightness(0.55) saturate(0.75);
+  opacity: 0.9;
+}
+
+body.heavy-rain .site-bg::after {
+  opacity: 0.85;
+  background:
+    linear-gradient(180deg, rgba(18, 28, 48, 0.45) 0%, transparent 28%, transparent 62%, rgba(12, 20, 36, 0.55) 100%),
+    radial-gradient(ellipse 90% 55% at 50% 0%, rgba(70, 100, 150, 0.22), transparent 70%),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: auto, auto, 26px 26px;
+}
+
+body.heavy-rain {
+  --ink: #e8eef8;
+  --ink-soft: #c5d0e0;
+  --ink-faint: #8a97ab;
+  --bg-elevated: rgba(28, 40, 62, 0.55);
+  --line: rgba(180, 200, 230, 0.18);
+  --glass-blur: blur(14px) saturate(1.05);
+}
+
+body.heavy-rain .site-bar,
+body.heavy-rain .intro-panel__body,
+body.heavy-rain .home-card,
+body.heavy-rain .work-card,
+body.heavy-rain .link-card {
+  border-color: rgba(180, 200, 230, 0.22);
+  box-shadow: 0 10px 36px rgba(8, 14, 28, 0.28);
+}
+
+body.heavy-rain .profile-avatar {
+  box-shadow: 0 12px 40px rgba(8, 14, 28, 0.35);
+}
+
+.site-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s var(--ease), visibility 0.45s var(--ease);
+}
+
+.site-fx.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.site-fx__mist {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 15%, rgba(120, 150, 190, 0.14), transparent 70%),
+    radial-gradient(ellipse 80% 45% at 30% 80%, rgba(90, 120, 160, 0.1), transparent 65%),
+    linear-gradient(180deg, rgba(20, 30, 48, 0.08), transparent 35%, transparent 70%, rgba(15, 24, 40, 0.16));
+  opacity: 0.9;
+  animation: heavy-mist-drift 14s ease-in-out infinite alternate;
+}
+
+.site-fx__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes heavy-mist-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.82; }
+  to { transform: translate3d(0, -1.2%, 0) scale(1.03); opacity: 1; }
+}
+
+.rain-toggle {
+  position: fixed;
+  right: max(0.85rem, env(safe-area-inset-right));
+  bottom: max(0.95rem, env(safe-area-inset-bottom));
+  z-index: 130;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.72rem 0.42rem 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  box-shadow: 0 8px 24px rgba(60, 50, 90, 0.1);
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+.rain-toggle:hover {
+  color: var(--ink);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(60, 50, 90, 0.14);
+}
+
+.rain-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rain-toggle__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: rgba(107, 79, 184, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(107, 79, 184, 0.2);
+  transition: background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.rain-toggle.is-on {
+  color: #3a4a6a;
+  border-color: rgba(160, 185, 230, 0.85);
+  background: rgba(230, 238, 255, 0.82);
+}
+
+.rain-toggle.is-on .rain-toggle__dot {
+  background: #6a8fd4;
+  box-shadow: 0 0 0 3px rgba(106, 143, 212, 0.22);
+}
+
+.home-intro-playing .rain-toggle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain-toggle,
+  .site-fx {
+    display: none !important;
+  }
+  .site-fx__mist {
+    animation: none !important;
+  }
+}
+
 /* ── 顶栏 ── */
 .site-header {
   position: sticky;

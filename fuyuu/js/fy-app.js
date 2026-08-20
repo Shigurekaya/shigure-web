@@ -465,8 +465,9 @@ const FyApp = (() => {
 
     document.body.classList.add("fy-intro-playing");
     const stop = startIntroFloat(document.getElementById("fy-intro-float"));
-    const OUT_MS = 1100;
-    const REVEAL_DELAY = 220;
+    const HOLD_MS = 1950;
+    const OUT_MS = 900;
+    const REVEAL_DELAY = 160;
 
     window.setTimeout(() => {
       intro.classList.add("is-done");
@@ -478,7 +479,7 @@ const FyApp = (() => {
         stop();
         intro.remove();
       }, OUT_MS);
-    }, 2700);
+    }, HOLD_MS);
   }
 
   function initHome() {
