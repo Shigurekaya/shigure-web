@@ -146,7 +146,7 @@ const Kaya = (() => {
     });
   }
 
-  const HEAVY_RAIN_KEY = "kaya-heavy-rain";
+  const HEAVY_RAIN_CHANCE = 0.1;
   const SPLASH_SELECTORS = [
     ".site-bar",
     ".intro-panel__body",
@@ -156,20 +156,21 @@ const Kaya = (() => {
     ".page-head",
   ].join(",");
 
-  function readHeavyRainPref() {
+  /** URL `?rain=storm`（或 `?storm`）强制暴雨，供隐藏测试入口使用 */
+  function forceStormFromUrl() {
     try {
-      return localStorage.getItem(HEAVY_RAIN_KEY) === "1";
+      const q = new URLSearchParams(window.location.search);
+      const rain = (q.get("rain") || "").toLowerCase();
+      return rain === "storm" || rain === "heavy" || q.has("storm");
     } catch {
       return false;
     }
   }
 
-  function writeHeavyRainPref(on) {
-    try {
-      localStorage.setItem(HEAVY_RAIN_KEY, on ? "1" : "0");
-    } catch {
-      /* ignore quota / private mode */
-    }
+  /** 进入页面：强制暴雨 > 否则 10% 暴雨 / 90% 小雨 */
+  function pickInitialHeavy() {
+    if (forceStormFromUrl()) return true;
+    return Math.random() < HEAVY_RAIN_CHANCE;
   }
 
   function initSiteRain(host) {
@@ -189,14 +190,7 @@ const Kaya = (() => {
     const bgCtx = bgCanvas.getContext("2d", { alpha: true });
     if (!bgCtx) return;
 
-    const toggle = document.createElement("button");
-    toggle.type = "button";
-    toggle.className = "rain-toggle";
-    toggle.id = "rain-toggle";
-    toggle.innerHTML = `<span class="rain-toggle__dot" aria-hidden="true"></span><span class="rain-toggle__text">大雨</span>`;
-    document.body.appendChild(toggle);
-
-    let heavy = readHeavyRainPref();
+    const heavy = pickInitialHeavy();
     let raf = 0;
     let running = true;
     let w = 0;
@@ -220,10 +214,7 @@ const Kaya = (() => {
       drift: 16 + Math.random() * 22,
     });
 
-    const syncToggle = () => {
-      toggle.setAttribute("aria-pressed", heavy ? "true" : "false");
-      toggle.classList.toggle("is-on", heavy);
-      toggle.title = heavy ? "关闭大雨特效" : "开启大雨特效（类小米天气）";
+    const applyRainMode = () => {
       document.body.classList.toggle("heavy-rain", heavy);
       fx.classList.toggle("is-active", heavy);
       const theme = document.querySelector('meta[name="theme-color"]');
@@ -316,23 +307,6 @@ const Kaya = (() => {
       drawClassic(dt);
     };
 
-    const setHeavy = (on) => {
-      heavy = !!on;
-      writeHeavyRainPref(heavy);
-      syncToggle();
-      if (heavy) {
-        window.cancelAnimationFrame(raf);
-        refreshLedges();
-        const fxApi = ensureHeavyFx();
-        fxApi?.start();
-        bgCtx.clearRect(0, 0, w, h);
-      } else {
-        heavyFx?.stop();
-        last = performance.now();
-        if (running) raf = window.requestAnimationFrame(tick);
-      }
-    };
-
     const onResize = () => {
       window.clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(resize, 120);
@@ -360,22 +334,21 @@ const Kaya = (() => {
       }
     };
 
-    toggle.addEventListener("click", () => setHeavy(!heavy));
-
-    syncToggle();
+    applyRainMode();
     resize();
     host.classList.toggle("is-paused", document.hidden);
     window.addEventListener("resize", onResize, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
-    raf = window.requestAnimationFrame(tick);
 
     if (heavy) {
+      bgCtx.clearRect(0, 0, w, h);
       ensureHeavyFx()?.start();
+      window.setTimeout(refreshLedges, 400);
+      window.setTimeout(refreshLedges, 1200);
+    } else {
+      raf = window.requestAnimationFrame(tick);
     }
-
-    window.setTimeout(refreshLedges, 400);
-    window.setTimeout(refreshLedges, 1200);
   }
 
   function markPageReady() {

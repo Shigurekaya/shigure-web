@@ -285,81 +285,7 @@ body.heavy-rain .profile-avatar .avatar {
   to { transform: translate3d(0, -1.2%, 0) scale(1.03); opacity: 1; }
 }
 
-.rain-toggle {
-  position: fixed;
-  left: max(0.85rem, env(safe-area-inset-left));
-  top: max(0.85rem, env(safe-area-inset-top));
-  z-index: 130;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.42rem 0.72rem 0.42rem 0.55rem;
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(12px) saturate(1.2);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-  box-shadow: 0 8px 24px rgba(60, 50, 90, 0.1);
-  color: var(--ink-soft);
-  font: inherit;
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition:
-    background 0.45s var(--ease),
-    color 0.45s var(--ease),
-    border-color 0.45s var(--ease),
-    box-shadow 0.45s var(--ease),
-    transform 0.45s var(--ease),
-    opacity 0.35s var(--ease);
-}
-
-.rain-toggle:hover {
-  color: var(--ink);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 28px rgba(60, 50, 90, 0.14);
-}
-
-.rain-toggle:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.rain-toggle__dot {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: rgba(107, 79, 184, 0.35);
-  box-shadow: inset 0 0 0 1px rgba(107, 79, 184, 0.2);
-  transition: background 0.45s var(--ease), box-shadow 0.45s var(--ease), transform 0.45s var(--ease);
-}
-
-.rain-toggle.is-on {
-  color: #dce6f5;
-  border-color: rgba(160, 185, 230, 0.55);
-  background: rgba(28, 40, 62, 0.72);
-  box-shadow: 0 8px 28px rgba(4, 10, 22, 0.35);
-}
-
-.rain-toggle.is-on .rain-toggle__dot {
-  background: #7aa4e8;
-  box-shadow: 0 0 0 3px rgba(122, 164, 232, 0.28);
-  transform: scale(1.08);
-}
-
-.rain-toggle.is-on:hover {
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 10px 32px rgba(4, 10, 22, 0.42);
-}
-
-.home-intro-playing .rain-toggle {
-  opacity: 0;
-  pointer-events: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .rain-toggle,
   .site-fx {
     display: none !important;
   }
@@ -374,7 +300,6 @@ body.heavy-rain .profile-avatar .avatar {
   top: 0;
   z-index: 100;
   padding: 0.85rem var(--pad);
-  padding-left: max(calc(var(--pad) + 4.6rem), calc(env(safe-area-inset-left) + 4.6rem));
 }
 
 .site-bar {
@@ -1003,6 +928,7 @@ body.heavy-rain .profile-avatar .avatar {
 
 /* ── 页脚 ── */
 .site-footer {
+  position: relative;
   max-width: var(--max-wide);
   margin: 0 auto;
   padding: 1.5rem var(--pad) 2.5rem;
@@ -1018,6 +944,20 @@ body.heavy-rain .profile-avatar .avatar {
 
 .site-footer:hover p {
   color: var(--ink-soft);
+}
+
+/* 隐藏暴雨测试入口（源码可见；直达 storm.html 或 ?rain=storm） */
+.storm-gate {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  color: transparent;
 }
 
 /* ── 入场动画 ── */
@@ -1333,7 +1273,6 @@ body.heavy-rain .profile-avatar .avatar {
 
   .site-header {
     padding-top: 0.65rem;
-    padding-left: max(calc(var(--pad) + 4.6rem), calc(env(safe-area-inset-left) + 4.6rem));
   }
 
   .site-bar {
