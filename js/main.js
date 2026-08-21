@@ -480,7 +480,28 @@ const Kaya = (() => {
       }, 1100);
     } else {
       resize();
-      ensureLightFx()?.start();
+      /* 小雨开场已挂同引擎；开幕淡出时衔接主站雨层，避免空窗 */
+      const introPlaying = document.body.classList.contains("home-intro-playing");
+      const startLight = () => {
+        if (!running) return;
+        ensureLightFx()?.start();
+      };
+      if (introPlaying) {
+        const waitIntro = () => {
+          const intro = document.getElementById("home-intro");
+          if (
+            !document.body.classList.contains("home-intro-playing")
+            || intro?.classList.contains("is-done")
+          ) {
+            startLight();
+            return;
+          }
+          window.setTimeout(waitIntro, 80);
+        };
+        window.setTimeout(waitIntro, 160);
+      } else {
+        startLight();
+      }
     }
 
     rainApi = {
@@ -537,12 +558,22 @@ const Kaya = (() => {
   }
 
   function startIntroRain(canvas) {
-    /* 开幕只用 2D，避免与主站 GPU 雨丝抢 WebGL 上下文 */
+    const heavy = document.body.classList.contains("heavy-rain");
+    const storm = document.body.classList.contains("storm-rain");
+
+    /* 小雨开场复用主站引擎，保证与主页面观感一致 */
+    if (!heavy && window.KayaLightRain?.attach && canvas) {
+      const fx = window.KayaLightRain.attach(canvas, { mistHost: null });
+      fx.start();
+      return () => {
+        try { fx.destroy(); } catch { /* ignore */ }
+      };
+    }
+
+    /* 大雨/雷暴开幕只用 2D，避免与主站 GPU 雨丝抢 WebGL 上下文 */
     const ctx = canvas?.getContext("2d");
     if (!ctx) return () => {};
 
-    const heavy = document.body.classList.contains("heavy-rain");
-    const storm = document.body.classList.contains("storm-rain");
     const drops = [];
     let raf = 0;
     let running = true;

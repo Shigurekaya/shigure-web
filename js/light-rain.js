@@ -29,10 +29,11 @@
     return "high";
   }
 
+  /* 密度与下落速度同比约 ×1.35，保持小雨疏密感 */
   const QUALITY = {
-    low: { far: 110, mid: 150, near: 90, splashCap: 130, dprCap: 1.3, mist: 1 },
-    mid: { far: 170, mid: 230, near: 140, splashCap: 190, dprCap: 1.5, mist: 1 },
-    high: { far: 230, mid: 320, near: 190, splashCap: 260, dprCap: 1.7, mist: 1 },
+    low: { far: 150, mid: 200, near: 120, splashCap: 175, dprCap: 1.3, mist: 1 },
+    mid: { far: 230, mid: 310, near: 190, splashCap: 255, dprCap: 1.5, mist: 1 },
+    high: { far: 310, mid: 430, near: 255, splashCap: 350, dprCap: 1.7, mist: 1 },
   };
 
   function bakeSplashSprites() {
@@ -72,7 +73,10 @@
    * @param {{ mistHost?: HTMLElement | null }} [opts]
    */
   function attach(canvas, opts) {
-    const mistHost = opts?.mistHost || canvas.parentElement;
+    /* mistHost 显式传 null/false 时不挂雾层（开场自带 mist） */
+    const mistHost = opts && Object.prototype.hasOwnProperty.call(opts, "mistHost")
+      ? opts.mistHost
+      : canvas.parentElement;
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) {
       return { start() {}, stop() {}, resize() {}, destroy() {} };
@@ -117,7 +121,7 @@
       const spec = layer === "far"
         ? {
           len: [H * 0.018, H * 0.038],
-          speed: [180, 280],
+          speed: [245, 380],
           alpha: [0.18, 0.34],
           width: [1.1, 1.6],
           drift: [10, 20],
@@ -125,14 +129,14 @@
         : layer === "mid"
           ? {
             len: [H * 0.028, H * 0.055],
-            speed: [240, 380],
+            speed: [325, 515],
             alpha: [0.28, 0.5],
             width: [1.35, 2.05],
             drift: [14, 26],
           }
           : {
             len: [H * 0.04, H * 0.078],
-            speed: [320, 480],
+            speed: [430, 650],
             alpha: [0.42, 0.72],
             width: [1.7, 2.6],
             drift: [16, 30],
