@@ -453,7 +453,7 @@ const Kaya = (() => {
     if (heavy) {
       window.addEventListener("scroll", onScroll, { passive: true, capture: true });
       resize();
-      /* 开幕播放中延迟启动主雨，避免叠两层雨 + 抢资源 */
+      /* 开幕淡出时衔接主雨（雨丝 WebGL）；开场层仅作 2D 近似，避免双 WebGL */
       const introPlaying = document.body.classList.contains("home-intro-playing");
       const startHeavy = () => {
         if (!running) return;
@@ -464,13 +464,17 @@ const Kaya = (() => {
       };
       if (introPlaying) {
         const waitIntro = () => {
-          if (!document.body.classList.contains("home-intro-playing")) {
+          const intro = document.getElementById("home-intro");
+          if (
+            !document.body.classList.contains("home-intro-playing")
+            || intro?.classList.contains("is-done")
+          ) {
             startHeavy();
             return;
           }
-          window.setTimeout(waitIntro, 120);
+          window.setTimeout(waitIntro, 80);
         };
-        window.setTimeout(waitIntro, 200);
+        window.setTimeout(waitIntro, 160);
       } else {
         startHeavy();
       }
@@ -570,7 +574,7 @@ const Kaya = (() => {
       };
     }
 
-    /* 大雨/雷暴开幕只用 2D，避免与主站 GPU 雨丝抢 WebGL 上下文 */
+    /* 大雨/雷暴开幕：分层 2D 逼近 GPU 雨丝（同页勿开第二个 WebGL） */
     const ctx = canvas?.getContext("2d");
     if (!ctx) return () => {};
 
@@ -580,22 +584,36 @@ const Kaya = (() => {
     let last = performance.now();
     let w = window.innerWidth;
     let h = window.innerHeight;
-    const area = clamp((w * h) / (1280 * 720), 0.7, 1.5);
-    const n = Math.round((storm ? 480 : heavy ? 360 : 90) * area);
+    let wind = storm ? 0.55 : 0.32;
+    let windTarget = wind;
+    let windTimer = 0;
+    const area = clamp((w * h) / (1280 * 720), 0.7, 1.45);
+    const layers = storm
+      ? [
+        { n: Math.round(220 * area), len: [0.007, 0.014], speed: [1050, 1450], alpha: [0.08, 0.16], width: [0.55, 0.9], drift: 10 },
+        { n: Math.round(280 * area), len: [0.012, 0.024], speed: [1250, 1750], alpha: [0.14, 0.3], width: [0.8, 1.35], drift: 16 },
+        { n: Math.round(200 * area), len: [0.018, 0.036], speed: [1500, 2100], alpha: [0.26, 0.5], width: [1.15, 2.0], drift: 22 },
+      ]
+      : [
+        { n: Math.round(160 * area), len: [0.0065, 0.013], speed: [980, 1320], alpha: [0.07, 0.14], width: [0.5, 0.85], drift: 8 },
+        { n: Math.round(220 * area), len: [0.01, 0.021], speed: [1150, 1580], alpha: [0.12, 0.26], width: [0.7, 1.2], drift: 12 },
+        { n: Math.round(160 * area), len: [0.015, 0.032], speed: [1380, 1880], alpha: [0.22, 0.42], width: [1.0, 1.75], drift: 16 },
+      ];
 
-    for (let i = 0; i < n; i += 1) {
-      drops.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        len: h * (heavy ? (0.008 + Math.random() * 0.02) : (0.01 + Math.random() * 0.016)),
-        speed: storm
-          ? (1100 + Math.random() * 900)
-          : heavy ? (900 + Math.random() * 700) : (180 + Math.random() * 200),
-        alpha: storm
-          ? (0.18 + Math.random() * 0.4)
-          : heavy ? (0.14 + Math.random() * 0.36) : (0.1 + Math.random() * 0.22),
-        width: heavy ? (0.9 + Math.random() * 0.7) : (0.8 + Math.random() * 0.5),
-      });
+    for (let L = 0; L < layers.length; L += 1) {
+      const spec = layers[L];
+      for (let i = 0; i < spec.n; i += 1) {
+        drops.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          len: h * (spec.len[0] + Math.random() * (spec.len[1] - spec.len[0])),
+          speed: spec.speed[0] + Math.random() * (spec.speed[1] - spec.speed[0]),
+          alpha: spec.alpha[0] + Math.random() * (spec.alpha[1] - spec.alpha[0]),
+          width: spec.width[0] + Math.random() * (spec.width[1] - spec.width[0]),
+          drift: spec.drift * (0.75 + Math.random() * 0.5),
+          wobble: Math.random() * Math.PI * 2,
+        });
+      }
     }
 
     const resize = () => {
@@ -612,29 +630,47 @@ const Kaya = (() => {
       if (!running) return;
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
+
+      windTimer -= dt;
+      if (windTimer <= 0) {
+        windTimer = storm ? (0.9 + Math.random() * 1.6) : (2.2 + Math.random() * 2.4);
+        const mag = storm ? (0.35 + Math.random() * 0.7) : (0.18 + Math.random() * 0.4);
+        const flip = storm ? Math.random() < 0.55 : Math.random() < 0.14;
+        const sign = flip
+          ? (Math.random() < 0.5 ? -1 : 1)
+          : (Math.sign(wind) || 1);
+        windTarget = sign * mag;
+      }
+      wind += (windTarget - wind) * Math.min(1, dt * (storm ? 1.35 : 0.7));
+
       ctx.clearRect(0, 0, w, h);
       for (let i = 0; i < drops.length; i += 1) {
         const d = drops[i];
-        const g = ctx.createLinearGradient(d.x, d.y, d.x + 1.2, d.y + d.len);
-        if (heavy) {
-          g.addColorStop(0, "rgba(160,200,224,0)");
-          g.addColorStop(0.45, `rgba(230,245,255,${d.alpha})`);
-          g.addColorStop(1, "rgba(140,180,210,0)");
-        } else {
-          g.addColorStop(0, "rgba(139,111,212,0)");
-          g.addColorStop(0.5, `rgba(174,160,230,${d.alpha})`);
-          g.addColorStop(1, "rgba(174,194,224,0)");
-        }
+        d.wobble += dt * 2.2;
+        const sway = Math.sin(d.wobble) * d.drift * 0.04;
+        const tilt = wind * d.drift * (storm ? 0.22 : 0.12) + sway;
+        const x2 = d.x + tilt;
+        const y2 = d.y + d.len;
+        const g = ctx.createLinearGradient(d.x, d.y, x2, y2);
+        g.addColorStop(0, "rgba(160,200,224,0)");
+        g.addColorStop(0.2, `rgba(200,225,245,${d.alpha * 0.45})`);
+        g.addColorStop(0.55, `rgba(230,245,255,${d.alpha})`);
+        g.addColorStop(1, "rgba(140,180,210,0)");
         ctx.strokeStyle = g;
         ctx.lineWidth = d.width;
         ctx.beginPath();
         ctx.moveTo(d.x, d.y);
-        ctx.lineTo(d.x + (heavy ? 1.2 : 2.2), d.y + d.len);
+        ctx.lineTo(x2, y2);
         ctx.stroke();
         d.y += d.speed * dt;
+        d.x += (wind * 28 + d.drift * 0.35) * dt;
         if (d.y > h + d.len) {
-          d.y = -d.len;
+          d.y = -d.len - Math.random() * 40;
           d.x = Math.random() * w;
+        } else if (d.x > w + 30) {
+          d.x = -12;
+        } else if (d.x < -30) {
+          d.x = w + 12;
         }
       }
       raf = requestAnimationFrame(tick);

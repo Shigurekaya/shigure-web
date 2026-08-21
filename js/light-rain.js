@@ -29,11 +29,11 @@
     return "high";
   }
 
-  /* 密度与下落速度同比约 ×1.35，保持小雨疏密感 */
+  /* 速度仍偏快；雨量在 ×1.35 基础上再 -20% */
   const QUALITY = {
-    low: { far: 150, mid: 200, near: 120, splashCap: 175, dprCap: 1.3, mist: 1 },
-    mid: { far: 230, mid: 310, near: 190, splashCap: 255, dprCap: 1.5, mist: 1 },
-    high: { far: 310, mid: 430, near: 255, splashCap: 350, dprCap: 1.7, mist: 1 },
+    low: { far: 120, mid: 160, near: 95, splashCap: 140, dprCap: 1.3, mist: 1 },
+    mid: { far: 185, mid: 250, near: 150, splashCap: 205, dprCap: 1.5, mist: 1 },
+    high: { far: 250, mid: 345, near: 205, splashCap: 280, dprCap: 1.7, mist: 1 },
   };
 
   function bakeSplashSprites() {

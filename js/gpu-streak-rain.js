@@ -42,19 +42,19 @@ void main() {
   /* 大雨参考：密而偏短的竖直丝，近景略长 */
   float lenH = mix(0.0065, 0.0135, h1) * sm;
   float speed = mix(1020.0, 1420.0, h2);
-  float alpha = mix(0.05, 0.13, h3) * mix(1.0, 1.18, clamp(sm - 1.0, 0.0, 1.0));
-  float widthPx = mix(0.48, 0.9, h1) * sm;
+  float alpha = mix(0.06, 0.15, h3) * mix(1.0, 1.18, clamp(sm - 1.0, 0.0, 1.0));
+  float widthPx = mix(0.5, 0.95, h1) * sm;
 
   if (layer > 0.5 && layer < 1.5) {
     lenH = mix(0.01, 0.021, h1) * sm;
     speed = mix(1180.0, 1640.0, h2);
-    alpha = mix(0.11, 0.26, h3) * mix(1.0, 1.22, clamp(sm - 1.0, 0.0, 1.0));
-    widthPx = mix(0.72, 1.25, h1) * sm;
+    alpha = mix(0.13, 0.3, h3) * mix(1.0, 1.22, clamp(sm - 1.0, 0.0, 1.0));
+    widthPx = mix(0.75, 1.3, h1) * sm;
   } else if (layer > 1.5) {
     lenH = mix(0.015, 0.034, h1) * sm;
     speed = mix(1400.0, 1960.0, h2);
-    alpha = mix(0.2, 0.42, h3) * mix(1.0, 1.28, clamp(sm - 1.0, 0.0, 1.0));
-    widthPx = mix(1.05, 1.9, h1) * sm;
+    alpha = mix(0.24, 0.48, h3) * mix(1.0, 1.28, clamp(sm - 1.0, 0.0, 1.0));
+    widthPx = mix(1.1, 2.0, h1) * sm;
   }
 
   speed *= uSpeedMul;
@@ -261,7 +261,7 @@ void main() {
     };
 
     const setCount = (n) => {
-      count = clamp(n | 0, 48, 3200);
+      count = clamp(n | 0, 48, 4800);
       rebuildBuffer();
     };
 

@@ -42,25 +42,25 @@
 
   const QUALITY = {
     low: {
-      streak: 980,
+      streak: 1100,
       dprCap: 1.2,
       frameMs: 1000 / 24,
-      wind: 0.28,
-      speedMul: 1.14,
-      glassMain: 40,
-      glassMicro: 420,
-      splashRate: 1.25,
+      wind: 0.3,
+      speedMul: 1.18,
+      glassMain: 44,
+      glassMicro: 460,
+      splashRate: 1.3,
       glass: null,
     },
     mid: {
-      streak: 1680,
+      streak: 1850,
       dprCap: 1.4,
       frameMs: 1000 / 30,
-      wind: 0.34,
-      speedMul: 1.2,
-      glassMain: 68,
-      glassMicro: 760,
-      splashRate: 1.42,
+      wind: 0.36,
+      speedMul: 1.24,
+      glassMain: 74,
+      glassMicro: 820,
+      splashRate: 1.48,
       glassMaxW: 1040,
       glass: {
         spawnInterval: [0.07, 0.14],
@@ -72,14 +72,14 @@
       },
     },
     high: {
-      streak: 2600,
+      streak: 2800,
       dprCap: 1.6,
       frameMs: 1000 / 30,
-      wind: 0.4,
-      speedMul: 1.26,
-      glassMain: 96,
-      glassMicro: 1180,
-      splashRate: 1.58,
+      wind: 0.42,
+      speedMul: 1.3,
+      glassMain: 104,
+      glassMicro: 1280,
+      splashRate: 1.65,
       glassMaxW: 1400,
       glass: {
         spawnInterval: [0.045, 0.1],
@@ -131,8 +131,9 @@
   }
 
   function streakCapFor(storm, phone) {
-    if (phone) return storm ? 640 : 720;
-    return storm ? 2800 : 2800;
+    /* 暴雨此前与大雨同帽，STORM_MUL.streak 加不上；桌面暴雨放宽、手机仍克制 */
+    if (phone) return storm ? 880 : 720;
+    return storm ? 4200 : 2800;
   }
 
   function paintStormBg(canvas, w, h, storm) {
@@ -171,15 +172,15 @@
     return canvas;
   }
 
-  /** 雷暴相对大雨的强度倍率（效果全开） */
+  /** 雷暴相对大雨的强度倍率（雨丝更密、风更乱、珠更大） */
   const STORM_MUL = {
-    streak: 2.15,
-    wind: 1.55,
-    speed: 1.42,
-    splash: 2.6,
-    glassMain: 1.85,
-    glassMicro: 2.1,
-    sizeMul: 1.55,
+    streak: 1.65,
+    wind: 1.62,
+    speed: 1.38,
+    splash: 2.35,
+    glassMain: 1.55,
+    glassMicro: 1.75,
+    sizeMul: 1.42,
   };
 
   /** 精致溅花精灵：柔边冠 + 亮核（参考片顶缘白簇） */
@@ -263,7 +264,7 @@
     q.glassMicro = Math.round((q.glassMicro || 160) * mul.glassMicro);
     q.sizeMul = mul.sizeMul;
     if (phone) {
-      q.streak = Math.min(q.streak, 640);
+      q.streak = Math.min(q.streak, 880);
       q.dprCap = Math.min(q.dprCap, 1.1);
       q.frameMs = 1000 / 20;
       q.glassMain = Math.min(q.glassMain, 24);
@@ -370,7 +371,7 @@
       wind: q0.wind,
       speedMul: q0.speedMul,
       wanderWind: storm,
-      tilt: storm ? (phone ? 0.1 : 0.155) : 0.08,
+      tilt: storm ? (phone ? 0.12 : 0.18) : 0.085,
       sizeMul: storm ? (q0.sizeMul || (phone ? 1.18 : STORM_MUL.sizeMul)) : 1,
     });
 
