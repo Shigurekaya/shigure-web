@@ -49,7 +49,7 @@
       speedMul: 1.12,
       glassMain: 28,
       glassMicro: 360,
-      splashRate: 1.7,
+      splashRate: 1.05,
       glass: null,
     },
     mid: {
@@ -60,7 +60,7 @@
       speedMul: 1.16,
       glassMain: 38,
       glassMicro: 480,
-      splashRate: 1.95,
+      splashRate: 1.12,
       glassMaxW: 960,
       glass: {
         spawnInterval: [0.08, 0.16],
@@ -79,7 +79,7 @@
       speedMul: 1.2,
       glassMain: 48,
       glassMicro: 580,
-      splashRate: 2.15,
+      splashRate: 1.2,
       glassMaxW: 1280,
       glass: {
         spawnInterval: [0.055, 0.12],
@@ -154,7 +154,8 @@
     streak: 1.55,
     wind: 1.42,
     speed: 1.32,
-    splash: 1.55,
+    /* 溅花只略增：过高会糊满卡片顶缘 */
+    splash: 1.18,
     glassMain: 1.35,
     glassMicro: 1.4,
   };
@@ -510,20 +511,24 @@
       if (intensity < 0.12) return;
       /* 圆形头像不做撞击溅花（易成半圆弧/悬空水花） */
       if (ledge.shape === "circle") return;
+      const cap = storm ? (mobileLite ? 56 : 84) : (mobileLite ? 48 : 72);
+      if (splashes.length >= cap) return;
       const hit = hitPointOnLedge(ledge);
-      const n = 2 + ((Math.random() * 3) | 0);
-      const windBias = windLive * (storm ? 22 : 12);
+      /* 每击 1～3 颗，避免一次炸出一团 */
+      const n = 1 + ((Math.random() * 2.4) | 0);
+      const windBias = windLive * (storm ? 18 : 10);
       for (let i = 0; i < n; i += 1) {
+        if (splashes.length >= cap) break;
         const ang = -Math.PI * 0.08 - Math.random() * Math.PI * 0.75;
-        const spd = rand(50, 120);
+        const spd = rand(48, 110);
         splashes.push({
           x: hit.x + rand(-2, 2),
           y: hit.y + rand(-0.4, 0.4),
           vx: Math.cos(ang) * spd + windBias,
           vy: Math.sin(ang) * spd,
-          life: rand(0.12, 0.22),
+          life: rand(0.12, 0.2),
           age: 0,
-          r: rand(0.55, 1.5),
+          r: rand(0.5, 1.35),
         });
       }
     };
@@ -582,7 +587,8 @@
 
       sctx.clearRect(0, 0, w, h);
       const aMul = intensity;
-      const splashMul = (qualityFor(quality, storm).splashRate || 0.7) * (mobileLite ? 0.85 : 1);
+      const qNow = qualityFor(quality, storm);
+      const splashMul = qNow.splashRate || 1;
 
       if (scrolling) {
         splashes.length = 0;
@@ -591,17 +597,18 @@
       }
 
       /* 仅矩形卡片顶缘：短湿划，不画整条宽线、不画半圆弧 */
+      const wetChance = (storm ? 0.28 : 0.2) * aMul;
       for (let i = 0; i < ledges.length; i += 1) {
         const L = ledges[i];
         if (L.shape === "circle") continue;
         const pulse = 0.55 + 0.45 * Math.sin(time * 5.6 + i * 1.25);
         const wetA = scrolling ? 0.4 : 1;
-        if (!scrolling && Math.random() < 0.45 * aMul) {
-          const dashN = 1 + ((Math.random() * 2) | 0);
+        if (!scrolling && Math.random() < wetChance) {
+          const dashN = 1 + ((Math.random() * 1.5) | 0);
           for (let d = 0; d < dashN; d += 1) {
             const dx = L.x + L.w * (0.1 + Math.random() * 0.8);
-            const dw = rand(4, 14);
-            sctx.fillStyle = `rgba(235,245,255,${rand(0.12, 0.28) * pulse * aMul * wetA})`;
+            const dw = rand(4, 12);
+            sctx.fillStyle = `rgba(235,245,255,${rand(0.12, 0.26) * pulse * aMul * wetA})`;
             sctx.fillRect(dx, L.y - 0.5, dw, 1.5);
           }
         }
@@ -610,9 +617,14 @@
       if (!scrolling) {
         const rectLedges = ledges.filter((L) => L.shape !== "circle");
         splashAcc += dt;
-        const rate = Math.min(28, 8 + rectLedges.length * 1.7) * aMul * splashMul;
+        /* 先倍率再封顶，避免 splashRate×storm 冲破上限 */
+        const ledgeBase = 5.5 + rectLedges.length * 1.15;
+        const rateCap = storm ? 18 : 13;
+        const mobileFactor = mobileLite ? 0.72 : 1;
+        const rate = Math.min(rateCap, ledgeBase * splashMul) * aMul * mobileFactor;
+        const burstCap = storm ? 5 : 4;
         let spawned = 0;
-        while (rate > 0.2 && splashAcc > 1 / rate && rectLedges.length && spawned < 10) {
+        while (rate > 0.2 && splashAcc > 1 / rate && rectLedges.length && spawned < burstCap) {
           splashAcc -= 1 / rate;
           spawnSplash(rectLedges[(Math.random() * rectLedges.length) | 0]);
           spawned += 1;
