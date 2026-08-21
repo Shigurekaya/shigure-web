@@ -34,27 +34,27 @@ void main() {
   float h4 = hash(id * 8.33 + 19.7);
   float hx = hash(id * 13.7 + 0.91);
   float sm = max(uSizeMul, 0.85);
-  /* 远/中/近：暴雨时近景略增（阈值下移） */
-  float nearCut = mix(0.82, 0.76, clamp((sm - 1.0) * 2.5, 0.0, 1.0));
-  float midCut = mix(0.48, 0.42, clamp((sm - 1.0) * 2.5, 0.0, 1.0));
+  /* 远/中/近：近景略密，暴雨时近景再增 */
+  float nearCut = mix(0.8, 0.74, clamp((sm - 1.0) * 2.5, 0.0, 1.0));
+  float midCut = mix(0.46, 0.4, clamp((sm - 1.0) * 2.5, 0.0, 1.0));
   float lp = hash(id * 2.17 + 0.4);
   float layer = lp < midCut ? 0.0 : (lp < nearCut ? 1.0 : 2.0);
-  /* 参考片天空区：近竖直短丝；暴雨加长加粗 */
-  float lenH = mix(0.007, 0.014, h1) * sm;
-  float speed = mix(980.0, 1340.0, h2);
-  float alpha = mix(0.045, 0.11, h3) * mix(1.0, 1.15, clamp(sm - 1.0, 0.0, 1.0));
-  float widthPx = mix(0.5, 0.85, h1) * sm;
+  /* 大雨参考：密而偏短的竖直丝，近景略长 */
+  float lenH = mix(0.0065, 0.0135, h1) * sm;
+  float speed = mix(1020.0, 1420.0, h2);
+  float alpha = mix(0.05, 0.13, h3) * mix(1.0, 1.18, clamp(sm - 1.0, 0.0, 1.0));
+  float widthPx = mix(0.48, 0.9, h1) * sm;
 
   if (layer > 0.5 && layer < 1.5) {
-    lenH = mix(0.011, 0.02, h1) * sm;
-    speed = mix(1120.0, 1560.0, h2);
-    alpha = mix(0.1, 0.22, h3) * mix(1.0, 1.2, clamp(sm - 1.0, 0.0, 1.0));
-    widthPx = mix(0.7, 1.15, h1) * sm;
+    lenH = mix(0.01, 0.021, h1) * sm;
+    speed = mix(1180.0, 1640.0, h2);
+    alpha = mix(0.11, 0.26, h3) * mix(1.0, 1.22, clamp(sm - 1.0, 0.0, 1.0));
+    widthPx = mix(0.72, 1.25, h1) * sm;
   } else if (layer > 1.5) {
-    lenH = mix(0.016, 0.032, h1) * sm;
-    speed = mix(1340.0, 1840.0, h2);
-    alpha = mix(0.18, 0.36, h3) * mix(1.0, 1.25, clamp(sm - 1.0, 0.0, 1.0));
-    widthPx = mix(1.0, 1.75, h1) * sm;
+    lenH = mix(0.015, 0.034, h1) * sm;
+    speed = mix(1400.0, 1960.0, h2);
+    alpha = mix(0.2, 0.42, h3) * mix(1.0, 1.28, clamp(sm - 1.0, 0.0, 1.0));
+    widthPx = mix(1.05, 1.9, h1) * sm;
   }
 
   speed *= uSpeedMul;
@@ -96,15 +96,19 @@ varying float vEdge;
 varying float vLayer;
 
 void main() {
-  /* 柔和雨丝：头略亮、整体偏冷青，避免刺眼白线 */
-  float fade = smoothstep(0.0, 0.18, vEdge) * (1.0 - smoothstep(0.58, 1.0, vEdge));
-  float tip = smoothstep(0.0, 0.08, vEdge) * (1.0 - smoothstep(0.08, 0.24, vEdge));
-  float a = vAlpha * (fade * 0.9 + tip * 0.16);
-  if (a < 0.01) discard;
-  vec3 farC = vec3(0.52, 0.66, 0.8);
-  vec3 nearC = vec3(0.74, 0.86, 0.95);
-  vec3 col = mix(farC, nearC, clamp(vLayer / 2.0, 0.0, 1.0));
-  col = mix(col, vec3(0.86, 0.93, 1.0), tip * 0.22);
+  /* 柔丝：头亮、中段实、尾淡；近景偏银青 */
+  float fade = smoothstep(0.0, 0.14, vEdge) * (1.0 - smoothstep(0.52, 1.0, vEdge));
+  float tip = smoothstep(0.0, 0.07, vEdge) * (1.0 - smoothstep(0.07, 0.22, vEdge));
+  float core = smoothstep(0.12, 0.38, vEdge) * (1.0 - smoothstep(0.38, 0.72, vEdge));
+  float a = vAlpha * (fade * 0.82 + tip * 0.28 + core * 0.18);
+  if (a < 0.008) discard;
+  vec3 farC = vec3(0.48, 0.62, 0.78);
+  vec3 midC = vec3(0.62, 0.76, 0.9);
+  vec3 nearC = vec3(0.82, 0.9, 0.98);
+  vec3 col = mix(farC, midC, clamp(vLayer, 0.0, 1.0));
+  col = mix(col, nearC, clamp(vLayer - 1.0, 0.0, 1.0));
+  col = mix(col, vec3(0.9, 0.95, 1.0), tip * 0.35);
+  col = mix(col, vec3(0.72, 0.7, 0.92), tip * 0.08); /* 极轻紫丁香 */
   gl_FragColor = vec4(col * a, a);
 }
 `;

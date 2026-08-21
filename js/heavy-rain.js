@@ -42,50 +42,50 @@
 
   const QUALITY = {
     low: {
-      streak: 860,
-      dprCap: 1.15,
+      streak: 980,
+      dprCap: 1.2,
       frameMs: 1000 / 24,
-      wind: 0.26,
-      speedMul: 1.12,
-      glassMain: 48,
-      glassMicro: 520,
-      splashRate: 1.15,
+      wind: 0.28,
+      speedMul: 1.14,
+      glassMain: 40,
+      glassMicro: 420,
+      splashRate: 1.25,
       glass: null,
     },
     mid: {
-      streak: 1420,
-      dprCap: 1.35,
+      streak: 1680,
+      dprCap: 1.4,
       frameMs: 1000 / 30,
-      wind: 0.32,
-      speedMul: 1.16,
-      glassMain: 52,
-      glassMicro: 620,
-      splashRate: 1.2,
-      glassMaxW: 960,
+      wind: 0.34,
+      speedMul: 1.2,
+      glassMain: 68,
+      glassMicro: 760,
+      splashRate: 1.42,
+      glassMaxW: 1040,
       glass: {
-        spawnInterval: [0.08, 0.16],
-        spawnLimit: 420,
-        dropletsPerSeconds: 360,
-        dropletSize: [8, 20],
+        spawnInterval: [0.07, 0.14],
+        spawnLimit: 480,
+        dropletsPerSeconds: 400,
+        dropletSize: [8, 21],
         backgroundBlurSteps: 2,
         mistBlurStep: 3,
       },
     },
     high: {
-      streak: 2200,
-      dprCap: 1.5,
+      streak: 2600,
+      dprCap: 1.6,
       frameMs: 1000 / 30,
-      wind: 0.36,
-      speedMul: 1.2,
-      glassMain: 72,
-      glassMicro: 900,
-      splashRate: 1.28,
-      glassMaxW: 1280,
+      wind: 0.4,
+      speedMul: 1.26,
+      glassMain: 96,
+      glassMicro: 1180,
+      splashRate: 1.58,
+      glassMaxW: 1400,
       glass: {
-        spawnInterval: [0.055, 0.12],
-        spawnLimit: 620,
-        dropletsPerSeconds: 520,
-        dropletSize: [8, 22],
+        spawnInterval: [0.045, 0.1],
+        spawnLimit: 720,
+        dropletsPerSeconds: 580,
+        dropletSize: [8, 24],
         backgroundBlurSteps: 3,
         mistBlurStep: 4,
       },
@@ -131,8 +131,8 @@
   }
 
   function streakCapFor(storm, phone) {
-    if (phone) return storm ? 640 : 520;
-    return storm ? 2800 : 2200;
+    if (phone) return storm ? 640 : 720;
+    return storm ? 2800 : 2800;
   }
 
   function paintStormBg(canvas, w, h, storm) {
@@ -615,7 +615,7 @@
     };
 
     const pushSplash = (opts) => {
-      const cap = phone ? (storm ? 120 : 50) : (storm ? 520 : 90);
+      const cap = phone ? (storm ? 120 : 70) : (storm ? 520 : 200);
       if (splashes.length >= cap) return;
       splashes.push({
         x: opts.x,
@@ -676,41 +676,64 @@
           });
         }
       } else {
-        const n = 1 + ((Math.random() * 2.2) | 0);
+        /* 大雨溅花：柔晕 + 扇形细滴 + 偶发下淌 */
+        pushSplash({
+          x: hit.x, y: hit.y,
+          vx: windBias * 0.12, vy: rand(-16, -4),
+          life: rand(0.14, 0.24), r: rand(1.8, 3.2),
+          soft: true, kind: "soft", a: 0.65,
+        });
+        const n = phone ? (2 + ((Math.random() * 2) | 0)) : (3 + ((Math.random() * 4) | 0));
         for (let i = 0; i < n; i += 1) {
-          const ang = -Math.PI * 0.08 - Math.random() * Math.PI * 0.75;
-          const spd = rand(48, 110);
+          const ang = -Math.PI * 0.05 - Math.random() * Math.PI * 0.82;
+          const spd = rand(42, phone ? 115 : 145);
+          const fine = Math.random() < 0.5;
           pushSplash({
-            x: hit.x + rand(-2, 2),
-            y: hit.y + rand(-0.4, 0.4),
+            x: hit.x + rand(-3, 3),
+            y: hit.y + rand(-0.8, 1),
             vx: Math.cos(ang) * spd + windBias,
             vy: Math.sin(ang) * spd,
-            life: rand(0.12, 0.2),
-            r: rand(0.5, 1.35),
-            soft: false, kind: "hard",
+            life: fine ? rand(0.1, 0.2) : rand(0.14, 0.28),
+            r: fine ? rand(0.5, 1.25) : rand(1.15, 2.5),
+            soft: Math.random() < 0.35,
+            kind: fine ? "hard" : (Math.random() < 0.45 ? "soft" : "hard"),
+            a: fine ? 0.92 : 0.8,
+          });
+        }
+        if (!phone && Math.random() < 0.35) {
+          pushSplash({
+            x: hit.x + rand(-4, 4),
+            y: hit.y + rand(0.5, 3),
+            vx: windBias * 0.15 + rand(-10, 10),
+            vy: rand(24, 70),
+            life: rand(0.22, 0.42),
+            r: rand(1.0, 2.1),
+            soft: true, kind: "soft", drip: true, a: 0.7,
           });
         }
       }
     };
 
-    /** 顶缘持续湿珠项链（参考片一直有细密白点） */
+    /** 顶缘湿珠：大雨轻量、雷雨更密（手机跳过） */
     const ensureRimBeads = (rectLedges, dt, aMul) => {
-      if (!storm || !rectLedges.length || phone) return;
+      if (!rectLedges.length || phone) return;
+      const densDiv = storm ? 18 : 28;
+      const chanceMul = storm ? 22 : 12;
       for (let i = 0; i < rectLedges.length; i += 1) {
         const L = rectLedges[i];
-        const dens = Math.max(5, Math.round(L.w / 18));
+        const dens = Math.max(3, Math.round(L.w / densDiv));
         for (let k = 0; k < dens; k += 1) {
-          if (Math.random() > 0.55 * aMul * dt * 22) continue;
+          if (Math.random() > 0.5 * aMul * dt * chanceMul) continue;
           const x = L.x + L.w * (0.06 + Math.random() * 0.88);
           pushSplash({
             x, y: L.y + rand(-0.4, 1.2),
-            vx: windLive * 8 + rand(-18, 18),
-            vy: rand(-35, -8),
+            vx: windLive * 8 + rand(-16, 16),
+            vy: rand(-32, -6),
             life: rand(0.08, 0.18),
-            r: rand(0.45, 1.6),
-            soft: Math.random() < 0.5,
+            r: rand(0.4, storm ? 1.6 : 1.35),
+            soft: Math.random() < 0.45,
             kind: Math.random() < 0.6 ? "hard" : "soft",
-            a: rand(0.55, 0.95),
+            a: rand(0.5, 0.92),
           });
         }
       }
@@ -780,19 +803,26 @@
       }
 
       /* 仅矩形卡片顶缘：短湿划 + 持续细珠 */
-      const wetChance = (storm ? 0.55 : 0.2) * aMul;
+      const wetChance = (storm ? 0.55 : 0.38) * aMul;
       for (let i = 0; i < ledges.length; i += 1) {
         const L = ledges[i];
         if (L.shape === "circle") continue;
         const pulse = 0.55 + 0.45 * Math.sin(time * 5.6 + i * 1.25);
         const wetA = scrolling ? 0.4 : 1;
         if (!scrolling && Math.random() < wetChance) {
-          const dashN = storm ? (2 + ((Math.random() * 4) | 0)) : (1 + ((Math.random() * 1.5) | 0));
+          const dashN = storm
+            ? (2 + ((Math.random() * 4) | 0))
+            : (2 + ((Math.random() * 3) | 0));
           for (let d = 0; d < dashN; d += 1) {
-            const dx = L.x + L.w * (0.05 + Math.random() * 0.9);
-            const dw = storm ? rand(3, 16) : rand(4, 12);
-            sctx.fillStyle = `rgba(235,245,255,${rand(0.16, storm ? 0.45 : 0.26) * pulse * aMul * wetA})`;
-            sctx.fillRect(dx, L.y - 0.6, dw, storm ? 2.2 : 1.5);
+            const dx = L.x + L.w * (0.04 + Math.random() * 0.92);
+            const dw = storm ? rand(3, 16) : rand(5, 18);
+            sctx.fillStyle = `rgba(235,245,255,${rand(0.18, storm ? 0.45 : 0.38) * pulse * aMul * wetA})`;
+            sctx.fillRect(dx, L.y - 0.8, dw, storm ? 2.2 : 1.9);
+          }
+          /* 顶缘连续湿膜 */
+          if (!storm && Math.random() < 0.45) {
+            sctx.fillStyle = `rgba(210,230,250,${0.1 * pulse * aMul * wetA})`;
+            sctx.fillRect(L.x + L.w * 0.08, L.y - 0.4, L.w * 0.84, 1.2);
           }
         }
       }
@@ -800,10 +830,11 @@
       if (!scrolling) {
         const rectLedges = ledges.filter((L) => L.shape !== "circle");
         splashAcc += dt;
-        const ledgeBase = (storm ? (phone ? 7 : 22) : 5.5) + rectLedges.length * (storm ? (phone ? 1.1 : 3.2) : 1.15);
-        const rateCap = storm ? (phone ? 14 : 72) : 13;
+        const ledgeBase = (storm ? (phone ? 7 : 22) : (phone ? 4.5 : 9.5))
+          + rectLedges.length * (storm ? (phone ? 1.1 : 3.2) : (phone ? 0.9 : 1.85));
+        const rateCap = storm ? (phone ? 14 : 72) : (phone ? 10 : 22);
         const rate = Math.min(rateCap, ledgeBase * splashMul) * aMul;
-        const burstCap = storm ? (phone ? 4 : 22) : 4;
+        const burstCap = storm ? (phone ? 4 : 22) : (phone ? 3 : 8);
         let spawned = 0;
         while (rate > 0.2 && splashAcc > 1 / rate && rectLedges.length && spawned < burstCap) {
           splashAcc -= 1 / rate;

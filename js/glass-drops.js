@@ -16,51 +16,67 @@
   }
 
   function bakeDropBitmap(size) {
-    const pad = Math.ceil(size * 0.18);
+    const pad = Math.ceil(size * 0.2);
     const w = size + pad * 2;
-    const h = Math.ceil(size * 1.35) + pad * 2;
+    const h = Math.ceil(size * 1.42) + pad * 2;
     const c = document.createElement("canvas");
     c.width = w;
     c.height = h;
     const cx = c.getContext("2d");
     if (!cx) return c;
     const ox = w * 0.5;
-    const oy = h * 0.42;
-    const rx = size * 0.38;
+    const oy = h * 0.4;
+    const rx = size * 0.36;
     const ry = size * 0.44;
 
-    /* 紧贴底影，避免大软斑像羽毛 */
-    cx.fillStyle = "rgba(6, 12, 22, 0.32)";
+    cx.fillStyle = "rgba(6, 12, 22, 0.28)";
     cx.beginPath();
-    cx.ellipse(ox, oy + ry * 0.78, rx * 0.55, ry * 0.16, 0, 0, Math.PI * 2);
+    cx.ellipse(ox, oy + ry * 0.82, rx * 0.52, ry * 0.14, 0, 0, Math.PI * 2);
     cx.fill();
 
-    const body = cx.createRadialGradient(ox - rx * 0.2, oy - ry * 0.3, rx * 0.05, ox, oy, rx);
-    body.addColorStop(0, "rgba(200, 220, 240, 0.42)");
-    body.addColorStop(0.4, "rgba(90, 120, 155, 0.36)");
-    body.addColorStop(0.78, "rgba(28, 42, 64, 0.38)");
+    const body = cx.createRadialGradient(ox - rx * 0.22, oy - ry * 0.32, rx * 0.04, ox, oy, rx);
+    body.addColorStop(0, "rgba(225, 235, 250, 0.55)");
+    body.addColorStop(0.35, "rgba(120, 155, 195, 0.38)");
+    body.addColorStop(0.75, "rgba(32, 48, 72, 0.4)");
     body.addColorStop(1, "rgba(16, 24, 40, 0)");
     cx.fillStyle = body;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
     cx.fill();
 
-    cx.strokeStyle = "rgba(220, 235, 255, 0.5)";
-    cx.lineWidth = Math.max(0.7, size * 0.028);
+    /* 玻璃折射边缘 */
+    cx.strokeStyle = "rgba(235, 245, 255, 0.55)";
+    cx.lineWidth = Math.max(0.7, size * 0.03);
     cx.beginPath();
     cx.ellipse(ox, oy, rx * 0.9, ry * 0.9, 0, 0, Math.PI * 2);
     cx.stroke();
 
+    const rim = cx.createLinearGradient(ox - rx, oy, ox + rx, oy);
+    rim.addColorStop(0, "rgba(255,255,255,0)");
+    rim.addColorStop(0.35, "rgba(255,255,255,0.22)");
+    rim.addColorStop(0.65, "rgba(255,255,255,0)");
+    cx.strokeStyle = rim;
+    cx.lineWidth = Math.max(0.5, size * 0.02);
+    cx.beginPath();
+    cx.ellipse(ox, oy, rx * 0.78, ry * 0.78, 0, -0.8, 2.2);
+    cx.stroke();
+
     const spec = cx.createRadialGradient(
-      ox - rx * 0.28, oy - ry * 0.36, 0,
-      ox - rx * 0.28, oy - ry * 0.36, rx * 0.28,
+      ox - rx * 0.3, oy - ry * 0.38, 0,
+      ox - rx * 0.3, oy - ry * 0.38, rx * 0.3,
     );
-    spec.addColorStop(0, "rgba(255,255,255,0.98)");
-    spec.addColorStop(0.3, "rgba(230,245,255,0.58)");
+    spec.addColorStop(0, "rgba(255,255,255,1)");
+    spec.addColorStop(0.28, "rgba(235,245,255,0.65)");
     spec.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = spec;
     cx.beginPath();
-    cx.ellipse(ox - rx * 0.28, oy - ry * 0.36, rx * 0.16, ry * 0.1, -0.5, 0, Math.PI * 2);
+    cx.ellipse(ox - rx * 0.3, oy - ry * 0.38, rx * 0.15, ry * 0.09, -0.5, 0, Math.PI * 2);
+    cx.fill();
+
+    /* 次高光 */
+    cx.fillStyle = "rgba(255,255,255,0.35)";
+    cx.beginPath();
+    cx.ellipse(ox + rx * 0.22, oy + ry * 0.15, rx * 0.06, ry * 0.04, 0.4, 0, Math.PI * 2);
     cx.fill();
 
     return c;
@@ -84,8 +100,8 @@
   }
 
   function bakeSprites() {
-    /* 参考片主珠约 7–9px，用较小烘焙尺寸避免软边羽毛感 */
-    return [16, 22, 28, 36, 46].map(bakeDropBitmap);
+    /* 多档尺寸，主珠高光更清晰 */
+    return [14, 18, 24, 30, 38, 48].map(bakeDropBitmap);
   }
 
   /** 贴屏中号水团：清晰边缘 + 高光，避免软糊斑 */
@@ -314,7 +330,7 @@
       const momentum = opts2.momentum ?? (
         storm
           ? (Math.random() < 0.28 ? rand(0.9, 2.4) : rand(0, 0.12))
-          : (Math.random() < 0.18 ? rand(0.6, 1.8) : 0)
+          : (Math.random() < 0.22 ? rand(0.55, 1.7) : rand(0, 0.08))
       );
       drops.push({
         x: opts2.x ?? ui?.x ?? Math.random() * w,

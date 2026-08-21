@@ -133,17 +133,25 @@ body.heavy-rain .site-bg__rain {
   opacity: 0;
   transition: opacity 0.85s var(--ease);
   background:
-    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(186, 170, 245, 0.14), transparent 70%),
-    radial-gradient(ellipse 80% 40% at 20% 90%, rgba(194, 233, 251, 0.1), transparent 65%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 35%, transparent 70%, rgba(139, 111, 212, 0.05));
+    radial-gradient(ellipse 75% 38% at 50% -2%, rgba(186, 170, 245, 0.18), transparent 72%),
+    radial-gradient(ellipse 55% 28% at 78% 18%, rgba(200, 220, 255, 0.1), transparent 70%),
+    radial-gradient(ellipse 85% 42% at 18% 92%, rgba(194, 233, 251, 0.14), transparent 68%),
+    radial-gradient(ellipse 60% 30% at 88% 78%, rgba(160, 190, 230, 0.08), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 32%, transparent 68%, rgba(139, 111, 212, 0.07));
 }
 
 body.light-rain .site-bg__light-mist {
   opacity: 1;
+  animation: light-mist-drift 22s ease-in-out infinite alternate;
 }
 
 body.light-rain .site-bg__rain {
-  opacity: 0.85;
+  opacity: 0.92;
+}
+
+@keyframes light-mist-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); filter: saturate(1); }
+  100% { transform: translate3d(1.2%, -0.8%, 0) scale(1.04); filter: saturate(1.08); }
 }
 
 .site-bg__glass {
@@ -164,7 +172,7 @@ body.light-rain .site-bg__rain {
   height: 100%;
   z-index: 3;
   pointer-events: none;
-  opacity: 0.82;
+  opacity: 0.9;
 }
 
 /* 大雨雾：挂在 site-bg 内（正文下方），勿放进 site-fx 盖死页面 */
@@ -176,14 +184,15 @@ body.light-rain .site-bg__rain {
   opacity: 0;
   transition: opacity 0.75s var(--ease);
   background:
-    radial-gradient(ellipse 82% 46% at 50% 4%, rgba(120, 155, 195, 0.14), transparent 74%),
-    radial-gradient(ellipse 92% 52% at 14% 82%, rgba(52, 73, 97, 0.14), transparent 70%),
-    radial-gradient(ellipse 72% 42% at 86% 70%, rgba(70, 100, 140, 0.08), transparent 66%),
-    linear-gradient(180deg, rgba(18, 28, 44, 0.1), transparent 38%, transparent 64%, rgba(10, 16, 28, 0.22));
+    radial-gradient(ellipse 88% 48% at 50% 2%, rgba(130, 165, 205, 0.2), transparent 74%),
+    radial-gradient(ellipse 50% 30% at 72% 22%, rgba(100, 140, 185, 0.1), transparent 70%),
+    radial-gradient(ellipse 95% 55% at 12% 84%, rgba(52, 73, 97, 0.18), transparent 70%),
+    radial-gradient(ellipse 72% 42% at 88% 68%, rgba(70, 100, 140, 0.12), transparent 66%),
+    linear-gradient(180deg, rgba(18, 28, 44, 0.14), transparent 36%, transparent 62%, rgba(10, 16, 28, 0.28));
 }
 
 .site-bg__heavy-mist.is-on {
-  opacity: 0.72;
+  opacity: 0.82;
   animation: heavy-mist-drift 16s ease-in-out infinite alternate;
 }
 
@@ -197,8 +206,12 @@ body.light-rain .site-bg__rain {
 }
 
 @media (max-width: 720px) {
+  body.light-rain .site-bg__light-mist {
+    animation: none;
+  }
+
   .site-bg__heavy-mist.is-on {
-    opacity: 0.45;
+    opacity: 0.5;
     animation: none;
   }
 
@@ -245,21 +258,22 @@ body.heavy-rain .site-bg {
 }
 
 body.heavy-rain .site-bg::before {
-  filter: blur(88px) brightness(0.55) saturate(0.78);
-  opacity: 0.98;
+  filter: blur(92px) brightness(0.58) saturate(0.85);
+  opacity: 1;
   background:
-    radial-gradient(circle at 22% 26%, rgba(90, 125, 170, 0.62) 0%, transparent 46%),
-    radial-gradient(circle at 78% 18%, rgba(52, 73, 97, 0.7) 0%, transparent 44%),
-    radial-gradient(circle at 55% 70%, rgba(45, 68, 100, 0.58) 0%, transparent 48%),
-    radial-gradient(circle at 30% 90%, rgba(32, 48, 72, 0.7) 0%, transparent 42%),
-    radial-gradient(circle at 48% 6%, rgba(120, 155, 195, 0.28) 0%, transparent 40%);
+    radial-gradient(circle at 22% 24%, rgba(100, 140, 185, 0.68) 0%, transparent 46%),
+    radial-gradient(circle at 78% 16%, rgba(58, 80, 108, 0.72) 0%, transparent 44%),
+    radial-gradient(circle at 55% 70%, rgba(48, 72, 108, 0.62) 0%, transparent 48%),
+    radial-gradient(circle at 30% 90%, rgba(32, 48, 72, 0.72) 0%, transparent 42%),
+    radial-gradient(circle at 48% 4%, rgba(140, 175, 215, 0.34) 0%, transparent 42%),
+    radial-gradient(circle at 8% 50%, rgba(70, 100, 145, 0.22) 0%, transparent 40%);
 }
 
 body.heavy-rain .site-bg::after {
-  opacity: 0.9;
+  opacity: 0.94;
   background:
-    linear-gradient(180deg, rgba(18, 28, 44, 0.42) 0%, transparent 30%, transparent 55%, rgba(12, 18, 30, 0.55) 100%),
-    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(100, 135, 180, 0.18), transparent 72%);
+    linear-gradient(180deg, rgba(16, 26, 42, 0.48) 0%, transparent 28%, transparent 52%, rgba(10, 16, 28, 0.62) 100%),
+    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(110, 145, 190, 0.22), transparent 72%);
 }
 
 body.heavy-rain {
