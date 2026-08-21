@@ -483,11 +483,12 @@ body.storm-rain .site-bg {
 
 body.storm-rain .site-fx__glass-drops.is-storm-glass,
 body.heavy-rain .site-fx__glass-drops.is-clear-glass {
-  /* 清晰滑动珠 + 透亮冷凝微珠（screen 在 JS 内合成）；无灰雾罩 */
+  /* 画布内部黑底+亮珠；screen 叠到页面后黑消失、只加亮 */
   filter: none;
   opacity: 1 !important;
-  mix-blend-mode: normal;
+  mix-blend-mode: screen;
   z-index: 4;
+  background: #000;
 }
 
 .site-fx__splash {

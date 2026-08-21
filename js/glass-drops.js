@@ -19,7 +19,7 @@
     return a + Math.random() * (b - a);
   }
 
-  /** 主珠：透心透镜 + Fresnel 亮边 + 高光 */
+  /** 主珠：仅亮边+高光，无暗芯/暗影（source-over 暗色在白底上会变墨点） */
   function bakeDropBitmap(size) {
     const pad = Math.ceil(size * 0.22);
     const w = size + pad * 2;
@@ -34,37 +34,33 @@
     const rx = size * 0.36;
     const ry = size * 0.46;
 
-    cx.fillStyle = "rgba(30, 55, 90, 0.07)";
-    cx.beginPath();
-    cx.ellipse(ox, oy + ry * 0.88, rx * 0.42, ry * 0.1, 0, 0, Math.PI * 2);
-    cx.fill();
-
-    const body = cx.createRadialGradient(ox, oy, rx * 0.08, ox, oy, rx);
-    body.addColorStop(0, "rgba(255,255,255,0.05)");
-    body.addColorStop(0.45, "rgba(210,235,255,0.09)");
-    body.addColorStop(0.78, "rgba(185,220,250,0.22)");
-    body.addColorStop(1, "rgba(200,230,255,0)");
+    /* 极淡亮体——可被 screen 加亮，永不压黑 */
+    const body = cx.createRadialGradient(ox, oy, rx * 0.05, ox, oy, rx);
+    body.addColorStop(0, "rgba(255,255,255,0.14)");
+    body.addColorStop(0.4, "rgba(230,245,255,0.1)");
+    body.addColorStop(0.75, "rgba(200,230,255,0.18)");
+    body.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = body;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
     cx.fill();
 
-    cx.strokeStyle = "rgba(255,255,255,0.8)";
-    cx.lineWidth = Math.max(0.85, size * 0.038);
+    cx.strokeStyle = "rgba(255,255,255,0.85)";
+    cx.lineWidth = Math.max(0.9, size * 0.04);
     cx.beginPath();
-    cx.ellipse(ox, oy, rx * 0.92, ry * 0.92, 0, 0, Math.PI * 2);
+    cx.ellipse(ox, oy, rx * 0.9, ry * 0.9, 0, 0, Math.PI * 2);
     cx.stroke();
 
     const rim = cx.createLinearGradient(ox - rx, oy - ry, ox + rx, oy + ry);
     rim.addColorStop(0, "rgba(255,255,255,0)");
-    rim.addColorStop(0.28, "rgba(255,255,255,0.55)");
+    rim.addColorStop(0.3, "rgba(255,255,255,0.65)");
     rim.addColorStop(0.55, "rgba(255,255,255,0)");
-    rim.addColorStop(0.78, "rgba(220,240,255,0.28)");
+    rim.addColorStop(0.8, "rgba(230,245,255,0.35)");
     rim.addColorStop(1, "rgba(255,255,255,0)");
     cx.strokeStyle = rim;
-    cx.lineWidth = Math.max(0.55, size * 0.024);
+    cx.lineWidth = Math.max(0.55, size * 0.025);
     cx.beginPath();
-    cx.ellipse(ox, oy, rx * 0.78, ry * 0.78, 0, -0.9, 2.35);
+    cx.ellipse(ox, oy, rx * 0.76, ry * 0.76, 0, -0.9, 2.35);
     cx.stroke();
 
     const spec = cx.createRadialGradient(
@@ -72,14 +68,14 @@
       ox - rx * 0.32, oy - ry * 0.4, rx * 0.34,
     );
     spec.addColorStop(0, "rgba(255,255,255,1)");
-    spec.addColorStop(0.3, "rgba(245,250,255,0.85)");
+    spec.addColorStop(0.35, "rgba(245,250,255,0.8)");
     spec.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = spec;
     cx.beginPath();
-    cx.ellipse(ox - rx * 0.32, oy - ry * 0.4, rx * 0.16, ry * 0.1, -0.55, 0, Math.PI * 2);
+    cx.ellipse(ox - rx * 0.32, oy - ry * 0.4, rx * 0.17, ry * 0.1, -0.55, 0, Math.PI * 2);
     cx.fill();
 
-    cx.fillStyle = "rgba(255,255,255,0.4)";
+    cx.fillStyle = "rgba(255,255,255,0.5)";
     cx.beginPath();
     cx.ellipse(ox + rx * 0.24, oy + ry * 0.18, rx * 0.055, ry * 0.035, 0.45, 0, Math.PI * 2);
     cx.fill();
@@ -129,20 +125,16 @@
     const oy = h * 0.4;
     const rx = size * 0.36;
     const ry = size * 0.42;
-    cx.fillStyle = "rgba(25, 50, 85, 0.06)";
-    cx.beginPath();
-    cx.ellipse(ox, oy + ry * 0.72, rx * 0.45, ry * 0.11, 0, 0, Math.PI * 2);
-    cx.fill();
     const g = cx.createRadialGradient(ox, oy, 0, ox, oy, rx);
-    g.addColorStop(0, "rgba(255,255,255,0.07)");
-    g.addColorStop(0.5, "rgba(200,230,255,0.15)");
-    g.addColorStop(0.85, "rgba(175,215,245,0.26)");
-    g.addColorStop(1, "rgba(190,220,245,0)");
+    g.addColorStop(0, "rgba(255,255,255,0.12)");
+    g.addColorStop(0.5, "rgba(220,240,255,0.14)");
+    g.addColorStop(0.85, "rgba(200,230,255,0.22)");
+    g.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = g;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
     cx.fill();
-    cx.strokeStyle = "rgba(245, 252, 255, 0.62)";
+    cx.strokeStyle = "rgba(255, 255, 255, 0.7)";
     cx.lineWidth = Math.max(0.9, size * 0.028);
     cx.beginPath();
     cx.ellipse(ox, oy, rx * 0.9, ry * 0.9, 0, 0, Math.PI * 2);
@@ -566,9 +558,6 @@
           b.x += b.vx * dt * 0.22 + Math.sin(b.y * 0.04 + b.scale * 8) * 2.8 * dt;
           b.stretch = Math.min(2.1, b.stretch + step * 0.012);
           b.scale *= Math.pow(0.998, dt * 60);
-          if (Math.random() < 0.35) {
-            stampWetMark(b.x, b.y - b.stretch, b.scale * 0.55, 0.12 * aMul);
-          }
           eraseTrail(b.x, b.y, beadHalf(b.scale, 5) * 0.9, Math.min(18, 4 + step));
           /* 碰到大珠则被吸走 */
           for (let j = 0; j < drops.length; j += 1) {
@@ -691,25 +680,28 @@
       while (drops.length < target) spawnDrop();
       if (drops.length > target + 20) drops.length = target + 16;
 
-      /* 下半屏极淡湿膜（参考 lower 更湿） */
-      ctx.save();
+      /*
+       * 黑底 + screen 画珠，再靠 CSS mix-blend-mode:screen 叠到页面：
+       * 黑变「看不见」，珠只能加亮 → 白头像上不可能再出纯黑墨点。
+       */
+      ctx.globalCompositeOperation = "source-over";
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, w, h);
+
       ctx.globalCompositeOperation = "screen";
+
       const film = ctx.createLinearGradient(0, 0, 0, h);
-      film.addColorStop(0, "rgba(200,225,245,0)");
-      film.addColorStop(0.5, "rgba(210,230,250,0.012)");
-      film.addColorStop(1, "rgba(230,242,255,0.055)");
-      ctx.globalAlpha = aMul * (storm ? 0.75 : 0.55);
+      film.addColorStop(0, "rgba(180,210,240,0)");
+      film.addColorStop(0.55, "rgba(200,225,250,0.04)");
+      film.addColorStop(1, "rgba(220,238,255,0.08)");
+      ctx.globalAlpha = aMul * (storm ? 0.65 : 0.45);
       ctx.fillStyle = film;
       ctx.fillRect(0, 0, w, h);
-      /* 湿痕层 */
-      ctx.globalAlpha = aMul * 0.45;
-      ctx.drawImage(trail, 0, 0, w, h);
-      /* 冷凝活粒子 */
+
       ctx.globalAlpha = 1;
       for (let i = 0; i < beads.length; i += 1) drawBead(beads[i], aMul);
-      ctx.restore();
 
-      /* 泪痕 */
       for (let i = flows.length - 1; i >= 0; i -= 1) {
         const f = flows[i];
         f.age += dt;
@@ -726,12 +718,8 @@
         if (spr) {
           const dw = spr.width * f.scale;
           const dh = spr.height * f.scale;
-          ctx.save();
-          ctx.globalCompositeOperation = "screen";
           ctx.globalAlpha = f.a * aMul * clamp(p * 1.15, 0, 1);
           ctx.drawImage(spr, f.x - dw * 0.5, f.y, dw, dh);
-          ctx.restore();
-          eraseTrail(f.x, f.y + dh * 0.35, dw * 0.35, dh * 0.42);
         }
       }
 
@@ -760,12 +748,12 @@
           const dh = spr.height * 0.5 * L.scale;
           ctx.globalAlpha = L.a * aMul * clamp(p * 1.15, 0, 1);
           ctx.drawImage(spr, L.x - dw * 0.5, L.y - dh * 0.4, dw, dh);
-          if (!L.stuck) eraseTrail(L.x, L.y, dw * 0.2, dh * 0.22);
         }
       }
 
       ctx.globalAlpha = 1;
-      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 1.05 : 1));
+      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 1.1 : 1));
+      ctx.globalCompositeOperation = "source-over";
       ctx.globalAlpha = 1;
     };
 

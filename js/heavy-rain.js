@@ -928,7 +928,7 @@
       h = window.innerHeight;
       quality = storm ? "high" : detectQuality();
       const q = qualityFor(quality, storm, realPhone);
-      wantRaindropFx = !useGpuStreaks && !!RaindropCtor && q.glass != null;
+      wantRaindropFx = !useGpuStreaks && !useScreenGlass && !!RaindropCtor && q.glass != null;
       fitSplash();
       gpu?.resize(w, h);
       const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.5 : (realPhone ? 1.0 : 1.35)));
