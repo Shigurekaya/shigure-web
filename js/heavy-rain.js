@@ -262,12 +262,12 @@
     q.frameMs = Math.min(q.frameMs || 33, 1000 / 30);
     q.glassMaxW = 1920;
     q.glass = {
-      spawnInterval: [0.018, 0.042],
-      spawnLimit: 2200,
-      dropletsPerSeconds: 1400,
-      dropletSize: [12, 48],
-      backgroundBlurSteps: 5,
-      mistBlurStep: 6,
+      spawnInterval: [0.016, 0.036],
+      spawnLimit: 2600,
+      dropletsPerSeconds: 1600,
+      dropletSize: [10, 44],
+      backgroundBlurSteps: 1,
+      mistBlurStep: 3,
     };
     return q;
   }
@@ -277,17 +277,20 @@
     if (!g || g === true) return null;
     const opts = { ...GLASS_BASE, ...g };
     if (storm) {
-      opts.spawnSize = [28, 110];
-      opts.slipRate = 0.92;
-      opts.trailDropDensity = 0.32;
-      opts.gravity = 3600;
-      opts.refractBase = 0.42;
-      opts.refractScale = 0.68;
+      /* 贴屏盖 UI：少糊底图，保证卡片文字可读；水珠里仍强折射 */
+      opts.spawnSize = [22, 96];
+      opts.slipRate = 0.94;
+      opts.trailDropDensity = 0.36;
+      opts.gravity = 3800;
+      opts.refractBase = 0.38;
+      opts.refractScale = 0.72;
+      opts.backgroundBlurSteps = 1;
       opts.mist = true;
-      opts.mistColor = [0.015, 0.03, 0.06, 0.55];
-      opts.raindropSpecularLight = [0.16, 0.2, 0.28];
-      opts.raindropSpecularShininess = 64;
-      opts.raindropLightBump = 0.62;
+      opts.mistBlurStep = 3;
+      opts.mistColor = [0.02, 0.04, 0.07, 0.28];
+      opts.raindropSpecularLight = [0.22, 0.28, 0.36];
+      opts.raindropSpecularShininess = 72;
+      opts.raindropLightBump = 0.7;
     }
     return opts;
   }
@@ -333,11 +336,13 @@
     const q0 = qualityFor(quality, storm, phone);
 
     const glassCanvas = document.createElement("canvas");
-    glassCanvas.className = "site-bg__glass";
+    /* 暴雨：贴屏真玻璃盖在 UI 上（小米天气同款）；大雨仍挂背景层 */
+    glassCanvas.className = storm ? "site-fx__rain-glass" : "site-bg__glass";
     glassCanvas.setAttribute("aria-hidden", "true");
-    /* 真玻璃折射挂背景层（在 UI 后），避免盖死正文；贴屏清晰珠另用 Canvas2D */
-    if (bgHost) bgHost.appendChild(glassCanvas);
+    if (storm) fxRoot.appendChild(glassCanvas);
+    else if (bgHost) bgHost.appendChild(glassCanvas);
     glassCanvas.style.display = "none";
+    glassCanvas.style.pointerEvents = "none";
 
     const streakCanvas = document.createElement("canvas");
     streakCanvas.className = "site-bg__heavy";
@@ -366,6 +371,9 @@
       splashCanvas.style.background = "transparent";
     }
     const stormBg = document.createElement("canvas");
+    const stormDomBg = document.createElement("canvas");
+    let stormDomReady = false;
+    let lastDomCaptureAt = 0;
 
     const areaScale = clamp((window.innerWidth * window.innerHeight) / (1280 * 720), 0.7, phone ? 1.0 : 1.35);
     const streakCount = Math.round(q0.streak * areaScale);
@@ -387,9 +395,9 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* 暴雨：真玻璃用 raindrop-fx；Canvas2D 只留清晰滑动珠（关掉糊散喷雾球） */
+    /* 暴雨贴屏真玻璃就绪后关掉 Canvas2D 珠，避免糊球叠层 */
     const wantSplash = true;
-    const wantGlassDrops = storm
+    let wantGlassDrops = storm
       ? true
       : (useGpuStreaks && !mobileLite);
     splashCanvas.style.display = wantSplash ? "" : "none";
@@ -431,11 +439,14 @@
     let stopTimer = 0;
     let splashAcc = 0;
     let resizeGlassTimer = 0;
+    let captureTimer = 0;
+    let captureInterval = 0;
+    let capturing = false;
     let glassFx = null;
     let glassReady = false;
     let glassFailed = false;
     let glassAnimating = false;
-    /* 暴雨始终挂 raindrop-fx（可与 GPU 雨丝并存）；大雨仅无 GPU 时兜底 */
+    /* 暴雨始终挂 raindrop-fx 贴屏折射；大雨仅无 GPU 时兜底 */
     let wantRaindropFx = storm
       ? !!RaindropCtor
       : (!useGpuStreaks && qualityFor(quality, storm, phone).glass != null);
@@ -544,27 +555,144 @@
       gpu?.setIntensity(intensity);
       glassDrops?.setIntensity(intensity);
       mist.classList.toggle("is-on", intensity > 0.05);
-      glassDropCanvas.style.opacity = String(clamp(glassDrops ? intensity : 0, 0, 1));
+      /* 暴雨真玻璃就绪后隐藏 2D 珠，避免糊球叠在折射层上 */
+      const show2d = !!(glassDrops && wantGlassDrops && !(storm && glassReady));
+      glassDropCanvas.style.display = show2d ? "" : "none";
+      glassDropCanvas.style.opacity = String(clamp(show2d ? intensity : 0, 0, 1));
+    };
+
+    const ignoreCaptureEl = (el) => {
+      if (!el) return false;
+      if (el === glassCanvas || el === splashCanvas || el === glassDropCanvas) return true;
+      if (el === streakCanvas) return true;
+      const cls = el.classList;
+      if (!cls) return false;
+      return cls.contains("site-fx__rain-glass")
+        || cls.contains("site-fx__splash")
+        || cls.contains("site-fx__glass-drops")
+        || cls.contains("site-fx__lightning")
+        || cls.contains("site-fx__thunder-flash")
+        || cls.contains("site-fx__thunder-sheet")
+        || cls.contains("site-bg__heavy")
+        || cls.contains("site-bg__glass");
+    };
+
+    /** 大雨：天空+雨丝；暴雨贴屏：DOM 快照（无雨丝）+ 实时雨丝 */
+    const composeGlassBackground = (bw, bh) => {
+      if (stormBg.width !== bw || stormBg.height !== bh) {
+        stormBg.width = bw;
+        stormBg.height = bh;
+      }
+      const bx = stormBg.getContext("2d");
+      if (!bx) return stormBg;
+      if (storm && stormDomReady && stormDomBg.width > 2) {
+        bx.setTransform(1, 0, 0, 1, 0, 0);
+        bx.clearRect(0, 0, bw, bh);
+        bx.drawImage(stormDomBg, 0, 0, bw, bh);
+        if (streakCanvas.width > 2) {
+          bx.globalAlpha = 0.88;
+          bx.drawImage(streakCanvas, 0, 0, bw, bh);
+          bx.globalAlpha = 1;
+        }
+        return stormBg;
+      }
+      paintStormBg(stormBg, bw, bh, storm);
+      if (streakCanvas.width > 2) {
+        bx.globalAlpha = storm ? 0.75 : 0.55;
+        bx.drawImage(streakCanvas, 0, 0, bw, bh);
+        bx.globalAlpha = 1;
+      }
+      return stormBg;
+    };
+
+    const captureStormDom = async (bw, bh) => {
+      if (!storm || capturing) return stormDomReady;
+      const h2c = typeof window.html2canvas === "function" ? window.html2canvas : null;
+      if (!h2c) return false;
+      capturing = true;
+      const prevGlass = glassCanvas.style.display;
+      const prevSplash = splashCanvas.style.display;
+      const prevDrops = glassDropCanvas.style.display;
+      const prevStreak = streakCanvas.style.display;
+      glassCanvas.style.display = "none";
+      splashCanvas.style.display = "none";
+      glassDropCanvas.style.display = "none";
+      streakCanvas.style.display = "none";
+      try {
+        const scale = bw / Math.max(1, window.innerWidth);
+        const shot = await h2c(document.documentElement, {
+          width: bw,
+          height: bh,
+          windowWidth: window.innerWidth,
+          windowHeight: window.innerHeight,
+          x: window.scrollX,
+          y: window.scrollY,
+          scrollX: -window.scrollX,
+          scrollY: -window.scrollY,
+          scale,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: null,
+          logging: false,
+          imageTimeout: 0,
+          ignoreElements: ignoreCaptureEl,
+        });
+        if (stormDomBg.width !== bw || stormDomBg.height !== bh) {
+          stormDomBg.width = bw;
+          stormDomBg.height = bh;
+        }
+        const dx = stormDomBg.getContext("2d");
+        if (dx && shot) {
+          dx.setTransform(1, 0, 0, 1, 0, 0);
+          dx.clearRect(0, 0, bw, bh);
+          dx.drawImage(shot, 0, 0, bw, bh);
+          stormDomReady = true;
+          lastDomCaptureAt = performance.now();
+        }
+      } catch (err) {
+        console.warn("[kaya] storm glass capture failed", err);
+      } finally {
+        glassCanvas.style.display = prevGlass;
+        splashCanvas.style.display = prevSplash;
+        glassDropCanvas.style.display = prevDrops;
+        streakCanvas.style.display = prevStreak;
+        capturing = false;
+      }
+      return stormDomReady;
+    };
+
+    const pushGlassBackground = async () => {
+      if (!glassReady || !glassFx) return;
+      const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, quality, storm, phone);
+      composeGlassBackground(bw, bh);
+      try {
+        await glassFx.setBackground(stormBg);
+      } catch { /* ignore */ }
+    };
+
+    const scheduleDomCapture = (delay = 420) => {
+      if (!storm || !wantRaindropFx) return;
+      window.clearTimeout(captureTimer);
+      captureTimer = window.setTimeout(() => {
+        void (async () => {
+          if (!running || targetIntensity <= 0) return;
+          const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, quality, storm, phone);
+          const ok = await captureStormDom(bw, bh);
+          if (ok) await pushGlassBackground();
+        })();
+      }, delay);
     };
 
     const ensureGlass = async () => {
       if (!wantRaindropFx || glassReady || glassFailed) return glassReady;
-      if (!RaindropCtor || !bgHost) {
+      if (!RaindropCtor || (!storm && !bgHost)) {
         glassFailed = true;
         return false;
       }
       try {
         const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, quality, storm, phone);
-        paintStormBg(stormBg, bw, bh, storm);
-        /* 暴雨：把雨丝画进折射底图，水珠里能折射到雨帘 */
-        if (storm && streakCanvas.width > 2) {
-          const bx = stormBg.getContext("2d");
-          if (bx) {
-            bx.globalAlpha = 0.75;
-            bx.drawImage(streakCanvas, 0, 0, bw, bh);
-            bx.globalAlpha = 1;
-          }
-        }
+        if (storm) await captureStormDom(bw, bh);
+        composeGlassBackground(bw, bh);
         glassCanvas.width = bw;
         glassCanvas.height = bh;
         const gOpts = glassOptsFor(quality, storm, phone);
@@ -580,6 +708,17 @@
         await glassFx.start();
         glassReady = true;
         glassAnimating = true;
+        syncGlassOpacity();
+        if (storm) {
+          scheduleDomCapture(700);
+          /* 雨丝实时写入折射底图（DOM 快照低频刷新） */
+          window.clearInterval(captureInterval);
+          captureInterval = window.setInterval(() => {
+            if (!glassReady || !running || document.hidden) return;
+            void pushGlassBackground();
+            if (performance.now() - lastDomCaptureAt > 1600) scheduleDomCapture(0);
+          }, 120);
+        }
         return true;
       } catch (err) {
         console.warn("[kaya] raindrop-fx skipped", err);
@@ -593,15 +732,8 @@
       if (!glassReady || !glassFx || w < 2) return;
       try {
         const { bw, bh } = glassBufferSize(w, h, quality, storm, phone);
-        paintStormBg(stormBg, bw, bh, storm);
-        if (storm && streakCanvas.width > 2) {
-          const bx = stormBg.getContext("2d");
-          if (bx) {
-            bx.globalAlpha = 0.75;
-            bx.drawImage(streakCanvas, 0, 0, bw, bh);
-            bx.globalAlpha = 1;
-          }
-        }
+        if (storm) await captureStormDom(bw, bh);
+        composeGlassBackground(bw, bh);
         glassFx.resize(bw, bh);
         await glassFx.setBackground(stormBg);
         applyGlassOpts(glassFx, quality, storm, phone);
@@ -784,6 +916,8 @@
       cancelAnimationFrame(raf);
       window.clearTimeout(stopTimer);
       window.clearTimeout(resizeGlassTimer);
+      window.clearTimeout(captureTimer);
+      window.clearInterval(captureInterval);
       intensity = 0;
       targetIntensity = 0;
       splashes.length = 0;
@@ -971,6 +1105,7 @@
         splashes.length = 0;
         rims.length = 0;
         splashAcc = 0;
+        if (storm && glassReady) scheduleDomCapture(180);
       },
       resize,
       destroy() {

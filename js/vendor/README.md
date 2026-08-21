@@ -7,6 +7,13 @@
 - License: MIT
 - Used by: `js/heavy-rain.js`（大雨玻璃水珠 / 折射）
 
+## html2canvas
+
+- Source: https://github.com/niklasvh/html2canvas
+- Version: 1.4.1 (`dist/html2canvas.min.js`)
+- License: MIT
+- Used by: `js/heavy-rain.js` 暴雨贴屏玻璃——把页面快照作为 raindrop-fx 折射底图（小米天气「雨水打在屏上」）
+
 ## Light rain（非整库 vendor）
 
 小雨未嵌入完整第三方包，而是在 `js/light-rain.js` 中组合实现：

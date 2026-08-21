@@ -185,6 +185,8 @@ void main() {
       depth: false,
       stencil: false,
       premultipliedAlpha: true,
+      /* 暴雨贴屏玻璃要 html2canvas / 合成底图，需可读帧缓冲 */
+      preserveDrawingBuffer: !!opts.sheet || !!opts.preserveDrawingBuffer,
       powerPreference: "high-performance",
       failIfMajorPerformanceCaveat: false,
     });
