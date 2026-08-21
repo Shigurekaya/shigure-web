@@ -309,6 +309,14 @@
       opts.spawnInterval = [0.04, 0.09];
       opts.spawnLimit = 900;
       opts.dropletsPerSeconds = 520;
+      if (phone) {
+        opts.spawnSize = [14, 48];
+        opts.spawnInterval = [0.06, 0.14];
+        opts.spawnLimit = 420;
+        opts.dropletsPerSeconds = 260;
+        opts.trailDropDensity = 0.14;
+        opts.mistColor = [0.02, 0.04, 0.08, 0.14];
+      }
     }
     return opts;
   }
@@ -322,8 +330,8 @@
   }
 
   function glassBufferSize(cssW, cssH, mode, storm, phone) {
-    const maxW = storm ? 1920 : (phone ? 640 : (qualityFor(mode, storm, phone).glassMaxW || 960));
-    const dprN = storm ? 1.5 : (phone ? 1.05 : 1.25);
+    const maxW = storm ? (phone ? 1280 : 1920) : (phone ? 720 : (qualityFor(mode, storm, phone).glassMaxW || 960));
+    const dprN = storm ? (phone ? 1.25 : 1.5) : (phone ? 1.15 : 1.25);
     const scale = Math.min(1, maxW / Math.max(1, cssW)) * Math.min(window.devicePixelRatio || 1, dprN);
     return {
       bw: Math.max(1, Math.floor(cssW * scale)),
@@ -354,8 +362,8 @@
     const q0 = qualityFor(quality, storm, phone);
     const mobileLite = phone || quality === "low"
       || window.matchMedia("(max-width: 720px)").matches;
-    /* 贴屏湿玻璃：暴雨全开；大雨桌面轻量开（手机仍用 2D 珠） */
-    const useScreenGlass = !!RaindropCtor && (storm || !mobileLite);
+    /* 贴屏湿玻璃：桌面 / 手机统一走 raindrop-fx，不再用旧版 2D 珠当主效果 */
+    const useScreenGlass = !!RaindropCtor;
 
     const glassCanvas = document.createElement("canvas");
     glassCanvas.className = useScreenGlass ? "site-fx__rain-glass" : "site-bg__glass";
@@ -415,17 +423,15 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* 贴屏真玻璃就绪后关掉 Canvas2D 珠；手机大雨仍靠 2D */
+    /* 贴屏主效果；2D 珠仅在 raindrop 失败时兜底 */
     const wantSplash = true;
-    let wantGlassDrops = useScreenGlass
-      ? true
-      : (useGpuStreaks && !mobileLite);
+    let wantGlassDrops = !useScreenGlass && useGpuStreaks && !mobileLite;
     splashCanvas.style.display = wantSplash ? "" : "none";
     glassDropCanvas.style.display = wantGlassDrops ? "" : "none";
     if (storm) glassDropCanvas.classList.add("is-storm-glass");
 
     const glassMainN = storm ? Math.max(120, q0.glassMain || 120) : (q0.glassMain || 34);
-    const glassMicroN = storm ? 0 : (useScreenGlass ? Math.min(48, q0.glassMicro || 48) : (q0.glassMicro || 160));
+    const glassMicroN = storm ? 0 : (q0.glassMicro || 160);
 
     const glassDrops = wantGlassDrops && window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
@@ -434,8 +440,8 @@
         dprCap: storm ? Math.min(q0.dprCap, 2) : (phone ? 1.1 : Math.min(q0.dprCap, 1.5)),
         slideRatio: storm ? 0.55 : 0.3,
         storm,
-        lite: false,
-        noSpray: useScreenGlass,
+        lite: mobileLite,
+        noSpray: false,
       })
       : null;
     if (!glassDrops) glassDropCanvas.style.display = "none";
@@ -729,9 +735,9 @@
         glassAnimating = true;
         syncGlassOpacity();
         if (useScreenGlass) {
-          scheduleDomCapture(storm ? 700 : 900);
-          const pushMs = storm ? 120 : 220;
-          const recaptureMs = storm ? 1600 : 2800;
+          scheduleDomCapture(storm ? 700 : (phone ? 1100 : 900));
+          const pushMs = storm ? 120 : (phone ? 280 : 220);
+          const recaptureMs = storm ? 1600 : (phone ? 3600 : 2800);
           window.clearInterval(captureInterval);
           captureInterval = window.setInterval(() => {
             if (!glassReady || !running || document.hidden) return;
