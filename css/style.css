@@ -219,18 +219,18 @@ body.heavy-rain:not(.storm-rain) .site-fx__rain-glass {
 }
 
 .site-bg__heavy-mist.is-on {
-  opacity: 0.82;
+  opacity: 0.45;
   animation: heavy-mist-drift 16s ease-in-out infinite alternate;
 }
 
 .site-bg__heavy-mist.is-storm.is-on {
-  opacity: 0.95;
+  opacity: 0.55;
   background:
-    radial-gradient(ellipse 88% 50% at 50% 2%, rgba(120, 165, 215, 0.28), transparent 74%),
-    radial-gradient(ellipse 50% 32% at 72% 20%, rgba(90, 130, 180, 0.16), transparent 70%),
-    radial-gradient(ellipse 95% 55% at 12% 84%, rgba(36, 54, 82, 0.32), transparent 70%),
-    radial-gradient(ellipse 72% 42% at 86% 68%, rgba(50, 78, 118, 0.2), transparent 66%),
-    linear-gradient(180deg, rgba(12, 22, 38, 0.32), transparent 36%, transparent 58%, rgba(8, 14, 26, 0.48));
+    radial-gradient(ellipse 88% 50% at 50% 2%, rgba(120, 165, 215, 0.16), transparent 74%),
+    radial-gradient(ellipse 50% 32% at 72% 20%, rgba(90, 130, 180, 0.1), transparent 70%),
+    radial-gradient(ellipse 95% 55% at 12% 84%, rgba(36, 54, 82, 0.18), transparent 70%),
+    radial-gradient(ellipse 72% 42% at 86% 68%, rgba(50, 78, 118, 0.12), transparent 66%),
+    linear-gradient(180deg, rgba(12, 22, 38, 0.16), transparent 36%, transparent 58%, rgba(8, 14, 26, 0.28));
 }
 
 @media (max-width: 720px) {
@@ -239,12 +239,12 @@ body.heavy-rain:not(.storm-rain) .site-fx__rain-glass {
   }
 
   .site-bg__heavy-mist.is-on {
-    opacity: 0.5;
+    opacity: 0.32;
     animation: none;
   }
 
   .site-bg__heavy-mist.is-storm.is-on {
-    opacity: 0.72;
+    opacity: 0.4;
   }
 }
 
@@ -286,22 +286,22 @@ body.heavy-rain .site-bg {
 }
 
 body.heavy-rain .site-bg::before {
-  filter: blur(92px) brightness(0.58) saturate(0.85);
+  filter: blur(92px) brightness(0.72) saturate(0.95);
   opacity: 1;
   background:
-    radial-gradient(circle at 22% 24%, rgba(100, 140, 185, 0.68) 0%, transparent 46%),
-    radial-gradient(circle at 78% 16%, rgba(58, 80, 108, 0.72) 0%, transparent 44%),
-    radial-gradient(circle at 55% 70%, rgba(48, 72, 108, 0.62) 0%, transparent 48%),
-    radial-gradient(circle at 30% 90%, rgba(32, 48, 72, 0.72) 0%, transparent 42%),
-    radial-gradient(circle at 48% 4%, rgba(140, 175, 215, 0.34) 0%, transparent 42%),
-    radial-gradient(circle at 8% 50%, rgba(70, 100, 145, 0.22) 0%, transparent 40%);
+    radial-gradient(circle at 22% 24%, rgba(110, 150, 195, 0.72) 0%, transparent 46%),
+    radial-gradient(circle at 78% 16%, rgba(68, 92, 122, 0.7) 0%, transparent 44%),
+    radial-gradient(circle at 55% 70%, rgba(58, 82, 118, 0.58) 0%, transparent 48%),
+    radial-gradient(circle at 30% 90%, rgba(40, 58, 84, 0.65) 0%, transparent 42%),
+    radial-gradient(circle at 48% 4%, rgba(155, 190, 230, 0.4) 0%, transparent 42%),
+    radial-gradient(circle at 8% 50%, rgba(80, 115, 160, 0.26) 0%, transparent 40%);
 }
 
 body.heavy-rain .site-bg::after {
-  opacity: 0.94;
+  opacity: 0.72;
   background:
-    linear-gradient(180deg, rgba(16, 26, 42, 0.48) 0%, transparent 28%, transparent 52%, rgba(10, 16, 28, 0.62) 100%),
-    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(110, 145, 190, 0.22), transparent 72%);
+    linear-gradient(180deg, rgba(16, 26, 42, 0.28) 0%, transparent 28%, transparent 52%, rgba(10, 16, 28, 0.4) 100%),
+    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(120, 155, 200, 0.18), transparent 72%);
 }
 
 body.heavy-rain {
@@ -372,21 +372,21 @@ body.storm-rain .site-bg {
 }
 
 body.storm-rain .site-bg::before {
-  filter: blur(90px) brightness(0.48) saturate(0.78);
+  filter: blur(90px) brightness(0.62) saturate(0.88);
   opacity: 1;
   background:
-    radial-gradient(circle at 22% 26%, rgba(70, 110, 165, 0.5) 0%, transparent 48%),
-    radial-gradient(circle at 78% 18%, rgba(36, 54, 84, 0.88) 0%, transparent 46%),
-    radial-gradient(circle at 55% 70%, rgba(28, 44, 68, 0.75) 0%, transparent 50%),
-    radial-gradient(circle at 30% 90%, rgba(16, 26, 42, 0.9) 0%, transparent 44%),
-    radial-gradient(circle at 48% 6%, rgba(100, 145, 200, 0.22) 0%, transparent 42%);
+    radial-gradient(circle at 22% 26%, rgba(80, 120, 175, 0.55) 0%, transparent 48%),
+    radial-gradient(circle at 78% 18%, rgba(42, 62, 92, 0.8) 0%, transparent 46%),
+    radial-gradient(circle at 55% 70%, rgba(34, 52, 78, 0.68) 0%, transparent 50%),
+    radial-gradient(circle at 30% 90%, rgba(20, 32, 50, 0.82) 0%, transparent 44%),
+    radial-gradient(circle at 48% 6%, rgba(115, 160, 215, 0.28) 0%, transparent 42%);
 }
 
 body.storm-rain .site-bg::after {
-  opacity: 1;
+  opacity: 0.78;
   background:
-    linear-gradient(180deg, rgba(10, 18, 32, 0.55) 0%, transparent 28%, transparent 52%, rgba(6, 12, 22, 0.7) 100%),
-    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(90, 130, 185, 0.16), transparent 72%);
+    linear-gradient(180deg, rgba(10, 18, 32, 0.35) 0%, transparent 28%, transparent 52%, rgba(6, 12, 22, 0.5) 100%),
+    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(100, 140, 195, 0.14), transparent 72%);
 }
 
 body.storm-rain {
@@ -405,7 +405,7 @@ body.storm-rain .site-bg__heavy {
 }
 
 body.storm-rain .site-bg__heavy-mist.is-storm.is-on {
-  opacity: 0.95;
+  opacity: 0.4;
 }
 
 body.storm-flash .site-bg {

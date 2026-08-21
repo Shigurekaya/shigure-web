@@ -67,8 +67,8 @@
         spawnLimit: 480,
         dropletsPerSeconds: 400,
         dropletSize: [8, 21],
-        backgroundBlurSteps: 2,
-        mistBlurStep: 3,
+        backgroundBlurSteps: 0,
+        mistBlurStep: 0,
       },
     },
     high: {
@@ -86,8 +86,8 @@
         spawnLimit: 720,
         dropletsPerSeconds: 580,
         dropletSize: [8, 24],
-        backgroundBlurSteps: 3,
-        mistBlurStep: 4,
+        backgroundBlurSteps: 0,
+        mistBlurStep: 0,
       },
     },
   };
@@ -266,8 +266,8 @@
       spawnLimit: 2600,
       dropletsPerSeconds: 1600,
       dropletSize: [10, 44],
-      backgroundBlurSteps: 1,
-      mistBlurStep: 3,
+      backgroundBlurSteps: 0,
+      mistBlurStep: 0,
     };
     return q;
   }
@@ -277,35 +277,35 @@
     if (!g || g === true) return null;
     const opts = { ...GLASS_BASE, ...g };
     if (storm) {
-      /* 贴屏盖 UI：少糊底图，保证卡片文字可读；水珠里仍强折射 */
+      /* 贴屏：关掉冷凝灰雾，避免整屏灰蒙；水珠本身已够湿 */
       opts.spawnSize = [22, 96];
       opts.slipRate = 0.94;
       opts.trailDropDensity = 0.36;
       opts.gravity = 3800;
-      opts.refractBase = 0.38;
-      opts.refractScale = 0.72;
-      opts.backgroundBlurSteps = 1;
-      opts.mist = true;
-      opts.mistBlurStep = 3;
-      opts.mistColor = [0.02, 0.04, 0.07, 0.28];
-      opts.raindropSpecularLight = [0.22, 0.28, 0.36];
-      opts.raindropSpecularShininess = 72;
-      opts.raindropLightBump = 0.7;
+      opts.refractBase = 0.4;
+      opts.refractScale = 0.74;
+      opts.backgroundBlurSteps = 0;
+      opts.mist = false;
+      opts.mistBlurStep = 0;
+      opts.raindropSpecularLight = [0.28, 0.34, 0.42];
+      opts.raindropSpecularShininess = 80;
+      opts.raindropLightBump = 0.78;
+      opts.raindropDiffuseLight = [0.32, 0.36, 0.42];
     } else {
-      /* 大雨轻量贴屏：珠更少更小，雾更淡 */
+      /* 大雨轻量贴屏：清透、少雾 */
       opts.spawnSize = [16, 58];
       opts.slipRate = 0.88;
       opts.trailDropDensity = 0.2;
       opts.gravity = 3000;
-      opts.refractBase = 0.3;
-      opts.refractScale = 0.5;
-      opts.backgroundBlurSteps = 1;
-      opts.mist = true;
-      opts.mistBlurStep = 2;
-      opts.mistColor = [0.02, 0.04, 0.08, 0.18];
-      opts.raindropSpecularLight = [0.14, 0.18, 0.24];
-      opts.raindropSpecularShininess = 56;
-      opts.raindropLightBump = 0.52;
+      opts.refractBase = 0.32;
+      opts.refractScale = 0.54;
+      opts.backgroundBlurSteps = 0;
+      opts.mist = false;
+      opts.mistBlurStep = 0;
+      opts.raindropSpecularLight = [0.2, 0.26, 0.32];
+      opts.raindropSpecularShininess = 64;
+      opts.raindropLightBump = 0.6;
+      opts.raindropDiffuseLight = [0.3, 0.34, 0.4];
       opts.spawnInterval = [0.04, 0.09];
       opts.spawnLimit = 900;
       opts.dropletsPerSeconds = 520;
@@ -315,7 +315,6 @@
         opts.spawnLimit = 420;
         opts.dropletsPerSeconds = 260;
         opts.trailDropDensity = 0.14;
-        opts.mistColor = [0.02, 0.04, 0.08, 0.14];
       }
     }
     return opts;
@@ -579,7 +578,7 @@
       }
       gpu?.setIntensity(intensity);
       glassDrops?.setIntensity(intensity);
-      mist.classList.toggle("is-on", intensity > 0.05);
+      mist.classList.toggle("is-on", intensity > 0.05 && !useScreenGlass);
       /* 贴屏真玻璃就绪后隐藏 2D 珠，避免糊球叠在折射层上 */
       const show2d = !!(glassDrops && wantGlassDrops && !(useScreenGlass && glassReady));
       glassDropCanvas.style.display = show2d ? "" : "none";
@@ -599,6 +598,7 @@
         || cls.contains("site-fx__thunder-flash")
         || cls.contains("site-fx__thunder-sheet")
         || cls.contains("site-bg__heavy")
+        || cls.contains("site-bg__heavy-mist")
         || cls.contains("site-bg__glass");
     };
 
@@ -639,10 +639,12 @@
       const prevSplash = splashCanvas.style.display;
       const prevDrops = glassDropCanvas.style.display;
       const prevStreak = streakCanvas.style.display;
+      const prevMist = mist.style.display;
       glassCanvas.style.display = "none";
       splashCanvas.style.display = "none";
       glassDropCanvas.style.display = "none";
       streakCanvas.style.display = "none";
+      mist.style.display = "none";
       try {
         const scale = bw / Math.max(1, window.innerWidth);
         const shot = await h2c(document.documentElement, {
@@ -681,6 +683,7 @@
         splashCanvas.style.display = prevSplash;
         glassDropCanvas.style.display = prevDrops;
         streakCanvas.style.display = prevStreak;
+        mist.style.display = prevMist;
         capturing = false;
       }
       return stormDomReady;
