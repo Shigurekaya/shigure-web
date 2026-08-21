@@ -29,23 +29,23 @@
     const rx = size * 0.36;
     const ry = size * 0.44;
 
-    cx.fillStyle = "rgba(6, 12, 22, 0.28)";
+    cx.fillStyle = "rgba(8, 16, 28, 0.12)";
     cx.beginPath();
-    cx.ellipse(ox, oy + ry * 0.82, rx * 0.52, ry * 0.14, 0, 0, Math.PI * 2);
+    cx.ellipse(ox, oy + ry * 0.82, rx * 0.48, ry * 0.12, 0, 0, Math.PI * 2);
     cx.fill();
 
     const body = cx.createRadialGradient(ox - rx * 0.22, oy - ry * 0.32, rx * 0.04, ox, oy, rx);
-    body.addColorStop(0, "rgba(225, 235, 250, 0.55)");
-    body.addColorStop(0.35, "rgba(120, 155, 195, 0.38)");
-    body.addColorStop(0.75, "rgba(32, 48, 72, 0.4)");
-    body.addColorStop(1, "rgba(16, 24, 40, 0)");
+    body.addColorStop(0, "rgba(245, 250, 255, 0.55)");
+    body.addColorStop(0.28, "rgba(190, 220, 245, 0.28)");
+    body.addColorStop(0.62, "rgba(140, 180, 220, 0.16)");
+    body.addColorStop(1, "rgba(255, 255, 255, 0)");
     cx.fillStyle = body;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
     cx.fill();
 
     /* 玻璃折射边缘 */
-    cx.strokeStyle = "rgba(235, 245, 255, 0.55)";
+    cx.strokeStyle = "rgba(245, 250, 255, 0.65)";
     cx.lineWidth = Math.max(0.7, size * 0.03);
     cx.beginPath();
     cx.ellipse(ox, oy, rx * 0.9, ry * 0.9, 0, 0, Math.PI * 2);
@@ -53,7 +53,7 @@
 
     const rim = cx.createLinearGradient(ox - rx, oy, ox + rx, oy);
     rim.addColorStop(0, "rgba(255,255,255,0)");
-    rim.addColorStop(0.35, "rgba(255,255,255,0.22)");
+    rim.addColorStop(0.35, "rgba(255,255,255,0.35)");
     rim.addColorStop(0.65, "rgba(255,255,255,0)");
     cx.strokeStyle = rim;
     cx.lineWidth = Math.max(0.5, size * 0.02);
@@ -66,7 +66,7 @@
       ox - rx * 0.3, oy - ry * 0.38, rx * 0.3,
     );
     spec.addColorStop(0, "rgba(255,255,255,1)");
-    spec.addColorStop(0.28, "rgba(235,245,255,0.65)");
+    spec.addColorStop(0.28, "rgba(235,245,255,0.75)");
     spec.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = spec;
     cx.beginPath();
@@ -74,7 +74,7 @@
     cx.fill();
 
     /* 次高光 */
-    cx.fillStyle = "rgba(255,255,255,0.35)";
+    cx.fillStyle = "rgba(255,255,255,0.45)";
     cx.beginPath();
     cx.ellipse(ox + rx * 0.22, oy + ry * 0.15, rx * 0.06, ry * 0.04, 0.4, 0, Math.PI * 2);
     cx.fill();

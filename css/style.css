@@ -475,7 +475,8 @@ body.storm-rain .site-bg {
   transition: opacity 0.75s var(--ease);
 }
 
-body.storm-rain .site-fx__glass-drops.is-storm-glass {
+body.storm-rain .site-fx__glass-drops.is-storm-glass,
+body.heavy-rain .site-fx__glass-drops.is-clear-glass {
   /* 清晰滑动珠 + 泪痕；不做喷雾糊球 / screen 混色 */
   filter: none;
   opacity: 1 !important;
