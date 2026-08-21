@@ -7,7 +7,8 @@
 
 - **第一目标：最真实**（小米天气级「雨水打在玻璃屏上」），不是「能跑就行」。
 - 细则见仓库规则：`.cursor/rules/rain-realism.mdc`。
-- 已证伪：全屏 `raindrop-fx` 贴 UI + `html2canvas` 在手机上易黑点/灰雾；未修好前勿再上线该路径。
+- 已证伪路径与避雷详见：`docs/rain-glass-session-2026-08-21.md`、`.cursor/rules/rain-realism.mdc`。
+- 贴屏真折射（raindrop-fx）在修掉双 WebGL / mist 后可开；**阴影勿拉满**以免大珠变墨团。
 
 ## 结论（先看）
 

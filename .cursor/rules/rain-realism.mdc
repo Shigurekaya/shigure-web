@@ -8,33 +8,29 @@ alwaysApply: false
 
 ## 硬性目标
 
-对齐小米天气「雨水打在玻璃屏上」。真实度 > 性能，但 **文字尽量可读**。
+对齐小米天气「雨水打在玻璃屏上」。真实度 > 性能；允许略暗，忌墨团/整页黑。
+
+详录与避雷：`docs/rain-glass-session-2026-08-21.md`（必读后再改参数）。
 
 ## 贴屏折射（heavy / storm）
 
-用户确认要 **半透明大折射珠**（raindrop-fx + html2canvas），略暗可接受。
+- html2canvas + RaindropFX → 默认开贴屏
+- **贴屏时不创建 GPU 雨丝**（双 WebGL → raindrop 静默失败）
+- 大珠（约库默认量级）；冷凝少
+- **阴影 ~0.34、顶 ≤0.42**；漫反射勿过暗（否则大珠变墨团）
+- mist / backgroundBlur 保持关；过黑才 demote → 再挂 GPU + 2D
 
-- html2canvas + RaindropFX 可用时默认开贴屏（大雨/暴雨）
-- **贴屏时不创建 GPU 雨丝**（手机双 WebGL 会抢上下文导致 raindrop 静默失败）
-- 冷凝微珠少；截图提亮；过黑才 demote → 再挂 GPU + 2D
-- 贴屏未就绪时先显示 2D 珠，避免「什么都没有」
+测试：`/?storm` 或 `/?heavy`（无参数多为小雨）。
 
-测试入口：`/?storm` 或 `/?heavy`（首页无参数多为小雨，看不到贴屏）。
+## 已证伪
 
-## 已证伪 / 勿再做
-
-- 黑底画布 + CSS `mix-blend-mode: screen`（手机失效整页黑）
-- 默认 mist 近黑；WebGL 雨丝 drawImage 进 2D 折射底图；大软灰喷雾球
-- 密到糊罩的冷凝点阵
-
-## 回退路径（demote / 非 storm）
-
-1. GPU / 2D 短密雨丝在 `site-bg`
-2. `glass-drops.js`：透明亮珠 + 下滑湿痕；**冷凝少**
-3. 背景雾很淡
+- 黑底 + CSS `mix-blend-mode: screen`（整页黑）
+- 贴屏同时挂 GPU 雨丝
+- `shadowOffset≥0.6` + 暗 diffuse + 大 spawn（黑糊块）
+- 默认 mist 近黑；WebGL 雨丝 drawImage 进 2D 底图；满屏冷凝霜
 
 ## 验收
 
-- 大水滴半透明、有折射体积感（贴屏成功时）
-- 冷凝珠明显少于「满屏霜点」
-- 比旧贴屏版略亮；过黑则自动回退 2D
+- 半透明大折射珠，不是黑墨团
+- 冷凝不抢戏
+- 控制台 `screen glass ready`（或明确 demote 后 2D 亮珠可读）

@@ -417,7 +417,7 @@
       const fromTop = !!opts2.fromTop;
       const preferUi = opts2.preferUi !== false && !fromTop && ledges.length && Math.random() < (storm ? 0.7 : 0.62);
       const ui = preferUi ? pickInLedge(0.85) : null;
-      const r = opts2.r ?? rand(storm ? 9 : 7, storm ? 22 : 16);
+      const r = opts2.r ?? rand(storm ? 5.5 : 4.5, storm ? 14 : 11);
       /* 多数珠带初速下滑；少数先粘再滴 */
       const momentum = opts2.momentum ?? (
         fromTop
@@ -665,7 +665,7 @@
           spawnDrop({
             fromTop: true,
             momentum: rand(1.0, storm ? 2.6 : 1.5),
-            r: rand(storm ? 10 : 7, storm ? 24 : 16),
+            r: rand(storm ? 6 : 4.5, storm ? 15 : 11),
             drip: 0,
           });
         }

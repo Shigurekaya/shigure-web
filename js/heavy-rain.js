@@ -29,15 +29,16 @@
     mistTime: 7,
     smoothRaindrop: [0.96, 0.995],
     refractBase: 0.42,
-    refractScale: 0.7,
+    refractScale: 0.72,
     raindropCompose: "smoother",
-    raindropLightPos: [-0.55, 1.2, 2.2, 0],
-    raindropDiffuseLight: [0.28, 0.32, 0.38],
-    raindropShadowOffset: 0.62,
-    raindropEraserSize: [0.92, 1],
+    raindropLightPos: [-0.5, 1.2, 2.3, 0],
+    /* 漫反射别太暗，否则大珠变墨团 */
+    raindropDiffuseLight: [0.42, 0.48, 0.56],
+    raindropShadowOffset: 0.36,
+    raindropEraserSize: [0.93, 1],
     raindropSpecularLight: [0.55, 0.62, 0.72],
-    raindropSpecularShininess: 160,
-    raindropLightBump: 0.95,
+    raindropSpecularShininess: 120,
+    raindropLightBump: 0.85,
   };
 
   const QUALITY = {
@@ -351,59 +352,61 @@
       ...(g && typeof g === "object" ? g : fallbackGlass),
     };
     if (storm) {
-      /* 贴屏真折射：更大打屏珠（对齐参考片大透镜珠），少冷凝 */
-      opts.spawnSize = phone ? [85, 175] : [100, 210];
-      opts.slipRate = 0.86;
-      opts.trailDropDensity = 0.36;
-      opts.trailDropSize = [0.45, 0.8];
-      opts.trailDistance = [36, 78];
-      opts.gravity = 2200;
-      opts.refractBase = 0.55;
-      opts.refractScale = 1.05;
+      /*
+       * 目标：半透明大折射珠（用户认可的「暗屏但珠清晰」版本），不是墨团。
+       * 避雷：shadowOffset 过高 + diffuse 过暗 → 大珠变黑糊块（2026-08-21 实机）。
+       */
+      opts.spawnSize = phone ? [72, 150] : [88, 180];
+      opts.slipRate = 0.88;
+      opts.trailDropDensity = 0.28;
+      opts.trailDropSize = [0.38, 0.62];
+      opts.trailDistance = [28, 58];
+      opts.gravity = 2600;
+      opts.refractBase = 0.46;
+      opts.refractScale = 0.86;
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.02, 0.03, 0.04, 0.0];
-      opts.raindropSpecularLight = [0.82, 0.9, 1.0];
-      opts.raindropSpecularShininess = 240;
-      opts.raindropLightBump = 1.2;
-      opts.raindropDiffuseLight = [0.16, 0.2, 0.26];
-      opts.raindropShadowOffset = 0.78;
-      opts.raindropLightPos = [-0.8, 1.35, 1.85, 0];
-      opts.smoothRaindrop = [0.95, 0.99];
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 12 : 24) : 0;
-      opts.dropletSize = screenGlass ? [3, 8] : [4, 10];
+      opts.raindropSpecularLight = [0.7, 0.78, 0.9];
+      opts.raindropSpecularShininess = 140;
+      opts.raindropLightBump = 0.92;
+      opts.raindropDiffuseLight = [0.4, 0.46, 0.54];
+      opts.raindropShadowOffset = 0.34;
+      opts.raindropLightPos = [-0.55, 1.2, 2.2, 0];
+      opts.smoothRaindrop = [0.96, 0.995];
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 40 : 70) : 0;
+      opts.dropletSize = screenGlass ? [6, 14] : [6, 14];
       opts.spawnLimit = screenGlass
-        ? Math.min(opts.spawnLimit || 1800, phone ? 120 : 220)
-        : Math.min(opts.spawnLimit || 800, 360);
-      opts.spawnInterval = screenGlass ? [0.08, 0.18] : [0.06, 0.12];
+        ? Math.min(opts.spawnLimit || 1800, phone ? 200 : 320)
+        : Math.min(opts.spawnLimit || 800, 420);
+      opts.spawnInterval = screenGlass ? [0.055, 0.13] : [0.05, 0.11];
     } else {
-      /* 大雨贴屏：偏大珠、少霜点 */
-      opts.spawnSize = phone ? [54, 120] : [64, 140];
+      opts.spawnSize = phone ? [52, 110] : [64, 130];
       opts.slipRate = 0.84;
-      opts.trailDropDensity = 0.24;
-      opts.trailDropSize = [0.35, 0.58];
-      opts.trailDistance = [26, 52];
-      opts.gravity = 2300;
-      opts.refractBase = 0.48;
-      opts.refractScale = 0.85;
+      opts.trailDropDensity = 0.22;
+      opts.trailDropSize = [0.34, 0.55];
+      opts.trailDistance = [24, 48];
+      opts.gravity = 2500;
+      opts.refractBase = 0.42;
+      opts.refractScale = 0.75;
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.02, 0.03, 0.04, 0.0];
-      opts.raindropSpecularLight = [0.68, 0.76, 0.88];
-      opts.raindropSpecularShininess = 190;
-      opts.raindropLightBump = 1.05;
-      opts.raindropDiffuseLight = [0.22, 0.26, 0.32];
-      opts.raindropShadowOffset = 0.64;
-      opts.raindropLightPos = [-0.65, 1.22, 2.0, 0];
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 14 : 26) : 0;
-      opts.dropletSize = screenGlass ? [4, 9] : [5, 12];
-      opts.spawnLimit = Math.min(opts.spawnLimit || 900, screenGlass ? (phone ? 120 : 200) : 360);
-      opts.spawnInterval = screenGlass ? [0.09, 0.2] : [0.07, 0.15];
+      opts.raindropSpecularLight = [0.6, 0.68, 0.78];
+      opts.raindropSpecularShininess = 120;
+      opts.raindropLightBump = 0.85;
+      opts.raindropDiffuseLight = [0.42, 0.48, 0.56];
+      opts.raindropShadowOffset = 0.32;
+      opts.raindropLightPos = [-0.5, 1.18, 2.25, 0];
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 28 : 48) : 0;
+      opts.dropletSize = screenGlass ? [6, 13] : [6, 14];
+      opts.spawnLimit = Math.min(opts.spawnLimit || 900, screenGlass ? (phone ? 160 : 240) : 360);
+      opts.spawnInterval = screenGlass ? [0.07, 0.16] : [0.06, 0.14];
       if (phone && !screenGlass) {
-        opts.spawnSize = [48, 108];
-        opts.spawnLimit = 160;
+        opts.spawnSize = [44, 96];
+        opts.spawnLimit = 180;
         opts.trailDropDensity = 0.16;
       }
     }
@@ -899,8 +902,8 @@
           mist: false,
           backgroundBlurSteps: 0,
           mistBlurStep: 0,
-          /* 勿把阴影钳死在 0.28——立体感会丢 */
-          raindropShadowOffset: Math.min(gOpts.raindropShadowOffset ?? 0.62, 0.78),
+          /* 阴影保留立体感，但勿接近库默认 0.8（大珠会变墨团） */
+          raindropShadowOffset: Math.min(gOpts.raindropShadowOffset ?? 0.34, 0.42),
         });
         applyGlassOpts(glassFx, quality, storm, realPhone, useScreenGlass);
         try {
@@ -908,8 +911,8 @@
           glassFx.options.backgroundBlurSteps = 0;
           glassFx.options.mistBlurStep = 0;
           glassFx.options.raindropShadowOffset = Math.min(
-            glassFx.options.raindropShadowOffset || 0.62,
-            0.78,
+            glassFx.options.raindropShadowOffset || 0.34,
+            0.42,
           );
           glassFx.options.spawnSize = gOpts.spawnSize || glassFx.options.spawnSize;
           glassFx.options.dropletsPerSeconds = gOpts.dropletsPerSeconds ?? 0;
