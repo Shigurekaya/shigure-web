@@ -171,7 +171,7 @@ body.storm-rain .site-bg__glass {
   opacity: 0.92 !important;
 }
 
-/* 暴雨贴屏湿玻璃：盖住正文（小米天气同款），点击穿透 */
+/* 贴屏湿玻璃：盖住正文，点击穿透；透明度由 JS 控制，勿 !important 盖掉淡入 */
 .site-fx__rain-glass {
   position: absolute;
   inset: 0;
@@ -182,14 +182,6 @@ body.storm-rain .site-bg__glass {
   display: block;
   opacity: 0;
   transition: opacity 0.85s var(--ease);
-}
-
-body.storm-rain .site-fx__rain-glass {
-  opacity: 1 !important;
-}
-
-body.heavy-rain:not(.storm-rain) .site-fx__rain-glass {
-  opacity: 0.9 !important;
 }
 
 .site-bg__heavy {

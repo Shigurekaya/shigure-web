@@ -50,7 +50,14 @@
       glassMain: 44,
       glassMicro: 460,
       splashRate: 1.3,
-      glass: null,
+      glass: {
+        spawnInterval: [0.06, 0.12],
+        spawnLimit: 360,
+        dropletsPerSeconds: 240,
+        dropletSize: [8, 20],
+        backgroundBlurSteps: 0,
+        mistBlurStep: 0,
+      },
     },
     mid: {
       streak: 1850,
@@ -274,8 +281,20 @@
 
   function glassOptsFor(mode, storm, phone) {
     const g = qualityFor(mode, storm, phone).glass;
-    if (!g || g === true) return null;
-    const opts = { ...GLASS_BASE, ...g };
+    /* 手机 detectQuality=low 时 glass 曾为 null → apply 直接跳过 → 落到库默认
+       mistColor≈黑且 mistBlurStep=4，整屏灰蒙。贴屏必须始终覆盖默认值。 */
+    const fallbackGlass = {
+      spawnInterval: [0.05, 0.11],
+      spawnLimit: phone ? 420 : 640,
+      dropletsPerSeconds: phone ? 280 : 480,
+      dropletSize: [8, 22],
+      backgroundBlurSteps: 0,
+      mistBlurStep: 0,
+    };
+    const opts = {
+      ...GLASS_BASE,
+      ...(g && typeof g === "object" ? g : fallbackGlass),
+    };
     if (storm) {
       /* 贴屏：关掉冷凝灰雾，避免整屏灰蒙；水珠本身已够湿 */
       opts.spawnSize = [22, 96];
@@ -287,6 +306,7 @@
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
+      opts.mistColor = [0.02, 0.04, 0.07, 0.06];
       opts.raindropSpecularLight = [0.28, 0.34, 0.42];
       opts.raindropSpecularShininess = 80;
       opts.raindropLightBump = 0.78;
@@ -302,6 +322,7 @@
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
+      opts.mistColor = [0.02, 0.04, 0.08, 0.05];
       opts.raindropSpecularLight = [0.2, 0.26, 0.32];
       opts.raindropSpecularShininess = 64;
       opts.raindropLightBump = 0.6;
@@ -723,15 +744,24 @@
         composeGlassBackground(bw, bh);
         glassCanvas.width = bw;
         glassCanvas.height = bh;
-        const gOpts = glassOptsFor(quality, storm, phone);
+        const gOpts = glassOptsFor(quality, storm, phone) || {};
         glassFx = new RaindropCtor({
           canvas: glassCanvas,
           width: bw,
           height: bh,
           background: stormBg,
+          mist: false,
+          backgroundBlurSteps: 0,
+          mistBlurStep: 0,
           ...gOpts,
         });
         applyGlassOpts(glassFx, quality, storm, phone);
+        /* 再强制一次，防止库内部默认 mist 盖回灰雾 */
+        try {
+          glassFx.options.mist = false;
+          glassFx.options.backgroundBlurSteps = 0;
+          glassFx.options.mistBlurStep = 0;
+        } catch { /* ignore */ }
         await glassFx.setBackground(stormBg);
         await glassFx.start();
         glassReady = true;
