@@ -1,0 +1,265 @@
+{
+  "source": "d63123f5e68f97c298dea1bec5aad3a0.mp4",
+  "frames": 45,
+  "effects": [
+    {
+      "id": "A_falling_streaks",
+      "name": "下落雨丝（运动模糊线）",
+      "evidence": {
+        "blob_count_mean": 59.422222222222224,
+        "coverage_mean": 0.00144586542892883,
+        "len_mean_frac_h": 0.005418042694735052,
+        "len_p90_frac_h": 0.006218206157965194,
+        "flow_down_px": 0.01944252643046308,
+        "fast_down_frac": 0.04272470844630384
+      },
+      "look": "细长近竖直半透明白/青线条，长度短、下落快，占画面主体密度",
+      "depth": "至少 2–3 层：远淡细、中主、近略粗亮",
+      "impl_hint": "GPU 线段/四边形粒子；顶点着色器循环下落"
+    },
+    {
+      "id": "B_glass_main_drops",
+      "name": "玻璃主水珠（粘附/滑动大滴）",
+      "evidence": {
+        "count_mean": 17.08888888888889,
+        "size_mean_px": 7.090872618271515,
+        "size_p90_px": 8.886611893009464,
+        "hough_circles_mean": 199.22222222222223,
+        "y_mean_norm": 0.5260733725058034
+      },
+      "look": "近圆形、带顶侧高光、边缘折射感；部分缓慢下滑",
+      "depth": "最前景（叠在 UI 之上，像贴在屏幕玻璃）",
+      "impl_hint": "raindrop-fx / 折射 shader / 预烘焙精灵+法线"
+    },
+    {
+      "id": "C_glass_micro_beads",
+      "name": "玻璃微珠（冷凝小点）",
+      "evidence": {
+        "count_mean": 355.4222222222222,
+        "size_mean_px": 3.5359316492990724,
+        "coverage": 0.006792086378300085
+      },
+      "look": "大量 2–5px 级小高光点，几乎静止或极慢漂移",
+      "depth": "前景玻璃层，填充「湿润感」",
+      "impl_hint": "静态噪声戳点 + 大滴经过时 destination-out 擦除（Codrops 手法）"
+    },
+    {
+      "id": "D_slide_trails",
+      "name": "滑动拖尾/湿痕",
+      "evidence": {
+        "trailish_count_mean": 66.77777777777777
+      },
+      "look": "主滴下滑留下细湿痕与零星拖尾珠",
+      "depth": "前景玻璃层",
+      "impl_hint": "大滴路径上间歇 spawn 微珠；湿痕用细椭圆/条带淡出"
+    },
+    {
+      "id": "E_atmosphere_mist",
+      "name": "雨雾/大气散射",
+      "evidence": {
+        "mean_lum": 86.08964373888999,
+        "lowfreq_contrast": 15.439202075534396,
+        "top_minus_bot": -4.763692588518415,
+        "foggy_ratio": 0.0
+      },
+      "look": "整体冷蓝灰低对比，顶部略亮的霾，降低远景清晰度",
+      "depth": "背景与中景之间",
+      "impl_hint": "CSS 径向雾 + 轻微 vignette；不要做成飘动大光斑"
+    },
+    {
+      "id": "F_rain_sheet",
+      "name": "雨幕体积带（竖向帘幕）",
+      "evidence": {
+        "band_strength": 0.0,
+        "period_px": 0.0
+      },
+      "look": "宽而淡的竖向明暗带缓慢横移，增加「成片雨」体积感",
+      "depth": "中远景",
+      "impl_hint": "极淡 repeating-linear-gradient + 慢速 translate；强度要低"
+    },
+    {
+      "id": "G_storm_sky",
+      "name": "暴雨天空底（非雨滴，但是雨景底座）",
+      "evidence": {
+        "note": "色相冷蓝灰，主色约 #344961"
+      },
+      "look": "层积云状暗蓝灰背景，无阳光",
+      "depth": "最底层",
+      "impl_hint": "纯色 + 多团径向渐变模糊"
+    }
+  ],
+  "not_effects": [
+    {
+      "name": "大块软边羽毛/光斑粒子乱飘",
+      "why": "参考片前景是贴玻璃的小圆滴与细雨丝，没有大片 boeh/羽毛状漂浮物"
+    },
+    {
+      "name": "彩色霓虹粒子",
+      "why": "色板严格冷青白/灰蓝"
+    }
+  ],
+  "motion_summary": {
+    "down_px_mean": 0.01944252643046308,
+    "side_px_mean": 0.7194365432316606,
+    "still_frac_mean": 0.66666546962814
+  },
+  "priority_for_shigure": [
+    "A 下落雨丝（已有 GPU）",
+    "E 雨雾 + F 极淡雨幕",
+    "B+C 玻璃水珠（需真实折射/贴玻璃，勿用大软斑冒充）",
+    "D 拖尾（次要）",
+    "卡片溅花为站点交互增强，参考片 UI 卡片上不明显"
+  ],
+  "per_frame_sample": [
+    {
+      "file": "frame_001.png",
+      "streak": {
+        "count": 65,
+        "coverage": 0.0017899466719336363,
+        "len_mean_h": 0.005514365152919371,
+        "len_p90_h": 0.005271084337349397
+      },
+      "glass_drops": {
+        "big_count": 19,
+        "micro_count": 366,
+        "trailish_count": 70,
+        "hough_circles": 200,
+        "big_size_mean": 7.161426631565584,
+        "big_size_p90": 8.741730059940977,
+        "micro_size_mean": 3.5219108206682774,
+        "coverage": 0.007062265455263677,
+        "big_y_mean_norm": 0.5550338799752891
+      },
+      "mist": {
+        "mean_lum": 85.78829868654948,
+        "lowfreq_contrast": 15.480570793151855,
+        "top_minus_bot": -6.380883417947899,
+        "foggy": false
+      },
+      "rain_sheet": {
+        "band_strength": 0.0,
+        "period_px": 0.0
+      }
+    },
+    {
+      "file": "frame_011.png",
+      "streak": {
+        "count": 60,
+        "coverage": 0.0009468200671538614,
+        "len_mean_h": 0.004605923694779117,
+        "len_p90_h": 0.004518072289156626
+      },
+      "glass_drops": {
+        "big_count": 13,
+        "micro_count": 356,
+        "trailish_count": 72,
+        "hough_circles": 206,
+        "big_size_mean": 7.4337926713832445,
+        "big_size_p90": 10.165457029898175,
+        "micro_size_mean": 3.5339697004827944,
+        "coverage": 0.006622802686154454,
+        "big_y_mean_norm": 0.540597657524128
+      },
+      "mist": {
+        "mean_lum": 85.78324116136677,
+        "lowfreq_contrast": 15.614287376403809,
+        "top_minus_bot": -6.245218738153767,
+        "foggy": false
+      },
+      "rain_sheet": {
+        "band_strength": 0.0,
+        "period_px": 0.0
+      }
+    },
+    {
+      "file": "frame_021.png",
+      "streak": {
+        "count": 64,
+        "coverage": 0.001517134110211337,
+        "len_mean_h": 0.005318147590361446,
+        "len_p90_h": 0.006551204819277111
+      },
+      "glass_drops": {
+        "big_count": 16,
+        "micro_count": 343,
+        "trailish_count": 69,
+        "hough_circles": 189,
+        "big_size_mean": 7.183853731341203,
+        "big_size_p90": 9.368394182606014,
+        "micro_size_mean": 3.5262819586096925,
+        "coverage": 0.006521578115741655,
+        "big_y_mean_norm": 0.5044123669451248
+      },
+      "mist": {
+        "mean_lum": 85.89985556982026,
+        "lowfreq_contrast": 15.531784057617188,
+        "top_minus_bot": -5.434277783850291,
+        "foggy": false
+      },
+      "rain_sheet": {
+        "band_strength": 0.0,
+        "period_px": 0.0
+      }
+    },
+    {
+      "file": "frame_031.png",
+      "streak": {
+        "count": 55,
+        "coverage": 0.0013949239581275924,
+        "len_mean_h": 0.005517524644030667,
+        "len_p90_h": 0.00677710843373494
+      },
+      "glass_drops": {
+        "big_count": 14,
+        "micro_count": 368,
+        "trailish_count": 68,
+        "hough_circles": 202,
+        "big_size_mean": 7.119628240676521,
+        "big_size_p90": 9.863020737712759,
+        "micro_size_mean": 3.5198002066929495,
+        "coverage": 0.006763529527947857,
+        "big_y_mean_norm": 0.5654038125316545
+      },
+      "mist": {
+        "mean_lum": 86.25542662453091,
+        "lowfreq_contrast": 15.30278491973877,
+        "top_minus_bot": -3.590134863915125,
+        "foggy": false
+      },
+      "rain_sheet": {
+        "band_strength": 0.0,
+        "period_px": 0.0
+      }
+    },
+    {
+      "file": "frame_041.png",
+      "streak": {
+        "count": 57,
+        "coverage": 0.0013566561327276318,
+        "len_mean_h": 0.005363559501162545,
+        "len_p90_h": 0.006325301204819276
+      },
+      "glass_drops": {
+        "big_count": 20,
+        "micro_count": 358,
+        "trailish_count": 69,
+        "hough_circles": 206,
+        "big_size_mean": 7.057714236889891,
+        "big_size_p90": 8.168272469249832,
+        "micro_size_mean": 3.5536663344239208,
+        "coverage": 0.007065968793205609,
+        "big_y_mean_norm": 0.5065804829454457
+      },
+      "mist": {
+        "mean_lum": 86.67647516294687,
+        "lowfreq_contrast": 15.259766578674316,
+        "top_minus_bot": -2.7563848842644774,
+        "foggy": false
+      },
+      "rain_sheet": {
+        "band_strength": 0.0,
+        "period_px": 0.0
+      }
+    }
+  ]
+}

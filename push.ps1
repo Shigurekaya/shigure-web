@@ -52,7 +52,22 @@ $env:GIT_COMMITTER_EMAIL = $AuthorEmail
 Write-Host ("[author] {0} <{1}>" -f $AuthorName, $AuthorEmail) -ForegroundColor Cyan
 
 git add -A
-git reset -- "_rain_analysis/" 2>$null | Out-Null
+# 仅踢掉大体量本机缓存；脚本 / 对照图 / 抽帧样本要入库供换机续作
+git reset -- `
+  "_rain_analysis/chrome_profile/" `
+  "_rain_analysis/hi/" `
+  "_rain_analysis/node_modules/" `
+  "_rain_analysis/effect_overlays/" `
+  "_rain_analysis/ref_audio.wav" `
+  2>$null | Out-Null
+# 中间 iter 全页截图（保留 compare_* 与最新 iter34）
+git status --porcelain "_rain_analysis/local/" 2>$null | ForEach-Object {
+  $line = "$_"
+  if ($line -match "local/iter\d+" -and $line -notmatch "iter34" -and $line -notmatch "compare_") {
+    $path = ($line -replace '^...\s+', '').Trim()
+    if ($path) { git reset -- $path 2>$null | Out-Null }
+  }
+}
 
 $porcelain = @(git status --porcelain)
 if ($SkipCommit) {

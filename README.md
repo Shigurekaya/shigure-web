@@ -76,6 +76,7 @@ cd E:\网站\测试框架\shigure-web
 ## 运维
 
 - [更新浮游 WORK 页（B 站投稿）](docs/update-fuyuu-videos.md)
+- **大雨逐帧打磨（换机续作）**：[差距清单](docs/rain-gap-checklist.md) · [进度](docs/rain-polish-progress-2026-08-21.md) · [交接](docs/rain-handoff.md)
 
 ## 站点互链规则
 

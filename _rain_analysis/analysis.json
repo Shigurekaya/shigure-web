@@ -1,0 +1,235 @@
+{
+  "summary": {
+    "frame_count": 45,
+    "bg_hex_median": "#344961",
+    "bg": {
+      "hex_mid": "#344961",
+      "mean_lum": 86.62966461181641,
+      "p10_lum": 66.1072499593099,
+      "p90_lum": 105.48028377956814,
+      "rgb_mean": [
+        52,
+        73,
+        97
+      ],
+      "hex_mean": "#344961"
+    },
+    "streak": {
+      "angle_mean_deg": 9.376775130934234,
+      "angle_std_deg": 9.641640168450227,
+      "angle_p10_deg": 0.06479386859676768,
+      "angle_p90_deg": 25.049711266303,
+      "len_mean_frac_h": 0.017657915534869447,
+      "len_p90_frac_h": 0.023469647480989123,
+      "bright_pixel_frac": 0.11529154870849517,
+      "line_count_mean": 51.91111111111111
+    },
+    "droplet": {
+      "blob_count_mean": 379.9555555555556,
+      "size_mean_px": 3.8581663826576635,
+      "size_p90_px": 5.186237653443318,
+      "coverage_frac": 0.007579937235279917
+    },
+    "motion": {
+      "vert_shift_mean_px": 0.0,
+      "fall_px_per_sec_mean": 0.0
+    },
+    "recommended_params": {
+      "wind": 0.45,
+      "speedMul": 1.15,
+      "streakCount_high": 2200,
+      "lenH_near_max": 0.0317,
+      "lenH_far_max": 0.0129,
+      "lensDrops_mid": 180,
+      "lensDrops_high": 280,
+      "lensSize_px_p90": 5.2,
+      "notes": [
+        "参考片雨丝近乎竖直，倾角很小",
+        "同时有明显前景玻璃水珠（当前 GPU 雨丝开启时被关掉了 raindrop-fx）",
+        "应在同一视觉层叠加：密雨丝 + 镜头水珠 + 雨雾雨幕"
+      ]
+    }
+  },
+  "frames_sample": [
+    {
+      "file": "frame_001.png",
+      "bg": {
+        "rgb": [
+          52,
+          73,
+          97
+        ],
+        "hex": "#344961",
+        "mean_lum": 86.33193969726562,
+        "p10_lum": 65.8458023071289,
+        "p90_lum": 105.27099609375
+      },
+      "streak": {
+        "line_count": 77,
+        "angle_mean_deg": 13.017599742930335,
+        "angle_std_deg": 11.103058654535872,
+        "angle_p10_deg": 0.0,
+        "angle_p90_deg": 32.11348765068115,
+        "len_mean_frac_h": 0.018394587626596775,
+        "len_p90_frac_h": 0.024108148484310424,
+        "bright_pixel_frac": 0.1133184376851669
+      },
+      "droplet": {
+        "blob_count": 377,
+        "size_mean_px": 3.8873353848822223,
+        "size_p90_px": 5.234292502475655,
+        "coverage_frac": 0.007654799525972743
+      }
+    },
+    {
+      "file": "frame_009.png",
+      "bg": {
+        "rgb": [
+          52,
+          73,
+          97
+        ],
+        "hex": "#344961",
+        "mean_lum": 86.29728698730469,
+        "p10_lum": 65.9822006225586,
+        "p90_lum": 105.13059997558594
+      },
+      "streak": {
+        "line_count": 53,
+        "angle_mean_deg": 8.724384572024773,
+        "angle_std_deg": 8.465093686992109,
+        "angle_p10_deg": 0.0,
+        "angle_p90_deg": 19.67347498210439,
+        "len_mean_frac_h": 0.0171864874349836,
+        "len_p90_frac_h": 0.022590361445783132,
+        "bright_pixel_frac": 0.11084213904799525
+      },
+      "droplet": {
+        "blob_count": 386,
+        "size_mean_px": 3.84110452770229,
+        "size_p90_px": 5.291502622129181,
+        "coverage_frac": 0.00761900059253407
+      }
+    },
+    {
+      "file": "frame_017.png",
+      "bg": {
+        "rgb": [
+          52,
+          73,
+          97
+        ],
+        "hex": "#344961",
+        "mean_lum": 86.42251586914062,
+        "p10_lum": 65.9822006225586,
+        "p90_lum": 105.13059997558594
+      },
+      "streak": {
+        "line_count": 64,
+        "angle_mean_deg": 10.279791980123267,
+        "angle_std_deg": 10.910512498710435,
+        "angle_p10_deg": 0.0,
+        "angle_p90_deg": 28.687011493865214,
+        "len_mean_frac_h": 0.018771476364987126,
+        "len_p90_frac_h": 0.024096385542168676,
+        "bright_pixel_frac": 0.1141763776417144
+      },
+      "droplet": {
+        "blob_count": 373,
+        "size_mean_px": 3.8749799277842425,
+        "size_p90_px": 5.291502622129181,
+        "coverage_frac": 0.007517776022121272
+      }
+    },
+    {
+      "file": "frame_025.png",
+      "bg": {
+        "rgb": [
+          53,
+          73,
+          97
+        ],
+        "hex": "#354961",
+        "mean_lum": 86.50248718261719,
+        "p10_lum": 65.9822006225586,
+        "p90_lum": 105.13059997558594
+      },
+      "streak": {
+        "line_count": 21,
+        "angle_mean_deg": 6.013574231489926,
+        "angle_std_deg": 8.541376677123012,
+        "angle_p10_deg": 0.0,
+        "angle_p90_deg": 19.025606037568682,
+        "len_mean_frac_h": 0.01806144187935187,
+        "len_p90_frac_h": 0.024143402924520177,
+        "bright_pixel_frac": 0.11113470274540786
+      },
+      "droplet": {
+        "blob_count": 383,
+        "size_mean_px": 3.848715008449998,
+        "size_p90_px": 5.176725840883863,
+        "coverage_frac": 0.007570857199288959
+      }
+    },
+    {
+      "file": "frame_033.png",
+      "bg": {
+        "rgb": [
+          52,
+          73,
+          97
+        ],
+        "hex": "#344961",
+        "mean_lum": 86.8707275390625,
+        "p10_lum": 66.12779998779297,
+        "p90_lum": 105.65039825439453
+      },
+      "streak": {
+        "line_count": 37,
+        "angle_mean_deg": 10.128606506697432,
+        "angle_std_deg": 10.476281333414525,
+        "angle_p10_deg": 0.0,
+        "angle_p90_deg": 29.618980427230237,
+        "len_mean_frac_h": 0.017447418342480654,
+        "len_p90_frac_h": 0.024096385542168676,
+        "bright_pixel_frac": 0.1178389788662848
+      },
+      "droplet": {
+        "blob_count": 384,
+        "size_mean_px": 3.8447404838850168,
+        "size_p90_px": 5.0990195135927845,
+        "coverage_frac": 0.007605421686746988
+      }
+    },
+    {
+      "file": "frame_041.png",
+      "bg": {
+        "rgb": [
+          53,
+          73,
+          97
+        ],
+        "hex": "#354961",
+        "mean_lum": 87.18693542480469,
+        "p10_lum": 66.42459869384766,
+        "p90_lum": 106.35639953613281
+      },
+      "streak": {
+        "line_count": 57,
+        "angle_mean_deg": 8.110744149606813,
+        "angle_std_deg": 8.416803585836192,
+        "angle_p10_deg": 0.0,
+        "angle_p90_deg": 20.490066115993283,
+        "len_mean_frac_h": 0.018292224271475588,
+        "len_p90_frac_h": 0.025264160578064424,
+        "bright_pixel_frac": 0.11946474422279281
+      },
+      "droplet": {
+        "blob_count": 388,
+        "size_mean_px": 3.860034733834429,
+        "size_p90_px": 5.0990195135927845,
+        "coverage_frac": 0.007712818487063006
+      }
+    }
+  ]
+}

@@ -6,8 +6,28 @@ Thumbs.db
 node_modules/
 scrapers/
 
-# 本地雨效分析（脚本/venv/参考视频）
-_rain_analysis/
+# 雨效分析：大体量本机缓存不入库；脚本 / 抽帧样本 / 对照图入库（换机续作）
+_rain_analysis/chrome_profile/
+_rain_analysis/hi/
+_rain_analysis/hires/
+_rain_analysis/ref/
+_rain_analysis/ref2/
+_rain_analysis/ref_full/
+_rain_analysis/strict_inventory/
+_rain_analysis/effect_overlays/
+_rain_analysis/node_modules/
+_rain_analysis/.venv/
+_rain_analysis/ref_audio.wav
+
+# 中间迭代全页截图不入库（体积大）；保留对照图与最新一版
+_rain_analysis/local/iter*.png
+_rain_analysis/local/iter*_glass.png
+_rain_analysis/local/iter*_bg.png
+_rain_analysis/local/iter*.json
+!_rain_analysis/local/compare*.png
+!_rain_analysis/local/iter34.png
+!_rain_analysis/local/iter34_bg.png
+!_rain_analysis/local/iter34_glass.png
 
 # 天狐本地研究与抓取（勿上传）
 tianhu/data/
@@ -21,4 +41,3 @@ fuyuu/image/*.png
 
 # Temporary files
 .temp/
-

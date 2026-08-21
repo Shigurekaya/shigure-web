@@ -1,0 +1,269 @@
+{
+  "source": "d:\\d63123f5e68f97c298dea1bec5aad3a0.mp4",
+  "frame_count": 68,
+  "method": "全分辨率 12fps 抽帧 + 形态/高光/光流/卡片顶边帧差 + 人工复核标准",
+  "raindrop_like_effects_PRESENT": [
+    {
+      "id": 1,
+      "name": "下落雨丝（空气中的运动模糊雨线）",
+      "present": true,
+      "confidence": "高",
+      "layer": "中景/远景（多在 UI 卡片后方穿过，也有叠在卡片上的细丝）",
+      "appearance": "细长、近竖直、半透明冷白/青白；长短与透明度不一；轻微风偏",
+      "motion": "快速下落（光流主方向向下）",
+      "metrics": {
+        "present": true,
+        "line_count_mean": 20.130434782608695,
+        "angle_abs_mean_deg": 5.435079039237995,
+        "angle_abs_p90_deg": 13.21922039342903,
+        "len_frac_h_mean": 0.015119522331114391,
+        "len_frac_h_p90": 0.01743991519644402,
+        "motion": {
+          "median_down_px": 0.02829693926898285,
+          "median_side_px": 0.059127358139122434,
+          "still_frac": 0.8215895581063217
+        }
+      },
+      "variants": [
+        "偏淡偏短的远景丝",
+        "更明显的中景/近景丝（更亮或稍粗）"
+      ],
+      "not_to_confuse_with": "玻璃上的滑动湿痕（后者更贴屏、更慢、常带高光珠头）"
+    },
+    {
+      "id": 2,
+      "name": "玻璃主水珠（贴屏大滴）",
+      "present": true,
+      "confidence": "高",
+      "layer": "最前景（盖在文字/卡片之上）",
+      "appearance": "近圆或泪滴形，顶侧高光，半透明，有轻微折射/鼓起感",
+      "motion": "粘附或缓慢下滑",
+      "metrics": {
+        "count_mean": 271.11764705882354,
+        "specular_frac": 0.02859850080166374
+      }
+    },
+    {
+      "id": 3,
+      "name": "玻璃微珠（冷凝小点）",
+      "present": true,
+      "confidence": "高",
+      "layer": "最前景",
+      "appearance": "大量细小高光点，铺满湿润感",
+      "motion": "近似静止",
+      "metrics": {
+        "count_mean": 272.8529411764706
+      }
+    },
+    {
+      "id": 4,
+      "name": "滑动水珠拖尾 / 湿痕",
+      "present": true,
+      "confidence": "高",
+      "layer": "最前景玻璃层",
+      "appearance": "主滴下滑留下细长湿痕与零星拖尾珠；可略弯、略扁",
+      "motion": "随主滴缓慢下移",
+      "metrics": {
+        "elongated_blob_count_mean": 72.08823529411765
+      },
+      "note": "易被误看成‘羽毛’，实为玻璃滑动水迹，不是空气漂浮物"
+    },
+    {
+      "id": 5,
+      "name": "UI 卡片顶缘湿边高光",
+      "present": true,
+      "confidence": "高",
+      "layer": "卡片顶边（UI 几何边缘）",
+      "appearance": "沿圆角卡片上沿的细亮边/湿亮线",
+      "motion": "持续存在，亮度可微闪",
+      "metrics": {
+        "edge_wet_highlight_present": true,
+        "cluster_flash_per_frame_mean": 5.895522388059701,
+        "splash_like_present": true,
+        "note": "顶缘湿亮几乎持续；团状短闪间歇出现，强度弱于雨丝与玻璃珠"
+      }
+    },
+    {
+      "id": 6,
+      "name": "UI 卡片顶缘溅花（撞击微粒）",
+      "present": true,
+      "confidence": "中高",
+      "layer": "卡片顶边上方极窄区域",
+      "appearance": "短促小亮点/微团，像雨打在顶缘溅起；弱于雨丝与玻璃珠",
+      "motion": "出现即消，寿命短",
+      "metrics": {
+        "cluster_flash_per_frame_mean": 5.895522388059701
+      },
+      "note": "顶缘湿亮几乎持续；团状短闪间歇出现，强度弱于雨丝与玻璃珠"
+    }
+  ],
+  "related_atmosphere_PRESENT": [
+    {
+      "id": 8,
+      "name": "暴雨天空底图（层云）",
+      "present": true,
+      "confidence": "高",
+      "layer": "最底层",
+      "appearance": "暗冷蓝灰云层，主色约 #354761",
+      "motion": "静态或极慢视差",
+      "is_raindrop_like": false,
+      "include_reason": "底座环境，非雨滴"
+    }
+  ],
+  "effects_ABSENT": [
+    {
+      "name": "闪电 / 全屏闪白",
+      "present": false,
+      "reason": "相邻帧平均亮度跳变最大仅 0.17，无雷暴闪光"
+    },
+    {
+      "name": "彩色霓虹粒子 / 色散彩边雨丝",
+      "present": false,
+      "reason": "高饱和像素占比均值 0.8738，雨丝为冷白/青白，无 RGB 分色边"
+    },
+    {
+      "name": "雪花 / 花瓣状实体漂浮物",
+      "present": false,
+      "reason": "运动主体为向下雨丝与贴玻璃水珠；弯曲细长物与滑动湿痕同形，非独立‘羽毛粒子系统’"
+    },
+    {
+      "name": "地面大面积积水涟漪",
+      "present": false,
+      "reason": "画面为手机天气 UI，无地面/水面场景"
+    },
+    {
+      "name": "明显周期竖向‘雨幕光柱’纹理",
+      "present": false,
+      "reason": "雨的体积感主要来自密雨丝+雾，未见稳定宽竖带周期纹理"
+    }
+  ],
+  "full_inventory": [
+    {
+      "id": 1,
+      "name": "下落雨丝（空气中的运动模糊雨线）",
+      "present": true,
+      "confidence": "高",
+      "layer": "中景/远景（多在 UI 卡片后方穿过，也有叠在卡片上的细丝）",
+      "appearance": "细长、近竖直、半透明冷白/青白；长短与透明度不一；轻微风偏",
+      "motion": "快速下落（光流主方向向下）",
+      "metrics": {
+        "present": true,
+        "line_count_mean": 20.130434782608695,
+        "angle_abs_mean_deg": 5.435079039237995,
+        "angle_abs_p90_deg": 13.21922039342903,
+        "len_frac_h_mean": 0.015119522331114391,
+        "len_frac_h_p90": 0.01743991519644402,
+        "motion": {
+          "median_down_px": 0.02829693926898285,
+          "median_side_px": 0.059127358139122434,
+          "still_frac": 0.8215895581063217
+        }
+      },
+      "variants": [
+        "偏淡偏短的远景丝",
+        "更明显的中景/近景丝（更亮或稍粗）"
+      ],
+      "not_to_confuse_with": "玻璃上的滑动湿痕（后者更贴屏、更慢、常带高光珠头）"
+    },
+    {
+      "id": 2,
+      "name": "玻璃主水珠（贴屏大滴）",
+      "present": true,
+      "confidence": "高",
+      "layer": "最前景（盖在文字/卡片之上）",
+      "appearance": "近圆或泪滴形，顶侧高光，半透明，有轻微折射/鼓起感",
+      "motion": "粘附或缓慢下滑",
+      "metrics": {
+        "count_mean": 271.11764705882354,
+        "specular_frac": 0.02859850080166374
+      }
+    },
+    {
+      "id": 3,
+      "name": "玻璃微珠（冷凝小点）",
+      "present": true,
+      "confidence": "高",
+      "layer": "最前景",
+      "appearance": "大量细小高光点，铺满湿润感",
+      "motion": "近似静止",
+      "metrics": {
+        "count_mean": 272.8529411764706
+      }
+    },
+    {
+      "id": 4,
+      "name": "滑动水珠拖尾 / 湿痕",
+      "present": true,
+      "confidence": "高",
+      "layer": "最前景玻璃层",
+      "appearance": "主滴下滑留下细长湿痕与零星拖尾珠；可略弯、略扁",
+      "motion": "随主滴缓慢下移",
+      "metrics": {
+        "elongated_blob_count_mean": 72.08823529411765
+      },
+      "note": "易被误看成‘羽毛’，实为玻璃滑动水迹，不是空气漂浮物"
+    },
+    {
+      "id": 5,
+      "name": "UI 卡片顶缘湿边高光",
+      "present": true,
+      "confidence": "高",
+      "layer": "卡片顶边（UI 几何边缘）",
+      "appearance": "沿圆角卡片上沿的细亮边/湿亮线",
+      "motion": "持续存在，亮度可微闪",
+      "metrics": {
+        "edge_wet_highlight_present": true,
+        "cluster_flash_per_frame_mean": 5.895522388059701,
+        "splash_like_present": true,
+        "note": "顶缘湿亮几乎持续；团状短闪间歇出现，强度弱于雨丝与玻璃珠"
+      }
+    },
+    {
+      "id": 6,
+      "name": "UI 卡片顶缘溅花（撞击微粒）",
+      "present": true,
+      "confidence": "中高",
+      "layer": "卡片顶边上方极窄区域",
+      "appearance": "短促小亮点/微团，像雨打在顶缘溅起；弱于雨丝与玻璃珠",
+      "motion": "出现即消，寿命短",
+      "metrics": {
+        "cluster_flash_per_frame_mean": 5.895522388059701
+      },
+      "note": "顶缘湿亮几乎持续；团状短闪间歇出现，强度弱于雨丝与玻璃珠"
+    },
+    {
+      "id": 7,
+      "name": "暴雨雾霾 / 空气散射（氛围层）",
+      "present": false,
+      "confidence": "高",
+      "layer": "背景与雨丝之间",
+      "appearance": "整体冷蓝灰、对比受压、云边发软",
+      "motion": "近似静态或极慢",
+      "metrics": {
+        "storm_sky_present": true,
+        "mean_lum": 86.1677048627068,
+        "lowfreq_contrast": 23.70741025139304,
+        "bg_hex": "#354761",
+        "haze_present": false
+      },
+      "is_raindrop_like": false,
+      "include_reason": "不是雨滴粒子，但是雨景不可或缺的氛围层；若只问‘雨滴类’可降为关联项"
+    },
+    {
+      "id": 8,
+      "name": "暴雨天空底图（层云）",
+      "present": true,
+      "confidence": "高",
+      "layer": "最底层",
+      "appearance": "暗冷蓝灰云层，主色约 #354761",
+      "motion": "静态或极慢视差",
+      "is_raindrop_like": false,
+      "include_reason": "底座环境，非雨滴"
+    }
+  ],
+  "summary_counts": {
+    "present_raindrop_like": 6,
+    "present_related_non_drop": 1,
+    "absent_checked": 5
+  }
+}
