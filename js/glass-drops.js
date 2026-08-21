@@ -681,27 +681,17 @@
       if (drops.length > target + 20) drops.length = target + 16;
 
       /*
-       * 黑底 + screen 画珠，再靠 CSS mix-blend-mode:screen 叠到页面：
-       * 黑变「看不见」，珠只能加亮 → 白头像上不可能再出纯黑墨点。
+       * 透明底 + 仅亮色精灵 + source-over。
+       * （黑底+CSS screen 在手机上常失效 → 整页黑布；已弃用）
        */
       ctx.globalCompositeOperation = "source-over";
       ctx.globalAlpha = 1;
-      ctx.fillStyle = "#000";
-      ctx.fillRect(0, 0, w, h);
 
-      ctx.globalCompositeOperation = "screen";
+      /* 冷凝：lighter 只加亮 */
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = 0; i < beads.length; i += 1) drawBead(beads[i], aMul * 0.85);
 
-      const film = ctx.createLinearGradient(0, 0, 0, h);
-      film.addColorStop(0, "rgba(180,210,240,0)");
-      film.addColorStop(0.55, "rgba(200,225,250,0.04)");
-      film.addColorStop(1, "rgba(220,238,255,0.08)");
-      ctx.globalAlpha = aMul * (storm ? 0.65 : 0.45);
-      ctx.fillStyle = film;
-      ctx.fillRect(0, 0, w, h);
-
-      ctx.globalAlpha = 1;
-      for (let i = 0; i < beads.length; i += 1) drawBead(beads[i], aMul);
-
+      ctx.globalCompositeOperation = "source-over";
       for (let i = flows.length - 1; i >= 0; i -= 1) {
         const f = flows[i];
         f.age += dt;
@@ -718,7 +708,7 @@
         if (spr) {
           const dw = spr.width * f.scale;
           const dh = spr.height * f.scale;
-          ctx.globalAlpha = f.a * aMul * clamp(p * 1.15, 0, 1);
+          ctx.globalAlpha = f.a * aMul * clamp(p * 1.15, 0, 1) * 0.85;
           ctx.drawImage(spr, f.x - dw * 0.5, f.y, dw, dh);
         }
       }
@@ -746,14 +736,13 @@
         if (spr) {
           const dw = spr.width * 0.5 * L.scale;
           const dh = spr.height * 0.5 * L.scale;
-          ctx.globalAlpha = L.a * aMul * clamp(p * 1.15, 0, 1);
+          ctx.globalAlpha = L.a * aMul * clamp(p * 1.15, 0, 1) * 0.9;
           ctx.drawImage(spr, L.x - dw * 0.5, L.y - dh * 0.4, dw, dh);
         }
       }
 
       ctx.globalAlpha = 1;
-      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 1.1 : 1));
-      ctx.globalCompositeOperation = "source-over";
+      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 0.95 : 0.88));
       ctx.globalAlpha = 1;
     };
 
