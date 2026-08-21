@@ -43,34 +43,34 @@ void main() {
   midCut = mix(midCut, mix(0.46, 0.4, clamp((sm - 1.0) * 2.5, 0.0, 1.0)), 1.0 - sheet);
   float lp = hash(id * 2.17 + 0.4);
   float layer = lp < midCut ? 0.0 : (lp < nearCut ? 1.0 : 2.0);
-  /* 默认大雨：密而偏短；sheet=暴雨参考片：更短更密的竖直短划 */
-  float lenH = mix(mix(0.0065, 0.0135, h1) * sm, mix(0.0045, 0.0095, h1), sheet);
-  float speed = mix(mix(1020.0, 1420.0, h2), mix(1180.0, 1680.0, h2), sheet);
+  /* 默认大雨：密细运动模糊银丝；sheet=暴雨才更短更密 */
+  float lenH = mix(mix(0.024, 0.042, h1) * sm, mix(0.006, 0.012, h1), sheet);
+  float speed = mix(mix(1100.0, 1500.0, h2), mix(1180.0, 1680.0, h2), sheet);
   float alpha = mix(
-    mix(0.06, 0.15, h3) * mix(1.0, 1.18, clamp(sm - 1.0, 0.0, 1.0)),
-    mix(0.1, 0.22, h3),
+    mix(0.07, 0.16, h3) * mix(1.0, 1.1, clamp(sm - 1.0, 0.0, 1.0)),
+    mix(0.09, 0.2, h3),
     sheet
   );
-  float widthPx = mix(mix(0.5, 0.95, h1) * sm, mix(0.55, 1.05, h1), sheet);
+  float widthPx = mix(mix(0.45, 0.95, h1) * sm, mix(0.5, 0.95, h1), sheet);
 
   if (layer > 0.5 && layer < 1.5) {
-    lenH = mix(mix(0.01, 0.021, h1) * sm, mix(0.0065, 0.014, h1), sheet);
-    speed = mix(mix(1180.0, 1640.0, h2), mix(1320.0, 1880.0, h2), sheet);
+    lenH = mix(mix(0.03, 0.052, h1) * sm, mix(0.008, 0.016, h1), sheet);
+    speed = mix(mix(1240.0, 1680.0, h2), mix(1320.0, 1880.0, h2), sheet);
     alpha = mix(
-      mix(0.13, 0.3, h3) * mix(1.0, 1.22, clamp(sm - 1.0, 0.0, 1.0)),
-      mix(0.2, 0.4, h3),
+      mix(0.12, 0.28, h3) * mix(1.0, 1.12, clamp(sm - 1.0, 0.0, 1.0)),
+      mix(0.16, 0.34, h3),
       sheet
     );
-    widthPx = mix(mix(0.75, 1.3, h1) * sm, mix(0.8, 1.35, h1), sheet);
+    widthPx = mix(mix(0.65, 1.25, h1) * sm, mix(0.7, 1.2, h1), sheet);
   } else if (layer > 1.5) {
-    lenH = mix(mix(0.015, 0.034, h1) * sm, mix(0.009, 0.02, h1), sheet);
-    speed = mix(mix(1400.0, 1960.0, h2), mix(1500.0, 2100.0, h2), sheet);
+    lenH = mix(mix(0.036, 0.062, h1) * sm, mix(0.01, 0.02, h1), sheet);
+    speed = mix(mix(1420.0, 1980.0, h2), mix(1500.0, 2100.0, h2), sheet);
     alpha = mix(
-      mix(0.24, 0.48, h3) * mix(1.0, 1.28, clamp(sm - 1.0, 0.0, 1.0)),
-      mix(0.34, 0.62, h3),
+      mix(0.2, 0.44, h3) * mix(1.0, 1.14, clamp(sm - 1.0, 0.0, 1.0)),
+      mix(0.28, 0.52, h3),
       sheet
     );
-    widthPx = mix(mix(1.1, 2.0, h1) * sm, mix(1.05, 1.85, h1), sheet);
+    widthPx = mix(mix(0.85, 1.7, h1) * sm, mix(0.95, 1.65, h1), sheet);
   }
 
   speed *= uSpeedMul;

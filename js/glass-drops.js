@@ -19,122 +19,14 @@
     return a + Math.random() * (b - a);
   }
 
-  /** 主珠：透亮体积+亮边+高光，无暗芯（白底上不会变墨点） */
+  /**
+   * 主珠：对齐小米天气贴屏珠——中心近透明、Fresnel 亮边、顶左高光。
+   * 忌大片白雾填色（会像糊团而不是水）。
+   */
   function bakeDropBitmap(size) {
-    const pad = Math.ceil(size * 0.28);
+    const pad = Math.ceil(size * 0.32);
     const w = size + pad * 2;
-    const h = Math.ceil(size * 1.62) + pad * 2;
-    const c = document.createElement("canvas");
-    c.width = w;
-    c.height = h;
-    const cx = c.getContext("2d");
-    if (!cx) return c;
-    const ox = w * 0.5;
-    const oy = h * 0.38;
-    const rx = size * 0.38;
-    const ry = size * 0.48;
-
-    /* 外晕：让珠在暗底上可读 */
-    const halo = cx.createRadialGradient(ox, oy, rx * 0.2, ox, oy, rx * 1.35);
-    halo.addColorStop(0, "rgba(220,240,255,0.22)");
-    halo.addColorStop(0.55, "rgba(200,230,255,0.1)");
-    halo.addColorStop(1, "rgba(255,255,255,0)");
-    cx.fillStyle = halo;
-    cx.beginPath();
-    cx.ellipse(ox, oy, rx * 1.25, ry * 1.3, 0, 0, Math.PI * 2);
-    cx.fill();
-
-    /* 亮体：中间略透、边缘更亮（玻璃折射感） */
-    const body = cx.createRadialGradient(ox - rx * 0.12, oy - ry * 0.18, 0, ox, oy, rx);
-    body.addColorStop(0, "rgba(255,255,255,0.38)");
-    body.addColorStop(0.35, "rgba(235,248,255,0.22)");
-    body.addColorStop(0.7, "rgba(200,230,255,0.32)");
-    body.addColorStop(1, "rgba(255,255,255,0)");
-    cx.fillStyle = body;
-    cx.beginPath();
-    cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
-    cx.fill();
-
-    cx.strokeStyle = "rgba(255,255,255,0.95)";
-    cx.lineWidth = Math.max(1.2, size * 0.055);
-    cx.beginPath();
-    cx.ellipse(ox, oy, rx * 0.92, ry * 0.92, 0, 0, Math.PI * 2);
-    cx.stroke();
-
-    const rim = cx.createLinearGradient(ox - rx, oy - ry, ox + rx, oy + ry);
-    rim.addColorStop(0, "rgba(255,255,255,0)");
-    rim.addColorStop(0.28, "rgba(255,255,255,0.9)");
-    rim.addColorStop(0.5, "rgba(255,255,255,0.15)");
-    rim.addColorStop(0.78, "rgba(230,245,255,0.55)");
-    rim.addColorStop(1, "rgba(255,255,255,0)");
-    cx.strokeStyle = rim;
-    cx.lineWidth = Math.max(0.8, size * 0.035);
-    cx.beginPath();
-    cx.ellipse(ox, oy, rx * 0.78, ry * 0.78, 0, -0.95, 2.4);
-    cx.stroke();
-
-    const spec = cx.createRadialGradient(
-      ox - rx * 0.32, oy - ry * 0.42, 0,
-      ox - rx * 0.32, oy - ry * 0.42, rx * 0.38,
-    );
-    spec.addColorStop(0, "rgba(255,255,255,1)");
-    spec.addColorStop(0.3, "rgba(245,250,255,0.9)");
-    spec.addColorStop(1, "rgba(255,255,255,0)");
-    cx.fillStyle = spec;
-    cx.beginPath();
-    cx.ellipse(ox - rx * 0.32, oy - ry * 0.42, rx * 0.2, ry * 0.12, -0.55, 0, Math.PI * 2);
-    cx.fill();
-
-    cx.fillStyle = "rgba(255,255,255,0.65)";
-    cx.beginPath();
-    cx.ellipse(ox + rx * 0.26, oy + ry * 0.2, rx * 0.06, ry * 0.04, 0.45, 0, Math.PI * 2);
-    cx.fill();
-
-    /* 底部尖端微亮，下滑时更像泪珠 */
-    const tip = cx.createRadialGradient(ox, oy + ry * 0.85, 0, ox, oy + ry * 1.05, rx * 0.35);
-    tip.addColorStop(0, "rgba(230,245,255,0.35)");
-    tip.addColorStop(1, "rgba(255,255,255,0)");
-    cx.fillStyle = tip;
-    cx.beginPath();
-    cx.ellipse(ox, oy + ry * 0.72, rx * 0.22, ry * 0.28, 0, 0, Math.PI * 2);
-    cx.fill();
-    return c;
-  }
-
-  /** 冷凝微珠：~2–5px 透亮高光点 */
-  function bakeBeadSprite(size = 4) {
-    const dim = Math.max(5, size | 0);
-    const c = document.createElement("canvas");
-    c.width = dim;
-    c.height = dim;
-    const cx = c.getContext("2d");
-    if (!cx) return c;
-    const o = dim * 0.5;
-    const r = dim * 0.42;
-    const body = cx.createRadialGradient(o - r * 0.15, o - r * 0.2, 0, o, o, r);
-    body.addColorStop(0, "rgba(255,255,255,1)");
-    body.addColorStop(0.3, "rgba(240,250,255,0.75)");
-    body.addColorStop(0.65, "rgba(200,230,255,0.28)");
-    body.addColorStop(1, "rgba(180,215,245,0)");
-    cx.fillStyle = body;
-    cx.beginPath();
-    cx.arc(o, o, r, 0, Math.PI * 2);
-    cx.fill();
-    return c;
-  }
-
-  function bakeBeadSprites() {
-    return [3, 4, 5, 7, 9].map(bakeBeadSprite);
-  }
-
-  function bakeSprites() {
-    return [22, 30, 40, 54, 72, 96, 128].map(bakeDropBitmap);
-  }
-
-  function bakeLensBlob(size) {
-    const pad = Math.ceil(size * 0.3);
-    const w = size + pad * 2;
-    const h = Math.ceil(size * 1.5) + pad * 2;
+    const h = Math.ceil(size * 1.55) + pad * 2;
     const c = document.createElement("canvas");
     c.width = w;
     c.height = h;
@@ -142,74 +34,197 @@
     if (!cx) return c;
     const ox = w * 0.5;
     const oy = h * 0.4;
-    const rx = size * 0.38;
+    const rx = size * 0.36;
     const ry = size * 0.44;
-    const halo = cx.createRadialGradient(ox, oy, 0, ox, oy, rx * 1.2);
-    halo.addColorStop(0, "rgba(230,245,255,0.2)");
-    halo.addColorStop(1, "rgba(255,255,255,0)");
-    cx.fillStyle = halo;
+
+    /* 极淡接触阴影（体积感，勿成墨团） */
+    const shade = cx.createRadialGradient(ox + rx * 0.08, oy + ry * 0.35, rx * 0.15, ox, oy + ry * 0.1, rx * 1.15);
+    shade.addColorStop(0, "rgba(20,40,70,0.14)");
+    shade.addColorStop(0.55, "rgba(30,55,90,0.05)");
+    shade.addColorStop(1, "rgba(0,0,0,0)");
+    cx.fillStyle = shade;
     cx.beginPath();
-    cx.ellipse(ox, oy, rx * 1.15, ry * 1.2, 0, 0, Math.PI * 2);
+    cx.ellipse(ox + rx * 0.06, oy + ry * 0.12, rx * 1.02, ry * 1.05, 0, 0, Math.PI * 2);
     cx.fill();
-    const g = cx.createRadialGradient(ox, oy, 0, ox, oy, rx);
-    g.addColorStop(0, "rgba(255,255,255,0.28)");
-    g.addColorStop(0.45, "rgba(220,240,255,0.22)");
-    g.addColorStop(0.82, "rgba(200,230,255,0.35)");
+
+    /* 透镜体：中心几乎透明，靠边缘折射亮起 */
+    const body = cx.createRadialGradient(ox - rx * 0.1, oy - ry * 0.22, 0, ox, oy, rx);
+    body.addColorStop(0, "rgba(245,252,255,0.06)");
+    body.addColorStop(0.4, "rgba(220,238,255,0.1)");
+    body.addColorStop(0.72, "rgba(200,230,255,0.28)");
+    body.addColorStop(0.9, "rgba(235,248,255,0.55)");
+    body.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = body;
+    cx.beginPath();
+    cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
+    cx.fill();
+
+    /* Fresnel 亮环 */
+    cx.strokeStyle = "rgba(255,255,255,0.92)";
+    cx.lineWidth = Math.max(1.1, size * 0.048);
+    cx.beginPath();
+    cx.ellipse(ox, oy, rx * 0.94, ry * 0.94, 0, 0, Math.PI * 2);
+    cx.stroke();
+
+    const rim = cx.createLinearGradient(ox - rx, oy - ry, ox + rx * 0.6, oy + ry);
+    rim.addColorStop(0, "rgba(255,255,255,0)");
+    rim.addColorStop(0.22, "rgba(255,255,255,0.95)");
+    rim.addColorStop(0.48, "rgba(255,255,255,0.12)");
+    rim.addColorStop(0.78, "rgba(210,236,255,0.5)");
+    rim.addColorStop(1, "rgba(255,255,255,0)");
+    cx.strokeStyle = rim;
+    cx.lineWidth = Math.max(0.75, size * 0.032);
+    cx.beginPath();
+    cx.ellipse(ox, oy, rx * 0.78, ry * 0.78, 0, -1.05, 2.35);
+    cx.stroke();
+
+    /* 主高光（顶左） */
+    const spec = cx.createRadialGradient(
+      ox - rx * 0.34, oy - ry * 0.46, 0,
+      ox - rx * 0.34, oy - ry * 0.46, rx * 0.4,
+    );
+    spec.addColorStop(0, "rgba(255,255,255,1)");
+    spec.addColorStop(0.28, "rgba(245,250,255,0.85)");
+    spec.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = spec;
+    cx.beginPath();
+    cx.ellipse(ox - rx * 0.34, oy - ry * 0.44, rx * 0.2, ry * 0.11, -0.55, 0, Math.PI * 2);
+    cx.fill();
+
+    /* 次高光 */
+    cx.fillStyle = "rgba(255,255,255,0.55)";
+    cx.beginPath();
+    cx.ellipse(ox + rx * 0.28, oy + ry * 0.18, rx * 0.05, ry * 0.035, 0.5, 0, Math.PI * 2);
+    cx.fill();
+
+    /* 底缘折射亮带（泪珠下端） */
+    const tip = cx.createRadialGradient(ox, oy + ry * 0.78, 0, ox, oy + ry * 0.95, rx * 0.4);
+    tip.addColorStop(0, "rgba(230,245,255,0.32)");
+    tip.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = tip;
+    cx.beginPath();
+    cx.ellipse(ox, oy + ry * 0.68, rx * 0.28, ry * 0.22, 0, 0, Math.PI * 2);
+    cx.fill();
+    return c;
+  }
+
+  /** 冷凝微珠：小透镜高光点（勿糊成白霜） */
+  function bakeBeadSprite(size = 4) {
+    const dim = Math.max(6, size | 0);
+    const c = document.createElement("canvas");
+    c.width = dim;
+    c.height = dim;
+    const cx = c.getContext("2d");
+    if (!cx) return c;
+    const o = dim * 0.5;
+    const r = dim * 0.4;
+    const body = cx.createRadialGradient(o - r * 0.2, o - r * 0.25, 0, o, o, r);
+    body.addColorStop(0, "rgba(255,255,255,0.95)");
+    body.addColorStop(0.25, "rgba(240,250,255,0.45)");
+    body.addColorStop(0.55, "rgba(200,230,255,0.18)");
+    body.addColorStop(0.82, "rgba(220,240,255,0.4)");
+    body.addColorStop(1, "rgba(180,215,245,0)");
+    cx.fillStyle = body;
+    cx.beginPath();
+    cx.arc(o, o, r, 0, Math.PI * 2);
+    cx.fill();
+    cx.strokeStyle = "rgba(255,255,255,0.65)";
+    cx.lineWidth = Math.max(0.5, dim * 0.08);
+    cx.beginPath();
+    cx.arc(o, o, r * 0.82, 0, Math.PI * 2);
+    cx.stroke();
+    return c;
+  }
+
+  function bakeBeadSprites() {
+    return [3, 4, 5, 7, 9, 12].map(bakeBeadSprite);
+  }
+
+  function bakeSprites() {
+    return [20, 28, 38, 50, 68, 90, 118, 150].map(bakeDropBitmap);
+  }
+
+  function bakeLensBlob(size) {
+    const pad = Math.ceil(size * 0.3);
+    const w = size + pad * 2;
+    const h = Math.ceil(size * 1.45) + pad * 2;
+    const c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    const cx = c.getContext("2d");
+    if (!cx) return c;
+    const ox = w * 0.5;
+    const oy = h * 0.42;
+    const rx = size * 0.37;
+    const ry = size * 0.42;
+    const g = cx.createRadialGradient(ox - rx * 0.12, oy - ry * 0.2, 0, ox, oy, rx);
+    g.addColorStop(0, "rgba(255,255,255,0.05)");
+    g.addColorStop(0.5, "rgba(220,240,255,0.12)");
+    g.addColorStop(0.82, "rgba(210,236,255,0.42)");
     g.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = g;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
     cx.fill();
-    cx.strokeStyle = "rgba(255, 255, 255, 0.85)";
-    cx.lineWidth = Math.max(1.1, size * 0.032);
+    cx.strokeStyle = "rgba(255,255,255,0.88)";
+    cx.lineWidth = Math.max(1, size * 0.03);
     cx.beginPath();
-    cx.ellipse(ox, oy, rx * 0.9, ry * 0.9, 0, 0, Math.PI * 2);
+    cx.ellipse(ox, oy, rx * 0.92, ry * 0.92, 0, 0, Math.PI * 2);
     cx.stroke();
     const spec = cx.createRadialGradient(
-      ox - rx * 0.3, oy - ry * 0.34, 0,
-      ox - rx * 0.3, oy - ry * 0.34, rx * 0.32,
+      ox - rx * 0.32, oy - ry * 0.38, 0,
+      ox - rx * 0.32, oy - ry * 0.38, rx * 0.3,
     );
     spec.addColorStop(0, "rgba(255,255,255,1)");
-    spec.addColorStop(0.35, "rgba(235,248,255,0.7)");
+    spec.addColorStop(0.35, "rgba(235,248,255,0.65)");
     spec.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = spec;
     cx.beginPath();
-    cx.ellipse(ox - rx * 0.3, oy - ry * 0.34, rx * 0.16, ry * 0.1, -0.45, 0, Math.PI * 2);
+    cx.ellipse(ox - rx * 0.32, oy - ry * 0.38, rx * 0.15, ry * 0.09, -0.45, 0, Math.PI * 2);
     cx.fill();
     return c;
   }
 
-  /** 泪痕：细长亮纹，下滑时清晰可见 */
+  /** 泪痕：细长透亮水道 + 亮边（参考片下滑珠） */
   function bakeRivulet(w0, h0) {
     const c = document.createElement("canvas");
-    c.width = Math.max(6, Math.ceil(w0));
+    c.width = Math.max(7, Math.ceil(w0));
     c.height = Math.ceil(h0);
     const cx = c.getContext("2d");
     if (!cx) return c;
     const ox = c.width * 0.5;
     const top = 1;
     const bot = c.height - 1;
-    const half = Math.max(1.1, c.width * 0.28);
+    const half = Math.max(1.2, c.width * 0.26);
     const g = cx.createLinearGradient(ox, top, ox, bot);
-    g.addColorStop(0, "rgba(255,255,255,0.08)");
-    g.addColorStop(0.06, "rgba(245,250,255,0.75)");
-    g.addColorStop(0.35, "rgba(210,235,255,0.45)");
-    g.addColorStop(0.75, "rgba(190,220,250,0.22)");
+    g.addColorStop(0, "rgba(255,255,255,0.04)");
+    g.addColorStop(0.05, "rgba(245,250,255,0.55)");
+    g.addColorStop(0.3, "rgba(210,238,255,0.28)");
+    g.addColorStop(0.7, "rgba(190,228,255,0.14)");
     g.addColorStop(1, "rgba(160,200,235,0)");
     cx.fillStyle = g;
     cx.beginPath();
     cx.moveTo(ox, top);
-    cx.bezierCurveTo(ox + half * 0.55, top + 6, ox + half * 0.85, bot * 0.4, ox + half * 0.25, bot);
-    cx.quadraticCurveTo(ox, bot + 0.5, ox - half * 0.25, bot);
-    cx.bezierCurveTo(ox - half * 0.85, bot * 0.4, ox - half * 0.55, top + 6, ox, top);
+    cx.bezierCurveTo(ox + half * 0.5, top + 6, ox + half * 0.75, bot * 0.4, ox + half * 0.2, bot);
+    cx.quadraticCurveTo(ox, bot + 0.5, ox - half * 0.2, bot);
+    cx.bezierCurveTo(ox - half * 0.75, bot * 0.4, ox - half * 0.5, top + 6, ox, top);
     cx.closePath();
     cx.fill();
-    cx.strokeStyle = "rgba(255,255,255,0.75)";
-    cx.lineWidth = 0.85;
+    cx.strokeStyle = "rgba(255,255,255,0.7)";
+    cx.lineWidth = 0.8;
     cx.beginPath();
-    cx.moveTo(ox - half * 0.08, top + 3);
-    cx.quadraticCurveTo(ox - half * 0.28, bot * 0.42, ox - half * 0.06, bot - 3);
+    cx.moveTo(ox - half * 0.1, top + 3);
+    cx.quadraticCurveTo(ox - half * 0.3, bot * 0.42, ox - half * 0.05, bot - 3);
     cx.stroke();
+    /* 头珠高光 */
+    const head = cx.createRadialGradient(ox, top + half * 1.2, 0, ox, top + half * 1.2, half * 1.4);
+    head.addColorStop(0, "rgba(255,255,255,0.85)");
+    head.addColorStop(0.4, "rgba(235,248,255,0.35)");
+    head.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = head;
+    cx.beginPath();
+    cx.ellipse(ox, top + half * 1.1, half * 0.85, half * 1.05, 0, 0, Math.PI * 2);
+    cx.fill();
     return c;
   }
 
@@ -237,15 +252,14 @@
     const lite = !!opts.lite;
     const noSpray = !!opts.noSpray;
     const sprites = bakeSprites();
-    const lensSprites = storm && !lite ? [36, 48, 64].map(bakeLensBlob) : [];
-    const rivuletSprites = storm
-      ? (lite
-        ? [bakeRivulet(5, 48), bakeRivulet(6, 72), bakeRivulet(7, 96), bakeRivulet(5, 64), bakeRivulet(8, 110)]
-        : [
-          bakeRivulet(5, 56), bakeRivulet(6, 88), bakeRivulet(8, 120),
-          bakeRivulet(5, 72), bakeRivulet(7, 100), bakeRivulet(9, 140), bakeRivulet(6, 80),
-        ])
-      : [];
+    /* 大雨也要泪痕/大透镜（对齐参考片下滑珠），不再仅限 storm */
+    const lensSprites = !lite ? [32, 44, 58, 76].map(bakeLensBlob) : [];
+    const rivuletSprites = lite
+      ? [bakeRivulet(5, 48), bakeRivulet(6, 72), bakeRivulet(7, 96), bakeRivulet(5, 64)]
+      : [
+        bakeRivulet(5, 56), bakeRivulet(6, 88), bakeRivulet(8, 120),
+        bakeRivulet(5, 72), bakeRivulet(7, 100), bakeRivulet(9, 140), bakeRivulet(6, 80),
+      ];
     const beadSprites = bakeBeadSprites();
 
     /* 湿痕层：大珠/泪痕擦出干净轨迹；冷凝本身是活粒子 */
@@ -340,11 +354,10 @@
       const spr = pickBead(scale);
       if (!spr) return;
       const half = beadHalf(scale * 0.85, spr.width);
-      tctx.globalCompositeOperation = "lighter";
-      tctx.globalAlpha = alpha;
+      tctx.globalCompositeOperation = "source-over";
+      tctx.globalAlpha = alpha * 0.55;
       tctx.drawImage(spr, x - half, y - half, half * 2, half * 2);
       tctx.globalAlpha = 1;
-      tctx.globalCompositeOperation = "source-over";
     };
 
     /** 撞击瞬间：短命亮环 */
@@ -417,13 +430,13 @@
       const fromTop = !!opts2.fromTop;
       const preferUi = opts2.preferUi !== false && !fromTop && ledges.length && Math.random() < (storm ? 0.7 : 0.62);
       const ui = preferUi ? pickInLedge(0.85) : null;
-      const r = opts2.r ?? rand(storm ? 5.5 : 4.5, storm ? 14 : 11);
-      /* 多数珠带初速下滑；少数先粘再滴 */
+      /* 参考片：粘附时偏圆；尺寸跨度更大 */
+      const r = opts2.r ?? rand(storm ? 6 : 5.5, storm ? 16 : 14);
       const momentum = opts2.momentum ?? (
         fromTop
           ? rand(0.9, storm ? 2.4 : 1.6)
-          : (Math.random() < (storm ? 0.55 : 0.4)
-            ? rand(0.45, storm ? 1.8 : 1.2)
+          : (Math.random() < (storm ? 0.48 : 0.32)
+            ? rand(0.45, storm ? 1.8 : 1.15)
             : 0)
       );
       const x = opts2.x ?? ui?.x ?? Math.random() * w;
@@ -433,24 +446,23 @@
         y,
         r,
         momentum,
-        drip: opts2.drip ?? (fromTop || momentum > 0.08 ? 0 : rand(storm ? 0.6 : 1.2, storm ? 3.8 : 5.5)),
+        drip: opts2.drip ?? (fromTop || momentum > 0.08 ? 0 : rand(storm ? 0.8 : 1.6, storm ? 4.2 : 6.5)),
         vx: rand(storm ? -10 : -7, storm ? 10 : 7),
-        a: rand(0.82, 1),
-        spreadX: rand(0.04, storm ? 0.14 : 0.12),
-        spreadY: rand(0.03, storm ? 0.14 : 0.1),
+        a: rand(0.78, 1),
+        spreadX: rand(0.02, storm ? 0.12 : 0.08),
+        spreadY: rand(0.02, storm ? 0.12 : 0.08),
         lastSpawn: 40,
         sprite: pickSprite(sprites, r),
         killed: false,
         hitDone: !!opts2.hitDone,
       });
       if (fromTop && !opts2.hitDone) {
-        /* 入屏撞击感：落到 y≈0 时再打环，先记待触发 */
         drops[drops.length - 1].pendingHit = true;
       }
     };
 
     const spawnLens = () => {
-      if (!storm || !lensSprites.length) return;
+      if (!lensSprites.length) return;
       const spr = lensSprites[(Math.random() * lensSprites.length) | 0];
       const preferUi = ledges.length && Math.random() < 0.55;
       const ui = preferUi ? pickInLedge(0.7) : null;
@@ -470,7 +482,7 @@
     };
 
     const spawnFlow = () => {
-      if (!storm || !rivuletSprites.length) return;
+      if (!rivuletSprites.length) return;
       const spr = rivuletSprites[(Math.random() * rivuletSprites.length) | 0];
       const preferUi = ledges.length && Math.random() < 0.55;
       const ui = preferUi ? pickInLedge(0.45) : null;
@@ -478,9 +490,9 @@
         x: ui?.x ?? rand(w * 0.04, w * 0.96),
         y: ui?.y ?? rand(-30, h * 0.3),
         vx: rand(-4, 4),
-        vy: rand(36, lite ? 95 : 120),
-        scale: rand(1.0, lite ? 1.35 : 1.55),
-        a: rand(0.5, 0.88),
+        vy: rand(storm ? 36 : 28, lite ? 95 : (storm ? 120 : 88)),
+        scale: rand(1.0, lite ? 1.35 : 1.45),
+        a: rand(0.45, 0.82),
         life: rand(2.8, 6.2),
         age: 0,
         wobble: rand(0, Math.PI * 2),
@@ -496,13 +508,12 @@
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.35);
       const n = Math.round(mainN * area);
       for (let i = 0; i < n; i += 1) spawnDrop();
-      if (storm) {
-        if (!lite) {
-          for (let i = 0; i < 6; i += 1) spawnLens();
-        }
-        const flowN = lite ? 10 : 16;
-        for (let i = 0; i < flowN; i += 1) spawnFlow();
+      if (!lite) {
+        const lensN = storm ? 6 : 4;
+        for (let i = 0; i < lensN; i += 1) spawnLens();
       }
+      const flowN = lite ? (storm ? 10 : 6) : (storm ? 16 : 10);
+      for (let i = 0; i < flowN; i += 1) spawnFlow();
       beadsDirty = true;
     };
 
@@ -555,13 +566,15 @@
     };
 
     const drawDrop = (d, aMul) => {
-      const TEAR = d.momentum > 0.25 ? 1.45 : 1.28;
-      const dw = d.r * 2.15 * (1 + d.spreadX);
-      const dh = d.r * 2.15 * TEAR * (1 + d.spreadY) * (d.momentum > 0.2 ? 1.12 : 1);
+      /* 粘附近圆；下滑才拉长成泪珠（对齐参考片） */
+      const sliding = d.momentum > 0.25;
+      const TEAR = sliding ? 1.55 : 1.08;
+      const dw = d.r * 2.05 * (1 + d.spreadX);
+      const dh = d.r * 2.05 * TEAR * (1 + d.spreadY) * (sliding ? 1.1 : 1);
       const spr = d.sprite;
       if (spr) {
         ctx.globalAlpha = d.a * aMul;
-        ctx.drawImage(spr, d.x - dw * 0.5, d.y - dh * 0.42, dw, dh);
+        ctx.drawImage(spr, d.x - dw * 0.5, d.y - dh * (sliding ? 0.38 : 0.5), dw, dh);
       }
     };
 
@@ -671,17 +684,19 @@
         }
       }
 
-      if (storm && !lite) {
+      if (!lite) {
         lensAcc += dt * aMul;
-        while (lensAcc > 0.28 && lenses.length < 16) {
-          lensAcc -= 0.28;
+        const lensEvery = storm ? 0.28 : 0.42;
+        const lensCap = storm ? 16 : 10;
+        while (lensAcc > lensEvery && lenses.length < lensCap) {
+          lensAcc -= lensEvery;
           spawnLens();
         }
       }
-      if (storm) {
+      {
         flowAcc += dt * aMul;
-        const flowCap = lite ? 22 : 36;
-        const flowEvery = lite ? 0.1 : 0.07;
+        const flowCap = lite ? (storm ? 22 : 12) : (storm ? 36 : 22);
+        const flowEvery = lite ? 0.12 : (storm ? 0.07 : 0.11);
         while (flowAcc > flowEvery && flows.length < flowCap) {
           flowAcc -= flowEvery;
           spawnFlow();
@@ -753,13 +768,13 @@
       tctx.fillRect(0, 0, w, h);
       tctx.globalCompositeOperation = "source-over";
 
-      ctx.globalAlpha = 0.85 * aMul;
+      ctx.globalAlpha = 0.55 * aMul;
       ctx.drawImage(trail, 0, 0, w, h);
       ctx.globalAlpha = 1;
 
-      /* 冷凝：lighter 只加亮 */
-      ctx.globalCompositeOperation = "lighter";
-      for (let i = 0; i < beads.length; i += 1) drawBead(beads[i], aMul);
+      /* 冷凝：source-over 保持透亮边，勿 lighter 糊成白霜 */
+      ctx.globalCompositeOperation = "source-over";
+      for (let i = 0; i < beads.length; i += 1) drawBead(beads[i], aMul * 0.92);
 
       ctx.globalCompositeOperation = "source-over";
       for (let i = flows.length - 1; i >= 0; i -= 1) {

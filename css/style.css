@@ -171,13 +171,13 @@ body.storm-rain .site-bg__glass {
   opacity: 0.92 !important;
 }
 
-/* 贴屏湿玻璃：盖住正文，点击穿透；透明度由 JS 控制，勿 !important 盖掉淡入 */
+/* 贴屏湿玻璃：盖住正文；溅花需更高一层才能看见顶缘撞击 */
 .site-fx__rain-glass {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 7;
+  z-index: 6;
   pointer-events: none;
   display: block;
   opacity: 0;
@@ -186,9 +186,9 @@ body.storm-rain .site-bg__glass {
 
 body.heavy-rain .site-fx__rain-glass.is-on,
 body.storm-rain .site-fx__rain-glass.is-on {
-  /* 水色珠：略提亮整层，避免折射底发闷 */
-  z-index: 7;
-  filter: brightness(1.14) contrast(1.04) saturate(1.05);
+  /* 略提对比：珠边更利落，避免虚焦团 */
+  z-index: 6;
+  filter: contrast(1.08) saturate(1.04) brightness(1.02);
 }
 
 .site-bg__heavy {
@@ -199,6 +199,18 @@ body.storm-rain .site-fx__rain-glass.is-on {
   z-index: 3;
   pointer-events: none;
   opacity: 0.9;
+}
+
+/* 自研积雨云底（Canvas），在 CSS 渐变之上、雨丝之下 */
+.site-bg__clouds {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+  opacity: 1;
 }
 
 /* 大雨雾：挂在 site-bg 内（正文下方），勿放进 site-fx 盖死页面 */
@@ -218,7 +230,7 @@ body.storm-rain .site-fx__rain-glass.is-on {
 }
 
 .site-bg__heavy-mist.is-on {
-  opacity: 0.28;
+  opacity: 0.2;
   animation: heavy-mist-drift 16s ease-in-out infinite alternate;
 }
 
@@ -279,32 +291,34 @@ body,
     box-shadow 0.85s var(--ease);
 }
 
-/* 大雨：贴近小米天气冷蓝大雨（参考片天空≈#344961 / 亮区≈#3d5777） */
+/* 大雨天空：自研 Canvas 积雨为主（禁止视频截帧）；CSS 仅淡氛围 */
 body.heavy-rain .site-bg {
-  background: #243448;
+  background: #3a5166;
 }
 
 body.heavy-rain .site-bg::before {
-  filter: blur(92px) brightness(0.72) saturate(0.95);
-  opacity: 1;
+  filter: blur(56px) brightness(1.04) saturate(0.82);
+  opacity: 0.18;
+  animation: heavy-sky-drift 48s ease-in-out infinite alternate;
   background:
-    radial-gradient(circle at 22% 24%, rgba(110, 150, 195, 0.72) 0%, transparent 46%),
-    radial-gradient(circle at 78% 16%, rgba(68, 92, 122, 0.7) 0%, transparent 44%),
-    radial-gradient(circle at 55% 70%, rgba(58, 82, 118, 0.58) 0%, transparent 48%),
-    radial-gradient(circle at 30% 90%, rgba(40, 58, 84, 0.65) 0%, transparent 42%),
-    radial-gradient(circle at 48% 4%, rgba(155, 190, 230, 0.4) 0%, transparent 42%),
-    radial-gradient(circle at 8% 50%, rgba(80, 115, 160, 0.26) 0%, transparent 40%);
+    radial-gradient(ellipse 120% 30% at 50% 20%, rgba(180, 198, 218, 0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 40% at 20% 60%, rgba(30, 44, 62, 0.4) 0%, transparent 70%),
+    radial-gradient(ellipse 90% 40% at 85% 70%, rgba(22, 34, 50, 0.35) 0%, transparent 70%);
 }
 
 body.heavy-rain .site-bg::after {
-  opacity: 0.72;
+  opacity: 0.22;
   background:
-    linear-gradient(180deg, rgba(16, 26, 42, 0.28) 0%, transparent 28%, transparent 52%, rgba(10, 16, 28, 0.4) 100%),
-    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(120, 155, 200, 0.18), transparent 72%);
+    linear-gradient(180deg, rgba(10, 16, 26, 0.18) 0%, transparent 30%, transparent 60%, rgba(8, 14, 22, 0.32) 100%);
+}
+
+@keyframes heavy-sky-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1.02); }
+  100% { transform: translate3d(1.2%, -0.9%, 0) scale(1.05); }
 }
 
 body.heavy-rain {
-  --bg: #243448;
+  --bg: #3a5166;
   --ink: #e8eef8;
   --ink-soft: #c5d0e0;
   --ink-faint: #8a97ab;
@@ -312,7 +326,7 @@ body.heavy-rain {
   --accent-deep: #d4c6f8;
   --accent-soft: rgba(185, 166, 239, 0.18);
   --accent-ring: rgba(185, 166, 239, 0.35);
-  --bg-elevated: rgba(28, 40, 60, 0.58);
+  --bg-elevated: rgba(28, 40, 56, 0.55);
   --line: rgba(180, 200, 230, 0.18);
   --border: rgba(180, 200, 230, 0.22);
   --glass-blur: blur(14px) saturate(1.05);
@@ -484,16 +498,33 @@ body.storm-rain .site-bg {
 
 body.storm-rain .site-fx__glass-drops.is-storm-glass,
 body.heavy-rain .site-fx__glass-drops.is-clear-glass {
-  /* 透明叠加；勿黑底+screen（手机常失效整页变黑） */
+  /* 透明叠加；透明度由 JS 控制，勿 !important 盖掉贴屏成功后的关闭 */
   filter: none;
-  opacity: 1 !important;
   mix-blend-mode: normal;
   z-index: 4;
   background: transparent;
 }
 
+.site-fx__streak-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 7;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+  background: transparent;
+}
+
+body.heavy-rain .site-fx__streak-overlay.is-on,
+body.storm-rain .site-fx__streak-overlay.is-on {
+  display: block;
+}
+
 .site-fx__splash {
-  z-index: 5;
+  z-index: 8;
 }
 
 .site-fx__lightning {
@@ -501,7 +532,7 @@ body.heavy-rain .site-fx__glass-drops.is-clear-glass {
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 8;
+  z-index: 9;
   pointer-events: none;
   display: block;
 }
@@ -550,6 +581,9 @@ body.heavy-rain .site-fx__glass-drops.is-clear-glass {
   }
   .site-fx__mist,
   .site-bg__heavy-mist {
+    animation: none !important;
+  }
+  body.heavy-rain .site-bg::before {
     animation: none !important;
   }
 }

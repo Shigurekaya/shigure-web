@@ -10,47 +10,47 @@
   const FADE_SEC = 0.75;
 
   const GLASS_BASE = {
-    spawnSize: [56, 110],
-    slipRate: 0.86,
-    motionInterval: [0.18, 0.42],
-    xShifting: [0, 0.04],
-    colliderSize: 0.9,
-    trailDropDensity: 0.22,
-    trailDropSize: [0.35, 0.55],
-    trailDistance: [22, 42],
-    trailSpread: 0.5,
-    initialSpread: 0.55,
+    spawnSize: [50, 100],
+    slipRate: 0.9,
+    motionInterval: [0.16, 0.4],
+    xShifting: [0, 0.035],
+    colliderSize: 0.92,
+    trailDropDensity: 0.32,
+    trailDropSize: [0.32, 0.55],
+    trailDistance: [20, 48],
+    trailSpread: 0.45,
+    initialSpread: 0.72,
     shrinkRate: 0.01,
-    velocitySpread: 0.32,
-    evaporate: 14,
-    gravity: 2600,
+    velocitySpread: 0.3,
+    evaporate: 12,
+    gravity: 2750,
     mist: false,
     mistColor: [0.18, 0.24, 0.32, 0.08],
     mistTime: 7,
-    smoothRaindrop: [0.96, 0.995],
-    refractBase: 0.5,
-    refractScale: 0.85,
-    raindropCompose: "smoother",
-    raindropLightPos: [-0.45, 1.25, 2.5, 0],
-    /* 水色：亮漫反射 + 弱阴影，靠折射看底 */
-    raindropDiffuseLight: [0.72, 0.8, 0.9],
+    smoothRaindrop: [0.9, 0.975],
+    refractBase: 0.58,
+    refractScale: 0.98,
+    raindropCompose: "harder",
+    raindropLightPos: [-0.5, 1.35, 2.7, 0],
+    /* 中亮漫反射：过高→白糊团；过低→墨团。靠折射+高光成形 */
+    raindropDiffuseLight: [0.42, 0.5, 0.6],
     raindropShadowOffset: 0.14,
-    raindropEraserSize: [0.9, 1],
-    raindropSpecularLight: [0.95, 0.98, 1.0],
-    raindropSpecularShininess: 180,
-    raindropLightBump: 1.05,
+    raindropEraserSize: [0.88, 1],
+    raindropSpecularLight: [1.0, 1.0, 1.0],
+    raindropSpecularShininess: 220,
+    raindropLightBump: 1.2,
   };
 
   const QUALITY = {
     low: {
-      streak: 1100,
+      streak: 1600,
       dprCap: 1.2,
       frameMs: 1000 / 24,
       wind: 0.3,
       speedMul: 1.18,
       glassMain: 44,
       glassMicro: 460,
-      splashRate: 1.3,
+      splashRate: 1.55,
       glass: {
         spawnInterval: [0.06, 0.12],
         spawnLimit: 360,
@@ -79,21 +79,23 @@
         mistBlurStep: 0,
       },
     },
+    /* 桌面高配：60fps + 更高贴屏缓冲；冷凝仍由 glassOpts 压低 */
     high: {
-      streak: 2800,
-      dprCap: 1.6,
-      frameMs: 1000 / 30,
-      wind: 0.42,
-      speedMul: 1.3,
-      glassMain: 104,
-      glassMicro: 1280,
-      splashRate: 1.65,
-      glassMaxW: 1400,
+      /* 对齐 REF：可辨长细丝，密度介于白帘与过稀之间 */
+      streak: 3200,
+      dprCap: 2,
+      frameMs: 1000 / 60,
+      wind: 0.32,
+      speedMul: 1.16,
+      glassMain: 48,
+      glassMicro: 520,
+      splashRate: 1.55,
+      glassMaxW: 1920,
       glass: {
-        spawnInterval: [0.045, 0.1],
-        spawnLimit: 720,
-        dropletsPerSeconds: 580,
-        dropletSize: [8, 24],
+        spawnInterval: [0.028, 0.07],
+        spawnLimit: 1100,
+        dropletsPerSeconds: 720,
+        dropletSize: [6, 18],
         backgroundBlurSteps: 0,
         mistBlurStep: 0,
       },
@@ -108,7 +110,7 @@
     return a + Math.random() * (b - a);
   }
 
-  /** 手机/平板：勿用「CSS 宽度」误判为桌面（横屏常 >720） */
+  /** 手机：仅 UA / 窄屏粗指针。勿用 maxTouchPoints（Win 触屏本会误判）。 */
   function isPhoneLike() {
     try {
       if (navigator.connection?.saveData) return true;
@@ -116,9 +118,8 @@
     const ua = navigator.userAgent || "";
     if (/Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MiuiBrowser/i.test(ua)) return true;
     try {
-      if (navigator.maxTouchPoints > 1 && Math.min(screen.width, screen.height) <= 920) return true;
-      if (window.matchMedia("(pointer: coarse)").matches
-        && window.matchMedia("(max-width: 1100px)").matches) return true;
+      if (window.matchMedia("(max-width: 720px)").matches
+        && window.matchMedia("(pointer: coarse)").matches) return true;
     } catch { /* ignore */ }
     return window.matchMedia("(max-width: 720px)").matches;
   }
@@ -130,18 +131,127 @@
     /* 触屏手机即使用旗舰 SoC，浏览器多层全屏 canvas 仍易卡死 */
     if (isPhoneLike()) return "low";
     const cores = navigator.hardwareConcurrency || 8;
-    const mem = navigator.deviceMemory || 8;
-    const area = window.innerWidth * window.innerHeight;
+    /* deviceMemory 桌面常为 undefined → 勿当 0；大分辨率不再降档（1440p+ 曾误判 low） */
+    let mem = 8;
+    try {
+      if (typeof navigator.deviceMemory === "number" && navigator.deviceMemory > 0) {
+        mem = navigator.deviceMemory;
+      }
+    } catch { /* ignore */ }
     const narrow = window.matchMedia("(max-width: 720px)").matches;
-    if (narrow || cores <= 4 || mem <= 4 || area > 2.8e6) return "low";
-    if (cores <= 6 || mem <= 6 || area > 2e6) return "mid";
+    if (narrow || cores <= 4 || mem <= 4) return "low";
+    if (cores <= 6 || mem <= 6) return "mid";
     return "high";
   }
 
   function streakCapFor(storm, phone) {
-    /* 暴雨效果优先，桌面/手机都拉高雨丝上限 */
-    if (phone) return storm ? 2400 : 720;
-    return storm ? 7000 : 2800;
+    /* 大雨对齐 REF 可辨银丝帘；暴雨才拉高上限 */
+    if (phone) return storm ? 2200 : 1400;
+    return storm ? 5600 : 3600;
+  }
+
+  /**
+   * 自研积雨纹理（Canvas）：多层软椭圆 + 细噪声，模仿 REF 云体起伏。
+   * 禁止视频截帧。
+   */
+  function paintSelfSkyClouds(canvas, cssW, cssH, storm) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const tw = Math.max(2, Math.floor(cssW * dpr));
+    const th = Math.max(2, Math.floor(cssH * dpr));
+    if (canvas.width !== tw || canvas.height !== th) {
+      canvas.width = tw;
+      canvas.height = th;
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, tw, th);
+
+    /* 底色对齐 REF 冷灰蓝亮度 */
+    const base = ctx.createLinearGradient(0, 0, 0, th);
+    if (storm) {
+      base.addColorStop(0, "#24364e");
+      base.addColorStop(0.5, "#2e4664");
+      base.addColorStop(1, "#1a2a3e");
+    } else {
+      base.addColorStop(0, "#4a6176");
+      base.addColorStop(0.35, "#5a7288");
+      base.addColorStop(0.6, "#516a80");
+      base.addColorStop(1, "#3d556a");
+    }
+    ctx.fillStyle = base;
+    ctx.fillRect(0, 0, tw, th);
+
+    /* 硬一点的色停：让暗团/亮缝肉眼可辨（勿全糊成渐变） */
+    const blob = (x, y, rx, ry, c0, hard = 0.45) => {
+      const cx = tw * x;
+      const cy = th * y;
+      const R = tw * rx;
+      const ryPx = th * ry;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(1, Math.max(0.06, ryPx / Math.max(R, 1)));
+      const g = ctx.createRadialGradient(0, 0, 0, 0, 0, R);
+      g.addColorStop(0, c0);
+      g.addColorStop(hard, c0.replace(/[\d.]+\)$/, (m) => `${Math.max(0, parseFloat(m) * 0.55)})`));
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(0, 0, R, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    if (storm) {
+      blob(0.2, 0.18, 0.55, 0.16, "rgba(70,110,160,0.5)", 0.4);
+      blob(0.75, 0.14, 0.5, 0.14, "rgba(30,50,80,0.6)", 0.4);
+      blob(0.5, 0.55, 0.65, 0.22, "rgba(22,40,68,0.55)", 0.42);
+    } else {
+      /* 顶暗积雨带 */
+      blob(0.5, 0.0, 1.0, 0.14, "rgba(18,28,42,0.88)", 0.5);
+      blob(0.12, 0.12, 0.4, 0.1, "rgba(22,34,50,0.85)", 0.42);
+      blob(0.38, 0.1, 0.28, 0.08, "rgba(30,44,62,0.75)", 0.4);
+      blob(0.8, 0.1, 0.42, 0.11, "rgba(20,32,48,0.86)", 0.42);
+      /* 中亮缝（勿过亮抢头像后光晕） */
+      blob(0.52, 0.28, 0.5, 0.11, "rgba(195,210,226,0.38)", 0.4);
+      blob(0.28, 0.26, 0.22, 0.06, "rgba(170,188,208,0.32)", 0.38);
+      blob(0.7, 0.3, 0.2, 0.055, "rgba(155,175,198,0.28)", 0.38);
+      /* 暗核错位 */
+      blob(0.74, 0.34, 0.34, 0.1, "rgba(24,38,56,0.78)", 0.4);
+      blob(0.2, 0.4, 0.4, 0.11, "rgba(28,42,60,0.72)", 0.4);
+      blob(0.48, 0.46, 0.36, 0.09, "rgba(160,178,198,0.28)", 0.35);
+      blob(0.88, 0.5, 0.34, 0.13, "rgba(16,26,40,0.75)", 0.42);
+      blob(0.3, 0.56, 0.48, 0.13, "rgba(24,38,56,0.7)", 0.4);
+      blob(0.62, 0.62, 0.5, 0.14, "rgba(30,46,64,0.65)", 0.4);
+      blob(0.12, 0.72, 0.32, 0.1, "rgba(18,28,42,0.6)", 0.4);
+      blob(0.5, 0.8, 0.75, 0.15, "rgba(22,34,50,0.68)", 0.45);
+      blob(0.5, 0.98, 1.0, 0.18, "rgba(12,20,32,0.82)", 0.5);
+      /* 中尺度碎云 */
+      blob(0.34, 0.2, 0.14, 0.045, "rgba(80,100,125,0.55)", 0.32);
+      blob(0.6, 0.17, 0.12, 0.04, "rgba(45,64,88,0.65)", 0.32);
+      blob(0.42, 0.52, 0.15, 0.05, "rgba(70,92,118,0.45)", 0.3);
+      blob(0.76, 0.7, 0.14, 0.045, "rgba(36,54,76,0.55)", 0.32);
+    }
+
+    /* 细噪声：打破塑料渐变 */
+    const n = Math.min(5200, Math.floor((tw * th) / 140));
+    for (let i = 0; i < n; i += 1) {
+      const x = Math.random() * tw;
+      const y = Math.random() * th;
+      const a = 0.02 + Math.random() * 0.055;
+      const s = 0.7 + Math.random() * 2.4;
+      ctx.fillStyle = Math.random() < 0.55
+        ? `rgba(210,222,236,${a})`
+        : `rgba(16,24,36,${a * 1.15})`;
+      ctx.fillRect(x, y, s, s * (0.35 + Math.random() * 0.9));
+    }
+
+    const fog = ctx.createLinearGradient(0, 0, 0, th);
+    fog.addColorStop(0, "rgba(160,175,190,0.08)");
+    fog.addColorStop(0.45, "rgba(0,0,0,0)");
+    fog.addColorStop(1, "rgba(14,22,32,0.16)");
+    ctx.fillStyle = fog;
+    ctx.fillRect(0, 0, tw, th);
   }
 
   function paintStormBg(canvas, w, h, storm) {
@@ -154,56 +264,198 @@
       canvas.height = th;
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    /* 参考片天空偏冷蓝灰（非纯黑），暴雨略深于大雨 */
-    ctx.fillStyle = storm ? "#24364e" : "#2c4058";
+    /* 自研冷灰蓝积雨（非视频截帧）；对齐 R14 CSS 对比 */
+    ctx.fillStyle = storm ? "#22324a" : "#354c60";
     ctx.fillRect(0, 0, tw, th);
-    const layers = storm
-      ? [
-        { x: tw * 0.2, y: th * 0.26, r: tw * 0.62, c: "rgba(100,145,195,0.5)" },
-        { x: tw * 0.78, y: th * 0.18, r: tw * 0.55, c: "rgba(55,78,112,0.55)" },
-        { x: tw * 0.55, y: th * 0.72, r: tw * 0.62, c: "rgba(40,62,95,0.55)" },
-        { x: tw * 0.42, y: th * 0.08, r: tw * 0.46, c: "rgba(150,185,230,0.32)" },
-      ]
-      : [
-        { x: tw * 0.22, y: th * 0.3, r: tw * 0.55, c: "rgba(110,150,195,0.55)" },
-        { x: tw * 0.78, y: th * 0.22, r: tw * 0.5, c: "rgba(65,90,120,0.5)" },
-        { x: tw * 0.55, y: th * 0.7, r: tw * 0.58, c: "rgba(55,82,115,0.5)" },
-        { x: tw * 0.4, y: th * 0.12, r: tw * 0.42, c: "rgba(140,175,215,0.3)" },
+
+    if (storm) {
+      const blobs = [
+        { x: tw * 0.18, y: th * 0.22, r: tw * 0.7, c: "rgba(90,132,180,0.48)" },
+        { x: tw * 0.78, y: th * 0.16, r: tw * 0.6, c: "rgba(42,64,94,0.54)" },
+        { x: tw * 0.52, y: th * 0.7, r: tw * 0.7, c: "rgba(28,46,74,0.52)" },
+        { x: tw * 0.4, y: th * 0.06, r: tw * 0.5, c: "rgba(145,180,224,0.28)" },
+        { x: tw * 0.08, y: th * 0.55, r: tw * 0.45, c: "rgba(64,92,132,0.28)" },
       ];
-    for (let i = 0; i < layers.length; i += 1) {
-      const L = layers[i];
-      const g = ctx.createRadialGradient(L.x, L.y, 0, L.x, L.y, L.r);
-      g.addColorStop(0, L.c);
-      g.addColorStop(1, storm ? "rgba(28,42,62,0)" : "rgba(36,52,72,0)");
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, tw, th);
+      for (let i = 0; i < blobs.length; i += 1) {
+        const L = blobs[i];
+        const g = ctx.createRadialGradient(L.x, L.y, 0, L.x, L.y, L.r);
+        g.addColorStop(0, L.c);
+        g.addColorStop(1, "rgba(22,36,55,0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, tw, th);
+      }
+    } else {
+      /* 层状积雨：暗顶 + 中亮缝 + 错位暗核（降低径向糊感） */
+      const bands = [
+        { y: 0.02, h: 0.18, c0: "rgba(10,16,26,0.92)", sx: 1.5, ox: 0 },
+        { y: 0.14, h: 0.14, c0: "rgba(28,40,56,0.78)", sx: 1.15, ox: -0.16 },
+        { y: 0.12, h: 0.12, c0: "rgba(22,34,50,0.72)", sx: 1.05, ox: 0.2 },
+        { y: 0.3, h: 0.2, c0: "rgba(168,186,208,0.52)", sx: 1.4, ox: 0.02 },
+        { y: 0.28, h: 0.1, c0: "rgba(120,140,162,0.38)", sx: 0.55, ox: -0.18 },
+        { y: 0.42, h: 0.14, c0: "rgba(24,36,52,0.7)", sx: 0.95, ox: 0.16 },
+        { y: 0.52, h: 0.16, c0: "rgba(18,28,42,0.68)", sx: 1.2, ox: -0.12 },
+        { y: 0.62, h: 0.18, c0: "rgba(30,44,60,0.62)", sx: 1.3, ox: 0.08 },
+        { y: 0.88, h: 0.22, c0: "rgba(8,14,24,0.85)", sx: 1.5, ox: 0 },
+      ];
+      for (let i = 0; i < bands.length; i += 1) {
+        const B = bands[i];
+        const cy = th * B.y;
+        const rx = tw * 0.55 * B.sx;
+        const ry = th * B.h;
+        ctx.save();
+        ctx.translate(tw * (0.5 + (B.ox || 0)), cy);
+        ctx.scale(1, Math.max(0.1, ry / Math.max(rx, 1)));
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rx);
+        g.addColorStop(0, B.c0);
+        g.addColorStop(1, "rgba(53,76,96,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(0, 0, rx, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+      const side = [
+        { x: 0, y: th * 0.38, r: tw * 0.55, c: "rgba(12,20,32,0.68)" },
+        { x: tw, y: th * 0.46, r: tw * 0.52, c: "rgba(10,18,30,0.62)" },
+        { x: tw * 0.75, y: th * 0.2, r: tw * 0.36, c: "rgba(20,32,48,0.45)" },
+        { x: tw * 0.2, y: th * 0.7, r: tw * 0.4, c: "rgba(14,22,34,0.42)" },
+      ];
+      for (let i = 0; i < side.length; i += 1) {
+        const S = side[i];
+        const g = ctx.createRadialGradient(S.x, S.y, 0, S.x, S.y, S.r);
+        g.addColorStop(0, S.c);
+        g.addColorStop(1, "rgba(53,76,96,0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, tw, th);
+      }
     }
+
+    /* 轻雾：去饱和，忌过蓝 */
+    const fog = ctx.createLinearGradient(0, 0, 0, th);
+    fog.addColorStop(0, storm ? "rgba(140,170,210,0.12)" : "rgba(150,165,180,0.12)");
+    fog.addColorStop(0.35, storm ? "rgba(100,130,170,0.04)" : "rgba(120,135,150,0.05)");
+    fog.addColorStop(0.7, storm ? "rgba(60,90,130,0.06)" : "rgba(70,85,100,0.05)");
+    fog.addColorStop(1, storm ? "rgba(18,28,44,0.22)" : "rgba(20,28,38,0.2)");
+    ctx.fillStyle = fog;
+    ctx.fillRect(0, 0, tw, th);
     return canvas;
   }
 
-  /** 把短密雨丝画进折射底图（勿读 WebGL，避免预乘发黑） */
-  function paintBgStreaks(ctx, tw, th, storm, seed) {
-    if (!ctx || tw < 2) return;
-    let s = (seed * 1000) | 0;
-    const rnd = () => {
-      s = (s * 1664525 + 1013904223) | 0;
-      return (s >>> 0) / 4294967296;
+  /**
+   * 贴屏折射底图雨丝场：连续下落（勿每帧重随机钉死）。
+   * 对齐参考片：近竖直、短密、头亮尾淡、外圈轻柔光（忌硬针）。
+   */
+  function createBgStreakField() {
+    /** @type {Array<{x:number,y:number,len:number,speed:number,a:number,w:number,slant:number,layer:number}>} */
+    const drops = [];
+    let lastW = 0;
+    let lastH = 0;
+    let stormMode = false;
+
+    const rebuild = (tw, th, storm) => {
+      drops.length = 0;
+      lastW = tw;
+      lastH = th;
+      stormMode = !!storm;
+      /* 手机竖屏：铺满但忌白帘；REF 是可辨软丝而非噪点帘 */
+      const areaMul = clamp((tw * th) / (1280 * 720), 0.95, storm ? 1.7 : 1.35);
+      /*
+       * R14：降密 + 加粗软晕。远层薄雾丝、中层主体、近层少量亮丝。
+       * 长度约 2–4.5%H（REF 运动模糊短针，非长硬线）。
+       */
+      const layers = [
+        { n: Math.round((storm ? 560 : 480) * areaMul), len0: 0.015, len1: 0.028, a0: 0.05, a1: 0.11, w0: 0.45, w1: 0.95, spd0: 1120, spd1: 1520 },
+        { n: Math.round((storm ? 380 : 320) * areaMul), len0: 0.02, len1: 0.036, a0: 0.09, a1: 0.22, w0: 0.7, w1: 1.4, spd0: 1260, spd1: 1740 },
+        { n: Math.round((storm ? 160 : 140) * areaMul), len0: 0.022, len1: 0.04, a0: 0.16, a1: 0.36, w0: 0.95, w1: 1.85, spd0: 1440, spd1: 2020 },
+      ];
+      for (let L = 0; L < layers.length; L += 1) {
+        const layer = layers[L];
+        for (let i = 0; i < layer.n; i += 1) {
+          /* 近竖直，轻倾角 */
+          const slant = (storm ? 0.02 : 0.035) + (Math.random() - 0.4) * 0.04;
+          drops.push({
+            x: Math.random() * tw,
+            y: Math.random() * (th + 40) - 20,
+            len: th * (layer.len0 + Math.random() * (layer.len1 - layer.len0)),
+            speed: layer.spd0 + Math.random() * (layer.spd1 - layer.spd0),
+            a: layer.a0 + Math.random() * (layer.a1 - layer.a0),
+            w: layer.w0 + Math.random() * (layer.w1 - layer.w0),
+            slant,
+            layer: L,
+          });
+        }
+      }
     };
-    const n = storm ? 420 : 280;
-    ctx.save();
-    for (let i = 0; i < n; i += 1) {
-      const x = rnd() * tw;
-      const y = rnd() * th;
-      const len = (storm ? 8 : 10) + rnd() * (storm ? 14 : 18);
-      const a = (storm ? 0.12 : 0.08) + rnd() * (storm ? 0.28 : 0.2);
-      ctx.strokeStyle = `rgba(230,242,255,${a})`;
-      ctx.lineWidth = 0.6 + rnd() * 0.9;
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x + (rnd() - 0.5) * 2.2, y + len);
-      ctx.stroke();
-    }
-    ctx.restore();
+
+    /**
+     * @param {CanvasRenderingContext2D} ctx
+     * @param {number} tw
+     * @param {number} th
+     * @param {boolean} storm
+     * @param {number} dtSec
+     * @param {number} wind
+     */
+    const paint = (ctx, tw, th, storm, dtSec, wind) => {
+      if (!ctx || tw < 2) return;
+      if (drops.length === 0 || lastW !== tw || lastH !== th || stormMode !== !!storm) {
+        rebuild(tw, th, storm);
+      }
+      const dt = clamp(dtSec || 0.016, 0.004, 0.05);
+      const windPx = (wind || 0) * (storm ? 18 : 10);
+      ctx.save();
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      for (let i = 0; i < drops.length; i += 1) {
+        const d = drops[i];
+        d.y += d.speed * dt;
+        d.x += (windPx * (0.3 + d.layer * 0.18) + d.slant * 28) * dt;
+        if (d.y > th + d.len) {
+          d.y = -d.len - Math.random() * 30;
+          d.x = Math.random() * tw;
+        } else if (d.x < -20) {
+          d.x = tw + 10;
+        } else if (d.x > tw + 20) {
+          d.x = -10;
+        }
+        const x1 = d.x;
+        const y1 = d.y;
+        const x2 = d.x + d.len * d.slant;
+        const y2 = d.y + d.len;
+        const aCore = Math.min(0.5, d.a);
+        const soft = d.layer >= 2 ? 0.2 : (d.layer >= 1 ? 0.12 : 0.07);
+        /* 外晕：细丝 + 运动模糊光渗（忌粗胶囊） */
+        ctx.strokeStyle = `rgba(185,205,228,${aCore * soft})`;
+        ctx.lineWidth = d.w * (d.layer >= 2 ? 2.4 : (d.layer >= 1 ? 2.0 : 1.6));
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+        /* 中晕 */
+        if (d.layer >= 1) {
+          ctx.strokeStyle = `rgba(210,226,242,${aCore * 0.38})`;
+          ctx.lineWidth = d.w * 1.25;
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        }
+        /* 细芯：银青渐变 */
+        const grad = ctx.createLinearGradient(x1, y1, x2, y2);
+        grad.addColorStop(0, `rgba(190,210,230,0)`);
+        grad.addColorStop(0.2, `rgba(205,222,240,${aCore * 0.35})`);
+        grad.addColorStop(0.6, `rgba(232,242,252,${aCore})`);
+        grad.addColorStop(1, `rgba(245,250,255,${aCore * 0.45})`);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = Math.max(0.65, d.w * (d.layer >= 2 ? 0.55 : 0.7));
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+
+    return { paint, rebuild };
   }
 
   /**
@@ -321,8 +573,8 @@
       Math.max(phone ? 480 : 780, Math.round((q.glassMicro || 420) * 0.85)),
     );
     q.sizeMul = mul.sizeMul;
-    q.dprCap = Math.max(q.dprCap || 1.4, 1.75);
-    q.frameMs = Math.min(q.frameMs || 33, 1000 / 30);
+    q.dprCap = Math.max(q.dprCap || 1.4, 2);
+    q.frameMs = Math.min(q.frameMs || 16.7, 1000 / 60);
     q.glassMaxW = 1920;
     q.glass = {
       spawnInterval: [0.016, 0.036],
@@ -355,60 +607,73 @@
       /*
        * 水色大珠：清透折射 + 白高光 + 极弱阴影（勿暗漫反射/高阴影 → 墨团）。
        */
-      opts.spawnSize = phone ? [72, 150] : [88, 180];
-      opts.slipRate = 0.88;
-      opts.trailDropDensity = 0.28;
-      opts.trailDropSize = [0.38, 0.62];
-      opts.trailDistance = [28, 58];
-      opts.gravity = 2600;
-      opts.refractBase = 0.55;
-      opts.refractScale = 0.95;
+      opts.spawnSize = phone ? [60, 130] : [70, 140];
+      opts.slipRate = 0.92;
+      opts.trailDropDensity = 0.36;
+      opts.trailDropSize = [0.36, 0.6];
+      opts.trailDistance = [28, 62];
+      opts.gravity = 2700;
+      opts.refractBase = 0.62;
+      opts.refractScale = 1.05;
+      opts.raindropCompose = "harder";
+      opts.smoothRaindrop = [0.88, 0.97];
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.02, 0.03, 0.04, 0.0];
       opts.raindropSpecularLight = [1.0, 1.0, 1.0];
-      opts.raindropSpecularShininess = 200;
-      opts.raindropLightBump = 1.15;
-      opts.raindropDiffuseLight = [0.78, 0.86, 0.95];
+      opts.raindropSpecularShininess = 240;
+      opts.raindropLightBump = 1.25;
+      opts.raindropDiffuseLight = [0.4, 0.48, 0.58];
       opts.raindropShadowOffset = 0.12;
-      opts.raindropLightPos = [-0.4, 1.3, 2.6, 0];
-      opts.raindropEraserSize = [0.88, 1];
-      opts.smoothRaindrop = [0.96, 0.995];
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 40 : 70) : 0;
-      opts.dropletSize = screenGlass ? [6, 14] : [6, 14];
+      opts.raindropLightPos = [-0.45, 1.35, 2.7, 0];
+      opts.raindropEraserSize = [0.86, 1];
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 55 : 110) : 0;
+      opts.dropletSize = screenGlass ? [5, 16] : [6, 14];
       opts.spawnLimit = screenGlass
-        ? Math.min(opts.spawnLimit || 1800, phone ? 200 : 320)
+        ? Math.min(opts.spawnLimit || 1800, phone ? 240 : 420)
         : Math.min(opts.spawnLimit || 800, 420);
-      opts.spawnInterval = screenGlass ? [0.055, 0.13] : [0.05, 0.11];
+      opts.spawnInterval = screenGlass ? [0.04, 0.1] : [0.05, 0.11];
     } else {
-      opts.spawnSize = phone ? [52, 110] : [64, 130];
-      opts.slipRate = 0.84;
-      opts.trailDropDensity = 0.22;
-      opts.trailDropSize = [0.34, 0.55];
-      opts.trailDistance = [24, 48];
-      opts.gravity = 2500;
-      opts.refractBase = 0.5;
-      opts.refractScale = 0.88;
+      /*
+       * REF：前景清透折射珠 + 竖向泪痕；忌巨大 soft bokeh 白团。
+       * 珠略少、泪痕更长更细，贴在深色 UI 上才显。
+       */
+      opts.spawnSize = phone ? [8, 18] : [10, 22];
+      opts.slipRate = 0.97;
+      opts.trailDropDensity = 0.9;
+      opts.trailDropSize = [0.07, 0.15];
+      opts.trailDistance = [22, 78];
+      opts.trailSpread = 0.08;
+      opts.initialSpread = 0.38;
+      opts.gravity = 2800;
+      opts.refractBase = 0.72;
+      opts.refractScale = 1.18;
+      opts.raindropCompose = "harder";
+      opts.smoothRaindrop = [0.4, 0.7];
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.02, 0.03, 0.04, 0.0];
-      opts.raindropSpecularLight = [0.95, 0.98, 1.0];
-      opts.raindropSpecularShininess = 170;
-      opts.raindropLightBump = 1.05;
-      opts.raindropDiffuseLight = [0.75, 0.82, 0.92];
-      opts.raindropShadowOffset = 0.12;
-      opts.raindropLightPos = [-0.4, 1.25, 2.5, 0];
-      opts.raindropEraserSize = [0.9, 1];
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 28 : 48) : 0;
-      opts.dropletSize = screenGlass ? [6, 13] : [6, 14];
-      opts.spawnLimit = Math.min(opts.spawnLimit || 900, screenGlass ? (phone ? 160 : 240) : 360);
-      opts.spawnInterval = screenGlass ? [0.07, 0.16] : [0.06, 0.14];
+      opts.raindropSpecularLight = [1.0, 1.0, 1.0];
+      opts.raindropSpecularShininess = 320;
+      opts.raindropLightBump = 1.4;
+      opts.raindropDiffuseLight = [0.42, 0.52, 0.62];
+      opts.raindropShadowOffset = 0.08;
+      opts.raindropLightPos = [-0.5, 1.5, 2.9, 0];
+      opts.raindropEraserSize = [0.72, 0.92];
+      opts.motionInterval = [0.05, 0.18];
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 16 : 28) : 0;
+      opts.dropletSize = screenGlass ? [2, 3.5] : [2, 6];
+      opts.spawnLimit = Math.min(
+        opts.spawnLimit || 400,
+        screenGlass ? (phone ? 70 : 110) : 180,
+      );
+      opts.spawnInterval = screenGlass ? [0.06, 0.14] : [0.08, 0.16];
       if (phone && !screenGlass) {
-        opts.spawnSize = [44, 96];
-        opts.spawnLimit = 180;
-        opts.trailDropDensity = 0.16;
+        opts.spawnSize = [12, 28];
+        opts.spawnLimit = 200;
+        opts.trailDropDensity = 0.35;
       }
     }
     return opts;
@@ -423,8 +688,13 @@
   }
 
   function glassBufferSize(cssW, cssH, mode, storm, phone) {
-    const maxW = storm ? (phone ? 1280 : 1920) : (phone ? 720 : (qualityFor(mode, storm, phone).glassMaxW || 960));
-    const dprN = storm ? (phone ? 1.25 : 1.5) : (phone ? 1.15 : 1.25);
+    const maxW = storm
+      ? (phone ? 1280 : 1920)
+      : (phone ? 900 : 1920);
+    /* 桌面贴近原生分辨率，避免珠边发糊 */
+    const dprN = storm
+      ? (phone ? 1.35 : 2)
+      : (phone ? 1.25 : 1.85);
     const scale = Math.min(1, maxW / Math.max(1, cssW)) * Math.min(window.devicePixelRatio || 1, dprN);
     return {
       bw: Math.max(1, Math.floor(cssW * scale)),
@@ -449,13 +719,12 @@
       ? window.RaindropFX
       : window.RaindropFX?.default;
 
-    /* 暴雨效果优先：强制 high；真实手机仍用于冷凝密度/部分 dpr，避免糊罩 */
-    let quality = storm ? "high" : detectQuality();
+    /* 暴雨 / 桌面大雨：强制 high（本机高配不再被分辨率误判） */
+    let quality = storm || !isPhoneLike() ? "high" : detectQuality();
     const realPhone = isPhoneLike();
     const phone = storm ? false : realPhone;
     const q0 = qualityFor(quality, storm, realPhone);
-    const mobileLite = realPhone || quality === "low"
-      || window.matchMedia("(max-width: 720px)").matches;
+    const mobileLite = realPhone || (quality === "low" && window.matchMedia("(max-width: 720px)").matches);
     /* 贴屏 raindrop+html2canvas：用户要半透明大折射珠。
      * 关键：贴屏时不创建 GPU 雨丝（手机双 WebGL 会抢上下文 → raindrop 静默失败）。
      * 雨丝画进折射底图；失败 demote 后再挂 GPU + 2D 珠。 */
@@ -480,6 +749,24 @@
     streakCanvas.setAttribute("aria-hidden", "true");
     if (bgHost) bgHost.appendChild(streakCanvas);
 
+    /* 自研积雨云底：盖住 CSS 纯渐变，仍禁止视频截帧 */
+    const cloudCanvas = document.createElement("canvas");
+    cloudCanvas.className = "site-bg__clouds";
+    cloudCanvas.setAttribute("aria-hidden", "true");
+    if (bgHost) bgHost.insertBefore(cloudCanvas, streakCanvas);
+    else fxRoot.appendChild(cloudCanvas);
+    let cloudW = 0;
+    let cloudH = 0;
+    const syncClouds = () => {
+      const cw = window.innerWidth;
+      const ch = window.innerHeight;
+      if (Math.abs(cw - cloudW) < 2 && Math.abs(ch - cloudH) < 2) return;
+      cloudW = cw;
+      cloudH = ch;
+      paintSelfSkyClouds(cloudCanvas, cw, ch, storm);
+    };
+    syncClouds();
+
     /* 雾放进背景层：勿盖在正文上，否则手机端只剩溅花的「黑幕」 */
     const mist = document.createElement("div");
     mist.className = "site-bg__heavy-mist";
@@ -497,6 +784,15 @@
     fxRoot.appendChild(splashCanvas);
     fxRoot.appendChild(glassDropCanvas);
 
+    /* 贴屏 WebGL 盖住 site-bg 雨丝：用 Canvas2D 叠层画银丝（不占第二 WebGL） */
+    const streakOverlay = document.createElement("canvas");
+    streakOverlay.className = "site-fx__streak-overlay";
+    streakOverlay.setAttribute("aria-hidden", "true");
+    fxRoot.appendChild(streakOverlay);
+    const overlayStreaks = createBgStreakField();
+    let overlayCtx = null;
+    let lastOverlayAt = performance.now();
+
     const sctx = splashCanvas.getContext("2d", { alpha: true });
     if (sctx) {
       splashCanvas.style.background = "transparent";
@@ -505,7 +801,8 @@
     const stormDomBg = document.createElement("canvas");
     let stormDomReady = false;
     let lastDomCaptureAt = 0;
-    let bgStreakSeed = Math.random() * 1000;
+    const bgStreaks = createBgStreakField();
+    let lastBgStreakAt = performance.now();
 
     const areaScale = clamp((window.innerWidth * window.innerHeight) / (1280 * 720), 0.7, phone ? 1.0 : 1.35);
     const streakCount = Math.round(q0.streak * areaScale);
@@ -513,13 +810,13 @@
 
     const gpuOpts = () => ({
       count: Math.min(streakCount, maxStreak),
-      dprCap: realPhone ? Math.min(q0.dprCap, 1.2) : (storm ? Math.min(q0.dprCap, 1.55) : q0.dprCap),
+      dprCap: realPhone ? Math.min(q0.dprCap, 1.2) : (storm ? Math.min(q0.dprCap, 1.85) : q0.dprCap),
       wind: q0.wind,
       speedMul: q0.speedMul,
       wanderWind: storm,
-      tilt: storm ? 0.05 : 0.065,
-      sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 0.96,
-      sheet: storm ? 1 : 0.85,
+      tilt: storm ? 0.07 : 0.055,
+      sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 1.08,
+      sheet: storm ? 1 : 0.28,
       preserveDrawingBuffer: false,
     });
 
@@ -545,21 +842,21 @@
 
     const glassMainN = storm
       ? Math.max(realPhone ? 72 : 100, q0.glassMain || 100)
-      : (realPhone ? Math.max(36, Math.round((q0.glassMain || 34) * 1.0)) : (q0.glassMain || 52));
-    /* 冷凝珠少一些 */
+      : (realPhone ? Math.max(36, Math.round((q0.glassMain || 34) * 1.0)) : (q0.glassMain || 90));
+    /* 冷凝珠少一些（桌面略增仍远低于糊罩） */
     const glassMicroN = storm
       ? (realPhone || mobileLite
         ? Math.max(120, Math.min(220, Math.round((q0.glassMicro || 560) * 0.28)))
-        : Math.max(160, Math.min(280, Math.round((q0.glassMicro || 980) * 0.22))))
+        : Math.max(180, Math.min(320, Math.round((q0.glassMicro || 980) * 0.24))))
       : (realPhone || mobileLite
         ? Math.max(90, Math.round((q0.glassMicro || 360) * 0.28))
-        : Math.max(120, Math.round((q0.glassMicro || 560) * 0.3)));
+        : Math.max(140, Math.round((q0.glassMicro || 560) * 0.32)));
 
     const glassDrops = window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: glassMainN,
         micro: glassMicroN,
-        dprCap: storm ? Math.min(q0.dprCap, realPhone ? 1.4 : 2) : (realPhone ? 1.2 : Math.min(q0.dprCap, 1.55)),
+        dprCap: storm ? Math.min(q0.dprCap, realPhone ? 1.4 : 2) : (realPhone ? 1.2 : Math.min(q0.dprCap, 2)),
         slideRatio: storm ? 0.42 : 0.28,
         storm,
         lite: mobileLite,
@@ -672,7 +969,10 @@
     };
 
     const fitSplash = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, phone || quality === "low" ? 1.05 : 1.35);
+      dpr = Math.min(
+        window.devicePixelRatio || 1,
+        phone || quality === "low" ? 1.05 : (quality === "high" ? 1.85 : 1.45),
+      );
       const cw = Math.max(1, Math.floor(w * dpr));
       const ch = Math.max(1, Math.floor(h * dpr));
       if (sctx) {
@@ -690,6 +990,15 @@
         fallbackCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
       glassDrops?.resize(w, h);
+      const odpr = Math.min(window.devicePixelRatio || 1, phone ? 1.15 : 1.6);
+      const ow = Math.max(1, Math.floor(w * odpr));
+      const oh = Math.max(1, Math.floor(h * odpr));
+      if (streakOverlay.width !== ow || streakOverlay.height !== oh) {
+        streakOverlay.width = ow;
+        streakOverlay.height = oh;
+      }
+      overlayCtx = streakOverlay.getContext("2d", { alpha: true });
+      if (overlayCtx) overlayCtx.setTransform(odpr, 0, 0, odpr, 0, 0);
     };
 
     const demoteScreenGlass = (reason) => {
@@ -722,6 +1031,15 @@
     };
 
     const syncGlassOpacity = () => {
+      if (window.__kayaFreezeFx) {
+        streakOverlay.classList.remove("is-on");
+        streakOverlay.style.display = "none";
+        streakOverlay.style.opacity = "0";
+        glassCanvas.style.opacity = "0";
+        glassCanvas.classList.remove("is-on");
+        splashCanvas.style.display = "none";
+        return;
+      }
       const screenOn = useScreenGlass && glassReady && !screenGlassDemoted;
       if (wantRaindropFx && !screenGlassDemoted) {
         glassCanvas.style.display = "";
@@ -743,16 +1061,27 @@
         glassDropCanvas.style.opacity = String(clamp(dropsOn ? intensity : 0, 0, 1));
       }
       mist.classList.toggle("is-on", intensity > 0.05 && !screenOn);
+      /* 贴屏时开叠层雨丝；非贴屏靠 GPU/fallback */
+      const wantOverlay = screenOn && intensity > 0.05;
+      streakOverlay.classList.toggle("is-on", wantOverlay);
+      streakOverlay.style.display = wantOverlay ? "block" : "none";
+      /* REF 银丝：叠层可见但忌白帘；软丝靠笔触本身 */
+      streakOverlay.style.opacity = String(clamp(wantOverlay ? intensity * 0.78 : 0, 0, 1));
     };
 
     const ignoreCaptureEl = (el) => {
       if (!el) return false;
       /* 一切 canvas（含 WebGL 雨丝）勿进截图——手机读 WebGL 常整屏黑 */
-      if (el.tagName === "CANVAS") return true;
+      /* WebGL/特效 canvas 勿进截图；自研积雨 2D 云底需保留 */
+      if (el.tagName === "CANVAS") {
+        if (el.classList?.contains("site-bg__clouds")) return false;
+        return true;
+      }
       if (el === glassCanvas || el === splashCanvas || el === glassDropCanvas || el === streakCanvas) return true;
       const cls = el.classList;
       if (!cls) return false;
       return cls.contains("site-fx__rain-glass")
+        || cls.contains("site-fx__streak-overlay")
         || cls.contains("site-fx__splash")
         || cls.contains("site-fx__glass-drops")
         || cls.contains("site-fx__lightning")
@@ -773,14 +1102,16 @@
       const bx = stormBg.getContext("2d");
       if (!bx) return stormBg;
       paintStormBg(stormBg, bw, bh, storm);
+      const now = performance.now();
+      const dtSec = clamp((now - lastBgStreakAt) / 1000, 0.008, 0.05);
+      lastBgStreakAt = now;
       if (useScreenGlass && stormDomReady && stormDomBg.width > 2) {
         bx.setTransform(1, 0, 0, 1, 0, 0);
         bx.drawImage(stormDomBg, 0, 0, bw, bh);
-        bgStreakSeed += 0.37;
-        paintBgStreaks(bx, bw, bh, storm, bgStreakSeed);
+        bgStreaks.paint(bx, bw, bh, storm, dtSec, windLive);
         return stormBg;
       }
-      paintBgStreaks(bx, bw, bh, storm, bgStreakSeed);
+      bgStreaks.paint(bx, bw, bh, storm, dtSec, windLive);
       return stormBg;
     };
 
@@ -799,7 +1130,7 @@
       glassDropCanvas.style.display = "none";
       mist.style.display = "none";
       streakCanvas.style.display = "none";
-      const skyHex = storm ? "#1a283c" : "#243448";
+      const skyHex = storm ? "#1a283c" : "#344961";
       try {
         const scale = bw / Math.max(1, window.innerWidth);
         const shot = await h2c(document.documentElement, {
@@ -829,7 +1160,7 @@
           dx.fillStyle = skyHex;
           dx.fillRect(0, 0, bw, bh);
           /* 提亮截图，缓解贴屏整体发暗（保留折射，略增可读） */
-          dx.filter = "brightness(1.22) contrast(1.06) saturate(1.04)";
+          dx.filter = "brightness(1.05) contrast(1.03) saturate(1.02)";
           dx.drawImage(shot, 0, 0, bw, bh);
           dx.filter = "none";
           if (captureLooksBlack(stormDomBg)) {
@@ -904,7 +1235,9 @@
           backgroundBlurSteps: 0,
           mistBlurStep: 0,
           /* 水色：弱阴影，靠折射+高光成形 */
-          raindropShadowOffset: Math.min(gOpts.raindropShadowOffset ?? 0.12, 0.18),
+          raindropShadowOffset: Math.min(gOpts.raindropShadowOffset ?? 0.13, 0.18),
+          raindropCompose: gOpts.raindropCompose || "harder",
+          raindropDiffuseLight: gOpts.raindropDiffuseLight || [0.4, 0.48, 0.58],
         });
         applyGlassOpts(glassFx, quality, storm, realPhone, useScreenGlass);
         try {
@@ -912,17 +1245,21 @@
           glassFx.options.backgroundBlurSteps = 0;
           glassFx.options.mistBlurStep = 0;
           glassFx.options.raindropShadowOffset = Math.min(
-            glassFx.options.raindropShadowOffset || 0.12,
+            glassFx.options.raindropShadowOffset || 0.13,
             0.18,
           );
           glassFx.options.raindropDiffuseLight = gOpts.raindropDiffuseLight
-            || [0.78, 0.86, 0.95];
+            || [0.4, 0.48, 0.58];
           glassFx.options.raindropSpecularLight = gOpts.raindropSpecularLight
             || [1, 1, 1];
-          glassFx.options.refractBase = gOpts.refractBase ?? 0.55;
-          glassFx.options.refractScale = gOpts.refractScale ?? 0.95;
+          glassFx.options.refractBase = gOpts.refractBase ?? 0.6;
+          glassFx.options.refractScale = gOpts.refractScale ?? 1.0;
+          glassFx.options.raindropCompose = gOpts.raindropCompose || "harder";
+          glassFx.options.smoothRaindrop = gOpts.smoothRaindrop || [0.88, 0.97];
           glassFx.options.spawnSize = gOpts.spawnSize || glassFx.options.spawnSize;
           glassFx.options.dropletsPerSeconds = gOpts.dropletsPerSeconds ?? 0;
+          glassFx.options.trailDropDensity = gOpts.trailDropDensity ?? 0.36;
+          glassFx.options.slipRate = gOpts.slipRate ?? 0.9;
         } catch { /* ignore */ }
         await glassFx.setBackground(stormBg);
         await glassFx.start();
@@ -931,9 +1268,9 @@
         console.info("[kaya] screen glass ready", storm ? "storm" : "heavy");
         syncGlassOpacity();
         if (useScreenGlass && !screenGlassDemoted) {
-          scheduleDomCapture(storm ? 700 : (realPhone ? 1100 : 900));
-          const pushMs = storm ? 140 : (realPhone ? 300 : 220);
-          const recaptureMs = storm ? 1800 : (realPhone ? 4000 : 2800);
+          scheduleDomCapture(storm ? 700 : (realPhone ? 1100 : 600));
+          const pushMs = storm ? 48 : (realPhone ? 72 : 40);
+          const recaptureMs = storm ? 1600 : (realPhone ? 4000 : 2000);
           window.clearInterval(captureInterval);
           captureInterval = window.setInterval(() => {
             if (!glassReady || !running || document.hidden || screenGlassDemoted) return;
@@ -977,30 +1314,30 @@
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
-      quality = storm ? "high" : detectQuality();
+      quality = storm || !realPhone ? "high" : detectQuality();
       const q = qualityFor(quality, storm, realPhone);
       wantRaindropFx = (useScreenGlass || !useGpuStreaks()) && !!RaindropCtor && q.glass != null;
       fitSplash();
       gpu?.resize(w, h);
-      const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.5 : (realPhone ? 1.0 : 1.35)));
+      const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.6 : (realPhone ? 1.0 : 1.55)));
       gpu?.setCount(Math.min(n, streakCapFor(storm, phone)));
       gpu?.setFrameBudget(q.frameMs);
       gpu?.setWind?.(q.wind);
       gpu?.setSpeedMul?.(q.speedMul);
       gpu?.setSizeMul?.(storm ? (q.sizeMul || STORM_MUL.sizeMul) : 0.96);
-      gpu?.setSheet?.(storm ? 1 : 0.85);
+      gpu?.setSheet?.(storm ? 1 : 0.9);
       gpu?.setTilt?.(storm ? 0.05 : 0.065);
       glassDrops?.setCounts(
         storm
           ? Math.max(realPhone ? 72 : 100, q.glassMain || 100)
-          : (realPhone ? Math.max(36, Math.round((q.glassMain || 34) * 1.0)) : (q.glassMain || 52)),
+          : (realPhone ? Math.max(36, Math.round((q.glassMain || 34) * 1.0)) : (q.glassMain || 90)),
         storm
           ? (realPhone || mobileLite
             ? Math.max(120, Math.min(220, Math.round((q.glassMicro || 560) * 0.28)))
-            : Math.max(160, Math.min(280, Math.round((q.glassMicro || 980) * 0.22))))
+            : Math.max(180, Math.min(320, Math.round((q.glassMicro || 980) * 0.24))))
           : (realPhone || mobileLite
             ? Math.max(90, Math.round((q.glassMicro || 360) * 0.28))
-            : Math.max(120, Math.round((q.glassMicro || 560) * 0.3))),
+            : Math.max(140, Math.round((q.glassMicro || 560) * 0.32))),
       );
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()
@@ -1008,6 +1345,7 @@
       glassDrops?.setLedges?.(ledgeSnap);
       rebuildFallback();
       scheduleResizeGlass();
+      syncClouds();
       syncGlassOpacity();
     };
 
@@ -1020,7 +1358,7 @@
     };
 
     const pushSplash = (opts) => {
-      const cap = phone ? (storm ? 120 : 70) : (storm ? 520 : 200);
+      const cap = phone ? (storm ? 120 : 70) : (storm ? 520 : 320);
       if (splashes.length >= cap) return;
       splashes.push({
         x: opts.x,
@@ -1081,38 +1419,38 @@
           });
         }
       } else {
-        /* 大雨溅花：柔晕 + 扇形细滴 + 偶发下淌 */
+        /* 大雨溅花：更密顶缘白簇（对齐 REF 卡缘积水） */
         pushSplash({
           x: hit.x, y: hit.y,
-          vx: windBias * 0.12, vy: rand(-16, -4),
-          life: rand(0.14, 0.24), r: rand(1.8, 3.2),
-          soft: true, kind: "soft", a: 0.65,
+          vx: windBias * 0.12, vy: rand(-18, -5),
+          life: rand(0.16, 0.28), r: rand(2.0, 3.6),
+          soft: true, kind: "soft", a: 0.72,
         });
-        const n = phone ? (2 + ((Math.random() * 2) | 0)) : (3 + ((Math.random() * 4) | 0));
+        const n = phone ? (3 + ((Math.random() * 3) | 0)) : (5 + ((Math.random() * 5) | 0));
         for (let i = 0; i < n; i += 1) {
-          const ang = -Math.PI * 0.05 - Math.random() * Math.PI * 0.82;
-          const spd = rand(42, phone ? 115 : 145);
+          const ang = -Math.PI * 0.05 - Math.random() * Math.PI * 0.85;
+          const spd = rand(35, phone ? 110 : 150);
           const fine = Math.random() < 0.5;
           pushSplash({
-            x: hit.x + rand(-3, 3),
-            y: hit.y + rand(-0.8, 1),
+            x: hit.x + rand(-5, 5),
+            y: hit.y + rand(-1, 1.5),
             vx: Math.cos(ang) * spd + windBias,
             vy: Math.sin(ang) * spd,
-            life: fine ? rand(0.1, 0.2) : rand(0.14, 0.28),
-            r: fine ? rand(0.5, 1.25) : rand(1.15, 2.5),
-            soft: Math.random() < 0.35,
-            kind: fine ? "hard" : (Math.random() < 0.45 ? "soft" : "hard"),
-            a: fine ? 0.92 : 0.8,
+            life: fine ? rand(0.1, 0.2) : rand(0.14, 0.3),
+            r: fine ? rand(0.6, 1.5) : rand(1.3, 2.8),
+            soft: !phone && Math.random() < 0.45,
+            kind: fine ? "hard" : (Math.random() < 0.55 ? "soft" : "hard"),
+            a: fine ? 0.95 : 0.88,
           });
         }
-        if (!phone && Math.random() < 0.35) {
+        if (Math.random() < 0.4) {
           pushSplash({
             x: hit.x + rand(-4, 4),
-            y: hit.y + rand(0.5, 3),
+            y: hit.y + rand(1, 3),
             vx: windBias * 0.15 + rand(-10, 10),
-            vy: rand(24, 70),
-            life: rand(0.22, 0.42),
-            r: rand(1.0, 2.1),
+            vy: rand(25, 70),
+            life: rand(0.25, 0.48),
+            r: rand(1.1, 2.2),
             soft: true, kind: "soft", drip: true, a: 0.7,
           });
         }
@@ -1190,7 +1528,24 @@
         : opts.getLedges?.()) || [];
       glassDrops?.setLedges?.(ledges);
 
-      if (intensity > 0.001) drawFallback(dt, intensity);
+      const screenOnNow = useScreenGlass && glassReady && !screenGlassDemoted;
+      if (intensity > 0.001 && !screenOnNow) {
+        drawFallback(dt, intensity);
+      } else if (fallbackCtx && screenOnNow) {
+        fallbackCtx.clearRect(0, 0, w, h);
+      }
+      /* 贴屏银丝叠层：对齐参考片密细运动模糊雨帘 */
+      if (overlayCtx && screenOnNow && intensity > 0.001) {
+        const nowOv = performance.now();
+        const dtOv = clamp((nowOv - lastOverlayAt) / 1000, 0.008, 0.05);
+        lastOverlayAt = nowOv;
+        overlayCtx.clearRect(0, 0, w, h);
+        overlayCtx.globalAlpha = clamp(intensity, 0, 1);
+        overlayStreaks.paint(overlayCtx, w, h, storm, dtOv, windLive * 0.85);
+        overlayCtx.globalAlpha = 1;
+      } else if (overlayCtx && !screenOnNow) {
+        overlayCtx.clearRect(0, 0, w, h);
+      }
       glassDrops?.draw(dt);
 
       if (!wantSplash || !sctx || intensity <= 0.001) {
@@ -1209,8 +1564,8 @@
         splashAcc = 0;
       }
 
-      /* 仅矩形卡片顶缘：短湿划 + 持续细珠 */
-      const wetChance = (storm ? 0.55 : 0.38) * aMul;
+      /* 仅矩形卡片顶缘：短湿划 + 持续细珠 —— 对齐参考片卡缘积水 */
+      const wetChance = (storm ? 0.7 : 0.55) * aMul;
       for (let i = 0; i < ledges.length; i += 1) {
         const L = ledges[i];
         if (L.shape === "circle") continue;
@@ -1218,18 +1573,18 @@
         const wetA = scrolling ? 0.4 : 1;
         if (!scrolling && Math.random() < wetChance) {
           const dashN = storm
-            ? (2 + ((Math.random() * 4) | 0))
-            : (2 + ((Math.random() * 3) | 0));
+            ? (3 + ((Math.random() * 5) | 0))
+            : (3 + ((Math.random() * 4) | 0));
           for (let d = 0; d < dashN; d += 1) {
             const dx = L.x + L.w * (0.04 + Math.random() * 0.92);
-            const dw = storm ? rand(3, 16) : rand(5, 18);
-            sctx.fillStyle = `rgba(235,245,255,${rand(0.18, storm ? 0.45 : 0.38) * pulse * aMul * wetA})`;
-            sctx.fillRect(dx, L.y - 0.8, dw, storm ? 2.2 : 1.9);
+            const dw = storm ? rand(3, 18) : rand(4, 20);
+            sctx.fillStyle = `rgba(235,245,255,${rand(0.22, storm ? 0.55 : 0.48) * pulse * aMul * wetA})`;
+            sctx.fillRect(dx, L.y - 1.0, dw, storm ? 2.6 : 2.3);
           }
           /* 顶缘连续湿膜 */
-          if (!storm && Math.random() < 0.45) {
-            sctx.fillStyle = `rgba(210,230,250,${0.1 * pulse * aMul * wetA})`;
-            sctx.fillRect(L.x + L.w * 0.08, L.y - 0.4, L.w * 0.84, 1.2);
+          if (Math.random() < (storm ? 0.55 : 0.62)) {
+            sctx.fillStyle = `rgba(210,230,250,${(storm ? 0.14 : 0.16) * pulse * aMul * wetA})`;
+            sctx.fillRect(L.x + L.w * 0.06, L.y - 0.6, L.w * 0.88, storm ? 1.8 : 1.5);
           }
         }
       }
@@ -1237,11 +1592,11 @@
       if (!scrolling) {
         const rectLedges = ledges.filter((L) => L.shape !== "circle");
         splashAcc += dt;
-        const ledgeBase = (storm ? (phone ? 7 : 22) : (phone ? 4.5 : 9.5))
-          + rectLedges.length * (storm ? (phone ? 1.1 : 3.2) : (phone ? 0.9 : 1.85));
-        const rateCap = storm ? (phone ? 14 : 72) : (phone ? 10 : 22);
+        const ledgeBase = (storm ? (phone ? 7 : 22) : (phone ? 4.5 : 16))
+          + rectLedges.length * (storm ? (phone ? 1.1 : 3.2) : (phone ? 0.9 : 2.8));
+        const rateCap = storm ? (phone ? 14 : 72) : (phone ? 10 : 42);
         const rate = Math.min(rateCap, ledgeBase * splashMul) * aMul;
-        const burstCap = storm ? (phone ? 4 : 22) : (phone ? 3 : 8);
+        const burstCap = storm ? (phone ? 4 : 22) : (phone ? 3 : 14);
         let spawned = 0;
         while (rate > 0.2 && splashAcc > 1 / rate && rectLedges.length && spawned < burstCap) {
           splashAcc -= 1 / rate;
