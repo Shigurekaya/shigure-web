@@ -30,9 +30,9 @@
   }
 
   const QUALITY = {
-    low: { far: 70, mid: 95, near: 55, splashCap: 90, dprCap: 1.25, mist: 1 },
-    mid: { far: 110, mid: 150, near: 90, splashCap: 140, dprCap: 1.45, mist: 1 },
-    high: { far: 150, mid: 210, near: 120, splashCap: 200, dprCap: 1.65, mist: 1 },
+    low: { far: 110, mid: 150, near: 90, splashCap: 130, dprCap: 1.3, mist: 1 },
+    mid: { far: 170, mid: 230, near: 140, splashCap: 190, dprCap: 1.5, mist: 1 },
+    high: { far: 230, mid: 320, near: 190, splashCap: 260, dprCap: 1.7, mist: 1 },
   };
 
   function bakeSplashSprites() {
@@ -112,28 +112,30 @@
     }
 
     const makeDrop = (layer) => {
+      /* 按屏高比例定长度：小雨也要像「雨」，不是针尖毛毛雨 */
+      const H = Math.max(h, 640);
       const spec = layer === "far"
         ? {
-          len: [9, 18],
-          speed: [95, 155],
-          alpha: [0.12, 0.26],
-          width: [0.75, 1.15],
-          drift: [8, 16],
+          len: [H * 0.018, H * 0.038],
+          speed: [180, 280],
+          alpha: [0.18, 0.34],
+          width: [1.1, 1.6],
+          drift: [10, 20],
         }
         : layer === "mid"
           ? {
-            len: [13, 26],
-            speed: [130, 215],
-            alpha: [0.2, 0.4],
-            width: [0.95, 1.45],
-            drift: [12, 22],
+            len: [H * 0.028, H * 0.055],
+            speed: [240, 380],
+            alpha: [0.28, 0.5],
+            width: [1.35, 2.05],
+            drift: [14, 26],
           }
           : {
-            len: [18, 36],
-            speed: [170, 285],
-            alpha: [0.32, 0.58],
-            width: [1.15, 1.85],
-            drift: [14, 26],
+            len: [H * 0.04, H * 0.078],
+            speed: [320, 480],
+            alpha: [0.42, 0.72],
+            width: [1.7, 2.6],
+            drift: [16, 30],
           };
       const roll = Math.random();
       return {
@@ -144,8 +146,7 @@
         alpha: rand(spec.alpha[0], spec.alpha[1]),
         width: rand(spec.width[0], spec.width[1]),
         drift: rand(spec.drift[0], spec.drift[1]),
-        /* lilac / cool / silver — 细雨色相层次 */
-        hue: roll < 0.38 ? "lilac" : (roll < 0.72 ? "mist" : "silver"),
+        hue: roll < 0.28 ? "lilac" : (roll < 0.62 ? "mist" : "silver"),
         wobble: rand(0, Math.PI * 2),
         phase: Math.random(),
       };
@@ -196,44 +197,43 @@
     const spawnSplash = (x, y) => {
       const cap = QUALITY[quality].splashCap;
       if (splashes.length >= cap) return;
-      /* 中心柔晕 */
       if (splashes.length < cap) {
         splashes.push({
           x, y,
-          vx: rand(-6, 6),
-          vy: rand(-18, -6),
-          life: rand(0.16, 0.28),
+          vx: rand(-8, 8),
+          vy: rand(-28, -10),
+          life: rand(0.18, 0.32),
           age: 0,
-          r: rand(2.2, 3.8),
-          a: rand(0.22, 0.38),
+          r: rand(3.2, 5.5),
+          a: rand(0.32, 0.5),
           soft: true,
         });
       }
-      const n = 3 + ((Math.random() * 4) | 0);
+      const n = 4 + ((Math.random() * 5) | 0);
       for (let i = 0; i < n; i += 1) {
         if (splashes.length >= cap) break;
-        const ang = -Math.PI * 0.15 - Math.random() * Math.PI * 0.7;
-        const spd = rand(28, 95);
+        const ang = -Math.PI * 0.12 - Math.random() * Math.PI * 0.76;
+        const spd = rand(40, 130);
         splashes.push({
-          x: x + rand(-2, 2),
+          x: x + rand(-3, 3),
           y: y + rand(-1, 1),
-          vx: Math.cos(ang) * spd + wind * 8,
+          vx: Math.cos(ang) * spd + wind * 10,
           vy: Math.sin(ang) * spd,
-          life: rand(0.2, 0.42),
+          life: rand(0.22, 0.48),
           age: 0,
-          r: rand(0.55, 1.45),
-          a: rand(0.32, 0.58),
+          r: rand(0.8, 2.0),
+          a: rand(0.4, 0.7),
           soft: false,
         });
       }
-      if (ripples.length < 28 && Math.random() < 0.55) {
+      if (ripples.length < 36 && Math.random() < 0.7) {
         ripples.push({
           x: clamp(x, 8, w - 8),
-          y: h - rand(1, 6),
-          life: rand(0.35, 0.7),
+          y: h - rand(1, 8),
+          life: rand(0.4, 0.8),
           age: 0,
-          r0: rand(2, 5),
-          a: rand(0.12, 0.26),
+          r0: rand(4, 9),
+          a: rand(0.16, 0.32),
         });
       }
     };
@@ -269,23 +269,23 @@
       ctx.lineTo(x2, y2);
       ctx.stroke();
 
-      /* 近景雨丝头部微光点，增加真实感 */
-      if (d.alpha > 0.22 && d.width > 1.05) {
-        ctx.fillStyle = `rgba(235,245,255,${d.alpha * 0.55})`;
+      /* 近景雨丝头部微光 */
+      if (d.alpha > 0.28 && d.width > 1.3) {
+        ctx.fillStyle = `rgba(245,250,255,${d.alpha * 0.7})`;
         ctx.beginPath();
-        ctx.arc(d.x + tilt * 0.12, d.y + d.len * 0.08, d.width * 0.55, 0, Math.PI * 2);
+        ctx.arc(d.x + tilt * 0.12, d.y + d.len * 0.06, d.width * 0.7, 0, Math.PI * 2);
         ctx.fill();
       }
     };
 
     const stepDrop = (d, dt, splashChance) => {
       d.y += d.speed * dt;
-      d.x += (wind * 24 + d.drift * 0.4) * dt;
+      d.x += (wind * 28 + d.drift * 0.45) * dt;
       if (d.y > h + d.len) {
         if (Math.random() < splashChance) {
           spawnSplash(clamp(d.x + wind * d.drift * 0.05, 0, w), h - rand(0, 5));
         }
-        d.y = -d.len - Math.random() * 50;
+        d.y = -d.len - Math.random() * 60;
         d.x = Math.random() * w;
         d.phase = Math.random();
       } else if (d.x > w + 28) {
@@ -298,11 +298,11 @@
     const drawGroundWet = () => {
       wetPulse += 0.02;
       const pulse = 0.55 + 0.45 * Math.sin(wetPulse);
-      const band = Math.min(48, h * 0.07);
+      const band = Math.min(72, h * 0.1);
       const g = ctx.createLinearGradient(0, h - band, 0, h);
       g.addColorStop(0, "rgba(160,185,220,0)");
-      g.addColorStop(0.45, `rgba(170,195,230,${0.09 * pulse})`);
-      g.addColorStop(1, `rgba(139,111,212,${0.11 * pulse})`);
+      g.addColorStop(0.4, `rgba(170,195,230,${0.14 * pulse})`);
+      g.addColorStop(1, `rgba(139,111,212,${0.16 * pulse})`);
       ctx.fillStyle = g;
       ctx.fillRect(0, h - band, w, band);
     };
