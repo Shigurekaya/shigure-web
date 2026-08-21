@@ -362,6 +362,9 @@ const Kaya = (() => {
     };
 
     const ensureStormFx = () => {
+      /* 暂关打雷/闪电：保留暴雨雨效，不挂 KayaStormLightning */
+      return null;
+      /*
       if (!storm) return null;
       if (stormFx) return stormFx;
       if (!window.KayaStormLightning?.attach) {
@@ -373,6 +376,7 @@ const Kaya = (() => {
           || (navigator.maxTouchPoints > 1 && Math.min(screen.width, screen.height) <= 920),
       });
       return stormFx;
+      */
     };
 
     const ensureLightFx = () => {
