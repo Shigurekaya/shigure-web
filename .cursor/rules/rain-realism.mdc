@@ -10,14 +10,16 @@ alwaysApply: false
 
 对齐小米天气「雨水打在玻璃屏上」。真实度 > 性能，但 **文字尽量可读**。
 
-## 贴屏折射（storm）
+## 贴屏折射（heavy / storm）
 
 用户确认要 **半透明大折射珠**（raindrop-fx + html2canvas），略暗可接受。
 
-- **storm + html2canvas + RaindropFX** → 默认开贴屏真折射
-- 冷凝微珠（droplets）**少**；主看大 spawn 珠
-- 截图 `brightness(1.2)` + CSS `brightness(1.12)` 缓解发暗
-- mist / backgroundBlur 保持关；过黑探测失败 → demote 回 2D
+- html2canvas + RaindropFX 可用时默认开贴屏（大雨/暴雨）
+- **贴屏时不创建 GPU 雨丝**（手机双 WebGL 会抢上下文导致 raindrop 静默失败）
+- 冷凝微珠少；截图提亮；过黑才 demote → 再挂 GPU + 2D
+- 贴屏未就绪时先显示 2D 珠，避免「什么都没有」
+
+测试入口：`/?storm` 或 `/?heavy`（首页无参数多为小雨，看不到贴屏）。
 
 ## 已证伪 / 勿再做
 

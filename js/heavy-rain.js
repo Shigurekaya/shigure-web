@@ -206,7 +206,7 @@
   }
 
   /**
-   * 截图像素探测：整屏过暗 → 手机黑点/黑底，应放弃贴屏折射。
+   * 截图像素探测：仅整屏近黑才放弃（过严会误杀正常暗色暴风雨底）。
    */
   function captureLooksBlack(canvas) {
     try {
@@ -221,11 +221,11 @@
       for (let i = 0; i < img.length; i += 4) {
         const y = 0.2126 * img[i] + 0.7152 * img[i + 1] + 0.0722 * img[i + 2];
         sum += y;
-        if (y < 12) dark += 1;
+        if (y < 8) dark += 1;
       }
       const mean = sum / n;
       const darkRatio = dark / n;
-      return mean < 22 || darkRatio > 0.82;
+      return mean < 10 || darkRatio > 0.94;
     } catch {
       return true;
     }
@@ -445,10 +445,11 @@
     const q0 = qualityFor(quality, storm, realPhone);
     const mobileLite = realPhone || quality === "low"
       || window.matchMedia("(max-width: 720px)").matches;
-    /* 贴屏 raindrop+html2canvas：用户确认要「半透明大折射珠」观感（略暗可接受）。
-     * 策略：少冷凝 + 截图提亮；过黑探测失败则 demote 回 2D 珠。 */
+    /* 贴屏 raindrop+html2canvas：用户要半透明大折射珠。
+     * 关键：贴屏时不创建 GPU 雨丝（手机双 WebGL 会抢上下文 → raindrop 静默失败）。
+     * 雨丝画进折射底图；失败 demote 后再挂 GPU + 2D 珠。 */
     const h2cOk = typeof window.html2canvas === "function";
-    let useScreenGlass = !!(storm && RaindropCtor && h2cOk);
+    let useScreenGlass = !!(RaindropCtor && h2cOk);
     let screenGlassDemoted = !useScreenGlass;
 
     const glassCanvas = document.createElement("canvas");
@@ -499,7 +500,7 @@
     const streakCount = Math.round(q0.streak * areaScale);
     const maxStreak = streakCapFor(storm, phone);
 
-    const gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, {
+    const gpuOpts = () => ({
       count: Math.min(streakCount, maxStreak),
       dprCap: realPhone ? Math.min(q0.dprCap, 1.2) : (storm ? Math.min(q0.dprCap, 1.55) : q0.dprCap),
       wind: q0.wind,
@@ -511,12 +512,23 @@
       preserveDrawingBuffer: false,
     });
 
-    const useGpuStreaks = !!gpu;
+    /* 贴屏路径禁止先占 WebGL；仅非贴屏或 demote 后挂 GPU */
+    let gpu = useScreenGlass
+      ? null
+      : window.KayaGpuStreakRain?.attach?.(streakCanvas, gpuOpts());
 
-    /* 贴屏湿感：真折射成功时由 raindrop 负责；2D 珠作回退（冷凝少） */
+    const ensureGpuStreaks = () => {
+      if (gpu) return gpu;
+      gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, gpuOpts()) || null;
+      return gpu;
+    };
+
+    const useGpuStreaks = () => !!gpu;
+
+    /* 贴屏未就绪时仍显示 2D 珠；就绪后关掉避免叠两层 */
     const wantSplash = true;
     splashCanvas.style.display = wantSplash ? "" : "none";
-    glassDropCanvas.style.display = useScreenGlass ? "none" : "";
+    glassDropCanvas.style.display = "";
     if (storm) glassDropCanvas.classList.add("is-storm-glass");
     glassDropCanvas.classList.add("is-clear-glass");
 
@@ -572,7 +584,7 @@
     let glassFailed = false;
     let glassAnimating = false;
     /* 贴屏真折射优先；无 GPU 时也可用背景 raindrop 兜底 */
-    let wantRaindropFx = (useScreenGlass || !useGpuStreaks)
+    let wantRaindropFx = (useScreenGlass || !useGpuStreaks())
       && !!RaindropCtor
       && qualityFor(quality, storm, realPhone).glass != null;
     /** 溅花 / 兜底雨丝跟随时风速（含符号） */
@@ -673,7 +685,7 @@
       if (!useScreenGlass || screenGlassDemoted) return;
       screenGlassDemoted = true;
       useScreenGlass = false;
-      console.warn("[kaya] screen glass demoted → 2D drops", reason || "");
+      console.warn("[kaya] screen glass demoted → GPU+2D drops", reason || "");
       try { glassFx?.stop(); } catch { /* ignore */ }
       glassFx = null;
       glassReady = false;
@@ -682,6 +694,14 @@
       wantRaindropFx = false;
       glassCanvas.style.display = "none";
       glassCanvas.style.opacity = "0";
+      glassCanvas.classList.remove("is-on");
+      /* 释放贴屏 WebGL 后再挂雨丝 GPU */
+      const g = ensureGpuStreaks();
+      try {
+        g?.resize?.(w || window.innerWidth, h || window.innerHeight);
+        g?.setIntensity?.(intensity);
+        if (running && targetIntensity > 0) g?.start?.();
+      } catch { /* ignore */ }
       if (glassDrops) {
         glassDropCanvas.style.display = "";
         glassDrops.setEnabled?.(true);
@@ -701,9 +721,9 @@
         glassCanvas.style.opacity = "0";
         glassCanvas.classList.remove("is-on");
       }
-      /* 贴屏盖住 UI 时停 GPU 雨丝，省电；雨丝已画进折射底图 */
+      /* 贴屏成功后停 GPU（本来也可能未创建）；雨丝在折射底图里 */
       gpu?.setIntensity(screenOn ? 0 : intensity);
-      /* 真折射盖住 UI 时关掉 2D 珠，避免叠两层；失败/未就绪则开 2D */
+      /* 贴屏未就绪 / 失败：开 2D 珠；成功后关掉 */
       if (glassDrops) {
         const dropsOn = !screenOn;
         glassDrops.setEnabled?.(dropsOn);
@@ -798,7 +818,7 @@
           dx.fillStyle = skyHex;
           dx.fillRect(0, 0, bw, bh);
           /* 提亮截图，缓解贴屏整体发暗（保留折射，略增可读） */
-          dx.filter = "brightness(1.2) contrast(1.06) saturate(1.04)";
+          dx.filter = "brightness(1.28) contrast(1.08) saturate(1.05)";
           dx.drawImage(shot, 0, 0, bw, bh);
           dx.filter = "none";
           if (captureLooksBlack(stormDomBg)) {
@@ -885,6 +905,7 @@
         await glassFx.start();
         glassReady = true;
         glassAnimating = true;
+        console.info("[kaya] screen glass ready", storm ? "storm" : "heavy");
         syncGlassOpacity();
         if (useScreenGlass && !screenGlassDemoted) {
           scheduleDomCapture(storm ? 700 : (realPhone ? 1100 : 900));
@@ -935,7 +956,7 @@
       h = window.innerHeight;
       quality = storm ? "high" : detectQuality();
       const q = qualityFor(quality, storm, realPhone);
-      wantRaindropFx = (useScreenGlass || !useGpuStreaks) && !!RaindropCtor && q.glass != null;
+      wantRaindropFx = (useScreenGlass || !useGpuStreaks()) && !!RaindropCtor && q.glass != null;
       fitSplash();
       gpu?.resize(w, h);
       const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.5 : (realPhone ? 1.0 : 1.35)));
