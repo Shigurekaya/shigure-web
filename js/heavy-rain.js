@@ -362,17 +362,18 @@
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.55, 0.65, 0.78, 0.04];
-      opts.raindropSpecularLight = [0.52, 0.58, 0.66];
-      opts.raindropSpecularShininess = 84;
-      opts.raindropLightBump = 0.78;
-      opts.raindropDiffuseLight = [0.5, 0.56, 0.64];
-      opts.raindropShadowOffset = 0.22;
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 420 : 900) : 0;
-      opts.dropletSize = screenGlass ? [6, 18] : [8, 20];
+      opts.raindropSpecularLight = [0.62, 0.7, 0.8];
+      opts.raindropSpecularShininess = 92;
+      opts.raindropLightBump = 0.88;
+      opts.raindropDiffuseLight = [0.58, 0.64, 0.72];
+      opts.raindropShadowOffset = 0.14;
+      /* 冷凝少一些：大折射珠为主 */
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 70 : 120) : 0;
+      opts.dropletSize = screenGlass ? [10, 24] : [8, 20];
       opts.spawnLimit = screenGlass
-        ? Math.min(opts.spawnLimit || 1800, phone ? 900 : 1600)
+        ? Math.min(opts.spawnLimit || 1800, phone ? 520 : 900)
         : Math.min(opts.spawnLimit || 800, 600);
-      opts.spawnInterval = screenGlass ? [0.02, 0.045] : [0.04, 0.09];
+      opts.spawnInterval = screenGlass ? [0.035, 0.08] : [0.04, 0.09];
     } else {
       /* 大雨贴屏：清透、提亮 */
       opts.spawnSize = [16, 58];
@@ -385,13 +386,13 @@
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.5, 0.6, 0.72, 0.03];
-      opts.raindropSpecularLight = [0.42, 0.48, 0.56];
-      opts.raindropSpecularShininess = 72;
-      opts.raindropLightBump = 0.68;
-      opts.raindropDiffuseLight = [0.48, 0.54, 0.6];
-      opts.raindropShadowOffset = 0.26;
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 220 : 400) : 0;
-      opts.spawnLimit = Math.min(opts.spawnLimit || 900, screenGlass ? (phone ? 360 : 520) : 400);
+      opts.raindropSpecularLight = [0.5, 0.56, 0.64];
+      opts.raindropSpecularShininess = 78;
+      opts.raindropLightBump = 0.75;
+      opts.raindropDiffuseLight = [0.52, 0.58, 0.66];
+      opts.raindropShadowOffset = 0.18;
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 50 : 90) : 0;
+      opts.spawnLimit = Math.min(opts.spawnLimit || 900, screenGlass ? (phone ? 280 : 420) : 400);
       if (phone) {
         opts.spawnSize = [14, 48];
         opts.spawnInterval = [0.06, 0.14];
@@ -444,21 +445,23 @@
     const q0 = qualityFor(quality, storm, realPhone);
     const mobileLite = realPhone || quality === "low"
       || window.matchMedia("(max-width: 720px)").matches;
-    /* 贴屏 raindrop+html2canvas：即使用对截图也会把活 UI 换成暗糊底图（手机实测
-     * 对比度崩、发灰发黑）。已证伪，默认关闭；保留代码便于日后真活折射方案。
-     * 当前：GPU 雨丝 + site-fx 上清晰 2D 玻璃珠（文字保持锐利可读）。 */
+    /* 贴屏 raindrop+html2canvas：用户确认要「半透明大折射珠」观感（略暗可接受）。
+     * 策略：少冷凝 + 截图提亮；过黑探测失败则 demote 回 2D 珠。 */
     const h2cOk = typeof window.html2canvas === "function";
-    let useScreenGlass = false;
-    let screenGlassDemoted = true;
-    void h2cOk;
-    void RaindropCtor;
+    let useScreenGlass = !!(storm && RaindropCtor && h2cOk);
+    let screenGlassDemoted = !useScreenGlass;
 
     const glassCanvas = document.createElement("canvas");
     glassCanvas.setAttribute("aria-hidden", "true");
     glassCanvas.style.pointerEvents = "none";
-    glassCanvas.className = "site-bg__glass";
-    if (bgHost) bgHost.appendChild(glassCanvas);
-    glassCanvas.style.display = "none";
+    if (useScreenGlass) {
+      glassCanvas.className = "site-fx__rain-glass";
+      fxRoot.appendChild(glassCanvas);
+    } else {
+      glassCanvas.className = "site-bg__glass";
+      if (bgHost) bgHost.appendChild(glassCanvas);
+      glassCanvas.style.display = "none";
+    }
 
     const streakCanvas = document.createElement("canvas");
     streakCanvas.className = "site-bg__heavy";
@@ -510,24 +513,24 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* 贴屏湿感：真折射成功时由 raindrop 负责；2D 珠作回退/过渡 */
+    /* 贴屏湿感：真折射成功时由 raindrop 负责；2D 珠作回退（冷凝少） */
     const wantSplash = true;
-    const wantGlassDrops = true;
     splashCanvas.style.display = wantSplash ? "" : "none";
-    glassDropCanvas.style.display = "";
+    glassDropCanvas.style.display = useScreenGlass ? "none" : "";
     if (storm) glassDropCanvas.classList.add("is-storm-glass");
     glassDropCanvas.classList.add("is-clear-glass");
 
     const glassMainN = storm
-      ? Math.max(realPhone ? 96 : 130, q0.glassMain || 130)
-      : (realPhone ? Math.max(40, Math.round((q0.glassMain || 34) * 1.05)) : (q0.glassMain || 52));
+      ? Math.max(realPhone ? 72 : 100, q0.glassMain || 100)
+      : (realPhone ? Math.max(36, Math.round((q0.glassMain || 34) * 1.0)) : (q0.glassMain || 52));
+    /* 冷凝珠少一些 */
     const glassMicroN = storm
       ? (realPhone || mobileLite
-        ? Math.max(580, Math.min(780, q0.glassMicro || 640))
-        : Math.max(900, Math.min(1300, q0.glassMicro || 1100)))
+        ? Math.max(120, Math.min(220, Math.round((q0.glassMicro || 560) * 0.28)))
+        : Math.max(160, Math.min(280, Math.round((q0.glassMicro || 980) * 0.22))))
       : (realPhone || mobileLite
-        ? Math.max(300, Math.round((q0.glassMicro || 360) * 0.75))
-        : Math.max(420, Math.round((q0.glassMicro || 560) * 0.75)));
+        ? Math.max(90, Math.round((q0.glassMicro || 360) * 0.28))
+        : Math.max(120, Math.round((q0.glassMicro || 560) * 0.3)));
 
     const glassDrops = window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
@@ -568,8 +571,8 @@
     let glassReady = false;
     let glassFailed = false;
     let glassAnimating = false;
-    /* 无 GPU 时才用背景 raindrop 兜底；贴屏折射已关闭 */
-    let wantRaindropFx = !useGpuStreaks && !useScreenGlass
+    /* 贴屏真折射优先；无 GPU 时也可用背景 raindrop 兜底 */
+    let wantRaindropFx = (useScreenGlass || !useGpuStreaks)
       && !!RaindropCtor
       && qualityFor(quality, storm, realPhone).glass != null;
     /** 溅花 / 兜底雨丝跟随时风速（含符号） */
@@ -698,7 +701,8 @@
         glassCanvas.style.opacity = "0";
         glassCanvas.classList.remove("is-on");
       }
-      gpu?.setIntensity(intensity);
+      /* 贴屏盖住 UI 时停 GPU 雨丝，省电；雨丝已画进折射底图 */
+      gpu?.setIntensity(screenOn ? 0 : intensity);
       /* 真折射盖住 UI 时关掉 2D 珠，避免叠两层；失败/未就绪则开 2D */
       if (glassDrops) {
         const dropsOn = !screenOn;
@@ -793,7 +797,10 @@
           dx.setTransform(1, 0, 0, 1, 0, 0);
           dx.fillStyle = skyHex;
           dx.fillRect(0, 0, bw, bh);
+          /* 提亮截图，缓解贴屏整体发暗（保留折射，略增可读） */
+          dx.filter = "brightness(1.2) contrast(1.06) saturate(1.04)";
           dx.drawImage(shot, 0, 0, bw, bh);
+          dx.filter = "none";
           if (captureLooksBlack(stormDomBg)) {
             stormDomReady = false;
             demoteScreenGlass("capture too dark");
@@ -928,7 +935,7 @@
       h = window.innerHeight;
       quality = storm ? "high" : detectQuality();
       const q = qualityFor(quality, storm, realPhone);
-      wantRaindropFx = !useGpuStreaks && !useScreenGlass && !!RaindropCtor && q.glass != null;
+      wantRaindropFx = (useScreenGlass || !useGpuStreaks) && !!RaindropCtor && q.glass != null;
       fitSplash();
       gpu?.resize(w, h);
       const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.5 : (realPhone ? 1.0 : 1.35)));
@@ -941,15 +948,15 @@
       gpu?.setTilt?.(storm ? 0.05 : 0.065);
       glassDrops?.setCounts(
         storm
-          ? Math.max(realPhone ? 96 : 130, q.glassMain || 130)
-          : (realPhone ? Math.max(40, Math.round((q.glassMain || 34) * 1.05)) : (q.glassMain || 52)),
+          ? Math.max(realPhone ? 72 : 100, q.glassMain || 100)
+          : (realPhone ? Math.max(36, Math.round((q.glassMain || 34) * 1.0)) : (q.glassMain || 52)),
         storm
           ? (realPhone || mobileLite
-            ? Math.max(580, Math.min(780, q.glassMicro || 640))
-            : Math.max(900, Math.min(1300, q.glassMicro || 1100)))
+            ? Math.max(120, Math.min(220, Math.round((q.glassMicro || 560) * 0.28)))
+            : Math.max(160, Math.min(280, Math.round((q.glassMicro || 980) * 0.22))))
           : (realPhone || mobileLite
-            ? Math.max(300, Math.round((q.glassMicro || 360) * 0.75))
-            : Math.max(420, Math.round((q.glassMicro || 560) * 0.75))),
+            ? Math.max(90, Math.round((q.glassMicro || 360) * 0.28))
+            : Math.max(120, Math.round((q.glassMicro || 560) * 0.3))),
       );
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()

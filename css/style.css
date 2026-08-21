@@ -186,8 +186,9 @@ body.storm-rain .site-bg__glass {
 
 body.heavy-rain .site-fx__rain-glass.is-on,
 body.storm-rain .site-fx__rain-glass.is-on {
-  /* 勿用 !important 锁死 opacity，留给 JS 淡入 */
+  /* 勿用 !important 锁死 opacity，留给 JS 淡入；略提亮缓解截图发暗 */
   z-index: 7;
+  filter: brightness(1.12) contrast(1.04);
 }
 
 .site-bg__heavy {

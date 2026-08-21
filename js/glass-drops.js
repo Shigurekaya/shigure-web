@@ -387,7 +387,7 @@
       if (noSpray || microN <= 0) return 0;
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.5);
       /* 参考 glass_cover≈1.4%、mid≈334/MP：细点密但不糊罩 */
-      const dens = storm ? (lite ? 1.05 : 1.22) : 0.95;
+      const dens = storm ? (lite ? 0.42 : 0.5) : 0.4;
       return Math.round(microN * dens * area);
     };
 

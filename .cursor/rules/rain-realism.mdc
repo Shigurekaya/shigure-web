@@ -8,26 +8,31 @@ alwaysApply: false
 
 ## 硬性目标
 
-对齐小米天气「雨水打在玻璃屏上」。真实度 > 性能，但 **文字必须可读**。
+对齐小米天气「雨水打在玻璃屏上」。真实度 > 性能，但 **文字尽量可读**。
 
-## 已证伪（勿再默认开启）
+## 贴屏折射（storm）
 
-**全屏 `raindrop-fx` + `html2canvas` 盖 UI**——即使修了双 WebGL / 忽略 canvas / mist:false：
+用户确认要 **半透明大折射珠**（raindrop-fx + html2canvas），略暗可接受。
 
-- 本质是把活 UI **整页换成截图底图再折射**，手机上整体发暗、发糊、对比度崩（2026-08-21 实机截图 mean≈51、字难读）
-- 「过黑探测」拦不住这种「灰暗糊玻璃」，不是纯黑点问题
-- **默认 `useScreenGlass = false`**；代码可留作实验，勿再当上线路径
+- **storm + html2canvas + RaindropFX** → 默认开贴屏真折射
+- 冷凝微珠（droplets）**少**；主看大 spawn 珠
+- 截图 `brightness(1.2)` + CSS `brightness(1.12)` 缓解发暗
+- mist / backgroundBlur 保持关；过黑探测失败 → demote 回 2D
 
-其它禁令：默认 mist 近黑；WebGL 雨丝 drawImage 进 2D 底图；大软灰喷雾球。
+## 已证伪 / 勿再做
 
-## 当前上线路径
+- 黑底画布 + CSS `mix-blend-mode: screen`（手机失效整页黑）
+- 默认 mist 近黑；WebGL 雨丝 drawImage 进 2D 折射底图；大软灰喷雾球
+- 密到糊罩的冷凝点阵
+
+## 回退路径（demote / 非 storm）
 
 1. GPU / 2D 短密雨丝在 `site-bg`
-2. `glass-drops.js`：透明画布 + **透亮体积珠**（无暗芯）+ 顶部落撞击环 + 下滑湿痕/泪痕；冷凝 cling→流
-3. 背景雾很淡；全屏 raindrop+截图默认关
+2. `glass-drops.js`：透明亮珠 + 下滑湿痕；**冷凝少**
+3. 背景雾很淡
 
 ## 验收
 
-- 页面内容可见，不是整页黑布
-- 白头像上无纯黑墨点
-- 能看出水珠打到屏上并往下流（主珠+泪痕），不是只有背景雨丝
+- 大水滴半透明、有折射体积感（贴屏成功时）
+- 冷凝珠明显少于「满屏霜点」
+- 比旧贴屏版略亮；过黑则自动回退 2D
