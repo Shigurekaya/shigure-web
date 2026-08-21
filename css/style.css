@@ -167,7 +167,7 @@ body.light-rain .site-bg__rain {
   opacity: 0.82;
 }
 
-/* 暴雨雾：挂在 site-bg 内（正文下方），勿放进 site-fx 盖死页面 */
+/* 大雨雾：挂在 site-bg 内（正文下方），勿放进 site-fx 盖死页面 */
 .site-bg__heavy-mist {
   position: absolute;
   inset: 0;
@@ -187,10 +187,23 @@ body.light-rain .site-bg__rain {
   animation: heavy-mist-drift 16s ease-in-out infinite alternate;
 }
 
+.site-bg__heavy-mist.is-storm.is-on {
+  opacity: 0.88;
+  background:
+    radial-gradient(ellipse 82% 46% at 50% 4%, rgba(90, 130, 180, 0.18), transparent 74%),
+    radial-gradient(ellipse 92% 52% at 14% 82%, rgba(28, 40, 62, 0.28), transparent 70%),
+    radial-gradient(ellipse 72% 42% at 86% 70%, rgba(40, 60, 95, 0.16), transparent 66%),
+    linear-gradient(180deg, rgba(8, 12, 22, 0.28), transparent 38%, transparent 58%, rgba(4, 8, 16, 0.42));
+}
+
 @media (max-width: 720px) {
   .site-bg__heavy-mist.is-on {
     opacity: 0.45;
     animation: none;
+  }
+
+  .site-bg__heavy-mist.is-storm.is-on {
+    opacity: 0.58;
   }
 }
 
@@ -226,7 +239,7 @@ body,
     box-shadow 0.85s var(--ease);
 }
 
-/* 大雨：贴近小米天气冷蓝暴雨（参考片天空≈#344961 / 亮区≈#3d5777） */
+/* 大雨：贴近小米天气冷蓝大雨（参考片天空≈#344961 / 亮区≈#3d5777） */
 body.heavy-rain .site-bg {
   background: #243448;
 }
@@ -311,6 +324,44 @@ body.heavy-rain .link-card__icon {
   background: rgba(200, 220, 255, 0.08);
 }
 
+/* 雷暴：比大雨更深、更闷，闪光时靠 site-fx 提亮 */
+body.storm-rain .site-bg {
+  background: #141c2c;
+}
+
+body.storm-rain .site-bg::before {
+  filter: blur(92px) brightness(0.42) saturate(0.7);
+  opacity: 1;
+  background:
+    radial-gradient(circle at 22% 26%, rgba(70, 105, 155, 0.48) 0%, transparent 46%),
+    radial-gradient(circle at 78% 18%, rgba(36, 52, 78, 0.78) 0%, transparent 44%),
+    radial-gradient(circle at 55% 70%, rgba(30, 48, 78, 0.62) 0%, transparent 48%),
+    radial-gradient(circle at 30% 90%, rgba(18, 28, 48, 0.8) 0%, transparent 42%),
+    radial-gradient(circle at 48% 6%, rgba(90, 130, 180, 0.2) 0%, transparent 40%);
+}
+
+body.storm-rain .site-bg::after {
+  opacity: 0.96;
+  background:
+    linear-gradient(180deg, rgba(8, 12, 22, 0.55) 0%, transparent 28%, transparent 52%, rgba(4, 8, 16, 0.7) 100%),
+    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(80, 115, 165, 0.14), transparent 72%);
+}
+
+body.storm-rain {
+  --bg: #141c2c;
+  --ink: #eef3fb;
+  --ink-soft: #c8d2e2;
+  --ink-faint: #8492a8;
+  --bg-elevated: rgba(18, 28, 44, 0.62);
+  --line: rgba(170, 195, 230, 0.16);
+  --border: rgba(170, 195, 230, 0.2);
+  background: var(--bg);
+}
+
+body.storm-rain .site-bg__heavy {
+  opacity: 0.92;
+}
+
 .site-fx {
   position: fixed;
   inset: 0;
@@ -381,12 +432,45 @@ body.heavy-rain .link-card__icon {
   z-index: 5;
 }
 
+.site-fx__lightning {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+  pointer-events: none;
+  display: block;
+}
+
+.site-fx__thunder-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 55% at var(--flash-x, 50%) var(--flash-y, 18%),
+      rgba(230, 240, 255, 0.55) 0%,
+      rgba(180, 205, 255, 0.18) 38%,
+      transparent 72%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(200, 220, 255, 0.06) 42%, transparent 70%);
+  transition: opacity 0.05s linear;
+}
+
+.site-fx__thunder-flash.is-on {
+  transition: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-fx,
   .site-bg__rain,
   .site-bg__light-mist,
   .site-bg__heavy-mist,
-  .site-bg__heavy {
+  .site-bg__heavy,
+  .site-fx__lightning,
+  .site-fx__thunder-flash {
     display: none !important;
   }
   .site-fx__mist,
@@ -1123,8 +1207,8 @@ body.heavy-rain .footer-fuyuu__avatar {
   border-color: rgba(180, 200, 230, 0.22);
 }
 
-/* 隐藏暴雨测试入口（源码可见；直达 storm.html 或 ?rain=storm） */
-.storm-gate {
+/* 隐藏大雨测试入口（源码可见；直达 heavy.html 或 ?rain=heavy） */
+.heavy-gate {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -1183,7 +1267,7 @@ body.heavy-rain .home-intro__rain {
   animation: mist-breathe 2.6s ease-in-out both;
 }
 
-/* 暴雨开幕：冷青雾 + 顶部雨幕，贴近小米天气 */
+/* 大雨开幕：冷青雾 + 顶部雨幕，贴近小米天气 */
 body.heavy-rain .home-intro__mist {
   background:
     radial-gradient(ellipse 62% 44% at 50% 46%, rgba(170, 200, 230, 0.22), transparent 72%),

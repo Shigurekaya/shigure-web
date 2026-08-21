@@ -18,6 +18,8 @@ CLEAN_MAP = {
     "/works/": "works.html",
     "/links": "links.html",
     "/links/": "links.html",
+    "/heavy": "heavy.html",
+    "/heavy/": "heavy.html",
     "/storm": "storm.html",
     "/storm/": "storm.html",
     "/fuyuu": "fuyuu/index.html",
@@ -34,6 +36,8 @@ CLEAN_MAP = {
     "/kaya/works/": "kaya/works.html",
     "/kaya/links": "kaya/links.html",
     "/kaya/links/": "kaya/links.html",
+    "/kaya/heavy": "kaya/heavy.html",
+    "/kaya/heavy/": "kaya/heavy.html",
     "/kaya/storm": "kaya/storm.html",
     "/kaya/storm/": "kaya/storm.html",
 }

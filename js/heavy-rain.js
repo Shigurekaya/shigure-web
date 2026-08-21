@@ -1,5 +1,5 @@
 /**
- * 时雨榧 · 暴雨特效
+ * 时雨榧 · 大雨特效
  *
  * 对齐参考片盘点：
  * 1 雨丝 WebGL  2–4 玻璃主珠/微珠/拖尾（Canvas2D）
@@ -113,7 +113,7 @@
     return "high";
   }
 
-  function paintStormBg(canvas, w, h) {
+  function paintStormBg(canvas, w, h, storm) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return canvas;
     const tw = Math.max(2, Math.floor(w));
@@ -123,41 +123,81 @@
       canvas.height = th;
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = "#243448";
+    ctx.fillStyle = storm ? "#141c2c" : "#243448";
     ctx.fillRect(0, 0, tw, th);
-    const layers = [
-      { x: tw * 0.22, y: th * 0.3, r: tw * 0.55, c: "rgba(90,125,170,0.55)" },
-      { x: tw * 0.78, y: th * 0.22, r: tw * 0.5, c: "rgba(52,73,97,0.58)" },
-      { x: tw * 0.55, y: th * 0.7, r: tw * 0.58, c: "rgba(45,68,100,0.55)" },
-      { x: tw * 0.4, y: th * 0.12, r: tw * 0.42, c: "rgba(120,155,195,0.28)" },
-    ];
+    const layers = storm
+      ? [
+        { x: tw * 0.2, y: th * 0.28, r: tw * 0.58, c: "rgba(70,100,150,0.42)" },
+        { x: tw * 0.8, y: th * 0.2, r: tw * 0.52, c: "rgba(36,52,78,0.7)" },
+        { x: tw * 0.55, y: th * 0.72, r: tw * 0.6, c: "rgba(28,44,72,0.62)" },
+        { x: tw * 0.42, y: th * 0.1, r: tw * 0.4, c: "rgba(100,140,190,0.22)" },
+      ]
+      : [
+        { x: tw * 0.22, y: th * 0.3, r: tw * 0.55, c: "rgba(90,125,170,0.55)" },
+        { x: tw * 0.78, y: th * 0.22, r: tw * 0.5, c: "rgba(52,73,97,0.58)" },
+        { x: tw * 0.55, y: th * 0.7, r: tw * 0.58, c: "rgba(45,68,100,0.55)" },
+        { x: tw * 0.4, y: th * 0.12, r: tw * 0.42, c: "rgba(120,155,195,0.28)" },
+      ];
     for (let i = 0; i < layers.length; i += 1) {
       const L = layers[i];
       const g = ctx.createRadialGradient(L.x, L.y, 0, L.x, L.y, L.r);
       g.addColorStop(0, L.c);
-      g.addColorStop(1, "rgba(26,36,54,0)");
+      g.addColorStop(1, storm ? "rgba(14,20,36,0)" : "rgba(26,36,54,0)");
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, tw, th);
     }
     return canvas;
   }
 
-  function glassOptsFor(quality) {
-    const g = QUALITY[quality].glass;
+  /** 雷暴相对大雨的强度倍率 */
+  const STORM_MUL = {
+    streak: 1.55,
+    wind: 1.42,
+    speed: 1.32,
+    splash: 1.55,
+    glassMain: 1.35,
+    glassMicro: 1.4,
+  };
+
+  function qualityFor(mode, storm) {
+    const base = QUALITY[mode];
+    const q = {
+      ...base,
+      glass: base.glass && typeof base.glass === "object" ? { ...base.glass } : base.glass,
+    };
+    if (!storm) return q;
+    q.streak = Math.round(q.streak * STORM_MUL.streak);
+    q.wind = q.wind * STORM_MUL.wind;
+    q.speedMul = q.speedMul * STORM_MUL.speed;
+    q.splashRate = (q.splashRate || 1) * STORM_MUL.splash;
+    q.glassMain = Math.round((q.glassMain || 34) * STORM_MUL.glassMain);
+    q.glassMicro = Math.round((q.glassMicro || 160) * STORM_MUL.glassMicro);
+    if (q.glass && typeof q.glass === "object") {
+      q.glass = {
+        ...q.glass,
+        spawnLimit: Math.round((q.glass.spawnLimit || 400) * 1.25),
+        dropletsPerSeconds: Math.round((q.glass.dropletsPerSeconds || 360) * 1.3),
+      };
+    }
+    return q;
+  }
+
+  function glassOptsFor(mode, storm) {
+    const g = qualityFor(mode, storm).glass;
     if (!g || g === true) return null;
     return { ...GLASS_BASE, ...g };
   }
 
-  function applyGlassOpts(fx, quality) {
-    const opts = glassOptsFor(quality);
-    if (!fx || !opts) return;
-    Object.keys(opts).forEach((k) => {
-      try { fx.options[k] = opts[k]; } catch { /* ignore */ }
+  function applyGlassOpts(fx, mode, storm) {
+    const gOpts = glassOptsFor(mode, storm);
+    if (!fx || !gOpts) return;
+    Object.keys(gOpts).forEach((k) => {
+      try { fx.options[k] = gOpts[k]; } catch { /* ignore */ }
     });
   }
 
-  function glassBufferSize(cssW, cssH, quality) {
-    const maxW = QUALITY[quality].glassMaxW || 960;
+  function glassBufferSize(cssW, cssH, mode, storm) {
+    const maxW = qualityFor(mode, storm).glassMaxW || 960;
     const scale = Math.min(1, maxW / Math.max(1, cssW)) * Math.min(window.devicePixelRatio || 1, 1.25);
     return {
       bw: Math.max(1, Math.floor(cssW * scale)),
@@ -172,16 +212,18 @@
    *   collectLedges?: () => Array<{x:number,y:number,w:number,radius:number}>,
    *   isScrolling?: () => boolean,
    *   bgHost?: HTMLElement | null,
+   *   storm?: boolean,
    * }} opts
    */
   function attach(fxRoot, opts) {
     const bgHost = opts.bgHost || null;
+    const storm = !!opts.storm;
     const RaindropCtor = typeof window.RaindropFX === "function"
       ? window.RaindropFX
       : window.RaindropFX?.default;
 
     let quality = detectQuality();
-    const q0 = QUALITY[quality];
+    const q0 = qualityFor(quality, storm);
 
     const glassCanvas = document.createElement("canvas");
     glassCanvas.className = "site-bg__glass";
@@ -198,6 +240,7 @@
     const mist = document.createElement("div");
     mist.className = "site-bg__heavy-mist";
     mist.setAttribute("aria-hidden", "true");
+    if (storm) mist.classList.add("is-storm");
     if (bgHost) bgHost.appendChild(mist);
     else fxRoot.appendChild(mist);
 
@@ -222,10 +265,12 @@
       || window.matchMedia("(max-width: 720px)").matches;
 
     const gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, {
-      count: mobileLite ? Math.min(streakCount, 900) : streakCount,
+      count: mobileLite ? Math.min(streakCount, storm ? 1100 : 900) : streakCount,
       dprCap: mobileLite ? Math.min(q0.dprCap, 1.15) : q0.dprCap,
       wind: q0.wind,
       speedMul: q0.speedMul,
+      wanderWind: storm,
+      tilt: storm ? 0.145 : 0.08,
     });
 
     const useGpuStreaks = !!gpu;
@@ -270,26 +315,48 @@
     let glassFailed = false;
     let glassAnimating = false;
     /* 无 GPU 时用 raindrop-fx 兜底（与 Canvas2D 玻璃珠互斥） */
-    let wantRaindropFx = !useGpuStreaks && QUALITY[quality].glass != null;
+    let wantRaindropFx = !useGpuStreaks && qualityFor(quality, storm).glass != null;
+    /** 溅花 / 兜底雨丝跟随时风速（含符号） */
+    let windLive = q0.wind * (storm && Math.random() < 0.5 ? -1 : 1);
+    let windTarget = windLive;
+    let windTimer = storm ? 0.35 : 2.0;
 
     /** @type {Array<any>} */
     const splashes = [];
     /** @type {Array<any>} */
     const rims = [];
 
+    const stepWind = (dt) => {
+      if (gpu?.getWind) {
+        windLive = gpu.getWind();
+        return;
+      }
+      const q = qualityFor(quality, storm);
+      const mag = Math.max(0.18, Math.abs(q.wind || 0.3));
+      windTimer -= dt;
+      if (windTimer <= 0) {
+        windTimer = storm ? rand(0.9, 2.6) : rand(2.4, 5.0);
+        const sign = storm
+          ? (Math.random() < 0.5 ? -1 : 1)
+          : ((Math.random() < 0.12 ? -1 : 1) * (Math.sign(windLive || 1) || 1));
+        windTarget = sign * mag * (storm ? rand(0.55, 1.25) : rand(0.7, 1.1));
+      }
+      windLive += (windTarget - windLive) * Math.min(1, dt * (storm ? 1.3 : 0.65));
+    };
+
     const rebuildFallback = () => {
       if (!fallbackDrops || !fallbackCtx) return;
-      const n = Math.round(QUALITY[quality].streak * 0.55 * clamp((w * h) / (1280 * 720), 0.7, 1.2));
+      const q = qualityFor(quality, storm);
+      const n = Math.round(q.streak * 0.55 * clamp((w * h) / (1280 * 720), 0.7, 1.2));
       fallbackDrops.length = 0;
-      const wind = QUALITY[quality].wind || 0.2;
       for (let i = 0; i < n; i += 1) {
         fallbackDrops.push({
           x: Math.random() * w,
           y: Math.random() * h,
           len: h * rand(0.01, 0.03),
-          speed: rand(950, 1600) * (QUALITY[quality].speedMul || 1),
+          speed: rand(950, 1600) * (q.speedMul || 1),
           alpha: rand(0.12, 0.42),
-          dx: wind * rand(8, 22),
+          drift: rand(0.7, 1.3),
         });
       }
     };
@@ -299,19 +366,25 @@
       fallbackCtx.clearRect(0, 0, w, h);
       fallbackCtx.lineWidth = 1.2;
       fallbackCtx.lineCap = "round";
+      const tilt = windLive * (storm ? 18 : 10);
       for (let i = 0; i < fallbackDrops.length; i += 1) {
         const d = fallbackDrops[i];
         const a = d.alpha * aMul;
+        const dx = tilt * d.drift * 0.08;
         fallbackCtx.strokeStyle = `rgba(200,225,245,${a})`;
         fallbackCtx.beginPath();
         fallbackCtx.moveTo(d.x, d.y);
-        fallbackCtx.lineTo(d.x + d.dx * 0.08, d.y + d.len);
+        fallbackCtx.lineTo(d.x + dx, d.y + d.len);
         fallbackCtx.stroke();
         d.y += d.speed * dt;
-        d.x += d.dx * dt * 0.15;
+        d.x += windLive * 28 * d.drift * dt;
         if (d.y > h + d.len) {
           d.y = -d.len;
           d.x = Math.random() * w;
+        } else if (d.x > w + 40) {
+          d.x = -20;
+        } else if (d.x < -40) {
+          d.x = w + 20;
         }
       }
     };
@@ -358,11 +431,11 @@
         return false;
       }
       try {
-        const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, quality);
-        paintStormBg(stormBg, bw, bh);
+        const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, quality, storm);
+        paintStormBg(stormBg, bw, bh, storm);
         glassCanvas.width = bw;
         glassCanvas.height = bh;
-        const gOpts = glassOptsFor(quality);
+        const gOpts = glassOptsFor(quality, storm);
         glassFx = new RaindropCtor({
           canvas: glassCanvas,
           width: bw,
@@ -370,7 +443,7 @@
           background: stormBg,
           ...gOpts,
         });
-        applyGlassOpts(glassFx, quality);
+        applyGlassOpts(glassFx, quality, storm);
         await glassFx.setBackground(stormBg);
         await glassFx.start();
         glassReady = true;
@@ -387,11 +460,11 @@
     const resizeGlassNow = async () => {
       if (!glassReady || !glassFx || w < 2) return;
       try {
-        const { bw, bh } = glassBufferSize(w, h, quality);
-        paintStormBg(stormBg, bw, bh);
+        const { bw, bh } = glassBufferSize(w, h, quality, storm);
+        paintStormBg(stormBg, bw, bh, storm);
         glassFx.resize(bw, bh);
         await glassFx.setBackground(stormBg);
-        applyGlassOpts(glassFx, quality);
+        applyGlassOpts(glassFx, quality, storm);
       } catch (err) {
         console.warn("[kaya] glass resize failed", err);
       }
@@ -406,7 +479,7 @@
       w = window.innerWidth;
       h = window.innerHeight;
       quality = detectQuality();
-      const q = QUALITY[quality];
+      const q = qualityFor(quality, storm);
       wantRaindropFx = !useGpuStreaks && q.glass != null;
       fitSplash();
       gpu?.resize(w, h);
@@ -439,13 +512,14 @@
       if (ledge.shape === "circle") return;
       const hit = hitPointOnLedge(ledge);
       const n = 2 + ((Math.random() * 3) | 0);
+      const windBias = windLive * (storm ? 22 : 12);
       for (let i = 0; i < n; i += 1) {
         const ang = -Math.PI * 0.08 - Math.random() * Math.PI * 0.75;
         const spd = rand(50, 120);
         splashes.push({
           x: hit.x + rand(-2, 2),
           y: hit.y + rand(-0.4, 0.4),
-          vx: Math.cos(ang) * spd,
+          vx: Math.cos(ang) * spd + windBias,
           vy: Math.sin(ang) * spd,
           life: rand(0.12, 0.22),
           age: 0,
@@ -476,7 +550,7 @@
     const tick = (now) => {
       if (!running) return;
       raf = requestAnimationFrame(tick);
-      const frameMs = QUALITY[quality].frameMs;
+      const frameMs = qualityFor(quality, storm).frameMs;
       if (now - last < frameMs - 0.5) return;
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
@@ -490,6 +564,7 @@
         }
       }
       syncGlassOpacity();
+      stepWind(dt);
 
       const scrolling = !!opts.isScrolling?.();
       const ledges = (opts.collectLedges
@@ -507,7 +582,7 @@
 
       sctx.clearRect(0, 0, w, h);
       const aMul = intensity;
-      const splashMul = (QUALITY[quality].splashRate || 0.7) * (mobileLite ? 0.85 : 1);
+      const splashMul = (qualityFor(quality, storm).splashRate || 0.7) * (mobileLite ? 0.85 : 1);
 
       if (scrolling) {
         splashes.length = 0;

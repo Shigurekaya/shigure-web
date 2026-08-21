@@ -1,7 +1,7 @@
 /**
  * GPU 雨丝引擎（WebGL）
  * 属性一次上传；顶点着色器按 time 算位置。
- * 观感对齐小米天气暴雨参考片：近乎竖直、三层景深、轻微阵风。
+ * 观感对齐小米天气大雨参考片：近乎竖直、三层景深、轻微阵风。
  * 注意：同页勿再开第二个 WebGL（如 raindrop-fx），否则易丢上下文。
  */
 (() => {
@@ -15,6 +15,7 @@ uniform float uWind;
 uniform float uGust;
 uniform float uIntensity;
 uniform float uSpeedMul;
+uniform float uTilt; /* 水平倾角系数；雷暴更大以露出换向 */
 varying float vAlpha;
 varying float vEdge;
 varying float vLayer;
@@ -64,8 +65,9 @@ void main() {
 
   float gust = uGust * mix(0.55, 1.35, h4);
   float windAmt = (uWind + gust) * mix(0.4, 1.15, h3);
-  /* 天空区倾角约 0–3°；乘 0.08 保持近竖直 */
-  vec2 dir = normalize(vec2(windAmt * 0.08, 1.0));
+  /* uTilt：大雨偏竖直；雷暴加大以表现不规则换向 */
+  float tilt = uTilt > 0.001 ? uTilt : 0.08;
+  vec2 dir = normalize(vec2(windAmt * tilt, 1.0));
   vec2 nrm = vec2(-dir.y, dir.x);
 
   float corner = aCorner;
@@ -139,7 +141,14 @@ void main() {
 
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {{ count?: number, speedMul?: number, wind?: number, dprCap?: number }} [opts]
+   * @param {{
+   *   count?: number,
+   *   speedMul?: number,
+   *   wind?: number,
+   *   dprCap?: number,
+   *   wanderWind?: boolean,
+   *   tilt?: number,
+   * }} [opts]
    */
   function attach(canvas, opts = {}) {
     const gl = canvas.getContext("webgl", {
@@ -165,10 +174,19 @@ void main() {
     const uGust = gl.getUniformLocation(prog, "uGust");
     const uIntensity = gl.getUniformLocation(prog, "uIntensity");
     const uSpeedMul = gl.getUniformLocation(prog, "uSpeedMul");
+    const uTilt = gl.getUniformLocation(prog, "uTilt");
 
     let count = Math.max(32, opts.count | 0 || 500);
     let speedMul = opts.speedMul ?? 1.16;
-    let wind = opts.wind ?? 0.32;
+    /** 基准风速幅值（可正可负；setWind 更新） */
+    let windBase = opts.wind ?? 0.32;
+    /** 当前平滑风速（含换向） */
+    let windLive = windBase;
+    let windTarget = windBase;
+    let windTimer = 0;
+    let gustSpike = 0;
+    const wanderWind = !!opts.wanderWind;
+    let tilt = opts.tilt ?? (wanderWind ? 0.14 : 0.08);
     let intensity = 1;
     let dprCap = opts.dprCap ?? 1.5;
     let w = 0;
@@ -183,6 +201,8 @@ void main() {
     let adaptive = true;
     let slowFrames = 0;
     let contextLost = false;
+
+    const rand = (a, b) => a + Math.random() * (b - a);
 
     canvas.addEventListener("webglcontextlost", (e) => {
       e.preventDefault();
@@ -241,12 +261,42 @@ void main() {
       raf = requestAnimationFrame(draw);
       if (w < 2 || h < 2) return;
       if (lastDraw && now - lastDraw < frameBudgetMs - 0.5) return;
-      const dt = lastDraw ? now - lastDraw : frameBudgetMs;
+      const dtMs = lastDraw ? now - lastDraw : frameBudgetMs;
       lastDraw = now;
+      const dt = Math.min(0.05, dtMs / 1000);
 
       const t = (now - t0) / 1000;
-      /* 低频阵风：约 0.11 Hz，幅度随 wind */
-      const gust = Math.sin(t * 0.7) * 0.55 * wind + Math.sin(t * 1.37 + 1.2) * 0.22 * wind;
+      const mag = Math.max(0.18, Math.abs(windBase));
+
+      /* 不规则风向：目标风速可换向；阵风尖峰叠加 */
+      windTimer -= dt;
+      if (windTimer <= 0) {
+        if (wanderWind) {
+          windTimer = rand(0.9, 2.8);
+          const flip = Math.random() < 0.55;
+          const sign = flip
+            ? (Math.random() < 0.5 ? -1 : 1)
+            : Math.sign(windLive || windBase || 1) || 1;
+          windTarget = sign * mag * rand(0.55, 1.25);
+          if (Math.random() < 0.42) {
+            gustSpike = sign * mag * rand(0.55, 1.35);
+          }
+        } else {
+          windTimer = rand(2.4, 5.2);
+          const sign = Math.sign(windBase || 1) || 1;
+          /* 大雨：同向为主，偶发轻柔反向 */
+          windTarget = (Math.random() < 0.12 ? -sign : sign) * mag * rand(0.7, 1.15);
+          if (Math.random() < 0.18) gustSpike = sign * mag * rand(0.25, 0.7);
+        }
+      }
+      const ease = wanderWind ? 1.35 : 0.7;
+      windLive += (windTarget - windLive) * Math.min(1, dt * ease);
+      gustSpike *= Math.exp(-dt * (wanderWind ? 1.8 : 2.4));
+
+      const waveGust = Math.sin(t * 0.7) * 0.35 * windLive
+        + Math.sin(t * 1.37 + 1.2) * 0.18 * windLive
+        + Math.sin(t * 2.9 + 0.4) * (wanderWind ? 0.2 : 0.08) * mag;
+      const gust = waveGust + gustSpike;
 
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.clearColor(0, 0, 0, 0);
@@ -257,10 +307,11 @@ void main() {
 
       gl.uniform2f(uRes, w, h);
       gl.uniform1f(uTime, t);
-      gl.uniform1f(uWind, wind);
+      gl.uniform1f(uWind, windLive);
       gl.uniform1f(uGust, gust);
       gl.uniform1f(uIntensity, intensity);
       gl.uniform1f(uSpeedMul, speedMul);
+      gl.uniform1f(uTilt, tilt);
 
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
       const stride = 12;
@@ -273,7 +324,7 @@ void main() {
 
       gl.drawArrays(gl.TRIANGLES, 0, count * 6);
 
-      if (adaptive && dt > 40) {
+      if (adaptive && dtMs > 40) {
         slowFrames += 1;
         if (slowFrames >= 10) {
           slowFrames = 0;
@@ -292,7 +343,15 @@ void main() {
       resize,
       setCount,
       setIntensity(v) { intensity = clamp(v, 0, 1); },
-      setWind(v) { wind = v; },
+      setWind(v) {
+        windBase = v;
+        if (!wanderWind) {
+          windTarget = v;
+          if (Math.abs(windLive) < 0.05) windLive = v;
+        }
+      },
+      getWind() { return windLive; },
+      setTilt(v) { tilt = Math.max(0.04, v); },
       setSpeedMul(v) { speedMul = Math.max(0.2, v); },
       setFrameBudget(ms) { frameBudgetMs = ms; },
       setAdaptive(on) { adaptive = !!on; },
@@ -304,6 +363,7 @@ void main() {
         running = true;
         t0 = performance.now();
         lastDraw = 0;
+        windTimer = 0;
         raf = requestAnimationFrame(draw);
       },
       stop() {

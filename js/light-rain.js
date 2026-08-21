@@ -6,7 +6,7 @@
  * - Codrops RainEffect 思路：远/中/近分层深度
  * - 本站：透明叠加 + 紫丁香品牌色，不覆盖 site-bg
  *
- * 暴雨仍由 raindrop-fx 负责；本模块只服务轻量 ambient。
+ * 大雨仍由 raindrop-fx 负责；本模块只服务轻量 ambient。
  */
 (() => {
   const FRAME_MS = 1000 / 30;
@@ -226,7 +226,9 @@
       windTimer -= dt;
       if (windTimer <= 0) {
         windTimer = rand(2.8, 5.5);
-        windTarget = rand(0.12, 0.85);
+        /* 小雨也可轻柔换向（幅值较小） */
+        const mag = rand(0.12, 0.85);
+        windTarget = (Math.random() < 0.22 ? -1 : 1) * mag;
       }
       wind += (windTarget - wind) * Math.min(1, dt * 0.55);
 

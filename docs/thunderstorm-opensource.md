@@ -1,21 +1,21 @@
 # 雷雨天效果开源调研
 
 调研日期：2026-08-20  
-用途：评估能否在时雨站现有暴雨（`heavy-rain` + raindrop-fx）上叠加雷电/雷声，而非整站替换。
+用途：评估能否在时雨站现有大雨（`heavy-rain` + raindrop-fx）上叠加雷电/雷声，而非整站替换。
 
 ## 结论（先看）
 
 - **不必换整库。** 现有玻璃水珠 + 雨丝溅花可保留。
-- **更稳的增量方案：**
-  1. 画面：偶发全屏/局部闪光 + 短时分叉闪电
-  2. 声音（可选）：Web Audio 或短 thunder 采样；「先闪后雷」带距离延迟
-  3. 时机：仅在 `body.heavy-rain` 下低频触发，注意移动端性能与自动播放策略
-- **抽算法优先：** [diwsi/Javascript-Lightning-Effect](https://github.com/diwsi/Javascript-Lightning-Effect)（MIT，纯 Canvas，轻）
-- **节奏参考：** [panmona/stormsimulator](https://github.com/panmona/stormsimulator)（MIT，闪电后延迟打雷）
+- **更稳的增量方案（已落地）：** `js/storm-lightning.js` 叠在加重版 `heavy-rain` 上
+  1. 画面：偶发环境闪光 + 垂直中点位移分叉闪电（伴生枝 / 双闪）
+  2. 声音（可选）：Web Audio 程序化雷声；「先闪后雷」带距离延迟；需首次点击解锁
+  3. 入口：仅 `?rain=storm` / `/storm/`（日常 10% 大雨不打雷）
+- **算法优先：** 垂直中点位移（diwsi / shadcn Lightning / Cod Chill），非整迁 weather-canvas thunderstorm
+- **过重跳过：** Three.js procedural-weather、fulgor 等整站模拟器
 
 你们已有基础：
 
-- 暴雨：`js/heavy-rain.js` + `js/vendor/raindrop-fx.js`
+- 大雨：`js/heavy-rain.js` + `js/vendor/raindrop-fx.js`
 - 小雨：`js/light-rain.js`（借鉴 weather-canvas / Codrops 思路）
 
 ---
@@ -24,7 +24,7 @@
 
 | 项目 | 许可 | 要点 | 嫁接建议 |
 |------|------|------|----------|
-| [vgerbot-libraries/weather-canvas](https://github.com/vgerbot-libraries/weather-canvas) | MIT | 自带 `thunderstorm`；Canvas 2D；零依赖 | 小雨已借鉴过；雷暴是整页天气画，不宜整库叠在玻璃暴雨上 |
+| [vgerbot-libraries/weather-canvas](https://github.com/vgerbot-libraries/weather-canvas) | MIT | 自带 `thunderstorm`；Canvas 2D；零依赖 | 小雨已借鉴过；雷暴是整页天气画，不宜整库叠在玻璃大雨上 |
 | [diwsi/Javascript-Lightning-Effect](https://github.com/diwsi/Javascript-Lightning-Effect) | MIT | 纯 Canvas 分叉闪电，很轻 | **最适合**抽中点位移/分叉逻辑，叠在 `heavy-rain` 上 |
 | [panmona/stormsimulator](https://github.com/panmona/stormsimulator) | MIT | 雨 + 闪电 + 雷声延迟（距离感） | 偏氛围页；可参考「先闪后雷」节奏，勿整站搬 |
 
@@ -61,13 +61,15 @@ Demo（若有）：
 
 ---
 
-## 若落地到本站（建议步骤，未实施）
+## 若落地到本站（已实施 · 2026-08-21）
 
-1. 新建可选模块（例如 `js/storm-lightning.js`），仅 `heavy-rain` 时加载。
-2. 画面：低频全屏 flash（CSS/canvas 白光衰减）+ 可选 1～2 道分叉线（diwsi 思路）。
-3. 声音：默认关或需用户手势后开；雷声落后闪电约 0.3～2s（按「距离」随机）。
-4. 开关：URL 如 `?rain=storm&thunder=1`，或仅 storm 页启用，避免日常 10% 暴雨也打雷。
-5. 性能：手机端降低闪光频率、关闭音频、避免与 raindrop-fx 同帧过重。
+1. ~~新建可选模块~~ → `js/storm-lightning.js`（`KayaStormLightning`）
+2. 画面：环境 flash + 垂直中点位移分叉闪电 + 伴生枝 / 双闪
+3. 声音：默认关；首次点击后 Web Audio 程序化雷声（落后闪电）
+4. 开关：`?rain=storm` / `/storm/`；日常仍只 10% 大雨，**不随机雷暴**
+5. 雨量：`heavy-rain.js` 的 `storm: true` 提高雨丝/风速/溅花；`body.storm-rain` 更深天空
+
+详见 `js/vendor/README.md`「Storm lightning」节。
 
 ---
 
