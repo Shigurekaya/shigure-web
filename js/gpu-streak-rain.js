@@ -257,7 +257,7 @@ void main() {
     };
 
     const setCount = (n) => {
-      count = clamp(n | 0, 48, 4800);
+      count = clamp(n | 0, 48, 3200);
       rebuildBuffer();
     };
 

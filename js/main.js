@@ -368,7 +368,10 @@ const Kaya = (() => {
         console.warn("[kaya] KayaStormLightning missing");
         return null;
       }
-      stormFx = window.KayaStormLightning.attach(fx, { maxQuality: true });
+      stormFx = window.KayaStormLightning.attach(fx, {
+        lite: /Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MiuiBrowser/i.test(navigator.userAgent || "")
+          || (navigator.maxTouchPoints > 1 && Math.min(screen.width, screen.height) <= 920),
+      });
       return stormFx;
     };
 

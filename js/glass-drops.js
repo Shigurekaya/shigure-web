@@ -181,18 +181,19 @@
 
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {{ main?: number, micro?: number, dprCap?: number, storm?: boolean, slideRatio?: number }} [opts]
+   * @param {{ main?: number, micro?: number, dprCap?: number, storm?: boolean, slideRatio?: number, lite?: boolean }} [opts]
    */
   function attach(canvas, opts = {}) {
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return null;
 
     const storm = !!opts.storm;
+    const lite = !!opts.lite;
     const sprites = bakeSprites();
-    const lensSprites = storm
+    const lensSprites = storm && !lite
       ? [40, 56, 72].map(bakeLensBlob)
       : [];
-    const rivuletSprites = storm
+    const rivuletSprites = storm && !lite
       ? [
         bakeRivulet(10, 56),
         bakeRivulet(14, 88),
@@ -268,7 +269,7 @@
      */
     const seedSpray = () => {
       clearSpray();
-      const dens = storm ? 1.45 : 1;
+      const dens = storm ? (lite ? 0.85 : 1.45) : 1;
       const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.55));
       const onUi = ledges.length ? Math.round(n * (storm ? 0.62 : 0.55)) : 0;
       for (let i = 0; i < onUi; i += 1) {
@@ -376,8 +377,10 @@
       const n = Math.round(mainN * area);
       for (let i = 0; i < n; i += 1) spawnDrop();
       if (storm) {
-        for (let i = 0; i < 5; i += 1) spawnLens();
-        for (let i = 0; i < 8; i += 1) spawnFlow();
+        if (!lite) {
+          for (let i = 0; i < 5; i += 1) spawnLens();
+          for (let i = 0; i < 8; i += 1) spawnFlow();
+        }
       }
       sprayDirty = true;
     };
@@ -454,10 +457,12 @@
 
       /* 持续补雾点（Codrops spray 层）——暴雨放缓，避免糊屏 */
       mistAcc += dt * aMul;
-      const mistEvery = storm ? 0.09 : 0.12;
+      const mistEvery = storm ? (lite ? 0.16 : 0.09) : 0.12;
       while (mistAcc > mistEvery) {
         mistAcc -= mistEvery;
-        const k = storm ? (2 + ((Math.random() * 4) | 0)) : (1 + ((Math.random() * 3) | 0));
+        const k = storm
+          ? (lite ? (1 + ((Math.random() * 2) | 0)) : (2 + ((Math.random() * 4) | 0)))
+          : (1 + ((Math.random() * 3) | 0));
         for (let i = 0; i < k; i += 1) {
           const ui = ledges.length && Math.random() < 0.65 ? pickInLedge(0.92) : null;
           const x = ui?.x ?? Math.random() * w;
@@ -486,7 +491,7 @@
         }
       }
 
-      if (storm) {
+      if (storm && !lite) {
         lensAcc += dt * aMul;
         while (lensAcc > 0.55 && lenses.length < 8) {
           lensAcc -= 0.55;

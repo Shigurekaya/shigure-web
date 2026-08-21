@@ -42,24 +42,24 @@
     }
   }
 
-  function buildStrike(w, h) {
+  function buildStrike(w, h, lite) {
     const x0 = rand(w * 0.06, w * 0.94);
     const y0 = rand(-h * 0.06, h * 0.1);
     const x1 = clamp(x0 + rand(-w * 0.28, w * 0.28), w * 0.02, w * 0.98);
     const y1 = rand(h * 0.38, h * 0.98);
-    const gens = 8;
-    const maxOff = Math.max(36, Math.min(w, h) * 0.14);
+    const gens = lite ? 5 : 8;
+    const maxOff = Math.max(lite ? 24 : 36, Math.min(w, h) * (lite ? 0.1 : 0.14));
     /** @type {Array<{x0:number,y0:number,x1:number,y1:number,w:number}>} */
     const segs = [];
-    displaceBolt(x0, y0, x1, y1, gens, maxOff, 2.8, 0.48, segs);
+    displaceBolt(x0, y0, x1, y1, gens, maxOff, lite ? 2.2 : 2.8, lite ? 0.28 : 0.48, segs);
 
-    const companions = 1 + ((Math.random() * 3) | 0);
+    const companions = lite ? (Math.random() < 0.35 ? 1 : 0) : (1 + ((Math.random() * 3) | 0));
     for (let c = 0; c < companions; c += 1) {
       const sx = x0 + rand(-70, 70);
       const sy = y0 + rand(0, 40);
       const ex = clamp(x1 + rand(-120, 120), 0, w);
       const ey = y1 * rand(0.4, 0.9);
-      displaceBolt(sx, sy, ex, ey, gens - 2, maxOff * 0.65, 1.5, 0.28, segs);
+      displaceBolt(sx, sy, ex, ey, Math.max(2, gens - 2), maxOff * 0.65, lite ? 1.2 : 1.5, lite ? 0.15 : 0.28, segs);
     }
 
     return {
@@ -71,11 +71,11 @@
 
   /**
    * @param {HTMLElement} host
-   * @param {{ maxQuality?: boolean }} [opts]
+   * @param {{ lite?: boolean, maxQuality?: boolean }} [opts]
    */
   function attach(host, opts = {}) {
     if (!host) return null;
-    void opts;
+    const lite = !!opts.lite;
 
     const canvas = document.createElement("canvas");
     canvas.className = "site-fx__lightning";
@@ -122,7 +122,7 @@
         w = Math.round(window.visualViewport.width);
         h = Math.round(window.visualViewport.height);
       }
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, lite ? 1.15 : 2);
       const cw = Math.max(1, Math.floor(w * dpr));
       const ch = Math.max(1, Math.floor(h * dpr));
       if (canvas.width !== cw || canvas.height !== ch) {
@@ -187,30 +187,35 @@
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
 
-      ctx.strokeStyle = `rgba(140, 175, 255,${0.28 * alpha * b.bright})`;
-      ctx.shadowColor = "rgba(160, 195, 255, 1)";
-      ctx.shadowBlur = 28;
+      /* shadowBlur 在手机 Canvas2D 上极贵，lite 关掉 */
+      if (!lite) {
+        ctx.strokeStyle = `rgba(140, 175, 255,${0.28 * alpha * b.bright})`;
+        ctx.shadowColor = "rgba(160, 195, 255, 1)";
+        ctx.shadowBlur = 28;
+        for (let i = 0; i < b.segs.length; i += 1) {
+          const s = b.segs[i];
+          ctx.lineWidth = s.w * 5.2;
+          ctx.beginPath();
+          ctx.moveTo(s.x0, s.y0);
+          ctx.lineTo(s.x1, s.y1);
+          ctx.stroke();
+        }
+        ctx.shadowBlur = 12;
+      } else {
+        ctx.shadowBlur = 0;
+      }
+
+      ctx.strokeStyle = `rgba(210, 230, 255,${(lite ? 0.85 : 0.75) * alpha})`;
       for (let i = 0; i < b.segs.length; i += 1) {
         const s = b.segs[i];
-        ctx.lineWidth = s.w * 5.2;
+        ctx.lineWidth = s.w * (lite ? 2.4 : 2.1);
         ctx.beginPath();
         ctx.moveTo(s.x0, s.y0);
         ctx.lineTo(s.x1, s.y1);
         ctx.stroke();
       }
 
-      ctx.shadowBlur = 12;
-      ctx.strokeStyle = `rgba(210, 230, 255,${0.75 * alpha})`;
-      for (let i = 0; i < b.segs.length; i += 1) {
-        const s = b.segs[i];
-        ctx.lineWidth = s.w * 2.1;
-        ctx.beginPath();
-        ctx.moveTo(s.x0, s.y0);
-        ctx.lineTo(s.x1, s.y1);
-        ctx.stroke();
-      }
-
-      ctx.shadowBlur = 4;
+      ctx.shadowBlur = 0;
       ctx.strokeStyle = `rgba(255, 255, 255,${0.98 * alpha})`;
       for (let i = 0; i < b.segs.length; i += 1) {
         const s = b.segs[i];
@@ -247,7 +252,7 @@
 
       strikeCount += 1;
       const big = forceBig || Math.random() < 0.32;
-      const main = buildStrike(w, h);
+      const main = buildStrike(w, h, lite);
       pushBolt(main, big ? 1.2 : 1, big ? 1.25 : 1);
       ambient = Math.max(ambient, big ? rand(0.55, 0.82) : rand(0.32, 0.55));
       sheetA = Math.max(sheetA, big ? rand(0.14, 0.28) : rand(0.05, 0.12));
@@ -262,7 +267,7 @@
       for (let i = 0; i < bursts; i += 1) {
         window.setTimeout(() => {
           if (!running) return;
-          const sub = buildStrike(w, h);
+          const sub = buildStrike(w, h, lite);
           pushBolt(sub, 0.8, 1.05);
           ambient = Math.max(ambient, rand(0.28, 0.5));
           sheetA = Math.max(sheetA, rand(0.06, 0.14));
