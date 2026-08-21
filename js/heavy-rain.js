@@ -194,15 +194,19 @@
     streakCanvas.setAttribute("aria-hidden", "true");
     if (bgHost) bgHost.appendChild(streakCanvas);
 
+    /* 雾放进背景层：勿盖在正文上，否则手机端只剩溅花的「黑幕」 */
     const mist = document.createElement("div");
-    mist.className = "site-fx__mist";
+    mist.className = "site-bg__heavy-mist";
+    mist.setAttribute("aria-hidden", "true");
+    if (bgHost) bgHost.appendChild(mist);
+    else fxRoot.appendChild(mist);
+
     const splashCanvas = document.createElement("canvas");
     splashCanvas.className = "site-fx__splash";
     splashCanvas.setAttribute("aria-hidden", "true");
     const glassDropCanvas = document.createElement("canvas");
     glassDropCanvas.className = "site-fx__glass-drops";
     glassDropCanvas.setAttribute("aria-hidden", "true");
-    fxRoot.appendChild(mist);
     fxRoot.appendChild(splashCanvas);
     fxRoot.appendChild(glassDropCanvas);
 

@@ -167,6 +167,26 @@ body.light-rain .site-bg__rain {
   opacity: 0.82;
 }
 
+/* 暴雨雾：挂在 site-bg 内（正文下方），勿放进 site-fx 盖死页面 */
+.site-bg__heavy-mist {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+  background:
+    radial-gradient(ellipse 82% 46% at 50% 4%, rgba(120, 155, 195, 0.14), transparent 74%),
+    radial-gradient(ellipse 92% 52% at 14% 82%, rgba(52, 73, 97, 0.14), transparent 70%),
+    radial-gradient(ellipse 72% 42% at 86% 70%, rgba(70, 100, 140, 0.08), transparent 66%),
+    linear-gradient(180deg, rgba(18, 28, 44, 0.1), transparent 38%, transparent 64%, rgba(10, 16, 28, 0.22));
+}
+
+.site-bg__heavy-mist.is-on {
+  opacity: 0.72;
+  animation: heavy-mist-drift 16s ease-in-out infinite alternate;
+}
+
 .site-bg,
 .site-bg::before,
 .site-bg::after,
@@ -306,7 +326,7 @@ body.heavy-rain .link-card__icon {
   position: absolute;
   inset: 0;
   z-index: 1;
-  /* 参考片：体积感来自密雨丝+低对比雾，无周期竖向雨幕光柱 */
+  /* 旧类名保留；实际雾已改挂 site-bg__heavy-mist */
   background:
     radial-gradient(ellipse 82% 46% at 50% 4%, rgba(120, 155, 195, 0.14), transparent 74%),
     radial-gradient(ellipse 92% 52% at 14% 82%, rgba(52, 73, 97, 0.16), transparent 70%),
@@ -318,13 +338,13 @@ body.heavy-rain .link-card__icon {
 }
 
 .site-fx__mist.is-on {
-  opacity: 0.88;
+  opacity: 0.45;
   animation: heavy-mist-drift 16s ease-in-out infinite alternate;
 }
 
 @keyframes heavy-mist-drift {
-  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.82; }
-  to { transform: translate3d(0, -0.8%, 0) scale(1.02); opacity: 0.94; }
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.65; }
+  to { transform: translate3d(0, -0.8%, 0) scale(1.02); opacity: 0.78; }
 }
 
 .site-fx__gl,
@@ -357,10 +377,13 @@ body.heavy-rain .link-card__icon {
 @media (prefers-reduced-motion: reduce) {
   .site-fx,
   .site-bg__rain,
-  .site-bg__light-mist {
+  .site-bg__light-mist,
+  .site-bg__heavy-mist,
+  .site-bg__heavy {
     display: none !important;
   }
-  .site-fx__mist {
+  .site-fx__mist,
+  .site-bg__heavy-mist {
     animation: none !important;
   }
 }

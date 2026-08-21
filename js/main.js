@@ -875,7 +875,8 @@ const Kaya = (() => {
   function initHomeIntro() {
     const intro = document.getElementById("home-intro");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const play = shouldPlayHomeIntro("/");
+    /* ?storm 测试入口跳过开场，避免深色遮罩 + 重画布拖死主线程 */
+    const play = !forceStormFromUrl() && shouldPlayHomeIntro("/");
 
     if (!intro || reduced || !play) {
       document.body.classList.add("home-ready");
