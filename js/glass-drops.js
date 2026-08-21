@@ -19,83 +19,102 @@
     return a + Math.random() * (b - a);
   }
 
-  /** 主珠：仅亮边+高光，无暗芯/暗影（source-over 暗色在白底上会变墨点） */
+  /** 主珠：透亮体积+亮边+高光，无暗芯（白底上不会变墨点） */
   function bakeDropBitmap(size) {
-    const pad = Math.ceil(size * 0.22);
+    const pad = Math.ceil(size * 0.28);
     const w = size + pad * 2;
-    const h = Math.ceil(size * 1.48) + pad * 2;
+    const h = Math.ceil(size * 1.62) + pad * 2;
     const c = document.createElement("canvas");
     c.width = w;
     c.height = h;
     const cx = c.getContext("2d");
     if (!cx) return c;
     const ox = w * 0.5;
-    const oy = h * 0.4;
-    const rx = size * 0.36;
-    const ry = size * 0.46;
+    const oy = h * 0.38;
+    const rx = size * 0.38;
+    const ry = size * 0.48;
 
-    /* 极淡亮体——可被 screen 加亮，永不压黑 */
-    const body = cx.createRadialGradient(ox, oy, rx * 0.05, ox, oy, rx);
-    body.addColorStop(0, "rgba(255,255,255,0.14)");
-    body.addColorStop(0.4, "rgba(230,245,255,0.1)");
-    body.addColorStop(0.75, "rgba(200,230,255,0.18)");
+    /* 外晕：让珠在暗底上可读 */
+    const halo = cx.createRadialGradient(ox, oy, rx * 0.2, ox, oy, rx * 1.35);
+    halo.addColorStop(0, "rgba(220,240,255,0.22)");
+    halo.addColorStop(0.55, "rgba(200,230,255,0.1)");
+    halo.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = halo;
+    cx.beginPath();
+    cx.ellipse(ox, oy, rx * 1.25, ry * 1.3, 0, 0, Math.PI * 2);
+    cx.fill();
+
+    /* 亮体：中间略透、边缘更亮（玻璃折射感） */
+    const body = cx.createRadialGradient(ox - rx * 0.12, oy - ry * 0.18, 0, ox, oy, rx);
+    body.addColorStop(0, "rgba(255,255,255,0.38)");
+    body.addColorStop(0.35, "rgba(235,248,255,0.22)");
+    body.addColorStop(0.7, "rgba(200,230,255,0.32)");
     body.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = body;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
     cx.fill();
 
-    cx.strokeStyle = "rgba(255,255,255,0.85)";
-    cx.lineWidth = Math.max(0.9, size * 0.04);
+    cx.strokeStyle = "rgba(255,255,255,0.95)";
+    cx.lineWidth = Math.max(1.2, size * 0.055);
     cx.beginPath();
-    cx.ellipse(ox, oy, rx * 0.9, ry * 0.9, 0, 0, Math.PI * 2);
+    cx.ellipse(ox, oy, rx * 0.92, ry * 0.92, 0, 0, Math.PI * 2);
     cx.stroke();
 
     const rim = cx.createLinearGradient(ox - rx, oy - ry, ox + rx, oy + ry);
     rim.addColorStop(0, "rgba(255,255,255,0)");
-    rim.addColorStop(0.3, "rgba(255,255,255,0.65)");
-    rim.addColorStop(0.55, "rgba(255,255,255,0)");
-    rim.addColorStop(0.8, "rgba(230,245,255,0.35)");
+    rim.addColorStop(0.28, "rgba(255,255,255,0.9)");
+    rim.addColorStop(0.5, "rgba(255,255,255,0.15)");
+    rim.addColorStop(0.78, "rgba(230,245,255,0.55)");
     rim.addColorStop(1, "rgba(255,255,255,0)");
     cx.strokeStyle = rim;
-    cx.lineWidth = Math.max(0.55, size * 0.025);
+    cx.lineWidth = Math.max(0.8, size * 0.035);
     cx.beginPath();
-    cx.ellipse(ox, oy, rx * 0.76, ry * 0.76, 0, -0.9, 2.35);
+    cx.ellipse(ox, oy, rx * 0.78, ry * 0.78, 0, -0.95, 2.4);
     cx.stroke();
 
     const spec = cx.createRadialGradient(
-      ox - rx * 0.32, oy - ry * 0.4, 0,
-      ox - rx * 0.32, oy - ry * 0.4, rx * 0.34,
+      ox - rx * 0.32, oy - ry * 0.42, 0,
+      ox - rx * 0.32, oy - ry * 0.42, rx * 0.38,
     );
     spec.addColorStop(0, "rgba(255,255,255,1)");
-    spec.addColorStop(0.35, "rgba(245,250,255,0.8)");
+    spec.addColorStop(0.3, "rgba(245,250,255,0.9)");
     spec.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = spec;
     cx.beginPath();
-    cx.ellipse(ox - rx * 0.32, oy - ry * 0.4, rx * 0.17, ry * 0.1, -0.55, 0, Math.PI * 2);
+    cx.ellipse(ox - rx * 0.32, oy - ry * 0.42, rx * 0.2, ry * 0.12, -0.55, 0, Math.PI * 2);
     cx.fill();
 
-    cx.fillStyle = "rgba(255,255,255,0.5)";
+    cx.fillStyle = "rgba(255,255,255,0.65)";
     cx.beginPath();
-    cx.ellipse(ox + rx * 0.24, oy + ry * 0.18, rx * 0.055, ry * 0.035, 0.45, 0, Math.PI * 2);
+    cx.ellipse(ox + rx * 0.26, oy + ry * 0.2, rx * 0.06, ry * 0.04, 0.45, 0, Math.PI * 2);
+    cx.fill();
+
+    /* 底部尖端微亮，下滑时更像泪珠 */
+    const tip = cx.createRadialGradient(ox, oy + ry * 0.85, 0, ox, oy + ry * 1.05, rx * 0.35);
+    tip.addColorStop(0, "rgba(230,245,255,0.35)");
+    tip.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = tip;
+    cx.beginPath();
+    cx.ellipse(ox, oy + ry * 0.72, rx * 0.22, ry * 0.28, 0, 0, Math.PI * 2);
     cx.fill();
     return c;
   }
 
-  /** 冷凝微珠：~2–4px 透亮高光点（参考片相对局部 +40 luma） */
+  /** 冷凝微珠：~2–5px 透亮高光点 */
   function bakeBeadSprite(size = 4) {
-    const dim = Math.max(4, size | 0);
+    const dim = Math.max(5, size | 0);
     const c = document.createElement("canvas");
     c.width = dim;
     c.height = dim;
     const cx = c.getContext("2d");
     if (!cx) return c;
     const o = dim * 0.5;
-    const r = dim * 0.4;
+    const r = dim * 0.42;
     const body = cx.createRadialGradient(o - r * 0.15, o - r * 0.2, 0, o, o, r);
     body.addColorStop(0, "rgba(255,255,255,1)");
-    body.addColorStop(0.35, "rgba(235,248,255,0.55)");
-    body.addColorStop(0.7, "rgba(200,230,255,0.12)");
+    body.addColorStop(0.3, "rgba(240,250,255,0.75)");
+    body.addColorStop(0.65, "rgba(200,230,255,0.28)");
     body.addColorStop(1, "rgba(180,215,245,0)");
     cx.fillStyle = body;
     cx.beginPath();
@@ -105,17 +124,17 @@
   }
 
   function bakeBeadSprites() {
-    return [3, 4, 5, 7].map(bakeBeadSprite);
+    return [3, 4, 5, 7, 9].map(bakeBeadSprite);
   }
 
   function bakeSprites() {
-    return [12, 16, 22, 28, 36, 46].map(bakeDropBitmap);
+    return [14, 18, 24, 32, 42, 54, 68].map(bakeDropBitmap);
   }
 
   function bakeLensBlob(size) {
-    const pad = Math.ceil(size * 0.28);
+    const pad = Math.ceil(size * 0.3);
     const w = size + pad * 2;
-    const h = Math.ceil(size * 1.45) + pad * 2;
+    const h = Math.ceil(size * 1.5) + pad * 2;
     const c = document.createElement("canvas");
     c.width = w;
     c.height = h;
@@ -123,19 +142,26 @@
     if (!cx) return c;
     const ox = w * 0.5;
     const oy = h * 0.4;
-    const rx = size * 0.36;
-    const ry = size * 0.42;
+    const rx = size * 0.38;
+    const ry = size * 0.44;
+    const halo = cx.createRadialGradient(ox, oy, 0, ox, oy, rx * 1.2);
+    halo.addColorStop(0, "rgba(230,245,255,0.2)");
+    halo.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = halo;
+    cx.beginPath();
+    cx.ellipse(ox, oy, rx * 1.15, ry * 1.2, 0, 0, Math.PI * 2);
+    cx.fill();
     const g = cx.createRadialGradient(ox, oy, 0, ox, oy, rx);
-    g.addColorStop(0, "rgba(255,255,255,0.12)");
-    g.addColorStop(0.5, "rgba(220,240,255,0.14)");
-    g.addColorStop(0.85, "rgba(200,230,255,0.22)");
+    g.addColorStop(0, "rgba(255,255,255,0.28)");
+    g.addColorStop(0.45, "rgba(220,240,255,0.22)");
+    g.addColorStop(0.82, "rgba(200,230,255,0.35)");
     g.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = g;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
     cx.fill();
-    cx.strokeStyle = "rgba(255, 255, 255, 0.7)";
-    cx.lineWidth = Math.max(0.9, size * 0.028);
+    cx.strokeStyle = "rgba(255, 255, 255, 0.85)";
+    cx.lineWidth = Math.max(1.1, size * 0.032);
     cx.beginPath();
     cx.ellipse(ox, oy, rx * 0.9, ry * 0.9, 0, 0, Math.PI * 2);
     cx.stroke();
@@ -144,31 +170,31 @@
       ox - rx * 0.3, oy - ry * 0.34, rx * 0.32,
     );
     spec.addColorStop(0, "rgba(255,255,255,1)");
-    spec.addColorStop(0.35, "rgba(235,248,255,0.55)");
+    spec.addColorStop(0.35, "rgba(235,248,255,0.7)");
     spec.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = spec;
     cx.beginPath();
-    cx.ellipse(ox - rx * 0.3, oy - ry * 0.34, rx * 0.15, ry * 0.09, -0.45, 0, Math.PI * 2);
+    cx.ellipse(ox - rx * 0.3, oy - ry * 0.34, rx * 0.16, ry * 0.1, -0.45, 0, Math.PI * 2);
     cx.fill();
     return c;
   }
 
-  /** 泪痕：极细长亮纹（参考 tear_w≈1–3px） */
+  /** 泪痕：细长亮纹，下滑时清晰可见 */
   function bakeRivulet(w0, h0) {
     const c = document.createElement("canvas");
-    c.width = Math.max(4, Math.ceil(w0));
+    c.width = Math.max(6, Math.ceil(w0));
     c.height = Math.ceil(h0);
     const cx = c.getContext("2d");
     if (!cx) return c;
     const ox = c.width * 0.5;
     const top = 1;
     const bot = c.height - 1;
-    const half = Math.max(0.7, c.width * 0.22);
+    const half = Math.max(1.1, c.width * 0.28);
     const g = cx.createLinearGradient(ox, top, ox, bot);
-    g.addColorStop(0, "rgba(255,255,255,0.05)");
-    g.addColorStop(0.08, "rgba(245,250,255,0.55)");
-    g.addColorStop(0.45, "rgba(210,235,255,0.28)");
-    g.addColorStop(0.85, "rgba(180,215,245,0.1)");
+    g.addColorStop(0, "rgba(255,255,255,0.08)");
+    g.addColorStop(0.06, "rgba(245,250,255,0.75)");
+    g.addColorStop(0.35, "rgba(210,235,255,0.45)");
+    g.addColorStop(0.75, "rgba(190,220,250,0.22)");
     g.addColorStop(1, "rgba(160,200,235,0)");
     cx.fillStyle = g;
     cx.beginPath();
@@ -178,8 +204,8 @@
     cx.bezierCurveTo(ox - half * 0.85, bot * 0.4, ox - half * 0.55, top + 6, ox, top);
     cx.closePath();
     cx.fill();
-    cx.strokeStyle = "rgba(255,255,255,0.55)";
-    cx.lineWidth = 0.55;
+    cx.strokeStyle = "rgba(255,255,255,0.75)";
+    cx.lineWidth = 0.85;
     cx.beginPath();
     cx.moveTo(ox - half * 0.08, top + 3);
     cx.quadraticCurveTo(ox - half * 0.28, bot * 0.42, ox - half * 0.06, bot - 3);
@@ -251,6 +277,8 @@
     const flows = [];
     /** @type {Array<any>} */
     const beads = [];
+    /** @type {Array<any>} */
+    const hits = [];
 
     const pickInLedge = (depthFrac = 0.55) => {
       if (!ledges.length) return null;
@@ -307,14 +335,27 @@
       tctx.restore();
     };
 
-    /** 下滑时在 trail 上留极淡亮痕（随后被擦干净） */
+    /** 下滑时在 trail 上留亮湿痕 */
     const stampWetMark = (x, y, scale, alpha) => {
       const spr = pickBead(scale);
       if (!spr) return;
-      const half = beadHalf(scale * 0.7, spr.width);
+      const half = beadHalf(scale * 0.85, spr.width);
+      tctx.globalCompositeOperation = "lighter";
       tctx.globalAlpha = alpha;
       tctx.drawImage(spr, x - half, y - half, half * 2, half * 2);
       tctx.globalAlpha = 1;
+      tctx.globalCompositeOperation = "source-over";
+    };
+
+    /** 撞击瞬间：短命亮环 */
+    const spawnHit = (x, y, r) => {
+      hits.push({
+        x, y,
+        r: r * rand(1.1, 1.6),
+        age: 0,
+        life: rand(0.18, 0.38),
+        a: rand(0.55, 0.9),
+      });
     };
 
     /**
@@ -326,13 +367,13 @@
       const preferUi = opts2.preferUi !== false && ledges.length && Math.random() < (storm ? 0.52 : 0.42);
       const ui = preferUi ? pickInLedge(0.95) : null;
       const scale = opts2.scale ?? rand(0.18, storm ? 0.55 : 0.48);
-      const clingMax = storm ? (lite ? 3.8 : 5.2) : 6.5;
-      const clingMin = storm ? 0.35 : 0.7;
+      const clingMax = storm ? (lite ? 2.4 : 3.5) : 4.5;
+      const clingMin = storm ? 0.2 : 0.45;
       beads.push({
         x: opts2.x ?? ui?.x ?? Math.random() * w,
         y: opts2.y ?? ui?.y ?? Math.pow(Math.random(), storm ? 0.52 : 0.6) * h,
         scale,
-        a: opts2.a ?? rand(0.26, storm ? 0.58 : 0.45),
+        a: opts2.a ?? rand(0.45, storm ? 0.85 : 0.7),
         cling: opts2.cling ?? rand(clingMin, clingMax),
         flowing: false,
         vy: 0,
@@ -376,27 +417,36 @@
       const fromTop = !!opts2.fromTop;
       const preferUi = opts2.preferUi !== false && !fromTop && ledges.length && Math.random() < (storm ? 0.7 : 0.62);
       const ui = preferUi ? pickInLedge(0.85) : null;
-      const r = opts2.r ?? rand(storm ? 2.6 : 2.4, storm ? 7.2 : 6.2);
+      const r = opts2.r ?? rand(storm ? 3.8 : 3.2, storm ? 10.5 : 8.5);
+      /* 多数珠带初速下滑；少数先粘再滴 */
       const momentum = opts2.momentum ?? (
-        storm
-          ? (Math.random() < 0.14 ? rand(0.7, 1.9) : 0)
-          : (Math.random() < 0.16 ? rand(0.5, 1.5) : 0)
+        fromTop
+          ? rand(0.9, storm ? 2.4 : 1.6)
+          : (Math.random() < (storm ? 0.55 : 0.4)
+            ? rand(0.45, storm ? 1.8 : 1.2)
+            : 0)
       );
+      const x = opts2.x ?? ui?.x ?? Math.random() * w;
+      const y = fromTop ? rand(-40, -8) : (opts2.y ?? ui?.y ?? Math.random() * h);
       drops.push({
-        x: opts2.x ?? ui?.x ?? Math.random() * w,
-        y: fromTop ? rand(-40, -8) : (opts2.y ?? ui?.y ?? Math.random() * h),
+        x,
+        y,
         r,
         momentum,
-        /* 主珠也保证最终下滑：drip 倒计时 */
-        drip: opts2.drip ?? (fromTop ? 0 : rand(storm ? 1.2 : 2.0, storm ? 7 : 10)),
-        vx: rand(storm ? -8 : -6, storm ? 8 : 6),
-        a: rand(0.72, storm ? 0.98 : 0.92),
-        spreadX: rand(0.03, storm ? 0.12 : 0.1),
-        spreadY: rand(0.02, storm ? 0.12 : 0.08),
+        drip: opts2.drip ?? (fromTop || momentum > 0.08 ? 0 : rand(storm ? 0.6 : 1.2, storm ? 3.8 : 5.5)),
+        vx: rand(storm ? -10 : -7, storm ? 10 : 7),
+        a: rand(0.82, 1),
+        spreadX: rand(0.04, storm ? 0.14 : 0.12),
+        spreadY: rand(0.03, storm ? 0.14 : 0.1),
         lastSpawn: 40,
         sprite: pickSprite(sprites, r),
         killed: false,
+        hitDone: !!opts2.hitDone,
       });
+      if (fromTop && !opts2.hitDone) {
+        /* 入屏撞击感：落到 y≈0 时再打环，先记待触发 */
+        drops[drops.length - 1].pendingHit = true;
+      }
     };
 
     const spawnLens = () => {
@@ -411,11 +461,11 @@
         vy: rand(0, 10),
         life: rand(4, 9),
         age: 0,
-        a: rand(0.38, 0.68),
-        scale: rand(0.65, 1.05),
+        a: rand(0.55, 0.9),
+        scale: rand(0.75, 1.15),
         sprite: spr,
         stuck: true,
-        cling: rand(0.8, 4.5),
+        cling: rand(0.35, 2.2),
       });
     };
 
@@ -427,11 +477,11 @@
       flows.push({
         x: ui?.x ?? rand(w * 0.04, w * 0.96),
         y: ui?.y ?? rand(-30, h * 0.3),
-        vx: rand(-3, 3),
-        vy: rand(28, lite ? 70 : 88),
-        scale: rand(0.9, lite ? 1.2 : 1.35),
-        a: rand(0.32, 0.62),
-        life: rand(2.4, 5.2),
+        vx: rand(-4, 4),
+        vy: rand(36, lite ? 95 : 120),
+        scale: rand(1.0, lite ? 1.35 : 1.55),
+        a: rand(0.5, 0.88),
+        life: rand(2.8, 6.2),
         age: 0,
         wobble: rand(0, Math.PI * 2),
         sprite: spr,
@@ -442,14 +492,15 @@
       drops.length = 0;
       lenses.length = 0;
       flows.length = 0;
+      hits.length = 0;
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.35);
       const n = Math.round(mainN * area);
       for (let i = 0; i < n; i += 1) spawnDrop();
       if (storm) {
         if (!lite) {
-          for (let i = 0; i < 4; i += 1) spawnLens();
+          for (let i = 0; i < 6; i += 1) spawnLens();
         }
-        const flowN = lite ? 6 : 10;
+        const flowN = lite ? 10 : 16;
         for (let i = 0; i < flowN; i += 1) spawnFlow();
       }
       beadsDirty = true;
@@ -490,7 +541,7 @@
           if (dx * dx + dy * dy >= limR * limR) continue;
           const a1 = Math.PI * d1.r * d1.r;
           const a2 = Math.PI * d2.r * d2.r;
-          d1.r = Math.min(storm ? 11 : 10, Math.sqrt((a1 + a2 * 0.82) / Math.PI));
+          d1.r = Math.min(storm ? 14 : 12, Math.sqrt((a1 + a2 * 0.82) / Math.PI));
           d1.momentum = Math.max(d1.momentum, 0.2) + 1.05;
           d1.spreadX = Math.max(d1.spreadX, 0.24);
           d1.spreadY = Math.max(d1.spreadY, 0.15);
@@ -504,9 +555,9 @@
     };
 
     const drawDrop = (d, aMul) => {
-      const TEAR = 1.28;
-      const dw = d.r * 2 * (1 + d.spreadX);
-      const dh = d.r * 2 * TEAR * (1 + d.spreadY) * (d.momentum > 0.2 ? 1.08 : 1);
+      const TEAR = d.momentum > 0.25 ? 1.45 : 1.28;
+      const dw = d.r * 2.15 * (1 + d.spreadX);
+      const dh = d.r * 2.15 * TEAR * (1 + d.spreadY) * (d.momentum > 0.2 ? 1.12 : 1);
       const spr = d.sprite;
       if (spr) {
         ctx.globalAlpha = d.a * aMul;
@@ -551,14 +602,15 @@
           }
         }
         if (b.flowing) {
-          b.vy += (storm ? 55 : 42) * dt;
-          b.vy = Math.min(b.vy, storm ? 160 : 120);
+          b.vy += (storm ? 70 : 52) * dt;
+          b.vy = Math.min(b.vy, storm ? 200 : 150);
           const step = b.vy * dt;
           b.y += step;
           b.x += b.vx * dt * 0.22 + Math.sin(b.y * 0.04 + b.scale * 8) * 2.8 * dt;
-          b.stretch = Math.min(2.1, b.stretch + step * 0.012);
+          b.stretch = Math.min(2.4, b.stretch + step * 0.014);
           b.scale *= Math.pow(0.998, dt * 60);
-          eraseTrail(b.x, b.y, beadHalf(b.scale, 5) * 0.9, Math.min(18, 4 + step));
+          stampWetMark(b.x, b.y, b.scale * 0.9, 0.22 * aMul);
+          eraseTrail(b.x, b.y, beadHalf(b.scale, 5) * 0.55, Math.min(14, 3 + step));
           /* 碰到大珠则被吸走 */
           for (let j = 0; j < drops.length; j += 1) {
             const d = drops[j];
@@ -566,8 +618,8 @@
             const dy = b.y - d.y;
             const lim = d.r + 3;
             if (dx * dx + dy * dy < lim * lim) {
-              d.r = Math.min(storm ? 11 : 10, d.r + 0.04);
-              d.momentum = Math.max(d.momentum, 0.15) + 0.08;
+              d.r = Math.min(storm ? 14 : 12, d.r + 0.05);
+              d.momentum = Math.max(d.momentum, 0.2) + 0.12;
               d.sprite = pickSprite(sprites, d.r);
               beads.splice(i, 1);
               b._gone = true;
@@ -605,15 +657,15 @@
         mergeDrops();
       }
 
-      const topEvery = storm ? 0.09 : 0.32;
+      const topEvery = storm ? 0.055 : 0.2;
       topSpawnAcc += dt * aMul;
-      while (topSpawnAcc > topEvery && drops.length < target + (storm ? 36 : 22)) {
+      while (topSpawnAcc > topEvery && drops.length < target + (storm ? 48 : 28)) {
         topSpawnAcc -= topEvery;
-        if (Math.random() < (storm ? 0.72 : 0.42)) {
+        if (Math.random() < (storm ? 0.88 : 0.55)) {
           spawnDrop({
             fromTop: true,
-            momentum: rand(0.35, storm ? 1.8 : 0.9),
-            r: rand(storm ? 3.2 : 2.4, storm ? 8.5 : 5.2),
+            momentum: rand(1.0, storm ? 2.6 : 1.5),
+            r: rand(storm ? 4.2 : 3.2, storm ? 11 : 7),
             drip: 0,
           });
         }
@@ -621,15 +673,15 @@
 
       if (storm && !lite) {
         lensAcc += dt * aMul;
-        while (lensAcc > 0.4 && lenses.length < 12) {
-          lensAcc -= 0.4;
+        while (lensAcc > 0.28 && lenses.length < 16) {
+          lensAcc -= 0.28;
           spawnLens();
         }
       }
       if (storm) {
         flowAcc += dt * aMul;
-        const flowCap = lite ? 16 : 28;
-        const flowEvery = lite ? 0.14 : 0.1;
+        const flowCap = lite ? 22 : 36;
+        const flowEvery = lite ? 0.1 : 0.07;
         while (flowAcc > flowEvery && flows.length < flowCap) {
           flowAcc -= flowEvery;
           spawnFlow();
@@ -638,31 +690,39 @@
 
       for (let i = drops.length - 1; i >= 0; i -= 1) {
         const d = drops[i];
+        if (d.pendingHit && d.y >= d.r * 0.6) {
+          d.pendingHit = false;
+          spawnHit(d.x, d.y, d.r);
+          d.spreadX = Math.max(d.spreadX, 0.28);
+          d.spreadY = Math.max(d.spreadY, 0.18);
+        }
+
         if (d.momentum <= 0.08) {
           d.drip -= dt;
           if (d.drip <= 0) {
-            d.momentum = rand(0.55, storm ? 1.8 : 1.4);
-          } else if (Math.random() < (d.r / 160) * dt * (storm ? 0.5 : 0.35)) {
-            d.momentum += rand(0.4, storm ? 1.5 : 1.2);
+            d.momentum = rand(0.7, storm ? 2.2 : 1.6);
+          } else if (Math.random() < (d.r / 90) * dt * (storm ? 0.9 : 0.55)) {
+            d.momentum += rand(0.55, storm ? 1.8 : 1.3);
           }
         }
 
         if (d.momentum > 0.08) {
-          const step = d.momentum * (storm ? 48 : 42) * dt;
+          const step = d.momentum * (storm ? 62 : 50) * dt;
           d.y += step;
-          d.x += d.vx * dt * 0.2 + Math.sin(d.y * 0.028 + d.r) * (storm ? 3.2 : 3.5) * dt;
-          d.momentum *= Math.pow(storm ? 0.965 : 0.93, dt * 60);
-          eraseTrail(d.x, d.y, d.r * 0.95, Math.min(storm ? 28 : 18, 6 + step * 2));
+          d.x += d.vx * dt * 0.22 + Math.sin(d.y * 0.028 + d.r) * (storm ? 3.6 : 3.2) * dt;
+          d.momentum *= Math.pow(storm ? 0.972 : 0.945, dt * 60);
+          stampWetMark(d.x, d.y, clamp(d.r / 10, 0.35, 1.1), 0.28 * aMul);
+          eraseTrail(d.x, d.y, d.r * 0.55, Math.min(storm ? 22 : 14, 4 + step * 1.5));
           d.lastSpawn += dt * 60;
-          if (d.momentum > 0.35 && d.lastSpawn > (storm ? 12 : 16)) {
+          if (d.momentum > 0.35 && d.lastSpawn > (storm ? 10 : 14)) {
             d.lastSpawn = 0;
             d.r *= 0.992;
             spawnBead({
               x: d.x + rand(-1.2, 1.2),
               y: d.y - d.r * rand(0.3, 1.0),
-              scale: rand(0.18, 0.4),
-              a: 0.22 * aMul,
-              cling: rand(0.3, 2.2),
+              scale: rand(0.22, 0.48),
+              a: 0.4 * aMul,
+              cling: rand(0.2, 1.6),
               preferUi: false,
             });
             d.sprite = pickSprite(sprites, d.r);
@@ -681,15 +741,25 @@
       if (drops.length > target + 20) drops.length = target + 16;
 
       /*
-       * 透明底 + 仅亮色精灵 + source-over。
-       * （黑底+CSS screen 在手机上常失效 → 整页黑布；已弃用）
+       * 透明底 + 仅亮色精灵。
+       * 湿痕层 fade + 撞击环 → 可读的「打屏再流下」
        */
       ctx.globalCompositeOperation = "source-over";
       ctx.globalAlpha = 1;
 
+      /* 湿痕缓慢淡出 */
+      tctx.globalCompositeOperation = "destination-out";
+      tctx.fillStyle = "rgba(0,0,0,0.045)";
+      tctx.fillRect(0, 0, w, h);
+      tctx.globalCompositeOperation = "source-over";
+
+      ctx.globalAlpha = 0.85 * aMul;
+      ctx.drawImage(trail, 0, 0, w, h);
+      ctx.globalAlpha = 1;
+
       /* 冷凝：lighter 只加亮 */
       ctx.globalCompositeOperation = "lighter";
-      for (let i = 0; i < beads.length; i += 1) drawBead(beads[i], aMul * 0.85);
+      for (let i = 0; i < beads.length; i += 1) drawBead(beads[i], aMul);
 
       ctx.globalCompositeOperation = "source-over";
       for (let i = flows.length - 1; i >= 0; i -= 1) {
@@ -703,12 +773,13 @@
         f.wobble += dt * 1.4;
         f.y += f.vy * dt;
         f.x += f.vx * dt + Math.sin(f.wobble) * 4 * dt;
-        f.vy += 10 * dt;
+        f.vy += 14 * dt;
+        stampWetMark(f.x, f.y + 8, 0.55, 0.18 * aMul * p);
         const spr = f.sprite;
         if (spr) {
           const dw = spr.width * f.scale;
           const dh = spr.height * f.scale;
-          ctx.globalAlpha = f.a * aMul * clamp(p * 1.15, 0, 1) * 0.85;
+          ctx.globalAlpha = f.a * aMul * clamp(p * 1.2, 0, 1);
           ctx.drawImage(spr, f.x - dw * 0.5, f.y, dw, dh);
         }
       }
@@ -725,24 +796,47 @@
           L.cling -= dt;
           if (L.cling <= 0) {
             L.stuck = false;
-            L.vy = rand(22, 58);
+            L.vy = rand(28, 72);
           }
         } else {
           L.y += L.vy * dt;
           L.x += L.vx * dt;
-          L.vy += 18 * dt;
+          L.vy += 22 * dt;
+          stampWetMark(L.x, L.y, L.scale * 0.7, 0.2 * aMul * p);
         }
         const spr = L.sprite;
         if (spr) {
           const dw = spr.width * 0.5 * L.scale;
           const dh = spr.height * 0.5 * L.scale;
-          ctx.globalAlpha = L.a * aMul * clamp(p * 1.15, 0, 1) * 0.9;
+          ctx.globalAlpha = L.a * aMul * clamp(p * 1.2, 0, 1);
           ctx.drawImage(spr, L.x - dw * 0.5, L.y - dh * 0.4, dw, dh);
         }
       }
 
+      /* 撞击亮环 */
+      for (let i = hits.length - 1; i >= 0; i -= 1) {
+        const ht = hits[i];
+        ht.age += dt;
+        const p = 1 - ht.age / ht.life;
+        if (p <= 0) {
+          hits.splice(i, 1);
+          continue;
+        }
+        const rr = ht.r * (1 + (1 - p) * 1.8);
+        ctx.globalAlpha = ht.a * aMul * p;
+        ctx.strokeStyle = "rgba(245,250,255,0.95)";
+        ctx.lineWidth = Math.max(1.2, ht.r * 0.12 * p);
+        ctx.beginPath();
+        ctx.ellipse(ht.x, ht.y, rr, rr * 0.55, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.globalAlpha = ht.a * aMul * p * 0.45;
+        ctx.beginPath();
+        ctx.ellipse(ht.x, ht.y, rr * 0.55, rr * 0.28, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
       ctx.globalAlpha = 1;
-      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 0.95 : 0.88));
+      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul);
       ctx.globalAlpha = 1;
     };
 
@@ -774,6 +868,7 @@
         lenses.length = 0;
         flows.length = 0;
         beads.length = 0;
+        hits.length = 0;
         clearTrail();
         ctx.clearRect(0, 0, w, h);
       },

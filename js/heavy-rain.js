@@ -519,14 +519,14 @@
     glassDropCanvas.classList.add("is-clear-glass");
 
     const glassMainN = storm
-      ? Math.max(realPhone ? 78 : 110, q0.glassMain || 110)
-      : (realPhone ? Math.max(32, Math.round((q0.glassMain || 34) * 0.9)) : (q0.glassMain || 52));
+      ? Math.max(realPhone ? 96 : 130, q0.glassMain || 130)
+      : (realPhone ? Math.max(40, Math.round((q0.glassMain || 34) * 1.05)) : (q0.glassMain || 52));
     const glassMicroN = storm
       ? (realPhone || mobileLite
-        ? Math.max(520, Math.min(720, q0.glassMicro || 560))
-        : Math.max(820, Math.min(1200, q0.glassMicro || 980)))
+        ? Math.max(580, Math.min(780, q0.glassMicro || 640))
+        : Math.max(900, Math.min(1300, q0.glassMicro || 1100)))
       : (realPhone || mobileLite
-        ? Math.max(280, Math.round((q0.glassMicro || 360) * 0.7))
+        ? Math.max(300, Math.round((q0.glassMicro || 360) * 0.75))
         : Math.max(420, Math.round((q0.glassMicro || 560) * 0.75)));
 
     const glassDrops = window.KayaGlassDrops?.attach
@@ -941,14 +941,14 @@
       gpu?.setTilt?.(storm ? 0.05 : 0.065);
       glassDrops?.setCounts(
         storm
-          ? Math.max(realPhone ? 78 : 110, q.glassMain || 110)
-          : (realPhone ? Math.max(32, Math.round((q.glassMain || 34) * 0.9)) : (q.glassMain || 52)),
+          ? Math.max(realPhone ? 96 : 130, q.glassMain || 130)
+          : (realPhone ? Math.max(40, Math.round((q.glassMain || 34) * 1.05)) : (q.glassMain || 52)),
         storm
           ? (realPhone || mobileLite
-            ? Math.max(520, Math.min(720, q.glassMicro || 560))
-            : Math.max(820, Math.min(1200, q.glassMicro || 980)))
+            ? Math.max(580, Math.min(780, q.glassMicro || 640))
+            : Math.max(900, Math.min(1300, q.glassMicro || 1100)))
           : (realPhone || mobileLite
-            ? Math.max(280, Math.round((q.glassMicro || 360) * 0.7))
+            ? Math.max(300, Math.round((q.glassMicro || 360) * 0.75))
             : Math.max(420, Math.round((q.glassMicro || 560) * 0.75))),
       );
       const ledgeSnap = (opts.collectLedges
