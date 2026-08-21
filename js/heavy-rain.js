@@ -10,34 +10,34 @@
   const FADE_SEC = 0.75;
 
   const GLASS_BASE = {
-    spawnSize: [20, 72],
+    spawnSize: [56, 110],
     slipRate: 0.86,
-    motionInterval: [0.2, 0.5],
-    xShifting: [0, 0.03],
-    colliderSize: 0.88,
-    trailDropDensity: 0.18,
-    trailDropSize: [0.3, 0.45],
-    trailDistance: [14, 28],
-    trailSpread: 0.45,
-    initialSpread: 0.5,
-    shrinkRate: 0.016,
-    velocitySpread: 0.3,
-    evaporate: 18,
-    gravity: 3000,
+    motionInterval: [0.18, 0.42],
+    xShifting: [0, 0.04],
+    colliderSize: 0.9,
+    trailDropDensity: 0.22,
+    trailDropSize: [0.35, 0.55],
+    trailDistance: [22, 42],
+    trailSpread: 0.5,
+    initialSpread: 0.55,
+    shrinkRate: 0.01,
+    velocitySpread: 0.32,
+    evaporate: 14,
+    gravity: 2600,
     mist: false,
     mistColor: [0.18, 0.24, 0.32, 0.08],
     mistTime: 7,
-    smoothRaindrop: [0.96, 1],
-    refractBase: 0.34,
-    refractScale: 0.52,
+    smoothRaindrop: [0.96, 0.995],
+    refractBase: 0.42,
+    refractScale: 0.7,
     raindropCompose: "smoother",
-    raindropLightPos: [-0.4, 1.15, 2.4, 0],
-    raindropDiffuseLight: [0.42, 0.48, 0.55],
-    raindropShadowOffset: 0.32,
-    raindropEraserSize: [0.93, 1],
-    raindropSpecularLight: [0.35, 0.4, 0.48],
-    raindropSpecularShininess: 56,
-    raindropLightBump: 0.55,
+    raindropLightPos: [-0.55, 1.2, 2.2, 0],
+    raindropDiffuseLight: [0.28, 0.32, 0.38],
+    raindropShadowOffset: 0.62,
+    raindropEraserSize: [0.92, 1],
+    raindropSpecularLight: [0.55, 0.62, 0.72],
+    raindropSpecularShininess: 160,
+    raindropLightBump: 0.95,
   };
 
   const QUALITY = {
@@ -351,53 +351,60 @@
       ...(g && typeof g === "object" ? g : fallbackGlass),
     };
     if (storm) {
-      /* 贴屏真折射：开冷凝微珠（droplets），关 mist 灰雾；提亮高光 */
-      opts.spawnSize = [22, 96];
-      opts.slipRate = 0.94;
+      /* 贴屏真折射：更大打屏珠（对齐参考片大透镜珠），少冷凝 */
+      opts.spawnSize = phone ? [85, 175] : [100, 210];
+      opts.slipRate = 0.86;
       opts.trailDropDensity = 0.36;
-      opts.gravity = 3800;
-      opts.refractBase = 0.42;
-      opts.refractScale = 0.78;
+      opts.trailDropSize = [0.45, 0.8];
+      opts.trailDistance = [36, 78];
+      opts.gravity = 2200;
+      opts.refractBase = 0.55;
+      opts.refractScale = 1.05;
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
-      opts.mistColor = [0.55, 0.65, 0.78, 0.04];
-      opts.raindropSpecularLight = [0.62, 0.7, 0.8];
-      opts.raindropSpecularShininess = 92;
-      opts.raindropLightBump = 0.88;
-      opts.raindropDiffuseLight = [0.58, 0.64, 0.72];
-      opts.raindropShadowOffset = 0.14;
-      /* 冷凝少一些：大折射珠为主 */
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 70 : 120) : 0;
-      opts.dropletSize = screenGlass ? [10, 24] : [8, 20];
+      opts.mistColor = [0.02, 0.03, 0.04, 0.0];
+      opts.raindropSpecularLight = [0.82, 0.9, 1.0];
+      opts.raindropSpecularShininess = 240;
+      opts.raindropLightBump = 1.2;
+      opts.raindropDiffuseLight = [0.16, 0.2, 0.26];
+      opts.raindropShadowOffset = 0.78;
+      opts.raindropLightPos = [-0.8, 1.35, 1.85, 0];
+      opts.smoothRaindrop = [0.95, 0.99];
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 12 : 24) : 0;
+      opts.dropletSize = screenGlass ? [3, 8] : [4, 10];
       opts.spawnLimit = screenGlass
-        ? Math.min(opts.spawnLimit || 1800, phone ? 520 : 900)
-        : Math.min(opts.spawnLimit || 800, 600);
-      opts.spawnInterval = screenGlass ? [0.035, 0.08] : [0.04, 0.09];
+        ? Math.min(opts.spawnLimit || 1800, phone ? 120 : 220)
+        : Math.min(opts.spawnLimit || 800, 360);
+      opts.spawnInterval = screenGlass ? [0.08, 0.18] : [0.06, 0.12];
     } else {
-      /* 大雨贴屏：清透、提亮 */
-      opts.spawnSize = [16, 58];
-      opts.slipRate = 0.88;
-      opts.trailDropDensity = 0.2;
-      opts.gravity = 3000;
-      opts.refractBase = 0.34;
-      opts.refractScale = 0.58;
+      /* 大雨贴屏：偏大珠、少霜点 */
+      opts.spawnSize = phone ? [54, 120] : [64, 140];
+      opts.slipRate = 0.84;
+      opts.trailDropDensity = 0.24;
+      opts.trailDropSize = [0.35, 0.58];
+      opts.trailDistance = [26, 52];
+      opts.gravity = 2300;
+      opts.refractBase = 0.48;
+      opts.refractScale = 0.85;
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
-      opts.mistColor = [0.5, 0.6, 0.72, 0.03];
-      opts.raindropSpecularLight = [0.5, 0.56, 0.64];
-      opts.raindropSpecularShininess = 78;
-      opts.raindropLightBump = 0.75;
-      opts.raindropDiffuseLight = [0.52, 0.58, 0.66];
-      opts.raindropShadowOffset = 0.18;
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 50 : 90) : 0;
-      opts.spawnLimit = Math.min(opts.spawnLimit || 900, screenGlass ? (phone ? 280 : 420) : 400);
-      if (phone) {
-        opts.spawnSize = [14, 48];
-        opts.spawnInterval = [0.06, 0.14];
-        opts.spawnLimit = screenGlass ? 280 : 220;
-        opts.trailDropDensity = 0.14;
+      opts.mistColor = [0.02, 0.03, 0.04, 0.0];
+      opts.raindropSpecularLight = [0.68, 0.76, 0.88];
+      opts.raindropSpecularShininess = 190;
+      opts.raindropLightBump = 1.05;
+      opts.raindropDiffuseLight = [0.22, 0.26, 0.32];
+      opts.raindropShadowOffset = 0.64;
+      opts.raindropLightPos = [-0.65, 1.22, 2.0, 0];
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 14 : 26) : 0;
+      opts.dropletSize = screenGlass ? [4, 9] : [5, 12];
+      opts.spawnLimit = Math.min(opts.spawnLimit || 900, screenGlass ? (phone ? 120 : 200) : 360);
+      opts.spawnInterval = screenGlass ? [0.09, 0.2] : [0.07, 0.15];
+      if (phone && !screenGlass) {
+        opts.spawnSize = [48, 108];
+        opts.spawnLimit = 160;
+        opts.trailDropDensity = 0.16;
       }
     }
     return opts;
@@ -818,7 +825,7 @@
           dx.fillStyle = skyHex;
           dx.fillRect(0, 0, bw, bh);
           /* 提亮截图，缓解贴屏整体发暗（保留折射，略增可读） */
-          dx.filter = "brightness(1.28) contrast(1.08) saturate(1.05)";
+          dx.filter = "brightness(1.1) contrast(1.05) saturate(1.02)";
           dx.drawImage(shot, 0, 0, bw, bh);
           dx.filter = "none";
           if (captureLooksBlack(stormDomBg)) {
@@ -892,14 +899,20 @@
           mist: false,
           backgroundBlurSteps: 0,
           mistBlurStep: 0,
-          raindropShadowOffset: Math.min(gOpts.raindropShadowOffset ?? 0.3, 0.28),
+          /* 勿把阴影钳死在 0.28——立体感会丢 */
+          raindropShadowOffset: Math.min(gOpts.raindropShadowOffset ?? 0.62, 0.78),
         });
         applyGlassOpts(glassFx, quality, storm, realPhone, useScreenGlass);
         try {
           glassFx.options.mist = false;
           glassFx.options.backgroundBlurSteps = 0;
           glassFx.options.mistBlurStep = 0;
-          glassFx.options.raindropShadowOffset = Math.min(glassFx.options.raindropShadowOffset || 0.3, 0.28);
+          glassFx.options.raindropShadowOffset = Math.min(
+            glassFx.options.raindropShadowOffset || 0.62,
+            0.78,
+          );
+          glassFx.options.spawnSize = gOpts.spawnSize || glassFx.options.spawnSize;
+          glassFx.options.dropletsPerSeconds = gOpts.dropletsPerSeconds ?? 0;
         } catch { /* ignore */ }
         await glassFx.setBackground(stormBg);
         await glassFx.start();

@@ -128,7 +128,7 @@
   }
 
   function bakeSprites() {
-    return [14, 18, 24, 32, 42, 54, 68].map(bakeDropBitmap);
+    return [22, 30, 40, 54, 72, 96, 128].map(bakeDropBitmap);
   }
 
   function bakeLensBlob(size) {
@@ -417,7 +417,7 @@
       const fromTop = !!opts2.fromTop;
       const preferUi = opts2.preferUi !== false && !fromTop && ledges.length && Math.random() < (storm ? 0.7 : 0.62);
       const ui = preferUi ? pickInLedge(0.85) : null;
-      const r = opts2.r ?? rand(storm ? 3.8 : 3.2, storm ? 10.5 : 8.5);
+      const r = opts2.r ?? rand(storm ? 9 : 7, storm ? 22 : 16);
       /* 多数珠带初速下滑；少数先粘再滴 */
       const momentum = opts2.momentum ?? (
         fromTop
@@ -665,7 +665,7 @@
           spawnDrop({
             fromTop: true,
             momentum: rand(1.0, storm ? 2.6 : 1.5),
-            r: rand(storm ? 4.2 : 3.2, storm ? 11 : 7),
+            r: rand(storm ? 10 : 7, storm ? 24 : 16),
             drip: 0,
           });
         }
