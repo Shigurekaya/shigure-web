@@ -82,21 +82,45 @@
     return c;
   }
 
-  function bakeBeadSprite() {
+  /**
+   * 冷凝微珠：对齐参考片「透亮高光点」——亮核 + 极淡青边，无暗芯/灰晕。
+   * 多档尺寸，避免单一软球糊成雾罩。
+   */
+  function bakeBeadSprite(size = 8) {
+    const dim = Math.max(6, size | 0);
     const c = document.createElement("canvas");
-    c.width = 6;
-    c.height = 6;
+    c.width = dim;
+    c.height = dim;
     const cx = c.getContext("2d");
     if (!cx) return c;
-    const g = cx.createRadialGradient(2.4, 2.2, 0, 3, 3, 2.6);
-    g.addColorStop(0, "rgba(255,255,255,0.92)");
-    g.addColorStop(0.4, "rgba(200, 225, 245, 0.45)");
-    g.addColorStop(1, "rgba(180,210,240,0)");
-    cx.fillStyle = g;
+    const o = dim * 0.5;
+    const r = dim * 0.42;
+    const body = cx.createRadialGradient(o - r * 0.18, o - r * 0.22, 0, o, o, r);
+    body.addColorStop(0, "rgba(255,255,255,0.98)");
+    body.addColorStop(0.22, "rgba(235,246,255,0.55)");
+    body.addColorStop(0.55, "rgba(190,220,245,0.16)");
+    body.addColorStop(1, "rgba(170,205,235,0)");
+    cx.fillStyle = body;
     cx.beginPath();
-    cx.arc(3, 3, 2.5, 0, Math.PI * 2);
+    cx.arc(o, o, r, 0, Math.PI * 2);
+    cx.fill();
+    /* 镜面高光（参考片亮点偏白，非墨点） */
+    const spec = cx.createRadialGradient(
+      o - r * 0.28, o - r * 0.32, 0,
+      o - r * 0.28, o - r * 0.32, r * 0.28,
+    );
+    spec.addColorStop(0, "rgba(255,255,255,1)");
+    spec.addColorStop(0.45, "rgba(245,252,255,0.55)");
+    spec.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = spec;
+    cx.beginPath();
+    cx.ellipse(o - r * 0.28, o - r * 0.32, r * 0.18, r * 0.12, -0.5, 0, Math.PI * 2);
     cx.fill();
     return c;
+  }
+
+  function bakeBeadSprites() {
+    return [5, 7, 9, 11].map(bakeBeadSprite);
   }
 
   function bakeSprites() {
@@ -118,15 +142,16 @@
     const oy = h * 0.4;
     const rx = size * 0.36;
     const ry = size * 0.42;
-    cx.fillStyle = "rgba(8, 14, 24, 0.22)";
+    /* 轻接触影，忌黑团 */
+    cx.fillStyle = "rgba(20, 40, 70, 0.1)";
     cx.beginPath();
-    cx.ellipse(ox, oy + ry * 0.7, rx * 0.5, ry * 0.14, 0, 0, Math.PI * 2);
+    cx.ellipse(ox, oy + ry * 0.7, rx * 0.48, ry * 0.12, 0, 0, Math.PI * 2);
     cx.fill();
     const g = cx.createRadialGradient(ox - rx * 0.22, oy - ry * 0.28, 0, ox, oy, rx);
-    g.addColorStop(0, "rgba(225, 238, 255, 0.5)");
-    g.addColorStop(0.4, "rgba(120, 155, 190, 0.32)");
-    g.addColorStop(0.82, "rgba(36, 52, 78, 0.34)");
-    g.addColorStop(1, "rgba(16, 24, 40, 0)");
+    g.addColorStop(0, "rgba(240, 248, 255, 0.58)");
+    g.addColorStop(0.35, "rgba(175, 210, 240, 0.28)");
+    g.addColorStop(0.78, "rgba(120, 165, 210, 0.14)");
+    g.addColorStop(1, "rgba(180, 210, 240, 0)");
     cx.fillStyle = g;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
@@ -205,10 +230,10 @@
 
     const storm = !!opts.storm;
     const lite = !!opts.lite;
-    /* 暴雨关掉糊散冷凝喷雾球，只留清晰滑动玻璃珠 + 泪痕 */
-    const noSpray = !!opts.noSpray || (storm && (opts.micro === 0));
+    /* noSpray 仅显式关闭；micro===0 时也不铺冷凝层 */
+    const noSpray = !!opts.noSpray;
     const sprites = bakeSprites();
-    const lensSprites = storm && !lite && !noSpray
+    const lensSprites = storm && !lite
       ? [40, 56, 72].map(bakeLensBlob)
       : [];
     const rivuletSprites = storm && !lite
@@ -221,7 +246,7 @@
         bakeRivulet(20, 140),
       ]
       : [];
-    const beadSpr = bakeBeadSprite();
+    const beadSprites = bakeBeadSprites();
     const spray = document.createElement("canvas");
     const sctx = spray.getContext("2d", { alpha: true });
     if (!sctx) return null;
@@ -277,15 +302,29 @@
       sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
+    const pickBead = (scale) => {
+      if (!beadSprites.length) return null;
+      const px = 5 + scale * 8;
+      let best = 0;
+      let diff = Infinity;
+      for (let i = 0; i < beadSprites.length; i += 1) {
+        const d = Math.abs(beadSprites[i].width - px);
+        if (d < diff) { diff = d; best = i; }
+      }
+      return beadSprites[best];
+    };
+
+    /** 细密透亮戳点；scale≈0.35–1 → 约 1.5–5 CSS px，对齐参考片微珠 */
     const stampBead = (x, y, scale, alpha) => {
-      const s = (storm ? 2.15 : 2.4) * scale;
+      const spr = pickBead(scale);
+      if (!spr) return;
+      const half = (storm ? 1.55 : 1.7) * scale * (spr.width / 8);
       sctx.globalAlpha = alpha;
-      sctx.drawImage(beadSpr, x - s, y - s, s * 2, s * 2);
+      sctx.drawImage(spr, x - half, y - half, half * 2, half * 2);
     };
 
     /**
-     * 参考片：卡片表面水珠密度高于天空，但忌糊成灰雾。
-     * 暴雨：中等密度、偏亮小珠；大雨沿用原比例。
+     * 参考片：整屏细密冷凝 + UI 上略密；小而亮，忌软大球叠成灰罩。
      */
     const seedSpray = () => {
       clearSpray();
@@ -293,22 +332,21 @@
         sprayDirty = false;
         return;
       }
-      /* 大雨才铺冷凝微珠；暴雨禁用（避免糊散圆球） */
-      const dens = 1;
-      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.55));
-      const onUi = ledges.length ? Math.round(n * 0.55) : 0;
+      const dens = storm ? (lite ? 0.85 : 1.05) : 1;
+      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.45));
+      const onUi = ledges.length ? Math.round(n * (storm ? 0.58 : 0.5)) : 0;
       for (let i = 0; i < onUi; i += 1) {
         const p = pickInLedge(0.95);
         if (!p) break;
-        stampBead(p.x, p.y, rand(0.45, 0.9), rand(0.28, 0.48));
+        stampBead(p.x, p.y, rand(0.32, 0.78), rand(0.22, 0.46));
       }
       for (let i = onUi; i < n; i += 1) {
-        const yBias = Math.pow(Math.random(), 0.72);
+        const yBias = Math.pow(Math.random(), storm ? 0.68 : 0.75);
         stampBead(
           Math.random() * w,
           yBias * h,
-          rand(0.35, 0.85),
-          rand(0.14, 0.38),
+          rand(0.28, 0.72),
+          rand(0.12, storm ? 0.34 : 0.3),
         );
       }
       sctx.globalAlpha = 1;
@@ -480,19 +518,24 @@
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.35);
       const target = Math.round(mainN * area * Math.max(0.55, aMul));
 
-      /* 持续补雾点——暴雨 noSpray 时完全跳过 */
+      /* 持续补冷凝微珠——小而亮，避免大糊球 */
       mistAcc += dt * aMul;
-      const mistEvery = noSpray ? 999 : (storm ? (lite ? 0.08 : 0.045) : 0.12);
+      const mistEvery = noSpray ? 999 : (storm ? (lite ? 0.07 : 0.04) : 0.11);
       while (!noSpray && mistAcc > mistEvery) {
         mistAcc -= mistEvery;
         const k = storm
-          ? (lite ? (2 + ((Math.random() * 3) | 0)) : (4 + ((Math.random() * 6) | 0)))
+          ? (lite ? (2 + ((Math.random() * 3) | 0)) : (3 + ((Math.random() * 5) | 0)))
           : (1 + ((Math.random() * 3) | 0));
         for (let i = 0; i < k; i += 1) {
-          const ui = ledges.length && Math.random() < (storm ? 0.72 : 0.65) ? pickInLedge(0.92) : null;
+          const ui = ledges.length && Math.random() < (storm ? 0.7 : 0.62) ? pickInLedge(0.92) : null;
           const x = ui?.x ?? Math.random() * w;
           const y = ui?.y ?? Math.pow(Math.random(), storm ? 0.55 : 0.65) * h;
-          stampBead(x, y, rand(0.4, storm ? 1.15 : 0.75), rand(0.18, storm ? 0.48 : 0.36) * aMul);
+          stampBead(
+            x,
+            y,
+            rand(0.3, storm ? 0.85 : 0.7),
+            rand(0.14, storm ? 0.4 : 0.32) * aMul,
+          );
         }
         sctx.globalAlpha = 1;
       }
@@ -516,7 +559,7 @@
         }
       }
 
-      if (storm && !lite && !noSpray) {
+      if (storm && !lite) {
         lensAcc += dt * aMul;
         while (lensAcc > 0.32 && lenses.length < 14) {
           lensAcc -= 0.32;
@@ -525,7 +568,7 @@
       }
       if (storm && !lite) {
         flowAcc += dt * aMul;
-        while (flowAcc > 0.12 && flows.length < (noSpray ? 28 : 22)) {
+        while (flowAcc > 0.12 && flows.length < 24) {
           flowAcc -= 0.12;
           spawnFlow();
         }
@@ -549,7 +592,7 @@
           if (d.momentum > 0.35 && d.lastSpawn > (storm ? 10 : 14)) {
             d.lastSpawn = 0;
             d.r *= 0.99;
-            stampBead(d.x + rand(-1.5, 1.5), d.y - d.r * rand(0.3, 1.0), rand(0.28, 0.55), 0.26 * aMul);
+            stampBead(d.x + rand(-1.5, 1.5), d.y - d.r * rand(0.3, 1.0), rand(0.22, 0.48), 0.22 * aMul);
             sctx.globalAlpha = 1;
             d.sprite = pickSprite(sprites, d.r);
           }
@@ -618,8 +661,14 @@
         }
       }
 
-      ctx.globalAlpha = aMul * (storm ? 0.92 : 0.88);
-      if (!noSpray) ctx.drawImage(spray, 0, 0, w, h);
+      /* 冷凝层用 screen：加亮高光、不压暗 UI（参考片透亮珠） */
+      if (!noSpray) {
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+        ctx.globalAlpha = aMul * (storm ? 0.72 : 0.62);
+        ctx.drawImage(spray, 0, 0, w, h);
+        ctx.restore();
+      }
       ctx.globalAlpha = 1;
       for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 1.12 : 1));
       ctx.globalAlpha = 1;
@@ -636,7 +685,7 @@
       },
       setCounts(main, micro) {
         mainN = main;
-        microN = noSpray ? 0 : micro;
+        microN = noSpray ? 0 : Math.max(0, micro | 0);
         if (w > 1) rebuild();
       },
       /** @param {Array<{x:number,y:number,w:number,h?:number,radius?:number}>} next */

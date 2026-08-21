@@ -263,7 +263,11 @@
     q.speedMul = q.speedMul * mul.speed;
     q.splashRate = (q.splashRate || 1) * mul.splash;
     q.glassMain = Math.round((q.glassMain || 34) * mul.glassMain);
-    q.glassMicro = Math.max(0, Math.round((q.glassMicro || 160) * 0.08)); /* 几乎去掉糊散微珠 */
+    /* 冷凝微珠：中等密度细亮点（勿 *0.08 砍光，也勿拉满糊罩） */
+    q.glassMicro = Math.min(
+      phone ? 320 : 680,
+      Math.max(phone ? 200 : 420, Math.round((q.glassMicro || 280) * 0.52)),
+    );
     q.sizeMul = mul.sizeMul;
     q.dprCap = Math.max(q.dprCap || 1.4, 1.75);
     q.frameMs = Math.min(q.frameMs || 33, 1000 / 30);
@@ -378,11 +382,12 @@
       ? window.RaindropFX
       : window.RaindropFX?.default;
 
-    /* 暴雨效果优先：强制 high，不按手机降档 */
+    /* 暴雨效果优先：强制 high；真实手机仍用于冷凝密度/部分 dpr，避免糊罩 */
     let quality = storm ? "high" : detectQuality();
-    const phone = storm ? false : isPhoneLike();
-    const q0 = qualityFor(quality, storm, phone);
-    const mobileLite = phone || quality === "low"
+    const realPhone = isPhoneLike();
+    const phone = storm ? false : realPhone;
+    const q0 = qualityFor(quality, storm, realPhone);
+    const mobileLite = realPhone || quality === "low"
       || window.matchMedia("(max-width: 720px)").matches;
     /* 贴屏 raindrop-fx + html2canvas 在手机上会整屏黑点，停用；改上层清晰 2D 珠 */
     const useScreenGlass = false;
@@ -444,7 +449,7 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* 贴屏湿感：清晰 2D 玻璃珠（noSpray，无冷凝黑点）；raindrop 仅无 GPU 时挂背景 */
+    /* 贴屏湿感：清晰滑动珠 + 优化冷凝微珠（透亮高光，非黑点）；raindrop 仅无 GPU 时挂背景 */
     const wantSplash = true;
     const wantGlassDrops = true;
     splashCanvas.style.display = wantSplash ? "" : "none";
@@ -453,19 +458,25 @@
     glassDropCanvas.classList.add("is-clear-glass");
 
     const glassMainN = storm
-      ? Math.max(phone ? 70 : 100, q0.glassMain || 100)
-      : (phone ? Math.max(28, Math.round((q0.glassMain || 34) * 0.85)) : (q0.glassMain || 48));
-    const glassMicroN = 0;
+      ? Math.max(realPhone ? 70 : 100, q0.glassMain || 100)
+      : (realPhone ? Math.max(28, Math.round((q0.glassMain || 34) * 0.85)) : (q0.glassMain || 48));
+    const glassMicroN = storm
+      ? (realPhone || mobileLite
+        ? Math.max(200, Math.min(300, q0.glassMicro || 240))
+        : Math.max(420, Math.min(680, q0.glassMicro || 560)))
+      : (realPhone || mobileLite
+        ? Math.max(140, Math.round((q0.glassMicro || 280) * 0.45))
+        : Math.max(220, Math.round((q0.glassMicro || 420) * 0.55)));
 
     const glassDrops = window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: glassMainN,
         micro: glassMicroN,
-        dprCap: storm ? Math.min(q0.dprCap, phone ? 1.35 : 2) : (phone ? 1.15 : Math.min(q0.dprCap, 1.5)),
+        dprCap: storm ? Math.min(q0.dprCap, realPhone ? 1.35 : 2) : (realPhone ? 1.15 : Math.min(q0.dprCap, 1.5)),
         slideRatio: storm ? 0.55 : 0.32,
         storm,
         lite: mobileLite,
-        noSpray: true,
+        noSpray: false,
       })
       : null;
     if (!glassDrops) glassDropCanvas.style.display = "none";
@@ -809,11 +820,11 @@
       w = window.innerWidth;
       h = window.innerHeight;
       quality = storm ? "high" : detectQuality();
-      const q = qualityFor(quality, storm, phone);
+      const q = qualityFor(quality, storm, realPhone);
       wantRaindropFx = !useGpuStreaks && !!RaindropCtor && q.glass != null;
       fitSplash();
       gpu?.resize(w, h);
-      const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.5 : (phone ? 1.0 : 1.35)));
+      const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.5 : (realPhone ? 1.0 : 1.35)));
       gpu?.setCount(Math.min(n, streakCapFor(storm, phone)));
       gpu?.setFrameBudget(q.frameMs);
       gpu?.setWind?.(q.wind);
@@ -823,9 +834,15 @@
       gpu?.setTilt?.(storm ? 0.055 : 0.085);
       glassDrops?.setCounts(
         storm
-          ? Math.max(phone ? 70 : 100, q.glassMain || 100)
-          : (phone ? Math.max(28, Math.round((q.glassMain || 34) * 0.85)) : (q.glassMain || 48)),
-        0,
+          ? Math.max(realPhone ? 70 : 100, q.glassMain || 100)
+          : (realPhone ? Math.max(28, Math.round((q.glassMain || 34) * 0.85)) : (q.glassMain || 48)),
+        storm
+          ? (realPhone || mobileLite
+            ? Math.max(200, Math.min(300, q.glassMicro || 240))
+            : Math.max(420, Math.min(680, q.glassMicro || 560)))
+          : (realPhone || mobileLite
+            ? Math.max(140, Math.round((q.glassMicro || 280) * 0.45))
+            : Math.max(220, Math.round((q.glassMicro || 420) * 0.55))),
       );
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()
