@@ -428,6 +428,11 @@ body.storm-rain .site-bg__heavy {
   transition: opacity 0.75s var(--ease);
 }
 
+body.storm-rain .site-fx__glass-drops.is-storm-glass {
+  /* 贴屏模糊水更“糊”一点，贴近参考片镜头水珠 */
+  filter: blur(0.6px) saturate(1.05);
+}
+
 .site-fx__splash {
   z-index: 5;
 }

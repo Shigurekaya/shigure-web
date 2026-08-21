@@ -88,6 +88,41 @@
     return [16, 22, 28, 36, 46].map(bakeDropBitmap);
   }
 
+  /** 贴屏大块模糊水（参考片镜头水珠/泪痕） */
+  function bakeLensBlob(size) {
+    const pad = Math.ceil(size * 0.45);
+    const w = size + pad * 2;
+    const h = Math.ceil(size * 1.8) + pad * 2;
+    const c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    const cx = c.getContext("2d");
+    if (!cx) return c;
+    const ox = w * 0.5;
+    const oy = h * 0.4;
+    const rx = size * 0.42;
+    const ry = size * 0.55;
+    const g = cx.createRadialGradient(ox - rx * 0.15, oy - ry * 0.2, 0, ox, oy, rx * 1.15);
+    g.addColorStop(0, "rgba(230, 240, 255, 0.38)");
+    g.addColorStop(0.35, "rgba(160, 190, 220, 0.22)");
+    g.addColorStop(0.7, "rgba(70, 100, 140, 0.14)");
+    g.addColorStop(1, "rgba(20, 35, 55, 0)");
+    cx.fillStyle = g;
+    cx.beginPath();
+    cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
+    cx.fill();
+    /* 纵向泪痕 */
+    const trail = cx.createLinearGradient(ox, oy, ox, h - pad);
+    trail.addColorStop(0, "rgba(200, 220, 245, 0.18)");
+    trail.addColorStop(0.55, "rgba(140, 175, 210, 0.1)");
+    trail.addColorStop(1, "rgba(80, 110, 150, 0)");
+    cx.fillStyle = trail;
+    cx.beginPath();
+    cx.ellipse(ox, oy + ry * 0.85, rx * 0.28, ry * 1.1, 0, 0, Math.PI * 2);
+    cx.fill();
+    return c;
+  }
+
   function pickSprite(sprites, r) {
     if (!sprites.length) return null;
     const px = r * 2.5;
@@ -102,13 +137,17 @@
 
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {{ main?: number, micro?: number, dprCap?: number }} [opts]
+   * @param {{ main?: number, micro?: number, dprCap?: number, storm?: boolean, slideRatio?: number }} [opts]
    */
   function attach(canvas, opts = {}) {
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return null;
 
+    const storm = !!opts.storm;
     const sprites = bakeSprites();
+    const lensSprites = storm
+      ? [48, 72, 96, 128].map(bakeLensBlob)
+      : [];
     const beadSpr = bakeBeadSprite();
     const spray = document.createElement("canvas");
     const sctx = spray.getContext("2d", { alpha: true });
@@ -125,11 +164,14 @@
     let sprayDirty = true;
     let mergeAcc = 0;
     let topSpawnAcc = 0;
+    let lensAcc = 0;
     /** @type {Array<{x:number,y:number,w:number,h?:number,radius?:number}>} */
     let ledges = [];
 
     /** @type {Array<any>} */
     const drops = [];
+    /** @type {Array<any>} */
+    const lenses = [];
 
     const pickInLedge = (depthFrac = 0.55) => {
       if (!ledges.length) return null;
@@ -158,7 +200,7 @@
     };
 
     const stampBead = (x, y, scale, alpha) => {
-      const s = 2.4 * scale;
+      const s = (storm ? 2.9 : 2.4) * scale;
       sctx.globalAlpha = alpha;
       sctx.drawImage(beadSpr, x - s, y - s, s * 2, s * 2);
     };
@@ -169,20 +211,21 @@
      */
     const seedSpray = () => {
       clearSpray();
-      const n = Math.round(microN * clamp((w * h) / (1280 * 720), 0.65, 1.35));
-      const onUi = ledges.length ? Math.round(n * 0.55) : 0;
+      const dens = storm ? 1.45 : 1;
+      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.35));
+      const onUi = ledges.length ? Math.round(n * (storm ? 0.62 : 0.55)) : 0;
       for (let i = 0; i < onUi; i += 1) {
         const p = pickInLedge(0.92);
         if (!p) break;
-        stampBead(p.x, p.y, rand(0.28, 0.9), rand(0.2, 0.48));
+        stampBead(p.x, p.y, rand(0.32, storm ? 1.15 : 0.9), rand(0.22, storm ? 0.58 : 0.48));
       }
       for (let i = onUi; i < n; i += 1) {
         const yBias = Math.pow(Math.random(), 0.72);
         stampBead(
           Math.random() * w,
           yBias * h,
-          rand(0.28, 0.85),
-          rand(0.14, 0.38),
+          rand(0.28, storm ? 1.05 : 0.85),
+          rand(0.14, storm ? 0.48 : 0.38),
         );
       }
       sctx.globalAlpha = 1;
@@ -206,30 +249,51 @@
 
     const spawnDrop = (opts2 = {}) => {
       const fromTop = !!opts2.fromTop;
-      const preferUi = opts2.preferUi !== false && !fromTop && ledges.length && Math.random() < 0.62;
+      const preferUi = opts2.preferUi !== false && !fromTop && ledges.length && Math.random() < (storm ? 0.7 : 0.62);
       const ui = preferUi ? pickInLedge(0.85) : null;
-      const r = opts2.r ?? rand(2.8, 7.2);
-      const momentum = opts2.momentum ?? (Math.random() < 0.18 ? rand(0.6, 1.8) : 0);
+      const r = opts2.r ?? rand(storm ? 3.6 : 2.8, storm ? 9.5 : 7.2);
+      const momentum = opts2.momentum ?? (Math.random() < (storm ? 0.28 : 0.18) ? rand(0.6, 2.2) : 0);
       drops.push({
         x: opts2.x ?? ui?.x ?? Math.random() * w,
         y: fromTop ? rand(-40, -8) : (opts2.y ?? ui?.y ?? Math.random() * h),
         r,
         momentum,
-        vx: rand(-8, 8),
-        a: rand(0.55, 0.88),
-        spreadX: rand(0.03, 0.14),
-        spreadY: rand(0.02, 0.1),
+        vx: rand(storm ? -14 : -8, storm ? 14 : 8),
+        a: rand(0.55, storm ? 0.95 : 0.88),
+        spreadX: rand(0.03, storm ? 0.2 : 0.14),
+        spreadY: rand(0.02, storm ? 0.16 : 0.1),
         lastSpawn: 40,
         sprite: pickSprite(sprites, r),
         killed: false,
       });
     };
 
+    const spawnLens = () => {
+      if (!storm || !lensSprites.length) return;
+      const spr = lensSprites[(Math.random() * lensSprites.length) | 0];
+      lenses.push({
+        x: rand(w * 0.05, w * 0.95),
+        y: rand(-h * 0.05, h * 0.55),
+        vx: rand(-6, 6),
+        vy: rand(28, 70),
+        life: rand(1.6, 3.4),
+        age: 0,
+        a: rand(0.22, 0.48),
+        scale: rand(0.7, 1.35),
+        sprite: spr,
+      });
+    };
+
     const rebuild = () => {
       drops.length = 0;
+      lenses.length = 0;
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.25);
       const n = Math.round(mainN * area);
       for (let i = 0; i < n; i += 1) spawnDrop();
+      if (storm) {
+        const ln = 3 + ((Math.random() * 4) | 0);
+        for (let i = 0; i < ln; i += 1) spawnLens();
+      }
       sprayDirty = true;
     };
 
@@ -268,7 +332,7 @@
           if (dx * dx + dy * dy >= limR * limR) continue;
           const a1 = Math.PI * d1.r * d1.r;
           const a2 = Math.PI * d2.r * d2.r;
-          d1.r = Math.min(10, Math.sqrt((a1 + a2 * 0.82) / Math.PI));
+          d1.r = Math.min(storm ? 14 : 10, Math.sqrt((a1 + a2 * 0.82) / Math.PI));
           d1.momentum += 1.15;
           d1.spreadX = Math.max(d1.spreadX, 0.24);
           d1.spreadY = Math.max(d1.spreadY, 0.15);
@@ -305,13 +369,13 @@
       const target = Math.round(mainN * area * Math.max(0.45, aMul));
 
       /* 稀疏补雾点：优先补到 UI 卡片上 */
-      if (Math.random() < 0.14 * aMul) {
-        const k = 1 + ((Math.random() * 4) | 0);
+      if (Math.random() < (storm ? 0.26 : 0.14) * aMul) {
+        const k = 1 + ((Math.random() * (storm ? 6 : 4)) | 0);
         for (let i = 0; i < k; i += 1) {
           const ui = ledges.length && Math.random() < 0.7 ? pickInLedge(0.9) : null;
           const x = ui?.x ?? Math.random() * w;
           const y = ui?.y ?? Math.pow(Math.random(), 0.7) * h;
-          stampBead(x, y, rand(0.25, 0.75), rand(0.16, 0.36) * aMul);
+          stampBead(x, y, rand(0.25, storm ? 0.95 : 0.75), rand(0.16, storm ? 0.45 : 0.36) * aMul);
         }
         sctx.globalAlpha = 1;
       }
@@ -323,29 +387,39 @@
       }
 
       /* 顶部新滴（模拟新落到玻璃上） */
+      const topEvery = storm ? 0.16 : 0.28;
       topSpawnAcc += dt * aMul;
-      while (topSpawnAcc > 0.28 && drops.length < target + 6) {
-        topSpawnAcc -= 0.28;
-        if (Math.random() < 0.48) {
-          spawnDrop({ fromTop: true, momentum: rand(0.15, 1.0), r: rand(2.6, 5.8) });
+      while (topSpawnAcc > topEvery && drops.length < target + 8) {
+        topSpawnAcc -= topEvery;
+        if (Math.random() < (storm ? 0.72 : 0.48)) {
+          spawnDrop({ fromTop: true, momentum: rand(0.2, storm ? 1.6 : 1.0), r: rand(storm ? 3.2 : 2.6, storm ? 7.5 : 5.8) });
+        }
+      }
+
+      /* 暴雨：低频大块模糊镜头水 */
+      if (storm) {
+        lensAcc += dt * aMul;
+        while (lensAcc > 0.85 && lenses.length < 7) {
+          lensAcc -= 0.85;
+          if (Math.random() < 0.65) spawnLens();
         }
       }
 
       for (let i = drops.length - 1; i >= 0; i -= 1) {
         const d = drops[i];
-        const tension = 1.15;
-        if (Math.random() < (d.r / (110 * tension)) * dt * 0.55) {
-          d.momentum += rand(0.35, 1.6);
+        const tension = storm ? 0.95 : 1.15;
+        if (Math.random() < (d.r / (110 * tension)) * dt * (storm ? 0.75 : 0.55)) {
+          d.momentum += rand(0.35, storm ? 2.1 : 1.6);
         }
 
         if (d.momentum > 0.1) {
-          const step = d.momentum * 48 * dt;
+          const step = d.momentum * (storm ? 58 : 48) * dt;
           d.y += step;
           d.x += d.vx * dt * 0.28 + Math.sin(d.y * 0.032 + d.r) * 4.2 * dt;
           d.momentum *= Math.pow(0.94, dt * 60);
-          eraseSpray(d.x, d.y, d.r * 1.05, Math.min(22, 6 + step * 2));
+          eraseSpray(d.x, d.y, d.r * 1.05, Math.min(storm ? 36 : 22, 6 + step * 2));
           d.lastSpawn += dt * 60;
-          if (d.momentum > 0.4 && d.lastSpawn > 14) {
+          if (d.momentum > 0.4 && d.lastSpawn > (storm ? 10 : 14)) {
             d.lastSpawn = 0;
             d.r *= 0.986;
             stampBead(d.x + rand(-1.5, 1.5), d.y - d.r * rand(0.4, 1.0), rand(0.25, 0.55), 0.28 * aMul);
@@ -366,7 +440,32 @@
       while (drops.length < target) spawnDrop();
       if (drops.length > target + 12) drops.length = target + 8;
 
-      ctx.globalAlpha = aMul * 0.88;
+      /* 先画模糊镜头水，再微珠与主珠 */
+      for (let i = lenses.length - 1; i >= 0; i -= 1) {
+        const L = lenses[i];
+        L.age += dt;
+        const p = 1 - L.age / L.life;
+        if (p <= 0) {
+          lenses.splice(i, 1);
+          continue;
+        }
+        L.y += L.vy * dt;
+        L.x += L.vx * dt;
+        L.vy += 12 * dt;
+        const spr = L.sprite;
+        if (spr) {
+          const dw = spr.width * 0.55 * L.scale;
+          const dh = spr.height * 0.55 * L.scale;
+          ctx.save();
+          ctx.globalAlpha = L.a * aMul * clamp(p * 1.2, 0, 1);
+          try { ctx.filter = "blur(2.5px)"; } catch { /* ignore */ }
+          ctx.drawImage(spr, L.x - dw * 0.5, L.y - dh * 0.35, dw, dh);
+          try { ctx.filter = "none"; } catch { /* ignore */ }
+          ctx.restore();
+        }
+      }
+
+      ctx.globalAlpha = aMul * (storm ? 0.95 : 0.88);
       ctx.drawImage(spray, 0, 0, w, h);
       ctx.globalAlpha = 1;
       for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul);
@@ -399,6 +498,7 @@
       draw(dt) { draw(dt, intensity); },
       clear() {
         drops.length = 0;
+        lenses.length = 0;
         clearSpray();
         ctx.clearRect(0, 0, w, h);
       },

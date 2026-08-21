@@ -149,15 +149,15 @@
     return canvas;
   }
 
-  /** 雷暴相对大雨的强度倍率 */
+  /** 雷暴相对大雨的强度倍率（对齐小米天气大雨参考片再加一档） */
   const STORM_MUL = {
-    streak: 1.55,
-    wind: 1.42,
-    speed: 1.32,
-    /* 溅花只略增：过高会糊满卡片顶缘 */
-    splash: 1.18,
-    glassMain: 1.35,
-    glassMicro: 1.4,
+    streak: 1.65,
+    wind: 1.35,
+    speed: 1.28,
+    splash: 1.55,
+    glassMain: 1.55,
+    glassMicro: 1.7,
+    sizeMul: 1.38,
   };
 
   function qualityFor(mode, storm) {
@@ -173,11 +173,12 @@
     q.splashRate = (q.splashRate || 1) * STORM_MUL.splash;
     q.glassMain = Math.round((q.glassMain || 34) * STORM_MUL.glassMain);
     q.glassMicro = Math.round((q.glassMicro || 160) * STORM_MUL.glassMicro);
+    q.sizeMul = STORM_MUL.sizeMul;
     if (q.glass && typeof q.glass === "object") {
       q.glass = {
         ...q.glass,
-        spawnLimit: Math.round((q.glass.spawnLimit || 400) * 1.25),
-        dropletsPerSeconds: Math.round((q.glass.dropletsPerSeconds || 360) * 1.3),
+        spawnLimit: Math.round((q.glass.spawnLimit || 400) * 1.35),
+        dropletsPerSeconds: Math.round((q.glass.dropletsPerSeconds || 360) * 1.4),
       };
     }
     return q;
@@ -266,28 +267,38 @@
       || window.matchMedia("(max-width: 720px)").matches;
 
     const gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, {
-      count: mobileLite ? Math.min(streakCount, storm ? 1100 : 900) : streakCount,
+      count: mobileLite ? Math.min(streakCount, storm ? 1300 : 900) : streakCount,
       dprCap: mobileLite ? Math.min(q0.dprCap, 1.15) : q0.dprCap,
       wind: q0.wind,
       speedMul: q0.speedMul,
       wanderWind: storm,
-      tilt: storm ? 0.145 : 0.08,
+      tilt: storm ? 0.12 : 0.08,
+      sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 1,
     });
 
     const useGpuStreaks = !!gpu;
 
-    /* 溅花：全端开启（透明 canvas）。玻璃珠：仅桌面中高配，避免手机全屏黑底 */
+    /* 溅花：全端开启。贴屏水珠：桌面全开；暴雨手机也开轻量版（参考片关键） */
     const wantSplash = true;
-    const wantGlassDrops = !mobileLite && useGpuStreaks;
+    const wantGlassDrops = useGpuStreaks && (!mobileLite || storm);
     splashCanvas.style.display = wantSplash ? "" : "none";
     glassDropCanvas.style.display = wantGlassDrops ? "" : "none";
+    if (storm) glassDropCanvas.classList.add("is-storm-glass");
+
+    const glassMainN = mobileLite && storm
+      ? Math.round((q0.glassMain || 34) * 0.55)
+      : (q0.glassMain || 34);
+    const glassMicroN = mobileLite && storm
+      ? Math.round((q0.glassMicro || 160) * 0.5)
+      : (q0.glassMicro || 160);
 
     const glassDrops = wantGlassDrops && window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
-        main: q0.glassMain || 34,
-        micro: q0.glassMicro || 160,
-        dprCap: Math.min(q0.dprCap, 1.35),
+        main: glassMainN,
+        micro: glassMicroN,
+        dprCap: Math.min(q0.dprCap, mobileLite ? 1.2 : 1.35),
         slideRatio: 0.3,
+        storm,
       })
       : null;
     if (!glassDrops) glassDropCanvas.style.display = "none";
@@ -489,7 +500,14 @@
       gpu?.setFrameBudget(q.frameMs);
       gpu?.setWind?.(q.wind);
       gpu?.setSpeedMul?.(q.speedMul);
-      glassDrops?.setCounts(q.glassMain || 34, q.glassMicro || 160);
+      gpu?.setSizeMul?.(storm ? (q.sizeMul || STORM_MUL.sizeMul) : 1);
+      const gMain = mobileLite && storm
+        ? Math.round((q.glassMain || 34) * 0.55)
+        : (q.glassMain || 34);
+      const gMicro = mobileLite && storm
+        ? Math.round((q.glassMicro || 160) * 0.5)
+        : (q.glassMicro || 160);
+      glassDrops?.setCounts(gMain, gMicro);
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()
         : opts.getLedges?.()) || [];
@@ -511,24 +529,27 @@
       if (intensity < 0.12) return;
       /* 圆形头像不做撞击溅花（易成半圆弧/悬空水花） */
       if (ledge.shape === "circle") return;
-      const cap = storm ? (mobileLite ? 56 : 84) : (mobileLite ? 48 : 72);
+      const cap = storm ? (mobileLite ? 96 : 140) : (mobileLite ? 48 : 72);
       if (splashes.length >= cap) return;
       const hit = hitPointOnLedge(ledge);
-      /* 每击 1～3 颗，避免一次炸出一团 */
-      const n = 1 + ((Math.random() * 2.4) | 0);
-      const windBias = windLive * (storm ? 18 : 10);
+      /* 参考片顶缘：成簇白点；暴雨每击 2～5 颗、更大 */
+      const n = storm
+        ? (2 + ((Math.random() * 3.5) | 0))
+        : (1 + ((Math.random() * 2.2) | 0));
+      const windBias = windLive * (storm ? 20 : 10);
       for (let i = 0; i < n; i += 1) {
         if (splashes.length >= cap) break;
-        const ang = -Math.PI * 0.08 - Math.random() * Math.PI * 0.75;
-        const spd = rand(48, 110);
+        const ang = -Math.PI * 0.05 - Math.random() * Math.PI * 0.85;
+        const spd = storm ? rand(55, 150) : rand(48, 110);
         splashes.push({
-          x: hit.x + rand(-2, 2),
-          y: hit.y + rand(-0.4, 0.4),
+          x: hit.x + rand(-3, 3),
+          y: hit.y + rand(-0.6, 0.8),
           vx: Math.cos(ang) * spd + windBias,
           vy: Math.sin(ang) * spd,
-          life: rand(0.12, 0.2),
+          life: storm ? rand(0.14, 0.28) : rand(0.12, 0.2),
           age: 0,
-          r: rand(0.5, 1.35),
+          r: storm ? rand(1.1, 2.8) : rand(0.5, 1.35),
+          soft: storm && Math.random() < 0.45,
         });
       }
     };
@@ -597,19 +618,19 @@
       }
 
       /* 仅矩形卡片顶缘：短湿划，不画整条宽线、不画半圆弧 */
-      const wetChance = (storm ? 0.28 : 0.2) * aMul;
+      const wetChance = (storm ? 0.42 : 0.2) * aMul;
       for (let i = 0; i < ledges.length; i += 1) {
         const L = ledges[i];
         if (L.shape === "circle") continue;
         const pulse = 0.55 + 0.45 * Math.sin(time * 5.6 + i * 1.25);
         const wetA = scrolling ? 0.4 : 1;
         if (!scrolling && Math.random() < wetChance) {
-          const dashN = 1 + ((Math.random() * 1.5) | 0);
+          const dashN = storm ? (1 + ((Math.random() * 3) | 0)) : (1 + ((Math.random() * 1.5) | 0));
           for (let d = 0; d < dashN; d += 1) {
-            const dx = L.x + L.w * (0.1 + Math.random() * 0.8);
-            const dw = rand(4, 12);
-            sctx.fillStyle = `rgba(235,245,255,${rand(0.12, 0.26) * pulse * aMul * wetA})`;
-            sctx.fillRect(dx, L.y - 0.5, dw, 1.5);
+            const dx = L.x + L.w * (0.08 + Math.random() * 0.84);
+            const dw = storm ? rand(5, 18) : rand(4, 12);
+            sctx.fillStyle = `rgba(235,245,255,${rand(0.14, storm ? 0.38 : 0.26) * pulse * aMul * wetA})`;
+            sctx.fillRect(dx, L.y - 0.5, dw, storm ? 2 : 1.5);
           }
         }
       }
@@ -617,12 +638,12 @@
       if (!scrolling) {
         const rectLedges = ledges.filter((L) => L.shape !== "circle");
         splashAcc += dt;
-        /* 先倍率再封顶，避免 splashRate×storm 冲破上限 */
-        const ledgeBase = 5.5 + rectLedges.length * 1.15;
-        const rateCap = storm ? 18 : 13;
-        const mobileFactor = mobileLite ? 0.72 : 1;
+        /* 参考片顶缘溅点较密；封顶在倍率之后 */
+        const ledgeBase = (storm ? 8 : 5.5) + rectLedges.length * (storm ? 1.55 : 1.15);
+        const rateCap = storm ? 26 : 13;
+        const mobileFactor = mobileLite ? (storm ? 0.85 : 0.72) : 1;
         const rate = Math.min(rateCap, ledgeBase * splashMul) * aMul * mobileFactor;
-        const burstCap = storm ? 5 : 4;
+        const burstCap = storm ? 8 : 4;
         let spawned = 0;
         while (rate > 0.2 && splashAcc > 1 / rate && rectLedges.length && spawned < burstCap) {
           splashAcc -= 1 / rate;
@@ -641,10 +662,21 @@
         if (p <= 0) { splashes.splice(i, 1); continue; }
         s.x += s.vx * dt;
         s.y += s.vy * dt;
-        s.vy += 300 * dt;
-        sctx.fillStyle = `rgba(255,255,255,${0.78 * p * aMul})`;
+        s.vy += (storm ? 340 : 300) * dt;
+        const rad = s.r * (0.65 + p * 0.45);
+        if (s.soft) {
+          sctx.save();
+          sctx.shadowColor = "rgba(210, 230, 255, 0.85)";
+          sctx.shadowBlur = 6 + rad * 2.2;
+          sctx.fillStyle = `rgba(255,255,255,${0.55 * p * aMul})`;
+          sctx.beginPath();
+          sctx.arc(s.x, s.y, rad * 1.35, 0, Math.PI * 2);
+          sctx.fill();
+          sctx.restore();
+        }
+        sctx.fillStyle = `rgba(255,255,255,${(storm ? 0.88 : 0.78) * p * aMul})`;
         sctx.beginPath();
-        sctx.arc(s.x, s.y, s.r * (0.65 + p * 0.4), 0, Math.PI * 2);
+        sctx.arc(s.x, s.y, rad, 0, Math.PI * 2);
         sctx.fill();
       }
     };

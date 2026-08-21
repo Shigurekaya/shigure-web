@@ -16,6 +16,7 @@ uniform float uGust;
 uniform float uIntensity;
 uniform float uSpeedMul;
 uniform float uTilt; /* 水平倾角系数；雷暴更大以露出换向 */
+uniform float uSizeMul; /* 雨丝长短/粗细；暴雨 > 1 */
 varying float vAlpha;
 varying float vEdge;
 varying float vLayer;
@@ -32,25 +33,28 @@ void main() {
   float h3 = hash(id * 5.17 + 11.9);
   float h4 = hash(id * 8.33 + 19.7);
   float hx = hash(id * 13.7 + 0.91);
-  /* 远/中/近约 48% / 34% / 18%：成片淡丝为主，近丝少量点缀 */
+  float sm = max(uSizeMul, 0.85);
+  /* 远/中/近：暴雨时近景略增（阈值下移） */
+  float nearCut = mix(0.82, 0.76, clamp((sm - 1.0) * 2.5, 0.0, 1.0));
+  float midCut = mix(0.48, 0.42, clamp((sm - 1.0) * 2.5, 0.0, 1.0));
   float lp = hash(id * 2.17 + 0.4);
-  float layer = lp < 0.48 ? 0.0 : (lp < 0.82 ? 1.0 : 2.0);
-  /* 参考片天空区：近竖直、短丝；屏高约 1.5%~3% */
-  float lenH = mix(0.007, 0.014, h1);
+  float layer = lp < midCut ? 0.0 : (lp < nearCut ? 1.0 : 2.0);
+  /* 参考片天空区：近竖直短丝；暴雨加长加粗 */
+  float lenH = mix(0.007, 0.014, h1) * sm;
   float speed = mix(980.0, 1340.0, h2);
-  float alpha = mix(0.045, 0.11, h3);
-  float widthPx = mix(0.5, 0.85, h1);
+  float alpha = mix(0.045, 0.11, h3) * mix(1.0, 1.15, clamp(sm - 1.0, 0.0, 1.0));
+  float widthPx = mix(0.5, 0.85, h1) * sm;
 
   if (layer > 0.5 && layer < 1.5) {
-    lenH = mix(0.011, 0.02, h1);
+    lenH = mix(0.011, 0.02, h1) * sm;
     speed = mix(1120.0, 1560.0, h2);
-    alpha = mix(0.1, 0.22, h3);
-    widthPx = mix(0.7, 1.15, h1);
+    alpha = mix(0.1, 0.22, h3) * mix(1.0, 1.2, clamp(sm - 1.0, 0.0, 1.0));
+    widthPx = mix(0.7, 1.15, h1) * sm;
   } else if (layer > 1.5) {
-    lenH = mix(0.015, 0.026, h1);
+    lenH = mix(0.016, 0.032, h1) * sm;
     speed = mix(1340.0, 1840.0, h2);
-    alpha = mix(0.16, 0.3, h3);
-    widthPx = mix(0.9, 1.4, h1);
+    alpha = mix(0.18, 0.36, h3) * mix(1.0, 1.25, clamp(sm - 1.0, 0.0, 1.0));
+    widthPx = mix(1.0, 1.75, h1) * sm;
   }
 
   speed *= uSpeedMul;
@@ -148,6 +152,7 @@ void main() {
    *   dprCap?: number,
    *   wanderWind?: boolean,
    *   tilt?: number,
+   *   sizeMul?: number,
    * }} [opts]
    */
   function attach(canvas, opts = {}) {
@@ -175,6 +180,7 @@ void main() {
     const uIntensity = gl.getUniformLocation(prog, "uIntensity");
     const uSpeedMul = gl.getUniformLocation(prog, "uSpeedMul");
     const uTilt = gl.getUniformLocation(prog, "uTilt");
+    const uSizeMul = gl.getUniformLocation(prog, "uSizeMul");
 
     let count = Math.max(32, opts.count | 0 || 500);
     let speedMul = opts.speedMul ?? 1.16;
@@ -187,6 +193,7 @@ void main() {
     let gustSpike = 0;
     const wanderWind = !!opts.wanderWind;
     let tilt = opts.tilt ?? (wanderWind ? 0.14 : 0.08);
+    let sizeMul = opts.sizeMul ?? 1;
     let intensity = 1;
     let dprCap = opts.dprCap ?? 1.5;
     let w = 0;
@@ -312,6 +319,7 @@ void main() {
       gl.uniform1f(uIntensity, intensity);
       gl.uniform1f(uSpeedMul, speedMul);
       gl.uniform1f(uTilt, tilt);
+      gl.uniform1f(uSizeMul, sizeMul);
 
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
       const stride = 12;
@@ -352,6 +360,7 @@ void main() {
       },
       getWind() { return windLive; },
       setTilt(v) { tilt = Math.max(0.04, v); },
+      setSizeMul(v) { sizeMul = Math.max(0.7, v); },
       setSpeedMul(v) { speedMul = Math.max(0.2, v); },
       setFrameBudget(ms) { frameBudgetMs = ms; },
       setAdaptive(on) { adaptive = !!on; },
