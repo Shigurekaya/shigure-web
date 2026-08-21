@@ -328,15 +328,15 @@
 
       for (let i = 0; i < far.length; i += 1) {
         strokeDrop(far[i]);
-        stepDrop(far[i], dt, 0.38);
+        stepDrop(far[i], dt, 0.55);
       }
       for (let i = 0; i < mid.length; i += 1) {
         strokeDrop(mid[i]);
-        stepDrop(mid[i], dt, 0.58);
+        stepDrop(mid[i], dt, 0.75);
       }
       for (let i = 0; i < near.length; i += 1) {
         strokeDrop(near[i]);
-        stepDrop(near[i], dt, 0.78);
+        stepDrop(near[i], dt, 0.9);
       }
 
       /* 偶发地面涟漪 */
