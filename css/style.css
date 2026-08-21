@@ -188,6 +188,10 @@ body.storm-rain .site-fx__rain-glass {
   opacity: 1 !important;
 }
 
+body.heavy-rain:not(.storm-rain) .site-fx__rain-glass {
+  opacity: 0.9 !important;
+}
+
 .site-bg__heavy {
   position: absolute;
   inset: 0;
