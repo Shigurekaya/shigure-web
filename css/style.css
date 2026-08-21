@@ -165,6 +165,12 @@ body.light-rain .site-bg__rain {
   transition: opacity 0.85s var(--ease);
 }
 
+/* 暴雨真玻璃：压在雨丝之上，折射可见 */
+body.storm-rain .site-bg__glass {
+  z-index: 5;
+  opacity: 0.92 !important;
+}
+
 .site-bg__heavy {
   position: absolute;
   inset: 0;
@@ -457,10 +463,11 @@ body.storm-rain .site-bg {
 }
 
 body.storm-rain .site-fx__glass-drops.is-storm-glass {
-  /* 参考片贴屏水渍更明显；不做整层 blur */
+  /* 清晰滑动珠 + 泪痕；不做喷雾糊球 / screen 混色 */
   filter: none;
   opacity: 1 !important;
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
+  z-index: 4;
 }
 
 .site-fx__splash {

@@ -362,21 +362,18 @@ const Kaya = (() => {
     };
 
     const ensureStormFx = () => {
-      /* 暂关打雷/闪电：保留暴雨雨效，不挂 KayaStormLightning */
-      return null;
-      /*
       if (!storm) return null;
       if (stormFx) return stormFx;
       if (!window.KayaStormLightning?.attach) {
         console.warn("[kaya] KayaStormLightning missing");
         return null;
       }
+      /* 暴雨打雷：效果优先，不做手机 lite 降档 */
       stormFx = window.KayaStormLightning.attach(fx, {
-        lite: /Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MiuiBrowser/i.test(navigator.userAgent || "")
-          || (navigator.maxTouchPoints > 1 && Math.min(screen.width, screen.height) <= 920),
+        lite: false,
+        maxQuality: true,
       });
       return stormFx;
-      */
     };
 
     const ensureLightFx = () => {

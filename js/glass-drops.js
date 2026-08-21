@@ -197,7 +197,7 @@
 
   /**
    * @param {HTMLCanvasElement} canvas
-   * @param {{ main?: number, micro?: number, dprCap?: number, storm?: boolean, slideRatio?: number, lite?: boolean }} [opts]
+   * @param {{ main?: number, micro?: number, dprCap?: number, storm?: boolean, slideRatio?: number, lite?: boolean, noSpray?: boolean }} [opts]
    */
   function attach(canvas, opts = {}) {
     const ctx = canvas.getContext("2d", { alpha: true });
@@ -205,8 +205,10 @@
 
     const storm = !!opts.storm;
     const lite = !!opts.lite;
+    /* 暴雨关掉糊散冷凝喷雾球，只留清晰滑动玻璃珠 + 泪痕 */
+    const noSpray = !!opts.noSpray || (storm && (opts.micro === 0));
     const sprites = bakeSprites();
-    const lensSprites = storm && !lite
+    const lensSprites = storm && !lite && !noSpray
       ? [40, 56, 72].map(bakeLensBlob)
       : [];
     const rivuletSprites = storm && !lite
@@ -215,6 +217,8 @@
         bakeRivulet(14, 88),
         bakeRivulet(18, 120),
         bakeRivulet(12, 72),
+        bakeRivulet(16, 100),
+        bakeRivulet(20, 140),
       ]
       : [];
     const beadSpr = bakeBeadSprite();
@@ -223,7 +227,7 @@
     if (!sctx) return null;
 
     let mainN = opts.main ?? 40;
-    let microN = opts.micro ?? 280;
+    let microN = noSpray ? 0 : (opts.micro ?? 280);
     let dprCap = opts.dprCap ?? 1.35;
     let w = 0;
     let h = 0;
@@ -285,22 +289,26 @@
      */
     const seedSpray = () => {
       clearSpray();
-      /* 参考片贴屏水雾更密，暴雨再抬一档 */
-      const dens = storm ? (lite ? 1.35 : 2.15) : 1;
-      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.7));
-      const onUi = ledges.length ? Math.round(n * (storm ? 0.7 : 0.55)) : 0;
+      if (noSpray || microN <= 0) {
+        sprayDirty = false;
+        return;
+      }
+      /* 大雨才铺冷凝微珠；暴雨禁用（避免糊散圆球） */
+      const dens = 1;
+      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.55));
+      const onUi = ledges.length ? Math.round(n * 0.55) : 0;
       for (let i = 0; i < onUi; i += 1) {
         const p = pickInLedge(0.95);
         if (!p) break;
-        stampBead(p.x, p.y, rand(0.5, storm ? 1.35 : 0.9), rand(0.32, storm ? 0.7 : 0.48));
+        stampBead(p.x, p.y, rand(0.45, 0.9), rand(0.28, 0.48));
       }
       for (let i = onUi; i < n; i += 1) {
-        const yBias = Math.pow(Math.random(), storm ? 0.58 : 0.72);
+        const yBias = Math.pow(Math.random(), 0.72);
         stampBead(
           Math.random() * w,
           yBias * h,
-          rand(0.4, storm ? 1.2 : 0.85),
-          rand(0.16, storm ? 0.5 : 0.38),
+          rand(0.35, 0.85),
+          rand(0.14, 0.38),
         );
       }
       sctx.globalAlpha = 1;
@@ -472,10 +480,10 @@
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.35);
       const target = Math.round(mainN * area * Math.max(0.55, aMul));
 
-      /* 持续补雾点——暴雨更密，贴近参考片贴屏水渍 */
+      /* 持续补雾点——暴雨 noSpray 时完全跳过 */
       mistAcc += dt * aMul;
-      const mistEvery = storm ? (lite ? 0.08 : 0.045) : 0.12;
-      while (mistAcc > mistEvery) {
+      const mistEvery = noSpray ? 999 : (storm ? (lite ? 0.08 : 0.045) : 0.12);
+      while (!noSpray && mistAcc > mistEvery) {
         mistAcc -= mistEvery;
         const k = storm
           ? (lite ? (2 + ((Math.random() * 3) | 0)) : (4 + ((Math.random() * 6) | 0)))
@@ -495,28 +503,30 @@
         mergeDrops();
       }
 
-      const topEvery = storm ? 0.1 : 0.28;
+      const topEvery = storm ? 0.06 : 0.28;
       topSpawnAcc += dt * aMul;
-      while (topSpawnAcc > topEvery && drops.length < target + 28) {
+      while (topSpawnAcc > topEvery && drops.length < target + (storm ? 48 : 28)) {
         topSpawnAcc -= topEvery;
-        if (Math.random() < (storm ? 0.7 : 0.48)) {
+        if (Math.random() < (storm ? 0.85 : 0.48)) {
           spawnDrop({
             fromTop: true,
-            momentum: rand(0.35, storm ? 2.0 : 1.0),
-            r: rand(storm ? 3.6 : 2.6, storm ? 9.2 : 5.8),
+            momentum: rand(0.45, storm ? 2.4 : 1.0),
+            r: rand(storm ? 4.2 : 2.6, storm ? 11 : 5.8),
           });
         }
       }
 
-      if (storm && !lite) {
+      if (storm && !lite && !noSpray) {
         lensAcc += dt * aMul;
         while (lensAcc > 0.32 && lenses.length < 14) {
           lensAcc -= 0.32;
           spawnLens();
         }
+      }
+      if (storm && !lite) {
         flowAcc += dt * aMul;
-        while (flowAcc > 0.16 && flows.length < 22) {
-          flowAcc -= 0.16;
+        while (flowAcc > 0.12 && flows.length < (noSpray ? 28 : 22)) {
+          flowAcc -= 0.12;
           spawnFlow();
         }
       }
@@ -609,9 +619,9 @@
       }
 
       ctx.globalAlpha = aMul * (storm ? 0.92 : 0.88);
-      ctx.drawImage(spray, 0, 0, w, h);
+      if (!noSpray) ctx.drawImage(spray, 0, 0, w, h);
       ctx.globalAlpha = 1;
-      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 1.08 : 1));
+      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 1.12 : 1));
       ctx.globalAlpha = 1;
     };
 

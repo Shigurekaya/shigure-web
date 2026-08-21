@@ -131,9 +131,9 @@
   }
 
   function streakCapFor(storm, phone) {
-    /* 暴雨对齐参考片密雨帘：桌面大幅放宽；手机仍克制 */
-    if (phone) return storm ? 1100 : 720;
-    return storm ? 5600 : 2800;
+    /* 暴雨效果优先，桌面/手机都拉高雨丝上限 */
+    if (phone) return storm ? 2400 : 720;
+    return storm ? 7000 : 2800;
   }
 
   function paintStormBg(canvas, w, h, storm) {
@@ -249,46 +249,47 @@
       }
       return q;
     }
-    const mul = phone
-      ? {
-        streak: 1.35,
-        wind: 1.15,
-        speed: 1.28,
-        splash: 1.35,
-        glassMain: 1.35,
-        glassMicro: 1.2,
-        sizeMul: 0.95,
-      }
-      : STORM_MUL;
+    /* 暴雨效果优先：短密雨帘 + 真玻璃折射（raindrop-fx）参数拉满 */
+    const mul = STORM_MUL;
     q.streak = Math.round(q.streak * mul.streak);
     q.wind = q.wind * mul.wind;
     q.speedMul = q.speedMul * mul.speed;
     q.splashRate = (q.splashRate || 1) * mul.splash;
     q.glassMain = Math.round((q.glassMain || 34) * mul.glassMain);
-    q.glassMicro = Math.round((q.glassMicro || 160) * mul.glassMicro);
+    q.glassMicro = Math.max(0, Math.round((q.glassMicro || 160) * 0.08)); /* 几乎去掉糊散微珠 */
     q.sizeMul = mul.sizeMul;
-    if (phone) {
-      q.streak = Math.min(q.streak, 1100);
-      q.dprCap = Math.min(q.dprCap, 1.15);
-      q.frameMs = 1000 / 24;
-      q.glassMain = Math.min(q.glassMain, 48);
-      q.glassMicro = Math.min(q.glassMicro, 360);
-      q.splashRate = Math.min(q.splashRate, 1.55);
-    }
-    if (q.glass && typeof q.glass === "object") {
-      q.glass = {
-        ...q.glass,
-        spawnLimit: Math.round((q.glass.spawnLimit || 400) * (phone ? 0.7 : 1.35)),
-        dropletsPerSeconds: Math.round((q.glass.dropletsPerSeconds || 360) * (phone ? 0.65 : 1.4)),
-      };
-    }
+    q.dprCap = Math.max(q.dprCap || 1.4, 1.75);
+    q.frameMs = Math.min(q.frameMs || 33, 1000 / 30);
+    q.glassMaxW = 1920;
+    q.glass = {
+      spawnInterval: [0.018, 0.042],
+      spawnLimit: 2200,
+      dropletsPerSeconds: 1400,
+      dropletSize: [12, 48],
+      backgroundBlurSteps: 5,
+      mistBlurStep: 6,
+    };
     return q;
   }
 
   function glassOptsFor(mode, storm, phone) {
     const g = qualityFor(mode, storm, phone).glass;
     if (!g || g === true) return null;
-    return { ...GLASS_BASE, ...g };
+    const opts = { ...GLASS_BASE, ...g };
+    if (storm) {
+      opts.spawnSize = [28, 110];
+      opts.slipRate = 0.92;
+      opts.trailDropDensity = 0.32;
+      opts.gravity = 3600;
+      opts.refractBase = 0.42;
+      opts.refractScale = 0.68;
+      opts.mist = true;
+      opts.mistColor = [0.015, 0.03, 0.06, 0.55];
+      opts.raindropSpecularLight = [0.16, 0.2, 0.28];
+      opts.raindropSpecularShininess = 64;
+      opts.raindropLightBump = 0.62;
+    }
+    return opts;
   }
 
   function applyGlassOpts(fx, mode, storm, phone) {
@@ -300,8 +301,9 @@
   }
 
   function glassBufferSize(cssW, cssH, mode, storm, phone) {
-    const maxW = phone ? 640 : (qualityFor(mode, storm, phone).glassMaxW || 960);
-    const scale = Math.min(1, maxW / Math.max(1, cssW)) * Math.min(window.devicePixelRatio || 1, phone ? 1.05 : 1.25);
+    const maxW = storm ? 1920 : (phone ? 640 : (qualityFor(mode, storm, phone).glassMaxW || 960));
+    const dprN = storm ? 1.5 : (phone ? 1.05 : 1.25);
+    const scale = Math.min(1, maxW / Math.max(1, cssW)) * Math.min(window.devicePixelRatio || 1, dprN);
     return {
       bw: Math.max(1, Math.floor(cssW * scale)),
       bh: Math.max(1, Math.floor(cssH * scale)),
@@ -325,13 +327,15 @@
       ? window.RaindropFX
       : window.RaindropFX?.default;
 
-    let quality = detectQuality();
-    const phone = isPhoneLike();
+    /* 暴雨效果优先：强制 high，不按手机降档 */
+    let quality = storm ? "high" : detectQuality();
+    const phone = storm ? false : isPhoneLike();
     const q0 = qualityFor(quality, storm, phone);
 
     const glassCanvas = document.createElement("canvas");
     glassCanvas.className = "site-bg__glass";
     glassCanvas.setAttribute("aria-hidden", "true");
+    /* 真玻璃折射挂背景层（在 UI 后），避免盖死正文；贴屏清晰珠另用 Canvas2D */
     if (bgHost) bgHost.appendChild(glassCanvas);
     glassCanvas.style.display = "none";
 
@@ -383,24 +387,27 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* 手机雷雨：贴屏水 lite；避免旗舰机被桌面档打满 */
+    /* 暴雨：真玻璃用 raindrop-fx；Canvas2D 只留清晰滑动珠（关掉糊散喷雾球） */
     const wantSplash = true;
-    const wantGlassDrops = useGpuStreaks && (!mobileLite || storm);
+    const wantGlassDrops = storm
+      ? true
+      : (useGpuStreaks && !mobileLite);
     splashCanvas.style.display = wantSplash ? "" : "none";
     glassDropCanvas.style.display = wantGlassDrops ? "" : "none";
     if (storm) glassDropCanvas.classList.add("is-storm-glass");
 
-    const glassMainN = q0.glassMain || 34;
-    const glassMicroN = q0.glassMicro || 160;
+    const glassMainN = storm ? Math.max(120, q0.glassMain || 120) : (q0.glassMain || 34);
+    const glassMicroN = storm ? 0 : (q0.glassMicro || 160);
 
     const glassDrops = wantGlassDrops && window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: glassMainN,
         micro: glassMicroN,
-        dprCap: phone ? 1.1 : Math.min(q0.dprCap, storm ? 1.6 : 1.5),
-        slideRatio: storm ? 0.42 : 0.3,
+        dprCap: storm ? Math.min(q0.dprCap, 2) : (phone ? 1.1 : Math.min(q0.dprCap, 1.5)),
+        slideRatio: storm ? 0.55 : 0.3,
         storm,
-        lite: phone && !storm,
+        lite: false,
+        noSpray: storm,
       })
       : null;
     if (!glassDrops) glassDropCanvas.style.display = "none";
@@ -428,8 +435,10 @@
     let glassReady = false;
     let glassFailed = false;
     let glassAnimating = false;
-    /* 无 GPU 时用 raindrop-fx 兜底（与 Canvas2D 玻璃珠互斥） */
-    let wantRaindropFx = !useGpuStreaks && qualityFor(quality, storm, phone).glass != null;
+    /* 暴雨始终挂 raindrop-fx（可与 GPU 雨丝并存）；大雨仅无 GPU 时兜底 */
+    let wantRaindropFx = storm
+      ? !!RaindropCtor
+      : (!useGpuStreaks && qualityFor(quality, storm, phone).glass != null);
     /** 溅花 / 兜底雨丝跟随时风速（含符号） */
     let windLive = q0.wind * (storm && Math.random() < 0.5 ? -1 : 1);
     let windTarget = windLive;
@@ -547,6 +556,15 @@
       try {
         const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, quality, storm, phone);
         paintStormBg(stormBg, bw, bh, storm);
+        /* 暴雨：把雨丝画进折射底图，水珠里能折射到雨帘 */
+        if (storm && streakCanvas.width > 2) {
+          const bx = stormBg.getContext("2d");
+          if (bx) {
+            bx.globalAlpha = 0.75;
+            bx.drawImage(streakCanvas, 0, 0, bw, bh);
+            bx.globalAlpha = 1;
+          }
+        }
         glassCanvas.width = bw;
         glassCanvas.height = bh;
         const gOpts = glassOptsFor(quality, storm, phone);
@@ -576,6 +594,14 @@
       try {
         const { bw, bh } = glassBufferSize(w, h, quality, storm, phone);
         paintStormBg(stormBg, bw, bh, storm);
+        if (storm && streakCanvas.width > 2) {
+          const bx = stormBg.getContext("2d");
+          if (bx) {
+            bx.globalAlpha = 0.75;
+            bx.drawImage(streakCanvas, 0, 0, bw, bh);
+            bx.globalAlpha = 1;
+          }
+        }
         glassFx.resize(bw, bh);
         await glassFx.setBackground(stormBg);
         applyGlassOpts(glassFx, quality, storm, phone);
@@ -592,20 +618,25 @@
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
-      quality = detectQuality();
+      quality = storm ? "high" : detectQuality();
       const q = qualityFor(quality, storm, phone);
-      wantRaindropFx = !useGpuStreaks && q.glass != null;
+      wantRaindropFx = storm
+        ? !!RaindropCtor
+        : (!useGpuStreaks && q.glass != null);
       fitSplash();
       gpu?.resize(w, h);
-      const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, phone ? 1.0 : 1.35));
+      const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.5 : (phone ? 1.0 : 1.35)));
       gpu?.setCount(Math.min(n, streakCapFor(storm, phone)));
       gpu?.setFrameBudget(q.frameMs);
       gpu?.setWind?.(q.wind);
       gpu?.setSpeedMul?.(q.speedMul);
       gpu?.setSizeMul?.(storm ? (q.sizeMul || STORM_MUL.sizeMul) : 1);
       gpu?.setSheet?.(storm ? 1 : 0);
-      gpu?.setTilt?.(storm ? (phone ? 0.055 : 0.06) : 0.085);
-      glassDrops?.setCounts(q.glassMain || 34, q.glassMicro || 160);
+      gpu?.setTilt?.(storm ? 0.055 : 0.085);
+      glassDrops?.setCounts(
+        storm ? Math.max(120, q.glassMain || 120) : (q.glassMain || 34),
+        storm ? 0 : (q.glassMicro || 160),
+      );
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()
         : opts.getLedges?.()) || [];
