@@ -312,9 +312,9 @@ body.heavy-rain .link-card__icon {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.85s var(--ease), visibility 0.85s var(--ease);
-  /* 滚动时避免合成层抖动 */
   transform: translateZ(0);
   contain: strict;
+  background: transparent;
 }
 
 .site-fx.is-active {
@@ -357,6 +357,7 @@ body.heavy-rain .link-card__icon {
   height: 100%;
   display: block;
   pointer-events: none;
+  background: transparent;
 }
 
 .site-fx__gl {
@@ -1338,6 +1339,19 @@ body.heavy-rain .home-intro__grain {
 .page-home .home-cards,
 .page-home .site-footer {
   opacity: 0;
+}
+
+/* 不单靠 animation fill：部分机「关闭动画」时否则会永远 opacity:0 黑屏 */
+.page-home.home-ready .site-header,
+.page-home.home-ready .profile-avatar,
+.page-home.home-ready .profile-name,
+.page-home.home-ready .profile-roman,
+.page-home.home-ready .profile-sign,
+.page-home.home-ready .social-row,
+.page-home.home-ready .home-cards,
+.page-home.home-ready .site-footer,
+.page-home.home-ready .social-pill {
+  opacity: 1;
 }
 
 .page-home.home-ready .site-header { animation: rise-in 0.7s var(--ease) 0.05s both; }

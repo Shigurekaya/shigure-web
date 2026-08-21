@@ -105,7 +105,7 @@
    * @param {{ main?: number, micro?: number, dprCap?: number }} [opts]
    */
   function attach(canvas, opts = {}) {
-    const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return null;
 
     const sprites = bakeSprites();

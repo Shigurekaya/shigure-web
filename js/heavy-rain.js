@@ -210,7 +210,7 @@
     fxRoot.appendChild(splashCanvas);
     fxRoot.appendChild(glassDropCanvas);
 
-    const sctx = splashCanvas.getContext("2d", { alpha: true, desynchronized: true });
+    const sctx = splashCanvas.getContext("2d", { alpha: true });
     const stormBg = document.createElement("canvas");
 
     const areaScale = clamp((window.innerWidth * window.innerHeight) / (1280 * 720), 0.7, 1.35);
@@ -225,8 +225,8 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* GPU 雨丝开启时：用 Canvas2D 玻璃珠，避免第二 WebGL */
-    const glassDrops = useGpuStreaks && window.KayaGlassDrops?.attach
+    /* GPU 雨丝开启时：用 Canvas2D 玻璃珠，避免第二 WebGL；低端机跳过以免全屏 canvas 黑底 */
+    const glassDrops = useGpuStreaks && quality !== "low" && window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: q0.glassMain || 34,
         micro: q0.glassMicro || 160,
