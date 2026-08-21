@@ -126,9 +126,9 @@ site-fx          溅花 / 闪电
 | `spawnInterval` | 稍慢 | 过密会糊 |
 | `dropletsPerSeconds` | 少（~12–70） | 勿满屏霜 |
 | `refractBase/Scale` | 中高（~0.46 / 0.86） | 过低无透镜感 |
-| `raindropShadowOffset` | **~0.34，硬顶 ≤0.42** | **勿 ≥0.6 配大珠** |
-| `raindropDiffuseLight` | 中亮 ~`[0.4,0.46,0.54]` | 勿 `[0.16,…]` |
-| `raindropSpecular*` | 明确高光 | 勿全黑 specular |
+| `raindropShadowOffset` | **水色 ~0.12，硬顶 ≤0.18** | **勿 ≥0.34 配大珠（偏黑）** |
+| `raindropDiffuseLight` | 亮青白 ~`[0.78,0.86,0.95]` | 勿 `[0.4,…]` 及以下 |
+| `raindropSpecular*` | 近白高光 | 勿暗 specular |
 | `mist` | `false` | 勿开默认 mist |
 
 构造时注意：曾把 `raindropShadowOffset` **钳死在 0.28** 会丢立体；钳到 **0.78** 又出墨团。用 **~0.42 顶**。

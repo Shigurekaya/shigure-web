@@ -186,9 +186,9 @@ body.storm-rain .site-bg__glass {
 
 body.heavy-rain .site-fx__rain-glass.is-on,
 body.storm-rain .site-fx__rain-glass.is-on {
-  /* 勿用 !important 锁死 opacity；轻微提亮即可，过亮会冲掉珠边阴影细节 */
+  /* 水色珠：略提亮整层，避免折射底发闷 */
   z-index: 7;
-  filter: brightness(1.04) contrast(1.03);
+  filter: brightness(1.14) contrast(1.04) saturate(1.05);
 }
 
 .site-bg__heavy {

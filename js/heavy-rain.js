@@ -28,17 +28,17 @@
     mistColor: [0.18, 0.24, 0.32, 0.08],
     mistTime: 7,
     smoothRaindrop: [0.96, 0.995],
-    refractBase: 0.42,
-    refractScale: 0.72,
+    refractBase: 0.5,
+    refractScale: 0.85,
     raindropCompose: "smoother",
-    raindropLightPos: [-0.5, 1.2, 2.3, 0],
-    /* 漫反射别太暗，否则大珠变墨团 */
-    raindropDiffuseLight: [0.42, 0.48, 0.56],
-    raindropShadowOffset: 0.36,
-    raindropEraserSize: [0.93, 1],
-    raindropSpecularLight: [0.55, 0.62, 0.72],
-    raindropSpecularShininess: 120,
-    raindropLightBump: 0.85,
+    raindropLightPos: [-0.45, 1.25, 2.5, 0],
+    /* 水色：亮漫反射 + 弱阴影，靠折射看底 */
+    raindropDiffuseLight: [0.72, 0.8, 0.9],
+    raindropShadowOffset: 0.14,
+    raindropEraserSize: [0.9, 1],
+    raindropSpecularLight: [0.95, 0.98, 1.0],
+    raindropSpecularShininess: 180,
+    raindropLightBump: 1.05,
   };
 
   const QUALITY = {
@@ -155,26 +155,26 @@
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     /* 参考片天空偏冷蓝灰（非纯黑），暴雨略深于大雨 */
-    ctx.fillStyle = storm ? "#1a283c" : "#243448";
+    ctx.fillStyle = storm ? "#24364e" : "#2c4058";
     ctx.fillRect(0, 0, tw, th);
     const layers = storm
       ? [
-        { x: tw * 0.2, y: th * 0.26, r: tw * 0.62, c: "rgba(80,120,170,0.48)" },
-        { x: tw * 0.78, y: th * 0.18, r: tw * 0.55, c: "rgba(40,58,88,0.72)" },
-        { x: tw * 0.55, y: th * 0.72, r: tw * 0.62, c: "rgba(28,44,72,0.7)" },
-        { x: tw * 0.42, y: th * 0.08, r: tw * 0.46, c: "rgba(120,160,210,0.28)" },
+        { x: tw * 0.2, y: th * 0.26, r: tw * 0.62, c: "rgba(100,145,195,0.5)" },
+        { x: tw * 0.78, y: th * 0.18, r: tw * 0.55, c: "rgba(55,78,112,0.55)" },
+        { x: tw * 0.55, y: th * 0.72, r: tw * 0.62, c: "rgba(40,62,95,0.55)" },
+        { x: tw * 0.42, y: th * 0.08, r: tw * 0.46, c: "rgba(150,185,230,0.32)" },
       ]
       : [
-        { x: tw * 0.22, y: th * 0.3, r: tw * 0.55, c: "rgba(90,125,170,0.55)" },
-        { x: tw * 0.78, y: th * 0.22, r: tw * 0.5, c: "rgba(52,73,97,0.58)" },
-        { x: tw * 0.55, y: th * 0.7, r: tw * 0.58, c: "rgba(45,68,100,0.55)" },
-        { x: tw * 0.4, y: th * 0.12, r: tw * 0.42, c: "rgba(120,155,195,0.28)" },
+        { x: tw * 0.22, y: th * 0.3, r: tw * 0.55, c: "rgba(110,150,195,0.55)" },
+        { x: tw * 0.78, y: th * 0.22, r: tw * 0.5, c: "rgba(65,90,120,0.5)" },
+        { x: tw * 0.55, y: th * 0.7, r: tw * 0.58, c: "rgba(55,82,115,0.5)" },
+        { x: tw * 0.4, y: th * 0.12, r: tw * 0.42, c: "rgba(140,175,215,0.3)" },
       ];
     for (let i = 0; i < layers.length; i += 1) {
       const L = layers[i];
       const g = ctx.createRadialGradient(L.x, L.y, 0, L.x, L.y, L.r);
       g.addColorStop(0, L.c);
-      g.addColorStop(1, storm ? "rgba(18,28,44,0)" : "rgba(26,36,54,0)");
+      g.addColorStop(1, storm ? "rgba(28,42,62,0)" : "rgba(36,52,72,0)");
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, tw, th);
     }
@@ -353,8 +353,7 @@
     };
     if (storm) {
       /*
-       * 目标：半透明大折射珠（用户认可的「暗屏但珠清晰」版本），不是墨团。
-       * 避雷：shadowOffset 过高 + diffuse 过暗 → 大珠变黑糊块（2026-08-21 实机）。
+       * 水色大珠：清透折射 + 白高光 + 极弱阴影（勿暗漫反射/高阴影 → 墨团）。
        */
       opts.spawnSize = phone ? [72, 150] : [88, 180];
       opts.slipRate = 0.88;
@@ -362,18 +361,19 @@
       opts.trailDropSize = [0.38, 0.62];
       opts.trailDistance = [28, 58];
       opts.gravity = 2600;
-      opts.refractBase = 0.46;
-      opts.refractScale = 0.86;
+      opts.refractBase = 0.55;
+      opts.refractScale = 0.95;
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.02, 0.03, 0.04, 0.0];
-      opts.raindropSpecularLight = [0.7, 0.78, 0.9];
-      opts.raindropSpecularShininess = 140;
-      opts.raindropLightBump = 0.92;
-      opts.raindropDiffuseLight = [0.4, 0.46, 0.54];
-      opts.raindropShadowOffset = 0.34;
-      opts.raindropLightPos = [-0.55, 1.2, 2.2, 0];
+      opts.raindropSpecularLight = [1.0, 1.0, 1.0];
+      opts.raindropSpecularShininess = 200;
+      opts.raindropLightBump = 1.15;
+      opts.raindropDiffuseLight = [0.78, 0.86, 0.95];
+      opts.raindropShadowOffset = 0.12;
+      opts.raindropLightPos = [-0.4, 1.3, 2.6, 0];
+      opts.raindropEraserSize = [0.88, 1];
       opts.smoothRaindrop = [0.96, 0.995];
       opts.dropletsPerSeconds = screenGlass ? (phone ? 40 : 70) : 0;
       opts.dropletSize = screenGlass ? [6, 14] : [6, 14];
@@ -388,18 +388,19 @@
       opts.trailDropSize = [0.34, 0.55];
       opts.trailDistance = [24, 48];
       opts.gravity = 2500;
-      opts.refractBase = 0.42;
-      opts.refractScale = 0.75;
+      opts.refractBase = 0.5;
+      opts.refractScale = 0.88;
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.02, 0.03, 0.04, 0.0];
-      opts.raindropSpecularLight = [0.6, 0.68, 0.78];
-      opts.raindropSpecularShininess = 120;
-      opts.raindropLightBump = 0.85;
-      opts.raindropDiffuseLight = [0.42, 0.48, 0.56];
-      opts.raindropShadowOffset = 0.32;
-      opts.raindropLightPos = [-0.5, 1.18, 2.25, 0];
+      opts.raindropSpecularLight = [0.95, 0.98, 1.0];
+      opts.raindropSpecularShininess = 170;
+      opts.raindropLightBump = 1.05;
+      opts.raindropDiffuseLight = [0.75, 0.82, 0.92];
+      opts.raindropShadowOffset = 0.12;
+      opts.raindropLightPos = [-0.4, 1.25, 2.5, 0];
+      opts.raindropEraserSize = [0.9, 1];
       opts.dropletsPerSeconds = screenGlass ? (phone ? 28 : 48) : 0;
       opts.dropletSize = screenGlass ? [6, 13] : [6, 14];
       opts.spawnLimit = Math.min(opts.spawnLimit || 900, screenGlass ? (phone ? 160 : 240) : 360);
@@ -828,7 +829,7 @@
           dx.fillStyle = skyHex;
           dx.fillRect(0, 0, bw, bh);
           /* 提亮截图，缓解贴屏整体发暗（保留折射，略增可读） */
-          dx.filter = "brightness(1.1) contrast(1.05) saturate(1.02)";
+          dx.filter = "brightness(1.22) contrast(1.06) saturate(1.04)";
           dx.drawImage(shot, 0, 0, bw, bh);
           dx.filter = "none";
           if (captureLooksBlack(stormDomBg)) {
@@ -902,8 +903,8 @@
           mist: false,
           backgroundBlurSteps: 0,
           mistBlurStep: 0,
-          /* 阴影保留立体感，但勿接近库默认 0.8（大珠会变墨团） */
-          raindropShadowOffset: Math.min(gOpts.raindropShadowOffset ?? 0.34, 0.42),
+          /* 水色：弱阴影，靠折射+高光成形 */
+          raindropShadowOffset: Math.min(gOpts.raindropShadowOffset ?? 0.12, 0.18),
         });
         applyGlassOpts(glassFx, quality, storm, realPhone, useScreenGlass);
         try {
@@ -911,9 +912,15 @@
           glassFx.options.backgroundBlurSteps = 0;
           glassFx.options.mistBlurStep = 0;
           glassFx.options.raindropShadowOffset = Math.min(
-            glassFx.options.raindropShadowOffset || 0.34,
-            0.42,
+            glassFx.options.raindropShadowOffset || 0.12,
+            0.18,
           );
+          glassFx.options.raindropDiffuseLight = gOpts.raindropDiffuseLight
+            || [0.78, 0.86, 0.95];
+          glassFx.options.raindropSpecularLight = gOpts.raindropSpecularLight
+            || [1, 1, 1];
+          glassFx.options.refractBase = gOpts.refractBase ?? 0.55;
+          glassFx.options.refractScale = gOpts.refractScale ?? 0.95;
           glassFx.options.spawnSize = gOpts.spawnSize || glassFx.options.spawnSize;
           glassFx.options.dropletsPerSeconds = gOpts.dropletsPerSeconds ?? 0;
         } catch { /* ignore */ }

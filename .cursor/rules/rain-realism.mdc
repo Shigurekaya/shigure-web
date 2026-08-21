@@ -17,7 +17,7 @@ alwaysApply: false
 - html2canvas + RaindropFX → 默认开贴屏
 - **贴屏时不创建 GPU 雨丝**（双 WebGL → raindrop 静默失败）
 - 大珠（约库默认量级）；冷凝少
-- **阴影 ~0.34、顶 ≤0.42**；漫反射勿过暗（否则大珠变墨团）
+- **阴影 ~0.12、顶 ≤0.18**；漫反射偏亮青白（水色清透，忌墨团）
 - mist / backgroundBlur 保持关；过黑才 demote → 再挂 GPU + 2D
 
 测试：`/?storm` 或 `/?heavy`（无参数多为小雨）。
@@ -26,11 +26,11 @@ alwaysApply: false
 
 - 黑底 + CSS `mix-blend-mode: screen`（整页黑）
 - 贴屏同时挂 GPU 雨丝
-- `shadowOffset≥0.6` + 暗 diffuse + 大 spawn（黑糊块）
+- `shadowOffset≥0.34` + 暗 diffuse + 大 spawn（黑糊块 / 不像水）
 - 默认 mist 近黑；WebGL 雨丝 drawImage 进 2D 底图；满屏冷凝霜
 
 ## 验收
 
-- 半透明大折射珠，不是黑墨团
+- **水色**半透明大折射珠（亮边高光），不是黑墨团
 - 冷凝不抢戏
 - 控制台 `screen glass ready`（或明确 demote 后 2D 亮珠可读）
