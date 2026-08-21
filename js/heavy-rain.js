@@ -263,10 +263,10 @@
     q.speedMul = q.speedMul * mul.speed;
     q.splashRate = (q.splashRate || 1) * mul.splash;
     q.glassMain = Math.round((q.glassMain || 34) * mul.glassMain);
-    /* 冷凝微珠：中等密度细亮点（勿 *0.08 砍光，也勿拉满糊罩） */
+    /* 冷凝微珠：对齐参考片 ~650/MP 细亮点；手机略降但仍密 */
     q.glassMicro = Math.min(
-      phone ? 320 : 680,
-      Math.max(phone ? 200 : 420, Math.round((q.glassMicro || 280) * 0.52)),
+      phone ? 720 : 1200,
+      Math.max(phone ? 480 : 780, Math.round((q.glassMicro || 420) * 0.85)),
     );
     q.sizeMul = mul.sizeMul;
     q.dprCap = Math.max(q.dprCap || 1.4, 1.75);
@@ -440,10 +440,10 @@
       wind: q0.wind,
       speedMul: q0.speedMul,
       wanderWind: storm,
-      /* 参考片近乎竖直；暴雨用 sheet 短密雨帘，勿用大倾角 */
-      tilt: storm ? (phone ? 0.055 : 0.06) : 0.085,
-      sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 1,
-      sheet: storm ? 1 : 0,
+      /* 参考片近乎竖直短密雨帘；大雨也走 sheet，暴雨拉满 */
+      tilt: storm ? 0.05 : 0.065,
+      sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 0.96,
+      sheet: storm ? 1 : 0.85,
       preserveDrawingBuffer: false,
     });
 
@@ -458,22 +458,22 @@
     glassDropCanvas.classList.add("is-clear-glass");
 
     const glassMainN = storm
-      ? Math.max(realPhone ? 70 : 100, q0.glassMain || 100)
-      : (realPhone ? Math.max(28, Math.round((q0.glassMain || 34) * 0.85)) : (q0.glassMain || 48));
+      ? Math.max(realPhone ? 78 : 110, q0.glassMain || 110)
+      : (realPhone ? Math.max(32, Math.round((q0.glassMain || 34) * 0.9)) : (q0.glassMain || 52));
     const glassMicroN = storm
       ? (realPhone || mobileLite
-        ? Math.max(200, Math.min(300, q0.glassMicro || 240))
-        : Math.max(420, Math.min(680, q0.glassMicro || 560)))
+        ? Math.max(520, Math.min(720, q0.glassMicro || 560))
+        : Math.max(820, Math.min(1200, q0.glassMicro || 980)))
       : (realPhone || mobileLite
-        ? Math.max(140, Math.round((q0.glassMicro || 280) * 0.45))
-        : Math.max(220, Math.round((q0.glassMicro || 420) * 0.55)));
+        ? Math.max(280, Math.round((q0.glassMicro || 360) * 0.7))
+        : Math.max(420, Math.round((q0.glassMicro || 560) * 0.75)));
 
     const glassDrops = window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: glassMainN,
         micro: glassMicroN,
-        dprCap: storm ? Math.min(q0.dprCap, realPhone ? 1.35 : 2) : (realPhone ? 1.15 : Math.min(q0.dprCap, 1.5)),
-        slideRatio: storm ? 0.55 : 0.32,
+        dprCap: storm ? Math.min(q0.dprCap, realPhone ? 1.4 : 2) : (realPhone ? 1.2 : Math.min(q0.dprCap, 1.55)),
+        slideRatio: storm ? 0.42 : 0.28,
         storm,
         lite: mobileLite,
         noSpray: false,
@@ -829,20 +829,20 @@
       gpu?.setFrameBudget(q.frameMs);
       gpu?.setWind?.(q.wind);
       gpu?.setSpeedMul?.(q.speedMul);
-      gpu?.setSizeMul?.(storm ? (q.sizeMul || STORM_MUL.sizeMul) : 1);
-      gpu?.setSheet?.(storm ? 1 : 0);
-      gpu?.setTilt?.(storm ? 0.055 : 0.085);
+      gpu?.setSizeMul?.(storm ? (q.sizeMul || STORM_MUL.sizeMul) : 0.96);
+      gpu?.setSheet?.(storm ? 1 : 0.85);
+      gpu?.setTilt?.(storm ? 0.05 : 0.065);
       glassDrops?.setCounts(
         storm
-          ? Math.max(realPhone ? 70 : 100, q.glassMain || 100)
-          : (realPhone ? Math.max(28, Math.round((q.glassMain || 34) * 0.85)) : (q.glassMain || 48)),
+          ? Math.max(realPhone ? 78 : 110, q.glassMain || 110)
+          : (realPhone ? Math.max(32, Math.round((q.glassMain || 34) * 0.9)) : (q.glassMain || 52)),
         storm
           ? (realPhone || mobileLite
-            ? Math.max(200, Math.min(300, q.glassMicro || 240))
-            : Math.max(420, Math.min(680, q.glassMicro || 560)))
+            ? Math.max(520, Math.min(720, q.glassMicro || 560))
+            : Math.max(820, Math.min(1200, q.glassMicro || 980)))
           : (realPhone || mobileLite
-            ? Math.max(140, Math.round((q.glassMicro || 280) * 0.45))
-            : Math.max(220, Math.round((q.glassMicro || 420) * 0.55))),
+            ? Math.max(280, Math.round((q.glassMicro || 360) * 0.7))
+            : Math.max(420, Math.round((q.glassMicro || 560) * 0.75))),
       );
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()
