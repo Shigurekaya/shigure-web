@@ -636,7 +636,7 @@
       },
       setCounts(main, micro) {
         mainN = main;
-        microN = micro;
+        microN = noSpray ? 0 : micro;
         if (w > 1) rebuild();
       },
       /** @param {Array<{x:number,y:number,w:number,h?:number,radius?:number}>} next */
