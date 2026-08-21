@@ -324,42 +324,55 @@ body.heavy-rain .link-card__icon {
   background: rgba(200, 220, 255, 0.08);
 }
 
-/* 雷暴：比大雨更深、更闷，闪光时靠 site-fx 提亮 */
+/* 雷暴：更深更闷；闪光靠 site-fx + body.storm-flash */
 body.storm-rain .site-bg {
-  background: #141c2c;
+  background: #0c121e;
 }
 
 body.storm-rain .site-bg::before {
-  filter: blur(92px) brightness(0.42) saturate(0.7);
+  filter: blur(100px) brightness(0.32) saturate(0.65);
   opacity: 1;
   background:
-    radial-gradient(circle at 22% 26%, rgba(70, 105, 155, 0.48) 0%, transparent 46%),
-    radial-gradient(circle at 78% 18%, rgba(36, 52, 78, 0.78) 0%, transparent 44%),
-    radial-gradient(circle at 55% 70%, rgba(30, 48, 78, 0.62) 0%, transparent 48%),
-    radial-gradient(circle at 30% 90%, rgba(18, 28, 48, 0.8) 0%, transparent 42%),
-    radial-gradient(circle at 48% 6%, rgba(90, 130, 180, 0.2) 0%, transparent 40%);
+    radial-gradient(circle at 22% 26%, rgba(55, 90, 145, 0.42) 0%, transparent 46%),
+    radial-gradient(circle at 78% 18%, rgba(28, 42, 68, 0.85) 0%, transparent 44%),
+    radial-gradient(circle at 55% 70%, rgba(22, 36, 60, 0.7) 0%, transparent 48%),
+    radial-gradient(circle at 30% 90%, rgba(10, 16, 30, 0.9) 0%, transparent 42%),
+    radial-gradient(circle at 48% 6%, rgba(70, 110, 170, 0.16) 0%, transparent 40%);
 }
 
 body.storm-rain .site-bg::after {
-  opacity: 0.96;
+  opacity: 1;
   background:
-    linear-gradient(180deg, rgba(8, 12, 22, 0.55) 0%, transparent 28%, transparent 52%, rgba(4, 8, 16, 0.7) 100%),
-    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(80, 115, 165, 0.14), transparent 72%);
+    linear-gradient(180deg, rgba(4, 8, 16, 0.72) 0%, transparent 26%, transparent 50%, rgba(2, 4, 10, 0.82) 100%),
+    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(70, 105, 160, 0.12), transparent 72%);
 }
 
 body.storm-rain {
-  --bg: #141c2c;
-  --ink: #eef3fb;
+  --bg: #0c121e;
+  --ink: #f2f6fc;
   --ink-soft: #c8d2e2;
-  --ink-faint: #8492a8;
-  --bg-elevated: rgba(18, 28, 44, 0.62);
-  --line: rgba(170, 195, 230, 0.16);
-  --border: rgba(170, 195, 230, 0.2);
+  --ink-faint: #7e8ea4;
+  --bg-elevated: rgba(12, 20, 34, 0.68);
+  --line: rgba(170, 195, 230, 0.14);
+  --border: rgba(170, 195, 230, 0.18);
   background: var(--bg);
 }
 
 body.storm-rain .site-bg__heavy {
-  opacity: 0.92;
+  opacity: 0.98;
+}
+
+body.storm-rain .site-bg__heavy-mist.is-storm.is-on {
+  opacity: 0.95;
+}
+
+body.storm-flash .site-bg {
+  filter: brightness(1.55) saturate(1.15);
+  transition: filter 0.05s linear;
+}
+
+body.storm-rain .site-bg {
+  transition: filter 0.35s ease;
 }
 
 .site-fx {
@@ -429,8 +442,7 @@ body.storm-rain .site-bg__heavy {
 }
 
 body.storm-rain .site-fx__glass-drops.is-storm-glass {
-  /* 贴屏流动模糊水：略糊 + 提亮，贴近参考片镜头水 */
-  filter: blur(1.1px) saturate(1.08) brightness(1.06);
+  filter: blur(1.35px) saturate(1.12) brightness(1.1);
   opacity: 1 !important;
 }
 
@@ -456,17 +468,28 @@ body.storm-rain .site-fx__glass-drops.is-storm-glass {
   opacity: 0;
   background:
     radial-gradient(
-      ellipse 70% 55% at var(--flash-x, 50%) var(--flash-y, 18%),
-      rgba(230, 240, 255, 0.55) 0%,
-      rgba(180, 205, 255, 0.18) 38%,
+      ellipse 75% 60% at var(--flash-x, 50%) var(--flash-y, 18%),
+      rgba(245, 250, 255, 0.72) 0%,
+      rgba(190, 215, 255, 0.28) 36%,
       transparent 72%
     ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(200, 220, 255, 0.06) 42%, transparent 70%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(200, 220, 255, 0.1) 42%, transparent 70%);
   transition: opacity 0.05s linear;
 }
 
 .site-fx__thunder-flash.is-on {
   transition: none;
+}
+
+.site-fx__thunder-sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(210, 225, 255, 0.22);
+  mix-blend-mode: screen;
+  transition: opacity 0.08s linear;
 }
 
 @media (prefers-reduced-motion: reduce) {

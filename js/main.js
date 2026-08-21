@@ -368,7 +368,7 @@ const Kaya = (() => {
         console.warn("[kaya] KayaStormLightning missing");
         return null;
       }
-      stormFx = window.KayaStormLightning.attach(fx, {});
+      stormFx = window.KayaStormLightning.attach(fx, { maxQuality: true });
       return stormFx;
     };
 

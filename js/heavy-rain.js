@@ -149,15 +149,15 @@
     return canvas;
   }
 
-  /** 雷暴相对大雨的强度倍率（效果优先，对齐小米天气大雨再加一档） */
+  /** 雷暴相对大雨的强度倍率（效果全开） */
   const STORM_MUL = {
-    streak: 1.75,
-    wind: 1.35,
-    speed: 1.3,
-    splash: 2.1,
-    glassMain: 2.4,
-    glassMicro: 2.8,
-    sizeMul: 1.42,
+    streak: 2.15,
+    wind: 1.55,
+    speed: 1.42,
+    splash: 2.6,
+    glassMain: 3.2,
+    glassMicro: 3.6,
+    sizeMul: 1.55,
   };
 
   /** 精致溅花精灵：柔边冠 + 亮核（参考片顶缘白簇） */
@@ -316,12 +316,12 @@
       || window.matchMedia("(max-width: 720px)").matches;
 
     const gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, {
-      count: mobileLite ? Math.min(streakCount, storm ? 1300 : 900) : streakCount,
-      dprCap: mobileLite ? Math.min(q0.dprCap, 1.15) : q0.dprCap,
+      count: mobileLite ? Math.min(streakCount, storm ? 2200 : 900) : Math.min(streakCount, storm ? 4200 : streakCount),
+      dprCap: storm ? Math.min(q0.dprCap, 2) : (mobileLite ? Math.min(q0.dprCap, 1.15) : q0.dprCap),
       wind: q0.wind,
       speedMul: q0.speedMul,
       wanderWind: storm,
-      tilt: storm ? 0.12 : 0.08,
+      tilt: storm ? 0.155 : 0.08,
       sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 1,
     });
 
@@ -565,7 +565,7 @@
     };
 
     const pushSplash = (opts) => {
-      const cap = storm ? 320 : 90;
+      const cap = storm ? 520 : 90;
       if (splashes.length >= cap) return;
       splashes.push({
         x: opts.x,
@@ -649,9 +649,9 @@
       if (!storm || !rectLedges.length) return;
       for (let i = 0; i < rectLedges.length; i += 1) {
         const L = rectLedges[i];
-        const dens = Math.max(3, Math.round(L.w / 28));
+        const dens = Math.max(5, Math.round(L.w / 18));
         for (let k = 0; k < dens; k += 1) {
-          if (Math.random() > 0.35 * aMul * dt * 18) continue;
+          if (Math.random() > 0.55 * aMul * dt * 22) continue;
           const x = L.x + L.w * (0.06 + Math.random() * 0.88);
           pushSplash({
             x, y: L.y + rand(-0.4, 1.2),
@@ -751,10 +751,10 @@
       if (!scrolling) {
         const rectLedges = ledges.filter((L) => L.shape !== "circle");
         splashAcc += dt;
-        const ledgeBase = (storm ? 14 : 5.5) + rectLedges.length * (storm ? 2.4 : 1.15);
-        const rateCap = storm ? 48 : 13;
+        const ledgeBase = (storm ? 22 : 5.5) + rectLedges.length * (storm ? 3.2 : 1.15);
+        const rateCap = storm ? 72 : 13;
         const rate = Math.min(rateCap, ledgeBase * splashMul) * aMul;
-        const burstCap = storm ? 14 : 4;
+        const burstCap = storm ? 22 : 4;
         let spawned = 0;
         while (rate > 0.2 && splashAcc > 1 / rate && rectLedges.length && spawned < burstCap) {
           splashAcc -= 1 / rate;

@@ -1,12 +1,8 @@
 /**
- * 时雨榧 · 雷暴闪电层
+ * 时雨榧 · 雷暴闪电层（效果优先，全开）
  *
- * 借鉴（MIT / 常见公开算法，非整库嵌入）：
- * - 垂直中点位移分叉：diwsi、shadcn Lightning Background、Cod Chill Thunder Breathing
- * - 环境闪光衰减：@vgerbot/weather-canvas LightningElement
- * - 先闪后雷距离延迟：panmona/stormsimulator
- *
- * 仅 `?rain=storm` / `/storm/` 挂载；默认静音，首次点击后才允许程序化雷声。
+ * 借鉴：垂直中点位移分叉、环境闪光、先闪后雷距离延迟。
+ * 仅 `?rain=storm` / `/storm/` 挂载。
  */
 (() => {
   function clamp(n, lo, hi) {
@@ -17,19 +13,6 @@
     return a + Math.random() * (b - a);
   }
 
-  function detectLite() {
-    try {
-      if (navigator.connection?.saveData) return true;
-    } catch { /* ignore */ }
-    const narrow = window.matchMedia("(max-width: 720px)").matches;
-    const cores = navigator.hardwareConcurrency || 8;
-    return narrow || cores <= 4;
-  }
-
-  /**
-   * 垂直中点位移：对线段中点沿法线偏移，递归并减半位移。
-   * @returns {Array<{x0:number,y0:number,x1:number,y1:number,w:number}>}
-   */
   function displaceBolt(ax, ay, bx, by, generations, maxOff, width, branchChance, out) {
     if (generations <= 0) {
       out.push({ x0: ax, y0: ay, x1: bx, y1: by, w: width });
@@ -41,59 +24,58 @@
     const dx = bx - ax;
     const dy = by - ay;
     const len = Math.hypot(dx, dy) || 1;
-    /* 法线方向（垂直于主路径） */
     const nx = -dy / len;
     const ny = dx / len;
     const offset = (Math.random() * 2 - 1) * maxOff;
     const cx = mx + nx * offset;
     const cy = my + ny * offset;
 
-    displaceBolt(ax, ay, cx, cy, generations - 1, maxOff * 0.5, width, branchChance * 0.72, out);
-    displaceBolt(cx, cy, bx, by, generations - 1, maxOff * 0.5, width, branchChance * 0.72, out);
+    displaceBolt(ax, ay, cx, cy, generations - 1, maxOff * 0.5, width, branchChance * 0.78, out);
+    displaceBolt(cx, cy, bx, by, generations - 1, maxOff * 0.5, width, branchChance * 0.78, out);
 
     if (generations >= 2 && Math.random() < branchChance) {
-      const ang = Math.atan2(dy, dx) + rand(-1.05, 1.05);
-      const bl = len * rand(0.2, 0.45);
+      const ang = Math.atan2(dy, dx) + rand(-1.2, 1.2);
+      const bl = len * rand(0.22, 0.55);
       const ex = cx + Math.cos(ang) * bl;
       const ey = cy + Math.sin(ang) * bl;
-      displaceBolt(cx, cy, ex, ey, generations - 2, maxOff * 0.42, width * 0.55, 0, out);
+      displaceBolt(cx, cy, ex, ey, generations - 2, maxOff * 0.45, width * 0.55, branchChance * 0.35, out);
     }
   }
 
-  function buildStrike(w, h, lite) {
-    const x0 = rand(w * 0.1, w * 0.9);
-    const y0 = rand(-h * 0.02, h * 0.06);
-    const x1 = clamp(x0 + rand(-w * 0.18, w * 0.18), w * 0.04, w * 0.96);
-    const y1 = rand(h * 0.45, h * (lite ? 0.82 : 0.94));
-    const gens = lite ? 5 : 6;
-    const maxOff = Math.max(22, Math.min(w, h) * (lite ? 0.07 : 0.1));
+  function buildStrike(w, h) {
+    const x0 = rand(w * 0.06, w * 0.94);
+    const y0 = rand(-h * 0.06, h * 0.1);
+    const x1 = clamp(x0 + rand(-w * 0.28, w * 0.28), w * 0.02, w * 0.98);
+    const y1 = rand(h * 0.38, h * 0.98);
+    const gens = 8;
+    const maxOff = Math.max(36, Math.min(w, h) * 0.14);
     /** @type {Array<{x0:number,y0:number,x1:number,y1:number,w:number}>} */
     const segs = [];
-    displaceBolt(x0, y0, x1, y1, gens, maxOff, lite ? 1.55 : 2.15, lite ? 0.26 : 0.34, segs);
+    displaceBolt(x0, y0, x1, y1, gens, maxOff, 2.8, 0.48, segs);
 
-    /* 伴生弱枝（Cod Chill companion bolts） */
-    if (!lite && Math.random() < 0.55) {
-      const sx = x0 + rand(-36, 36);
-      const sy = y0 + rand(0, 24);
-      const ex = clamp(x1 + rand(-70, 70), 0, w);
-      const ey = y1 * rand(0.5, 0.78);
-      displaceBolt(sx, sy, ex, ey, gens - 2, maxOff * 0.55, 1.15, 0.18, segs);
+    const companions = 1 + ((Math.random() * 3) | 0);
+    for (let c = 0; c < companions; c += 1) {
+      const sx = x0 + rand(-70, 70);
+      const sy = y0 + rand(0, 40);
+      const ex = clamp(x1 + rand(-120, 120), 0, w);
+      const ey = y1 * rand(0.4, 0.9);
+      displaceBolt(sx, sy, ex, ey, gens - 2, maxOff * 0.65, 1.5, 0.28, segs);
     }
 
     return {
       segs,
       flashX: (x0 + x1) * 0.5,
-      flashY: Math.min(y0, y1) + Math.abs(y1 - y0) * 0.28,
+      flashY: Math.min(y0, y1) + Math.abs(y1 - y0) * 0.22,
     };
   }
 
   /**
    * @param {HTMLElement} host
-   * @param {{ lite?: boolean }} [opts]
+   * @param {{ maxQuality?: boolean }} [opts]
    */
   function attach(host, opts = {}) {
     if (!host) return null;
-    const lite = opts.lite ?? detectLite();
+    void opts;
 
     const canvas = document.createElement("canvas");
     canvas.className = "site-fx__lightning";
@@ -105,10 +87,16 @@
     flash.setAttribute("aria-hidden", "true");
     host.appendChild(flash);
 
+    const sheet = document.createElement("div");
+    sheet.className = "site-fx__thunder-sheet";
+    sheet.setAttribute("aria-hidden", "true");
+    host.appendChild(sheet);
+
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) {
       canvas.remove();
       flash.remove();
+      sheet.remove();
       return null;
     }
 
@@ -120,10 +108,12 @@
     let strikeTimer = 0;
     let audioOk = false;
     let audioCtx = null;
-    /** @type {Array<{segs: ReturnType<typeof buildStrike>["segs"], age: number, life: number, flashX: number, flashY: number}>} */
+    /** @type {Array<{segs: any[], age: number, life: number, flashX: number, flashY: number, bright: number}>} */
     const bolts = [];
     let ambient = 0;
+    let sheetA = 0;
     let last = performance.now();
+    let strikeCount = 0;
 
     const fit = () => {
       w = window.innerWidth;
@@ -132,7 +122,7 @@
         w = Math.round(window.visualViewport.width);
         h = Math.round(window.visualViewport.height);
       }
-      dpr = Math.min(window.devicePixelRatio || 1, lite ? 1.15 : 1.5);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       const cw = Math.max(1, Math.floor(w * dpr));
       const ch = Math.max(1, Math.floor(h * dpr));
       if (canvas.width !== cw || canvas.height !== ch) {
@@ -150,35 +140,38 @@
       } catch { /* ignore */ }
       window.removeEventListener("pointerdown", unlockAudio);
       window.removeEventListener("keydown", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
     };
     window.addEventListener("pointerdown", unlockAudio, { passive: true });
     window.addEventListener("keydown", unlockAudio);
+    window.addEventListener("touchstart", unlockAudio, { passive: true });
 
-    const playThunder = (distance) => {
-      if (!audioOk || lite) return;
+    const playThunder = (distance, big) => {
+      if (!audioOk) return;
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === "suspended") void audioCtx.resume();
-        const delay = rand(0.22, 0.4) + distance * 0.00115;
+        const delay = rand(0.12, 0.35) + distance * 0.0009;
         const t0 = audioCtx.currentTime + delay;
-        const dur = rand(0.95, 1.85);
+        const dur = big ? rand(1.4, 2.6) : rand(0.9, 1.7);
         const bufLen = Math.floor(audioCtx.sampleRate * dur);
         const buffer = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
         let n = 0;
         for (let i = 0; i < bufLen; i += 1) {
-          const env = Math.exp(-i / (audioCtx.sampleRate * 0.38))
-            * (0.5 + 0.5 * Math.exp(-i / (audioCtx.sampleRate * 0.07)));
-          n = n * 0.97 + (Math.random() * 2 - 1) * 0.32;
-          data[i] = n * env * 0.2;
+          const env = Math.exp(-i / (audioCtx.sampleRate * (big ? 0.55 : 0.35)))
+            * (0.45 + 0.55 * Math.exp(-i / (audioCtx.sampleRate * 0.06)));
+          n = n * 0.96 + (Math.random() * 2 - 1) * 0.4;
+          const crack = i < audioCtx.sampleRate * 0.04 ? (Math.random() * 2 - 1) * 0.55 : 0;
+          data[i] = (n * 0.75 + crack) * env * (big ? 0.32 : 0.22);
         }
         const src = audioCtx.createBufferSource();
         src.buffer = buffer;
         const filter = audioCtx.createBiquadFilter();
         filter.type = "lowpass";
-        filter.frequency.value = rand(160, 380);
+        filter.frequency.value = big ? rand(280, 520) : rand(160, 380);
         const gain = audioCtx.createGain();
-        gain.gain.value = clamp(0.26 - distance * 0.00007, 0.05, 0.26);
+        gain.gain.value = clamp((big ? 0.38 : 0.26) - distance * 0.00005, 0.08, 0.4);
         src.connect(filter);
         filter.connect(gain);
         gain.connect(audioCtx.destination);
@@ -194,23 +187,34 @@
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
 
-      ctx.strokeStyle = `rgba(150, 185, 255,${0.2 * alpha})`;
-      ctx.shadowColor = "rgba(130, 165, 255, 0.9)";
-      ctx.shadowBlur = lite ? 12 : 20;
+      ctx.strokeStyle = `rgba(140, 175, 255,${0.28 * alpha * b.bright})`;
+      ctx.shadowColor = "rgba(160, 195, 255, 1)";
+      ctx.shadowBlur = 28;
       for (let i = 0; i < b.segs.length; i += 1) {
         const s = b.segs[i];
-        ctx.lineWidth = s.w * 4;
+        ctx.lineWidth = s.w * 5.2;
         ctx.beginPath();
         ctx.moveTo(s.x0, s.y0);
         ctx.lineTo(s.x1, s.y1);
         ctx.stroke();
       }
 
-      ctx.shadowBlur = lite ? 5 : 9;
-      ctx.strokeStyle = `rgba(240, 248, 255,${0.95 * alpha})`;
+      ctx.shadowBlur = 12;
+      ctx.strokeStyle = `rgba(210, 230, 255,${0.75 * alpha})`;
       for (let i = 0; i < b.segs.length; i += 1) {
         const s = b.segs[i];
-        ctx.lineWidth = s.w;
+        ctx.lineWidth = s.w * 2.1;
+        ctx.beginPath();
+        ctx.moveTo(s.x0, s.y0);
+        ctx.lineTo(s.x1, s.y1);
+        ctx.stroke();
+      }
+
+      ctx.shadowBlur = 4;
+      ctx.strokeStyle = `rgba(255, 255, 255,${0.98 * alpha})`;
+      for (let i = 0; i < b.segs.length; i += 1) {
+        const s = b.segs[i];
+        ctx.lineWidth = s.w * 0.85;
         ctx.beginPath();
         ctx.moveTo(s.x0, s.y0);
         ctx.lineTo(s.x1, s.y1);
@@ -219,54 +223,68 @@
       ctx.restore();
     };
 
-    const pushBolt = (built, lifeScale) => {
+    const pushBolt = (built, lifeScale, bright) => {
       bolts.push({
         segs: built.segs,
         flashX: built.flashX,
         flashY: built.flashY,
         age: 0,
-        life: (lite ? rand(0.16, 0.28) : rand(0.2, 0.42)) * lifeScale,
+        life: rand(0.22, 0.55) * lifeScale,
+        bright: bright ?? 1,
       });
     };
 
-    const strike = () => {
+    const pulseBody = (ms) => {
+      document.body.classList.add("storm-flash");
+      window.setTimeout(() => document.body.classList.remove("storm-flash"), ms);
+    };
+
+    const strike = (forceBig) => {
       if (!running || document.hidden) {
         scheduleNext();
         return;
       }
 
-      const main = buildStrike(w, h, lite);
-      pushBolt(main, 1);
-      ambient = Math.max(ambient, lite ? rand(0.32, 0.5) : rand(0.5, 0.82));
+      strikeCount += 1;
+      const big = forceBig || Math.random() < 0.38;
+      const main = buildStrike(w, h);
+      pushBolt(main, big ? 1.25 : 1, big ? 1.35 : 1);
+      ambient = Math.max(ambient, big ? rand(0.72, 1) : rand(0.48, 0.78));
+      sheetA = Math.max(sheetA, big ? rand(0.35, 0.55) : rand(0.12, 0.28));
       flash.style.setProperty("--flash-x", `${(main.flashX / Math.max(w, 1)) * 100}%`);
       flash.style.setProperty("--flash-y", `${(main.flashY / Math.max(h, 1)) * 100}%`);
       flash.classList.add("is-on");
       flash.style.opacity = String(ambient);
+      sheet.style.opacity = String(sheetA);
+      pulseBody(big ? 180 : 90);
 
-      /* 双闪 / 三闪 burst（近距更常见） */
-      const bursts = lite ? (Math.random() < 0.25 ? 1 : 0) : (Math.random() < 0.55 ? 1 + ((Math.random() < 0.35) | 0) : 0);
+      const bursts = big ? (2 + ((Math.random() * 3) | 0)) : (1 + ((Math.random() < 0.55) | 0));
       for (let i = 0; i < bursts; i += 1) {
         window.setTimeout(() => {
           if (!running) return;
-          const sub = buildStrike(w, h, lite);
-          pushBolt(sub, 0.75);
-          ambient = Math.max(ambient, rand(0.35, 0.62));
+          const sub = buildStrike(w, h);
+          pushBolt(sub, 0.85, 1.1);
+          ambient = Math.max(ambient, rand(0.4, 0.75));
+          sheetA = Math.max(sheetA, rand(0.15, 0.35));
           flash.style.opacity = String(ambient);
+          sheet.style.opacity = String(sheetA);
           flash.classList.remove("is-on");
           void flash.offsetWidth;
           flash.classList.add("is-on");
-        }, 45 + i * rand(50, 95));
+          pulseBody(70);
+        }, 35 + i * rand(45, 110));
       }
 
-      playThunder(Math.hypot(main.flashX - w * 0.5, main.flashY - h * 0.15));
+      playThunder(Math.hypot(main.flashX - w * 0.5, main.flashY - h * 0.12), big);
       scheduleNext();
     };
 
     const scheduleNext = () => {
       window.clearTimeout(strikeTimer);
       if (!running) return;
-      const gap = lite ? rand(4000, 8800) : rand(2000, 5800);
-      strikeTimer = window.setTimeout(strike, gap);
+      /* 高频雷击：约 0.9～3.2s */
+      const gap = rand(900, 3200);
+      strikeTimer = window.setTimeout(() => strike(false), gap);
     };
 
     const tick = (now) => {
@@ -275,11 +293,10 @@
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
 
-      /* 残影拖尾：半透明擦除（shadcn afterglow） */
       ctx.save();
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.globalCompositeOperation = "destination-out";
-      ctx.fillStyle = lite ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.28)";
+      ctx.fillStyle = "rgba(0,0,0,0.22)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.restore();
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -292,17 +309,25 @@
           bolts.splice(i, 1);
           continue;
         }
-        const flicker = 0.72 + 0.28 * Math.sin(b.age * 78 + i);
+        const flicker = 0.65 + 0.35 * Math.sin(b.age * 95 + i * 2.1);
         drawBolt(b, clamp(p * flicker, 0, 1));
       }
 
       if (ambient > 0.01) {
-        ambient *= Math.exp(-dt * 6.8);
+        ambient *= Math.exp(-dt * 5.2);
         flash.style.opacity = String(ambient);
       } else if (ambient !== 0) {
         ambient = 0;
         flash.style.opacity = "0";
         flash.classList.remove("is-on");
+      }
+
+      if (sheetA > 0.01) {
+        sheetA *= Math.exp(-dt * 4.4);
+        sheet.style.opacity = String(sheetA);
+      } else if (sheetA !== 0) {
+        sheetA = 0;
+        sheet.style.opacity = "0";
       }
     };
 
@@ -313,7 +338,10 @@
         window.clearTimeout(strikeTimer);
         bolts.length = 0;
         ambient = 0;
+        sheetA = 0;
         flash.style.opacity = "0";
+        sheet.style.opacity = "0";
+        document.body.classList.remove("storm-flash");
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -332,7 +360,8 @@
         fit();
         last = performance.now();
         raf = requestAnimationFrame(tick);
-        strikeTimer = window.setTimeout(strike, rand(700, 1800));
+        /* 很快首击，营造进入即雷暴 */
+        strikeTimer = window.setTimeout(() => strike(true), rand(280, 700));
       },
       stop() {
         running = false;
@@ -341,8 +370,11 @@
         window.clearTimeout(strikeTimer);
         bolts.length = 0;
         ambient = 0;
+        sheetA = 0;
         flash.style.opacity = "0";
+        sheet.style.opacity = "0";
         flash.classList.remove("is-on");
+        document.body.classList.remove("storm-flash");
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       },
@@ -354,9 +386,11 @@
         document.removeEventListener("visibilitychange", onVisibility);
         window.removeEventListener("pointerdown", unlockAudio);
         window.removeEventListener("keydown", unlockAudio);
+        window.removeEventListener("touchstart", unlockAudio);
         try { audioCtx?.close(); } catch { /* ignore */ }
         canvas.remove();
         flash.remove();
+        sheet.remove();
       },
     };
   }

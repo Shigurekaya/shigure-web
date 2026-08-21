@@ -216,9 +216,9 @@
      */
     const seedSpray = () => {
       clearSpray();
-      const dens = storm ? 2.35 : 1;
-      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.45));
-      const onUi = ledges.length ? Math.round(n * (storm ? 0.68 : 0.55)) : 0;
+      const dens = storm ? 3.2 : 1;
+      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.55));
+      const onUi = ledges.length ? Math.round(n * (storm ? 0.72 : 0.55)) : 0;
       for (let i = 0; i < onUi; i += 1) {
         const p = pickInLedge(0.95);
         if (!p) break;
@@ -318,8 +318,8 @@
       const n = Math.round(mainN * area);
       for (let i = 0; i < n; i += 1) spawnDrop();
       if (storm) {
-        for (let i = 0; i < 8; i += 1) spawnLens();
-        for (let i = 0; i < 14; i += 1) spawnFlow();
+        for (let i = 0; i < 12; i += 1) spawnLens();
+        for (let i = 0; i < 22; i += 1) spawnFlow();
       }
       sprayDirty = true;
     };
@@ -396,10 +396,10 @@
 
       /* 持续补雾点（Codrops spray 层） */
       mistAcc += dt * aMul;
-      const mistEvery = storm ? 0.045 : 0.12;
+      const mistEvery = storm ? 0.028 : 0.12;
       while (mistAcc > mistEvery) {
         mistAcc -= mistEvery;
-        const k = storm ? (3 + ((Math.random() * 8) | 0)) : (1 + ((Math.random() * 3) | 0));
+        const k = storm ? (5 + ((Math.random() * 12) | 0)) : (1 + ((Math.random() * 3) | 0));
         for (let i = 0; i < k; i += 1) {
           const ui = ledges.length && Math.random() < 0.72 ? pickInLedge(0.92) : null;
           const x = ui?.x ?? Math.random() * w;
@@ -415,28 +415,28 @@
         mergeDrops();
       }
 
-      const topEvery = storm ? 0.07 : 0.28;
+      const topEvery = storm ? 0.045 : 0.28;
       topSpawnAcc += dt * aMul;
-      while (topSpawnAcc > topEvery && drops.length < target + 24) {
+      while (topSpawnAcc > topEvery && drops.length < target + 40) {
         topSpawnAcc -= topEvery;
-        if (Math.random() < (storm ? 0.9 : 0.48)) {
+        if (Math.random() < (storm ? 0.95 : 0.48)) {
           spawnDrop({
             fromTop: true,
-            momentum: rand(0.4, storm ? 2.8 : 1.0),
-            r: rand(storm ? 4.0 : 2.6, storm ? 10.5 : 5.8),
+            momentum: rand(0.5, storm ? 3.4 : 1.0),
+            r: rand(storm ? 4.5 : 2.6, storm ? 13 : 5.8),
           });
         }
       }
 
       if (storm) {
         lensAcc += dt * aMul;
-        while (lensAcc > 0.35 && lenses.length < 16) {
-          lensAcc -= 0.35;
+        while (lensAcc > 0.22 && lenses.length < 24) {
+          lensAcc -= 0.22;
           spawnLens();
         }
         flowAcc += dt * aMul;
-        while (flowAcc > 0.18 && flows.length < 28) {
-          flowAcc -= 0.18;
+        while (flowAcc > 0.1 && flows.length < 42) {
+          flowAcc -= 0.1;
           spawnFlow();
         }
       }
