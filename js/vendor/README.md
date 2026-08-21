@@ -30,4 +30,5 @@
 - 垂直中点位移分叉：[diwsi/Javascript-Lightning-Effect](https://github.com/diwsi/Javascript-Lightning-Effect)、[shadcn Lightning Background](https://www.shadcn.io/background/lightning)、Cod Chill Thunder Breathing
 - 环境闪光衰减：[@vgerbot/weather-canvas](https://github.com/vgerbot-libraries/weather-canvas) `LightningElement`（其螺栓本身偏简，仅参考闪光节奏）
 - 先闪后雷：[panmona/stormsimulator](https://github.com/panmona/stormsimulator)
-- 过重未采用：Three.js / fulgor 等整站模拟器
+- 贴屏水珠 / 持续泪痕：Codrops RainEffect + Radiant rain-on-glass
+- 过重未整迁：Three.js / fulgor / CrazyGL hero-rain-on-glass

@@ -47,9 +47,9 @@
       frameMs: 1000 / 24,
       wind: 0.26,
       speedMul: 1.12,
-      glassMain: 28,
-      glassMicro: 360,
-      splashRate: 1.05,
+      glassMain: 48,
+      glassMicro: 520,
+      splashRate: 1.15,
       glass: null,
     },
     mid: {
@@ -58,9 +58,9 @@
       frameMs: 1000 / 30,
       wind: 0.32,
       speedMul: 1.16,
-      glassMain: 38,
-      glassMicro: 480,
-      splashRate: 1.12,
+      glassMain: 52,
+      glassMicro: 620,
+      splashRate: 1.2,
       glassMaxW: 960,
       glass: {
         spawnInterval: [0.08, 0.16],
@@ -77,9 +77,9 @@
       frameMs: 1000 / 30,
       wind: 0.36,
       speedMul: 1.2,
-      glassMain: 48,
-      glassMicro: 580,
-      splashRate: 1.2,
+      glassMain: 72,
+      glassMicro: 900,
+      splashRate: 1.28,
       glassMaxW: 1280,
       glass: {
         spawnInterval: [0.055, 0.12],
@@ -149,16 +149,65 @@
     return canvas;
   }
 
-  /** 雷暴相对大雨的强度倍率（对齐小米天气大雨参考片再加一档） */
+  /** 雷暴相对大雨的强度倍率（效果优先，对齐小米天气大雨再加一档） */
   const STORM_MUL = {
-    streak: 1.65,
+    streak: 1.75,
     wind: 1.35,
-    speed: 1.28,
-    splash: 1.55,
-    glassMain: 1.55,
-    glassMicro: 1.7,
-    sizeMul: 1.38,
+    speed: 1.3,
+    splash: 2.1,
+    glassMain: 2.4,
+    glassMicro: 2.8,
+    sizeMul: 1.42,
   };
+
+  /** 精致溅花精灵：柔边冠 + 亮核（参考片顶缘白簇） */
+  function bakeSplashSprites() {
+    const make = (size, soft) => {
+      const pad = Math.ceil(size * 0.55);
+      const dim = size + pad * 2;
+      const c = document.createElement("canvas");
+      c.width = dim;
+      c.height = dim;
+      const cx = c.getContext("2d");
+      if (!cx) return c;
+      const o = dim * 0.5;
+      const g = cx.createRadialGradient(o, o, 0, o, o, size * 0.5);
+      if (soft) {
+        g.addColorStop(0, "rgba(255,255,255,0.85)");
+        g.addColorStop(0.35, "rgba(220,235,255,0.35)");
+        g.addColorStop(0.7, "rgba(180,210,240,0.12)");
+        g.addColorStop(1, "rgba(160,190,230,0)");
+      } else {
+        g.addColorStop(0, "rgba(255,255,255,1)");
+        g.addColorStop(0.25, "rgba(245,250,255,0.9)");
+        g.addColorStop(0.55, "rgba(200,225,245,0.35)");
+        g.addColorStop(1, "rgba(180,210,240,0)");
+      }
+      cx.fillStyle = g;
+      cx.beginPath();
+      cx.arc(o, o, size * 0.48, 0, Math.PI * 2);
+      cx.fill();
+      return c;
+    };
+    return {
+      soft: [10, 16, 22, 30].map((s) => make(s, true)),
+      hard: [6, 10, 14, 18].map((s) => make(s, false)),
+    };
+  }
+
+  const SPLASH_SPR = bakeSplashSprites();
+
+  function pickSplashSpr(kind, r) {
+    const list = kind === "soft" ? SPLASH_SPR.soft : SPLASH_SPR.hard;
+    const px = r * 2.8;
+    let best = 0;
+    let diff = Infinity;
+    for (let i = 0; i < list.length; i += 1) {
+      const d = Math.abs(list[i].width - px);
+      if (d < diff) { diff = d; best = i; }
+    }
+    return list[best];
+  }
 
   function qualityFor(mode, storm) {
     const base = QUALITY[mode];
@@ -278,25 +327,21 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* 溅花：全端开启。贴屏水珠：桌面全开；暴雨手机也开轻量版（参考片关键） */
+    /* 溅花全开。贴屏水珠：暴雨全端开启（效果优先） */
     const wantSplash = true;
     const wantGlassDrops = useGpuStreaks && (!mobileLite || storm);
     splashCanvas.style.display = wantSplash ? "" : "none";
     glassDropCanvas.style.display = wantGlassDrops ? "" : "none";
     if (storm) glassDropCanvas.classList.add("is-storm-glass");
 
-    const glassMainN = mobileLite && storm
-      ? Math.round((q0.glassMain || 34) * 0.55)
-      : (q0.glassMain || 34);
-    const glassMicroN = mobileLite && storm
-      ? Math.round((q0.glassMicro || 160) * 0.5)
-      : (q0.glassMicro || 160);
+    const glassMainN = q0.glassMain || 34;
+    const glassMicroN = q0.glassMicro || 160;
 
     const glassDrops = wantGlassDrops && window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: glassMainN,
         micro: glassMicroN,
-        dprCap: Math.min(q0.dprCap, mobileLite ? 1.2 : 1.35),
+        dprCap: Math.min(q0.dprCap, 1.5),
         slideRatio: 0.3,
         storm,
       })
@@ -501,13 +546,7 @@
       gpu?.setWind?.(q.wind);
       gpu?.setSpeedMul?.(q.speedMul);
       gpu?.setSizeMul?.(storm ? (q.sizeMul || STORM_MUL.sizeMul) : 1);
-      const gMain = mobileLite && storm
-        ? Math.round((q.glassMain || 34) * 0.55)
-        : (q.glassMain || 34);
-      const gMicro = mobileLite && storm
-        ? Math.round((q.glassMicro || 160) * 0.5)
-        : (q.glassMicro || 160);
-      glassDrops?.setCounts(gMain, gMicro);
+      glassDrops?.setCounts(q.glassMain || 34, q.glassMicro || 160);
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()
         : opts.getLedges?.()) || [];
@@ -525,32 +564,106 @@
       };
     };
 
+    const pushSplash = (opts) => {
+      const cap = storm ? 320 : 90;
+      if (splashes.length >= cap) return;
+      splashes.push({
+        x: opts.x,
+        y: opts.y,
+        vx: opts.vx,
+        vy: opts.vy,
+        life: opts.life,
+        age: 0,
+        r: opts.r,
+        soft: !!opts.soft,
+        kind: opts.kind || "hard",
+        drip: !!opts.drip,
+        a: opts.a ?? 1,
+      });
+    };
+
     const spawnSplash = (ledge) => {
       if (intensity < 0.12) return;
-      /* 圆形头像不做撞击溅花（易成半圆弧/悬空水花） */
       if (ledge.shape === "circle") return;
-      const cap = storm ? (mobileLite ? 96 : 140) : (mobileLite ? 48 : 72);
-      if (splashes.length >= cap) return;
       const hit = hitPointOnLedge(ledge);
-      /* 参考片顶缘：成簇白点；暴雨每击 2～5 颗、更大 */
-      const n = storm
-        ? (2 + ((Math.random() * 3.5) | 0))
-        : (1 + ((Math.random() * 2.2) | 0));
-      const windBias = windLive * (storm ? 20 : 10);
-      for (let i = 0; i < n; i += 1) {
-        if (splashes.length >= cap) break;
-        const ang = -Math.PI * 0.05 - Math.random() * Math.PI * 0.85;
-        const spd = storm ? rand(55, 150) : rand(48, 110);
-        splashes.push({
-          x: hit.x + rand(-3, 3),
-          y: hit.y + rand(-0.6, 0.8),
-          vx: Math.cos(ang) * spd + windBias,
-          vy: Math.sin(ang) * spd,
-          life: storm ? rand(0.14, 0.28) : rand(0.12, 0.2),
-          age: 0,
-          r: storm ? rand(1.1, 2.8) : rand(0.5, 1.35),
-          soft: storm && Math.random() < 0.45,
+      const windBias = windLive * (storm ? 24 : 10);
+
+      if (storm) {
+        /* 柔边 bloom 中心 */
+        pushSplash({
+          x: hit.x, y: hit.y,
+          vx: windBias * 0.15, vy: rand(-20, -8),
+          life: rand(0.16, 0.28), r: rand(2.4, 4.2),
+          soft: true, kind: "soft", a: 0.7,
         });
+        /* 扇形细溅：6～12 颗大小错落 */
+        const n = 6 + ((Math.random() * 7) | 0);
+        for (let i = 0; i < n; i += 1) {
+          const ang = -Math.PI * 0.02 - Math.random() * Math.PI * 0.92;
+          const spd = rand(40, 175);
+          const fine = Math.random() < 0.55;
+          pushSplash({
+            x: hit.x + rand(-4, 4),
+            y: hit.y + rand(-1, 1.5),
+            vx: Math.cos(ang) * spd + windBias,
+            vy: Math.sin(ang) * spd,
+            life: fine ? rand(0.1, 0.2) : rand(0.14, 0.32),
+            r: fine ? rand(0.55, 1.4) : rand(1.4, 3.2),
+            soft: Math.random() < 0.4,
+            kind: fine ? "hard" : (Math.random() < 0.5 ? "soft" : "hard"),
+            a: fine ? 0.95 : 0.85,
+          });
+        }
+        /* 沿卡片面下淌的次级水珠 */
+        if (Math.random() < 0.55) {
+          pushSplash({
+            x: hit.x + rand(-6, 6),
+            y: hit.y + rand(1, 4),
+            vx: windBias * 0.2 + rand(-12, 12),
+            vy: rand(30, 90),
+            life: rand(0.28, 0.55),
+            r: rand(1.2, 2.6),
+            soft: true, kind: "soft", drip: true, a: 0.75,
+          });
+        }
+      } else {
+        const n = 1 + ((Math.random() * 2.2) | 0);
+        for (let i = 0; i < n; i += 1) {
+          const ang = -Math.PI * 0.08 - Math.random() * Math.PI * 0.75;
+          const spd = rand(48, 110);
+          pushSplash({
+            x: hit.x + rand(-2, 2),
+            y: hit.y + rand(-0.4, 0.4),
+            vx: Math.cos(ang) * spd + windBias,
+            vy: Math.sin(ang) * spd,
+            life: rand(0.12, 0.2),
+            r: rand(0.5, 1.35),
+            soft: false, kind: "hard",
+          });
+        }
+      }
+    };
+
+    /** 顶缘持续湿珠项链（参考片一直有细密白点） */
+    const ensureRimBeads = (rectLedges, dt, aMul) => {
+      if (!storm || !rectLedges.length) return;
+      for (let i = 0; i < rectLedges.length; i += 1) {
+        const L = rectLedges[i];
+        const dens = Math.max(3, Math.round(L.w / 28));
+        for (let k = 0; k < dens; k += 1) {
+          if (Math.random() > 0.35 * aMul * dt * 18) continue;
+          const x = L.x + L.w * (0.06 + Math.random() * 0.88);
+          pushSplash({
+            x, y: L.y + rand(-0.4, 1.2),
+            vx: windLive * 8 + rand(-18, 18),
+            vy: rand(-35, -8),
+            life: rand(0.08, 0.18),
+            r: rand(0.45, 1.6),
+            soft: Math.random() < 0.5,
+            kind: Math.random() < 0.6 ? "hard" : "soft",
+            a: rand(0.55, 0.95),
+          });
+        }
       }
     };
 
@@ -617,20 +730,20 @@
         splashAcc = 0;
       }
 
-      /* 仅矩形卡片顶缘：短湿划，不画整条宽线、不画半圆弧 */
-      const wetChance = (storm ? 0.42 : 0.2) * aMul;
+      /* 仅矩形卡片顶缘：短湿划 + 持续细珠 */
+      const wetChance = (storm ? 0.55 : 0.2) * aMul;
       for (let i = 0; i < ledges.length; i += 1) {
         const L = ledges[i];
         if (L.shape === "circle") continue;
         const pulse = 0.55 + 0.45 * Math.sin(time * 5.6 + i * 1.25);
         const wetA = scrolling ? 0.4 : 1;
         if (!scrolling && Math.random() < wetChance) {
-          const dashN = storm ? (1 + ((Math.random() * 3) | 0)) : (1 + ((Math.random() * 1.5) | 0));
+          const dashN = storm ? (2 + ((Math.random() * 4) | 0)) : (1 + ((Math.random() * 1.5) | 0));
           for (let d = 0; d < dashN; d += 1) {
-            const dx = L.x + L.w * (0.08 + Math.random() * 0.84);
-            const dw = storm ? rand(5, 18) : rand(4, 12);
-            sctx.fillStyle = `rgba(235,245,255,${rand(0.14, storm ? 0.38 : 0.26) * pulse * aMul * wetA})`;
-            sctx.fillRect(dx, L.y - 0.5, dw, storm ? 2 : 1.5);
+            const dx = L.x + L.w * (0.05 + Math.random() * 0.9);
+            const dw = storm ? rand(3, 16) : rand(4, 12);
+            sctx.fillStyle = `rgba(235,245,255,${rand(0.16, storm ? 0.45 : 0.26) * pulse * aMul * wetA})`;
+            sctx.fillRect(dx, L.y - 0.6, dw, storm ? 2.2 : 1.5);
           }
         }
       }
@@ -638,12 +751,10 @@
       if (!scrolling) {
         const rectLedges = ledges.filter((L) => L.shape !== "circle");
         splashAcc += dt;
-        /* 参考片顶缘溅点较密；封顶在倍率之后 */
-        const ledgeBase = (storm ? 8 : 5.5) + rectLedges.length * (storm ? 1.55 : 1.15);
-        const rateCap = storm ? 26 : 13;
-        const mobileFactor = mobileLite ? (storm ? 0.85 : 0.72) : 1;
-        const rate = Math.min(rateCap, ledgeBase * splashMul) * aMul * mobileFactor;
-        const burstCap = storm ? 8 : 4;
+        const ledgeBase = (storm ? 14 : 5.5) + rectLedges.length * (storm ? 2.4 : 1.15);
+        const rateCap = storm ? 48 : 13;
+        const rate = Math.min(rateCap, ledgeBase * splashMul) * aMul;
+        const burstCap = storm ? 14 : 4;
         let spawned = 0;
         while (rate > 0.2 && splashAcc > 1 / rate && rectLedges.length && spawned < burstCap) {
           splashAcc -= 1 / rate;
@@ -651,6 +762,7 @@
           spawned += 1;
         }
         if (splashAcc > 1) splashAcc = 1;
+        ensureRimBeads(rectLedges, dt, aMul);
       }
 
       rims.length = 0;
@@ -662,22 +774,32 @@
         if (p <= 0) { splashes.splice(i, 1); continue; }
         s.x += s.vx * dt;
         s.y += s.vy * dt;
-        s.vy += (storm ? 340 : 300) * dt;
-        const rad = s.r * (0.65 + p * 0.45);
-        if (s.soft) {
-          sctx.save();
-          sctx.shadowColor = "rgba(210, 230, 255, 0.85)";
-          sctx.shadowBlur = 6 + rad * 2.2;
-          sctx.fillStyle = `rgba(255,255,255,${0.55 * p * aMul})`;
+        s.vy += (s.drip ? 420 : (storm ? 360 : 300)) * dt;
+        if (s.drip) s.vx *= Math.exp(-dt * 1.8);
+        const rad = s.r * (0.55 + p * 0.55);
+        const alpha = (s.a ?? 1) * p * aMul;
+        const spr = pickSplashSpr(s.kind || (s.soft ? "soft" : "hard"), rad * 2);
+        if (spr) {
+          const dw = rad * (s.soft ? 3.4 : 2.6);
+          sctx.globalAlpha = alpha;
+          sctx.drawImage(spr, s.x - dw * 0.5, s.y - dw * 0.5, dw, dw);
+          sctx.globalAlpha = 1;
+        } else {
+          if (s.soft) {
+            sctx.save();
+            sctx.shadowColor = "rgba(210, 230, 255, 0.9)";
+            sctx.shadowBlur = 5 + rad * 2;
+            sctx.fillStyle = `rgba(255,255,255,${0.5 * alpha})`;
+            sctx.beginPath();
+            sctx.arc(s.x, s.y, rad * 1.3, 0, Math.PI * 2);
+            sctx.fill();
+            sctx.restore();
+          }
+          sctx.fillStyle = `rgba(255,255,255,${0.9 * alpha})`;
           sctx.beginPath();
-          sctx.arc(s.x, s.y, rad * 1.35, 0, Math.PI * 2);
+          sctx.arc(s.x, s.y, rad, 0, Math.PI * 2);
           sctx.fill();
-          sctx.restore();
         }
-        sctx.fillStyle = `rgba(255,255,255,${(storm ? 0.88 : 0.78) * p * aMul})`;
-        sctx.beginPath();
-        sctx.arc(s.x, s.y, rad, 0, Math.PI * 2);
-        sctx.fill();
       }
     };
 

@@ -429,8 +429,9 @@ body.storm-rain .site-bg__heavy {
 }
 
 body.storm-rain .site-fx__glass-drops.is-storm-glass {
-  /* 贴屏模糊水更“糊”一点，贴近参考片镜头水珠 */
-  filter: blur(0.6px) saturate(1.05);
+  /* 贴屏流动模糊水：略糊 + 提亮，贴近参考片镜头水 */
+  filter: blur(1.1px) saturate(1.08) brightness(1.06);
+  opacity: 1 !important;
 }
 
 .site-fx__splash {
