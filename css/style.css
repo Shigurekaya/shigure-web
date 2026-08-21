@@ -367,7 +367,7 @@ body.storm-rain .site-bg__heavy-mist.is-storm.is-on {
 }
 
 body.storm-flash .site-bg {
-  filter: brightness(1.55) saturate(1.15);
+  filter: brightness(1.28) saturate(1.08);
   transition: filter 0.05s linear;
 }
 
@@ -442,7 +442,8 @@ body.storm-rain .site-bg {
 }
 
 body.storm-rain .site-fx__glass-drops.is-storm-glass {
-  filter: blur(1.35px) saturate(1.12) brightness(1.1);
+  /* 不做整层 blur，避免糊成灰雾；珠体自身已有柔边 */
+  filter: none;
   opacity: 1 !important;
 }
 
@@ -468,12 +469,12 @@ body.storm-rain .site-fx__glass-drops.is-storm-glass {
   opacity: 0;
   background:
     radial-gradient(
-      ellipse 75% 60% at var(--flash-x, 50%) var(--flash-y, 18%),
-      rgba(245, 250, 255, 0.72) 0%,
-      rgba(190, 215, 255, 0.28) 36%,
+      ellipse 70% 55% at var(--flash-x, 50%) var(--flash-y, 18%),
+      rgba(245, 250, 255, 0.55) 0%,
+      rgba(190, 215, 255, 0.2) 38%,
       transparent 72%
     ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(200, 220, 255, 0.1) 42%, transparent 70%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(200, 220, 255, 0.08) 42%, transparent 70%);
   transition: opacity 0.05s linear;
 }
 
@@ -487,7 +488,7 @@ body.storm-rain .site-fx__glass-drops.is-storm-glass {
   z-index: 3;
   pointer-events: none;
   opacity: 0;
-  background: rgba(210, 225, 255, 0.22);
+  background: rgba(210, 225, 255, 0.14);
   mix-blend-mode: screen;
   transition: opacity 0.08s linear;
 }

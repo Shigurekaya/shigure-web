@@ -155,8 +155,8 @@
     wind: 1.55,
     speed: 1.42,
     splash: 2.6,
-    glassMain: 3.2,
-    glassMicro: 3.6,
+    glassMain: 1.85,
+    glassMicro: 2.1,
     sizeMul: 1.55,
   };
 

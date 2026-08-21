@@ -88,11 +88,11 @@
     return [16, 22, 28, 36, 46].map(bakeDropBitmap);
   }
 
-  /** 贴屏大块模糊水（参考片镜头水珠/泪痕） */
+  /** 贴屏中号水团：清晰边缘 + 高光，避免软糊斑 */
   function bakeLensBlob(size) {
-    const pad = Math.ceil(size * 0.45);
+    const pad = Math.ceil(size * 0.28);
     const w = size + pad * 2;
-    const h = Math.ceil(size * 1.8) + pad * 2;
+    const h = Math.ceil(size * 1.45) + pad * 2;
     const c = document.createElement("canvas");
     c.width = w;
     c.height = h;
@@ -100,26 +100,70 @@
     if (!cx) return c;
     const ox = w * 0.5;
     const oy = h * 0.4;
-    const rx = size * 0.42;
-    const ry = size * 0.55;
-    const g = cx.createRadialGradient(ox - rx * 0.15, oy - ry * 0.2, 0, ox, oy, rx * 1.15);
-    g.addColorStop(0, "rgba(230, 240, 255, 0.38)");
-    g.addColorStop(0.35, "rgba(160, 190, 220, 0.22)");
-    g.addColorStop(0.7, "rgba(70, 100, 140, 0.14)");
-    g.addColorStop(1, "rgba(20, 35, 55, 0)");
+    const rx = size * 0.36;
+    const ry = size * 0.42;
+    cx.fillStyle = "rgba(8, 14, 24, 0.22)";
+    cx.beginPath();
+    cx.ellipse(ox, oy + ry * 0.7, rx * 0.5, ry * 0.14, 0, 0, Math.PI * 2);
+    cx.fill();
+    const g = cx.createRadialGradient(ox - rx * 0.22, oy - ry * 0.28, 0, ox, oy, rx);
+    g.addColorStop(0, "rgba(225, 238, 255, 0.5)");
+    g.addColorStop(0.4, "rgba(120, 155, 190, 0.32)");
+    g.addColorStop(0.82, "rgba(36, 52, 78, 0.34)");
+    g.addColorStop(1, "rgba(16, 24, 40, 0)");
     cx.fillStyle = g;
     cx.beginPath();
     cx.ellipse(ox, oy, rx, ry, 0, 0, Math.PI * 2);
     cx.fill();
-    /* 纵向泪痕 */
-    const trail = cx.createLinearGradient(ox, oy, ox, h - pad);
-    trail.addColorStop(0, "rgba(200, 220, 245, 0.18)");
-    trail.addColorStop(0.55, "rgba(140, 175, 210, 0.1)");
-    trail.addColorStop(1, "rgba(80, 110, 150, 0)");
-    cx.fillStyle = trail;
+    cx.strokeStyle = "rgba(230, 245, 255, 0.42)";
+    cx.lineWidth = Math.max(0.8, size * 0.022);
     cx.beginPath();
-    cx.ellipse(ox, oy + ry * 0.85, rx * 0.28, ry * 1.1, 0, 0, Math.PI * 2);
+    cx.ellipse(ox, oy, rx * 0.88, ry * 0.88, 0, 0, Math.PI * 2);
+    cx.stroke();
+    const spec = cx.createRadialGradient(
+      ox - rx * 0.3, oy - ry * 0.34, 0,
+      ox - rx * 0.3, oy - ry * 0.34, rx * 0.32,
+    );
+    spec.addColorStop(0, "rgba(255,255,255,0.95)");
+    spec.addColorStop(0.35, "rgba(230,245,255,0.45)");
+    spec.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = spec;
+    cx.beginPath();
+    cx.ellipse(ox - rx * 0.3, oy - ry * 0.34, rx * 0.14, ry * 0.09, -0.45, 0, Math.PI * 2);
     cx.fill();
+    return c;
+  }
+
+  /** 细长泪痕精灵（无 canvas filter，边缘干净） */
+  function bakeRivulet(w0, h0) {
+    const c = document.createElement("canvas");
+    c.width = Math.ceil(w0);
+    c.height = Math.ceil(h0);
+    const cx = c.getContext("2d");
+    if (!cx) return c;
+    const ox = c.width * 0.5;
+    const top = 2;
+    const bot = c.height - 2;
+    const half = Math.max(1.2, c.width * 0.28);
+    const g = cx.createLinearGradient(ox, top, ox, bot);
+    g.addColorStop(0, "rgba(235,245,255,0.08)");
+    g.addColorStop(0.12, "rgba(210,230,250,0.38)");
+    g.addColorStop(0.55, "rgba(150,185,220,0.22)");
+    g.addColorStop(1, "rgba(90,120,160,0)");
+    cx.fillStyle = g;
+    cx.beginPath();
+    cx.moveTo(ox, top);
+    cx.bezierCurveTo(ox + half * 0.7, top + 8, ox + half, bot * 0.45, ox + half * 0.35, bot);
+    cx.quadraticCurveTo(ox, bot + 1, ox - half * 0.35, bot);
+    cx.bezierCurveTo(ox - half, bot * 0.45, ox - half * 0.7, top + 8, ox, top);
+    cx.closePath();
+    cx.fill();
+    cx.strokeStyle = "rgba(245,250,255,0.35)";
+    cx.lineWidth = 0.7;
+    cx.beginPath();
+    cx.moveTo(ox - half * 0.15, top + 4);
+    cx.quadraticCurveTo(ox - half * 0.4, bot * 0.4, ox - half * 0.12, bot - 4);
+    cx.stroke();
     return c;
   }
 
@@ -146,7 +190,15 @@
     const storm = !!opts.storm;
     const sprites = bakeSprites();
     const lensSprites = storm
-      ? [48, 72, 96, 128].map(bakeLensBlob)
+      ? [40, 56, 72].map(bakeLensBlob)
+      : [];
+    const rivuletSprites = storm
+      ? [
+        bakeRivulet(10, 56),
+        bakeRivulet(14, 88),
+        bakeRivulet(18, 120),
+        bakeRivulet(12, 72),
+      ]
       : [];
     const beadSpr = bakeBeadSprite();
     const spray = document.createElement("canvas");
@@ -205,32 +257,32 @@
     };
 
     const stampBead = (x, y, scale, alpha) => {
-      const s = (storm ? 2.9 : 2.4) * scale;
+      const s = (storm ? 2.15 : 2.4) * scale;
       sctx.globalAlpha = alpha;
       sctx.drawImage(beadSpr, x - s, y - s, s * 2, s * 2);
     };
 
     /**
-     * 参考片：卡片表面水珠密度明显高于天空。
-     * ~55% 微珠落在 UI 卡片矩形内，其余全屏偏中下。
+     * 参考片：卡片表面水珠密度高于天空，但忌糊成灰雾。
+     * 暴雨：中等密度、偏亮小珠；大雨沿用原比例。
      */
     const seedSpray = () => {
       clearSpray();
-      const dens = storm ? 3.2 : 1;
+      const dens = storm ? 1.45 : 1;
       const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.55));
-      const onUi = ledges.length ? Math.round(n * (storm ? 0.72 : 0.55)) : 0;
+      const onUi = ledges.length ? Math.round(n * (storm ? 0.62 : 0.55)) : 0;
       for (let i = 0; i < onUi; i += 1) {
         const p = pickInLedge(0.95);
         if (!p) break;
-        stampBead(p.x, p.y, rand(0.4, storm ? 1.45 : 0.9), rand(0.25, storm ? 0.7 : 0.48));
+        stampBead(p.x, p.y, rand(0.45, storm ? 1.05 : 0.9), rand(0.28, storm ? 0.55 : 0.48));
       }
       for (let i = onUi; i < n; i += 1) {
-        const yBias = Math.pow(Math.random(), 0.68);
+        const yBias = Math.pow(Math.random(), 0.72);
         stampBead(
           Math.random() * w,
           yBias * h,
-          rand(0.35, storm ? 1.35 : 0.85),
-          rand(0.16, storm ? 0.55 : 0.38),
+          rand(0.35, storm ? 0.95 : 0.85),
+          rand(0.14, storm ? 0.38 : 0.38),
         );
       }
       sctx.globalAlpha = 1;
@@ -254,13 +306,13 @@
 
     const spawnDrop = (opts2 = {}) => {
       const fromTop = !!opts2.fromTop;
-      const preferUi = opts2.preferUi !== false && !fromTop && ledges.length && Math.random() < (storm ? 0.75 : 0.62);
+      const preferUi = opts2.preferUi !== false && !fromTop && ledges.length && Math.random() < (storm ? 0.68 : 0.62);
       const ui = preferUi ? pickInLedge(0.85) : null;
-      const r = opts2.r ?? rand(storm ? 4.5 : 2.8, storm ? 12.5 : 7.2);
-      /* 暴雨：多数珠子带动量，形成持续下滑 */
+      const r = opts2.r ?? rand(storm ? 3.8 : 2.8, storm ? 9.5 : 7.2);
+      /* 暴雨：多数先粘附，再突然下滑（更像玻璃表面张力） */
       const momentum = opts2.momentum ?? (
         storm
-          ? (Math.random() < 0.72 ? rand(0.8, 3.2) : rand(0.05, 0.4))
+          ? (Math.random() < 0.28 ? rand(0.9, 2.4) : rand(0, 0.12))
           : (Math.random() < 0.18 ? rand(0.6, 1.8) : 0)
       );
       drops.push({
@@ -268,10 +320,10 @@
         y: fromTop ? rand(-40, -8) : (opts2.y ?? ui?.y ?? Math.random() * h),
         r,
         momentum,
-        vx: rand(storm ? -18 : -8, storm ? 18 : 8),
-        a: rand(0.58, storm ? 0.98 : 0.88),
-        spreadX: rand(0.04, storm ? 0.28 : 0.14),
-        spreadY: rand(0.03, storm ? 0.22 : 0.1),
+        vx: rand(storm ? -12 : -8, storm ? 12 : 8),
+        a: rand(0.62, storm ? 0.96 : 0.88),
+        spreadX: rand(0.04, storm ? 0.16 : 0.14),
+        spreadY: rand(0.03, storm ? 0.14 : 0.1),
         lastSpawn: 40,
         sprite: pickSprite(sprites, r),
         killed: false,
@@ -281,32 +333,38 @@
     const spawnLens = () => {
       if (!storm || !lensSprites.length) return;
       const spr = lensSprites[(Math.random() * lensSprites.length) | 0];
+      const preferUi = ledges.length && Math.random() < 0.55;
+      const ui = preferUi ? pickInLedge(0.7) : null;
       lenses.push({
-        x: rand(w * 0.04, w * 0.96),
-        y: rand(-h * 0.08, h * 0.4),
-        vx: rand(-10, 10),
-        vy: rand(36, 95),
-        life: rand(2.2, 5.5),
+        x: ui?.x ?? rand(w * 0.06, w * 0.94),
+        y: ui?.y ?? rand(h * 0.05, h * 0.55),
+        vx: rand(-6, 6),
+        vy: rand(0, 12),
+        life: rand(3.5, 7.5),
         age: 0,
-        a: rand(0.28, 0.62),
-        scale: rand(0.85, 1.7),
+        a: rand(0.42, 0.72),
+        scale: rand(0.7, 1.15),
         sprite: spr,
+        stuck: Math.random() < 0.65,
       });
     };
 
     const spawnFlow = () => {
-      if (!storm) return;
+      if (!storm || !rivuletSprites.length) return;
+      const spr = rivuletSprites[(Math.random() * rivuletSprites.length) | 0];
+      const preferUi = ledges.length && Math.random() < 0.5;
+      const ui = preferUi ? pickInLedge(0.4) : null;
       flows.push({
-        x: rand(0, w),
-        y: rand(-40, h * 0.35),
-        vx: rand(-8, 8),
-        vy: rand(55, 140),
-        w: rand(6, 22),
-        h: rand(40, 160),
-        a: rand(0.12, 0.32),
-        life: rand(1.8, 4.5),
+        x: ui?.x ?? rand(w * 0.04, w * 0.96),
+        y: ui?.y ?? rand(-30, h * 0.25),
+        vx: rand(-5, 5),
+        vy: rand(42, 95),
+        scale: rand(0.85, 1.35),
+        a: rand(0.28, 0.52),
+        life: rand(2.2, 4.8),
         age: 0,
         wobble: rand(0, Math.PI * 2),
+        sprite: spr,
       });
     };
 
@@ -318,8 +376,8 @@
       const n = Math.round(mainN * area);
       for (let i = 0; i < n; i += 1) spawnDrop();
       if (storm) {
-        for (let i = 0; i < 12; i += 1) spawnLens();
-        for (let i = 0; i < 22; i += 1) spawnFlow();
+        for (let i = 0; i < 5; i += 1) spawnLens();
+        for (let i = 0; i < 8; i += 1) spawnFlow();
       }
       sprayDirty = true;
     };
@@ -359,7 +417,7 @@
           if (dx * dx + dy * dy >= limR * limR) continue;
           const a1 = Math.PI * d1.r * d1.r;
           const a2 = Math.PI * d2.r * d2.r;
-          d1.r = Math.min(storm ? 14 : 10, Math.sqrt((a1 + a2 * 0.82) / Math.PI));
+          d1.r = Math.min(storm ? 11 : 10, Math.sqrt((a1 + a2 * 0.82) / Math.PI));
           d1.momentum += 1.15;
           d1.spreadX = Math.max(d1.spreadX, 0.24);
           d1.spreadY = Math.max(d1.spreadY, 0.15);
@@ -394,71 +452,72 @@
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.35);
       const target = Math.round(mainN * area * Math.max(0.55, aMul));
 
-      /* 持续补雾点（Codrops spray 层） */
+      /* 持续补雾点（Codrops spray 层）——暴雨放缓，避免糊屏 */
       mistAcc += dt * aMul;
-      const mistEvery = storm ? 0.028 : 0.12;
+      const mistEvery = storm ? 0.09 : 0.12;
       while (mistAcc > mistEvery) {
         mistAcc -= mistEvery;
-        const k = storm ? (5 + ((Math.random() * 12) | 0)) : (1 + ((Math.random() * 3) | 0));
+        const k = storm ? (2 + ((Math.random() * 4) | 0)) : (1 + ((Math.random() * 3) | 0));
         for (let i = 0; i < k; i += 1) {
-          const ui = ledges.length && Math.random() < 0.72 ? pickInLedge(0.92) : null;
+          const ui = ledges.length && Math.random() < 0.65 ? pickInLedge(0.92) : null;
           const x = ui?.x ?? Math.random() * w;
           const y = ui?.y ?? Math.pow(Math.random(), 0.65) * h;
-          stampBead(x, y, rand(0.3, storm ? 1.2 : 0.75), rand(0.18, storm ? 0.55 : 0.36) * aMul);
+          stampBead(x, y, rand(0.35, storm ? 0.9 : 0.75), rand(0.16, storm ? 0.36 : 0.36) * aMul);
         }
         sctx.globalAlpha = 1;
       }
 
       mergeAcc += dt;
-      if (mergeAcc > (storm ? 0.06 : 0.1)) {
+      if (mergeAcc > (storm ? 0.08 : 0.1)) {
         mergeAcc = 0;
         mergeDrops();
       }
 
-      const topEvery = storm ? 0.045 : 0.28;
+      const topEvery = storm ? 0.1 : 0.28;
       topSpawnAcc += dt * aMul;
-      while (topSpawnAcc > topEvery && drops.length < target + 40) {
+      while (topSpawnAcc > topEvery && drops.length < target + 28) {
         topSpawnAcc -= topEvery;
-        if (Math.random() < (storm ? 0.95 : 0.48)) {
+        if (Math.random() < (storm ? 0.7 : 0.48)) {
           spawnDrop({
             fromTop: true,
-            momentum: rand(0.5, storm ? 3.4 : 1.0),
-            r: rand(storm ? 4.5 : 2.6, storm ? 13 : 5.8),
+            momentum: rand(0.35, storm ? 2.0 : 1.0),
+            r: rand(storm ? 3.6 : 2.6, storm ? 9.2 : 5.8),
           });
         }
       }
 
       if (storm) {
         lensAcc += dt * aMul;
-        while (lensAcc > 0.22 && lenses.length < 24) {
-          lensAcc -= 0.22;
+        while (lensAcc > 0.55 && lenses.length < 8) {
+          lensAcc -= 0.55;
           spawnLens();
         }
         flowAcc += dt * aMul;
-        while (flowAcc > 0.1 && flows.length < 42) {
-          flowAcc -= 0.1;
+        while (flowAcc > 0.28 && flows.length < 14) {
+          flowAcc -= 0.28;
           spawnFlow();
         }
       }
 
       for (let i = drops.length - 1; i >= 0; i -= 1) {
         const d = drops[i];
-        const tension = storm ? 0.72 : 1.15;
-        if (Math.random() < (d.r / (100 * tension)) * dt * (storm ? 1.15 : 0.55)) {
-          d.momentum += rand(0.4, storm ? 2.6 : 1.6);
+        const tension = storm ? 0.95 : 1.15;
+        /* 粘附珠周期性 kick 下滑 */
+        if (Math.random() < (d.r / (100 * tension)) * dt * (storm ? 0.85 : 0.55)) {
+          d.momentum += rand(0.55, storm ? 2.1 : 1.6);
         }
 
         if (d.momentum > 0.08) {
-          const step = d.momentum * (storm ? 72 : 48) * dt;
+          const step = d.momentum * (storm ? 58 : 48) * dt;
           d.y += step;
-          d.x += d.vx * dt * 0.32 + Math.sin(d.y * 0.028 + d.r) * (storm ? 7 : 4.2) * dt;
-          d.momentum *= Math.pow(storm ? 0.965 : 0.94, dt * 60);
-          eraseSpray(d.x, d.y, d.r * 1.15, Math.min(storm ? 52 : 22, 8 + step * 2.4));
+          d.x += d.vx * dt * 0.28 + Math.sin(d.y * 0.028 + d.r) * (storm ? 4.5 : 4.2) * dt;
+          d.momentum *= Math.pow(storm ? 0.972 : 0.94, dt * 60);
+          eraseSpray(d.x, d.y, d.r * 1.05, Math.min(storm ? 36 : 22, 8 + step * 2.2));
           d.lastSpawn += dt * 60;
-          if (d.momentum > 0.35 && d.lastSpawn > (storm ? 7 : 14)) {
+          if (d.momentum > 0.35 && d.lastSpawn > (storm ? 10 : 14)) {
             d.lastSpawn = 0;
-            d.r *= 0.988;
-            stampBead(d.x + rand(-2, 2), d.y - d.r * rand(0.3, 1.1), rand(0.3, 0.7), 0.32 * aMul);
+            d.r *= 0.99;
+            stampBead(d.x + rand(-1.5, 1.5), d.y - d.r * rand(0.3, 1.0), rand(0.28, 0.55), 0.26 * aMul);
             sctx.globalAlpha = 1;
             d.sprite = pickSprite(sprites, d.r);
           }
@@ -476,7 +535,7 @@
       while (drops.length < target) spawnDrop();
       if (drops.length > target + 20) drops.length = target + 16;
 
-      /* 持续流动模糊泪痕 */
+      /* 细长泪痕：精灵绘制，擦出干净湿痕 */
       for (let i = flows.length - 1; i >= 0; i -= 1) {
         const f = flows[i];
         f.age += dt;
@@ -485,56 +544,52 @@
           flows.splice(i, 1);
           continue;
         }
-        f.wobble += dt * 2.4;
+        f.wobble += dt * 1.8;
         f.y += f.vy * dt;
-        f.x += f.vx * dt + Math.sin(f.wobble) * 10 * dt;
-        f.vy += 18 * dt;
-        f.h = Math.min(220, f.h + dt * 28);
-        ctx.save();
-        ctx.globalAlpha = f.a * aMul * clamp(p * 1.15, 0, 1);
-        try { ctx.filter = "blur(3.5px)"; } catch { /* ignore */ }
-        const g = ctx.createLinearGradient(f.x, f.y, f.x, f.y + f.h);
-        g.addColorStop(0, "rgba(230,242,255,0.55)");
-        g.addColorStop(0.35, "rgba(170,200,230,0.28)");
-        g.addColorStop(1, "rgba(90,120,160,0)");
-        ctx.fillStyle = g;
-        ctx.beginPath();
-        ctx.ellipse(f.x, f.y + f.h * 0.35, f.w * 0.45, f.h * 0.5, 0, 0, Math.PI * 2);
-        ctx.fill();
-        try { ctx.filter = "none"; } catch { /* ignore */ }
-        ctx.restore();
-        eraseSpray(f.x, f.y + f.h * 0.2, f.w * 0.35, f.h * 0.35);
+        f.x += f.vx * dt + Math.sin(f.wobble) * 6 * dt;
+        f.vy += 12 * dt;
+        const spr = f.sprite;
+        if (spr) {
+          const dw = spr.width * f.scale;
+          const dh = spr.height * f.scale;
+          ctx.globalAlpha = f.a * aMul * clamp(p * 1.1, 0, 1);
+          ctx.drawImage(spr, f.x - dw * 0.5, f.y, dw, dh);
+          eraseSpray(f.x, f.y + dh * 0.35, dw * 0.28, dh * 0.4);
+        }
       }
 
       for (let i = lenses.length - 1; i >= 0; i -= 1) {
         const L = lenses[i];
         L.age += dt;
         const p = 1 - L.age / L.life;
-        if (p <= 0) {
+        if (p <= 0 || L.y > h + 60) {
           lenses.splice(i, 1);
           continue;
         }
-        L.y += L.vy * dt;
-        L.x += L.vx * dt;
-        L.vy += 16 * dt;
+        if (L.stuck) {
+          if (Math.random() < 0.35 * dt) {
+            L.stuck = false;
+            L.vy = rand(28, 70);
+          }
+        } else {
+          L.y += L.vy * dt;
+          L.x += L.vx * dt;
+          L.vy += 22 * dt;
+        }
         const spr = L.sprite;
         if (spr) {
-          const dw = spr.width * 0.58 * L.scale;
-          const dh = spr.height * 0.58 * L.scale;
-          ctx.save();
-          ctx.globalAlpha = L.a * aMul * clamp(p * 1.25, 0, 1);
-          try { ctx.filter = "blur(3px)"; } catch { /* ignore */ }
-          ctx.drawImage(spr, L.x - dw * 0.5, L.y - dh * 0.35, dw, dh);
-          try { ctx.filter = "none"; } catch { /* ignore */ }
-          ctx.restore();
-          eraseSpray(L.x, L.y, dw * 0.22, dh * 0.25);
+          const dw = spr.width * 0.52 * L.scale;
+          const dh = spr.height * 0.52 * L.scale;
+          ctx.globalAlpha = L.a * aMul * clamp(p * 1.15, 0, 1);
+          ctx.drawImage(spr, L.x - dw * 0.5, L.y - dh * 0.4, dw, dh);
+          if (!L.stuck) eraseSpray(L.x, L.y, dw * 0.2, dh * 0.22);
         }
       }
 
-      ctx.globalAlpha = aMul * (storm ? 1 : 0.88);
+      ctx.globalAlpha = aMul * (storm ? 0.92 : 0.88);
       ctx.drawImage(spray, 0, 0, w, h);
       ctx.globalAlpha = 1;
-      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 1.05 : 1));
+      for (let i = 0; i < drops.length; i += 1) drawDrop(drops[i], aMul * (storm ? 1.08 : 1));
       ctx.globalAlpha = 1;
     };
 

@@ -246,33 +246,33 @@
       }
 
       strikeCount += 1;
-      const big = forceBig || Math.random() < 0.38;
+      const big = forceBig || Math.random() < 0.32;
       const main = buildStrike(w, h);
-      pushBolt(main, big ? 1.25 : 1, big ? 1.35 : 1);
-      ambient = Math.max(ambient, big ? rand(0.72, 1) : rand(0.48, 0.78));
-      sheetA = Math.max(sheetA, big ? rand(0.35, 0.55) : rand(0.12, 0.28));
+      pushBolt(main, big ? 1.2 : 1, big ? 1.25 : 1);
+      ambient = Math.max(ambient, big ? rand(0.55, 0.82) : rand(0.32, 0.55));
+      sheetA = Math.max(sheetA, big ? rand(0.14, 0.28) : rand(0.05, 0.12));
       flash.style.setProperty("--flash-x", `${(main.flashX / Math.max(w, 1)) * 100}%`);
       flash.style.setProperty("--flash-y", `${(main.flashY / Math.max(h, 1)) * 100}%`);
       flash.classList.add("is-on");
       flash.style.opacity = String(ambient);
       sheet.style.opacity = String(sheetA);
-      pulseBody(big ? 180 : 90);
+      pulseBody(big ? 140 : 70);
 
-      const bursts = big ? (2 + ((Math.random() * 3) | 0)) : (1 + ((Math.random() < 0.55) | 0));
+      const bursts = big ? (Math.random() < 0.55 ? 1 : 0) : 0;
       for (let i = 0; i < bursts; i += 1) {
         window.setTimeout(() => {
           if (!running) return;
           const sub = buildStrike(w, h);
-          pushBolt(sub, 0.85, 1.1);
-          ambient = Math.max(ambient, rand(0.4, 0.75));
-          sheetA = Math.max(sheetA, rand(0.15, 0.35));
+          pushBolt(sub, 0.8, 1.05);
+          ambient = Math.max(ambient, rand(0.28, 0.5));
+          sheetA = Math.max(sheetA, rand(0.06, 0.14));
           flash.style.opacity = String(ambient);
           sheet.style.opacity = String(sheetA);
           flash.classList.remove("is-on");
           void flash.offsetWidth;
           flash.classList.add("is-on");
-          pulseBody(70);
-        }, 35 + i * rand(45, 110));
+          pulseBody(60);
+        }, rand(50, 90));
       }
 
       playThunder(Math.hypot(main.flashX - w * 0.5, main.flashY - h * 0.12), big);
@@ -282,8 +282,8 @@
     const scheduleNext = () => {
       window.clearTimeout(strikeTimer);
       if (!running) return;
-      /* 高频雷击：约 0.9～3.2s */
-      const gap = rand(900, 3200);
+      /* 低频雷击：约 4.5～11s，更有节奏感 */
+      const gap = rand(4500, 11000);
       strikeTimer = window.setTimeout(() => strike(false), gap);
     };
 
@@ -361,7 +361,7 @@
         last = performance.now();
         raf = requestAnimationFrame(tick);
         /* 很快首击，营造进入即雷暴 */
-        strikeTimer = window.setTimeout(() => strike(true), rand(280, 700));
+        strikeTimer = window.setTimeout(() => strike(true), rand(1400, 2800));
       },
       stop() {
         running = false;
