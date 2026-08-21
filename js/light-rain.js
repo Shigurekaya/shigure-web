@@ -30,9 +30,9 @@
   }
 
   const QUALITY = {
-    low: { far: 40, mid: 52, near: 30, splashCap: 64, dprCap: 1.2, mist: 0.85 },
-    mid: { far: 64, mid: 88, near: 52, splashCap: 110, dprCap: 1.4, mist: 1 },
-    high: { far: 92, mid: 128, near: 72, splashCap: 150, dprCap: 1.6, mist: 1 },
+    low: { far: 70, mid: 95, near: 55, splashCap: 90, dprCap: 1.25, mist: 1 },
+    mid: { far: 110, mid: 150, near: 90, splashCap: 140, dprCap: 1.45, mist: 1 },
+    high: { far: 150, mid: 210, near: 120, splashCap: 200, dprCap: 1.65, mist: 1 },
   };
 
   function bakeSplashSprites() {
@@ -114,25 +114,25 @@
     const makeDrop = (layer) => {
       const spec = layer === "far"
         ? {
-          len: [7, 15],
-          speed: [88, 145],
-          alpha: [0.05, 0.13],
-          width: [0.55, 0.9],
+          len: [9, 18],
+          speed: [95, 155],
+          alpha: [0.12, 0.26],
+          width: [0.75, 1.15],
           drift: [8, 16],
         }
         : layer === "mid"
           ? {
-            len: [11, 22],
-            speed: [125, 205],
-            alpha: [0.1, 0.24],
-            width: [0.75, 1.15],
+            len: [13, 26],
+            speed: [130, 215],
+            alpha: [0.2, 0.4],
+            width: [0.95, 1.45],
             drift: [12, 22],
           }
           : {
-            len: [15, 30],
-            speed: [165, 275],
-            alpha: [0.18, 0.38],
-            width: [0.95, 1.55],
+            len: [18, 36],
+            speed: [170, 285],
+            alpha: [0.32, 0.58],
+            width: [1.15, 1.85],
             drift: [14, 26],
           };
       const roll = Math.random();
@@ -301,8 +301,8 @@
       const band = Math.min(48, h * 0.07);
       const g = ctx.createLinearGradient(0, h - band, 0, h);
       g.addColorStop(0, "rgba(160,185,220,0)");
-      g.addColorStop(0.55, `rgba(170,195,230,${0.045 * pulse})`);
-      g.addColorStop(1, `rgba(139,111,212,${0.06 * pulse})`);
+      g.addColorStop(0.45, `rgba(170,195,230,${0.09 * pulse})`);
+      g.addColorStop(1, `rgba(139,111,212,${0.11 * pulse})`);
       ctx.fillStyle = g;
       ctx.fillRect(0, h - band, w, band);
     };
@@ -328,15 +328,15 @@
 
       for (let i = 0; i < far.length; i += 1) {
         strokeDrop(far[i]);
-        stepDrop(far[i], dt, 0.22);
+        stepDrop(far[i], dt, 0.38);
       }
       for (let i = 0; i < mid.length; i += 1) {
         strokeDrop(mid[i]);
-        stepDrop(mid[i], dt, 0.4);
+        stepDrop(mid[i], dt, 0.58);
       }
       for (let i = 0; i < near.length; i += 1) {
         strokeDrop(near[i]);
-        stepDrop(near[i], dt, 0.62);
+        stepDrop(near[i], dt, 0.78);
       }
 
       /* 偶发地面涟漪 */
