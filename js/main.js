@@ -588,15 +588,16 @@ const Kaya = (() => {
     let last = performance.now();
     let w = window.innerWidth;
     let h = window.innerHeight;
-    let wind = storm ? 0.55 : 0.32;
+    let wind = storm ? 0.28 : 0.32;
     let windTarget = wind;
     let windTimer = 0;
     const area = clamp((w * h) / (1280 * 720), 0.7, 1.45);
     const layers = storm
       ? [
-        { n: Math.round(220 * area), len: [0.007, 0.014], speed: [1050, 1450], alpha: [0.08, 0.16], width: [0.55, 0.9], drift: 10 },
-        { n: Math.round(280 * area), len: [0.012, 0.024], speed: [1250, 1750], alpha: [0.14, 0.3], width: [0.8, 1.35], drift: 16 },
-        { n: Math.round(200 * area), len: [0.018, 0.036], speed: [1500, 2100], alpha: [0.26, 0.5], width: [1.15, 2.0], drift: 22 },
+        /* 对齐参考片：短密近竖直雨帘 */
+        { n: Math.round(380 * area), len: [0.004, 0.009], speed: [1200, 1700], alpha: [0.12, 0.22], width: [0.55, 0.95], drift: 6 },
+        { n: Math.round(420 * area), len: [0.006, 0.014], speed: [1400, 1950], alpha: [0.2, 0.4], width: [0.75, 1.3], drift: 9 },
+        { n: Math.round(300 * area), len: [0.008, 0.018], speed: [1600, 2200], alpha: [0.32, 0.58], width: [1.0, 1.7], drift: 12 },
       ]
       : [
         { n: Math.round(160 * area), len: [0.0065, 0.013], speed: [980, 1320], alpha: [0.07, 0.14], width: [0.5, 0.85], drift: 8 },

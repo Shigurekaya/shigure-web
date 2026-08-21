@@ -131,9 +131,9 @@
   }
 
   function streakCapFor(storm, phone) {
-    /* 暴雨此前与大雨同帽，STORM_MUL.streak 加不上；桌面暴雨放宽、手机仍克制 */
-    if (phone) return storm ? 880 : 720;
-    return storm ? 4200 : 2800;
+    /* 暴雨对齐参考片密雨帘：桌面大幅放宽；手机仍克制 */
+    if (phone) return storm ? 1100 : 720;
+    return storm ? 5600 : 2800;
   }
 
   function paintStormBg(canvas, w, h, storm) {
@@ -146,14 +146,15 @@
       canvas.height = th;
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = storm ? "#141c2c" : "#243448";
+    /* 参考片天空偏冷蓝灰（非纯黑），暴雨略深于大雨 */
+    ctx.fillStyle = storm ? "#1a283c" : "#243448";
     ctx.fillRect(0, 0, tw, th);
     const layers = storm
       ? [
-        { x: tw * 0.2, y: th * 0.28, r: tw * 0.58, c: "rgba(70,100,150,0.42)" },
-        { x: tw * 0.8, y: th * 0.2, r: tw * 0.52, c: "rgba(36,52,78,0.7)" },
-        { x: tw * 0.55, y: th * 0.72, r: tw * 0.6, c: "rgba(28,44,72,0.62)" },
-        { x: tw * 0.42, y: th * 0.1, r: tw * 0.4, c: "rgba(100,140,190,0.22)" },
+        { x: tw * 0.2, y: th * 0.26, r: tw * 0.62, c: "rgba(80,120,170,0.48)" },
+        { x: tw * 0.78, y: th * 0.18, r: tw * 0.55, c: "rgba(40,58,88,0.72)" },
+        { x: tw * 0.55, y: th * 0.72, r: tw * 0.62, c: "rgba(28,44,72,0.7)" },
+        { x: tw * 0.42, y: th * 0.08, r: tw * 0.46, c: "rgba(120,160,210,0.28)" },
       ]
       : [
         { x: tw * 0.22, y: th * 0.3, r: tw * 0.55, c: "rgba(90,125,170,0.55)" },
@@ -165,22 +166,25 @@
       const L = layers[i];
       const g = ctx.createRadialGradient(L.x, L.y, 0, L.x, L.y, L.r);
       g.addColorStop(0, L.c);
-      g.addColorStop(1, storm ? "rgba(14,20,36,0)" : "rgba(26,36,54,0)");
+      g.addColorStop(1, storm ? "rgba(18,28,44,0)" : "rgba(26,36,54,0)");
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, tw, th);
     }
     return canvas;
   }
 
-  /** 雷暴相对大雨的强度倍率（雨丝更密、风更乱、珠更大） */
+  /**
+   * 暴雨相对大雨（对齐小米天气大雨参考片）：
+   * 短密近竖直雨帘 + 更强贴屏水珠；风只做轻横移，勿大倾角。
+   */
   const STORM_MUL = {
-    streak: 1.65,
-    wind: 1.62,
-    speed: 1.38,
-    splash: 2.35,
-    glassMain: 1.55,
-    glassMicro: 1.75,
-    sizeMul: 1.42,
+    streak: 2.05,
+    wind: 1.28,
+    speed: 1.48,
+    splash: 2.85,
+    glassMain: 2.15,
+    glassMicro: 2.55,
+    sizeMul: 0.92,
   };
 
   /** 精致溅花精灵：柔边冠 + 亮核（参考片顶缘白簇） */
@@ -247,13 +251,13 @@
     }
     const mul = phone
       ? {
-        streak: 1.12,
-        wind: 1.2,
-        speed: 1.18,
-        splash: 1.05,
-        glassMain: 0.85,
-        glassMicro: 0.55,
-        sizeMul: 1.18,
+        streak: 1.35,
+        wind: 1.15,
+        speed: 1.28,
+        splash: 1.35,
+        glassMain: 1.35,
+        glassMicro: 1.2,
+        sizeMul: 0.95,
       }
       : STORM_MUL;
     q.streak = Math.round(q.streak * mul.streak);
@@ -264,12 +268,12 @@
     q.glassMicro = Math.round((q.glassMicro || 160) * mul.glassMicro);
     q.sizeMul = mul.sizeMul;
     if (phone) {
-      q.streak = Math.min(q.streak, 880);
-      q.dprCap = Math.min(q.dprCap, 1.1);
-      q.frameMs = 1000 / 20;
-      q.glassMain = Math.min(q.glassMain, 24);
-      q.glassMicro = Math.min(q.glassMicro, 180);
-      q.splashRate = Math.min(q.splashRate, 1.15);
+      q.streak = Math.min(q.streak, 1100);
+      q.dprCap = Math.min(q.dprCap, 1.15);
+      q.frameMs = 1000 / 24;
+      q.glassMain = Math.min(q.glassMain, 48);
+      q.glassMicro = Math.min(q.glassMicro, 360);
+      q.splashRate = Math.min(q.splashRate, 1.55);
     }
     if (q.glass && typeof q.glass === "object") {
       q.glass = {
@@ -367,12 +371,14 @@
 
     const gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, {
       count: Math.min(streakCount, maxStreak),
-      dprCap: phone ? Math.min(q0.dprCap, 1.1) : (storm ? Math.min(q0.dprCap, 1.5) : q0.dprCap),
+      dprCap: phone ? Math.min(q0.dprCap, 1.15) : (storm ? Math.min(q0.dprCap, 1.55) : q0.dprCap),
       wind: q0.wind,
       speedMul: q0.speedMul,
       wanderWind: storm,
-      tilt: storm ? (phone ? 0.12 : 0.18) : 0.085,
-      sizeMul: storm ? (q0.sizeMul || (phone ? 1.18 : STORM_MUL.sizeMul)) : 1,
+      /* 参考片近乎竖直；暴雨用 sheet 短密雨帘，勿用大倾角 */
+      tilt: storm ? (phone ? 0.055 : 0.06) : 0.085,
+      sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 1,
+      sheet: storm ? 1 : 0,
     });
 
     const useGpuStreaks = !!gpu;
@@ -391,10 +397,10 @@
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: glassMainN,
         micro: glassMicroN,
-        dprCap: phone ? 1.05 : Math.min(q0.dprCap, 1.5),
-        slideRatio: 0.3,
+        dprCap: phone ? 1.1 : Math.min(q0.dprCap, storm ? 1.6 : 1.5),
+        slideRatio: storm ? 0.42 : 0.3,
         storm,
-        lite: phone,
+        lite: phone && !storm,
       })
       : null;
     if (!glassDrops) glassDropCanvas.style.display = "none";
@@ -597,6 +603,8 @@
       gpu?.setWind?.(q.wind);
       gpu?.setSpeedMul?.(q.speedMul);
       gpu?.setSizeMul?.(storm ? (q.sizeMul || STORM_MUL.sizeMul) : 1);
+      gpu?.setSheet?.(storm ? 1 : 0);
+      gpu?.setTilt?.(storm ? (phone ? 0.055 : 0.06) : 0.085);
       glassDrops?.setCounts(q.glassMain || 34, q.glassMicro || 160);
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()

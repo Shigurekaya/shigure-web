@@ -285,21 +285,22 @@
      */
     const seedSpray = () => {
       clearSpray();
-      const dens = storm ? (lite ? 0.85 : 1.45) : 1;
-      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.55));
-      const onUi = ledges.length ? Math.round(n * (storm ? 0.62 : 0.55)) : 0;
+      /* 参考片贴屏水雾更密，暴雨再抬一档 */
+      const dens = storm ? (lite ? 1.35 : 2.15) : 1;
+      const n = Math.round(microN * dens * clamp((w * h) / (1280 * 720), 0.65, 1.7));
+      const onUi = ledges.length ? Math.round(n * (storm ? 0.7 : 0.55)) : 0;
       for (let i = 0; i < onUi; i += 1) {
         const p = pickInLedge(0.95);
         if (!p) break;
-        stampBead(p.x, p.y, rand(0.45, storm ? 1.05 : 0.9), rand(0.28, storm ? 0.55 : 0.48));
+        stampBead(p.x, p.y, rand(0.5, storm ? 1.35 : 0.9), rand(0.32, storm ? 0.7 : 0.48));
       }
       for (let i = onUi; i < n; i += 1) {
-        const yBias = Math.pow(Math.random(), 0.72);
+        const yBias = Math.pow(Math.random(), storm ? 0.58 : 0.72);
         stampBead(
           Math.random() * w,
           yBias * h,
-          rand(0.35, storm ? 0.95 : 0.85),
-          rand(0.14, storm ? 0.38 : 0.38),
+          rand(0.4, storm ? 1.2 : 0.85),
+          rand(0.16, storm ? 0.5 : 0.38),
         );
       }
       sctx.globalAlpha = 1;
@@ -471,19 +472,19 @@
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.35);
       const target = Math.round(mainN * area * Math.max(0.55, aMul));
 
-      /* 持续补雾点（Codrops spray 层）——暴雨放缓，避免糊屏 */
+      /* 持续补雾点——暴雨更密，贴近参考片贴屏水渍 */
       mistAcc += dt * aMul;
-      const mistEvery = storm ? (lite ? 0.16 : 0.09) : 0.12;
+      const mistEvery = storm ? (lite ? 0.08 : 0.045) : 0.12;
       while (mistAcc > mistEvery) {
         mistAcc -= mistEvery;
         const k = storm
-          ? (lite ? (1 + ((Math.random() * 2) | 0)) : (2 + ((Math.random() * 4) | 0)))
+          ? (lite ? (2 + ((Math.random() * 3) | 0)) : (4 + ((Math.random() * 6) | 0)))
           : (1 + ((Math.random() * 3) | 0));
         for (let i = 0; i < k; i += 1) {
-          const ui = ledges.length && Math.random() < 0.65 ? pickInLedge(0.92) : null;
+          const ui = ledges.length && Math.random() < (storm ? 0.72 : 0.65) ? pickInLedge(0.92) : null;
           const x = ui?.x ?? Math.random() * w;
-          const y = ui?.y ?? Math.pow(Math.random(), 0.65) * h;
-          stampBead(x, y, rand(0.35, storm ? 0.9 : 0.75), rand(0.16, storm ? 0.36 : 0.36) * aMul);
+          const y = ui?.y ?? Math.pow(Math.random(), storm ? 0.55 : 0.65) * h;
+          stampBead(x, y, rand(0.4, storm ? 1.15 : 0.75), rand(0.18, storm ? 0.48 : 0.36) * aMul);
         }
         sctx.globalAlpha = 1;
       }
@@ -509,13 +510,13 @@
 
       if (storm && !lite) {
         lensAcc += dt * aMul;
-        while (lensAcc > 0.55 && lenses.length < 8) {
-          lensAcc -= 0.55;
+        while (lensAcc > 0.32 && lenses.length < 14) {
+          lensAcc -= 0.32;
           spawnLens();
         }
         flowAcc += dt * aMul;
-        while (flowAcc > 0.28 && flows.length < 14) {
-          flowAcc -= 0.28;
+        while (flowAcc > 0.16 && flows.length < 22) {
+          flowAcc -= 0.16;
           spawnFlow();
         }
       }

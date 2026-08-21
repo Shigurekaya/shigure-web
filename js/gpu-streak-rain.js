@@ -15,8 +15,9 @@ uniform float uWind;
 uniform float uGust;
 uniform float uIntensity;
 uniform float uSpeedMul;
-uniform float uTilt; /* 水平倾角系数；雷暴更大以露出换向 */
-uniform float uSizeMul; /* 雨丝长短/粗细；暴雨 > 1 */
+uniform float uTilt; /* 水平倾角系数；阵风时略偏，暴雨雨帘保持近竖直 */
+uniform float uSizeMul; /* 雨丝长短/粗细 */
+uniform float uSheet; /* >0.5：小米天气式短密雨帘 */
 varying float vAlpha;
 varying float vEdge;
 varying float vLayer;
@@ -33,34 +34,49 @@ void main() {
   float h3 = hash(id * 5.17 + 11.9);
   float h4 = hash(id * 8.33 + 19.7);
   float hx = hash(id * 13.7 + 0.91);
-  float sm = max(uSizeMul, 0.85);
-  /* 远/中/近：近景略密，暴雨时近景再增 */
-  float nearCut = mix(0.8, 0.74, clamp((sm - 1.0) * 2.5, 0.0, 1.0));
-  float midCut = mix(0.46, 0.4, clamp((sm - 1.0) * 2.5, 0.0, 1.0));
+  float sm = max(uSizeMul, 0.7);
+  float sheet = clamp(uSheet, 0.0, 1.0);
+  /* 远/中/近：雨帘模式抬高近景占比，形成密白雨幕 */
+  float nearCut = mix(0.8, 0.7, sheet);
+  float midCut = mix(0.46, 0.34, sheet);
+  nearCut = mix(nearCut, mix(0.8, 0.74, clamp((sm - 1.0) * 2.5, 0.0, 1.0)), 1.0 - sheet);
+  midCut = mix(midCut, mix(0.46, 0.4, clamp((sm - 1.0) * 2.5, 0.0, 1.0)), 1.0 - sheet);
   float lp = hash(id * 2.17 + 0.4);
   float layer = lp < midCut ? 0.0 : (lp < nearCut ? 1.0 : 2.0);
-  /* 大雨参考：密而偏短的竖直丝，近景略长 */
-  float lenH = mix(0.0065, 0.0135, h1) * sm;
-  float speed = mix(1020.0, 1420.0, h2);
-  float alpha = mix(0.06, 0.15, h3) * mix(1.0, 1.18, clamp(sm - 1.0, 0.0, 1.0));
-  float widthPx = mix(0.5, 0.95, h1) * sm;
+  /* 默认大雨：密而偏短；sheet=暴雨参考片：更短更密的竖直短划 */
+  float lenH = mix(mix(0.0065, 0.0135, h1) * sm, mix(0.0045, 0.0095, h1), sheet);
+  float speed = mix(mix(1020.0, 1420.0, h2), mix(1180.0, 1680.0, h2), sheet);
+  float alpha = mix(
+    mix(0.06, 0.15, h3) * mix(1.0, 1.18, clamp(sm - 1.0, 0.0, 1.0)),
+    mix(0.1, 0.22, h3),
+    sheet
+  );
+  float widthPx = mix(mix(0.5, 0.95, h1) * sm, mix(0.55, 1.05, h1), sheet);
 
   if (layer > 0.5 && layer < 1.5) {
-    lenH = mix(0.01, 0.021, h1) * sm;
-    speed = mix(1180.0, 1640.0, h2);
-    alpha = mix(0.13, 0.3, h3) * mix(1.0, 1.22, clamp(sm - 1.0, 0.0, 1.0));
-    widthPx = mix(0.75, 1.3, h1) * sm;
+    lenH = mix(mix(0.01, 0.021, h1) * sm, mix(0.0065, 0.014, h1), sheet);
+    speed = mix(mix(1180.0, 1640.0, h2), mix(1320.0, 1880.0, h2), sheet);
+    alpha = mix(
+      mix(0.13, 0.3, h3) * mix(1.0, 1.22, clamp(sm - 1.0, 0.0, 1.0)),
+      mix(0.2, 0.4, h3),
+      sheet
+    );
+    widthPx = mix(mix(0.75, 1.3, h1) * sm, mix(0.8, 1.35, h1), sheet);
   } else if (layer > 1.5) {
-    lenH = mix(0.015, 0.034, h1) * sm;
-    speed = mix(1400.0, 1960.0, h2);
-    alpha = mix(0.24, 0.48, h3) * mix(1.0, 1.28, clamp(sm - 1.0, 0.0, 1.0));
-    widthPx = mix(1.1, 2.0, h1) * sm;
+    lenH = mix(mix(0.015, 0.034, h1) * sm, mix(0.009, 0.02, h1), sheet);
+    speed = mix(mix(1400.0, 1960.0, h2), mix(1500.0, 2100.0, h2), sheet);
+    alpha = mix(
+      mix(0.24, 0.48, h3) * mix(1.0, 1.28, clamp(sm - 1.0, 0.0, 1.0)),
+      mix(0.34, 0.62, h3),
+      sheet
+    );
+    widthPx = mix(mix(1.1, 2.0, h1) * sm, mix(1.05, 1.85, h1), sheet);
   }
 
   speed *= uSpeedMul;
   float resX = max(uRes.x, 1.0);
   float resY = max(uRes.y, 1.0);
-  float len = max(5.0, resY * lenH);
+  float len = max(4.0, resY * lenH);
 
   float x = hx * (resX + 56.0) - 28.0;
   float cycle = resY + len + 48.0;
@@ -69,8 +85,9 @@ void main() {
 
   float gust = uGust * mix(0.55, 1.35, h4);
   float windAmt = (uWind + gust) * mix(0.4, 1.15, h3);
-  /* uTilt：大雨偏竖直；雷暴加大以表现不规则换向 */
+  /* 雨帘模式压低倾角：阵风只做轻微横移，保持近竖直 */
   float tilt = uTilt > 0.001 ? uTilt : 0.08;
+  tilt *= mix(1.0, 0.32, sheet);
   vec2 dir = normalize(vec2(windAmt * tilt, 1.0));
   vec2 nrm = vec2(-dir.y, dir.x);
 
@@ -83,6 +100,7 @@ void main() {
   gl_Position = vec4(ndc, 0.0, 1.0);
 
   float layerMul = layer > 1.5 ? 1.0 : (layer > 0.5 ? 0.74 : 0.48);
+  layerMul = mix(layerMul, layer > 1.5 ? 1.12 : (layer > 0.5 ? 0.9 : 0.62), sheet);
   vAlpha = alpha * uIntensity * layerMul;
   vEdge = corner;
   vLayer = layer;
@@ -157,6 +175,7 @@ void main() {
    *   wanderWind?: boolean,
    *   tilt?: number,
    *   sizeMul?: number,
+   *   sheet?: number|boolean,
    * }} [opts]
    */
   function attach(canvas, opts = {}) {
@@ -185,6 +204,7 @@ void main() {
     const uSpeedMul = gl.getUniformLocation(prog, "uSpeedMul");
     const uTilt = gl.getUniformLocation(prog, "uTilt");
     const uSizeMul = gl.getUniformLocation(prog, "uSizeMul");
+    const uSheet = gl.getUniformLocation(prog, "uSheet");
 
     let count = Math.max(32, opts.count | 0 || 500);
     let speedMul = opts.speedMul ?? 1.16;
@@ -198,6 +218,7 @@ void main() {
     const wanderWind = !!opts.wanderWind;
     let tilt = opts.tilt ?? (wanderWind ? 0.14 : 0.08);
     let sizeMul = opts.sizeMul ?? 1;
+    let sheet = opts.sheet === true ? 1 : clamp(+opts.sheet || 0, 0, 1);
     let intensity = 1;
     let dprCap = opts.dprCap ?? 1.5;
     let w = 0;
@@ -261,7 +282,7 @@ void main() {
     };
 
     const setCount = (n) => {
-      count = clamp(n | 0, 48, 4800);
+      count = clamp(n | 0, 48, 6000);
       rebuildBuffer();
     };
 
@@ -324,6 +345,7 @@ void main() {
       gl.uniform1f(uSpeedMul, speedMul);
       gl.uniform1f(uTilt, tilt);
       gl.uniform1f(uSizeMul, sizeMul);
+      gl.uniform1f(uSheet, sheet);
 
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
       const stride = 12;
@@ -364,7 +386,8 @@ void main() {
       },
       getWind() { return windLive; },
       setTilt(v) { tilt = Math.max(0.04, v); },
-      setSizeMul(v) { sizeMul = Math.max(0.7, v); },
+      setSizeMul(v) { sizeMul = Math.max(0.55, v); },
+      setSheet(v) { sheet = clamp(+v || 0, 0, 1); },
       setSpeedMul(v) { speedMul = Math.max(0.2, v); },
       setFrameBudget(ms) { frameBudgetMs = ms; },
       setAdaptive(on) { adaptive = !!on; },
