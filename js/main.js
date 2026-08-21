@@ -264,9 +264,7 @@ const Kaya = (() => {
 
     const applyRainMode = () => {
       applyRainTheme(heavy);
-      /* 窄屏不启用全屏 overlay 层（玻璃珠/溅花），只靠背景雨丝 */
-      const useOverlay = heavy && !window.matchMedia("(max-width: 720px)").matches;
-      fx.classList.toggle("is-active", useOverlay);
+      fx.classList.toggle("is-active", heavy);
     };
 
     const ensureSplashNodes = (force = false) => {

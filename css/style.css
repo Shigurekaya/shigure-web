@@ -314,8 +314,8 @@ body.heavy-rain .link-card__icon {
 .site-fx {
   position: fixed;
   inset: 0;
-  /* 低于正文，避免手机全屏 canvas 不透明黑底盖死页面（只剩溅花） */
-  z-index: 1;
+  /* 高于正文以显示卡片溅花；低于顶栏；canvas 须透明（已去掉 desynchronized） */
+  z-index: 40;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
@@ -328,15 +328,6 @@ body.heavy-rain .link-card__icon {
 .site-fx.is-active {
   opacity: 1;
   visibility: visible;
-}
-
-/* 正文压在雨特效之上，保证可读 */
-.site-header,
-.home-main,
-.page-main,
-.site-footer {
-  position: relative;
-  z-index: 2;
 }
 
 .site-fx__mist {

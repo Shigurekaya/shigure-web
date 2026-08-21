@@ -227,14 +227,13 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* 手机/低端：不做全屏玻璃珠与溅花 overlay，只保留背景雨丝+雾，避免黑幕 */
-    const wantOverlayFx = !mobileLite;
-    if (!wantOverlayFx) {
-      splashCanvas.style.display = "none";
-      glassDropCanvas.style.display = "none";
-    }
+    /* 手机保留 UI 溅花；全屏玻璃珠仍关闭（易黑底） */
+    const wantSplash = true;
+    const wantGlass = !mobileLite && useGpuStreaks;
+    if (!wantSplash) splashCanvas.style.display = "none";
+    if (!wantGlass) glassDropCanvas.style.display = "none";
 
-    const glassDrops = wantOverlayFx && useGpuStreaks && window.KayaGlassDrops?.attach
+    const glassDrops = wantGlass && window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: q0.glassMain || 34,
         micro: q0.glassMicro || 160,
@@ -497,14 +496,14 @@
       if (intensity > 0.001) drawFallback(dt, intensity);
       glassDrops?.draw(dt);
 
-      if (!wantOverlayFx || !sctx || intensity <= 0.001) {
-        if (sctx && wantOverlayFx) sctx.clearRect(0, 0, w, h);
+      if (!wantSplash || !sctx || intensity <= 0.001) {
+        if (sctx && wantSplash) sctx.clearRect(0, 0, w, h);
         return;
       }
 
       sctx.clearRect(0, 0, w, h);
       const aMul = intensity;
-      const splashMul = QUALITY[quality].splashRate || 0.7;
+      const splashMul = (QUALITY[quality].splashRate || 0.7) * (mobileLite ? 0.85 : 1);
 
       if (scrolling) {
         splashes.length = 0;
