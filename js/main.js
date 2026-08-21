@@ -227,7 +227,7 @@ const Kaya = (() => {
     return heavy;
   }
 
-  function initSiteRain(host) {
+  function initSiteRain(host, heavyOverride) {
     if (!host) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -244,7 +244,8 @@ const Kaya = (() => {
     const bgCtx = bgCanvas.getContext("2d", { alpha: true });
     if (!bgCtx) return;
 
-    const heavy = pickInitialHeavy();
+    /* 与开场主题共用同一次抽签，避免 refresh 时抽两次不一致 */
+    const heavy = typeof heavyOverride === "boolean" ? heavyOverride : pickInitialHeavy();
     let running = true;
     let w = 0;
     let h = 0;
@@ -453,9 +454,9 @@ const Kaya = (() => {
     });
   }
 
-  function initCommon() {
+  function initCommon(rainHeavy) {
     initNav();
-    initSiteRain(document.querySelector(".site-bg"));
+    initSiteRain(document.querySelector(".site-bg"), rainHeavy);
     const y = document.getElementById("year");
     if (y) y.textContent = new Date().getFullYear();
   }
@@ -615,21 +616,41 @@ const Kaya = (() => {
     const ctx = canvas?.getContext("2d");
     if (!ctx) return Promise.resolve(() => {});
     const heavy = document.body.classList.contains("heavy-rain");
+    /* 正常约 2.1s；超时则跳过，避免手机端 canvas 尺寸为 0 时永远卡住 */
+    const LIQUID_HARD_MS = 3200;
+    const SIZE_WAIT_MS = 480;
 
     return new Promise((resolve) => {
+      let settled = false;
+      let raf = 0;
+      let running = true;
+      let hardTimer = 0;
+      let cleanup = () => {};
+
+      const finish = (stopFn) => {
+        if (settled) return;
+        settled = true;
+        running = false;
+        window.clearTimeout(hardTimer);
+        window.cancelAnimationFrame(raf);
+        try { cleanup(); } catch { /* ignore */ }
+        cleanup = () => {};
+        resolve(typeof stopFn === "function" ? stopFn : () => {});
+      };
+
+      hardTimer = window.setTimeout(() => finish(() => {}), LIQUID_HARD_MS);
+
       const img = new Image();
       img.decoding = "async";
       img.onload = () => {
-        let raf = 0;
-        let running = true;
-        let settled = false;
+        if (settled) return;
         const started = performance.now();
         const FILL_MS = 1550;
         const SETTLE_MS = 550;
         const mask = document.createElement("canvas");
         const mctx = mask.getContext("2d");
         if (!mctx) {
-          resolve(() => {});
+          finish(() => {});
           return;
         }
 
@@ -650,11 +671,28 @@ const Kaya = (() => {
           { x: 0.50, y: 0.22, delay: 0.18, grow: 0.68, seed: 2.4 },
         ];
 
+        const fallbackCssSize = () => {
+          const parent = canvas.parentElement;
+          const pr = parent?.getBoundingClientRect?.();
+          let cssW = pr?.width || 0;
+          let cssH = pr?.height || 0;
+          if (cssW < 2) cssW = Math.min(window.innerWidth * 0.86, 576) || 280;
+          if (cssH < 2) cssH = cssW * (440 / 1400);
+          return { cssW, cssH };
+        };
+
         const resize = () => {
-          const rect = canvas.getBoundingClientRect();
+          let rect = canvas.getBoundingClientRect();
+          let cssW = rect.width;
+          let cssH = rect.height;
+          if (cssW < 2 || cssH < 2) {
+            const fb = fallbackCssSize();
+            cssW = fb.cssW;
+            cssH = fb.cssH;
+          }
           const dpr = Math.min(window.devicePixelRatio || 1, 2);
-          const w = Math.max(1, Math.floor(rect.width * dpr));
-          const h = Math.max(1, Math.floor(rect.height * dpr));
+          const w = Math.max(1, Math.floor(cssW * dpr));
+          const h = Math.max(1, Math.floor(cssH * dpr));
           if (canvas.width !== w || canvas.height !== h) {
             canvas.width = w;
             canvas.height = h;
@@ -705,6 +743,7 @@ const Kaya = (() => {
         };
 
         const drawWord = (target, w, h) => {
+          if (!img.naturalWidth || !img.naturalHeight) return;
           const scale = Math.min(w / img.naturalWidth, h / img.naturalHeight);
           const dw = img.naturalWidth * scale;
           const dh = img.naturalHeight * scale;
@@ -722,17 +761,29 @@ const Kaya = (() => {
           target.restore();
         };
 
+        const stop = () => {
+          running = false;
+          window.cancelAnimationFrame(raf);
+          window.removeEventListener("resize", onResize);
+        };
+
         const paint = (now) => {
-          if (!running) return;
+          if (!running || settled) return;
           resize();
           const w = canvas.width;
           const h = canvas.height;
+          const elapsed = now - started;
+
+          /* 布局未就绪过久则放弃液体字，避免深色开场黑屏死锁 */
           if (w < 2 || h < 2) {
+            if (elapsed > SIZE_WAIT_MS) {
+              finish(stop);
+              return;
+            }
             raf = window.requestAnimationFrame(paint);
             return;
           }
 
-          const elapsed = now - started;
           const fillRaw = Math.min(1, elapsed / FILL_MS);
           const level = easeInOutCubic(fillRaw);
           const settleRaw = elapsed <= FILL_MS
@@ -741,15 +792,10 @@ const Kaya = (() => {
           const settle = easeInOutCubic(settleRaw);
           const t = elapsed / 1000;
 
-          if (!settled && settleRaw >= 1) {
-            settled = true;
+          if (settleRaw >= 1) {
             ctx.clearRect(0, 0, w, h);
             paintInkGlyph(ctx, w, h);
-            resolve(() => {
-              running = false;
-              window.cancelAnimationFrame(raf);
-              window.removeEventListener("resize", onResize);
-            });
+            finish(stop);
             return;
           }
 
@@ -808,10 +854,13 @@ const Kaya = (() => {
         };
 
         resize();
+        cleanup = () => {
+          window.removeEventListener("resize", onResize);
+        };
         window.addEventListener("resize", onResize, { passive: true });
         raf = window.requestAnimationFrame(paint);
       };
-      img.onerror = () => resolve(() => {});
+      img.onerror = () => finish(() => {});
       img.src = src;
     });
   }
@@ -839,45 +888,63 @@ const Kaya = (() => {
     const HOLD_MS = 250;
     const OUT_MS = 650;
     const REVEAL_DELAY = 140;
+    /* 液体字 + hold/out；超时强制收场，防止 ?storm 深色底黑屏 */
+    const INTRO_HARD_MS = 4200;
+    let finished = false;
+    let stopLiquid = null;
+    let hardTimer = 0;
+
+    const finishIntro = () => {
+      if (finished) return;
+      finished = true;
+      window.clearTimeout(hardTimer);
+      intro.classList.add("is-done");
+      window.setTimeout(() => {
+        document.body.classList.add("home-ready");
+      }, REVEAL_DELAY);
+      window.setTimeout(() => {
+        document.body.classList.remove("home-intro-playing");
+        stopRain();
+        try { stopLiquid?.(); } catch { /* ignore */ }
+        intro.remove();
+      }, OUT_MS);
+    };
+
+    hardTimer = window.setTimeout(finishIntro, INTRO_HARD_MS);
 
     startIntroLiquid(
       document.getElementById("intro-liquid"),
       "assets/images/script-en.png"
-    ).then((stopLiquid) => {
-      window.setTimeout(() => {
-        intro.classList.add("is-done");
-        window.setTimeout(() => {
-          document.body.classList.add("home-ready");
-        }, REVEAL_DELAY);
-        window.setTimeout(() => {
-          document.body.classList.remove("home-intro-playing");
-          stopRain();
-          stopLiquid?.();
-          intro.remove();
-        }, OUT_MS);
-      }, HOLD_MS);
+    ).then((stop) => {
+      stopLiquid = stop;
+      window.setTimeout(finishIntro, HOLD_MS);
+    }).catch(() => {
+      finishIntro();
     });
   }
 
   function initHome() {
     /* 开幕前先定雨模式，暴雨开场才能用冷蓝底+密雨丝 */
-    applyRainTheme(pickInitialHeavy());
+    const heavy = pickInitialHeavy();
+    applyRainTheme(heavy);
     initHomeIntro();
-    initCommon();
+    initCommon(heavy);
     initHero();
   }
 
   function initWorks() {
-    applyRainTheme(pickInitialHeavy());
-    initCommon();
+    const heavy = pickInitialHeavy();
+    applyRainTheme(heavy);
+    initCommon(heavy);
     renderGrid(document.getElementById("works-grid"), data().videos);
     refreshRainLedges();
     markPageReady();
   }
 
   function initLinks() {
-    applyRainTheme(pickInitialHeavy());
-    initCommon();
+    const heavy = pickInitialHeavy();
+    applyRainTheme(heavy);
+    initCommon(heavy);
     renderLinkCards(document.getElementById("link-cards"));
     refreshRainLedges();
     markPageReady();

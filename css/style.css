@@ -1195,6 +1195,8 @@ body.heavy-rain .home-intro__grain {
   max-width: 36rem;
   margin: 0 auto;
   aspect-ratio: 1400 / 440;
+  /* 无 aspect-ratio 时避免高度塌成 0，导致液体字 canvas 死锁 */
+  min-height: clamp(4.5rem, 22vw, 11rem);
   filter: drop-shadow(0 0 32px rgba(139, 111, 212, 0.2));
 }
 

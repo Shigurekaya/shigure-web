@@ -35,11 +35,11 @@ uv run --with httpx python scripts/scrape-fuyuu-bilibili.py
 
 成功时日志大致为：`[done] videos=N data_updated=YYYY.MM.DD`。
 
-本地预览（需从仓库根起服务，因页面使用 `/fuyuu/` 路径）：
+本地预览（需从仓库根起服务，因页面使用 `/fuyuu/` 路径；推荐 `serve-local.py`，支持 clean URL 且 HTML 不缓存）：
 
 ```powershell
-py -3 -m http.server 3000
-# 打开 http://localhost:3000/fuyuu/work/
+py -3 .\serve-local.py
+# 打开 http://127.0.0.1:3000/fuyuu/work/
 ```
 
 ## 提交并部署
