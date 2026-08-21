@@ -384,11 +384,9 @@ const Kaya = (() => {
         lightFx?.stop();
         return;
       }
-      if (!running) {
-        running = true;
-        if (heavy) ensureHeavyFx()?.start();
-        else ensureLightFx()?.start();
-      }
+      running = true;
+      if (heavy) ensureHeavyFx()?.start();
+      else ensureLightFx()?.start();
     };
 
     applyRainMode();

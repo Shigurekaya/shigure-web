@@ -314,14 +314,12 @@ body.heavy-rain .link-card__icon {
 .site-fx {
   position: fixed;
   inset: 0;
-  /* 高于正文以显示卡片溅花；低于顶栏；canvas 须透明（已去掉 desynchronized） */
-  z-index: 40;
+  /* 溅花盖在正文上；顶栏 sticky 仍为 100，菜单可点 */
+  z-index: 50;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.85s var(--ease), visibility 0.85s var(--ease);
-  transform: translateZ(0);
-  contain: strict;
   background: transparent;
 }
 
@@ -1344,6 +1342,7 @@ body.heavy-rain .home-intro__grain {
 .page-home .profile-roman,
 .page-home .profile-sign,
 .page-home .social-row,
+.page-home .intro-panel,
 .page-home .home-cards,
 .page-home .site-footer {
   opacity: 0;
@@ -1356,6 +1355,7 @@ body.heavy-rain .home-intro__grain {
 .page-home.home-ready .profile-roman,
 .page-home.home-ready .profile-sign,
 .page-home.home-ready .social-row,
+.page-home.home-ready .intro-panel,
 .page-home.home-ready .home-cards,
 .page-home.home-ready .site-footer,
 .page-home.home-ready .social-pill {
@@ -1368,6 +1368,7 @@ body.heavy-rain .home-intro__grain {
 .page-home.home-ready .profile-roman { animation: rise-in 0.7s var(--ease) 0.30s both; }
 .page-home.home-ready .profile-sign { animation: rise-in 0.7s var(--ease) 0.38s both; }
 .page-home.home-ready .social-row { animation: rise-in 0.7s var(--ease) 0.48s both; }
+.page-home.home-ready .intro-panel { animation: rise-in 0.7s var(--ease) 0.52s both; }
 .page-home.home-ready .home-cards { animation: rise-in 0.75s var(--ease) 0.58s both; }
 .page-home.home-ready .site-footer { animation: rise-in 0.7s var(--ease) 0.68s both; }
 
@@ -1464,6 +1465,7 @@ body.heavy-rain .home-intro__grain {
   .page-home .profile-roman,
   .page-home .profile-sign,
   .page-home .social-row,
+  .page-home .intro-panel,
   .page-home .home-cards,
   .page-home .site-footer,
   .page-home .social-pill,

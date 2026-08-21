@@ -211,6 +211,9 @@
     fxRoot.appendChild(glassDropCanvas);
 
     const sctx = splashCanvas.getContext("2d", { alpha: true });
+    if (sctx) {
+      splashCanvas.style.background = "transparent";
+    }
     const stormBg = document.createElement("canvas");
 
     const areaScale = clamp((window.innerWidth * window.innerHeight) / (1280 * 720), 0.7, 1.35);
@@ -227,13 +230,13 @@
 
     const useGpuStreaks = !!gpu;
 
-    /* 手机保留 UI 溅花；全屏玻璃珠仍关闭（易黑底） */
+    /* 溅花：全端开启（透明 canvas）。玻璃珠：仅桌面中高配，避免手机全屏黑底 */
     const wantSplash = true;
-    const wantGlass = !mobileLite && useGpuStreaks;
-    if (!wantSplash) splashCanvas.style.display = "none";
-    if (!wantGlass) glassDropCanvas.style.display = "none";
+    const wantGlassDrops = !mobileLite && useGpuStreaks;
+    splashCanvas.style.display = wantSplash ? "" : "none";
+    glassDropCanvas.style.display = wantGlassDrops ? "" : "none";
 
-    const glassDrops = wantGlass && window.KayaGlassDrops?.attach
+    const glassDrops = wantGlassDrops && window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: q0.glassMain || 34,
         micro: q0.glassMicro || 160,
@@ -266,7 +269,8 @@
     let glassReady = false;
     let glassFailed = false;
     let glassAnimating = false;
-    let wantGlass = !useGpuStreaks && QUALITY[quality].glass != null;
+    /* 无 GPU 时用 raindrop-fx 兜底（与 Canvas2D 玻璃珠互斥） */
+    let wantRaindropFx = !useGpuStreaks && QUALITY[quality].glass != null;
 
     /** @type {Array<any>} */
     const splashes = [];
@@ -334,7 +338,7 @@
     };
 
     const syncGlassOpacity = () => {
-      if (wantGlass) {
+      if (wantRaindropFx) {
         glassCanvas.style.display = "";
         glassCanvas.style.opacity = String(clamp(intensity * (glassReady ? 1 : 0), 0, 1));
       } else {
@@ -348,7 +352,7 @@
     };
 
     const ensureGlass = async () => {
-      if (!wantGlass || glassReady || glassFailed) return glassReady;
+      if (!wantRaindropFx || glassReady || glassFailed) return glassReady;
       if (!RaindropCtor || !bgHost) {
         glassFailed = true;
         return false;
@@ -403,7 +407,7 @@
       h = window.innerHeight;
       quality = detectQuality();
       const q = QUALITY[quality];
-      wantGlass = !useGpuStreaks && q.glass != null;
+      wantRaindropFx = !useGpuStreaks && q.glass != null;
       fitSplash();
       gpu?.resize(w, h);
       const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, 1.35));
@@ -581,19 +585,20 @@
           if (intensity <= 0) intensity = 0.02;
           t0 = performance.now();
           last = t0;
-          gpu?.start();
           raf = requestAnimationFrame(tick);
-          if (wantGlass) {
-            void ensureGlass().then((ok) => {
-              if (!ok || !running || targetIntensity <= 0) return;
-              if (!glassAnimating) {
-                try {
-                  glassFx.start();
-                  glassAnimating = true;
-                } catch { /* ignore */ }
-              }
-            });
-          }
+        }
+        /* 短切标签后 running 仍为 true 时也要拉起 GPU */
+        gpu?.start();
+        if (wantRaindropFx) {
+          void ensureGlass().then((ok) => {
+            if (!ok || !running || targetIntensity <= 0) return;
+            if (!glassAnimating) {
+              try {
+                glassFx.start();
+                glassAnimating = true;
+              } catch { /* ignore */ }
+            }
+          });
         }
       },
       stop() {
