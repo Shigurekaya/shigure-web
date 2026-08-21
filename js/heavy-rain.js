@@ -215,18 +215,26 @@
 
     const areaScale = clamp((window.innerWidth * window.innerHeight) / (1280 * 720), 0.7, 1.35);
     const streakCount = Math.round(q0.streak * areaScale);
+    const mobileLite = quality === "low"
+      || window.matchMedia("(max-width: 720px)").matches;
 
     const gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, {
-      count: streakCount,
-      dprCap: q0.dprCap,
+      count: mobileLite ? Math.min(streakCount, 900) : streakCount,
+      dprCap: mobileLite ? Math.min(q0.dprCap, 1.15) : q0.dprCap,
       wind: q0.wind,
       speedMul: q0.speedMul,
     });
 
     const useGpuStreaks = !!gpu;
 
-    /* GPU 雨丝开启时：用 Canvas2D 玻璃珠，避免第二 WebGL；低端机跳过以免全屏 canvas 黑底 */
-    const glassDrops = useGpuStreaks && quality !== "low" && window.KayaGlassDrops?.attach
+    /* 手机/低端：不做全屏玻璃珠与溅花 overlay，只保留背景雨丝+雾，避免黑幕 */
+    const wantOverlayFx = !mobileLite;
+    if (!wantOverlayFx) {
+      splashCanvas.style.display = "none";
+      glassDropCanvas.style.display = "none";
+    }
+
+    const glassDrops = wantOverlayFx && useGpuStreaks && window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
         main: q0.glassMain || 34,
         micro: q0.glassMicro || 160,
@@ -489,8 +497,8 @@
       if (intensity > 0.001) drawFallback(dt, intensity);
       glassDrops?.draw(dt);
 
-      if (!sctx || intensity <= 0.001) {
-        if (sctx) sctx.clearRect(0, 0, w, h);
+      if (!wantOverlayFx || !sctx || intensity <= 0.001) {
+        if (sctx && wantOverlayFx) sctx.clearRect(0, 0, w, h);
         return;
       }
 
