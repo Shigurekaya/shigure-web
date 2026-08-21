@@ -217,18 +217,18 @@ body.storm-rain .site-fx__rain-glass.is-on {
 }
 
 .site-bg__heavy-mist.is-on {
-  opacity: 0.45;
+  opacity: 0.28;
   animation: heavy-mist-drift 16s ease-in-out infinite alternate;
 }
 
 .site-bg__heavy-mist.is-storm.is-on {
-  opacity: 0.55;
+  opacity: 0.32;
   background:
-    radial-gradient(ellipse 88% 50% at 50% 2%, rgba(120, 165, 215, 0.16), transparent 74%),
-    radial-gradient(ellipse 50% 32% at 72% 20%, rgba(90, 130, 180, 0.1), transparent 70%),
-    radial-gradient(ellipse 95% 55% at 12% 84%, rgba(36, 54, 82, 0.18), transparent 70%),
-    radial-gradient(ellipse 72% 42% at 86% 68%, rgba(50, 78, 118, 0.12), transparent 66%),
-    linear-gradient(180deg, rgba(12, 22, 38, 0.16), transparent 36%, transparent 58%, rgba(8, 14, 26, 0.28));
+    radial-gradient(ellipse 88% 50% at 50% 2%, rgba(120, 165, 215, 0.12), transparent 74%),
+    radial-gradient(ellipse 50% 32% at 72% 20%, rgba(90, 130, 180, 0.08), transparent 70%),
+    radial-gradient(ellipse 95% 55% at 12% 84%, rgba(36, 54, 82, 0.12), transparent 70%),
+    radial-gradient(ellipse 72% 42% at 86% 68%, rgba(50, 78, 118, 0.08), transparent 66%),
+    linear-gradient(180deg, rgba(12, 22, 38, 0.1), transparent 36%, transparent 58%, rgba(8, 14, 26, 0.16));
 }
 
 @media (max-width: 720px) {

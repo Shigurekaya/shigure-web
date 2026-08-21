@@ -444,23 +444,20 @@
     const q0 = qualityFor(quality, storm, realPhone);
     const mobileLite = realPhone || quality === "low"
       || window.matchMedia("(max-width: 720px)").matches;
-    /* 贴屏真折射：html2canvas + raindrop-fx。
-     * 修复点：① 不与 GPU 雨丝双 WebGL ② 截图忽略全部 canvas（勿读黑 WebGL）
-     * ③ 玻璃层挂 site-fx 盖 UI ④ 截图过黑则回退 2D 珠 */
+    /* 贴屏 raindrop+html2canvas：即使用对截图也会把活 UI 换成暗糊底图（手机实测
+     * 对比度崩、发灰发黑）。已证伪，默认关闭；保留代码便于日后真活折射方案。
+     * 当前：GPU 雨丝 + site-fx 上清晰 2D 玻璃珠（文字保持锐利可读）。 */
     const h2cOk = typeof window.html2canvas === "function";
-    let useScreenGlass = !!(RaindropCtor && h2cOk);
-    let screenGlassDemoted = false;
+    let useScreenGlass = false;
+    let screenGlassDemoted = true;
+    void h2cOk;
+    void RaindropCtor;
 
     const glassCanvas = document.createElement("canvas");
     glassCanvas.setAttribute("aria-hidden", "true");
     glassCanvas.style.pointerEvents = "none";
-    if (useScreenGlass) {
-      glassCanvas.className = "site-fx__rain-glass";
-      fxRoot.appendChild(glassCanvas);
-    } else {
-      glassCanvas.className = "site-bg__glass";
-      if (bgHost) bgHost.appendChild(glassCanvas);
-    }
+    glassCanvas.className = "site-bg__glass";
+    if (bgHost) bgHost.appendChild(glassCanvas);
     glassCanvas.style.display = "none";
 
     const streakCanvas = document.createElement("canvas");
@@ -499,20 +496,17 @@
     const streakCount = Math.round(q0.streak * areaScale);
     const maxStreak = streakCapFor(storm, phone);
 
-    /* 贴屏折射占用唯一 WebGL：此时不用 GPU 雨丝，改 2D 雨丝 + 画进折射底图 */
-    const gpu = useScreenGlass
-      ? null
-      : window.KayaGpuStreakRain?.attach?.(streakCanvas, {
-        count: Math.min(streakCount, maxStreak),
-        dprCap: phone ? Math.min(q0.dprCap, 1.15) : (storm ? Math.min(q0.dprCap, 1.55) : q0.dprCap),
-        wind: q0.wind,
-        speedMul: q0.speedMul,
-        wanderWind: storm,
-        tilt: storm ? 0.05 : 0.065,
-        sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 0.96,
-        sheet: storm ? 1 : 0.85,
-        preserveDrawingBuffer: false,
-      });
+    const gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, {
+      count: Math.min(streakCount, maxStreak),
+      dprCap: realPhone ? Math.min(q0.dprCap, 1.2) : (storm ? Math.min(q0.dprCap, 1.55) : q0.dprCap),
+      wind: q0.wind,
+      speedMul: q0.speedMul,
+      wanderWind: storm,
+      tilt: storm ? 0.05 : 0.065,
+      sizeMul: storm ? (q0.sizeMul || STORM_MUL.sizeMul) : 0.96,
+      sheet: storm ? 1 : 0.85,
+      preserveDrawingBuffer: false,
+    });
 
     const useGpuStreaks = !!gpu;
 
@@ -574,8 +568,8 @@
     let glassReady = false;
     let glassFailed = false;
     let glassAnimating = false;
-    /* 贴屏折射优先；否则无 GPU 时背景 raindrop 兜底 */
-    let wantRaindropFx = (useScreenGlass || !useGpuStreaks)
+    /* 无 GPU 时才用背景 raindrop 兜底；贴屏折射已关闭 */
+    let wantRaindropFx = !useGpuStreaks && !useScreenGlass
       && !!RaindropCtor
       && qualityFor(quality, storm, realPhone).glass != null;
     /** 溅花 / 兜底雨丝跟随时风速（含符号） */
