@@ -24,20 +24,20 @@
     velocitySpread: 0.3,
     evaporate: 18,
     gravity: 3000,
-    mist: true,
-    mistColor: [0.02, 0.04, 0.08, 0.7],
+    mist: false,
+    mistColor: [0.18, 0.24, 0.32, 0.08],
     mistTime: 7,
     smoothRaindrop: [0.96, 1],
     refractBase: 0.34,
     refractScale: 0.52,
     raindropCompose: "smoother",
-    raindropLightPos: [-0.55, 1.05, 2.1, 0],
-    raindropDiffuseLight: [0.26, 0.3, 0.36],
-    raindropShadowOffset: 0.65,
+    raindropLightPos: [-0.4, 1.15, 2.4, 0],
+    raindropDiffuseLight: [0.42, 0.48, 0.55],
+    raindropShadowOffset: 0.32,
     raindropEraserSize: [0.93, 1],
-    raindropSpecularLight: [0.1, 0.13, 0.18],
-    raindropSpecularShininess: 48,
-    raindropLightBump: 0.45,
+    raindropSpecularLight: [0.35, 0.4, 0.48],
+    raindropSpecularShininess: 56,
+    raindropLightBump: 0.55,
   };
 
   const QUALITY = {
@@ -296,7 +296,7 @@
       ...(g && typeof g === "object" ? g : fallbackGlass),
     };
     if (storm) {
-      /* 贴屏：关掉冷凝灰雾，避免整屏灰蒙；水珠本身已够湿 */
+      /* 贴屏：关冷凝雾；提亮高光，避免水珠发黑 */
       opts.spawnSize = [22, 96];
       opts.slipRate = 0.94;
       opts.trailDropDensity = 0.36;
@@ -306,13 +306,14 @@
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
-      opts.mistColor = [0.02, 0.04, 0.07, 0.06];
-      opts.raindropSpecularLight = [0.28, 0.34, 0.42];
-      opts.raindropSpecularShininess = 80;
-      opts.raindropLightBump = 0.78;
-      opts.raindropDiffuseLight = [0.32, 0.36, 0.42];
+      opts.mistColor = [0.2, 0.28, 0.38, 0.05];
+      opts.raindropSpecularLight = [0.45, 0.52, 0.6];
+      opts.raindropSpecularShininess = 72;
+      opts.raindropLightBump = 0.72;
+      opts.raindropDiffuseLight = [0.48, 0.54, 0.62];
+      opts.raindropShadowOffset = 0.28;
     } else {
-      /* 大雨轻量贴屏：清透、少雾 */
+      /* 大雨轻量贴屏：清透、提亮 */
       opts.spawnSize = [16, 58];
       opts.slipRate = 0.88;
       opts.trailDropDensity = 0.2;
@@ -322,11 +323,12 @@
       opts.backgroundBlurSteps = 0;
       opts.mist = false;
       opts.mistBlurStep = 0;
-      opts.mistColor = [0.02, 0.04, 0.08, 0.05];
-      opts.raindropSpecularLight = [0.2, 0.26, 0.32];
+      opts.mistColor = [0.2, 0.28, 0.36, 0.04];
+      opts.raindropSpecularLight = [0.38, 0.44, 0.52];
       opts.raindropSpecularShininess = 64;
-      opts.raindropLightBump = 0.6;
-      opts.raindropDiffuseLight = [0.3, 0.34, 0.4];
+      opts.raindropLightBump = 0.62;
+      opts.raindropDiffuseLight = [0.46, 0.52, 0.58];
+      opts.raindropShadowOffset = 0.3;
       opts.spawnInterval = [0.04, 0.09];
       opts.spawnLimit = 900;
       opts.dropletsPerSeconds = 520;
@@ -618,12 +620,11 @@
         || cls.contains("site-fx__lightning")
         || cls.contains("site-fx__thunder-flash")
         || cls.contains("site-fx__thunder-sheet")
-        || cls.contains("site-bg__heavy")
         || cls.contains("site-bg__heavy-mist")
         || cls.contains("site-bg__glass");
     };
 
-    /** 贴屏：DOM 快照（无雨丝）+ 实时雨丝；非贴屏：天空+雨丝 */
+    /** 贴屏：先铺天空底，再叠页面快照。勿把 WebGL 雨丝 drawImage 进底图（预乘透明会整屏发黑） */
     const composeGlassBackground = (bw, bh) => {
       if (stormBg.width !== bw || stormBg.height !== bh) {
         stormBg.width = bw;
@@ -631,22 +632,19 @@
       }
       const bx = stormBg.getContext("2d");
       if (!bx) return stormBg;
+      paintStormBg(stormBg, bw, bh, storm);
       if (useScreenGlass && stormDomReady && stormDomBg.width > 2) {
         bx.setTransform(1, 0, 0, 1, 0, 0);
-        bx.clearRect(0, 0, bw, bh);
         bx.drawImage(stormDomBg, 0, 0, bw, bh);
-        if (streakCanvas.width > 2) {
-          bx.globalAlpha = storm ? 0.88 : 0.7;
-          bx.drawImage(streakCanvas, 0, 0, bw, bh);
-          bx.globalAlpha = 1;
-        }
         return stormBg;
       }
-      paintStormBg(stormBg, bw, bh, storm);
       if (streakCanvas.width > 2) {
-        bx.globalAlpha = storm ? 0.75 : 0.55;
-        bx.drawImage(streakCanvas, 0, 0, bw, bh);
-        bx.globalAlpha = 1;
+        /* 无 DOM 快照时才叠雨丝；用 destination-over 更安全，仍可能发暗，故仅兜底 */
+        try {
+          bx.globalAlpha = storm ? 0.55 : 0.4;
+          bx.drawImage(streakCanvas, 0, 0, bw, bh);
+          bx.globalAlpha = 1;
+        } catch { /* ignore */ }
       }
       return stormBg;
     };
@@ -659,13 +657,13 @@
       const prevGlass = glassCanvas.style.display;
       const prevSplash = splashCanvas.style.display;
       const prevDrops = glassDropCanvas.style.display;
-      const prevStreak = streakCanvas.style.display;
       const prevMist = mist.style.display;
+      /* 雨丝留在画面里给 html2canvas 读（preserveDrawingBuffer）；勿事后 WebGL→2D 合成 */
       glassCanvas.style.display = "none";
       splashCanvas.style.display = "none";
       glassDropCanvas.style.display = "none";
-      streakCanvas.style.display = "none";
       mist.style.display = "none";
+      const skyHex = storm ? "#1a283c" : "#243448";
       try {
         const scale = bw / Math.max(1, window.innerWidth);
         const shot = await h2c(document.documentElement, {
@@ -680,7 +678,8 @@
           scale,
           useCORS: true,
           allowTaint: true,
-          backgroundColor: null,
+          /* null 透明区进 WebGL 会变黑；铺天空色 */
+          backgroundColor: skyHex,
           logging: false,
           imageTimeout: 0,
           ignoreElements: ignoreCaptureEl,
@@ -692,7 +691,8 @@
         const dx = stormDomBg.getContext("2d");
         if (dx && shot) {
           dx.setTransform(1, 0, 0, 1, 0, 0);
-          dx.clearRect(0, 0, bw, bh);
+          dx.fillStyle = skyHex;
+          dx.fillRect(0, 0, bw, bh);
           dx.drawImage(shot, 0, 0, bw, bh);
           stormDomReady = true;
           lastDomCaptureAt = performance.now();
@@ -703,7 +703,6 @@
         glassCanvas.style.display = prevGlass;
         splashCanvas.style.display = prevSplash;
         glassDropCanvas.style.display = prevDrops;
-        streakCanvas.style.display = prevStreak;
         mist.style.display = prevMist;
         capturing = false;
       }
