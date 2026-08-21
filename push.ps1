@@ -56,8 +56,13 @@ git add -A
 git reset -- `
   "_rain_analysis/chrome_profile/" `
   "_rain_analysis/hi/" `
-  "_rain_analysis/node_modules/" `
+  "_rain_analysis/hires/" `
+  "_rain_analysis/ref/" `
+  "_rain_analysis/ref2/" `
+  "_rain_analysis/ref_full/" `
+  "_rain_analysis/strict_inventory/" `
   "_rain_analysis/effect_overlays/" `
+  "_rain_analysis/node_modules/" `
   "_rain_analysis/ref_audio.wav" `
   2>$null | Out-Null
 # 中间 iter 全页截图（保留 compare_* 与最新 iter34）
