@@ -237,12 +237,12 @@ body.storm-rain .site-fx__rain-glass.is-on {
   }
 
   .site-bg__heavy-mist.is-on {
-    opacity: 0.32;
+    opacity: 0.22;
     animation: none;
   }
 
   .site-bg__heavy-mist.is-storm.is-on {
-    opacity: 0.4;
+    opacity: 0.26;
   }
 }
 
@@ -403,7 +403,7 @@ body.storm-rain .site-bg__heavy {
 }
 
 body.storm-rain .site-bg__heavy-mist.is-storm.is-on {
-  opacity: 0.4;
+  opacity: 0.28;
 }
 
 body.storm-flash .site-bg {
