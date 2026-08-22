@@ -1,9 +1,8 @@
 /**
- * 时雨榧 · 雨后彩虹特效（写实向）
+ * 时雨榧 · 雨后彩虹特效
  *
- * 借鉴：krazydad HSL 柔边双虹 + zaur-world「破云光遇上 clearing」叙事
- *       + 本站 FBM 软云（大雨同族，低密度残云）。
- * 仅 URL / 会话强制：`?rainbow` / `/rainbow/`。
+ * 无太阳 · 澄澈冷蓝天空 · 不对称放大虹弧 · 残云 · 地面反光。
+ * 入口：`?rainbow` / `/rainbow/`。
  */
 (() => {
   const FRAME_MS = 1000 / 24;
@@ -12,8 +11,8 @@
     return Math.max(lo, Math.min(hi, n));
   }
 
-  function rand(a, b) {
-    return a + Math.random() * (b - a);
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
   }
 
   function isPhoneLike() {
@@ -56,7 +55,7 @@
     return a;
   }
 
-  /** 雨后残云：略灰、破开留缝 */
+  /** 雨后残云：顶暗边亮，中部留虹带空隙 */
   function bakeResidualClouds(cw, ch) {
     const off = document.createElement("canvas");
     off.width = cw;
@@ -70,19 +69,19 @@
       const ny = y / ch;
       for (let x = 0; x < cw; x += 1) {
         const nx = x / cw;
-        let d = fbm(nx * 2.6 + 0.4, ny * 3.8 + 1.2, 5);
-        d += 0.25 * fbm(nx * 8 - 1.5, ny * 2.2 + 2.8, 3);
-        /* 左侧破开：密度被压掉，露出阳光 */
-        const breakGap = clamp(1 - Math.exp(-Math.pow((nx - 0.22) / 0.28, 2)), 0, 1);
-        const envelope = 0.35 + 0.55 * Math.exp(-Math.pow((ny - 0.2) / 0.35, 2));
-        let dens = clamp((d - 0.5) / 0.34, 0, 1) * envelope * (0.35 + 0.65 * breakGap);
+        let d = fbm(nx * 2.4 + 0.5, ny * 3.6 + 1.0, 5);
+        d += 0.22 * fbm(nx * 7.5 - 1.2, ny * 2.4 + 2.5, 3);
+        /* 虹带上方留晴空：中部偏上压低云量 */
+        const rainbowGap = 1 - 0.55 * Math.exp(-Math.pow((nx - 0.5) / 0.38, 2)) * Math.exp(-Math.pow((ny - 0.22) / 0.28, 2));
+        const envelope = 0.3 + 0.6 * Math.exp(-Math.pow((ny - 0.14) / 0.38, 2));
+        let dens = clamp((d - 0.52) / 0.32, 0, 1) * envelope * rainbowGap;
         dens = dens * dens * (3 - 2 * dens);
 
-        const cool = 0.88 + 0.08 * (1 - dens);
-        const r = Math.round(210 * cool + 20);
-        const g = Math.round(220 * cool + 18);
-        const b = Math.round(235 * cool + 12);
-        const a = Math.round(255 * dens * 0.62);
+        const silver = clamp(1 - ny * 1.2, 0.4, 1);
+        const r = Math.round(lerp(175, 245, silver) + dens * 8);
+        const g = Math.round(lerp(188, 250, silver) + dens * 6);
+        const b = Math.round(lerp(210, 255, silver));
+        const a = Math.round(255 * dens * 0.58);
         const i = (y * cw + x) * 4;
         data[i] = r;
         data[i + 1] = g;
@@ -121,212 +120,174 @@
     let raf = 0;
     let last = 0;
     let t = 0;
-    /** @type {HTMLCanvasElement | null} */
     let cloudLayer = null;
     let bakeKey = "";
-    /** @type {Array<{x:number,y:number,vy:number,len:number,a:number,wind:number}>} */
-    let drips = [];
-
-    const rebuildDrips = () => {
-      drips = [];
-      const n = phone ? 10 : 22;
-      for (let i = 0; i < n; i += 1) {
-        drips.push({
-          x: rand(0.05, 0.95),
-          y: rand(0.2, 1.05),
-          vy: rand(22, 55),
-          len: rand(5, 14),
-          a: rand(0.035, 0.1),
-          wind: rand(0.2, 0.8),
-        });
-      }
-    };
 
     const bake = () => {
       const key = `${w}x${h}`;
-      const sizeChanged = key !== bakeKey;
-      if (!sizeChanged && cloudLayer) return;
+      if (key === bakeKey && cloudLayer) return;
       bakeKey = key;
-      const scale = phone ? 3.0 : 2.35;
+      const scale = phone ? 2.8 : 2.1;
       const cw = Math.max(96, Math.floor(w / scale));
       const ch = Math.max(64, Math.floor(h / scale));
       cloudLayer = bakeResidualClouds(cw, ch);
-      rebuildDrips();
     };
 
     const paintSky = () => {
-      /* 雨后略灰的澄澈蓝，比晴天冷一点 */
       const sky = ctx.createLinearGradient(0, 0, 0, h);
-      sky.addColorStop(0, "#4a7eae");
-      sky.addColorStop(0.25, "#6a9ec8");
-      sky.addColorStop(0.55, "#9bc0dc");
-      sky.addColorStop(0.8, "#c8dcec");
-      sky.addColorStop(1, "#e6eef6");
+      sky.addColorStop(0, "#3a5f82");
+      sky.addColorStop(0.2, "#527a9e");
+      sky.addColorStop(0.45, "#7a9ebf");
+      sky.addColorStop(0.68, "#a8c4d8");
+      sky.addColorStop(0.85, "#d0e2ee");
+      sky.addColorStop(1, "#eaf0f6");
       ctx.fillStyle = sky;
       ctx.fillRect(0, 0, w, h);
-    };
 
-    const paintSunBreak = () => {
-      /* 太阳在左上（彩虹在对面偏右）—— zaur 叙事 */
-      const sx = w * 0.18;
-      const sy = h * 0.14;
-      const R = Math.min(w, h) * 0.55;
-
-      ctx.save();
-      ctx.globalCompositeOperation = "screen";
-      const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, R);
-      glow.addColorStop(0, "rgba(255,248,220,0.72)");
-      glow.addColorStop(0.2, "rgba(255,236,180,0.32)");
-      glow.addColorStop(0.5, "rgba(190,220,255,0.1)");
-      glow.addColorStop(1, "rgba(180,210,240,0)");
-      ctx.fillStyle = glow;
+      /* 天顶微紫（雨后大气感），非太阳 */
+      const zen = ctx.createRadialGradient(w * 0.48, h * 0.08, 0, w * 0.5, h * 0.25, Math.max(w, h) * 0.7);
+      zen.addColorStop(0, "rgba(120,140,180,0.14)");
+      zen.addColorStop(0.5, "rgba(150,170,210,0.05)");
+      zen.addColorStop(1, "rgba(150,170,210,0)");
+      ctx.fillStyle = zen;
       ctx.fillRect(0, 0, w, h);
 
-      if (!phone) {
-        ctx.save();
-        const sway = Math.sin(t * 0.09) * 0.02;
-        ctx.translate(sx, sy);
-        ctx.rotate(0.35 + sway);
-        const beam = ctx.createLinearGradient(0, 0, w * 0.55, h * 0.5);
-        beam.addColorStop(0, "rgba(255,245,210,0.2)");
-        beam.addColorStop(0.4, "rgba(255,235,190,0.06)");
-        beam.addColorStop(1, "rgba(255,235,190,0)");
-        ctx.fillStyle = beam;
-        ctx.beginPath();
-        ctx.moveTo(0, -8);
-        ctx.lineTo(0, 8);
-        ctx.lineTo(w * 0.5, h * 0.55);
-        ctx.lineTo(w * 0.42, h * 0.62);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-      }
-      ctx.restore();
-
-      const coreR = Math.min(w, h) * 0.022;
-      const core = ctx.createRadialGradient(sx, sy, 0, sx, sy, coreR * 2.2);
-      core.addColorStop(0, "rgba(255,252,240,0.95)");
-      core.addColorStop(0.5, "rgba(255,230,150,0.45)");
-      core.addColorStop(1, "rgba(255,220,120,0)");
-      ctx.fillStyle = core;
-      ctx.beginPath();
-      ctx.arc(sx, sy, coreR * 2.2, 0, Math.PI * 2);
-      ctx.fill();
+      /* 虹弧后方漫射亮区（偏左，无日盘） */
+      const clear = ctx.createRadialGradient(w * 0.46, h * 0.32, 0, w * 0.48, h * 0.36, w * 0.45);
+      clear.addColorStop(0, "rgba(220,235,250,0.22)");
+      clear.addColorStop(0.6, "rgba(200,220,245,0.06)");
+      clear.addColorStop(1, "rgba(200,220,245,0)");
+      ctx.fillStyle = clear;
+      ctx.fillRect(0, 0, w, h);
     };
 
-    /**
-     * krazydad 式：HSL 细带 + 两端 alpha 衰减 + screen
-     * @param {number} cx
-     * @param {number} cy
-     * @param {number} rOuter
-     * @param {number} bandW
-     * @param {number} alphaMul
-     * @param {boolean} reverse 副虹色序相反
-     */
-    const paintBow = (cx, cy, rOuter, bandW, alphaMul, reverse) => {
-      const bands = phone ? 28 : 48;
-      const a0 = Math.PI * 1.06;
-      const a1 = Math.PI * 1.94;
-      const breath = 0.88 + 0.1 * Math.sin(t * 0.22);
+
+    const layoutRainbow = () => {
+      if (phone) {
+        const r0 = w * 2.1;
+        return {
+          cx: w * 0.5,
+          cy: h + r0 * 0.1,
+          r0,
+          band: Math.max(10, r0 * 0.04),
+          a0: Math.PI * 1.435,
+          a1: Math.PI * 1.565,
+        };
+      }
+      return {
+        cx: w * 0.48,
+        cy: h * 1.1,
+        r0: Math.min(w * 1.0, h * 1.0),
+        band: Math.max(12, Math.min(w, h) * 0.042),
+        a0: Math.PI * 1.36,
+        a1: Math.PI * 1.64,
+      };
+    };
+
+    /** 弧长方向两端渐隐，避免硬切 */
+    const arcFade = (u) => Math.pow(Math.sin(clamp(u, 0, 1) * Math.PI), 0.82);
+
+    const paintRainbow = () => {
+      const { cx, cy, r0, band, a0, a1 } = layoutRainbow();
+      const breath = 0.92 + 0.06 * Math.sin(t * 0.18);
+      const span = a1 - a0;
+      const arcSegs = phone ? 10 : 14;
+      const colorBands = phone ? 32 : 44;
 
       ctx.save();
       ctx.globalCompositeOperation = "screen";
-      ctx.lineCap = "butt";
-
-      for (let i = 0; i < bands; i += 1) {
-        const u = i / (bands - 1);
-        const hue = reverse ? (280 - u * 260) : (u * 260);
-        const radius = rOuter - u * bandW;
-        /* 虹带中间更亮，内外缘更淡 → 柔边雾虹 */
-        const edge = Math.sin(u * Math.PI);
-        const alpha = alphaMul * breath * (0.22 + 0.55 * edge * edge);
-
-        ctx.beginPath();
-        ctx.arc(cx, cy, Math.max(2, radius), a0, a1);
-        ctx.strokeStyle = `hsla(${hue}, 78%, ${reverse ? 62 : 58}%, ${alpha})`;
-        ctx.lineWidth = (bandW / bands) * 1.35;
-        ctx.stroke();
-      }
-
-      /* 内侧极淡白晕 */
-      ctx.beginPath();
-      ctx.arc(cx, cy, Math.max(2, rOuter - bandW - bandW * 0.08), a0 + 0.04, a1 - 0.04);
-      ctx.strokeStyle = `rgba(255,255,255,${0.06 * alphaMul * breath})`;
-      ctx.lineWidth = bandW * 0.12;
-      ctx.stroke();
+      const glow = ctx.createRadialGradient(cx, h * 0.22, 0, cx, h * 0.3, w * 0.42);
+      glow.addColorStop(0, `rgba(210,225,250,${0.08 + 0.03 * Math.sin(t * 0.2)})`);
+      glow.addColorStop(0.6, "rgba(190,210,245,0.03)");
+      glow.addColorStop(1, "rgba(190,210,245,0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h * 0.55);
       ctx.restore();
-    };
 
-    const paintRainbow = () => {
-      const cx = w * 0.58;
-      const cy = h * (phone ? 1.08 : 1.14);
-      const r0 = Math.min(w * 0.78, h * 1.05);
-      const band = Math.max(14, Math.min(w, h) * (phone ? 0.055 : 0.07));
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
 
-      paintBow(cx, cy, r0, band, phone ? 0.85 : 1, false);
+      for (let seg = 0; seg < arcSegs; seg += 1) {
+        const t0 = seg / arcSegs;
+        const t1 = (seg + 1) / arcSegs;
+        const fade = arcFade((t0 + t1) * 0.5);
+        if (fade < 0.02) continue;
+        const sa = a0 + span * t0;
+        const ea = a0 + span * t1;
 
-      /* 副虹：更淡、更外、色序反 */
-      if (!phone) {
-        const r2 = r0 + band * 1.35;
-        paintBow(cx, cy, r2, band * 0.72, 0.28, true);
+        for (let i = 0; i < colorBands; i += 1) {
+          const u = i / (colorBands - 1);
+          const hue = 10 + u * 262;
+          const radius = r0 - u * band;
+          const bandEdge = Math.pow(Math.sin(u * Math.PI), 1.1);
+          const alpha = breath * fade * (0.16 + 0.5 * bandEdge);
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, Math.max(2, radius), sa, ea);
+          ctx.strokeStyle = `hsla(${hue}, ${58 + u * 10}%, ${54 + u * 4}%, ${alpha})`;
+          ctx.lineWidth = (band / colorBands) * 2.0;
+          ctx.stroke();
+        }
       }
+
+      ctx.restore();
     };
 
     const paintClouds = () => {
       if (!cloudLayer) return;
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = "high";
-      const drift = (t * 5) % (w * 0.8);
-      ctx.globalAlpha = phone ? 0.55 : 0.68;
-      ctx.drawImage(cloudLayer, -w * 0.08 - drift * 0.06, -h * 0.02, w * 1.15, h * 0.62);
-      ctx.globalAlpha = 0.4;
-      ctx.drawImage(cloudLayer, w * 0.35 + drift * 0.04, h * 0.05, w * 0.75, h * 0.45);
+      const drift = (t * 3.5) % (w * 0.9);
+
+      ctx.globalAlpha = phone ? 0.2 : 0.26;
+      ctx.drawImage(cloudLayer, -w * 0.06 - drift * 0.05, -h * 0.03, w * 1.12, h * 0.42);
+      ctx.globalAlpha = 0.14;
+      ctx.drawImage(cloudLayer, w * 0.28 + drift * 0.035, h * 0.02, w * 0.78, h * 0.28);
       ctx.globalAlpha = 1;
     };
 
-    const paintDrips = (dt) => {
-      ctx.lineWidth = 1;
-      for (const d of drips) {
-        d.y += (d.vy / Math.max(h, 1)) * dt;
-        d.x += (d.wind * 8 * dt) / Math.max(w, 1);
-        if (d.y > 1.12) {
-          d.y = rand(-0.08, 0.15);
-          d.x = rand(0.05, 0.95);
-        }
-        const x = d.x * w;
-        const y = d.y * h;
-        ctx.strokeStyle = `rgba(200,218,235,${d.a})`;
+    const paintGround = () => {
+      const cx = w * 0.48;
+      const gy = h * 0.9;
+      const gr = w * 0.32;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      const bands = 10;
+      for (let i = 0; i < bands; i += 1) {
+        const u = i / (bands - 1);
+        const hue = u * 260;
+        const r = gr - u * gr * 0.3;
         ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + d.wind * 1.2, y + d.len);
+        ctx.arc(cx, gy, r, Math.PI * 0.95, Math.PI * 1.55);
+        ctx.strokeStyle = `hsla(${hue}, 55%, 62%, ${0.025 + 0.035 * (1 - Math.abs(u - 0.45) * 1.8)})`;
+        ctx.lineWidth = 3.5;
         ctx.stroke();
       }
-    };
+      ctx.restore();
 
-    const paintWet = () => {
-      const wet = ctx.createLinearGradient(0, h * 0.62, 0, h);
-      wet.addColorStop(0, "rgba(140,170,200,0)");
-      wet.addColorStop(0.5, "rgba(120,150,180,0.08)");
-      wet.addColorStop(1, "rgba(90,120,150,0.18)");
+      const wet = ctx.createLinearGradient(0, h * 0.68, 0, h);
+      wet.addColorStop(0, "rgba(130,155,180,0)");
+      wet.addColorStop(0.4, "rgba(110,140,170,0.06)");
+      wet.addColorStop(1, "rgba(90,115,145,0.16)");
       ctx.fillStyle = wet;
-      ctx.fillRect(0, h * 0.62, w, h * 0.38);
+      ctx.fillRect(0, h * 0.68, w, h * 0.32);
 
-      /* 空气湿雾 */
-      const fog = ctx.createRadialGradient(w * 0.5, h * 0.95, 0, w * 0.5, h, w * 0.55);
-      fog.addColorStop(0, "rgba(200,220,235,0.16)");
-      fog.addColorStop(1, "rgba(200,220,235,0)");
+      const fog = ctx.createRadialGradient(w * 0.5, h, 0, w * 0.5, h * 0.92, w * 0.5);
+      fog.addColorStop(0, "rgba(190,210,230,0.14)");
+      fog.addColorStop(1, "rgba(190,210,230,0)");
       ctx.fillStyle = fog;
-      ctx.fillRect(0, h * 0.55, w, h * 0.45);
+      ctx.fillRect(0, h * 0.6, w, h * 0.4);
     };
 
     const paint = (dt) => {
       t += dt;
       paintSky();
-      paintSunBreak();
       paintClouds();
       paintRainbow();
-      paintDrips(dt);
-      paintWet();
+      paintGround();
     };
 
     const loop = (now) => {
@@ -345,7 +306,7 @@
         cssW = Math.round(window.visualViewport.width);
         cssH = Math.round(window.visualViewport.height);
       }
-      dpr = Math.min(window.devicePixelRatio || 1, phone ? 1.2 : 1.5);
+      dpr = Math.min(window.devicePixelRatio || 1, phone ? 1.25 : 1.65);
       w = Math.max(1, Math.round(cssW));
       h = Math.max(1, Math.round(cssH));
       canvas.width = Math.round(w * dpr);

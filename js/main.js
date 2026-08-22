@@ -152,6 +152,8 @@ const Kaya = (() => {
 
   const HEAVY_RAIN_CHANCE = 0.1;
   const RAIN_MODE_KEY = "kaya-rain-mode";
+  /** 彩虹模式临时下线（恢复：改 false + 取消 HTML 中彩虹相关注释） */
+  const RAINBOW_TEMP_DISABLED = true;
   const SPLASH_SELECTORS = [
     ".intro-panel__body",
     ".home-card",
@@ -180,7 +182,17 @@ const Kaya = (() => {
       if (rain === "heavy" || q.has("heavy")) return "heavy";
       if (rain === "light" || q.has("light")) return "light";
       if (rain === "sunny" || rain === "clear" || q.has("sunny") || q.has("clear")) return "sunny";
-      if (rain === "rainbow" || rain === "after" || q.has("rainbow") || q.has("after")) return "rainbow";
+      if (!RAINBOW_TEMP_DISABLED) {
+        if (rain === "rainbow" || rain === "after" || q.has("rainbow") || q.has("after")) return "rainbow";
+      }
+
+      /* 短链页 /rainbow/ /sunny/ 等：部分静态服不会执行 html 内跳转 */
+      const path = normalizePathname(window.location.pathname);
+      if (path === "/storm") return "storm";
+      if (path === "/heavy") return "heavy";
+      if (path === "/light") return "light";
+      if (path === "/sunny") return "sunny";
+      if (!RAINBOW_TEMP_DISABLED && path === "/rainbow") return "rainbow";
     } catch { /* ignore */ }
     return null;
   }
@@ -197,11 +209,12 @@ const Kaya = (() => {
   /** 测试入口（雨/晴/彩虹）跳过开场，减轻首屏负担 */
   function forceSpecialWeatherFromUrl() {
     const m = forceRainFromUrl();
+    if (RAINBOW_TEMP_DISABLED && m === "rainbow") return false;
     return m === "heavy" || m === "storm" || m === "sunny" || m === "rainbow" || m === "light";
   }
 
   function isDryWeatherMode(mode) {
-    return mode === "sunny" || mode === "rainbow";
+    return mode === "sunny" || (!RAINBOW_TEMP_DISABLED && mode === "rainbow");
   }
 
   function navigationType() {
@@ -255,9 +268,9 @@ const Kaya = (() => {
 
     const saved = readStoredRainMode();
     const isReload = navigationType() === "reload";
-    if (!isReload && saved) return saved;
+    if (!isReload && saved && !(RAINBOW_TEMP_DISABLED && saved === "rainbow")) return saved;
     if (isReload && (saved === "sunny" || saved === "rainbow" || saved === "storm")) {
-      return saved;
+      if (!(RAINBOW_TEMP_DISABLED && saved === "rainbow")) return saved;
     }
 
     const heavy = Math.random() < HEAVY_RAIN_CHANCE;
@@ -1104,12 +1117,16 @@ const Kaya = (() => {
         : heavy
           ? "#243448"
           : sunny
-            ? "#8ec8f0"
+            ? "#7ab0d8"
             : rainbow
-              ? "#7eb0d8"
+              ? "#6a98c0"
               : "#f7f8fc";
       theme.setAttribute("content", color);
     }
+    document.querySelectorAll(".weather-preview a").forEach((a) => {
+      const key = ((a.getAttribute("href") || "").match(/\/([^/]+)\/?$/) || [])[1];
+      a.classList.toggle("is-current", key === mode);
+    });
   }
 
   function initHomeIntro() {

@@ -145,7 +145,7 @@ body.light-rain .site-bg__light-mist {
   animation: light-mist-drift 22s ease-in-out infinite alternate;
 }
 
-/* 晴天：Canvas 主视觉；CSS 只做极轻叠光，勿盖住 FBM 云 */
+/* 晴天：Canvas 主视觉；CSS 极轻叠光 */
 .site-bg__sunny {
   position: absolute;
   inset: 0;
@@ -164,62 +164,62 @@ body.light-rain .site-bg__light-mist {
   opacity: 0;
   transition: opacity 0.85s var(--ease);
   background:
-    radial-gradient(ellipse 55% 32% at 80% 12%, rgba(255, 244, 200, 0.14), transparent 72%),
-    linear-gradient(180deg, transparent 50%, rgba(255, 255, 255, 0.1) 100%);
+    radial-gradient(ellipse 48% 28% at 78% 14%, rgba(255, 248, 230, 0.08), transparent 72%),
+    linear-gradient(180deg, transparent 52%, rgba(255, 255, 255, 0.08) 100%);
   mix-blend-mode: soft-light;
 }
 
 .site-bg__sunny-haze.is-on {
   opacity: 1;
-  animation: sunny-haze-drift 32s ease-in-out infinite alternate;
+  animation: sunny-haze-drift 36s ease-in-out infinite alternate;
 }
 
 @keyframes sunny-haze-drift {
   0% { transform: translate3d(0, 0, 0) scale(1); }
-  100% { transform: translate3d(-0.6%, 0.5%, 0) scale(1.02); }
+  100% { transform: translate3d(-0.4%, 0.35%, 0) scale(1.015); }
 }
 
 body.sunny-sky .site-bg {
-  background: #5aade8;
+  background: #5a9fd4;
 }
 
 body.sunny-sky .site-bg::before {
-  opacity: 0.12;
-  filter: blur(56px) saturate(1.05);
-  animation: sunny-sky-drift 48s ease-in-out infinite alternate;
+  opacity: 0.08;
+  filter: blur(64px) saturate(1.02);
+  animation: sunny-sky-drift 52s ease-in-out infinite alternate;
   background:
-    radial-gradient(circle at 80% 14%, rgba(255, 240, 190, 0.5) 0%, transparent 42%),
-    radial-gradient(circle at 30% 70%, rgba(200, 230, 255, 0.25) 0%, transparent 45%);
+    radial-gradient(circle at 78% 16%, rgba(255, 245, 220, 0.35) 0%, transparent 40%),
+    radial-gradient(circle at 25% 75%, rgba(190, 220, 245, 0.2) 0%, transparent 48%);
 }
 
 body.sunny-sky .site-bg::after {
-  opacity: 0.18;
+  opacity: 0.14;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 28%, transparent 78%, rgba(247, 250, 255, 0.22) 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 30%, transparent 80%, rgba(250, 252, 255, 0.18) 100%);
 }
 
 @keyframes sunny-sky-drift {
-  0% { transform: translate3d(0, 0, 0) scale(1.02); }
-  100% { transform: translate3d(0.8%, -0.4%, 0) scale(1.04); }
+  0% { transform: translate3d(0, 0, 0) scale(1.01); }
+  100% { transform: translate3d(0.5%, -0.3%, 0) scale(1.03); }
 }
 
 body.sunny-sky {
-  --bg: #d2e8f6;
+  --bg: #d8eaf4;
   --ink: #1e2a38;
   --ink-soft: #4a5d72;
   --ink-faint: #7a8fa3;
-  --accent: #4f86cc;
-  --accent-deep: #3a6aad;
-  --accent-soft: rgba(79, 134, 204, 0.12);
-  --accent-ring: rgba(79, 134, 204, 0.3);
-  --bg-elevated: rgba(255, 255, 255, 0.72);
+  --accent: #4a82c4;
+  --accent-deep: #3568a8;
+  --accent-soft: rgba(74, 130, 196, 0.12);
+  --accent-ring: rgba(74, 130, 196, 0.28);
+  --bg-elevated: rgba(255, 255, 255, 0.74);
   --line: rgba(30, 42, 56, 0.08);
   --border: rgba(30, 42, 56, 0.1);
   color: var(--ink);
   background: var(--bg);
 }
 
-/* 雨后彩虹：Canvas 主视觉；雾层勿抢虹 */
+/* 雨后彩虹：无太阳；冷蓝 + 底部湿雾 */
 .site-bg__rainbow {
   position: absolute;
   inset: 0;
@@ -238,59 +238,107 @@ body.sunny-sky {
   opacity: 0;
   transition: opacity 0.85s var(--ease);
   background:
-    radial-gradient(ellipse 70% 28% at 18% 12%, rgba(255, 245, 210, 0.12), transparent 70%),
-    linear-gradient(180deg, transparent 58%, rgba(130, 160, 190, 0.1) 100%);
+    radial-gradient(ellipse 80% 32% at 50% 38%, rgba(200, 220, 245, 0.1), transparent 72%),
+    linear-gradient(180deg, transparent 55%, rgba(120, 150, 180, 0.12) 100%);
   mix-blend-mode: soft-light;
 }
 
 .site-bg__after-mist.is-on {
   opacity: 1;
-  animation: after-mist-drift 28s ease-in-out infinite alternate;
+  animation: after-mist-drift 32s ease-in-out infinite alternate;
 }
 
 @keyframes after-mist-drift {
   0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(0.6%, -0.4%, 0); }
+  100% { transform: translate3d(0.4%, -0.3%, 0); }
 }
 
 body.after-rain .site-bg {
-  background: #6a9ec8;
+  background: #5a8ab0;
 }
 
 body.after-rain .site-bg::before {
-  opacity: 0.14;
-  filter: blur(56px) saturate(1.08);
-  animation: after-sky-drift 42s ease-in-out infinite alternate;
+  opacity: 0.1;
+  filter: blur(60px) saturate(1.06);
+  animation: after-sky-drift 48s ease-in-out infinite alternate;
   background:
-    radial-gradient(circle at 18% 14%, rgba(255, 245, 210, 0.45) 0%, transparent 40%),
-    radial-gradient(circle at 70% 55%, rgba(160, 140, 220, 0.12) 0%, transparent 42%);
+    radial-gradient(circle at 50% 30%, rgba(180, 200, 230, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 72% 60%, rgba(150, 130, 200, 0.1) 0%, transparent 42%);
 }
 
 body.after-rain .site-bg::after {
-  opacity: 0.2;
+  opacity: 0.18;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 26%, transparent 70%, rgba(160, 185, 210, 0.18) 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 28%, transparent 68%, rgba(150, 175, 200, 0.2) 100%);
 }
 
 @keyframes after-sky-drift {
-  0% { transform: translate3d(0, 0, 0) scale(1.02); }
-  100% { transform: translate3d(-0.6%, 0.5%, 0) scale(1.03); }
+  0% { transform: translate3d(0, 0, 0) scale(1.01); }
+  100% { transform: translate3d(-0.4%, 0.4%, 0) scale(1.025); }
 }
 
 body.after-rain {
-  --bg: #c8dcec;
+  --bg: #c5d8e8;
   --ink: #1c2836;
   --ink-soft: #4a5e74;
   --ink-faint: #7a90a6;
-  --accent: #6e5fc8;
-  --accent-deep: #5344a8;
-  --accent-soft: rgba(110, 95, 200, 0.12);
-  --accent-ring: rgba(110, 95, 200, 0.28);
-  --bg-elevated: rgba(255, 255, 255, 0.7);
+  --accent: #6a5cc4;
+  --accent-deep: #5048a0;
+  --accent-soft: rgba(106, 92, 196, 0.12);
+  --accent-ring: rgba(106, 92, 196, 0.26);
+  --bg-elevated: rgba(255, 255, 255, 0.72);
   --line: rgba(28, 40, 54, 0.08);
   --border: rgba(28, 40, 54, 0.1);
   color: var(--ink);
   background: var(--bg);
+}
+
+/* 页脚天气预览（用户可随时切换查看） */
+.weather-preview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 0.65rem;
+  margin-top: 0.65rem;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  opacity: 0.42;
+  transition: opacity 0.35s var(--ease);
+}
+
+.site-footer:hover .weather-preview,
+.weather-preview:focus-within {
+  opacity: 0.78;
+}
+
+.weather-preview a {
+  color: var(--ink-faint);
+  text-decoration: none;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.weather-preview a:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.weather-preview a.is-current {
+  color: var(--accent);
+  font-weight: 500;
+  background: var(--accent-soft);
+}
+
+body.heavy-rain .weather-preview a,
+body.storm-rain .weather-preview a {
+  color: rgba(200, 215, 235, 0.55);
+}
+
+body.heavy-rain .weather-preview a:hover,
+body.storm-rain .weather-preview a:hover {
+  color: #e8eef8;
+  background: rgba(180, 200, 230, 0.12);
 }
 
 @media (max-width: 720px) {
