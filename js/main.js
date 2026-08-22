@@ -265,11 +265,25 @@ const Kaya = (() => {
     return "light";
   }
 
+  /** 同站从一个页面点到另一个（如主页 → 作品集），与 F5 刷新区分 */
+  function isSameSitePageNav() {
+    try {
+      const ref = document.referrer;
+      if (!ref) return false;
+      const refUrl = new URL(ref);
+      const here = new URL(window.location.href);
+      if (refUrl.origin !== here.origin) return false;
+      return normalizePathname(refUrl.pathname) !== normalizePathname(here.pathname);
+    } catch {
+      return false;
+    }
+  }
+
   /**
    * 天气模式：
    * - URL 强制优先（storm / sunny 仅强制，不参与抽签）
-   * - 站内导航沿用本次会话已选模式
-   * - 刷新：保留 storm / sunny；彩虹 / 小雨 / 大雨按 20% / 70% / 10% 重抽
+   * - 同站跨页（主页 ↔ 作品/链接）：始终沿用 session，避免晴/虹误变雨
+   * - 刷新：保留 storm / sunny / rainbow；小雨 / 大雨按 20% / 70% / 10% 重抽
    * @returns {"light"|"heavy"|"storm"|"sunny"|"rainbow"}
    */
   function pickInitialRainMode() {
@@ -281,8 +295,13 @@ const Kaya = (() => {
 
     const saved = readStoredRainMode();
     const isReload = navigationType() === "reload";
-    if (!isReload && saved && !(RAINBOW_TEMP_DISABLED && saved === "rainbow")) return saved;
-    if (isReload && (saved === "sunny" || saved === "storm")) return saved;
+    const keepSaved = saved && !(RAINBOW_TEMP_DISABLED && saved === "rainbow");
+
+    if (keepSaved) {
+      if (isSameSitePageNav()) return saved;
+      if (!isReload) return saved;
+      if (saved === "sunny" || saved === "rainbow" || saved === "storm") return saved;
+    }
 
     const mode = rollHomeWeather();
     writeStoredRainMode(mode);
