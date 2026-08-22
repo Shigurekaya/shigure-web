@@ -87,9 +87,10 @@ node _rain_analysis\capture-local2.mjs
 
 ## 7. 当前代码状态（推送点）
 
-- 自研积雨：`paintSelfSkyClouds` → `.site-bg__clouds`  
-- 贴屏银丝叠层：`.site-fx__streak-overlay` + `createBgStreakField`  
-- 截图冻结雨层：`window.__kayaFreezeFx`  
-- 最新本地截图标签：`iter34`  
+- 自研 FBM 积雨：`paintSelfSkyClouds`
+- 贴屏银丝：半分辨率叠层；勿双 WebGL / 勿双重 alpha
+- 最新截图：**iter55**（B 量化过；C/D 仍差）
+- 量化：`_rain_analysis/quant_pair.py`
+- HTML `?v=202608221425`
 
-**尚未与参考视频肉眼一致**，请从差距清单 A/B/C 继续。
+**尚未肉眼一致。** 优先差距 **C（雨丝软晕）**，再收 B 体积感 / D b150。

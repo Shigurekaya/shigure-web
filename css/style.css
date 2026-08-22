@@ -293,23 +293,23 @@ body,
 
 /* 大雨天空：自研 Canvas 积雨为主（禁止视频截帧）；CSS 仅淡氛围 */
 body.heavy-rain .site-bg {
-  background: #3a5166;
+  background: #526c84;
 }
 
 body.heavy-rain .site-bg::before {
-  filter: blur(56px) brightness(1.04) saturate(0.82);
-  opacity: 0.18;
+  filter: blur(42px) brightness(1.06) saturate(1.02);
+  opacity: 0.24;
   animation: heavy-sky-drift 48s ease-in-out infinite alternate;
   background:
-    radial-gradient(ellipse 120% 30% at 50% 20%, rgba(180, 198, 218, 0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 40% at 20% 60%, rgba(30, 44, 62, 0.4) 0%, transparent 70%),
-    radial-gradient(ellipse 90% 40% at 85% 70%, rgba(22, 34, 50, 0.35) 0%, transparent 70%);
+    radial-gradient(ellipse 110% 34% at 50% 22%, rgba(188, 210, 238, 0.44) 0%, transparent 68%),
+    radial-gradient(ellipse 80% 36% at 18% 58%, rgba(36, 52, 80, 0.24) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 36% at 88% 72%, rgba(26, 42, 68, 0.22) 0%, transparent 70%);
 }
 
 body.heavy-rain .site-bg::after {
-  opacity: 0.22;
+  opacity: 0.17;
   background:
-    linear-gradient(180deg, rgba(10, 16, 26, 0.18) 0%, transparent 30%, transparent 60%, rgba(8, 14, 22, 0.32) 100%);
+    linear-gradient(180deg, rgba(18, 28, 44, 0.08) 0%, transparent 26%, transparent 62%, rgba(16, 26, 40, 0.14) 100%);
 }
 
 @keyframes heavy-sky-drift {
@@ -318,7 +318,7 @@ body.heavy-rain .site-bg::after {
 }
 
 body.heavy-rain {
-  --bg: #3a5166;
+  --bg: #506a88;
   --ink: #e8eef8;
   --ink-soft: #c5d0e0;
   --ink-faint: #8a97ab;
@@ -326,7 +326,7 @@ body.heavy-rain {
   --accent-deep: #d4c6f8;
   --accent-soft: rgba(185, 166, 239, 0.18);
   --accent-ring: rgba(185, 166, 239, 0.35);
-  --bg-elevated: rgba(28, 40, 56, 0.55);
+  --bg-elevated: rgba(32, 46, 68, 0.52);
   --line: rgba(180, 200, 230, 0.18);
   --border: rgba(180, 200, 230, 0.22);
   --glass-blur: blur(14px) saturate(1.05);
@@ -340,8 +340,8 @@ body.heavy-rain .home-card,
 body.heavy-rain .work-card,
 body.heavy-rain .link-card,
 body.heavy-rain .footer-fuyuu {
-  border-color: rgba(180, 200, 230, 0.22);
-  box-shadow: 0 12px 40px rgba(4, 10, 22, 0.35);
+  border-color: rgba(180, 200, 230, 0.2);
+  box-shadow: 0 10px 30px rgba(4, 10, 22, 0.24);
 }
 
 body.heavy-rain .profile-avatar {
@@ -353,9 +353,31 @@ body.heavy-rain .profile-avatar::before {
   visibility: hidden;
 }
 
+body.heavy-rain .profile-hero {
+  filter: brightness(0.96);
+}
+
 body.heavy-rain .profile-avatar .avatar {
-  border-color: rgba(180, 200, 230, 0.22);
-  box-shadow: 0 14px 44px rgba(4, 10, 22, 0.4);
+  border-color: rgba(170, 190, 220, 0.12);
+  box-shadow: 0 8px 22px rgba(4, 10, 22, 0.16);
+  filter: brightness(0.7) saturate(0.82) contrast(0.93);
+}
+
+body.heavy-rain .profile-name {
+  color: rgba(236, 242, 248, 0.82);
+}
+
+body.heavy-rain .profile-roman {
+  color: rgba(186, 198, 216, 0.66);
+}
+
+body.heavy-rain .profile-sign {
+  color: rgba(202, 216, 230, 0.68);
+}
+
+body.heavy-rain .social-pill {
+  background: rgba(26, 38, 54, 0.36);
+  border-color: rgba(182, 198, 220, 0.12);
 }
 
 body.heavy-rain .site-nav a:hover {
@@ -516,6 +538,8 @@ body.heavy-rain .site-fx__glass-drops.is-clear-glass {
   opacity: 0;
   transition: opacity 0.75s var(--ease);
   background: transparent;
+  /* R24：微糊压硬针，对齐 REF 软晕银丝 */
+  filter: blur(0.65px);
 }
 
 body.heavy-rain .site-fx__streak-overlay.is-on,

@@ -1,9 +1,9 @@
 # 时雨大雨 · 差距清单（换机续作必读）
 
-> 更新日期：2026-08-21  
+> 更新日期：2026-08-22  
 > 对照 URL：本地 `http://127.0.0.1:3000/?rain=heavy`  
 > 线上：`https://shigure-web.vercel.app/?rain=heavy` / `https://www.shigurekaya.com/?heavy`  
-> 参考视频（本机路径，换机需自备）：`d:\d63123f5e68f97c298dea1bec5aad3a0.mp4`  
+> 参考视频（本机路径，换机需自备）：`d:\Documents\Tencent Files\2205003070\nt_qq\nt_data\Video\2026-08\Ori\d63123f5e68f97c298dea1bec5aad3a0.mp4`  
 > 硬约束：**天空自研模仿，禁止视频截帧作底图**
 
 配套文档：
@@ -27,39 +27,38 @@
 | 维度 | 参考表现 |
 |------|----------|
 | 雨势 | 中密大雨，非暴雨白幕；银丝可辨 |
-| 密度 | 远淡近亮分层；横向覆盖广（bright_cols≈0.47） |
+| 密度 | 远淡近亮分层；横向覆盖广 |
 | 方向 | 近竖直，轻倾角（约 2–6°） |
 | 速度 | 偏快短针感 |
 | 形态 | **细针 + 软晕运动模糊**；贴屏小珠 + 竖泪痕 |
 | 忌讳 | 硬针白帘、粗胶囊块、大虚焦圆斑、视频截帧天空 |
 | 光影 | 冷灰蓝积雨；层状云起伏；中部略亮但无强 bloom |
-| 音效 | 参考片可有雨声；站点非硬门槛 |
 | UI | 只对齐雨氛围，不抄小米天气 UI |
 
 ---
 
-## 3. 当前差距（相对 iter34）
+## 3. 当前差距（相对 iter55）
 
 | ID | 差距 | 严重度 | 状态 | 建议下一步 |
 |----|------|--------|------|------------|
-| A | 整体偏暗：mean **72.5** vs REF **86.4** | 高 | 未达标 | 抬亮自研天空底色与中缝，勿只加雨丝白 |
-| B | 积雨云体对比仍弱，肉眼仍偏「渐变+糊」 | 高 | 未达标 | 强化 `paintSelfSkyClouds` 暗团/亮缝；降 CSS `::before` 洗白 |
-| C | 雨丝密度/景深/节奏未跟帧 | 高 | 未达标 | 叠层细针+软晕；对照 `compare_*_sky.png` |
-| D | 贴屏珠过亮热点 b150 **0.030** vs REF **0.018** | 中 | 控中 | 少冷凝、小 spawnSize；勿大 soft bokeh |
-| E | 顶缘溅花已加强，待肉眼确认 | 中 | 待确认 | 大雨页卡片顶缘看白簇 |
-| F | 中心亮缝/头像后 bloom 曾过强 | 中 | 已压一版 | 勿再把中缝 alpha 拉回 >0.5 |
-| G | ~~视频截帧天空~~ | — | **已禁** | 只用 CSS + `site-bg__clouds` Canvas |
+| A | 整体亮度 mean **88.1** vs REF **87.1** | 高 | **达标** | 维持 82–92 |
+| B | 积雨：量化接近，肉眼体积感仍弱 | 高 | **量化过 / 肉眼控中** | 云缘高光/暗底更硬；忌再压 mean |
+| C | 雨丝仍略粗硬于 REF 软晕 | 高 | **主矛盾** | 更细芯 + 更强半分辨率软化；忌白帘 |
+| D | b150 **0.042** vs REF **0.034** | 中 | 控中 | 已减冷凝；热点或来自丝/头像 |
+| E | 顶缘溅花 | 中 | 待确认 | 卡片顶缘看白簇 |
+| F | 中缝 bloom | 中 | 已压 | alpha ≤0.5 |
+| G | ~~视频截帧天空~~ | — | **已禁** | FBM Canvas |
 
-### 量化锚点
+### 量化锚点（`quant_pair.py`）
 
-| 指标 | REF (frame_010) | iter32 | iter33 | iter34 |
-|------|-----------------|--------|--------|--------|
-| mean | 86.4 | 75.5 | 75.4 | **72.5** |
-| sky | 83.1 | 79.1 | 77.5 | 76.1 |
-| sat | 0.423 | 0.360 | 0.378 | 0.392 |
-| b150 | 0.018 | 0.030 | 0.030 | 0.030 |
+| 指标 | REF | i52 | i53 | i54 | i55 |
+|------|-----|-----|-----|-----|-----|
+| mean | 87.1 | 84.3 | **89.1** | 88.1 | **88.1** |
+| sky | 95.9 | 88.2 | **95.5** | 94.3 | **94.2** |
+| sat | 0.426 | 0.450 | **0.412** | 0.415 | **0.415** |
+| b150 | 0.034 | 0.042 | 0.041 | 0.042 | **0.042** |
 
-截图：`_rain_analysis/local/iter34.png`、`compare_iter33_sky.png`
+截图：`_rain_analysis/local/iter55.png`、`compare_iter55_sky.png`
 
 ---
 
@@ -67,49 +66,43 @@
 
 ```
 site-bg
-  ├─ CSS 底色 / ::before 淡氛围
-  ├─ .site-bg__clouds     ← paintSelfSkyClouds（自研积雨，禁视频底）
-  ├─ .site-bg__heavy      ← GPU 雨丝（贴屏成功时通常不占）
+  ├─ CSS 底色 / ::before
+  ├─ .site-bg__clouds     ← paintSelfSkyClouds（FBM，禁视频底）
+  ├─ .site-bg__heavy      ← GPU（贴屏成功时通常不占）
   └─ .site-bg__heavy-mist
 site-fx
-  ├─ .site-fx__rain-glass ← raindrop-fx 贴屏折射
-  ├─ .site-fx__streak-overlay ← Canvas2D 银丝叠层（贴屏时主可见雨）
-  ├─ .site-fx__glass-drops ← demote 回退 2D 珠
-  └─ .site-fx__splash     ← 卡片顶缘溅花
+  ├─ .site-fx__rain-glass ← raindrop-fx（z6）
+  ├─ .site-fx__streak-overlay ← 半分辨率银丝（z7）
+  ├─ .site-fx__glass-drops
+  └─ .site-fx__splash
 ```
-
-关键文件：
 
 | 文件 | 职责 |
 |------|------|
-| `js/heavy-rain.js` | 编排、天空、叠层丝、溅花、贴屏参数 |
-| `js/gpu-streak-rain.js` | WebGL 雨丝（demote 后） |
-| `js/glass-drops.js` | 2D 珠回退 |
-| `css/style.css` | `body.heavy-rain` 天空/层级 |
-| `index.html` | `?v=` 缓存戳 |
+| `js/heavy-rain.js` | 天空 / 叠层丝 / 贴屏参数 |
+| `css/style.css` | `body.heavy-rain` |
+| `index.html` | `?v=` |
+| `_rain_analysis/quant_pair.py` | 量化 |
 
 ---
 
-## 5. 已证伪（勿再开）
+## 5. 已证伪
 
-详见 [rain-glass-session-2026-08-21.md](./rain-glass-session-2026-08-21.md)：
-
-1. 黑底 + `mix-blend-mode: screen` → 整页黑布  
-2. 贴屏时同时创建 GPU 雨丝 WebGL → 手机 demote  
+1. 黑底 + `mix-blend-mode: screen`  
+2. 贴屏 + 第二 WebGL 雨丝  
 3. 库默认 mist / 高 shadow → 墨团  
-4. 过密细针 + 叠层 opacity 过高 → 白帘  
-5. 近景粗胶囊芯 → 像精灵块非雨丝  
+4. 过密硬针 / 粗胶囊  
+5. 叠层 CSS×canvas 双重 opacity → 雨丝过淡  
 
 ---
 
-## 6. 下一轮优先顺序
+## 6. 下一轮优先
 
-1. **抬亮整体**（mean→~84–88），同时保持云体起伏  
-2. **跟帧雨丝**：细、软晕、横向覆盖，忌硬针/粗胶囊  
-3. **压 b150**：珠更少更小更透  
-4. **顶缘溅花**肉眼确认  
-5. 每改一轮：`node _rain_analysis/capture-local2.mjs` + 三联对照图  
+1. **C 雨丝软晕**：更细、更软，对齐 REF 运动模糊银丝  
+2. **B 肉眼体积**：云缘亮边/暗底再硬一点（守 mean/sky）  
+3. **D b150**：继续少珠/低高光  
+4. 每轮：`capture-local2.mjs` + `quant_pair.py`
 
 ---
 
-*本清单与进度文档同步维护；换机后先读 `rain-handoff.md`。*
+*换机先读 `rain-handoff.md`。*

@@ -9,8 +9,8 @@ mkdirSync(outDir, { recursive: true });
 
 const url = process.env.RAIN_URL || "http://127.0.0.1:3000/?rain=heavy";
 const tag = process.env.RAIN_TAG || "shot";
-const width = Number(process.env.RAIN_W || 1280);
-const height = Number(process.env.RAIN_H || 900);
+const width = Number(process.env.RAIN_W || 390);
+const height = Number(process.env.RAIN_H || 844);
 
 const browser = await chromium.launch({
   headless: true,
@@ -57,78 +57,38 @@ for (let i = 0; i < 48; i += 1) {
     break;
   }
 }
-/* 等珠 spawn / 下滑积累，再截图 */
-await page.waitForTimeout(3500);
+await page.waitForTimeout(4000);
 
 const shotPath = join(outDir, `${tag}.png`);
 await page.screenshot({ path: shotPath, fullPage: false });
 
-/* 单独截玻璃层（WebGL canvas 元素） */
-let glassShot = null;
-try {
-  const glass = page.locator(".site-fx__rain-glass");
-  if (await glass.count()) {
-    glassShot = join(outDir, `${tag}_glass.png`);
-    await glass.screenshot({ path: glassShot });
-  }
-} catch (err) {
-  console.log("glass screenshot failed", String(err).slice(0, 200));
-}
-
-/* 单独截背景层（DOM + 天空，隐藏全部雨效层） */
-let bgShot = null;
-try {
-  await page.evaluate(() => {
-    window.__kayaFreezeFx = true;
-    document.querySelectorAll(
-      ".site-fx__rain-glass, .site-fx__glass-drops, .site-fx__splash, .site-fx__streak-overlay, .site-bg__heavy, .site-bg__heavy-mist, .site-bg__glass, .site-fx__lightning, .site-fx__thunder-flash"
-    ).forEach((el) => {
-      el.style.setProperty("display", "none", "important");
-      el.style.setProperty("opacity", "0", "important");
-      el.style.setProperty("visibility", "hidden", "important");
-    });
-  });
-  await page.waitForTimeout(300);
-  bgShot = join(outDir, `${tag}_bg.png`);
-  await page.screenshot({ path: bgShot });
-} catch (err) {
-  console.log("bg screenshot failed", String(err).slice(0, 200));
-}
-
 const info = await page.evaluate(() => {
-  const glass = document.querySelector(".site-fx__rain-glass");
-  const drops = document.querySelector(".site-fx__glass-drops");
-  const streak = document.querySelector(".site-bg__heavy");
+  const pick = (sel) => {
+    const el = document.querySelector(sel);
+    if (!el) return null;
+    const cs = getComputedStyle(el);
+    return {
+      display: cs.display,
+      opacity: cs.opacity,
+      isOn: el.classList.contains("is-on"),
+      w: el.width,
+      h: el.height,
+    };
+  };
   return {
     body: document.body.className,
-    glass: glass
-      ? {
-          display: getComputedStyle(glass).display,
-          opacity: getComputedStyle(glass).opacity,
-          on: glass.classList.contains("is-on"),
-          w: glass.width,
-          h: glass.height,
-        }
-      : null,
-    drops: drops
-      ? {
-          display: getComputedStyle(drops).display,
-          opacity: getComputedStyle(drops).opacity,
-        }
-      : null,
-    streak: streak
-      ? { display: getComputedStyle(streak).display, opacity: getComputedStyle(streak).opacity }
-      : null,
+    glass: pick(".site-fx__rain-glass"),
+    overlay: pick(".site-fx__streak-overlay"),
+    splash: pick(".site-fx__splash"),
+    drops: pick(".site-fx__glass-drops"),
+    heavy: pick(".site-bg__heavy"),
+    clouds: pick(".site-bg__clouds"),
+    mist: pick(".site-bg__heavy-mist"),
   };
 });
 
-writeFileSync(
-  join(outDir, `${tag}.json`),
-  JSON.stringify({ status, logs, info, url, width, height, glassShot, bgShot }, null, 2),
-);
+writeFileSync(join(outDir, `${tag}.json`), JSON.stringify({ status, logs, info, url, width, height }, null, 2));
 console.log("STATUS", status);
 console.log("INFO", JSON.stringify(info, null, 2));
 console.log("SHOT", shotPath);
-console.log("GLASS", glassShot);
-console.log("BG", bgShot);
 await browser.close();

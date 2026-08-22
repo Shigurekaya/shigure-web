@@ -167,22 +167,22 @@
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, tw, th);
 
-    /* 底色对齐 REF 冷灰蓝亮度 */
+    /* 底色：冷灰蓝，给 FBM 积雨场留空间（R18c） */
     const base = ctx.createLinearGradient(0, 0, 0, th);
     if (storm) {
       base.addColorStop(0, "#24364e");
       base.addColorStop(0.5, "#2e4664");
       base.addColorStop(1, "#1a2a3e");
     } else {
-      base.addColorStop(0, "#4a6176");
-      base.addColorStop(0.35, "#5a7288");
-      base.addColorStop(0.6, "#516a80");
-      base.addColorStop(1, "#3d556a");
+      base.addColorStop(0, "#546e85");
+      base.addColorStop(0.28, "#617b95");
+      base.addColorStop(0.52, "#5c768f");
+      base.addColorStop(0.78, "#546e85");
+      base.addColorStop(1, "#4b6278");
     }
     ctx.fillStyle = base;
     ctx.fillRect(0, 0, tw, th);
 
-    /* 硬一点的色停：让暗团/亮缝肉眼可辨（勿全糊成渐变） */
     const blob = (x, y, rx, ry, c0, hard = 0.45) => {
       const cx = tw * x;
       const cy = th * y;
@@ -207,30 +207,87 @@
       blob(0.75, 0.14, 0.5, 0.14, "rgba(30,50,80,0.6)", 0.4);
       blob(0.5, 0.55, 0.65, 0.22, "rgba(22,40,68,0.55)", 0.42);
     } else {
-      /* 顶暗积雨带 */
-      blob(0.5, 0.0, 1.0, 0.14, "rgba(18,28,42,0.88)", 0.5);
-      blob(0.12, 0.12, 0.4, 0.1, "rgba(22,34,50,0.85)", 0.42);
-      blob(0.38, 0.1, 0.28, 0.08, "rgba(30,44,62,0.75)", 0.4);
-      blob(0.8, 0.1, 0.42, 0.11, "rgba(20,32,48,0.86)", 0.42);
-      /* 中亮缝（勿过亮抢头像后光晕） */
-      blob(0.52, 0.28, 0.5, 0.11, "rgba(195,210,226,0.38)", 0.4);
-      blob(0.28, 0.26, 0.22, 0.06, "rgba(170,188,208,0.32)", 0.38);
-      blob(0.7, 0.3, 0.2, 0.055, "rgba(155,175,198,0.28)", 0.38);
-      /* 暗核错位 */
-      blob(0.74, 0.34, 0.34, 0.1, "rgba(24,38,56,0.78)", 0.4);
-      blob(0.2, 0.4, 0.4, 0.11, "rgba(28,42,60,0.72)", 0.4);
-      blob(0.48, 0.46, 0.36, 0.09, "rgba(160,178,198,0.28)", 0.35);
-      blob(0.88, 0.5, 0.34, 0.13, "rgba(16,26,40,0.75)", 0.42);
-      blob(0.3, 0.56, 0.48, 0.13, "rgba(24,38,56,0.7)", 0.4);
-      blob(0.62, 0.62, 0.5, 0.14, "rgba(30,46,64,0.65)", 0.4);
-      blob(0.12, 0.72, 0.32, 0.1, "rgba(18,28,42,0.6)", 0.4);
-      blob(0.5, 0.8, 0.75, 0.15, "rgba(22,34,50,0.68)", 0.45);
-      blob(0.5, 0.98, 1.0, 0.18, "rgba(12,20,32,0.82)", 0.5);
-      /* 中尺度碎云 */
-      blob(0.34, 0.2, 0.14, 0.045, "rgba(80,100,125,0.55)", 0.32);
-      blob(0.6, 0.17, 0.12, 0.04, "rgba(45,64,88,0.65)", 0.32);
-      blob(0.42, 0.52, 0.15, 0.05, "rgba(70,92,118,0.45)", 0.3);
-      blob(0.76, 0.7, 0.14, 0.045, "rgba(36,54,76,0.55)", 0.32);
+      /* R18c：自研 FBM 积雨密度场（非视频截帧）——团块起伏可辨 */
+      const cw = Math.max(64, Math.floor(tw / 2.2));
+      const ch = Math.max(88, Math.floor(th / 2.2));
+      const img = ctx.createImageData(cw, ch);
+      const data = img.data;
+      const hash = (ix, iy) => {
+        let n = ix * 374761393 + iy * 668265263;
+        n = (n ^ (n >>> 13)) * 1274126177;
+        return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+      };
+      const smooth = (t) => t * t * (3 - 2 * t);
+      const vnoise = (x, y) => {
+        const x0 = Math.floor(x);
+        const y0 = Math.floor(y);
+        const fx = smooth(x - x0);
+        const fy = smooth(y - y0);
+        const a = hash(x0, y0);
+        const b = hash(x0 + 1, y0);
+        const c = hash(x0, y0 + 1);
+        const d = hash(x0 + 1, y0 + 1);
+        return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+      };
+      const fbm = (x, y) => {
+        let a = 0;
+        let amp = 0.55;
+        let f = 1;
+        for (let o = 0; o < 5; o += 1) {
+          a += amp * vnoise(x * f, y * f);
+          amp *= 0.5;
+          f *= 2.05;
+        }
+        return a;
+      };
+      for (let y = 0; y < ch; y += 1) {
+        const ny = y / ch;
+        for (let x = 0; x < cw; x += 1) {
+          const nx = x / cw;
+          let d = fbm(nx * 2.8 + 1.7, ny * 4.6 + 0.4);
+          d += 0.28 * fbm(nx * 6.2 - 2.1, ny * 1.9 + 3.3);
+          /* 层状包络：中部略亮、顶底略暗 */
+          const envelope = 0.54
+            + 0.34 * Math.sin(ny * Math.PI)
+            + 0.1 * Math.sin((nx * 2.2 + ny * 0.7) * Math.PI * 2);
+          d = d * 0.75 + envelope * 0.45;
+          /* 高对比密度：拉开暗核/亮缝（R18d） */
+          let dens = Math.max(0, Math.min(1, (d - 0.48) / 0.36));
+          dens = dens * dens * (3 - 2 * dens);
+          const gap = Math.pow(Math.max(0, 1 - dens * 0.98), 1.08);
+          /* R24: 略抬中缝亮度（sky），冷蓝 sat */
+          const r = Math.round(18 * dens + 160 * gap + 62 * (1 - dens) * (1 - gap));
+          const gch = Math.round(34 * dens + 182 * gap + 81 * (1 - dens) * (1 - gap));
+          const b = Math.round(58 * dens + 206 * gap + 117 * (1 - dens) * (1 - gap));
+          const a = Math.round(255 * (0.11 + 0.3 * dens + 0.39 * gap));
+          const i = (y * cw + x) * 4;
+          data[i] = Math.max(0, Math.min(255, r));
+          data[i + 1] = Math.max(0, Math.min(255, gch));
+          data[i + 2] = Math.max(0, Math.min(255, b));
+          data[i + 3] = Math.max(24, Math.min(168, a));
+        }
+      }
+      const off = document.createElement("canvas");
+      off.width = cw;
+      off.height = ch;
+      const ox = off.getContext("2d");
+      if (ox) {
+        ox.putImageData(img, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.globalAlpha = 0.8;
+        ctx.drawImage(off, 0, 0, tw, th);
+        ctx.globalAlpha = 1;
+      }
+      /* R23b: 大尺度暗核/亮缘，压细噪体积感；守 mean/sky */
+      blob(0.12, 0.08, 0.48, 0.12, "rgba(6,16,38,0.4)", 0.22);
+      blob(0.88, 0.12, 0.44, 0.12, "rgba(4,14,36,0.4)", 0.2);
+      blob(0.5, 0.22, 0.55, 0.1, "rgba(204,224,246,0.32)", 0.28);
+      blob(0.32, 0.32, 0.34, 0.09, "rgba(188,210,238,0.22)", 0.28);
+      blob(0.18, 0.52, 0.5, 0.14, "rgba(8,20,44,0.36)", 0.22);
+      blob(0.82, 0.54, 0.46, 0.13, "rgba(10,22,46,0.34)", 0.22);
+      blob(0.5, 0.38, 0.38, 0.07, "rgba(196,216,242,0.2)", 0.3);
+      blob(0.5, 0.9, 0.78, 0.15, "rgba(6,16,36,0.3)", 0.32);
     }
 
     /* 细噪声：打破塑料渐变 */
@@ -238,18 +295,18 @@
     for (let i = 0; i < n; i += 1) {
       const x = Math.random() * tw;
       const y = Math.random() * th;
-      const a = 0.02 + Math.random() * 0.055;
+      const a = 0.018 + Math.random() * 0.045;
       const s = 0.7 + Math.random() * 2.4;
       ctx.fillStyle = Math.random() < 0.55
-        ? `rgba(210,222,236,${a})`
-        : `rgba(16,24,36,${a * 1.15})`;
+        ? `rgba(200,216,236,${a})`
+        : `rgba(22,34,52,${a})`;
       ctx.fillRect(x, y, s, s * (0.35 + Math.random() * 0.9));
     }
 
     const fog = ctx.createLinearGradient(0, 0, 0, th);
-    fog.addColorStop(0, "rgba(160,175,190,0.08)");
+    fog.addColorStop(0, "rgba(150,170,198,0.1)");
     fog.addColorStop(0.45, "rgba(0,0,0,0)");
-    fog.addColorStop(1, "rgba(14,22,32,0.16)");
+    fog.addColorStop(1, "rgba(24,38,56,0.1)");
     ctx.fillStyle = fog;
     ctx.fillRect(0, 0, tw, th);
   }
@@ -265,7 +322,7 @@
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     /* 自研冷灰蓝积雨（非视频截帧）；对齐 R14 CSS 对比 */
-    ctx.fillStyle = storm ? "#22324a" : "#354c60";
+    ctx.fillStyle = storm ? "#22324a" : "#455f7a";
     ctx.fillRect(0, 0, tw, th);
 
     if (storm) {
@@ -360,19 +417,18 @@
       /* 手机竖屏：铺满但忌白帘；REF 是可辨软丝而非噪点帘 */
       const areaMul = clamp((tw * th) / (1280 * 720), 0.95, storm ? 1.7 : 1.35);
       /*
-       * R14：降密 + 加粗软晕。远层薄雾丝、中层主体、近层少量亮丝。
-       * 长度约 2–4.5%H（REF 运动模糊短针，非长硬线）。
+       * R24：单笔软晕（去掉多叠鬼影，避免竖向锐度反升）；更淡更短。
        */
       const layers = [
-        { n: Math.round((storm ? 560 : 480) * areaMul), len0: 0.015, len1: 0.028, a0: 0.05, a1: 0.11, w0: 0.45, w1: 0.95, spd0: 1120, spd1: 1520 },
-        { n: Math.round((storm ? 380 : 320) * areaMul), len0: 0.02, len1: 0.036, a0: 0.09, a1: 0.22, w0: 0.7, w1: 1.4, spd0: 1260, spd1: 1740 },
-        { n: Math.round((storm ? 160 : 140) * areaMul), len0: 0.022, len1: 0.04, a0: 0.16, a1: 0.36, w0: 0.95, w1: 1.85, spd0: 1440, spd1: 2020 },
+        { n: Math.round((storm ? 920 : 800) * areaMul), len0: 0.008, len1: 0.017, a0: 0.03, a1: 0.068, w0: 0.18, w1: 0.42, spd0: 1260, spd1: 1640 },
+        { n: Math.round((storm ? 460 : 380) * areaMul), len0: 0.011, len1: 0.021, a0: 0.046, a1: 0.1, w0: 0.26, w1: 0.54, spd0: 1380, spd1: 1800 },
+        { n: Math.round((storm ? 76 : 64) * areaMul), len0: 0.013, len1: 0.022, a0: 0.064, a1: 0.125, w0: 0.28, w1: 0.54, spd0: 1540, spd1: 2080 },
       ];
       for (let L = 0; L < layers.length; L += 1) {
         const layer = layers[L];
         for (let i = 0; i < layer.n; i += 1) {
-          /* 近竖直，轻倾角 */
-          const slant = (storm ? 0.02 : 0.035) + (Math.random() - 0.4) * 0.04;
+          /* 近竖直，轻倾角（REF ~2–6°） */
+          const slant = (storm ? 0.04 : 0.05) + (Math.random() - 0.3) * 0.035;
           drops.push({
             x: Math.random() * tw,
             y: Math.random() * (th + 40) - 20,
@@ -421,36 +477,33 @@
         const y1 = d.y;
         const x2 = d.x + d.len * d.slant;
         const y2 = d.y + d.len;
-        const aCore = Math.min(0.5, d.a);
-        const soft = d.layer >= 2 ? 0.2 : (d.layer >= 1 ? 0.12 : 0.07);
-        /* 外晕：细丝 + 运动模糊光渗（忌粗胶囊） */
-        ctx.strokeStyle = `rgba(185,205,228,${aCore * soft})`;
-        ctx.lineWidth = d.w * (d.layer >= 2 ? 2.4 : (d.layer >= 1 ? 2.0 : 1.6));
+        const aCore = Math.min(0.16, d.a);
+        const coreW = Math.max(0.18, d.w * (d.layer >= 2 ? 0.22 : 0.3));
+        /* R24: 单芯 + 宽软晕；不做多叠鬼影（会抬竖向锐度） */
+        ctx.save();
+        ctx.strokeStyle = `rgba(170,194,220,${aCore * 0.1})`;
+        ctx.lineWidth = coreW * 2.0;
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.stroke();
-        /* 中晕 */
-        if (d.layer >= 1) {
-          ctx.strokeStyle = `rgba(210,226,242,${aCore * 0.38})`;
-          ctx.lineWidth = d.w * 1.25;
-          ctx.beginPath();
-          ctx.moveTo(x1, y1);
-          ctx.lineTo(x2, y2);
-          ctx.stroke();
-        }
-        /* 细芯：银青渐变 */
+        ctx.shadowColor = `rgba(174,198,226,${Math.min(0.2, aCore * 0.72)})`;
+        ctx.shadowBlur = d.layer >= 2 ? 1.3 : (d.layer >= 1 ? 1.0 : 0.7);
         const grad = ctx.createLinearGradient(x1, y1, x2, y2);
-        grad.addColorStop(0, `rgba(190,210,230,0)`);
-        grad.addColorStop(0.2, `rgba(205,222,240,${aCore * 0.35})`);
-        grad.addColorStop(0.6, `rgba(232,242,252,${aCore})`);
-        grad.addColorStop(1, `rgba(245,250,255,${aCore * 0.45})`);
+        grad.addColorStop(0, `rgba(148,170,196,0)`);
+        grad.addColorStop(0.22, `rgba(164,186,210,${aCore * 0.06})`);
+        grad.addColorStop(0.5, `rgba(192,210,232,${aCore * 0.24})`);
+        grad.addColorStop(0.84, `rgba(206,224,242,${aCore * 0.08})`);
+        grad.addColorStop(1, `rgba(216,230,244,0)`);
         ctx.strokeStyle = grad;
-        ctx.lineWidth = Math.max(0.65, d.w * (d.layer >= 2 ? 0.55 : 0.7));
+        ctx.lineWidth = coreW * 0.56;
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.stroke();
+        ctx.restore();
       }
       ctx.restore();
     };
@@ -655,21 +708,21 @@
       opts.mist = false;
       opts.mistBlurStep = 0;
       opts.mistColor = [0.02, 0.03, 0.04, 0.0];
-      opts.raindropSpecularLight = [1.0, 1.0, 1.0];
-      opts.raindropSpecularShininess = 320;
-      opts.raindropLightBump = 1.4;
-      opts.raindropDiffuseLight = [0.42, 0.52, 0.62];
-      opts.raindropShadowOffset = 0.08;
+      opts.raindropSpecularLight = [0.92, 0.95, 0.98];
+      opts.raindropSpecularShininess = 260;
+      opts.raindropLightBump = 1.15;
+      opts.raindropDiffuseLight = [0.4, 0.5, 0.6];
+      opts.raindropShadowOffset = 0.07;
       opts.raindropLightPos = [-0.5, 1.5, 2.9, 0];
       opts.raindropEraserSize = [0.72, 0.92];
       opts.motionInterval = [0.05, 0.18];
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 16 : 28) : 0;
-      opts.dropletSize = screenGlass ? [2, 3.5] : [2, 6];
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 6 : 12) : 0;
+      opts.dropletSize = screenGlass ? [2, 3.0] : [2, 6];
       opts.spawnLimit = Math.min(
         opts.spawnLimit || 400,
-        screenGlass ? (phone ? 70 : 110) : 180,
+        screenGlass ? (phone ? 42 : 70) : 180,
       );
-      opts.spawnInterval = screenGlass ? [0.06, 0.14] : [0.08, 0.16];
+      opts.spawnInterval = screenGlass ? [0.08, 0.18] : [0.08, 0.16];
       if (phone && !screenGlass) {
         opts.spawnSize = [12, 28];
         opts.spawnLimit = 200;
@@ -792,6 +845,9 @@
     const overlayStreaks = createBgStreakField();
     let overlayCtx = null;
     let lastOverlayAt = performance.now();
+    /* 半分辨率离屏：放大时自然软晕，忌硬针 */
+    const overlayLo = document.createElement("canvas");
+    const overlayLoCtx = overlayLo.getContext("2d", { alpha: true });
 
     const sctx = splashCanvas.getContext("2d", { alpha: true });
     if (sctx) {
@@ -1066,7 +1122,8 @@
       streakOverlay.classList.toggle("is-on", wantOverlay);
       streakOverlay.style.display = wantOverlay ? "block" : "none";
       /* REF 银丝：叠层可见但忌白帘；软丝靠笔触本身 */
-      streakOverlay.style.opacity = String(clamp(wantOverlay ? intensity * 0.78 : 0, 0, 1));
+      /* 叠层 opacity 只走 CSS 一处，勿再乘 canvas globalAlpha（会叠成过淡） */
+      streakOverlay.style.opacity = String(clamp(wantOverlay ? intensity * 0.94 : 0, 0, 1));
     };
 
     const ignoreCaptureEl = (el) => {
@@ -1130,7 +1187,7 @@
       glassDropCanvas.style.display = "none";
       mist.style.display = "none";
       streakCanvas.style.display = "none";
-      const skyHex = storm ? "#1a283c" : "#344961";
+      const skyHex = storm ? "#1a283c" : "#455f7a";
       try {
         const scale = bw / Math.max(1, window.innerWidth);
         const shot = await h2c(document.documentElement, {
@@ -1160,7 +1217,7 @@
           dx.fillStyle = skyHex;
           dx.fillRect(0, 0, bw, bh);
           /* 提亮截图，缓解贴屏整体发暗（保留折射，略增可读） */
-          dx.filter = "brightness(1.05) contrast(1.03) saturate(1.02)";
+          dx.filter = "brightness(1.08) contrast(1.03) saturate(1.03)";
           dx.drawImage(shot, 0, 0, bw, bh);
           dx.filter = "none";
           if (captureLooksBlack(stormDomBg)) {
@@ -1534,15 +1591,41 @@
       } else if (fallbackCtx && screenOnNow) {
         fallbackCtx.clearRect(0, 0, w, h);
       }
-      /* 贴屏银丝叠层：对齐参考片密细运动模糊雨帘 */
+      /* 贴屏银丝叠层：半分辨率绘制再放大 → 细针+软晕运动模糊感 */
       if (overlayCtx && screenOnNow && intensity > 0.001) {
         const nowOv = performance.now();
         const dtOv = clamp((nowOv - lastOverlayAt) / 1000, 0.008, 0.05);
         lastOverlayAt = nowOv;
-        overlayCtx.clearRect(0, 0, w, h);
-        overlayCtx.globalAlpha = clamp(intensity, 0, 1);
-        overlayStreaks.paint(overlayCtx, w, h, storm, dtOv, windLive * 0.85);
-        overlayCtx.globalAlpha = 1;
+        /* R24: ~0.28 分辨率上采样 + 竖向微糊 */
+        const loW = Math.max(2, Math.floor(w * 0.28));
+        const loH = Math.max(2, Math.floor(h * 0.28));
+        if (overlayLo.width !== loW || overlayLo.height !== loH) {
+          overlayLo.width = loW;
+          overlayLo.height = loH;
+        }
+        if (overlayLoCtx) {
+          overlayLoCtx.setTransform(1, 0, 0, 1, 0, 0);
+          overlayLoCtx.clearRect(0, 0, loW, loH);
+          overlayStreaks.paint(overlayLoCtx, loW, loH, storm, dtOv, windLive * 0.85);
+          overlayCtx.setTransform(1, 0, 0, 1, 0, 0);
+          overlayCtx.clearRect(0, 0, streakOverlay.width, streakOverlay.height);
+          overlayCtx.imageSmoothingEnabled = true;
+          overlayCtx.imageSmoothingQuality = "high";
+          const dw = streakOverlay.width;
+          const dh = streakOverlay.height;
+          overlayCtx.globalAlpha = 0.18;
+          overlayCtx.drawImage(overlayLo, 0, -0.8, dw, dh);
+          overlayCtx.drawImage(overlayLo, 0, 0.8, dw, dh);
+          overlayCtx.globalAlpha = 0.10;
+          overlayCtx.drawImage(overlayLo, -0.34, 0, dw, dh);
+          overlayCtx.drawImage(overlayLo, 0.34, 0, dw, dh);
+          overlayCtx.globalAlpha = 0.26;
+          overlayCtx.drawImage(overlayLo, 0, 0, dw, dh);
+          overlayCtx.globalAlpha = 1;
+        } else {
+          overlayCtx.clearRect(0, 0, w, h);
+          overlayStreaks.paint(overlayCtx, w, h, storm, dtOv, windLive * 0.85);
+        }
       } else if (overlayCtx && !screenOnNow) {
         overlayCtx.clearRect(0, 0, w, h);
       }
