@@ -165,9 +165,12 @@ const Kaya = (() => {
   let rainApi = null;
 
   /**
-   * URL 强制雨模式：
+   * URL 强制天气模式：
    * - `?rain=storm` / `?storm` → 雷暴
    * - `?rain=heavy` / `?heavy` → 大雨
+   * - `?rain=light` / `?light` → 小雨
+   * - `?rain=sunny` / `?sunny` / `?clear` → 晴天
+   * - `?rain=rainbow` / `?rainbow` / `?after` → 雨后彩虹
    */
   function forceRainFromUrl() {
     try {
@@ -175,7 +178,9 @@ const Kaya = (() => {
       const rain = (q.get("rain") || "").toLowerCase();
       if (rain === "storm" || q.has("storm")) return "storm";
       if (rain === "heavy" || q.has("heavy")) return "heavy";
-      if (rain === "light") return "light";
+      if (rain === "light" || q.has("light")) return "light";
+      if (rain === "sunny" || rain === "clear" || q.has("sunny") || q.has("clear")) return "sunny";
+      if (rain === "rainbow" || rain === "after" || q.has("rainbow") || q.has("after")) return "rainbow";
     } catch { /* ignore */ }
     return null;
   }
@@ -187,6 +192,16 @@ const Kaya = (() => {
 
   function forceStormFromUrl() {
     return forceRainFromUrl() === "storm";
+  }
+
+  /** 测试入口（雨/晴/彩虹）跳过开场，减轻首屏负担 */
+  function forceSpecialWeatherFromUrl() {
+    const m = forceRainFromUrl();
+    return m === "heavy" || m === "storm" || m === "sunny" || m === "rainbow" || m === "light";
+  }
+
+  function isDryWeatherMode(mode) {
+    return mode === "sunny" || mode === "rainbow";
   }
 
   function navigationType() {
@@ -203,11 +218,11 @@ const Kaya = (() => {
     return "navigate";
   }
 
-  /** @returns {"light"|"heavy"|"storm"|null} */
+  /** @returns {"light"|"heavy"|"storm"|"sunny"|"rainbow"|null} */
   function readStoredRainMode() {
     try {
       const v = sessionStorage.getItem(RAIN_MODE_KEY);
-      if (v === "storm" || v === "heavy" || v === "light") return v;
+      if (v === "storm" || v === "heavy" || v === "light" || v === "sunny" || v === "rainbow") return v;
       /* 兼容旧键 kaya-rain-heavy */
       const legacy = sessionStorage.getItem("kaya-rain-heavy");
       if (legacy === "1") return "heavy";
@@ -216,20 +231,20 @@ const Kaya = (() => {
     return null;
   }
 
-  /** @param {"light"|"heavy"|"storm"} mode */
+  /** @param {"light"|"heavy"|"storm"|"sunny"|"rainbow"} mode */
   function writeStoredRainMode(mode) {
     try {
       sessionStorage.setItem(RAIN_MODE_KEY, mode);
-      sessionStorage.setItem("kaya-rain-heavy", mode === "light" ? "0" : "1");
+      sessionStorage.setItem("kaya-rain-heavy", (mode === "heavy" || mode === "storm") ? "1" : "0");
     } catch { /* ignore */ }
   }
 
   /**
-   * 雨效模式：
-   * - URL 强制优先（含 storm，日常不随机雷暴）
-   * - 刷新（reload）才重新 10% 抽大雨（仍不抽 storm）
+   * 天气模式：
+   * - URL 强制优先（storm / sunny / rainbow 仅强制，日常不抽）
+   * - 刷新：保留 sunny/rainbow/storm；light/heavy 才重抽 10% 大雨
    * - 站内导航沿用本次会话已选模式
-   * @returns {"light"|"heavy"|"storm"}
+   * @returns {"light"|"heavy"|"storm"|"sunny"|"rainbow"}
    */
   function pickInitialRainMode() {
     const forced = forceRainFromUrl();
@@ -238,10 +253,11 @@ const Kaya = (() => {
       return forced;
     }
 
+    const saved = readStoredRainMode();
     const isReload = navigationType() === "reload";
-    if (!isReload) {
-      const saved = readStoredRainMode();
-      if (saved) return saved;
+    if (!isReload && saved) return saved;
+    if (isReload && (saved === "sunny" || saved === "rainbow" || saved === "storm")) {
+      return saved;
     }
 
     const heavy = Math.random() < HEAVY_RAIN_CHANCE;
@@ -251,25 +267,13 @@ const Kaya = (() => {
   }
 
   function pickInitialHeavy() {
-    return pickInitialRainMode() !== "light";
+    const m = pickInitialRainMode();
+    return m === "heavy" || m === "storm";
   }
 
   function initSiteRain(host, rainMode) {
     if (!host) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const bgCanvas = document.createElement("canvas");
-    bgCanvas.className = "site-bg__rain";
-    bgCanvas.setAttribute("aria-hidden", "true");
-    host.appendChild(bgCanvas);
-
-    const fx = document.createElement("div");
-    fx.className = "site-fx";
-    fx.setAttribute("aria-hidden", "true");
-    document.body.appendChild(fx);
-
-    const bgCtx = bgCanvas.getContext("2d", { alpha: true });
-    if (!bgCtx) return;
 
     /* 与开场主题共用同一次抽签，避免 refresh 时抽两次不一致 */
     const mode = typeof rainMode === "string"
@@ -279,7 +283,28 @@ const Kaya = (() => {
         : pickInitialRainMode());
     const heavy = mode === "heavy" || mode === "storm";
     const storm = mode === "storm";
-    let running = true;
+    const dry = isDryWeatherMode(mode);
+
+    /** @type {HTMLCanvasElement | null} */
+    let bgCanvas = null;
+    /** @type {HTMLElement | null} */
+    let fx = null;
+
+    if (!dry) {
+      bgCanvas = document.createElement("canvas");
+      bgCanvas.className = "site-bg__rain";
+      bgCanvas.setAttribute("aria-hidden", "true");
+      const bgCtx = bgCanvas.getContext("2d", { alpha: true });
+      if (!bgCtx) return;
+      host.appendChild(bgCanvas);
+
+      fx = document.createElement("div");
+      fx.className = "site-fx";
+      fx.setAttribute("aria-hidden", "true");
+      document.body.appendChild(fx);
+    }
+
+    let running = !document.hidden;
     let w = 0;
     let h = 0;
     let resizeTimer = 0;
@@ -293,12 +318,14 @@ const Kaya = (() => {
     let heavyFx = null;
     let lightFx = null;
     let stormFx = null;
+    let sunnyFx = null;
+    let rainbowFx = null;
     let splashNodes = null;
     let splashNodesAt = 0;
 
     const applyRainMode = () => {
       applyRainTheme(mode);
-      fx.classList.toggle("is-active", heavy);
+      fx?.classList.toggle("is-active", heavy);
     };
 
     const ensureSplashNodes = (force = false) => {
@@ -346,6 +373,7 @@ const Kaya = (() => {
     const isScrolling = () => performance.now() - lastScrollAt < 140;
 
     const ensureHeavyFx = () => {
+      if (!fx) return null;
       if (heavyFx) return heavyFx;
       if (!window.KayaHeavyRain?.attach) {
         console.warn("[kaya] KayaHeavyRain missing");
@@ -362,7 +390,7 @@ const Kaya = (() => {
     };
 
     const ensureStormFx = () => {
-      if (!storm) return null;
+      if (!storm || !fx) return null;
       if (stormFx) return stormFx;
       if (!window.KayaStormLightning?.attach) {
         console.warn("[kaya] KayaStormLightning missing");
@@ -377,6 +405,7 @@ const Kaya = (() => {
     };
 
     const ensureLightFx = () => {
+      if (!bgCanvas) return null;
       if (lightFx) return lightFx;
       if (!window.KayaLightRain?.attach) {
         console.warn("[kaya] KayaLightRain missing");
@@ -384,6 +413,26 @@ const Kaya = (() => {
       }
       lightFx = window.KayaLightRain.attach(bgCanvas, { mistHost: host });
       return lightFx;
+    };
+
+    const ensureSunnyFx = () => {
+      if (sunnyFx) return sunnyFx;
+      if (!window.KayaSunnySky?.attach) {
+        console.warn("[kaya] KayaSunnySky missing");
+        return null;
+      }
+      sunnyFx = window.KayaSunnySky.attach(host);
+      return sunnyFx;
+    };
+
+    const ensureRainbowFx = () => {
+      if (rainbowFx) return rainbowFx;
+      if (!window.KayaAfterRain?.attach) {
+        console.warn("[kaya] KayaAfterRain missing");
+        return null;
+      }
+      rainbowFx = window.KayaAfterRain.attach(host);
+      return rainbowFx;
     };
 
     const resize = () => {
@@ -398,6 +447,10 @@ const Kaya = (() => {
         collectLedges();
         heavyFx?.resize();
         stormFx?.resize();
+      } else if (mode === "sunny") {
+        sunnyFx?.resize();
+      } else if (mode === "rainbow") {
+        rainbowFx?.resize();
       } else {
         lightFx?.resize();
       }
@@ -434,12 +487,34 @@ const Kaya = (() => {
         heavyFx?.stop();
         lightFx?.stop();
         stormFx?.stop();
+        sunnyFx?.stop();
+        rainbowFx?.stop();
         return;
       }
       running = true;
       if (heavy) {
         ensureHeavyFx()?.start();
         ensureStormFx()?.start();
+      } else if (mode === "sunny") {
+        ensureSunnyFx()?.start();
+      } else if (mode === "rainbow") {
+        ensureRainbowFx()?.start();
+      } else {
+        ensureLightFx()?.start();
+      }
+    };
+
+    const startActiveFx = () => {
+      if (!running) return;
+      if (heavy) {
+        ensureHeavyFx()?.start();
+        ensureStormFx()?.start();
+        ensureSplashNodes(true);
+        collectLedges();
+      } else if (mode === "sunny") {
+        ensureSunnyFx()?.start();
+      } else if (mode === "rainbow") {
+        ensureRainbowFx()?.start();
       } else {
         ensureLightFx()?.start();
       }
@@ -456,13 +531,6 @@ const Kaya = (() => {
       resize();
       /* 开幕淡出时衔接主雨（雨丝 WebGL）；开场层仅作 2D 近似，避免双 WebGL */
       const introPlaying = document.body.classList.contains("home-intro-playing");
-      const startHeavy = () => {
-        if (!running) return;
-        ensureHeavyFx()?.start();
-        ensureStormFx()?.start();
-        ensureSplashNodes(true);
-        collectLedges();
-      };
       if (introPlaying) {
         const waitIntro = () => {
           const intro = document.getElementById("home-intro");
@@ -470,27 +538,27 @@ const Kaya = (() => {
             !document.body.classList.contains("home-intro-playing")
             || intro?.classList.contains("is-done")
           ) {
-            startHeavy();
+            startActiveFx();
             return;
           }
           window.setTimeout(waitIntro, 80);
         };
         window.setTimeout(waitIntro, 160);
       } else {
-        startHeavy();
+        startActiveFx();
       }
       window.setTimeout(() => {
+        if (!running) return;
         ensureSplashNodes(true);
         collectLedges();
       }, 1100);
+    } else if (mode === "sunny" || mode === "rainbow") {
+      resize();
+      startActiveFx();
     } else {
       resize();
       /* 小雨开场已挂同引擎；开幕淡出时衔接主站雨层，避免空窗 */
       const introPlaying = document.body.classList.contains("home-intro-playing");
-      const startLight = () => {
-        if (!running) return;
-        ensureLightFx()?.start();
-      };
       if (introPlaying) {
         const waitIntro = () => {
           const intro = document.getElementById("home-intro");
@@ -498,14 +566,14 @@ const Kaya = (() => {
             !document.body.classList.contains("home-intro-playing")
             || intro?.classList.contains("is-done")
           ) {
-            startLight();
+            startActiveFx();
             return;
           }
           window.setTimeout(waitIntro, 80);
         };
         window.setTimeout(waitIntro, 160);
       } else {
-        startLight();
+        startActiveFx();
       }
     }
 
@@ -514,6 +582,23 @@ const Kaya = (() => {
         if (!heavy || !running) return;
         ensureSplashNodes(true);
         collectLedges();
+      },
+      destroy: () => {
+        running = false;
+        window.clearTimeout(resizeTimer);
+        window.cancelAnimationFrame(scrollRaf);
+        window.removeEventListener("resize", onResize);
+        window.visualViewport?.removeEventListener("resize", onResize);
+        document.removeEventListener("visibilitychange", onVisibility);
+        window.removeEventListener("scroll", onScroll, true);
+        try { heavyFx?.stop(); } catch { /* ignore */ }
+        try { lightFx?.stop(); } catch { /* ignore */ }
+        try { stormFx?.stop(); } catch { /* ignore */ }
+        try { sunnyFx?.destroy ? sunnyFx.destroy() : sunnyFx?.stop(); } catch { /* ignore */ }
+        try { rainbowFx?.destroy ? rainbowFx.destroy() : rainbowFx?.stop(); } catch { /* ignore */ }
+        bgCanvas?.remove();
+        fx?.remove();
+        rainApi = null;
       },
     };
   }
@@ -565,6 +650,11 @@ const Kaya = (() => {
   function startIntroRain(canvas) {
     const heavy = document.body.classList.contains("heavy-rain");
     const storm = document.body.classList.contains("storm-rain");
+    const dry = document.body.classList.contains("sunny-sky")
+      || document.body.classList.contains("after-rain");
+
+    /* 晴/虹开场不应再挂小雨 */
+    if (dry) return () => {};
 
     /* 小雨开场复用主站引擎，保证与主页面观感一致 */
     if (!heavy && window.KayaLightRain?.attach && canvas) {
@@ -993,25 +1083,42 @@ const Kaya = (() => {
     });
   }
 
-  /** @param {"light"|"heavy"|"storm"|boolean} modeOrHeavy */
+  /** @param {"light"|"heavy"|"storm"|"sunny"|"rainbow"|boolean} modeOrHeavy */
   function applyRainTheme(modeOrHeavy) {
     const mode = typeof modeOrHeavy === "string"
       ? modeOrHeavy
       : (modeOrHeavy ? "heavy" : "light");
     const heavy = mode === "heavy" || mode === "storm";
     const storm = mode === "storm";
+    const sunny = mode === "sunny";
+    const rainbow = mode === "rainbow";
     document.body.classList.toggle("heavy-rain", heavy);
     document.body.classList.toggle("storm-rain", storm);
-    document.body.classList.toggle("light-rain", !heavy);
+    document.body.classList.toggle("light-rain", mode === "light");
+    document.body.classList.toggle("sunny-sky", sunny);
+    document.body.classList.toggle("after-rain", rainbow);
     const theme = document.querySelector('meta[name="theme-color"]');
-    if (theme) theme.setAttribute("content", storm ? "#141c2c" : heavy ? "#243448" : "#f7f8fc");
+    if (theme) {
+      const color = storm
+        ? "#141c2c"
+        : heavy
+          ? "#243448"
+          : sunny
+            ? "#8ec8f0"
+            : rainbow
+              ? "#7eb0d8"
+              : "#f7f8fc";
+      theme.setAttribute("content", color);
+    }
   }
 
   function initHomeIntro() {
     const intro = document.getElementById("home-intro");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    /* ?heavy / ?storm 测试入口跳过开场，避免深色遮罩 + 重画布拖死主线程 */
-    const play = !forceHeavyFromUrl() && shouldPlayHomeIntro("/");
+    /* URL 测试入口，或会话已是晴/虹：跳过开场，避免遮罩 + 错挂小雨 */
+    const drySession = document.body.classList.contains("sunny-sky")
+      || document.body.classList.contains("after-rain");
+    const play = !forceSpecialWeatherFromUrl() && !drySession && shouldPlayHomeIntro("/");
 
     if (!intro || reduced || !play) {
       document.body.classList.add("home-ready");

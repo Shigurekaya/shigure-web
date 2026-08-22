@@ -145,8 +145,159 @@ body.light-rain .site-bg__light-mist {
   animation: light-mist-drift 22s ease-in-out infinite alternate;
 }
 
-body.light-rain .site-bg__rain {
+/* 晴天：Canvas 主视觉；CSS 只做极轻叠光，勿盖住 FBM 云 */
+.site-bg__sunny {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
   opacity: 1;
+}
+
+.site-bg__sunny-haze {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background:
+    radial-gradient(ellipse 55% 32% at 80% 12%, rgba(255, 244, 200, 0.14), transparent 72%),
+    linear-gradient(180deg, transparent 50%, rgba(255, 255, 255, 0.1) 100%);
+  mix-blend-mode: soft-light;
+}
+
+.site-bg__sunny-haze.is-on {
+  opacity: 1;
+  animation: sunny-haze-drift 32s ease-in-out infinite alternate;
+}
+
+@keyframes sunny-haze-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-0.6%, 0.5%, 0) scale(1.02); }
+}
+
+body.sunny-sky .site-bg {
+  background: #5aade8;
+}
+
+body.sunny-sky .site-bg::before {
+  opacity: 0.12;
+  filter: blur(56px) saturate(1.05);
+  animation: sunny-sky-drift 48s ease-in-out infinite alternate;
+  background:
+    radial-gradient(circle at 80% 14%, rgba(255, 240, 190, 0.5) 0%, transparent 42%),
+    radial-gradient(circle at 30% 70%, rgba(200, 230, 255, 0.25) 0%, transparent 45%);
+}
+
+body.sunny-sky .site-bg::after {
+  opacity: 0.18;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 28%, transparent 78%, rgba(247, 250, 255, 0.22) 100%);
+}
+
+@keyframes sunny-sky-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1.02); }
+  100% { transform: translate3d(0.8%, -0.4%, 0) scale(1.04); }
+}
+
+body.sunny-sky {
+  --bg: #d2e8f6;
+  --ink: #1e2a38;
+  --ink-soft: #4a5d72;
+  --ink-faint: #7a8fa3;
+  --accent: #4f86cc;
+  --accent-deep: #3a6aad;
+  --accent-soft: rgba(79, 134, 204, 0.12);
+  --accent-ring: rgba(79, 134, 204, 0.3);
+  --bg-elevated: rgba(255, 255, 255, 0.72);
+  --line: rgba(30, 42, 56, 0.08);
+  --border: rgba(30, 42, 56, 0.1);
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* 雨后彩虹：Canvas 主视觉；雾层勿抢虹 */
+.site-bg__rainbow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.site-bg__after-mist {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background:
+    radial-gradient(ellipse 70% 28% at 18% 12%, rgba(255, 245, 210, 0.12), transparent 70%),
+    linear-gradient(180deg, transparent 58%, rgba(130, 160, 190, 0.1) 100%);
+  mix-blend-mode: soft-light;
+}
+
+.site-bg__after-mist.is-on {
+  opacity: 1;
+  animation: after-mist-drift 28s ease-in-out infinite alternate;
+}
+
+@keyframes after-mist-drift {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0.6%, -0.4%, 0); }
+}
+
+body.after-rain .site-bg {
+  background: #6a9ec8;
+}
+
+body.after-rain .site-bg::before {
+  opacity: 0.14;
+  filter: blur(56px) saturate(1.08);
+  animation: after-sky-drift 42s ease-in-out infinite alternate;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(255, 245, 210, 0.45) 0%, transparent 40%),
+    radial-gradient(circle at 70% 55%, rgba(160, 140, 220, 0.12) 0%, transparent 42%);
+}
+
+body.after-rain .site-bg::after {
+  opacity: 0.2;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 26%, transparent 70%, rgba(160, 185, 210, 0.18) 100%);
+}
+
+@keyframes after-sky-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1.02); }
+  100% { transform: translate3d(-0.6%, 0.5%, 0) scale(1.03); }
+}
+
+body.after-rain {
+  --bg: #c8dcec;
+  --ink: #1c2836;
+  --ink-soft: #4a5e74;
+  --ink-faint: #7a90a6;
+  --accent: #6e5fc8;
+  --accent-deep: #5344a8;
+  --accent-soft: rgba(110, 95, 200, 0.12);
+  --accent-ring: rgba(110, 95, 200, 0.28);
+  --bg-elevated: rgba(255, 255, 255, 0.7);
+  --line: rgba(28, 40, 54, 0.08);
+  --border: rgba(28, 40, 54, 0.1);
+  color: var(--ink);
+  background: var(--bg);
+}
+
+@media (max-width: 720px) {
+  .site-bg__sunny-haze.is-on,
+  .site-bg__after-mist.is-on {
+    animation: none;
+  }
 }
 
 @keyframes light-mist-drift {
@@ -599,6 +750,10 @@ body.storm-rain .site-fx__streak-overlay.is-on {
   .site-bg__light-mist,
   .site-bg__heavy-mist,
   .site-bg__heavy,
+  .site-bg__sunny,
+  .site-bg__sunny-haze,
+  .site-bg__rainbow,
+  .site-bg__after-mist,
   .site-fx__lightning,
   .site-fx__thunder-flash {
     display: none !important;
@@ -607,7 +762,9 @@ body.storm-rain .site-fx__streak-overlay.is-on {
   .site-bg__heavy-mist {
     animation: none !important;
   }
-  body.heavy-rain .site-bg::before {
+  body.heavy-rain .site-bg::before,
+  body.sunny-sky .site-bg::before,
+  body.after-rain .site-bg::before {
     animation: none !important;
   }
 }
@@ -1340,7 +1497,7 @@ body.heavy-rain .footer-fuyuu__avatar {
   border-color: rgba(180, 200, 230, 0.22);
 }
 
-/* 隐藏大雨测试入口（源码可见；直达 heavy.html 或 ?rain=heavy） */
+/* 隐藏天气测试入口（源码可见；直达 /heavy/ /storm/ /sunny/ /rainbow/ 或 ?rain=…） */
 .heavy-gate {
   position: absolute;
   width: 1px;
