@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "w": 1220,
+    "h": 2656,
+    "fps": 24.277865999932427,
+    "n": 137,
+    "duration_s": 5.643000089068014
+  },
+  "streaks": {
+    "hough_count": 722,
+    "pixel_ratio": 0.010769923958127592,
+    "count_per_mpx_est": 222.8174995062216,
+    "tilt_deg_median": 0.0,
+    "tilt_deg_p10": -7.400768808945443,
+    "tilt_deg_p90": 85.91438322002513,
+    "len_px_median": 17.029386365926403,
+    "len_px_p90": 37.01215994197914,
+    "len_1080p_median": 6.924599877711037,
+    "len_1080p_p90": 15.050125277612,
+    "len_frac_h_median": 0.006411666553436146,
+    "brightness": {
+      "streak_mean": 197.04132041950828,
+      "bg_mean": 84.7495125446821,
+      "delta": 112.29180787482618
+    },
+    "brightness_layers": {
+      "far_lt_p40": 209.0,
+      "mid_p40_p70": [
+        209.0,
+        235.0
+      ],
+      "near_gt_p70": 235.0,
+      "p10": 113.0,
+      "p90": 252.0
+    },
+    "color_hint": "cool white / light cyan on dark blue-grey"
+  },
+  "glass_drops": {
+    "count": 82,
+    "per_mpx": 25.30614260319968,
+    "size_med_px": 14.0,
+    "size_1080p": 5.692771084337349,
+    "roundish_ratio": 0.7317073170731707,
+    "elongated_ratio": 0.23170731707317074,
+    "y_frac_median": 0.568,
+    "persistence": {
+      "frames": 14,
+      "any_ratio": 0.03455461189018368,
+      "all_ratio": 0.014547020047402725,
+      "persist_over_any": 0.42098634106056676,
+      "mean_lifetime_est_frames": 7.951718117979144
+    }
+  },
+  "motion": {
+    "diff_mean_seq": [
+      1.6050636768341064,
+      1.6461973190307617,
+      1.5573477745056152,
+      1.6496920585632324,
+      1.5408234596252441,
+      1.6372287273406982,
+      1.4979544878005981,
+      1.6412265300750732,
+      1.5607492923736572,
+      1.6547627449035645,
+      1.9499475955963135,
+      1.6298177242279053,
+      1.4043995141983032
+    ],
+    "diff_mean_avg": 1.6134777619288518,
+    "flow": {
+      "mag_p50": 0.22008520364761353,
+      "mag_p90": 1.6660865545272827,
+      "vy_p50": 0.008057140745222569,
+      "vx_p50": 0.0013322385493665934,
+      "ang_p50": 169.16165161132812,
+      "down_ratio": 0.24553130555006913
+    },
+    "note": "Particles respawn; flow underestimates bulk rain speed. Use streak length/speed coupling instead."
+  },
+  "splash": {
+    "edge_pixels_in_card_band": 78459,
+    "sparkle_on_edge": 0.00028916897096583054,
+    "sparkle_off_edge": 0.006815067647639739,
+    "gain": 0.04243082291855979
+  },
+  "mood": {
+    "mean_bgr": [
+      117.10559852113371,
+      88.62069054908157,
+      69.09069906675884
+    ],
+    "mean_hsv": [
+      107.40798408799131,
+      107.77036002617025,
+      117.27251166551451
+    ],
+    "v_mean": 117.27251166551451,
+    "s_mean": 107.77036002617025,
+    "h_mean": 107.40798408799131
+  },
+  "implementation_recipe": {
+    "layers": [
+      "0 storm-cloud dark blue-grey atmosphere",
+      "1 far dense short faint nearly-vertical streaks",
+      "2 mid streaks",
+      "3 near longer brighter streaks",
+      "4 UI cards (sandwiched)",
+      "5 foreground streaks over UI (~8-12%)",
+      "6 glass static beads with refraction/specular",
+      "7 sliding beads + wet trails",
+      "8 card-top splash sparkles + wet rim + crown rings",
+      "9 soft mist veil"
+    ],
+    "glass_tech": "Heartfelt-style procedural droplet field + normal refraction (WebGL) preferred over painted ellipses",
+    "ui_sandwich": "Confirmed by V2EX/MIUI discussions: weather FX has layers both under and over text",
+    "targets_1080p": {
+      "streaks_total": "280-420",
+      "streak_len_med_px": 10,
+      "streak_len_p90_px": 28,
+      "tilt_deg": "0 ± 4",
+      "glass_drops": "40-80",
+      "drop_size_med_px": 5,
+      "fg_streak_share": 0.08
+    }
+  }
+}

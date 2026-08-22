@@ -1,0 +1,265 @@
+{
+  "video": "rain_ref.mp4",
+  "meta": {
+    "width": 1220,
+    "height": 2656,
+    "fps": 24.277865999932427,
+    "frame_count": 137,
+    "duration_s": 5.643
+  },
+  "saved_frames": [
+    "f00000.jpg",
+    "f00012.jpg",
+    "f00024.jpg",
+    "f00037.jpg",
+    "f00049.jpg",
+    "f00061.jpg",
+    "f00074.jpg",
+    "f00086.jpg",
+    "f00098.jpg",
+    "f00111.jpg",
+    "f00123.jpg",
+    "f00136.jpg"
+  ],
+  "mood": {
+    "mean_v": 117.68531842534071,
+    "mean_s": 107.71225557969584,
+    "mean_h": 107.59142553821845,
+    "mean_bgr": [
+      117.51839602261505,
+      88.65183222644677,
+      69.35543464842978
+    ]
+  },
+  "brightness_samples": [
+    {
+      "i": 0,
+      "v": 85.84894084534861
+    },
+    {
+      "i": 12,
+      "v": 85.852965447857
+    },
+    {
+      "i": 24,
+      "v": 85.78560389097373
+    },
+    {
+      "i": 37,
+      "v": 85.85258739877543
+    },
+    {
+      "i": 49,
+      "v": 85.979208843571
+    },
+    {
+      "i": 61,
+      "v": 85.97597860705116
+    },
+    {
+      "i": 74,
+      "v": 86.11150935710053
+    },
+    {
+      "i": 86,
+      "v": 86.26687117321745
+    },
+    {
+      "i": 98,
+      "v": 86.41589009727434
+    },
+    {
+      "i": 111,
+      "v": 86.63882733804068
+    },
+    {
+      "i": 123,
+      "v": 86.70511122358286
+    },
+    {
+      "i": 136,
+      "v": 86.68786663045626
+    }
+  ],
+  "motion": [
+    {
+      "pair": [
+        68,
+        69
+      ],
+      "dt_frames": 1,
+      "dt_ms": 41.1897816720293,
+      "diff_mean": 1.4979544878005981,
+      "diff_p95": 7.0,
+      "flow_mag_median": 1.5587210655212402,
+      "flow_mag_p90": 6.873106479644775,
+      "flow_angle_median_deg": 113.11553955078125,
+      "flow_angle_p25": 82.43524169921875,
+      "flow_angle_p75": 268.26287841796875,
+      "downward_ratio": 0.33288590604026846,
+      "vx_median": 0.06424180418252945,
+      "vy_median": 0.1857462376356125,
+      "bands": {
+        "top": {
+          "mean_diff": 1.3990256786346436,
+          "p95_diff": 6.0
+        },
+        "mid": {
+          "mean_diff": 1.726402759552002,
+          "p95_diff": 7.0
+        },
+        "bot": {
+          "mean_diff": 1.3685814142227173,
+          "p95_diff": 6.0
+        }
+      },
+      "lr_bias": {
+        "left_mean_diff": 1.5744167566299438,
+        "right_mean_diff": 1.421492338180542
+      },
+      "streak_count": 299,
+      "streak_h_median": 13.0,
+      "streak_h_p90": 25.0,
+      "droplet_count_est": 0,
+      "droplet_size_median": 0.0,
+      "card_splash_proxy_pixels": 9369
+    },
+    {
+      "pair": [
+        70,
+        71
+      ],
+      "dt_frames": 1,
+      "dt_ms": 41.1897816720293,
+      "diff_mean": 1.5607492923736572,
+      "diff_p95": 7.0,
+      "flow_mag_median": 1.4161407947540283,
+      "flow_mag_p90": 8.227273941040039,
+      "flow_angle_median_deg": 147.9169921875,
+      "flow_angle_p25": 86.90499114990234,
+      "flow_angle_p75": 266.7184143066406,
+      "downward_ratio": 0.3234536082474227,
+      "vx_median": 0.028256352990865707,
+      "vy_median": 0.16769012808799744,
+      "bands": {
+        "top": {
+          "mean_diff": 1.31691575050354,
+          "p95_diff": 6.0
+        },
+        "mid": {
+          "mean_diff": 1.7899888753890991,
+          "p95_diff": 7.0
+        },
+        "bot": {
+          "mean_diff": 1.5753265619277954,
+          "p95_diff": 6.0
+        }
+      },
+      "lr_bias": {
+        "left_mean_diff": 1.5918866395950317,
+        "right_mean_diff": 1.5296119451522827
+      },
+      "streak_count": 295,
+      "streak_h_median": 13.0,
+      "streak_h_p90": 25.0,
+      "droplet_count_est": 0,
+      "droplet_size_median": 0.0,
+      "card_splash_proxy_pixels": 9424
+    },
+    {
+      "pair": [
+        72,
+        73
+      ],
+      "dt_frames": 1,
+      "dt_ms": 41.1897816720293,
+      "diff_mean": 1.9499475955963135,
+      "diff_p95": 7.0,
+      "flow_mag_median": 1.365491271018982,
+      "flow_mag_p90": 7.429172992706299,
+      "flow_angle_median_deg": 172.97235107421875,
+      "flow_angle_p25": 86.80474853515625,
+      "flow_angle_p75": 269.7944641113281,
+      "downward_ratio": 0.30659767141009053,
+      "vx_median": 0.04401751980185509,
+      "vy_median": 0.03316469117999077,
+      "bands": {
+        "top": {
+          "mean_diff": 1.91698157787323,
+          "p95_diff": 7.0
+        },
+        "mid": {
+          "mean_diff": 2.1045050621032715,
+          "p95_diff": 8.0
+        },
+        "bot": {
+          "mean_diff": 1.828493356704712,
+          "p95_diff": 7.0
+        }
+      },
+      "lr_bias": {
+        "left_mean_diff": 2.021089792251587,
+        "right_mean_diff": 1.878805160522461
+      },
+      "streak_count": 302,
+      "streak_h_median": 13.0,
+      "streak_h_p90": 25.900000000000034,
+      "droplet_count_est": 0,
+      "droplet_size_median": 0.0,
+      "card_splash_proxy_pixels": 9354
+    },
+    {
+      "pair": [
+        74,
+        75
+      ],
+      "dt_frames": 1,
+      "dt_ms": 41.1897816720293,
+      "diff_mean": 1.4043995141983032,
+      "diff_p95": 6.0,
+      "flow_mag_median": 1.5171955823898315,
+      "flow_mag_p90": 8.409839630126953,
+      "flow_angle_median_deg": 179.9385986328125,
+      "flow_angle_p25": 89.65374755859375,
+      "flow_angle_p75": 270.1986083984375,
+      "downward_ratio": 0.2520138089758343,
+      "vx_median": 0.007108131889253855,
+      "vy_median": 0.0006894230027683079,
+      "bands": {
+        "top": {
+          "mean_diff": 1.480978012084961,
+          "p95_diff": 7.0
+        },
+        "mid": {
+          "mean_diff": 1.3989006280899048,
+          "p95_diff": 6.0
+        },
+        "bot": {
+          "mean_diff": 1.3334002494812012,
+          "p95_diff": 5.0
+        }
+      },
+      "lr_bias": {
+        "left_mean_diff": 1.397727370262146,
+        "right_mean_diff": 1.41107177734375
+      },
+      "streak_count": 302,
+      "streak_h_median": 13.0,
+      "streak_h_p90": 25.0,
+      "droplet_count_est": 0,
+      "droplet_size_median": 0.0,
+      "card_splash_proxy_pixels": 9439
+    }
+  ],
+  "derived": {
+    "rain_speed_px_per_frame_p90": 7.828223466873169,
+    "rain_speed_px_per_sec_p90": 190.05256034627325,
+    "rain_angle_deg_from_right_ccw": 160.44467163085938,
+    "tilt_from_vertical_deg": 70.44467163085938,
+    "vy_median_px_frame": 0.1004274096339941,
+    "vx_median_px_frame": 0.0361369363963604,
+    "streak_count_median": 300.5,
+    "droplet_count_median": 0.0,
+    "note": "Optical flow on phone screen recording; numbers are approximate due to compression and UI."
+  }
+}

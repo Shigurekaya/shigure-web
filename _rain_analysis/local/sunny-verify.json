@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:3000/?sunny&v=202608223530",
+  "errors": [],
+  "diag": {
+    "canvas": {
+      "w": 1920,
+      "h": 1080,
+      "css": "1280x720"
+    },
+    "haze": true,
+    "bodyClass": "page-home sunny-sky home-ready",
+    "hasFx": true,
+    "stats": {
+      "frameMs": 41.666666666666664,
+      "static": false,
+      "dpr": 1.5,
+      "w": 1280,
+      "h": 720,
+      "rainbow": true,
+      "weakGpu": false
+    },
+    "cssOnly": true,
+    "pseudo": {
+      "display": "none",
+      "filter": "none",
+      "animation": "none"
+    },
+    "siteBar": {
+      "backdrop": "none"
+    },
+    "fps": {
+      "avg": 125.8,
+      "p50": 59.9,
+      "jankPct": 0
+    }
+  },
+  "shot": "E:\\网站\\测试框架\\shigure-web\\_rain_analysis\\local\\sunny-verify.png"
+}

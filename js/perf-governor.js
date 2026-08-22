@@ -1,0 +1,142 @@
+/**
+ * 小雨（light rain）性能分级 + 运行时帧预算
+ */
+(() => {
+  function clamp(n, lo, hi) {
+    return Math.max(lo, Math.min(hi, n));
+  }
+
+  let weakGpuCache = null;
+
+  function isPhoneLike() {
+    try {
+      if (navigator.connection?.saveData) return true;
+    } catch { /* ignore */ }
+    const ua = navigator.userAgent || "";
+    if (/Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MiuiBrowser/i.test(ua)) return true;
+    try {
+      if (window.matchMedia("(max-width: 720px)").matches
+        && window.matchMedia("(pointer: coarse)").matches) return true;
+    } catch { /* ignore */ }
+    return window.matchMedia("(max-width: 720px)").matches;
+  }
+
+  function viewportPixelLoad() {
+    let w = window.innerWidth || 1280;
+    let h = window.innerHeight || 720;
+    if (window.visualViewport) {
+      w = window.visualViewport.width || w;
+      h = window.visualViewport.height || h;
+    }
+    return w * h * (window.devicePixelRatio || 1);
+  }
+
+  function isHeavyViewport() {
+    return viewportPixelLoad() > 1_650_000;
+  }
+
+  function isWeakGpu() {
+    if (weakGpuCache != null) return weakGpuCache;
+    weakGpuCache = false;
+    try {
+      const c = document.createElement("canvas");
+      const gl = c.getContext("webgl") || c.getContext("experimental-webgl");
+      if (!gl) {
+        weakGpuCache = true;
+        return weakGpuCache;
+      }
+      const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+      if (dbg) {
+        const r = (gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || "").toLowerCase();
+        if (/intel|hd graphics|uhd|basic render|microsoft|llvmpipe|swiftshader|mesa/.test(r)) {
+          if (!/arc a|rtx|gtx|rx [5-9]|radeon rx|geforce/.test(r)) {
+            weakGpuCache = true;
+          }
+        }
+      }
+    } catch {
+      weakGpuCache = true;
+    }
+    return weakGpuCache;
+  }
+
+  /** @returns {"low"|"mid"|"high"} */
+  function detectRainTier() {
+    try {
+      if (navigator.connection?.saveData) return "low";
+    } catch { /* ignore */ }
+    if (isPhoneLike()) return "low";
+
+    if (isWeakGpu()) return "low";
+
+    const cores = navigator.hardwareConcurrency || 4;
+    let mem = 4;
+    try {
+      if (typeof navigator.deviceMemory === "number" && navigator.deviceMemory > 0) {
+        mem = navigator.deviceMemory;
+      }
+    } catch { /* ignore */ }
+
+    let tier = "high";
+    if (cores <= 4 || mem <= 4) tier = "low";
+    else if (cores <= 8 || mem <= 8) tier = "mid";
+
+    if (isHeavyViewport() && tier === "high") tier = "mid";
+    return tier;
+  }
+
+  function createRuntimeGovernor(opts = {}) {
+    const min = opts.min ?? 0.72;
+    const max = opts.max ?? 1;
+    const weak = !!opts.weakGpu;
+    let scale = opts.initial ?? max;
+    let slowStreak = 0;
+    let fastStreak = 0;
+    let tick = 0;
+
+    return {
+      get scale() { return scale; },
+      get tick() { return tick; },
+      noteFrame(frameMsBudget, frameCostMs) {
+        tick += 1;
+        const slowMs = opts.slowMs ?? frameMsBudget * 1.22;
+        const recoverMs = opts.recoverMs ?? frameMsBudget * 0.92;
+        if (frameCostMs > slowMs) {
+          slowStreak += 1;
+          fastStreak = 0;
+          if (slowStreak >= 3) {
+            scale = Math.max(min, scale * 0.92);
+            slowStreak = 0;
+          }
+        } else if (frameCostMs < recoverMs) {
+          fastStreak += 1;
+          slowStreak = Math.max(0, slowStreak - 1);
+          if (fastStreak >= 18 && scale < max) {
+            scale = Math.min(max, scale * 1.025);
+            fastStreak = 0;
+          }
+        }
+        return scale;
+      },
+      /** 隔帧跳过涟漪、近景雨丝头等次要效果 */
+      shouldSkipExtras() {
+        if (weak && scale < 0.96 && (tick & 1) === 1) return true;
+        return scale < 0.86 && (tick & 1) === 1;
+      },
+      /** 压力更大时隔帧跳过溅花绘制（物理仍更新） */
+      shouldSkipSplashes() {
+        if (weak && scale < 0.92 && (tick & 1) === 1) return true;
+        return scale < 0.8 && (tick & 1) === 1;
+      },
+    };
+  }
+
+  window.KayaPerfGovernor = {
+    clamp,
+    isPhoneLike,
+    isWeakGpu,
+    isHeavyViewport,
+    detectRainTier,
+    createRuntimeGovernor,
+  };
+})();

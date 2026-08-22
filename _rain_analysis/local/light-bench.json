@@ -1,0 +1,24 @@
+{
+  "url": "http://127.0.0.1:3000/?rain=light",
+  "cpuThrottle": "4x",
+  "baseline": {
+    "n": 67,
+    "avg": 17.1,
+    "p50": 15,
+    "p10": 15,
+    "jankPct": 100
+  },
+  "optimized": {
+    "n": 181,
+    "avg": 59.7,
+    "p50": 59.9,
+    "p10": 59.9,
+    "jankPct": 0
+  },
+  "errors": [],
+  "delta": {
+    "avg": 42.6,
+    "p50": 44.9,
+    "jankPct": 100
+  }
+}

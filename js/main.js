@@ -150,10 +150,12 @@ const Kaya = (() => {
     });
   }
 
-  const HEAVY_RAIN_CHANCE = 0.1;
+  /** 主页随机天气：20% 彩虹 / 70% 小雨 / 10% 大雨（storm、sunny 仍仅 URL 强制） */
+  const HOME_RAINBOW_CHANCE = 0.2;
+  const HOME_HEAVY_CHANCE = 0.1;
   const RAIN_MODE_KEY = "kaya-rain-mode";
-  /** 彩虹模式临时下线（恢复：改 false + 取消 HTML 中彩虹相关注释） */
-  const RAINBOW_TEMP_DISABLED = true;
+  /** 彩虹已与晴天融合，保留入口别名 */
+  const RAINBOW_TEMP_DISABLED = false;
   const SPLASH_SELECTORS = [
     ".intro-panel__body",
     ".home-card",
@@ -252,11 +254,22 @@ const Kaya = (() => {
     } catch { /* ignore */ }
   }
 
+  /** @returns {"light"|"heavy"|"rainbow"} */
+  function rollHomeWeather() {
+    const r = Math.random();
+    if (!RAINBOW_TEMP_DISABLED && r < HOME_RAINBOW_CHANCE) return "rainbow";
+    const heavyCut = RAINBOW_TEMP_DISABLED
+      ? HOME_HEAVY_CHANCE
+      : HOME_RAINBOW_CHANCE + HOME_HEAVY_CHANCE;
+    if (r < heavyCut) return "heavy";
+    return "light";
+  }
+
   /**
    * 天气模式：
-   * - URL 强制优先（storm / sunny / rainbow 仅强制，日常不抽）
-   * - 刷新：保留 sunny/rainbow/storm；light/heavy 才重抽 10% 大雨
+   * - URL 强制优先（storm / sunny 仅强制，不参与抽签）
    * - 站内导航沿用本次会话已选模式
+   * - 刷新：保留 storm / sunny；彩虹 / 小雨 / 大雨按 20% / 70% / 10% 重抽
    * @returns {"light"|"heavy"|"storm"|"sunny"|"rainbow"}
    */
   function pickInitialRainMode() {
@@ -269,12 +282,9 @@ const Kaya = (() => {
     const saved = readStoredRainMode();
     const isReload = navigationType() === "reload";
     if (!isReload && saved && !(RAINBOW_TEMP_DISABLED && saved === "rainbow")) return saved;
-    if (isReload && (saved === "sunny" || saved === "rainbow" || saved === "storm")) {
-      if (!(RAINBOW_TEMP_DISABLED && saved === "rainbow")) return saved;
-    }
+    if (isReload && (saved === "sunny" || saved === "storm")) return saved;
 
-    const heavy = Math.random() < HEAVY_RAIN_CHANCE;
-    const mode = heavy ? "heavy" : "light";
+    const mode = rollHomeWeather();
     writeStoredRainMode(mode);
     return mode;
   }
@@ -332,7 +342,6 @@ const Kaya = (() => {
     let lightFx = null;
     let stormFx = null;
     let sunnyFx = null;
-    let rainbowFx = null;
     let splashNodes = null;
     let splashNodesAt = 0;
 
@@ -438,15 +447,7 @@ const Kaya = (() => {
       return sunnyFx;
     };
 
-    const ensureRainbowFx = () => {
-      if (rainbowFx) return rainbowFx;
-      if (!window.KayaAfterRain?.attach) {
-        console.warn("[kaya] KayaAfterRain missing");
-        return null;
-      }
-      rainbowFx = window.KayaAfterRain.attach(host);
-      return rainbowFx;
-    };
+    const ensureDryFx = () => ensureSunnyFx();
 
     const resize = () => {
       w = window.innerWidth;
@@ -460,10 +461,8 @@ const Kaya = (() => {
         collectLedges();
         heavyFx?.resize();
         stormFx?.resize();
-      } else if (mode === "sunny") {
+      } else if (mode === "sunny" || mode === "rainbow") {
         sunnyFx?.resize();
-      } else if (mode === "rainbow") {
-        rainbowFx?.resize();
       } else {
         lightFx?.resize();
       }
@@ -501,17 +500,14 @@ const Kaya = (() => {
         lightFx?.stop();
         stormFx?.stop();
         sunnyFx?.stop();
-        rainbowFx?.stop();
         return;
       }
       running = true;
       if (heavy) {
         ensureHeavyFx()?.start();
         ensureStormFx()?.start();
-      } else if (mode === "sunny") {
-        ensureSunnyFx()?.start();
-      } else if (mode === "rainbow") {
-        ensureRainbowFx()?.start();
+      } else if (mode === "sunny" || mode === "rainbow") {
+        ensureDryFx()?.start();
       } else {
         ensureLightFx()?.start();
       }
@@ -524,10 +520,8 @@ const Kaya = (() => {
         ensureStormFx()?.start();
         ensureSplashNodes(true);
         collectLedges();
-      } else if (mode === "sunny") {
-        ensureSunnyFx()?.start();
-      } else if (mode === "rainbow") {
-        ensureRainbowFx()?.start();
+      } else if (mode === "sunny" || mode === "rainbow") {
+        ensureDryFx()?.start();
       } else {
         ensureLightFx()?.start();
       }
@@ -608,7 +602,6 @@ const Kaya = (() => {
         try { lightFx?.stop(); } catch { /* ignore */ }
         try { stormFx?.stop(); } catch { /* ignore */ }
         try { sunnyFx?.destroy ? sunnyFx.destroy() : sunnyFx?.stop(); } catch { /* ignore */ }
-        try { rainbowFx?.destroy ? rainbowFx.destroy() : rainbowFx?.stop(); } catch { /* ignore */ }
         bgCanvas?.remove();
         fx?.remove();
         rainApi = null;
@@ -663,8 +656,7 @@ const Kaya = (() => {
   function startIntroRain(canvas) {
     const heavy = document.body.classList.contains("heavy-rain");
     const storm = document.body.classList.contains("storm-rain");
-    const dry = document.body.classList.contains("sunny-sky")
-      || document.body.classList.contains("after-rain");
+    const dry = document.body.classList.contains("sunny-sky");
 
     /* 晴/虹开场不应再挂小雨 */
     if (dry) return () => {};
@@ -1103,13 +1095,12 @@ const Kaya = (() => {
       : (modeOrHeavy ? "heavy" : "light");
     const heavy = mode === "heavy" || mode === "storm";
     const storm = mode === "storm";
-    const sunny = mode === "sunny";
-    const rainbow = mode === "rainbow";
+    const sunny = mode === "sunny" || mode === "rainbow";
     document.body.classList.toggle("heavy-rain", heavy);
     document.body.classList.toggle("storm-rain", storm);
     document.body.classList.toggle("light-rain", mode === "light");
     document.body.classList.toggle("sunny-sky", sunny);
-    document.body.classList.toggle("after-rain", rainbow);
+    document.body.classList.toggle("after-rain", false);
     const theme = document.querySelector('meta[name="theme-color"]');
     if (theme) {
       const color = storm
@@ -1118,9 +1109,7 @@ const Kaya = (() => {
           ? "#243448"
           : sunny
             ? "#7ab0d8"
-            : rainbow
-              ? "#6a98c0"
-              : "#f7f8fc";
+            : "#f7f8fc";
       theme.setAttribute("content", color);
     }
     document.querySelectorAll(".weather-preview a").forEach((a) => {
@@ -1133,8 +1122,7 @@ const Kaya = (() => {
     const intro = document.getElementById("home-intro");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     /* URL 测试入口，或会话已是晴/虹：跳过开场，避免遮罩 + 错挂小雨 */
-    const drySession = document.body.classList.contains("sunny-sky")
-      || document.body.classList.contains("after-rain");
+    const drySession = document.body.classList.contains("sunny-sky");
     const play = !forceSpecialWeatherFromUrl() && !drySession && shouldPlayHomeIntro("/");
 
     if (!intro || reduced || !play) {

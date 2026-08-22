@@ -17,6 +17,8 @@ _rain_analysis/strict_inventory/
 _rain_analysis/effect_overlays/
 _rain_analysis/node_modules/
 _rain_analysis/.venv/
+_rain_analysis/.playwright-browsers/
+_rain_analysis/uv.lock
 _rain_analysis/ref_audio.wav
 
 # 中间迭代全页截图不入库（体积大）；保留对照图与最新一版

@@ -2,14 +2,22 @@
 
 来源：`d:\d63123f5e68f97c298dea1bec5aad3a0.mp4`（小米天气 · Heavy rainfall）
 
-运行：
+## 本地环境（uv，全部在 E 盘项目目录）
 
 ```powershell
-cd shigure-web
-uv venv .venv
-uv pip install pillow numpy opencv-python-headless
-.\.venv\Scripts\python.exe _rain_analysis\analyze_rain.py
+cd shigure-web\_rain_analysis
+.\setup-uv.ps1          # 创建 .venv + .playwright-browsers（不写 C 盘）
+.\run-perf.ps1          # 起 serve-local:3000 并测 sunny/light/heavy FPS
 ```
+
+手动：
+
+```powershell
+$env:PLAYWRIGHT_BROWSERS_PATH = ".\.playwright-browsers"
+uv run python perf_weather.py http://127.0.0.1:3000
+```
+
+旧版分析脚本（pillow / numpy / opencv）同样用 `uv run python analyze_deep.py`。
 
 ## 量化结论（45 帧 @ 8fps + 二次 gap_check）
 
