@@ -67,3 +67,27 @@
 **下一主做 C**：细针+软晕跟帧；顺带盯 D b150。
 
 **未完成**：尚未肉眼贴近参考视频。
+
+## R24 · 继续打磨（2026-08-23，本地 iter75）
+
+- 对照 URL：`http://127.0.0.1:3000/?rain=heavy`；参考：`d:\d63123f5e68f97c298dea1bec5aad3a0.mp4` 的 `frame_010.png`
+- C 雨丝：细化 2D 软晕核心，亮芯改为极淡；叠层降至 13% 缓冲并减少锐芯，雨丝长度由 1.0–4.2% 屏高收至约 0.9–3.4%，降低轻倾硬针感。
+- B 天空：继续使用自研 FBM Canvas；提高顶部亮度/冷灰蓝层次。云层探针 sky=95，最终截图量化 sky=95.0，sat=0.426。
+- D 贴屏：减少大珠/冷凝微珠、缩短 trailDistance、降低 trailDropDensity/高光强度；最终 b150=0.038，较 REF 0.034 接近。
+- iter75 量化：mean=88.4 vs REF 87.1；sky=95.0 vs 95.9；sat=0.426 vs 0.426；b150=0.038 vs 0.034。
+- 详细探针仍显示 C 有差距：Hough 约 24 条 vs REF 2 条，说明 UI/贴屏边缘仍会被检测成线段；下一轮应继续以肉眼视频为主，重点排除硬边而不是继续提高密度。
+- `ReadLints`：`heavy-rain.js`、`style.css` 无新增 lint。
+
+## R25 · 性能降档（2026-08-23，本地 iter76）
+
+- 目标：在 **仅改 heavy-rain** 前提下适当降画质，缓解性能压力；参考 GitHub 调研结论里的常见做法：降低 DPR / 运行时自适应降级 / 减少贴屏层刷新。
+- 新增 `balanced` 档：大雨默认从 `high` 切到 `balanced`，`streak` 3200→1500、`dprCap` 2→1.12、`frameMs` 60fps→28fps，贴屏玻璃与冷凝珠数量也同步下调。
+- 运行时治理：引入 `KayaPerfGovernor`，按帧成本自动降采样，帧忙时跳过次要溅花/叠层刷新。
+- 贴屏优化：降低 `glassBufferSize`、overlay 低分辨率层、html2canvas 复捕获频率；减少 `trailDropDensity`、`trailDistance` 和微珠量，尽量保留细针+软晕轮廓。
+- 性能基准（`uv run python perf_weather.py http://127.0.0.1:3000`）：`heavy avg=49.8fps`（原先更高档时常驻压力更大），`sunny/light` 未受影响。
+- 视觉回归（iter76 / `compare_iter76.png`）：`mean=88.3`、`sky=95.1`、`sat=0.426`、`b150=0.038`，仍保持在原有可接受区间。
+- 仍建议后续继续细看肉眼是否能接受 balanced 档的轻微变软；若过软，再局部补回叠层对比度，而不是整体回调 DPR。
+
+**当前状态**：性能压力已明显下降，视觉特征仍在，但尚未做最终肉眼验收。
+
+

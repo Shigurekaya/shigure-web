@@ -60,7 +60,7 @@ for (let i = 0; i < 48; i += 1) {
 await page.waitForTimeout(4000);
 
 const shotPath = join(outDir, `${tag}.png`);
-await page.screenshot({ path: shotPath, fullPage: false });
+await page.screenshot({ path: shotPath, fullPage: false, timeout: 90000 });
 
 const info = await page.evaluate(() => {
   const pick = (sel) => {

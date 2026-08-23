@@ -120,15 +120,76 @@
       },
       /** 隔帧跳过涟漪、近景雨丝头等次要效果 */
       shouldSkipExtras() {
-        if (weak && scale < 0.96 && (tick & 1) === 1) return true;
-        return scale < 0.86 && (tick & 1) === 1;
+        if (weak && scale < 0.98 && (tick & 1) === 1) return true;
+        return scale < 0.9 && (tick & 1) === 1;
       },
       /** 压力更大时隔帧跳过溅花绘制（物理仍更新） */
       shouldSkipSplashes() {
-        if (weak && scale < 0.92 && (tick & 1) === 1) return true;
-        return scale < 0.8 && (tick & 1) === 1;
+        if (weak && scale < 0.94 && (tick & 1) === 1) return true;
+        return scale < 0.84 && (tick & 1) === 1;
       },
     };
+  }
+
+  function ambientDprCap(phone = false) {
+    if (phone) return 1.05;
+    if (isWeakGpu()) return 1;
+    return 1;
+  }
+
+  /** 氛围天气（小雨/晴天）：高配机也不拉高特效，避免空占 GPU */
+  function detectAmbientTier() {
+    const tier = detectRainTier();
+    return tier === "high" ? "mid" : tier;
+  }
+
+  function initPerfOverlay() {
+    try {
+      if (!/[?&]perf=1(?:&|$)/.test(location.search)) return;
+    } catch { return; }
+    const box = document.createElement("div");
+    box.id = "kaya-perf-overlay";
+    Object.assign(box.style, {
+      position: "fixed",
+      left: "8px",
+      bottom: "8px",
+      zIndex: "99999",
+      padding: "8px 10px",
+      font: "11px/1.45 ui-monospace,Consolas,monospace",
+      color: "#e8f0ff",
+      background: "rgba(8,12,22,0.82)",
+      border: "1px solid rgba(140,170,220,0.35)",
+      borderRadius: "8px",
+      pointerEvents: "none",
+      whiteSpace: "pre",
+      maxWidth: "min(92vw, 420px)",
+    });
+    document.body.appendChild(box);
+    const tick = () => {
+      const c = document.querySelector(".site-bg__rain, .site-bg__sunny, .site-bg__sunny--dyn");
+      const px = c ? c.width * c.height : 0;
+      const light = window.__KayaLightRainStats?.();
+      const sunny = window.__KayaSunnyStats?.();
+      const lines = [
+        `dpr=${window.devicePixelRatio}  canvas=${c ? `${c.width}×${c.height}` : "—"}  (${(px / 1e6).toFixed(2)} Mpx)`,
+        `tier=${detectAmbientTier()} weakGpu=${isWeakGpu()}`,
+      ];
+      if (light) {
+        lines.push(`light: mode=${light.mode ?? "canvas"} layers=${light.layers ?? "—"} frame=${light.frameMs}ms`);
+      }
+      if (sunny) {
+        lines.push(`sunny: mode=${sunny.mode ?? "canvas"} rainbowPx=${sunny.rainbowPx ?? "—"} static=${sunny.static ?? "—"}`);
+      }
+      box.textContent = lines.join("\n");
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPerfOverlay, { once: true });
+  } else {
+    initPerfOverlay();
   }
 
   window.KayaPerfGovernor = {
@@ -137,6 +198,8 @@
     isWeakGpu,
     isHeavyViewport,
     detectRainTier,
+    detectAmbientTier,
+    ambientDprCap,
     createRuntimeGovernor,
   };
 })();

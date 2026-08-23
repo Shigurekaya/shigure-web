@@ -3,34 +3,34 @@
   "errors": [],
   "diag": {
     "canvas": {
-      "w": 1771,
+      "w": 1792,
       "h": 1007,
-      "css": "1265x720"
+      "css": "1280x720"
     },
     "bodyClass": "page-home light-rain home-ready",
     "hasFx": true,
-    "tier": "mid",
+    "tier": "high",
     "weakGpu": false,
     "stats": {
-      "frameMs": 2.8,
+      "frameMs": 0.8,
       "dropMul": 1,
-      "quality": "mid",
+      "quality": "high",
       "weakGpu": false,
       "dpr": 1.4,
-      "drops": 578,
-      "splashes": 188
+      "drops": 721,
+      "splashes": 231
     },
     "fps": {
-      "avg": 56.8,
+      "avg": 60.3,
       "p50": 59.9,
-      "jankPct": 1.3
+      "jankPct": 0
     },
     "rainFrame": {
-      "n": 151,
-      "avgMs": 2,
-      "p50Ms": 1.9,
+      "n": 152,
+      "avgMs": 0.9,
+      "p50Ms": 0.9,
       "slowPct": 0
     }
   },
-  "shot": "E:\\网站\\测试框架\\shigure-web\\_rain_analysis\\local\\light-verify.png"
+  "shot": "D:\\gamedev\\shigure-web\\_rain_analysis\\local\\light-verify.png"
 }

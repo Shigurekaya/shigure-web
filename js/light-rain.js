@@ -7,6 +7,9 @@
 (() => {
   const FRAME_MS = 1000 / 30;
   const WEAK_FRAME_MS = 1000 / 24;
+  /** 雨量 -40%、下落速度 +20% */
+  const RAIN_AMOUNT = 0.6;
+  const RAIN_SPEED = 1.2;
 
   /** 按色相批量描边；单趟分桶 + 复用索引数组，避免三趟全量扫描 */
   function createLayerPainter() {
@@ -77,9 +80,15 @@
     try {
       if (navigator.connection?.saveData) return "low";
     } catch { /* ignore */ }
-    const ua = navigator.userAgent || "";
-    const phone = /Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MiuiBrowser/i.test(ua)
-      || (navigator.maxTouchPoints > 1 && Math.min(screen.width, screen.height) <= 920);
+    const phone = Gov?.isPhoneLike?.() ?? (() => {
+      const ua = navigator.userAgent || "";
+      if (/Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MiuiBrowser/i.test(ua)) return true;
+      try {
+        return window.matchMedia("(max-width: 720px)").matches
+          && window.matchMedia("(pointer: coarse)").matches;
+      } catch { /* ignore */ }
+      return window.matchMedia("(max-width: 720px)").matches;
+    })();
     const cores = navigator.hardwareConcurrency || 8;
     const narrow = window.matchMedia("(max-width: 720px)").matches;
     if (phone || narrow || cores <= 4) return "low";
@@ -221,7 +230,7 @@
         x: Math.random() * Math.max(1, w),
         y: Math.random() * Math.max(1, h),
         len: rand(spec.len[0], spec.len[1]),
-        speed: rand(spec.speed[0], spec.speed[1]),
+        speed: rand(spec.speed[0], spec.speed[1]) * RAIN_SPEED,
         alpha: rand(spec.alpha[0], spec.alpha[1]),
         width: rand(spec.width[0], spec.width[1]),
         drift: rand(spec.drift[0], spec.drift[1]),
@@ -237,7 +246,7 @@
       const areaScale = clamp((w * h) / (1280 * 720), 0.65, 1.4);
 
       const fill = (arr, n, layer) => {
-        const count = Math.max(8, Math.round(n * areaScale));
+        const count = Math.max(8, Math.round(n * areaScale * RAIN_AMOUNT));
         while (arr.length < count) arr.push(makeDrop(layer));
         if (arr.length > count) arr.length = count;
         for (let i = 0; i < arr.length; i += 1) {
@@ -413,7 +422,7 @@
       const areaScale = clamp((w * h) / (1280 * 720), 0.65, 1.4);
       const mul = dropMul * areaScale;
       const trim = (arr, n, layer) => {
-        const count = Math.max(8, Math.round(n * mul));
+        const count = Math.max(8, Math.round(n * mul * RAIN_AMOUNT));
         while (arr.length < count) arr.push(makeDrop(layer));
         if (arr.length > count) arr.length = count;
       };

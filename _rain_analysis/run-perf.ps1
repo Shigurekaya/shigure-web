@@ -5,8 +5,7 @@ $Root = Split-Path -Parent $Here
 $Port = if ($env:RAIN_PORT) { $env:RAIN_PORT } else { "3000" }
 $Base = "http://127.0.0.1:$Port"
 
-$env:PLAYWRIGHT_BROWSERS_PATH = Join-Path $Here ".playwright-browsers"
-$env:UV_PROJECT_ENVIRONMENT = Join-Path $Here ".venv"
+. (Join-Path $Here "env-uv.ps1")
 
 if (-not (Test-Path (Join-Path $Here ".venv\Scripts\python.exe"))) {
   & (Join-Path $Here "setup-uv.ps1")

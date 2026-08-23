@@ -1,22 +1,33 @@
 {
-  "url": "http://127.0.0.1:3000/?sunny&v=202608223530",
+  "url": "http://127.0.0.1:3000/?rain=sunny",
   "errors": [],
   "diag": {
-    "canvas": {
-      "w": 1920,
-      "h": 1080,
-      "css": "1280x720"
+    "scene": {
+      "on": true,
+      "src": true,
+      "blend": "normal"
     },
-    "haze": true,
-    "bodyClass": "page-home sunny-sky home-ready",
+    "mist": true,
+    "mistOpacity": "1",
+    "bodyBg": "rgb(200, 230, 245)",
+    "bgFill": "rgba(0, 0, 0, 0)",
+    "bodyClass": "page-home sunny-sky home-ready kaya-ambient-eco",
     "hasFx": true,
     "stats": {
-      "frameMs": 41.666666666666664,
-      "static": false,
-      "dpr": 1.5,
+      "mode": "img-static",
+      "frameMs": 0,
+      "effectFps": 0,
+      "staticLayer": true,
+      "static": true,
+      "dpr": 1.05,
+      "staticScale": 0.62,
+      "staticPx": 921600,
       "w": 1280,
       "h": 720,
       "rainbow": true,
+      "rainbowCoverage": 0.294,
+      "rainbowCoverageOk": false,
+      "rainbowRepairPass": 2,
       "weakGpu": false
     },
     "cssOnly": true,
@@ -29,10 +40,67 @@
       "backdrop": "none"
     },
     "fps": {
-      "avg": 125.8,
+      "avg": 60,
       "p50": 59.9,
       "jankPct": 0
     }
   },
-  "shot": "E:\\网站\\测试框架\\shigure-web\\_rain_analysis\\local\\sunny-verify.png"
+  "pixels": [
+    {
+      "x": 64,
+      "y": 64,
+      "top": "site-header",
+      "body": "rgb(200, 230, 245)"
+    },
+    {
+      "x": 200,
+      "y": 180,
+      "top": "page-home sunny-sky home-ready kaya-ambient-eco",
+      "body": "rgb(200, 230, 245)"
+    },
+    {
+      "x": 640,
+      "y": 120,
+      "top": "home-main",
+      "body": "rgb(200, 230, 245)"
+    },
+    {
+      "x": 1100,
+      "y": 200,
+      "top": "page-home sunny-sky home-ready kaya-ambient-eco",
+      "body": "rgb(200, 230, 245)"
+    },
+    {
+      "x": 640,
+      "y": 360,
+      "top": "profile-name",
+      "body": "rgb(200, 230, 245)"
+    }
+  ],
+  "bgCheck": {
+    "corner": {
+      "r": 117,
+      "g": 197,
+      "b": 233
+    },
+    "rainbow": {
+      "r": 113,
+      "g": 198,
+      "b": 235
+    },
+    "center": {
+      "r": 72,
+      "g": 107,
+      "b": 128
+    },
+    "rainbowPos": {
+      "x": 80,
+      "y": 132
+    },
+    "lightBgOk": false,
+    "rainbowOk": false,
+    "notBlackBg": true,
+    "maxChroma": 122
+  },
+  "shot": "D:\\gamedev\\shigure-web\\_rain_analysis\\local\\sunny-verify.png"
 }

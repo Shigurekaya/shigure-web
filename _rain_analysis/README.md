@@ -6,15 +6,20 @@
 
 ```powershell
 cd shigure-web\_rain_analysis
-.\setup-uv.ps1          # 创建 .venv + .playwright-browsers（不写 C 盘）
-.\run-perf.ps1          # 起 serve-local:3000 并测 sunny/light/heavy FPS
+.\setup-uv.ps1 -UseProxy   # 创建 .venv + .playwright-browsers（全在 D 盘项目内）
+.\run-capture.ps1 -Tag iter71 -UseProxy   # 大雨截图（勿用 npx playwright）
+.\run-perf.ps1             # 起 serve-local:3000 并测 sunny/light/heavy FPS
 ```
 
-手动：
+**勿**在 C 盘安装浏览器：`npx playwright install` 会写到 `%LOCALAPPDATA%\ms-playwright`。若误装，运行 `.\setup-uv.ps1` 会清理并改装到 `.\.playwright-browsers`。
+
+手动（需先 `. .\env-uv.ps1` 或走上面脚本）：
 
 ```powershell
-$env:PLAYWRIGHT_BROWSERS_PATH = ".\.playwright-browsers"
+. .\env-uv.ps1
+uv run python capture_local.py          # 截图
 uv run python perf_weather.py http://127.0.0.1:3000
+uv run python quant_pair.py --ref frame_010.png --loc local/iter71.png --out local/compare_iter71.png
 ```
 
 旧版分析脚本（pillow / numpy / opencv）同样用 `uv run python analyze_deep.py`。

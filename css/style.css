@@ -118,6 +118,7 @@ img { max-width: 100%; height: auto; display: block; }
   z-index: 1;
   pointer-events: none;
   opacity: 0.7;
+  contain: strict;
 }
 
 body.heavy-rain .site-bg__rain {
@@ -145,15 +146,200 @@ body.light-rain .site-bg__light-mist {
   animation: light-mist-drift 22s ease-in-out infinite alternate;
 }
 
-/* 晴天 + 彩虹：Canvas 主视觉 */
-.site-bg__sunny {
+.site-bg__light-wet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  height: min(72px, 10vh);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(160, 185, 220, 0) 0%,
+    rgba(170, 195, 230, 0.1) 42%,
+    rgba(139, 111, 212, 0.12) 100%
+  );
+}
+
+/* 小雨 · CSS 合成器雨层（平铺贴图 + transform 动画，无 Canvas 逐帧） */
+.site-bg__light-rain-css {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+}
+
+.site-bg__light-rain-css.is-on {
+  opacity: var(--rain-alpha, 0.7);
+}
+
+.site-bg__light-rain-css__track {
+  position: absolute;
+  left: -8%;
+  width: 116%;
+  height: 220%;
+  top: -110%;
+  background-image: var(--rain-tile);
+  background-size: 128px 256px;
+  background-repeat: repeat;
+  transform: skewX(var(--rain-skew, -6deg)) translateZ(0);
+  animation: kaya-light-rain-drift var(--rain-dur, 2s) linear infinite;
+}
+
+.site-bg__light-rain-css--far { --rain-dur: 2.35s; --rain-skew: -5deg; --rain-alpha: 0.48; }
+.site-bg__light-rain-css--near { --rain-dur: 1.62s; --rain-skew: -7deg; --rain-alpha: 0.82; z-index: 1; }
+
+/* 小雨 · 雨丝胶片（steps 位移动画，单合成层） */
+.site-bg__light-rain-film {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background-image: var(--rain-film);
+  background-repeat: no-repeat;
+  background-size: 100% calc(var(--rain-frames, 5) * 100%);
+  background-position: 0 0;
+}
+
+.site-bg__light-rain-film.is-on {
+  opacity: 0.78;
+  animation: kaya-rain-film var(--rain-cycle, 1.25s) steps(var(--rain-frames, 5)) infinite;
+}
+
+/* 小雨 · 静态雨丝（氛围默认：无动画，resize 时烘焙一次） */
+.site-bg__light-rain-static {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background-image: var(--rain-static);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  transform: skewX(-6deg) translateZ(0);
+}
+
+.site-bg__light-rain-static.is-on {
+  opacity: 0.8;
+}
+
+/* 氛围小雨：关毛玻璃，避免与雨层叠乘占满 GPU */
+body.kaya-ambient-eco.light-rain {
+  --glass-blur: none;
+}
+
+body.kaya-ambient-eco.light-rain .site-bar,
+body.kaya-ambient-eco.light-rain .home-card,
+body.kaya-ambient-eco.light-rain .social-pill,
+body.kaya-ambient-eco.light-rain .work-card,
+body.kaya-ambient-eco.light-rain .link-card,
+body.kaya-ambient-eco.light-rain .site-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+@keyframes kaya-rain-film {
+  to { background-position: 0 100%; }
+}
+
+@keyframes kaya-light-rain-drift {
+  0% { transform: skewX(var(--rain-skew, -6deg)) translate3d(0, 0, 0); }
+  100% { transform: skewX(var(--rain-skew, -6deg)) translate3d(-18px, 256px, 0); }
+}
+
+.site-bg__rain--css-idle {
+  display: none !important;
+}
+
+.site-bg__light-rain-gl {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
   pointer-events: none;
+  opacity: 0.7;
+  contain: strict;
+  image-rendering: auto;
+}
+
+/* 氛围天气：关 site-bg 模糊光斑动画（小雨页最大 GPU 来源之一） */
+body.kaya-ambient-eco.light-rain .site-bg::before,
+body.kaya-ambient-eco.light-rain .site-bg::after {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+body.kaya-ambient-eco .site-bg__light-mist,
+body.kaya-ambient-eco .site-bg__sunny-haze.is-on {
+  animation: none !important;
+  transform: none !important;
+}
+
+body.kaya-ambient-eco .site-bg__light-rain-css__track,
+body.kaya-ambient-eco .site-bg__light-rain-static.is-on {
+  animation: none !important;
+}
+
+body.kaya-ambient-eco.sunny-sky .site-bg__sunny-haze.is-on {
+  animation: none !important;
+  opacity: 0.92;
+  transform: none !important;
+  mix-blend-mode: normal;
+}
+
+body.kaya-ambient-eco.sunny-sky .site-bg::before {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* 晴天：静态地平线漂白 + 太阳区暖光（无 blur 动画，节能） */
+body.kaya-ambient-eco.sunny-sky .site-bg::after {
+  display: block !important;
+  animation: none !important;
+  filter: none !important;
+  opacity: 0.42;
+  mask-image: none;
+  background:
+    radial-gradient(ellipse 42% 36% at 88% 10%, rgba(255, 248, 210, 0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 100% 55% at 50% 0%, rgba(255, 255, 255, 0.14) 0%, transparent 48%),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 28%,
+      transparent 68%,
+      rgba(210, 232, 248, 0.22) 100%
+    );
+}
+
+/* 晴天：body CSS 天空 + 静态 Canvas 叠层 */
+.site-bg__sunny {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
   opacity: 1;
+}
+
+.site-bg__sunny--static {
+  z-index: 1;
+  contain: strict;
 }
 
 .site-bg__sunny-haze {
@@ -183,37 +369,73 @@ body.light-rain .site-bg__light-mist {
   100% { transform: translate3d(0.3%, -0.2%, 0); }
 }
 
-body.sunny-sky {
-  --glass-blur: none;
-  --bg: #d8eaf4;
-  --ink: #1e2a38;
-  --ink-soft: #4a5d72;
-  --ink-faint: #7a8fa3;
-  --accent: #4a82c4;
-  --accent-deep: #3568a8;
-  --accent-soft: rgba(74, 130, 196, 0.12);
-  --accent-ring: rgba(74, 130, 196, 0.28);
-  --bg-elevated: rgba(255, 255, 255, 0.94);
-  --line: rgba(30, 42, 56, 0.08);
-  --border: rgba(30, 42, 56, 0.1);
-  color: var(--ink);
-  background:
-    radial-gradient(ellipse 130% 90% at 50% -10%, rgba(20, 70, 130, 0.22) 0%, transparent 52%),
-    linear-gradient(180deg, transparent 52%, rgba(255, 255, 255, 0.1) 100%),
-    linear-gradient(180deg, #2e6fa8 0%, #4a8ec4 18%, #72aed8 42%, #a8cce8 65%, #d4e8f4 82%, #eef4fa 94%, #f6f8fc 100%);
+/* 氛围天气节能：停 CSS 雾层动画，减轻合成器 GPU 占用 */
+body.kaya-ambient-eco .site-bg__sunny--static,
+body.kaya-ambient-eco .site-bg__sunny-scene {
+  contain: strict;
 }
 
-body.sunny-sky .site-bg,
-body.sunny-sky .site-bg.has-sunny-css {
-  background: transparent;
+.site-bg__sunny-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  contain: strict;
 }
 
-body.sunny-sky .site-bg::before,
-body.sunny-sky .site-bg::after {
+.site-bg__sunny-scene.is-on {
+  opacity: 0.88;
+  mix-blend-mode: normal;
+}
+
+.site-bg__sunny--static-only {
   display: none !important;
-  content: none !important;
-  animation: none !important;
-  filter: none !important;
+}
+
+@keyframes sunny-ambient-glow {
+  0% { opacity: 0.88; }
+  100% { opacity: 1; }
+}
+
+body.sunny-sky {
+  --bg: #c8e6f5;
+  --ink: #1a2a3c;
+  --ink-soft: #3d5268;
+  --ink-faint: #6a8098;
+  --glass-blur: none;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+body.sunny-sky .site-bg {
+  background:
+    radial-gradient(ellipse 55% 42% at 90% 8%, rgba(255, 248, 215, 0.28) 0%, transparent 52%),
+    radial-gradient(ellipse 110% 70% at 50% -6%, rgba(255, 255, 255, 0.18) 0%, transparent 46%),
+    linear-gradient(
+      180deg,
+      #5eb8e4 0%,
+      #72c8ec 18%,
+      #8ad4f2 38%,
+      #a8dff6 58%,
+      #c5e8f8 78%,
+      #d8eefb 100%
+    );
+}
+
+body.sunny-sky .site-bg__light-mist {
+  opacity: 1;
+  animation: light-mist-drift 22s ease-in-out infinite alternate;
+  mix-blend-mode: normal;
+  background:
+    radial-gradient(ellipse 88% 48% at 50% -6%, rgba(255, 255, 255, 0.38), transparent 68%),
+    radial-gradient(ellipse 48% 32% at 86% 12%, rgba(255, 248, 215, 0.2), transparent 62%),
+    radial-gradient(ellipse 78% 40% at 14% 90%, rgba(190, 225, 255, 0.16), transparent 66%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 36%, transparent 74%, rgba(175, 210, 240, 0.1) 100%);
 }
 
 body.sunny-sky .site-bar,
@@ -324,6 +546,9 @@ body.after-rain {
   text-decoration: none;
   padding: 0.15rem 0.35rem;
   border-radius: 4px;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
   transition: color 0.2s var(--ease), background 0.2s var(--ease);
 }
 
@@ -452,7 +677,8 @@ body.storm-rain .site-fx__rain-glass.is-on {
 }
 
 @media (max-width: 720px) {
-  body.light-rain .site-bg__light-mist {
+  body.light-rain .site-bg__light-mist,
+  body.sunny-sky .site-bg__light-mist {
     animation: none;
   }
 
@@ -561,13 +787,13 @@ body.heavy-rain .profile-avatar::before {
 }
 
 body.heavy-rain .profile-hero {
-  filter: brightness(0.96);
+  filter: none;
 }
 
 body.heavy-rain .profile-avatar .avatar {
   border-color: rgba(170, 190, 220, 0.12);
   box-shadow: 0 8px 22px rgba(4, 10, 22, 0.16);
-  filter: brightness(0.7) saturate(0.82) contrast(0.93);
+  filter: brightness(0.98) saturate(0.96);
 }
 
 body.heavy-rain .profile-name {
@@ -745,13 +971,16 @@ body.heavy-rain .site-fx__glass-drops.is-clear-glass {
   opacity: 0;
   transition: opacity 0.75s var(--ease);
   background: transparent;
-  /* R24：微糊压硬针，对齐 REF 软晕银丝 */
-  filter: blur(0.65px);
+  /* R66: lighten 在深 UI/浅天空均可辨银丝；忌 screen 灭迹、normal 发灰 */
+  mix-blend-mode: lighten;
+  filter: none;
 }
 
 body.heavy-rain .site-fx__streak-overlay.is-on,
 body.storm-rain .site-fx__streak-overlay.is-on {
   display: block;
+  /* 对齐 GitHub 小雨：normal 合批银丝，勿 lighten 过曝 */
+  mix-blend-mode: normal;
 }
 
 .site-fx__splash {
@@ -804,10 +1033,13 @@ body.storm-rain .site-fx__streak-overlay.is-on {
   .site-fx,
   .site-bg__rain,
   .site-bg__light-mist,
+  .site-bg__light-wet,
+  .site-bg__light-rain-css,
+  .site-bg__light-rain-film,
+  .site-bg__light-rain-static,
   .site-bg__heavy-mist,
   .site-bg__heavy,
   .site-bg__sunny,
-  .site-bg__sunny-haze,
   .site-bg__rainbow,
   .site-bg__after-mist,
   .site-fx__lightning,
@@ -1460,6 +1692,7 @@ body.storm-rain .site-fx__streak-overlay.is-on {
 /* ── 页脚 ── */
 .site-footer {
   position: relative;
+  z-index: 10;
   max-width: var(--max-wide);
   margin: 0 auto;
   padding: 1.5rem var(--pad) 2.5rem;

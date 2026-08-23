@@ -1,7 +1,7 @@
 /**
  * 时雨榧 · 雨后彩虹（兼容入口）
  *
- * 已与 `sunny-sky.js` 融合为同一 Canvas 视觉；保留 `KayaAfterRain` 供旧链接调用。
+ * 已合并为晴天；旧链接仍指向 `KayaSunnySky`。
  */
 (() => {
   function attach(host) {
