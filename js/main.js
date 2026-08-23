@@ -150,6 +150,43 @@ const Kaya = (() => {
     });
   }
 
+  /** 站内导航点击前把当前天气写入 session，防止跨页时 session 空窗导致重抽签 */
+  function initSiteNavRain() {
+    const persistRainMode = () => {
+      const mode = rainModeFromBody() || readStoredRainMode();
+      if (mode) writeStoredRainMode(mode);
+    };
+
+    const shouldTrack = (a) => {
+      if (!(a instanceof HTMLAnchorElement)) return false;
+      if (a.classList.contains("heavy-gate")) return false;
+      if (a.target === "_blank") return false;
+      const href = a.getAttribute("href") || "";
+      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+        return false;
+      }
+      let url;
+      try {
+        url = new URL(href, window.location.href);
+      } catch {
+        return false;
+      }
+      if (url.origin !== window.location.origin) return false;
+      const p = normalizePathname(url.pathname);
+      if (
+        p.startsWith("/fuyuu")
+        || p === "/heavy" || p === "/light" || p === "/storm"
+        || p === "/sunny" || p === "/rainbow"
+      ) return false;
+      return p === "/" || p === "/works" || p === "/links";
+    };
+
+    document.querySelectorAll("a[href]").forEach((a) => {
+      if (!shouldTrack(a)) return;
+      a.addEventListener("click", persistRainMode, { capture: true });
+    });
+  }
+
   /** 主页随机天气：20% 晴天 / 70% 小雨 / 10% 大雨（storm 仅 URL 强制） */
   const HOME_SUNNY_CHANCE = 0.2;
   const HOME_HEAVY_CHANCE = 0.1;
@@ -280,11 +317,27 @@ const Kaya = (() => {
     }
   }
 
+  function isContentSubPage() {
+    const p = normalizePathname(window.location.pathname);
+    return p === "/works" || p === "/links";
+  }
+
+  /** 从 body 类名读取当前已挂载的天气（用于跨页点击前落盘） */
+  function rainModeFromBody() {
+    const b = document.body;
+    if (b.classList.contains("storm-rain")) return "storm";
+    if (b.classList.contains("heavy-rain")) return "heavy";
+    if (b.classList.contains("sunny-sky")) return "sunny";
+    if (b.classList.contains("light-rain")) return "light";
+    return null;
+  }
+
   /**
    * 天气模式：
    * - URL 强制优先（storm / sunny 仅强制，不参与抽签）
-   * - 同站跨页（主页 ↔ 作品/链接）：始终沿用 session，避免晴/虹误变雨
-   * - 刷新：保留 storm / sunny；小雨 / 大雨按 20% / 70% / 10% 重抽
+   * - 同站跨页（主页 ↔ 作品/链接）：始终沿用 session，绝不重抽
+   * - 作品/链接页刷新：沿用 session（小雨/大雨也不变）
+   * - 仅主页刷新：storm / sunny 锁定；小雨 / 大雨按 20% / 70% / 10% 重抽
    * @returns {"light"|"heavy"|"storm"|"sunny"}
    */
   function pickInitialRainMode() {
@@ -296,11 +349,19 @@ const Kaya = (() => {
 
     const saved = readStoredRainMode();
     const isReload = navigationType() === "reload";
+    const sameSiteNav = isSameSitePageNav();
+
+    /* 同站跨页：session 丢失时也不重抽，避免主页小雨 → 作品集变大雨 */
+    if (sameSiteNav) {
+      const mode = saved || rainModeFromBody() || "light";
+      writeStoredRainMode(mode);
+      return mode;
+    }
 
     if (saved) {
-      if (isSameSitePageNav()) return saved;
       if (!isReload) return saved;
       if (saved === "sunny" || saved === "storm") return saved;
+      if (isContentSubPage()) return saved;
     }
 
     const mode = rollHomeWeather();
@@ -649,6 +710,7 @@ const Kaya = (() => {
 
   function initCommon(rainMode) {
     initNav();
+    initSiteNavRain();
     initWeatherPreview();
     initSiteRain(document.querySelector(".site-bg"), rainMode);
     const y = document.getElementById("year");
@@ -1138,6 +1200,7 @@ const Kaya = (() => {
     const mode = typeof modeOrHeavy === "string"
       ? normalizeRainMode(modeOrHeavy)
       : (modeOrHeavy ? "heavy" : "light");
+    writeStoredRainMode(mode);
     const heavy = mode === "heavy" || mode === "storm";
     const storm = mode === "storm";
     const sunny = mode === "sunny";

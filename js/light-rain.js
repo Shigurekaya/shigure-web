@@ -6,62 +6,46 @@
  */
 (() => {
   const FRAME_MS = 1000 / 30;
-  const WEAK_FRAME_MS = 1000 / 24;
-  /** 雨量 -40%、下落速度 +20% */
-  const RAIN_AMOUNT = 0.6;
+  /** 雨量在既有基础上再 -30%（累计 ×0.42）、下落速度 +20% */
+  const RAIN_AMOUNT = 0.42;
   const RAIN_SPEED = 1.2;
 
-  /** 按色相批量描边；单趟分桶 + 复用索引数组，避免三趟全量扫描 */
+  /** 雨丝色相（渐变尾迹用 RGB 字面量） */
+  /** 浅色背景上略加深，保证可见；尾迹仍靠渐变淡出 */
+  const HUE_RGB = {
+    lilac: "158,142,218",
+    silver: "188,200,228",
+    mist: "168,184,214",
+  };
+
+  /** 每滴独立线性渐变：头在下（较实）、尾在上（高透明） */
   function createLayerPainter() {
-    const mistIdx = [];
-    const silverIdx = [];
-    const lilacIdx = [];
-    return function paintLayerBatch(ctx, arr, wind, HUE_STROKE, heads = false) {
-      mistIdx.length = 0;
-      silverIdx.length = 0;
-      lilacIdx.length = 0;
+    return function paintLayerBatch(ctx, arr, wind) {
       ctx.lineCap = "round";
       for (let i = 0; i < arr.length; i += 1) {
         const d = arr[i];
         d.wobble += 0.015;
         const sway = Math.sin(d.wobble + d.phase * 6) * (d.drift * 0.04);
         d._tilt = wind * d.drift * 0.12 + d.drift * 0.03 + sway;
-        const hue = d.hue || "mist";
-        if (hue === "lilac") lilacIdx.push(i);
-        else if (hue === "silver") silverIdx.push(i);
-        else mistIdx.push(i);
-      }
-      const batches = mistIdx.length || silverIdx.length || lilacIdx.length
-        ? [["mist", mistIdx], ["silver", silverIdx], ["lilac", lilacIdx]]
-        : null;
-      if (!batches) return;
-      for (let b = 0; b < 3; b += 1) {
-        const hue = batches[b][0];
-        const idx = batches[b][1];
-        if (!idx.length) continue;
-        let sumW = 0;
-        let sumA = 0;
+        const x1 = d.x;
+        const y1 = d.y;
+        const x2 = d.x + d._tilt;
+        const y2 = d.y + d.len;
+        const rgb = HUE_RGB[d.hue] || HUE_RGB.mist;
+        const a = d.alpha;
+        const grad = ctx.createLinearGradient(x1, y1, x2, y2);
+        /* y1=尾（上、透明）→ y2=头（下、实） */
+        grad.addColorStop(0, `rgba(${rgb},0)`);
+        grad.addColorStop(0.18, `rgba(${rgb},${a * 0.18})`);
+        grad.addColorStop(0.42, `rgba(${rgb},${a * 0.48})`);
+        grad.addColorStop(0.68, `rgba(${rgb},${a * 0.78})`);
+        grad.addColorStop(1, `rgba(${rgb},${Math.min(1, a * 1.05)})`);
         ctx.beginPath();
-        for (let j = 0; j < idx.length; j += 1) {
-          const d = arr[idx[j]];
-          sumW += d.width;
-          sumA += d.alpha;
-          ctx.moveTo(d.x, d.y);
-          ctx.lineTo(d.x + d._tilt, d.y + d.len);
-        }
-        ctx.lineWidth = sumW / idx.length;
-        ctx.strokeStyle = HUE_STROKE[hue](sumA / idx.length);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineWidth = Math.max(1, d.width);
+        ctx.strokeStyle = grad;
         ctx.stroke();
-        if (!heads) continue;
-        for (let j = 0; j < idx.length; j += 1) {
-          const d = arr[idx[j]];
-          if (d.alpha <= 0.22) continue;
-          const headA = d.alpha * (d.width > 1.3 ? 0.55 : 0.38);
-          ctx.fillStyle = `rgba(245,250,255,${headA})`;
-          ctx.beginPath();
-          ctx.arc(d.x + d._tilt * 0.1, d.y + d.len * 0.05, d.width * 0.65, 0, Math.PI * 2);
-          ctx.fill();
-        }
       }
     };
   }
@@ -74,44 +58,37 @@
     return a + Math.random() * (b - a);
   }
 
-  function detectQuality() {
-    const Gov = window.KayaPerfGovernor;
-    if (Gov?.detectRainTier) return Gov.detectRainTier();
-    try {
-      if (navigator.connection?.saveData) return "low";
-    } catch { /* ignore */ }
-    const phone = Gov?.isPhoneLike?.() ?? (() => {
-      const ua = navigator.userAgent || "";
-      if (/Android|iPhone|iPad|iPod|Mobile|HarmonyOS|MiuiBrowser/i.test(ua)) return true;
-      try {
-        return window.matchMedia("(max-width: 720px)").matches
-          && window.matchMedia("(pointer: coarse)").matches;
-      } catch { /* ignore */ }
-      return window.matchMedia("(max-width: 720px)").matches;
-    })();
-    const cores = navigator.hardwareConcurrency || 8;
-    const narrow = window.matchMedia("(max-width: 720px)").matches;
-    if (phone || narrow || cores <= 4) return "low";
-    if (cores <= 8) return "mid";
-    return "high";
-  }
-
-  /* 速度仍偏快；雨量在 ×1.35 基础上再 -20% */
+  /* 固定中档：不再按设备分 low/mid/high */
   const QUALITY = {
-    low: { far: 120, mid: 160, near: 95, splashCap: 140, dprCap: 1.2, mist: 1 },
-    mid: { far: 185, mid: 250, near: 150, splashCap: 205, dprCap: 1.4, mist: 1 },
-    high: { far: 250, mid: 345, near: 205, splashCap: 280, dprCap: 1.55, mist: 1 },
-  };
-  /** 核显 / 软件 GL：更少像素 + 略减滴数，观感仍接近 low */
-  const WEAK_QUALITY = {
-    far: 105, mid: 140, near: 82, splashCap: 80, dprCap: 1, mist: 1,
+    far: 185, mid: 250, near: 150, splashCap: 205, dprCap: 1.4, mist: 1,
   };
 
-  /** 雨丝色相：避免每滴 createLinearGradient（数百次/帧） */
-  const HUE_STROKE = {
-    lilac: (a) => `rgba(174,160,230,${a * 0.92})`,
-    silver: (a) => `rgba(215,225,245,${a})`,
-    mist: (a) => `rgba(188,204,232,${a * 0.88})`,
+  /**
+   * 雨丝：比原版短（参考短片），但保持可见
+   * 720p 约 远 7–14px / 中 11–20px / 近 14–26px（原版最长 ~56px）
+   */
+  const DROP_SPEC = {
+    far: {
+      len: [0.012, 0.022],
+      speed: [245, 380],
+      alpha: [0.28, 0.46],
+      width: [1.1, 1.5],
+      drift: [8, 16],
+    },
+    mid: {
+      len: [0.018, 0.034],
+      speed: [325, 515],
+      alpha: [0.36, 0.58],
+      width: [1.25, 1.7],
+      drift: [10, 20],
+    },
+    near: {
+      len: [0.024, 0.045],
+      speed: [430, 650],
+      alpha: [0.44, 0.68],
+      width: [1.4, 2.0],
+      drift: [12, 24],
+    },
   };
 
   function bakeSplashSprites() {
@@ -146,24 +123,45 @@
     return { soft, hard };
   }
 
+  function mountLightStaticScene(host, canvas) {
+    const scene = document.createElement("div");
+    scene.className = "site-bg__light-scene";
+    scene.setAttribute("aria-hidden", "true");
+
+    const orbs = document.createElement("div");
+    orbs.className = "site-bg__light-scene-orbs";
+
+    const grain = document.createElement("div");
+    grain.className = "site-bg__light-scene-grain";
+
+    const mist = document.createElement("div");
+    mist.className = "site-bg__light-scene-mist";
+
+    scene.append(orbs, grain, mist);
+    host.insertBefore(scene, canvas);
+    return scene;
+  }
+
   /**
    * @param {HTMLCanvasElement} canvas
    * @param {{ mistHost?: HTMLElement | null }} [opts]
    */
   function attach(canvas, opts) {
-    /* mistHost 显式传 null/false 时不挂雾层（开场自带 mist） */
+    /* mistHost 显式传 null/false 时不挂静态底图（开场雨幕等） */
     const mistHost = opts && Object.prototype.hasOwnProperty.call(opts, "mistHost")
       ? opts.mistHost
       : canvas.parentElement;
+    const useStaticBg = !!mistHost;
     const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
     if (!ctx) {
       return { start() {}, stop() {}, resize() {}, destroy() {} };
     }
+    /* 清除 CSS 雨层遗留的隐藏类，避免「没雨」 */
+    canvas.classList.remove("site-bg__rain--css-idle");
 
     const spr = bakeSplashSprites();
     const paintLayerBatch = createLayerPainter();
     const weakGpu = window.KayaPerfGovernor?.isWeakGpu?.() ?? false;
-    let quality = weakGpu ? "low" : detectQuality();
     let w = 0;
     let h = 0;
     let dpr = 1;
@@ -191,45 +189,22 @@
     /** @type {Array<any>} */
     const ripples = [];
 
-    let mist = null;
-    if (mistHost) {
-      mist = document.createElement("div");
-      mist.className = "site-bg__light-mist";
-      mist.setAttribute("aria-hidden", "true");
-      mistHost.appendChild(mist);
+    /** @type {HTMLElement | null} */
+    let sceneEl = null;
+
+    if (useStaticBg && mistHost) {
+      document.body.classList.add("kaya-ambient-eco");
+      sceneEl = mountLightStaticScene(mistHost, canvas);
     }
 
     const makeDrop = (layer) => {
-      /* 按屏高比例定长度：小雨也要像「雨」，不是针尖毛毛雨 */
       const H = Math.max(h, 640);
-      const spec = layer === "far"
-        ? {
-          len: [H * 0.018, H * 0.038],
-          speed: [245, 380],
-          alpha: [0.18, 0.34],
-          width: [1.1, 1.6],
-          drift: [10, 20],
-        }
-        : layer === "mid"
-          ? {
-            len: [H * 0.028, H * 0.055],
-            speed: [325, 515],
-            alpha: [0.28, 0.5],
-            width: [1.35, 2.05],
-            drift: [14, 26],
-          }
-          : {
-            len: [H * 0.04, H * 0.078],
-            speed: [430, 650],
-            alpha: [0.42, 0.72],
-            width: [1.7, 2.6],
-            drift: [16, 30],
-          };
+      const spec = DROP_SPEC[layer];
       const roll = Math.random();
       return {
         x: Math.random() * Math.max(1, w),
         y: Math.random() * Math.max(1, h),
-        len: rand(spec.len[0], spec.len[1]),
+        len: rand(spec.len[0], spec.len[1]) * H,
         speed: rand(spec.speed[0], spec.speed[1]) * RAIN_SPEED,
         alpha: rand(spec.alpha[0], spec.alpha[1]),
         width: rand(spec.width[0], spec.width[1]),
@@ -242,7 +217,6 @@
 
     const rebuild = () => {
       if (w < 2 || h < 2) return;
-      const q = weakGpu ? WEAK_QUALITY : QUALITY[quality];
       const areaScale = clamp((w * h) / (1280 * 720), 0.65, 1.4);
 
       const fill = (arr, n, layer) => {
@@ -255,9 +229,9 @@
         }
       };
 
-      fill(far, q.far, "far");
-      fill(mid, q.mid, "mid");
-      fill(near, q.near, "near");
+      fill(far, QUALITY.far, "far");
+      fill(mid, QUALITY.mid, "mid");
+      fill(near, QUALITY.near, "near");
       splashes.length = 0;
       ripples.length = 0;
     };
@@ -269,13 +243,7 @@
         w = Math.round(window.visualViewport.width);
         h = Math.round(window.visualViewport.height);
       }
-      quality = weakGpu ? "low" : detectQuality();
-      const qCap = weakGpu ? WEAK_QUALITY : QUALITY[quality];
-      dpr = Math.min(window.devicePixelRatio || 1, qCap.dprCap);
-      if (weakGpu) dpr = qCap.dprCap;
-      else if (window.KayaPerfGovernor?.isWeakGpu?.()) {
-        dpr = Math.min(dpr, quality === "low" ? 1 : 1.25);
-      }
+      dpr = Math.min(window.devicePixelRatio || 1, QUALITY.dprCap);
       const cw = Math.max(1, Math.floor(w * dpr));
       const ch = Math.max(1, Math.floor(h * dpr));
       if (canvas.width !== cw || canvas.height !== ch) {
@@ -288,9 +256,9 @@
     };
 
     const spawnSplash = (x, y) => {
-      const cap = weakGpu ? WEAK_QUALITY.splashCap : QUALITY[quality].splashCap;
+      const cap = QUALITY.splashCap;
       if (splashes.length >= cap) return;
-      const lite = weakGpu || (runtimeGov?.scale ?? 1) < 0.86;
+      const lite = (runtimeGov?.scale ?? 1) < 0.86;
       if (splashes.length < cap) {
         splashes.push({
           x, y,
@@ -329,29 +297,6 @@
           r0: rand(4, 9),
           a: rand(0.16, 0.32),
         });
-      }
-    };
-
-    const strokeDrop = (d) => {
-      /* 保留供 intro 等单滴场景；主循环用 paintLayerBatch */
-      d.wobble += 0.015;
-      const sway = Math.sin(d.wobble + d.phase * 6) * (d.drift * 0.04);
-      const tilt = wind * d.drift * 0.12 + d.drift * 0.03 + sway;
-      const x2 = d.x + tilt;
-      const y2 = d.y + d.len;
-      const hueFn = HUE_STROKE[d.hue] || HUE_STROKE.mist;
-      ctx.strokeStyle = hueFn(d.alpha);
-      ctx.lineWidth = d.width;
-      ctx.beginPath();
-      ctx.moveTo(d.x, d.y);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-      if (d.alpha > 0.22) {
-        const headA = d.alpha * (d.width > 1.3 ? 0.55 : 0.38);
-        ctx.fillStyle = `rgba(245,250,255,${headA})`;
-        ctx.beginPath();
-        ctx.arc(d.x + tilt * 0.1, d.y + d.len * 0.05, d.width * 0.65, 0, Math.PI * 2);
-        ctx.fill();
       }
     };
 
@@ -401,13 +346,13 @@
     };
 
     const runtimeGov = window.KayaPerfGovernor?.createRuntimeGovernor?.({
-      min: weakGpu ? 0.65 : 0.72,
+      min: 0.72,
       max: 1,
-      initial: weakGpu ? 0.88 : (quality === "low" ? 0.9 : 1),
+      initial: 1,
       weakGpu,
     }) ?? null;
-    let frameBudget = weakGpu ? WEAK_FRAME_MS : FRAME_MS;
-    let dropMul = weakGpu ? 0.88 : (quality === "low" ? 0.92 : 1);
+    let frameBudget = FRAME_MS;
+    let dropMul = 1;
     let lastFrameMs = 0;
     let paused = false;
     let scrollUntil = 0;
@@ -418,7 +363,6 @@
     window.addEventListener("scroll", onScroll, { passive: true, capture: true });
 
     const applyDropBudget = () => {
-      const q = weakGpu ? WEAK_QUALITY : QUALITY[quality];
       const areaScale = clamp((w * h) / (1280 * 720), 0.65, 1.4);
       const mul = dropMul * areaScale;
       const trim = (arr, n, layer) => {
@@ -426,9 +370,9 @@
         while (arr.length < count) arr.push(makeDrop(layer));
         if (arr.length > count) arr.length = count;
       };
-      trim(far, q.far, "far");
-      trim(mid, q.mid, "mid");
-      trim(near, q.near, "near");
+      trim(far, QUALITY.far, "far");
+      trim(mid, QUALITY.mid, "mid");
+      trim(near, QUALITY.near, "near");
     };
 
     const onVisibility = () => {
@@ -472,13 +416,12 @@
       for (let i = 0; i < far.length; i += 1) stepDrop(far[i], dt, 0.55 * splashMul);
       for (let i = 0; i < mid.length; i += 1) stepDrop(mid[i], dt, 0.75 * splashMul);
       for (let i = 0; i < near.length; i += 1) stepDrop(near[i], dt, 0.9 * splashMul);
-      paintLayerBatch(ctx, far, wind, HUE_STROKE, false);
-      paintLayerBatch(ctx, mid, wind, HUE_STROKE, false);
-      paintLayerBatch(ctx, near, wind, HUE_STROKE, !skipExtras && !weakGpu);
+      paintLayerBatch(ctx, far, wind);
+      paintLayerBatch(ctx, mid, wind);
+      paintLayerBatch(ctx, near, wind);
 
-      /* 偶发地面涟漪 */
       groundRippleAcc += dt;
-      if (!weakGpu && !skipExtras && groundRippleAcc > 0.35 && ripples.length < 20) {
+      if (!skipExtras && groundRippleAcc > 0.35 && ripples.length < 20) {
         groundRippleAcc = 0;
         if (Math.random() < 0.55) {
           ripples.push({
@@ -563,17 +506,19 @@
         }
         const stress = scrolling ? Math.min(gs, 0.88) : gs;
         frameBudget = stress < 0.88
-          ? Math.max(1000 / 24, (weakGpu ? WEAK_FRAME_MS : FRAME_MS) / stress)
-          : (weakGpu ? WEAK_FRAME_MS : FRAME_MS);
+          ? Math.max(1000 / 24, FRAME_MS / stress)
+          : FRAME_MS;
       } else if (scrolling) {
-        frameBudget = Math.max(1000 / 24, (weakGpu ? WEAK_FRAME_MS : FRAME_MS) * 1.12);
+        frameBudget = Math.max(1000 / 24, FRAME_MS * 1.12);
       }
     };
 
     window.__KayaLightRainStats = () => ({
+      mode: useStaticBg ? "canvas-rain+static-dom" : "canvas-rain",
       frameMs: Math.round(lastFrameMs * 10) / 10,
       dropMul: Math.round(dropMul * 100) / 100,
-      quality,
+      tier: "mid",
+      staticBg: useStaticBg,
       weakGpu,
       dpr,
       drops: far.length + mid.length + near.length,
@@ -586,12 +531,14 @@
         running = true;
         fit();
         if (dropMul < 1) applyDropBudget();
+        sceneEl?.classList.add("is-on");
         last = performance.now();
         raf = requestAnimationFrame(tick);
       },
       stop() {
         running = false;
         cancelAnimationFrame(raf);
+        sceneEl?.classList.remove("is-on");
         ctx.clearRect(0, 0, w, h);
         splashes.length = 0;
         ripples.length = 0;
@@ -601,7 +548,12 @@
         window.removeEventListener("scroll", onScroll, true);
         document.removeEventListener("visibilitychange", onVisibility);
         this.stop();
-        mist?.remove();
+        sceneEl?.remove();
+        sceneEl = null;
+        if (useStaticBg && !document.body.classList.contains("sunny-sky")) {
+          document.body.classList.remove("kaya-ambient-eco");
+        }
+        delete window.__KayaLightRainStats;
       },
     };
   }
