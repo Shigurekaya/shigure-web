@@ -5,8 +5,7 @@
  *       Cyanilux 表面流水、游戏雷暴 screen shake + chromatic flash。
  *
  * 1 镜头边缘水珠（rain on lens）
- * 2 地面积水涟漪（puddle ripples）
- * 3 阵风横掠风丝
+ * 2 阵风横掠风丝
  * 4 侧缘流水帘（runoff）
  * 5 闪电色散 / 屏幕微震
  * 6 远景暗雨帘（窄带，避免白团）
@@ -30,11 +29,6 @@
     veilCanvas.className = "site-fx__storm-veils";
     veilCanvas.setAttribute("aria-hidden", "true");
     fxRoot.appendChild(veilCanvas);
-
-    const puddleCanvas = document.createElement("canvas");
-    puddleCanvas.className = "site-fx__storm-puddles";
-    puddleCanvas.setAttribute("aria-hidden", "true");
-    fxRoot.appendChild(puddleCanvas);
 
     const windCanvas = document.createElement("canvas");
     windCanvas.className = "site-fx__storm-wind";
@@ -62,12 +56,11 @@
     fxRoot.appendChild(rumble);
 
     const vctx = veilCanvas.getContext("2d", { alpha: true, desynchronized: true });
-    const pctx = puddleCanvas.getContext("2d", { alpha: true, desynchronized: true });
     const wctx = windCanvas.getContext("2d", { alpha: true, desynchronized: true });
     const rctx = runoffCanvas.getContext("2d", { alpha: true, desynchronized: true });
     const lctx = lensCanvas.getContext("2d", { alpha: true, desynchronized: true });
-    if (!vctx || !pctx || !wctx || !rctx || !lctx) {
-      [veilCanvas, puddleCanvas, windCanvas, runoffCanvas, lensCanvas, chroma, rumble]
+    if (!vctx || !wctx || !rctx || !lctx) {
+      [veilCanvas, windCanvas, runoffCanvas, lensCanvas, chroma, rumble]
         .forEach((el) => el.remove());
       return null;
     }
@@ -89,8 +82,6 @@
 
     /** @type {Array<{x:number,y:number,ww:number,hh:number,spd:number,a:number,phase:number}>} */
     const veils = [];
-    /** @type {Array<{x:number,y:number,r:number,maxR:number,age:number,life:number,w:number}>} */
-    const ripples = [];
     /** @type {Array<{x:number,y:number,vx:number,len:number,a:number,w:number,life:number,age:number}>} */
     const windLines = [];
     /** @type {Array<{x:number,y:number,len:number,spd:number,w:number,a:number,phase:number,side:number}>} */
@@ -173,31 +164,18 @@
       dpr = Math.min(window.devicePixelRatio || 1, 2.5);
       const cw = Math.max(1, Math.floor(w * dpr));
       const ch = Math.max(1, Math.floor(h * dpr));
-      for (const c of [veilCanvas, puddleCanvas, windCanvas, runoffCanvas, lensCanvas]) {
+      for (const c of [veilCanvas, windCanvas, runoffCanvas, lensCanvas]) {
         if (c.width !== cw || c.height !== ch) {
           c.width = cw;
           c.height = ch;
         }
       }
-      for (const cx of [vctx, pctx, wctx, rctx, lctx]) {
+      for (const cx of [vctx, wctx, rctx, lctx]) {
         cx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
       rebuildVeils();
       rebuildRunoffs();
       rebuildLens();
-    };
-
-    const spawnRipple = (x, y, mul = 1) => {
-      if (ripples.length > 220) return;
-      ripples.push({
-        x,
-        y,
-        r: rand(2, 6),
-        maxR: rand(18, 52) * mul,
-        age: 0,
-        life: rand(0.55, 1.15),
-        w: rand(0.8, 1.8),
-      });
     };
 
     const spawnWindLine = () => {
@@ -239,52 +217,6 @@
         g.addColorStop(1, "rgba(40,58,82,0)");
         vctx.fillStyle = g;
         vctx.fillRect(sx, sy, v.ww, v.hh);
-      }
-    };
-
-    const paintPuddles = (dt, aMul) => {
-      pctx.clearRect(0, 0, w, h);
-      if (aMul < 0.02) return;
-
-      const bandTop = h - Math.min(h * 0.22, 200);
-      const pg = pctx.createLinearGradient(0, bandTop, 0, h);
-      const pa = 0.22 * aMul * (1 + flashBoost * 0.25);
-      pg.addColorStop(0, "rgba(20,32,48,0)");
-      pg.addColorStop(0.35, `rgba(28,42,62,${pa * 0.55})`);
-      pg.addColorStop(1, `rgba(18,30,48,${pa})`);
-      pctx.fillStyle = pg;
-      pctx.fillRect(0, bandTop, w, h - bandTop);
-
-      if (Math.random() < 0.55 * aMul * (1 + gust * 0.35)) {
-        spawnRipple(rand(0, w), h - rand(4, 28), 0.8 + gust * 0.4);
-      }
-      if (Math.random() < 0.18 * aMul) {
-        spawnRipple(rand(w * 0.1, w * 0.9), h - rand(2, 16), 1.1 + gust * 0.5);
-      }
-
-      pctx.lineCap = "round";
-      for (let i = ripples.length - 1; i >= 0; i -= 1) {
-        const r = ripples[i];
-        r.age += dt;
-        const p = 1 - r.age / r.life;
-        if (p <= 0) {
-          ripples.splice(i, 1);
-          continue;
-        }
-        r.r += (r.maxR - r.r) * Math.min(1, dt * 4.2);
-        const alpha = r.a * p * aMul * (0.35 + flashBoost * 0.45);
-        pctx.strokeStyle = `rgba(160,195,230,${alpha})`;
-        pctx.lineWidth = r.w * (0.6 + p * 0.5);
-        pctx.beginPath();
-        pctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
-        pctx.stroke();
-        if (p > 0.35) {
-          pctx.strokeStyle = `rgba(130,165,205,${alpha * 0.45})`;
-          pctx.lineWidth = r.w * 0.55;
-          pctx.beginPath();
-          pctx.arc(r.x, r.y, r.r * 0.62, 0, Math.PI * 2);
-          pctx.stroke();
-        }
       }
     };
 
@@ -477,7 +409,7 @@
     };
 
     const setOn = (on) => {
-      for (const el of [veilCanvas, puddleCanvas, windCanvas, runoffCanvas, lensCanvas, chroma, rumble]) {
+      for (const el of [veilCanvas, windCanvas, runoffCanvas, lensCanvas, chroma, rumble]) {
         el.classList.toggle("is-on", on);
       }
       if (!on) fxRoot.classList.remove("storm-shake-on");
@@ -499,7 +431,6 @@
       draw(dt) {
         if (!enabled || intensity < 0.01 || w < 2) {
           vctx.clearRect(0, 0, w, h);
-          pctx.clearRect(0, 0, w, h);
           wctx.clearRect(0, 0, w, h);
           rctx.clearRect(0, 0, w, h);
           lctx.clearRect(0, 0, w, h);
@@ -508,24 +439,13 @@
         const t = clamp(dt || 0.016, 0.004, 0.05);
         stepShake(t);
         paintVeils(t, intensity);
-        paintPuddles(t, intensity);
         paintWind(t, intensity);
         paintRunoff(t, intensity);
         paintLens(t, intensity);
       },
-      /** 溅点触发额外涟漪 */
-      hit(x, y, mul = 1) {
-        if (!enabled || intensity < 0.06) return;
-        const n = Math.round(2 + mul * 3);
-        for (let i = 0; i < n; i += 1) {
-          spawnRipple(x + rand(-12, 12), y + rand(-4, 8), mul);
-        }
-      },
       clear() {
-        ripples.length = 0;
         windLines.length = 0;
         vctx.clearRect(0, 0, w, h);
-        pctx.clearRect(0, 0, w, h);
         wctx.clearRect(0, 0, w, h);
         rctx.clearRect(0, 0, w, h);
         lctx.clearRect(0, 0, w, h);
@@ -540,7 +460,6 @@
         window.removeEventListener("pointerdown", onPointer);
         fxRoot.classList.remove("storm-shake-on");
         veilCanvas.remove();
-        puddleCanvas.remove();
         windCanvas.remove();
         runoffCanvas.remove();
         lensCanvas.remove();

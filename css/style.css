@@ -1278,9 +1278,8 @@ body.storm-rain .site-fx__streak-overlay.is-on {
   opacity: 1;
 }
 
-/* 暴雨后处理：暗雨帘 / 积水 / 风丝 / 侧流 / 镜头水珠 / 色散 / 闷雷暗角 */
+/* 暴雨后处理：暗雨帘 / 风丝 / 侧流 / 镜头水珠 / 色散 / 闷雷暗角 */
 .site-fx__storm-veils,
-.site-fx__storm-puddles,
 .site-fx__storm-wind,
 .site-fx__storm-runoff,
 .site-fx__storm-lens {
@@ -1296,13 +1295,11 @@ body.storm-rain .site-fx__streak-overlay.is-on {
 }
 
 .site-fx__storm-veils { z-index: 1; }
-.site-fx__storm-puddles { z-index: 2; mix-blend-mode: soft-light; }
 .site-fx__storm-wind { z-index: 3; mix-blend-mode: screen; }
 .site-fx__storm-runoff { z-index: 4; mix-blend-mode: soft-light; }
 .site-fx__storm-lens { z-index: 7; mix-blend-mode: soft-light; }
 
 .site-fx__storm-veils.is-on,
-.site-fx__storm-puddles.is-on,
 .site-fx__storm-wind.is-on,
 .site-fx__storm-runoff.is-on,
 .site-fx__storm-lens.is-on {
@@ -1471,25 +1468,6 @@ body.storm-fx-stack .site-log__inner::after {
 /* 雷声整页低频震动 */
 html.storm-thunder-rumble {
   transform: translate3d(var(--thunder-shake-x, 0px), var(--thunder-shake-y, 0px), 0);
-}
-
-/* 卡片表面实时涟漪 */
-.site-fx__storm-card-ripples {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  display: none;
-  opacity: 0;
-  z-index: 6;
-  mix-blend-mode: soft-light;
-  transition: opacity 0.75s var(--ease);
-}
-
-.site-fx__storm-card-ripples.is-on {
-  display: block;
-  opacity: 1;
 }
 
 .site-fx__splash {
@@ -2073,8 +2051,8 @@ body.storm-rain .home-card__preview {
 }
 
 .home-card__preview-cell {
-  flex: 0 0 calc((100% - 1.5rem) / 4);
-  max-width: calc((100% - 1.5rem) / 4);
+  flex: 0 0 calc((100% - 2.5rem) / 6);
+  max-width: calc((100% - 2.5rem) / 6);
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 0.45rem;
@@ -3112,8 +3090,8 @@ body.heavy-rain .home-intro__grain {
   }
 
   .home-card__preview-cell {
-    flex-basis: calc((100% - 0.5rem) / 2);
-    max-width: calc((100% - 0.5rem) / 2);
+    flex-basis: calc((100% - 1rem) / 3);
+    max-width: calc((100% - 1rem) / 3);
   }
 
   .page-main.page-main--mv {

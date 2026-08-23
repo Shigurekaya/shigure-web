@@ -1010,10 +1010,6 @@
     const stormRumble = storm && window.KayaStormThunderRumble?.attach
       ? window.KayaStormThunderRumble.attach()
       : null;
-    /* 卡片表面实时涟漪 */
-    const stormCardRipples = storm && window.KayaStormCardRipples?.attach
-      ? window.KayaStormCardRipples.attach(fxRoot)
-      : null;
 
     /* 贴屏 WebGL 盖住 site-bg 雨丝：用 Canvas2D 叠层画银丝（不占第二 WebGL） */
     const streakOverlay = document.createElement("canvas");
@@ -1626,7 +1622,6 @@
       stormAtmo?.resize?.(w, h);
       stormPost?.resize?.(w, h);
       stormOverlay?.resize?.(w, h);
-      stormCardRipples?.resize?.(w, h);
       stormRefract?.resize?.();
     };
 
@@ -1663,8 +1658,6 @@
       const windBias = windLive * (storm ? 24 : 10);
       if (storm) {
         stormAtmo?.hit?.(hit.x, hit.y, phone ? 0.85 : 1.35);
-        stormPost?.hit?.(hit.x, hit.y, phone ? 0.7 : 1.2);
-        stormCardRipples?.hit?.(hit.x, hit.y, phone ? 0.75 : 1.15);
       }
 
       if (storm) {
@@ -1803,9 +1796,6 @@
       stormPost?.clear?.();
       stormOverlay?.clear?.();
       stormRefract?.clear?.();
-      stormCardRipples?.clear?.();
-      stormRefract?.clear?.();
-      stormCardRipples?.clear?.();
     };
 
     const tick = (now) => {
@@ -1837,7 +1827,6 @@
       stormPost?.draw?.(dt);
       stormOverlay?.draw?.(dt);
       stormRefract?.draw?.(dt);
-      stormCardRipples?.draw?.(dt);
       const frameStart = performance.now();
 
       const scrolling = !!opts.isScrolling?.();
@@ -1846,7 +1835,6 @@
         : opts.getLedges?.()) || [];
       glassDrops?.setLedges?.(ledges);
       stormOverlay?.setLedges?.(ledges);
-      stormCardRipples?.setLedges?.(ledges);
 
       const screenOnNow = useScreenGlass && glassReady && !screenGlassDemoted;
       if (intensity > 0.001 && !gpu) {
@@ -2036,7 +2024,6 @@
         stormOverlay?.destroy?.();
         stormRefract?.destroy?.();
         stormRumble?.destroy?.();
-        stormCardRipples?.destroy?.();
         if (useStaticBg && !storm
           && !document.body.classList.contains("light-rain")
           && !document.body.classList.contains("sunny-sky")) {

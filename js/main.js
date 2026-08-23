@@ -1392,6 +1392,18 @@ const Kaya = (() => {
     return `assets/images/mv-materials/thumbs/${base}.webp`;
   }
 
+  /** 路径逐段编码，避免文件名中的 + 被 CDN 当成空格（如 小叶子+耶芙娜） */
+  function mvAssetUrl(src) {
+    if (!src || /^https?:\/\//i.test(src)) return src;
+    return src.split("/").map((seg) => encodeURIComponent(seg)).join("/");
+  }
+
+  function mvImgOnError(img) {
+    img.onerror = null;
+    const full = img.dataset.full;
+    if (full) img.src = mvAssetUrl(full);
+  }
+
   function mvPreviewImages() {
     const listed = mvData().preview;
     if (Array.isArray(listed) && listed.length) return listed;
@@ -1413,12 +1425,12 @@ const Kaya = (() => {
     btn.style.aspectRatio = `${w} / ${h}`;
     btn.setAttribute("aria-label", "查看大图");
     const image = document.createElement("img");
-    image.src = mvThumbSrc(item.src);
+    image.src = mvAssetUrl(mvThumbSrc(item.src));
     image.dataset.full = item.src;
     image.alt = "";
     image.loading = "lazy";
     image.decoding = "async";
-    image.setAttribute("onerror", "this.onerror=null;this.src=this.dataset.full||this.src");
+    image.onerror = () => mvImgOnError(image);
     btn.appendChild(image);
     return btn;
   }
@@ -1430,12 +1442,12 @@ const Kaya = (() => {
       const cell = document.createElement("span");
       cell.className = "home-card__preview-cell";
       const image = document.createElement("img");
-      image.src = mvThumbSrc(src);
+      image.src = mvAssetUrl(mvThumbSrc(src));
       image.dataset.full = src;
       image.alt = "";
       image.loading = "lazy";
       image.decoding = "async";
-      image.setAttribute("onerror", "this.onerror=null;this.src=this.dataset.full||this.src");
+      image.onerror = () => mvImgOnError(image);
       cell.appendChild(image);
       container.appendChild(cell);
     });
@@ -1476,12 +1488,12 @@ const Kaya = (() => {
           btn.setAttribute("aria-current", "true");
         }
         const thumb = document.createElement("img");
-        thumb.src = mvThumbSrc(item.src);
+        thumb.src = mvAssetUrl(mvThumbSrc(item.src));
         thumb.dataset.full = item.src;
         thumb.alt = "";
         thumb.loading = "lazy";
         thumb.decoding = "async";
-        thumb.setAttribute("onerror", "this.onerror=null;this.src=this.dataset.full||this.src");
+        thumb.onerror = () => mvImgOnError(thumb);
         btn.appendChild(thumb);
         btn.addEventListener("click", () => show(index));
         railEl.appendChild(btn);
@@ -1497,7 +1509,7 @@ const Kaya = (() => {
       if (!items.length) return;
       currentIndex = (index + items.length) % items.length;
       const item = items[currentIndex];
-      imgEl.src = item.src;
+      imgEl.src = mvAssetUrl(item.src);
       imgEl.alt = "";
       railEl.querySelectorAll(".mv-lightbox__thumb").forEach((el, i) => {
         const on = i === currentIndex;

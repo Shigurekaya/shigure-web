@@ -72,10 +72,11 @@ class NoCacheHandler(SimpleHTTPRequestHandler):
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=3000)
+    parser.add_argument("--host", default="127.0.0.1", help="bind address (default: 127.0.0.1)")
     args = parser.parse_args()
     handler = functools.partial(NoCacheHandler, directory=str(ROOT))
-    server = ThreadingHTTPServer(("0.0.0.0", args.port), handler)
-    print(f"Serving {ROOT} on http://127.0.0.1:{args.port}/ (HTML no-store + clean URLs)")
+    server = ThreadingHTTPServer((args.host, args.port), handler)
+    print(f"Serving {ROOT} on http://{args.host}:{args.port}/ (HTML no-store + clean URLs)")
     server.serve_forever()
 
 
