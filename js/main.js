@@ -1404,6 +1404,25 @@ const Kaya = (() => {
     if (full) img.src = mvAssetUrl(full);
   }
 
+  /** 释放 lightbox 水印 blob URL */
+  function revokeMvWatermarkUrl(imgEl) {
+    if (imgEl?._wmUrl) {
+      try { URL.revokeObjectURL(imgEl._wmUrl); } catch { /* ignore */ }
+      imgEl._wmUrl = null;
+    }
+  }
+
+  /** 大图预览：canvas 嵌入隐形水印后再展示 */
+  async function mvLightboxSrc(url, assetKey) {
+    const wm = window.KayaMvWatermark;
+    if (!wm?.toObjectUrl || !assetKey) return url;
+    try {
+      return await wm.toObjectUrl(url, assetKey);
+    } catch {
+      return url;
+    }
+  }
+
   function mvPreviewImages() {
     const listed = mvData().preview;
     if (Array.isArray(listed) && listed.length) return listed;
@@ -1505,11 +1524,19 @@ const Kaya = (() => {
         ?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
     }
 
-    function show(index) {
+    async function show(index) {
       if (!items.length) return;
       currentIndex = (index + items.length) % items.length;
       const item = items[currentIndex];
-      imgEl.src = mvAssetUrl(item.src);
+      revokeMvWatermarkUrl(imgEl);
+      const rawUrl = mvAssetUrl(item.src);
+      const stamped = await mvLightboxSrc(rawUrl, item.src);
+      if (stamped !== rawUrl) {
+        imgEl._wmUrl = stamped;
+        imgEl.src = stamped;
+      } else {
+        imgEl.src = rawUrl;
+      }
       imgEl.alt = "";
       railEl.querySelectorAll(".mv-lightbox__thumb").forEach((el, i) => {
         const on = i === currentIndex;
@@ -1534,6 +1561,7 @@ const Kaya = (() => {
 
     function close() {
       dialog.close();
+      revokeMvWatermarkUrl(imgEl);
       imgEl.src = "";
       railEl.innerHTML = "";
     }

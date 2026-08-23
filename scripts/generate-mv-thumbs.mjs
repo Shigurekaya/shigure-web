@@ -1,12 +1,13 @@
 /**
  * 从 assets/images/mv-materials 原图生成 WebP 缩略图 → assets/images/mv-materials/thumbs/
- * 尺寸为原图 80%，格式 WebP（与浮游画廊思路一致，路径结构保留子目录）
+ * 尺寸为原图 80%，格式 WebP；生成时写入隐形水印（见 watermark-embed.mjs）
  * 用法: npm run mv-thumbs
  */
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
+import { embedRgba } from "./watermark-embed.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MV_DIR = path.join(__dirname, "../assets/images/mv-materials");
@@ -47,9 +48,17 @@ async function main() {
     const width = Math.max(1, Math.round((meta.width || 1) * SCALE));
     const height = Math.max(1, Math.round((meta.height || 1) * SCALE));
 
-    await sharp(src)
+    const assetKey = `assets/images/mv-materials/${rel.replace(/\\/g, "/")}`;
+    const { data, info } = await sharp(src)
       .rotate()
       .resize({ width, height, fit: "fill" })
+      .ensureAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+
+    embedRgba(data, info.width, info.height, assetKey);
+
+    await sharp(data, { raw: { width: info.width, height: info.height, channels: 4 } })
       .webp({ quality: QUALITY })
       .toFile(dest);
 
