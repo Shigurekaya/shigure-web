@@ -1,5 +1,11 @@
 // MV 素材：rows 只决定同行相邻，不显示分区标题；aspect 为原图宽高比
 window.MV_MATERIALS = {
+  preview: [
+    "assets/images/mv-materials/ave/丰川祥子2.jpg",
+    "assets/images/mv-materials/v家/初音重音.jpg",
+    "assets/images/mv-materials/骨/小叶子+耶芙娜.jpg",
+    "assets/images/mv-materials/其它/宁宁.jpg"
+  ],
   rows: [
     {
       items: [

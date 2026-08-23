@@ -2073,8 +2073,8 @@ body.storm-rain .home-card__preview {
 }
 
 .home-card__preview-cell {
-  flex: 0 0 calc((100% - 2.5rem) / 6);
-  max-width: calc((100% - 2.5rem) / 6);
+  flex: 0 0 calc((100% - 1.5rem) / 4);
+  max-width: calc((100% - 1.5rem) / 4);
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: 0.45rem;
@@ -3112,8 +3112,8 @@ body.heavy-rain .home-intro__grain {
   }
 
   .home-card__preview-cell {
-    flex-basis: calc((100% - 1rem) / 3);
-    max-width: calc((100% - 1rem) / 3);
+    flex-basis: calc((100% - 0.5rem) / 2);
+    max-width: calc((100% - 0.5rem) / 2);
   }
 
   .page-main.page-main--mv {

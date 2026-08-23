@@ -1383,8 +1383,19 @@ const Kaya = (() => {
     }
   }
 
+  /** MV 原图 → WebP 缩略图（80% 尺寸，见 scripts/generate-mv-thumbs.mjs） */
+  function mvThumbSrc(src) {
+    if (!src || src.includes("/thumbs/") || !/^assets\/images\/mv-materials\/.+\.(png|jpe?g|webp)$/i.test(src)) {
+      return src;
+    }
+    const base = src.replace(/^assets\/images\/mv-materials\//, "").replace(/\.(png|jpe?g|webp)$/i, "");
+    return `assets/images/mv-materials/thumbs/${base}.webp`;
+  }
+
   function mvPreviewImages() {
-    return mvRows().map((row) => row.items?.[0]?.src).filter(Boolean).slice(0, 6);
+    const listed = mvData().preview;
+    if (Array.isArray(listed) && listed.length) return listed;
+    return mvRows().map((row) => row.items?.[0]?.src).filter(Boolean).slice(0, 4);
   }
 
   function mvRowColumns(items) {
@@ -1402,10 +1413,12 @@ const Kaya = (() => {
     btn.style.aspectRatio = `${w} / ${h}`;
     btn.setAttribute("aria-label", "查看大图");
     const image = document.createElement("img");
-    image.src = item.src;
+    image.src = mvThumbSrc(item.src);
+    image.dataset.full = item.src;
     image.alt = "";
     image.loading = "lazy";
     image.decoding = "async";
+    image.setAttribute("onerror", "this.onerror=null;this.src=this.dataset.full||this.src");
     btn.appendChild(image);
     return btn;
   }
@@ -1417,10 +1430,12 @@ const Kaya = (() => {
       const cell = document.createElement("span");
       cell.className = "home-card__preview-cell";
       const image = document.createElement("img");
-      image.src = src;
+      image.src = mvThumbSrc(src);
+      image.dataset.full = src;
       image.alt = "";
       image.loading = "lazy";
       image.decoding = "async";
+      image.setAttribute("onerror", "this.onerror=null;this.src=this.dataset.full||this.src");
       cell.appendChild(image);
       container.appendChild(cell);
     });
@@ -1461,10 +1476,12 @@ const Kaya = (() => {
           btn.setAttribute("aria-current", "true");
         }
         const thumb = document.createElement("img");
-        thumb.src = item.src;
+        thumb.src = mvThumbSrc(item.src);
+        thumb.dataset.full = item.src;
         thumb.alt = "";
         thumb.loading = "lazy";
         thumb.decoding = "async";
+        thumb.setAttribute("onerror", "this.onerror=null;this.src=this.dataset.full||this.src");
         btn.appendChild(thumb);
         btn.addEventListener("click", () => show(index));
         railEl.appendChild(btn);
@@ -1514,7 +1531,7 @@ const Kaya = (() => {
       if (!btn) return;
       const image = btn.querySelector("img");
       if (!image) return;
-      openAt(image.currentSrc || image.src);
+      openAt(image.dataset.full || image.src);
     });
 
     closeBtn?.addEventListener("click", close);
