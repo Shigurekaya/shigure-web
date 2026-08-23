@@ -6,7 +6,7 @@
   <base href="/" />
   <title>链接 · 时雨榧</title>
   <meta name="theme-color" content="#f7f8fc" />
-  <link rel="stylesheet" href="css/style.css?v=202608232030" />
+  <link rel="stylesheet" href="css/style.css?v=202608240045" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
 <body class="page-links">
@@ -39,29 +39,22 @@
 
   <footer class="site-footer">
     <p>© <span id="year"></span> 时雨榧</p>
-    <nav class="weather-preview" aria-label="天气预览">
-      <a href="?rain=light">小雨</a>
-      <a href="?rain=heavy">大雨</a>
-      <a href="?rain=storm">雷暴</a>
-      <a href="?rain=sunny">晴天</a>
-    </nav>
-    <a class="heavy-gate" href="/light/" tabindex="-1" aria-hidden="true">小雨测试</a>
-    <a class="heavy-gate" href="/heavy/" tabindex="-1" aria-hidden="true">大雨测试</a>
-    <a class="heavy-gate" href="/storm/" tabindex="-1" aria-hidden="true">雷暴测试</a>
-    <a class="heavy-gate" href="?rain=sunny" tabindex="-1" aria-hidden="true">晴天测试</a>
+    <p class="site-footer__motto">放弃幻想，开始战斗</p>
   </footer>
 
   <script src="js/site-data.js?v=202608221620"></script>
   <script src="js/vendor/html2canvas.min.js"></script>
   <script src="js/vendor/raindrop-fx.js"></script>
   <script src="js/perf-governor.js?v=202608222900"></script>
-  <script src="js/gpu-streak-rain.js?v=202608221620"></script>
-  <script src="js/glass-drops.js?v=202608221620"></script>
-  <script src="js/light-rain.js?v=202608232050"></script>
-  <script src="js/heavy-rain.js?v=202608231500"></script>
-  <script src="js/storm-lightning.js?v=202608221620"></script>
-  <script src="js/sunny-sky.js?v=202608231720"></script>
-  <script src="js/main.js?v=202608231800" defer></script>
+  <script src="js/rain-streak-profile.js?v=202608232040"></script>
+  <script src="js/gpu-streak-rain.js?v=202608232040"></script>
+  <script src="js/glass-drops.js?v=202608232215"></script>
+  <script src="js/light-rain.js?v=202608232040"></script>
+  <script src="js/storm-atmosphere.js?v=202608232335"></script>
+  <script src="js/heavy-rain.js?v=202608232310"></script>
+  <script src="js/storm-lightning.js?v=202608232245"></script>
+  <script src="js/sunny-sky.js?v=202608240050"></script>
+  <script src="js/main.js?v=202608232355" defer></script>
   <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initLinks());</script>
 </body>
 </html>

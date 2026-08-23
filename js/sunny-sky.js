@@ -682,6 +682,7 @@
    */
   function attach(host) {
     if (!host) return null;
+    loadRainbowTex();
     const phone = isPhoneLike();
 
     const mist = document.createElement("div");
@@ -802,6 +803,15 @@
     };
 
     let resizeTimer = 0;
+    let sceneRevealed = false;
+    let bakedWithTex = false;
+
+    const revealScene = () => {
+      if (sceneRevealed) return;
+      sceneRevealed = true;
+      sceneImg.classList.add("is-on");
+    };
+
     const applyResize = () => {
       let cssW = window.innerWidth;
       let cssH = window.innerHeight;
@@ -824,6 +834,7 @@
 
       bakeClouds();
       bakeStaticScene();
+      revealScene();
     };
 
     const resize = () => {
@@ -849,20 +860,23 @@
       weakGpu: window.KayaPerfGovernor?.isWeakGpu?.() ?? false,
     });
 
+    const rebakeWithTexture = () => {
+      if (!running || bakedWithTex || !rainbowTexReady) return;
+      bakedWithTex = true;
+      refreshRainbowBake();
+      bakeStaticScene();
+    };
+
     return {
       start() {
         if (running) return;
         running = true;
-        sceneImg.classList.add("is-on");
-        loadRainbowTex(() => {
-          if (!running) return;
-          refreshRainbowBake();
-          bakeStaticScene();
-        });
+        loadRainbowTex(rebakeWithTexture);
         applyResize();
       },
       stop() {
         running = false;
+        sceneRevealed = false;
         sceneImg.classList.remove("is-on");
       },
       resize,
@@ -877,5 +891,6 @@
     };
   }
 
-  window.KayaSunnySky = { attach };
+  loadRainbowTex();
+  window.KayaSunnySky = { attach, preloadRainbow: loadRainbowTex };
 })();

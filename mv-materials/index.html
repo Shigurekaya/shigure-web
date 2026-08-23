@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/" />
-  <title>作品 · 时雨榧</title>
+  <title>MV 素材 · 时雨榧</title>
   <meta name="theme-color" content="#f7f8fc" />
   <link rel="stylesheet" href="css/style.css?v=202608240045" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
-<body class="page-works">
+<body class="page-mv">
   <div class="site-bg" aria-hidden="true"></div>
 
   <header class="site-header">
@@ -21,21 +21,30 @@
       <nav>
         <ul class="site-nav" id="site-nav">
           <li><a href="/">主页</a></li>
-          <li><a href="/works/" class="active">作品</a></li>
+          <li><a href="/works/">作品</a></li>
           <li><a href="/links/">链接</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main class="page-main">
-    <header class="page-head">
-      <p class="page-head__eyebrow">Portfolio</p>
-      <h1>作品集</h1>
-      <p class="page-head__sub">点击封面跳转 B 站观看</p>
+  <main class="page-main page-main--mv">
+    <header class="page-head page-head--center">
+      <p class="page-head__eyebrow">MV Assets</p>
+      <h1>部分 MV 素材</h1>
     </header>
-    <div class="works-grid" id="works-grid"></div>
+    <div class="mv-board" id="mv-gallery"></div>
   </main>
+
+  <dialog class="mv-lightbox" id="mv-lightbox" aria-label="图片预览">
+    <button type="button" class="mv-lightbox__close" id="mv-lightbox-close" aria-label="关闭">×</button>
+    <div class="mv-lightbox__layout">
+      <figure class="mv-lightbox__figure">
+        <img class="mv-lightbox__img" id="mv-lightbox-img" alt="" />
+      </figure>
+      <aside class="mv-lightbox__rail" id="mv-lightbox-rail" aria-label="缩略图列表"></aside>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <p>© <span id="year"></span> 时雨榧</p>
@@ -43,6 +52,7 @@
   </footer>
 
   <script src="js/site-data.js?v=202608221620"></script>
+  <script src="js/mv-materials-data.js?v=202608232020"></script>
   <script src="js/vendor/html2canvas.min.js"></script>
   <script src="js/vendor/raindrop-fx.js"></script>
   <script src="js/perf-governor.js?v=202608222900"></script>
@@ -54,7 +64,7 @@
   <script src="js/heavy-rain.js?v=202608232310"></script>
   <script src="js/storm-lightning.js?v=202608232245"></script>
   <script src="js/sunny-sky.js?v=202608240050"></script>
-  <script src="js/main.js?v=202608232355" defer></script>
-  <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initWorks());</script>
+  <script src="js/main.js?v=202608232445" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initMvMaterials());</script>
 </body>
 </html>

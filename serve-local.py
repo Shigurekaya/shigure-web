@@ -18,6 +18,8 @@ CLEAN_MAP = {
     "/works/": "works.html",
     "/links": "links.html",
     "/links/": "links.html",
+    "/mv-materials": "mv-materials.html",
+    "/mv-materials/": "mv-materials.html",
     "/heavy": "heavy.html",
     "/heavy/": "heavy.html",
     "/light": "light.html",

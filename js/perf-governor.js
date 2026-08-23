@@ -60,29 +60,9 @@
     return weakGpuCache;
   }
 
-  /** @returns {"low"|"mid"|"high"} */
+  /** @returns {"mid"} */
   function detectRainTier() {
-    try {
-      if (navigator.connection?.saveData) return "low";
-    } catch { /* ignore */ }
-    if (isPhoneLike()) return "low";
-
-    if (isWeakGpu()) return "low";
-
-    const cores = navigator.hardwareConcurrency || 4;
-    let mem = 4;
-    try {
-      if (typeof navigator.deviceMemory === "number" && navigator.deviceMemory > 0) {
-        mem = navigator.deviceMemory;
-      }
-    } catch { /* ignore */ }
-
-    let tier = "high";
-    if (cores <= 4 || mem <= 4) tier = "low";
-    else if (cores <= 8 || mem <= 8) tier = "mid";
-
-    if (isHeavyViewport() && tier === "high") tier = "mid";
-    return tier;
+    return "mid";
   }
 
   function createRuntimeGovernor(opts = {}) {
@@ -131,16 +111,13 @@
     };
   }
 
-  function ambientDprCap(phone = false) {
-    if (phone) return 1.05;
-    if (isWeakGpu()) return 1;
-    return 1;
+  function ambientDprCap(_phone = false) {
+    return 1.4;
   }
 
-  /** 氛围天气（小雨/晴天）：高配机也不拉高特效，避免空占 GPU */
+  /** @returns {"mid"} */
   function detectAmbientTier() {
-    const tier = detectRainTier();
-    return tier === "high" ? "mid" : tier;
+    return "mid";
   }
 
   function initPerfOverlay() {

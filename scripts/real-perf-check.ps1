@@ -161,9 +161,11 @@ Write-Host "== baseline (idle) =="
 $baseline = Sample-Perf "baseline" 3 ""
 
 $scenarios = @(
-  @{ name = 'fuyuu'; url = ($BaseUrl + '/fuyuu/') },
-  @{ name = 'light'; url = ($BaseUrl + '/?rain=light&perf=1') },
-  @{ name = 'sunny'; url = ($BaseUrl + '/?rain=sunny&perf=1') }
+  @{ name = 'sunny';  url = ($BaseUrl + '/?rain=sunny&perf=1') },
+  @{ name = 'light';  url = ($BaseUrl + '/?rain=light&perf=1') },
+  @{ name = 'heavy';  url = ($BaseUrl + '/?rain=heavy&perf=1') },
+  @{ name = 'storm';  url = ($BaseUrl + '/?rain=storm&perf=1') },
+  @{ name = 'fuyuu';  url = ($BaseUrl + '/fuyuu/') }
 )
 
 $results = @($baseline)

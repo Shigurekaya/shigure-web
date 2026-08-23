@@ -178,7 +178,7 @@ const Kaya = (() => {
         || p === "/heavy" || p === "/light" || p === "/storm"
         || p === "/sunny" || p === "/rainbow"
       ) return false;
-      return p === "/" || p === "/works" || p === "/links";
+      return p === "/" || p === "/works" || p === "/links" || p === "/mv-materials";
     };
 
     document.querySelectorAll("a[href]").forEach((a) => {
@@ -221,12 +221,15 @@ const Kaya = (() => {
     try {
       const q = new URLSearchParams(window.location.search);
       const rain = (q.get("rain") || "").toLowerCase();
-      if (rain === "storm" || q.has("storm")) return "storm";
-      if (rain === "heavy" || q.has("heavy")) return "heavy";
-      if (rain === "light" || q.has("light")) return "light";
+      /* 显式 ?rain=light 优先于残留的 ?heavy= / ?heavy 旗标 */
+      const fromRain = normalizeRainMode(rain);
+      if (fromRain) return fromRain;
+
+      if (q.has("storm")) return "storm";
+      if (q.has("heavy")) return "heavy";
+      if (q.has("light")) return "light";
       if (
-        rain === "sunny" || rain === "clear" || rain === "rainbow" || rain === "after"
-        || q.has("sunny") || q.has("clear") || q.has("rainbow") || q.has("after")
+        q.has("sunny") || q.has("clear") || q.has("rainbow") || q.has("after")
       ) return "sunny";
 
       /* 短链页 /rainbow/ /sunny/ 等：部分静态服不会执行 html 内跳转 */
@@ -319,7 +322,7 @@ const Kaya = (() => {
 
   function isContentSubPage() {
     const p = normalizePathname(window.location.pathname);
-    return p === "/works" || p === "/links";
+    return p === "/works" || p === "/links" || p === "/mv-materials";
   }
 
   /** 从 body 类名读取当前已挂载的天气（用于跨页点击前落盘） */
@@ -335,8 +338,8 @@ const Kaya = (() => {
   /**
    * 天气模式：
    * - URL 强制优先（storm / sunny 仅强制，不参与抽签）
-   * - 同站跨页（主页 ↔ 作品/链接）：始终沿用 session，绝不重抽
-   * - 作品/链接页刷新：沿用 session（小雨/大雨也不变）
+   * - 同站跨页（主页 ↔ 作品/链接/MV 素材）：始终沿用 session，绝不重抽
+   * - 作品/链接/MV 素材页刷新：沿用 session（小雨/大雨也不变）
    * - 仅主页刷新：storm / sunny 锁定；小雨 / 大雨按 20% / 70% / 10% 重抽
    * @returns {"light"|"heavy"|"storm"|"sunny"}
    */
@@ -834,10 +837,16 @@ const Kaya = (() => {
         const x2 = d.x + tilt;
         const y2 = d.y + d.len;
         const g = ctx.createLinearGradient(d.x, d.y, x2, y2);
-        g.addColorStop(0, "rgba(160,200,224,0)");
-        g.addColorStop(0.2, `rgba(200,225,245,${d.alpha * 0.45})`);
-        g.addColorStop(0.55, `rgba(230,245,255,${d.alpha})`);
-        g.addColorStop(1, "rgba(140,180,210,0)");
+        const profile = window.KayaRainStreakProfile;
+        if (profile) {
+          profile.applyCanvasGradient(g, "200,225,245", d.alpha);
+        } else {
+          g.addColorStop(0, "rgba(200,225,245,0)");
+          g.addColorStop(0.15, `rgba(200,225,245,${d.alpha * 0.25})`);
+          g.addColorStop(0.42, `rgba(200,225,245,${d.alpha * 0.46})`);
+          g.addColorStop(0.72, `rgba(200,225,245,${d.alpha * 0.84})`);
+          g.addColorStop(1, `rgba(200,225,245,${Math.min(1, d.alpha)})`);
+        }
         ctx.strokeStyle = g;
         ctx.lineWidth = d.width;
         ctx.beginPath();
@@ -1182,17 +1191,92 @@ const Kaya = (() => {
   }
 
   function initWeatherPreview() {
-    document.querySelectorAll(".weather-preview a").forEach((a) => {
+    const footer = document.querySelector(".site-footer");
+    if (!footer) return;
+
+    footer.querySelector(".weather-preview")?.remove();
+    footer.querySelectorAll(".heavy-gate").forEach((el) => el.remove());
+    if (footer.querySelector(".weather-gate")) return;
+
+    const modes = [
+      { href: "?rain=light", label: "小雨" },
+      { href: "?rain=heavy", label: "大雨" },
+      { href: "?rain=storm", label: "雷暴" },
+      { href: "?rain=sunny", label: "晴天" },
+    ];
+
+    const gate = document.createElement("div");
+    gate.className = "weather-gate";
+    gate.id = "weather-gate";
+
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "weather-gate__trigger";
+    trigger.id = "weather-gate-trigger";
+    trigger.setAttribute("aria-label", "调整天气");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-controls", "weather-gate-panel");
+    trigger.innerHTML = '<span class="weather-gate__icon" aria-hidden="true">☁</span>';
+
+    const panel = document.createElement("nav");
+    panel.className = "weather-gate__panel";
+    panel.id = "weather-gate-panel";
+    panel.setAttribute("aria-label", "天气预览");
+    panel.hidden = true;
+
+    modes.forEach(({ href, label }) => {
+      const a = document.createElement("a");
+      a.href = href;
+      a.textContent = label;
+      panel.appendChild(a);
+    });
+
+    gate.appendChild(trigger);
+    gate.appendChild(panel);
+    document.body.appendChild(gate);
+
+    const setOpen = (open) => {
+      panel.hidden = !open;
+      trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      gate.classList.toggle("is-open", open);
+    };
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      setOpen(panel.hidden);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!gate.contains(e.target)) setOpen(false);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setOpen(false);
+    });
+
+    panel.querySelectorAll("a").forEach((a) => {
       a.addEventListener("click", (e) => {
         const mode = weatherModeFromHref(a.getAttribute("href") || "");
         if (!mode) return;
         e.preventDefault();
+        setOpen(false);
         writeStoredRainMode(mode);
         const url = new URL(window.location.href);
         url.searchParams.set("rain", mode);
+        ["storm", "heavy", "light", "sunny", "clear", "rainbow", "after"].forEach((k) => {
+          url.searchParams.delete(k);
+        });
         window.location.assign(`${url.pathname}${url.search}${url.hash}`);
       });
     });
+
+    const current = rainModeFromBody() || readStoredRainMode();
+    if (current) {
+      panel.querySelectorAll("a").forEach((a) => {
+        const key = weatherModeFromHref(a.getAttribute("href") || "");
+        a.classList.toggle("is-current", key === current);
+      });
+    }
   }
 
   /** @param {"light"|"heavy"|"storm"|"sunny"|boolean} modeOrHeavy */
@@ -1220,7 +1304,7 @@ const Kaya = (() => {
             : "#f7f8fc";
       theme.setAttribute("content", color);
     }
-    document.querySelectorAll(".weather-preview a").forEach((a) => {
+    document.querySelectorAll(".weather-gate__panel a").forEach((a) => {
       const key = weatherModeFromHref(a.getAttribute("href") || "");
       a.classList.toggle("is-current", key === mode);
     });
@@ -1279,13 +1363,210 @@ const Kaya = (() => {
     });
   }
 
+  function mvData() {
+    return window.MV_MATERIALS || { rows: [] };
+  }
+
+  function mvRows() {
+    return mvData().rows || [];
+  }
+
+  function mvAllItems() {
+    return mvRows().flatMap((row) => row.items || []);
+  }
+
+  function mvSrcKey(src) {
+    try {
+      return new URL(src, window.location.origin).pathname;
+    } catch {
+      return src;
+    }
+  }
+
+  function mvPreviewImages() {
+    return mvRows().map((row) => row.items?.[0]?.src).filter(Boolean).slice(0, 6);
+  }
+
+  function mvRowColumns(items) {
+    return items.map((item) => {
+      const [w, h] = item.aspect || [1, 1];
+      return `${w / h}fr`;
+    }).join(" ");
+  }
+
+  function createMvBoardItem(item) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "mv-board__item";
+    const [w, h] = item.aspect || [1, 1];
+    btn.style.aspectRatio = `${w} / ${h}`;
+    btn.setAttribute("aria-label", "查看大图");
+    const image = document.createElement("img");
+    image.src = item.src;
+    image.alt = "";
+    image.loading = "lazy";
+    image.decoding = "async";
+    btn.appendChild(image);
+    return btn;
+  }
+
+  function renderMvHomePreview(container) {
+    if (!container) return;
+    container.innerHTML = "";
+    mvPreviewImages().forEach((src) => {
+      const cell = document.createElement("span");
+      cell.className = "home-card__preview-cell";
+      const image = document.createElement("img");
+      image.src = src;
+      image.alt = "";
+      image.loading = "lazy";
+      image.decoding = "async";
+      cell.appendChild(image);
+      container.appendChild(cell);
+    });
+  }
+
+  function renderMvGallery(container) {
+    if (!container) return;
+    container.innerHTML = "";
+    mvRows().forEach((row) => {
+      const rowEl = document.createElement("div");
+      rowEl.className = "mv-board__row";
+      rowEl.style.gridTemplateColumns = mvRowColumns(row.items || []);
+      (row.items || []).forEach((item) => rowEl.appendChild(createMvBoardItem(item)));
+      container.appendChild(rowEl);
+    });
+  }
+
+  function initMvLightbox() {
+    const dialog = document.getElementById("mv-lightbox");
+    const imgEl = document.getElementById("mv-lightbox-img");
+    const closeBtn = document.getElementById("mv-lightbox-close");
+    const railEl = document.getElementById("mv-lightbox-rail");
+    if (!dialog || !imgEl || !railEl) return;
+
+    const items = mvAllItems();
+    let currentIndex = 0;
+    let wheelLocked = false;
+
+    function renderRail() {
+      railEl.innerHTML = "";
+      items.forEach((item, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "mv-lightbox__thumb";
+        btn.setAttribute("aria-label", `查看第 ${index + 1} 张`);
+        if (index === currentIndex) {
+          btn.classList.add("is-active");
+          btn.setAttribute("aria-current", "true");
+        }
+        const thumb = document.createElement("img");
+        thumb.src = item.src;
+        thumb.alt = "";
+        thumb.loading = "lazy";
+        thumb.decoding = "async";
+        btn.appendChild(thumb);
+        btn.addEventListener("click", () => show(index));
+        railEl.appendChild(btn);
+      });
+    }
+
+    function scrollActiveThumbIntoView() {
+      railEl.querySelector(".mv-lightbox__thumb.is-active")
+        ?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+    }
+
+    function show(index) {
+      if (!items.length) return;
+      currentIndex = (index + items.length) % items.length;
+      const item = items[currentIndex];
+      imgEl.src = item.src;
+      imgEl.alt = "";
+      railEl.querySelectorAll(".mv-lightbox__thumb").forEach((el, i) => {
+        const on = i === currentIndex;
+        el.classList.toggle("is-active", on);
+        el.setAttribute("aria-current", on ? "true" : "false");
+      });
+      scrollActiveThumbIntoView();
+    }
+
+    function step(delta) {
+      show(currentIndex + delta);
+    }
+
+    function openAt(src) {
+      const key = mvSrcKey(src);
+      const idx = items.findIndex((item) => mvSrcKey(item.src) === key);
+      currentIndex = idx >= 0 ? idx : 0;
+      renderRail();
+      show(currentIndex);
+      dialog.showModal();
+    }
+
+    function close() {
+      dialog.close();
+      imgEl.src = "";
+      railEl.innerHTML = "";
+    }
+
+    document.getElementById("mv-gallery")?.addEventListener("click", (e) => {
+      const btn = e.target.closest(".mv-board__item");
+      if (!btn) return;
+      const image = btn.querySelector("img");
+      if (!image) return;
+      openAt(image.currentSrc || image.src);
+    });
+
+    closeBtn?.addEventListener("click", close);
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) close();
+    });
+    dialog.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      close();
+    });
+
+    dialog.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        step(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        step(1);
+      }
+    });
+
+    dialog.addEventListener("wheel", (e) => {
+      if (!dialog.open) return;
+      e.preventDefault();
+      if (wheelLocked) return;
+      wheelLocked = true;
+      window.setTimeout(() => { wheelLocked = false; }, 180);
+      step(e.deltaY > 0 ? 1 : -1);
+    }, { passive: false });
+  }
+
+  function initMvMaterials() {
+    const mode = pickInitialRainMode();
+    applyRainTheme(mode);
+    initCommon(mode);
+    renderMvGallery(document.getElementById("mv-gallery"));
+    initMvLightbox();
+    refreshRainLedges();
+    markPageReady();
+  }
+
   function initHome() {
     /* 开幕前先定雨模式，大雨/雷暴开场才能用冷蓝底+密雨丝 */
     const mode = pickInitialRainMode();
     applyRainTheme(mode);
+    if (mode === "sunny") {
+      window.KayaSunnySky?.preloadRainbow?.();
+    }
     initHomeIntro();
     initCommon(mode);
     initHero();
+    renderMvHomePreview(document.getElementById("mv-preview"));
   }
 
   function initWorks() {
@@ -1306,5 +1587,5 @@ const Kaya = (() => {
     markPageReady();
   }
 
-  return { initHome, initWorks, initLinks, data };
+  return { initHome, initWorks, initLinks, initMvMaterials, data };
 })();

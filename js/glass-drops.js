@@ -37,22 +37,22 @@
     const rx = size * 0.36;
     const ry = size * 0.44;
 
-    /* 极淡接触阴影（体积感，勿成墨团） */
+    /* 极淡接触阴影（透明水，忌深蓝灰体积 → 泥水） */
     const shade = cx.createRadialGradient(ox + rx * 0.08, oy + ry * 0.35, rx * 0.15, ox, oy + ry * 0.1, rx * 1.15);
-    shade.addColorStop(0, "rgba(20,40,70,0.14)");
-    shade.addColorStop(0.55, "rgba(30,55,90,0.05)");
+    shade.addColorStop(0, "rgba(180,210,235,0.06)");
+    shade.addColorStop(0.55, "rgba(200,225,245,0.02)");
     shade.addColorStop(1, "rgba(0,0,0,0)");
     cx.fillStyle = shade;
     cx.beginPath();
     cx.ellipse(ox + rx * 0.06, oy + ry * 0.12, rx * 1.02, ry * 1.05, 0, 0, Math.PI * 2);
     cx.fill();
 
-    /* 透镜体：中心几乎透明，靠边缘折射亮起 */
+    /* 透镜体：中心几乎透明，仅边缘 Fresnel */
     const body = cx.createRadialGradient(ox - rx * 0.1, oy - ry * 0.22, 0, ox, oy, rx);
-    body.addColorStop(0, "rgba(245,252,255,0.06)");
-    body.addColorStop(0.4, "rgba(220,238,255,0.1)");
-    body.addColorStop(0.72, "rgba(200,230,255,0.28)");
-    body.addColorStop(0.9, "rgba(235,248,255,0.55)");
+    body.addColorStop(0, "rgba(255,255,255,0.02)");
+    body.addColorStop(0.45, "rgba(235,248,255,0.06)");
+    body.addColorStop(0.78, "rgba(220,240,255,0.18)");
+    body.addColorStop(0.92, "rgba(245,252,255,0.42)");
     body.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = body;
     cx.beginPath();
@@ -108,7 +108,7 @@
     return c;
   }
 
-  /** 冷凝微珠：小透镜高光点（勿糊成白霜） */
+  /** 冷凝微珠：主珠缩小版 — 中心透、Fresnel 边（对齐 bakeDropBitmap / raindrop-fx） */
   function bakeBeadSprite(size = 4) {
     const dim = Math.max(6, size | 0);
     const c = document.createElement("canvas");
@@ -117,27 +117,44 @@
     const cx = c.getContext("2d");
     if (!cx) return c;
     const o = dim * 0.5;
-    const r = dim * 0.4;
-    const body = cx.createRadialGradient(o - r * 0.2, o - r * 0.25, 0, o, o, r);
-    body.addColorStop(0, "rgba(255,255,255,0.95)");
-    body.addColorStop(0.25, "rgba(240,250,255,0.45)");
-    body.addColorStop(0.55, "rgba(200,230,255,0.18)");
-    body.addColorStop(0.82, "rgba(220,240,255,0.4)");
-    body.addColorStop(1, "rgba(180,215,245,0)");
+    const r = dim * 0.38;
+    const shade = cx.createRadialGradient(o + r * 0.06, o + r * 0.2, 0, o, o, r * 1.1);
+    shade.addColorStop(0, "rgba(200,225,245,0.05)");
+    shade.addColorStop(0.6, "rgba(220,238,255,0.02)");
+    shade.addColorStop(1, "rgba(0,0,0,0)");
+    cx.fillStyle = shade;
+    cx.beginPath();
+    cx.arc(o, o, r * 1.02, 0, Math.PI * 2);
+    cx.fill();
+    const body = cx.createRadialGradient(o - r * 0.12, o - r * 0.18, 0, o, o, r);
+    body.addColorStop(0, "rgba(255,255,255,0.02)");
+    body.addColorStop(0.5, "rgba(235,248,255,0.06)");
+    body.addColorStop(0.8, "rgba(225,242,255,0.16)");
+    body.addColorStop(0.92, "rgba(245,252,255,0.38)");
+    body.addColorStop(1, "rgba(255,255,255,0)");
     cx.fillStyle = body;
     cx.beginPath();
     cx.arc(o, o, r, 0, Math.PI * 2);
     cx.fill();
-    cx.strokeStyle = "rgba(255,255,255,0.65)";
-    cx.lineWidth = Math.max(0.5, dim * 0.08);
+    cx.strokeStyle = "rgba(255,255,255,0.88)";
+    cx.lineWidth = Math.max(0.4, dim * 0.06);
     cx.beginPath();
-    cx.arc(o, o, r * 0.82, 0, Math.PI * 2);
+    cx.arc(o, o, r * 0.9, 0, Math.PI * 2);
     cx.stroke();
+    const spec = cx.createRadialGradient(o - r * 0.28, o - r * 0.3, 0, o - r * 0.28, o - r * 0.3, r * 0.32);
+    spec.addColorStop(0, "rgba(255,255,255,0.82)");
+    spec.addColorStop(0.35, "rgba(240,248,255,0.28)");
+    spec.addColorStop(1, "rgba(255,255,255,0)");
+    cx.fillStyle = spec;
+    cx.beginPath();
+    cx.arc(o - r * 0.22, o - r * 0.24, r * 0.14, 0, Math.PI * 2);
+    cx.fill();
     return c;
   }
 
   function bakeBeadSprites() {
-    return [3, 4, 5, 7, 9, 12].map(bakeBeadSprite);
+    /* 大雨对齐参考片：中等冷凝珠（略大于原微点） */
+    return [4, 6, 8, 11, 14, 18].map(bakeBeadSprite);
   }
 
   function bakeSprites() {
@@ -322,7 +339,7 @@
 
     const pickBead = (scale) => {
       if (!beadSprites.length) return null;
-      const px = 2.5 + scale * 5;
+      const px = 4 + scale * 8;
       let best = 0;
       let diff = Infinity;
       for (let i = 0; i < beadSprites.length; i += 1) {
@@ -332,7 +349,11 @@
       return beadSprites[best];
     };
 
-    const beadHalf = (scale, sprW) => (0.42 + scale * 0.95) * (sprW / 4);
+    /* 大雨略放大绘制半径，暴雨沿用原尺度 */
+    const beadHalf = (scale, sprW) => {
+      const mul = storm ? 0.95 : 1.22;
+      return (0.42 + scale * 0.95) * (sprW / 4) * mul;
+    };
 
     const eraseTrail = (x, y, rad, trailLen) => {
       tctx.save();
@@ -379,14 +400,14 @@
       if (noSpray || microN <= 0) return;
       const preferUi = opts2.preferUi !== false && ledges.length && Math.random() < (storm ? 0.52 : 0.42);
       const ui = preferUi ? pickInLedge(0.95) : null;
-      const scale = opts2.scale ?? rand(0.18, storm ? 0.55 : 0.48);
-      const clingMax = storm ? (lite ? 2.4 : 3.5) : 4.5;
-      const clingMin = storm ? 0.2 : 0.45;
+      const scale = opts2.scale ?? rand(storm ? 0.18 : 0.32, storm ? 0.55 : 0.78);
+      const clingMax = storm ? (lite ? 2.4 : 3.5) : 0.08;
+      const clingMin = storm ? 0.2 : 0;
       beads.push({
         x: opts2.x ?? ui?.x ?? Math.random() * w,
         y: opts2.y ?? ui?.y ?? Math.pow(Math.random(), storm ? 0.52 : 0.6) * h,
         scale,
-        a: opts2.a ?? rand(0.45, storm ? 0.85 : 0.7),
+        a: opts2.a ?? rand(0.34, storm ? 0.85 : 0.56),
         cling: opts2.cling ?? rand(clingMin, clingMax),
         flowing: false,
         vy: 0,
@@ -399,8 +420,8 @@
     const targetBeadN = () => {
       if (noSpray || microN <= 0) return 0;
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.5);
-      /* 参考 glass_cover≈1.4%、mid≈334/MP：细点密但不糊罩 */
-      const dens = storm ? (lite ? 0.42 : 0.5) : 0.4;
+      /* 大雨珠径已加大，密度略降以免糊成霜罩 */
+      const dens = storm ? (lite ? 0.58 : 0.72) : 0.34;
       return Math.round(microN * dens * area);
     };
 
@@ -408,7 +429,7 @@
       beads.length = 0;
       clearTrail();
       const n = targetBeadN();
-      const span = storm ? 5.2 : 6.8;
+      const span = storm ? 5.2 : 0.35;
       for (let i = 0; i < n; i += 1) {
         spawnBead({
           preferUi: Math.random() < 0.48,
@@ -446,7 +467,7 @@
         y,
         r,
         momentum,
-        drip: opts2.drip ?? (fromTop || momentum > 0.08 ? 0 : rand(storm ? 0.8 : 1.6, storm ? 4.2 : 6.5)),
+        drip: opts2.drip ?? (fromTop || momentum > 0.08 ? 0 : rand(storm ? 0.8 : 0.35, storm ? 4.2 : 1.8)),
         vx: rand(storm ? -10 : -7, storm ? 10 : 7),
         a: rand(0.78, 1),
         spreadX: rand(0.02, storm ? 0.12 : 0.08),
@@ -584,14 +605,14 @@
       const half = beadHalf(b.scale, spr.width);
       const dw = half * 2;
       const dh = half * 2 * b.stretch;
-      ctx.globalAlpha = b.a * aMul * (b.flowing ? 0.92 : 1);
+      ctx.globalAlpha = b.a * aMul * (storm ? (b.flowing ? 0.92 : 1) : (b.flowing ? 0.82 : 0.78));
       ctx.drawImage(spr, b.x - dw * 0.5, b.y - dh * 0.45, dw, dh);
     };
 
     const updateBeads = (dt, aMul) => {
       const cap = targetBeadN();
       mistAcc += dt * aMul;
-      const mistEvery = noSpray ? 999 : (storm ? (lite ? 0.055 : 0.036) : 0.1);
+      const mistEvery = noSpray ? 999 : (storm ? (lite ? 0.028 : 0.018) : 0.1);
       while (!noSpray && mistAcc > mistEvery && beads.length < cap + 40) {
         mistAcc -= mistEvery;
         const k = storm
@@ -600,7 +621,7 @@
         for (let i = 0; i < k; i += 1) {
           spawnBead({
             y: Math.random() < 0.35 ? rand(-8, h * 0.15) : undefined,
-            cling: rand(storm ? 0.5 : 1.0, storm ? 4.5 : 6),
+            cling: rand(storm ? 0.5 : 0.28, storm ? 4.5 : 1.2),
           });
         }
       }
@@ -610,7 +631,7 @@
         if (!b.flowing) {
           b.cling -= dt;
           /* 尺寸越大越早滑；到期必释放 */
-          if (b.cling <= 0 || Math.random() < b.scale * 0.08 * dt) {
+          if (b.cling <= 0 || Math.random() < b.scale * (storm ? 0.08 : 0.22) * dt) {
             releaseBead(b);
           }
         }
@@ -647,7 +668,7 @@
       }
 
       while (beads.length < cap) {
-        spawnBead({ cling: rand(0.4, storm ? 4 : 5.5) });
+        spawnBead({ cling: rand(0.12, storm ? 4 : 1.0) });
       }
       if (beads.length > cap + 60) beads.length = cap + 40;
     };
@@ -670,15 +691,15 @@
         mergeDrops();
       }
 
-      const topEvery = storm ? 0.055 : 0.2;
+      const topEvery = storm ? 0.028 : 0.2;
       topSpawnAcc += dt * aMul;
-      while (topSpawnAcc > topEvery && drops.length < target + (storm ? 48 : 28)) {
+      while (topSpawnAcc > topEvery && drops.length < target + (storm ? 96 : 28)) {
         topSpawnAcc -= topEvery;
-        if (Math.random() < (storm ? 0.88 : 0.55)) {
+        if (Math.random() < (storm ? 0.95 : 0.55)) {
           spawnDrop({
             fromTop: true,
             momentum: rand(1.0, storm ? 2.6 : 1.5),
-            r: rand(storm ? 6 : 4.5, storm ? 15 : 11),
+            r: rand(storm ? 6 : 6.5, storm ? 15 : 14),
             drip: 0,
           });
         }
@@ -686,8 +707,8 @@
 
       if (!lite) {
         lensAcc += dt * aMul;
-        const lensEvery = storm ? 0.28 : 0.42;
-        const lensCap = storm ? 16 : 10;
+        const lensEvery = storm ? 0.16 : 0.42;
+        const lensCap = storm ? 28 : 10;
         while (lensAcc > lensEvery && lenses.length < lensCap) {
           lensAcc -= lensEvery;
           spawnLens();
@@ -695,8 +716,8 @@
       }
       {
         flowAcc += dt * aMul;
-        const flowCap = lite ? (storm ? 22 : 12) : (storm ? 36 : 22);
-        const flowEvery = lite ? 0.12 : (storm ? 0.07 : 0.11);
+        const flowCap = lite ? (storm ? 36 : 12) : (storm ? 64 : 22);
+        const flowEvery = lite ? 0.08 : (storm ? 0.04 : 0.11);
         while (flowAcc > flowEvery && flows.length < flowCap) {
           flowAcc -= flowEvery;
           spawnFlow();
@@ -735,7 +756,7 @@
             spawnBead({
               x: d.x + rand(-1.2, 1.2),
               y: d.y - d.r * rand(0.3, 1.0),
-              scale: rand(0.22, 0.48),
+              scale: rand(storm ? 0.22 : 0.36, storm ? 0.48 : 0.72),
               a: 0.4 * aMul,
               cling: rand(0.2, 1.6),
               preferUi: false,

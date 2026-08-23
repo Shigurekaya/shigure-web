@@ -34,12 +34,17 @@
         const rgb = HUE_RGB[d.hue] || HUE_RGB.mist;
         const a = d.alpha;
         const grad = ctx.createLinearGradient(x1, y1, x2, y2);
-        /* y1=尾（上、透明）→ y2=头（下、实） */
-        grad.addColorStop(0, `rgba(${rgb},0)`);
-        grad.addColorStop(0.18, `rgba(${rgb},${a * 0.18})`);
-        grad.addColorStop(0.42, `rgba(${rgb},${a * 0.48})`);
-        grad.addColorStop(0.68, `rgba(${rgb},${a * 0.78})`);
-        grad.addColorStop(1, `rgba(${rgb},${Math.min(1, a * 1.05)})`);
+        /* y1=尾（上）→ y2=头（下）；剖面见 rain-streak-profile.js */
+        const profile = window.KayaRainStreakProfile;
+        if (profile) {
+          profile.applyCanvasGradient(grad, rgb, a);
+        } else {
+          grad.addColorStop(0, `rgba(${rgb},0)`);
+          grad.addColorStop(0.15, `rgba(${rgb},${a * 0.25})`);
+          grad.addColorStop(0.42, `rgba(${rgb},${a * 0.46})`);
+          grad.addColorStop(0.72, `rgba(${rgb},${a * 0.84})`);
+          grad.addColorStop(1, `rgba(${rgb},${Math.min(1, a)})`);
+        }
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);

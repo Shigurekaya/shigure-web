@@ -21,6 +21,7 @@ uniform float uSheet; /* >0.5：小米天气式短密雨帘 */
 varying float vAlpha;
 varying float vEdge;
 varying float vLayer;
+varying float vSheet;
 
 float hash(float n) {
   return fract(sin(n) * 43758.5453123);
@@ -36,41 +37,34 @@ void main() {
   float hx = hash(id * 13.7 + 0.91);
   float sm = max(uSizeMul, 0.7);
   float sheet = clamp(uSheet, 0.0, 1.0);
-  /* 远/中/近：雨帘模式抬高近景占比，形成密白雨幕 */
+  /* 远/中/近：长度对齐 light-rain.js DROP_SPEC（短针 + 尾渐隐） */
   float nearCut = mix(0.8, 0.7, sheet);
   float midCut = mix(0.46, 0.34, sheet);
   nearCut = mix(nearCut, mix(0.8, 0.74, clamp((sm - 1.0) * 2.5, 0.0, 1.0)), 1.0 - sheet);
   midCut = mix(midCut, mix(0.46, 0.4, clamp((sm - 1.0) * 2.5, 0.0, 1.0)), 1.0 - sheet);
   float lp = hash(id * 2.17 + 0.4);
   float layer = lp < midCut ? 0.0 : (lp < nearCut ? 1.0 : 2.0);
-  /* 默认大雨：密细运动模糊银丝；sheet=暴雨才更短更密 */
-  float lenH = mix(mix(0.024, 0.042, h1) * sm, mix(0.006, 0.012, h1), sheet);
-  float speed = mix(mix(1100.0, 1500.0, h2), mix(1180.0, 1680.0, h2), sheet);
-  float alpha = mix(
-    mix(0.07, 0.16, h3) * mix(1.0, 1.1, clamp(sm - 1.0, 0.0, 1.0)),
-    mix(0.09, 0.2, h3),
-    sheet
-  );
-  float widthPx = mix(mix(0.45, 0.95, h1) * sm, mix(0.5, 0.95, h1), sheet);
+  float lenH = mix(0.012, 0.022, h1) * sm;
+  float speed = mix(1100.0, 1500.0, h2);
+  float alpha = mix(0.28, 0.46, h3);
+  float widthPx = mix(1.1, 1.5, h1) * sm;
 
   if (layer > 0.5 && layer < 1.5) {
-    lenH = mix(mix(0.03, 0.052, h1) * sm, mix(0.008, 0.016, h1), sheet);
-    speed = mix(mix(1240.0, 1680.0, h2), mix(1320.0, 1880.0, h2), sheet);
-    alpha = mix(
-      mix(0.12, 0.28, h3) * mix(1.0, 1.12, clamp(sm - 1.0, 0.0, 1.0)),
-      mix(0.16, 0.34, h3),
-      sheet
-    );
-    widthPx = mix(mix(0.65, 1.25, h1) * sm, mix(0.7, 1.2, h1), sheet);
+    lenH = mix(0.018, 0.034, h1) * sm;
+    speed = mix(1240.0, 1680.0, h2);
+    alpha = mix(0.36, 0.58, h3);
+    widthPx = mix(1.25, 1.7, h1) * sm;
   } else if (layer > 1.5) {
-    lenH = mix(mix(0.036, 0.062, h1) * sm, mix(0.01, 0.02, h1), sheet);
-    speed = mix(mix(1420.0, 1980.0, h2), mix(1500.0, 2100.0, h2), sheet);
-    alpha = mix(
-      mix(0.2, 0.44, h3) * mix(1.0, 1.14, clamp(sm - 1.0, 0.0, 1.0)),
-      mix(0.28, 0.52, h3),
-      sheet
-    );
-    widthPx = mix(mix(0.85, 1.7, h1) * sm, mix(0.95, 1.65, h1), sheet);
+    lenH = mix(0.024, 0.045, h1) * sm;
+    speed = mix(1420.0, 1980.0, h2);
+    alpha = mix(0.44, 0.68, h3);
+    widthPx = mix(1.4, 2.0, h1) * sm;
+  }
+
+  if (sheet > 0.5) {
+    speed = mix(speed, speed * 1.18, sheet);
+    alpha = mix(alpha, alpha * 1.22, sheet);
+    widthPx = mix(widthPx, widthPx * 1.08, sheet);
   }
 
   speed *= uSpeedMul;
@@ -79,6 +73,11 @@ void main() {
   float len = max(4.0, resY * lenH);
 
   float x = hx * (resX + 56.0) - 28.0;
+  if (sheet > 0.5) {
+    x += (hash(id * 17.31 + 4.7) - 0.5) * mix(8.0, 18.0, sheet);
+    lenH *= mix(1.0, 0.82, sheet);
+    len = max(4.0, resY * lenH);
+  }
   float cycle = resY + len + 48.0;
   float phase = fract(h2 + uTime * (speed / cycle));
   float yHead = phase * cycle - len - 24.0;
@@ -104,6 +103,7 @@ void main() {
   vAlpha = alpha * uIntensity * layerMul;
   vEdge = corner;
   vLayer = layer;
+  vSheet = sheet;
 }
 `;
 
@@ -112,21 +112,28 @@ precision mediump float;
 varying float vAlpha;
 varying float vEdge;
 varying float vLayer;
+varying float vSheet;
+
+float streakFade(float t) {
+  t = clamp(t, 0.0, 1.0);
+  if (t <= 0.15) return mix(0.0, 0.25, t / 0.15);
+  if (t <= 0.42) return mix(0.25, 0.46, (t - 0.15) / 0.27);
+  if (t <= 0.72) return mix(0.46, 0.84, (t - 0.42) / 0.30);
+  return mix(0.84, 1.0, (t - 0.72) / 0.28);
+}
 
 void main() {
-  /* 柔丝：头亮、中段实、尾淡；近景偏银青 */
-  float fade = smoothstep(0.0, 0.14, vEdge) * (1.0 - smoothstep(0.52, 1.0, vEdge));
-  float tip = smoothstep(0.0, 0.07, vEdge) * (1.0 - smoothstep(0.07, 0.22, vEdge));
-  float core = smoothstep(0.12, 0.38, vEdge) * (1.0 - smoothstep(0.38, 0.72, vEdge));
-  float a = vAlpha * (fade * 0.82 + tip * 0.28 + core * 0.18);
-  if (a < 0.008) discard;
-  vec3 farC = vec3(0.48, 0.62, 0.78);
-  vec3 midC = vec3(0.62, 0.76, 0.9);
-  vec3 nearC = vec3(0.82, 0.9, 0.98);
+  /* 尾(上)淡 → 中段低谷 → 头(下)亮；sheet 模式加亮银丝帘 */
+  float fade = streakFade(vEdge);
+  float sheet = clamp(vSheet, 0.0, 1.0);
+  float a = vAlpha * fade * mix(1.0, 1.14, sheet);
+  if (a < 0.005) discard;
+  vec3 farC = mix(vec3(0.48, 0.62, 0.78), vec3(0.42, 0.58, 0.76), sheet);
+  vec3 midC = mix(vec3(0.62, 0.76, 0.9), vec3(0.7, 0.82, 0.96), sheet);
+  vec3 nearC = mix(vec3(0.82, 0.9, 0.98), vec3(0.9, 0.95, 1.0), sheet);
   vec3 col = mix(farC, midC, clamp(vLayer, 0.0, 1.0));
   col = mix(col, nearC, clamp(vLayer - 1.0, 0.0, 1.0));
-  col = mix(col, vec3(0.9, 0.95, 1.0), tip * 0.35);
-  col = mix(col, vec3(0.72, 0.7, 0.92), tip * 0.08); /* 极轻紫丁香 */
+  col = mix(col, vec3(0.78, 0.84, 0.98), smoothstep(0.72, 1.0, vEdge) * mix(0.06, 0.12, sheet));
   gl_FragColor = vec4(col * a, a);
 }
 `;
@@ -232,8 +239,10 @@ void main() {
     let t0 = performance.now();
     let lastDraw = 0;
     let frameBudgetMs = 1000 / 30;
-    let adaptive = true;
+    /* 暴雨效果优先：opts.adaptive === false 时永不自动降档 */
+    let adaptive = opts.adaptive !== false;
     let slowFrames = 0;
+    const countCap = Math.max(7200, opts.countCap | 0 || 0);
     let contextLost = false;
 
     const rand = (a, b) => a + Math.random() * (b - a);
@@ -284,7 +293,7 @@ void main() {
     };
 
     const setCount = (n) => {
-      count = clamp(n | 0, 48, 7200);
+      count = clamp(n | 0, 48, countCap || 7200);
       rebuildBuffer();
     };
 
@@ -343,7 +352,9 @@ void main() {
       gl.uniform1f(uTime, t);
       gl.uniform1f(uWind, windLive);
       gl.uniform1f(uGust, gust);
-      gl.uniform1f(uIntensity, intensity);
+      gl.uniform1f(uIntensity, intensity * (1 + (typeof window.__kayaStormFlash === "number"
+        ? window.__kayaStormFlash * 0.38
+        : 0)));
       gl.uniform1f(uSpeedMul, speedMul);
       gl.uniform1f(uTilt, tilt);
       gl.uniform1f(uSizeMul, sizeMul);

@@ -115,6 +115,10 @@
     let sheetA = 0;
     let last = performance.now();
     let strikeCount = 0;
+    /** @type {Array<{ analyser: AnalyserNode, until: number }>} */
+    const rumbleTracks = [];
+    let synthRumble = 0;
+    const rumbleBuf = new Uint8Array(256);
 
     const fit = () => {
       w = window.innerWidth;
@@ -148,6 +152,7 @@
     window.addEventListener("touchstart", unlockAudio, { passive: true });
 
     const playThunder = (distance, big) => {
+      synthRumble = Math.max(synthRumble, big ? 1 : 0.72);
       if (!audioOk) return;
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -175,7 +180,12 @@
         gain.gain.value = clamp((big ? 0.38 : 0.26) - distance * 0.00005, 0.08, 0.4);
         src.connect(filter);
         filter.connect(gain);
-        gain.connect(audioCtx.destination);
+        const analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 512;
+        analyser.smoothingTimeConstant = 0.72;
+        gain.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        rumbleTracks.push({ analyser, until: t0 + dur + delay + 0.15 });
         src.start(t0);
         src.stop(t0 + dur + 0.05);
       } catch { /* ignore */ }
@@ -282,6 +292,7 @@
       }
 
       playThunder(Math.hypot(main.flashX - w * 0.5, main.flashY - h * 0.12), big);
+      synthRumble = Math.max(synthRumble, big ? 0.95 : 0.65);
       scheduleNext();
     };
 
@@ -289,7 +300,7 @@
       window.clearTimeout(strikeTimer);
       if (!running) return;
       /* 高画质更密的闪电节奏 */
-      const gap = maxQuality ? rand(2800, 7000) : rand(4500, 11000);
+      const gap = maxQuality ? rand(1800, 4800) : rand(4500, 11000);
       strikeTimer = window.setTimeout(() => strike(false), gap);
     };
 
@@ -322,10 +333,14 @@
       if (ambient > 0.01) {
         ambient *= Math.exp(-dt * 5.2);
         flash.style.opacity = String(ambient);
+        window.__kayaStormFlash = clamp(ambient + sheetA * 0.65, 0, 1);
       } else if (ambient !== 0) {
         ambient = 0;
         flash.style.opacity = "0";
         flash.classList.remove("is-on");
+        window.__kayaStormFlash = clamp(sheetA * 0.65, 0, 1);
+      } else {
+        window.__kayaStormFlash = clamp(sheetA * 0.65, 0, 1);
       }
 
       if (sheetA > 0.01) {
@@ -335,6 +350,24 @@
         sheetA = 0;
         sheet.style.opacity = "0";
       }
+
+      synthRumble *= Math.exp(-dt * 1.65);
+      let rumble = synthRumble;
+      const nowSec = audioCtx ? audioCtx.currentTime : 0;
+      for (let ri = rumbleTracks.length - 1; ri >= 0; ri -= 1) {
+        const tr = rumbleTracks[ri];
+        if (nowSec > tr.until) {
+          rumbleTracks.splice(ri, 1);
+          continue;
+        }
+        try {
+          tr.analyser.getByteFrequencyData(rumbleBuf);
+          let bass = 0;
+          for (let bi = 0; bi < 24; bi += 1) bass += rumbleBuf[bi];
+          rumble += (bass / (24 * 255)) * 0.92;
+        } catch { /* ignore */ }
+      }
+      window.__kayaStormRumble = clamp(rumble, 0, 1);
     };
 
     const onVisibility = () => {
@@ -347,6 +380,10 @@
         sheetA = 0;
         flash.style.opacity = "0";
         sheet.style.opacity = "0";
+        window.__kayaStormFlash = 0;
+        window.__kayaStormRumble = 0;
+        synthRumble = 0;
+        rumbleTracks.length = 0;
         document.body.classList.remove("storm-flash");
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -380,6 +417,10 @@
         flash.style.opacity = "0";
         sheet.style.opacity = "0";
         flash.classList.remove("is-on");
+        window.__kayaStormFlash = 0;
+        window.__kayaStormRumble = 0;
+        synthRumble = 0;
+        rumbleTracks.length = 0;
         document.body.classList.remove("storm-flash");
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
