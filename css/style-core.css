@@ -1734,7 +1734,7 @@ body.heavy-rain .footer-fuyuu__avatar {
     padding-right: 0.75rem;
   }
 
-  /* 手机：打平为两列网格（忽略桌面按行比例拼贴） */
+  /* 手机：两列；统一竖图比例（不必对称拼贴） */
   .mv-board {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1746,11 +1746,12 @@ body.heavy-rain .footer-fuyuu__avatar {
   }
 
   .mv-board__item {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 4 !important;
   }
 
   .mv-board__item img {
     object-fit: cover;
+    object-position: center top;
   }
 
   .mv-lightbox__layout {
