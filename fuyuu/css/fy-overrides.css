@@ -360,6 +360,8 @@ body.fy-page-index.km-home #comp-inhcr2i9 {
     overflow-x: auto;
     justify-content: flex-start;
     scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
   }
 }
 

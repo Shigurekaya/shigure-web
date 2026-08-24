@@ -320,6 +320,8 @@ a { color: inherit; text-decoration: none; }
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: var(--st-line) transparent;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
 
 .st-reel::-webkit-scrollbar { height: 4px; }
@@ -333,10 +335,17 @@ a { color: inherit; text-decoration: none; }
   flex: 0 0 clamp(168px, 20vw, 220px);
   scroll-snap-align: start;
   border-radius: 10px;
+  touch-action: pan-x pan-y;
 }
 
 .st-reel .work-card-thumb {
   aspect-ratio: 16 / 10;
+}
+
+.st-reel .work-card img {
+  -webkit-user-drag: none;
+  user-select: none;
+  touch-action: pan-x pan-y;
 }
 
 .st-reel .work-card-body {

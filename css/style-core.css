@@ -2026,10 +2026,14 @@ body.heavy-rain .footer-sites-item__avatar {
     flex-direction: row;
     overflow-x: auto;
     overflow-y: hidden;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 
   .mv-lightbox__thumb {
     width: 4.25rem;
+    touch-action: pan-x pan-y;
+    -webkit-user-drag: none;
   }
 
   .site-bg::before {

@@ -60,6 +60,8 @@ body.fy-site {
   color: #111;
   background: #000;
   overflow-x: hidden;
+  /* 允许竖滑；关掉双击缩放延迟 */
+  touch-action: manipulation;
 }
 
 /* 全站常驻彩色光点（片头同款，80% 透明度） */
@@ -332,6 +334,8 @@ a {
   width: 100%;
   height: auto;
   max-height: clamp(72px, 9vw, 96px);
+  -webkit-user-drag: none;
+  user-select: none;
   object-fit: contain;
   object-position: center;
   display: block;
@@ -352,6 +356,8 @@ a {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
+  /* 允许竖滑交给页面；仅横向在画廊内滚动 */
+  touch-action: pan-x pan-y;
 }
 
 .km-gallery-wrap--scroll::-webkit-scrollbar {
@@ -363,7 +369,15 @@ a {
 }
 
 .km-gallery--mobile-scroll {
-  touch-action: pan-x;
+  /* 勿只用 pan-x：手指按在展示图上时竖滑会被浏览器丢掉 */
+  touch-action: pan-x pan-y;
+}
+
+.km-gallery--mobile-scroll .km-gallery-item,
+.km-gallery--mobile-scroll .km-gallery-item img {
+  touch-action: pan-x pan-y;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .km-load-wrap--mobile-off {
@@ -818,6 +832,8 @@ body.fy-menu-open .fy-topbar {
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
 
 .link-banners::-webkit-scrollbar {
@@ -833,6 +849,7 @@ body.fy-menu-open .fy-topbar {
   padding: 0;
   background: transparent;
   transition: transform 0.22s var(--fy-ease), opacity 0.22s ease;
+  touch-action: pan-x pan-y;
 }
 
 .link-banner:hover {
@@ -847,6 +864,9 @@ body.fy-menu-open .fy-topbar {
   object-fit: contain;
   object-position: center;
   display: block;
+  touch-action: pan-x pan-y;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .site-copyright {

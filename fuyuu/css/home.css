@@ -378,6 +378,8 @@ body.km-home .fy-header-banners {
   margin: 0 auto 24px;
   overflow-x: auto;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
 
 body.km-home .fy-header-banners::-webkit-scrollbar {

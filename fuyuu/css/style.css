@@ -468,6 +468,8 @@ body.menu-open { overflow: hidden; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
 
 .profile-banners-row::-webkit-scrollbar {
@@ -1049,6 +1051,8 @@ body.menu-open { overflow: hidden; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
 
 .link-banners::-webkit-scrollbar {
