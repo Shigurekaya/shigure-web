@@ -139,6 +139,7 @@ const Site = (() => {
     }
     lb.hidden = false;
     document.body.style.overflow = "hidden";
+    document.body.classList.add("fy-lightbox-open");
     lb.classList.remove("lightbox--open");
     lightboxTrigger = document.activeElement;
     requestAnimationFrame(() => {
@@ -154,6 +155,7 @@ const Site = (() => {
     setTimeout(() => {
       lb.hidden = true;
       document.body.style.overflow = "";
+      document.body.classList.remove("fy-lightbox-open");
       if (lightboxTrigger?.focus) lightboxTrigger.focus();
       lightboxTrigger = null;
     }, reducedMotion() ? 0 : 220);

@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
   <base href="/" />
   <title>时雨榧</title>
   <meta name="description" content="时雨榧 — 个人主页" />
   <meta name="theme-color" content="#f7f8fc" />
-  <link rel="stylesheet" href="css/style.css?v=202608241220" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608241400" />
   <link rel="icon" href="assets/images/avatar.jpg" />
   <noscript><style>.page-home .site-header,.page-home .profile-avatar,.page-home .profile-name,.page-home .profile-roman,.page-home .profile-sign,.page-home .social-row,.page-home .intro-panel,.page-home .site-log,.page-home .home-cards,.page-home .site-footer{opacity:1!important}</style></noscript>
 </head>
-<body class="page-home">
+<body class="page-home" data-kaya-page="home">
   <div class="site-bg" aria-hidden="true"></div>
 
   <div class="home-intro" id="home-intro" aria-hidden="true">
@@ -100,25 +98,7 @@
     <p class="site-footer__motto">放弃幻想，开始战斗</p>
   </footer>
 
-  <script src="js/site-data.js?v=202608221620"></script>
-  <script src="js/mv-materials-data.js?v=202608241210"></script>
-  <script src="js/mv-watermark.js?v=202608241235"></script>
-  <script src="js/vendor/html2canvas.min.js"></script>
-  <script src="js/vendor/raindrop-fx.js"></script>
-  <script src="js/perf-governor.js?v=202608222900"></script>
-  <script src="js/rain-streak-profile.js?v=202608232040"></script>
-  <script src="js/gpu-streak-rain.js?v=202608232245"></script>
-  <script src="js/glass-drops.js?v=202608232215"></script>
-  <script src="js/light-rain.js?v=202608232040"></script>
-  <script src="js/storm-refract.js?v=202608240045"></script>
-  <script src="js/storm-thunder-rumble.js?v=202608240045"></script>
-  <script src="js/storm-overlay.js?v=202608240030"></script>
-  <script src="js/storm-postfx.js?v=202608240120"></script>
-  <script src="js/storm-atmosphere.js?v=202608232335"></script>
-  <script src="js/heavy-rain.js?v=202608240120"></script>
-  <script src="js/storm-lightning.js?v=202608240045"></script>
-  <script src="js/sunny-sky.js?v=202608240050"></script>
-  <script src="js/main.js?v=202608241235" defer></script>
-  <script defer>document.addEventListener("DOMContentLoaded", () => Kaya.initHome());</script>
+  <script src="js/kaya-rain-mode.js?v=202608241400" defer></script>
+  <script src="js/kaya-boot.js?v=202608241400" defer></script>
 </body>
 </html>

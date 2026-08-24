@@ -20,6 +20,7 @@ const FyApp = (() => {
   let scrollRaf = 0;
   let lastMobile = isMobile();
   let revealObserver = null;
+  let ambientStop = null;
 
   function motionEnabled() {
     return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -189,7 +190,7 @@ const FyApp = (() => {
     section.querySelector(".km-gallery-wrap")?.after(hint);
   }
 
-  function initShell() {
+  function initShell(opts = {}) {
     Site.initCommon();
     const isHome = document.body.dataset.page === "home";
     if (isHome) {
@@ -202,6 +203,7 @@ const FyApp = (() => {
       if (band) Site.renderLinkBand(band);
     }
     observeFooter();
+    if (!opts.deferAmbient) initAmbientFloat();
   }
 
   function bindLoadMore() {
@@ -348,9 +350,12 @@ const FyApp = (() => {
       [72, 186, 158],
     ];
 
+    const dotCount = () => (isMobile() ? 44 : 88);
+
     const dots = [];
     let raf = 0;
-    let running = true;
+    let stopped = false;
+    let paused = document.hidden;
     let t0 = performance.now();
 
     const resize = () => {
@@ -360,14 +365,32 @@ const FyApp = (() => {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    const makeDot = (ySpread) => {
+    const columnCount = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight || 1;
+      const minCols = isMobile() ? 6 : 8;
+      return Math.max(minCols, Math.round(Math.sqrt(dotCount() * (w / h))));
+    };
+
+    const pickX = (col, cols) => {
+      const cellW = window.innerWidth / cols;
+      return (col + 0.12 + Math.random() * 0.76) * cellW;
+    };
+
+    const makeDot = (opts = {}) => {
       const [r, g, b] = PALETTE[(Math.random() * PALETTE.length) | 0];
       const glow = Math.random() < 0.42;
+      const cols = columnCount();
+      const col = opts.col ?? ((Math.random() * cols) | 0);
+      const x = opts.x ?? pickX(col, cols);
+      const y = opts.y ?? (
+        opts.fromBottom
+          ? window.innerHeight + 8 + Math.random() * 40
+          : Math.random() * window.innerHeight
+      );
       return {
-        x: Math.random() * window.innerWidth,
-        y: ySpread
-          ? Math.random() * window.innerHeight
-          : window.innerHeight + 8 + Math.random() * 40,
+        x,
+        y,
         r: glow ? 1.4 + Math.random() * 2.8 : 0.55 + Math.random() * 1.6,
         vx: (Math.random() - 0.5) * (glow ? 0.32 : 0.5),
         vy: -(glow ? 0.22 : 0.35) - Math.random() * (glow ? 0.55 : 0.9),
@@ -379,12 +402,31 @@ const FyApp = (() => {
       };
     };
 
-    const spawn = (n) => {
-      for (let i = 0; i < n; i += 1) dots.push(makeDot(true));
+    const spawnEven = (n) => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const cols = columnCount();
+      const rows = Math.ceil(n / cols);
+      const cellW = w / cols;
+      const cellH = h / rows;
+      for (let i = 0; i < n; i += 1) {
+        const row = (i / cols) | 0;
+        const col = i % cols;
+        dots.push(makeDot({
+          x: (col + 0.12 + Math.random() * 0.76) * cellW,
+          y: (row + 0.12 + Math.random() * 0.76) * cellH,
+        }));
+      }
+    };
+
+    const respawnDot = (d) => {
+      const cols = columnCount();
+      const col = (Math.random() * cols) | 0;
+      Object.assign(d, makeDot({ fromBottom: true, col, x: pickX(col, cols) }));
     };
 
     const tick = (now) => {
-      if (!running) return;
+      if (stopped || paused) return;
       const t = (now - t0) / 1000;
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       dots.forEach((d) => {
@@ -411,25 +453,65 @@ const FyApp = (() => {
 
         d.x += d.vx + Math.sin(t * 0.7 + d.phase) * 0.08;
         d.y += d.vy;
-        if (d.y < -12) {
-          Object.assign(d, makeDot(false), { y: window.innerHeight + 8 });
-        }
+        if (d.y < -12) respawnDot(d);
         if (d.x < -12) d.x = window.innerWidth + 12;
         if (d.x > window.innerWidth + 12) d.x = -12;
       });
       raf = window.requestAnimationFrame(tick);
     };
 
+    const onVisibility = () => {
+      if (stopped) return;
+      paused = document.hidden;
+      if (paused) {
+        window.cancelAnimationFrame(raf);
+        raf = 0;
+      } else {
+        t0 = performance.now();
+        raf = window.requestAnimationFrame(tick);
+      }
+    };
+
+    const syncDots = () => {
+      const target = dotCount();
+      if (dots.length === target) return;
+      dots.length = 0;
+      spawnEven(target);
+    };
+
+    const onResize = () => {
+      resize();
+      syncDots();
+    };
+
     resize();
-    spawn(88);
-    window.addEventListener("resize", resize);
-    raf = window.requestAnimationFrame(tick);
+    spawnEven(dotCount());
+    window.addEventListener("resize", onResize);
+    document.addEventListener("visibilitychange", onVisibility);
+    if (!paused) raf = window.requestAnimationFrame(tick);
 
     return () => {
-      running = false;
+      stopped = true;
       window.cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
+  }
+
+  function initAmbientFloat() {
+    if (!motionEnabled() || ambientStop || document.getElementById("fy-bg-float")) return;
+    const canvas = document.createElement("canvas");
+    canvas.id = "fy-bg-float";
+    canvas.className = "fy-bg-float";
+    canvas.setAttribute("aria-hidden", "true");
+    document.body.appendChild(canvas);
+    ambientStop = startIntroFloat(canvas);
+  }
+
+  function homeIntroWillPlay() {
+    const intro = document.getElementById("fy-intro");
+    if (!intro || !motionEnabled()) return false;
+    return shouldPlayHomeIntro("/fuyuu/");
   }
 
   function normalizePathname(pathname) {
@@ -486,13 +568,15 @@ const FyApp = (() => {
         document.body.classList.remove("fy-intro-playing");
         stop();
         intro.remove();
+        initAmbientFloat();
       }, OUT_MS);
     }, HOLD_MS);
   }
 
   function initHome() {
+    const deferAmbient = homeIntroWillPlay();
     initHomeIntro();
-    initShell();
+    initShell({ deferAmbient });
     ensureScrollHint();
     bindLoadMore();
     bindMobileScrollLoad();
