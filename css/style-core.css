@@ -1734,8 +1734,23 @@ body.heavy-rain .footer-fuyuu__avatar {
     padding-right: 0.75rem;
   }
 
+  /* 手机：打平为两列网格（忽略桌面按行比例拼贴） */
+  .mv-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+  }
+
   .mv-board__row {
-    grid-template-columns: 1fr !important;
+    display: contents;
+  }
+
+  .mv-board__item {
+    aspect-ratio: 1 / 1;
+  }
+
+  .mv-board__item img {
+    object-fit: cover;
   }
 
   .mv-lightbox__layout {
