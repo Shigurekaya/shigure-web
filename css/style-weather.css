@@ -827,7 +827,9 @@ body.heavy-rain .site-log__inner,
 body.heavy-rain .home-card,
 body.heavy-rain .work-card,
 body.heavy-rain .link-card,
-body.heavy-rain .footer-fuyuu {
+body.heavy-rain .footer-sites,
+body.heavy-rain .footer-sites-dialog__panel,
+body.heavy-rain .footer-sites-item {
   border-color: rgba(180, 200, 230, 0.2);
   box-shadow: 0 10px 30px rgba(4, 10, 22, 0.24);
 }
@@ -896,7 +898,9 @@ body.heavy-rain .intro-panel__body,
 body.heavy-rain .home-card,
 body.heavy-rain .work-card,
 body.heavy-rain .link-card,
-body.heavy-rain .footer-fuyuu,
+body.heavy-rain .footer-sites,
+body.heavy-rain .footer-sites-dialog__panel,
+body.heavy-rain .footer-sites-item,
 body.heavy-rain .social-pill,
 body.heavy-rain .mv-lightbox__figure,
 body.heavy-rain .mv-lightbox__rail {
@@ -950,7 +954,9 @@ body.storm-rain .site-log__inner,
 body.storm-rain .home-card,
 body.storm-rain .work-card,
 body.storm-rain .link-card,
-body.storm-rain .footer-fuyuu {
+body.storm-rain .footer-sites,
+body.storm-rain .footer-sites-dialog__panel,
+body.storm-rain .footer-sites-item {
   border-color: rgba(180, 200, 230, 0.2);
   box-shadow: 0 10px 30px rgba(4, 10, 22, 0.24);
 }
@@ -981,7 +987,9 @@ body.storm-rain .intro-panel__body,
 body.storm-rain .home-card,
 body.storm-rain .work-card,
 body.storm-rain .link-card,
-body.storm-rain .footer-fuyuu,
+body.storm-rain .footer-sites,
+body.storm-rain .footer-sites-dialog__panel,
+body.storm-rain .footer-sites-item,
 body.storm-rain .social-pill,
 body.storm-rain .mv-lightbox__figure,
 body.storm-rain .mv-lightbox__rail {

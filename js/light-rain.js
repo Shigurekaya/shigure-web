@@ -385,16 +385,16 @@
         paused = true;
         cancelAnimationFrame(raf);
         raf = 0;
-      } else if (paused && running) {
+      } else if (running) {
         paused = false;
         last = performance.now();
-        raf = requestAnimationFrame(tick);
+        if (!raf) raf = requestAnimationFrame(tick);
       }
     };
     document.addEventListener("visibilitychange", onVisibility);
 
     const tick = (now) => {
-      if (!running || paused) return;
+      if (!running || paused || document.hidden) return;
       raf = requestAnimationFrame(tick);
       const elapsed = now - last;
       if (elapsed < frameBudget) return;
@@ -532,17 +532,26 @@
 
     return {
       start() {
-        if (running) return;
+        const now = performance.now();
+        /* stop() 后 paused 可能仍为 true；不清理会导致 tick 首帧直接 return、雨永久停 */
+        paused = false;
+        if (running) {
+          last = now;
+          if (!raf && !document.hidden) raf = requestAnimationFrame(tick);
+          return;
+        }
         running = true;
         fit();
         if (dropMul < 1) applyDropBudget();
         sceneEl?.classList.add("is-on");
-        last = performance.now();
-        raf = requestAnimationFrame(tick);
+        last = now;
+        if (!document.hidden) raf = requestAnimationFrame(tick);
       },
       stop() {
         running = false;
+        paused = true;
         cancelAnimationFrame(raf);
+        raf = 0;
         sceneEl?.classList.remove("is-on");
         ctx.clearRect(0, 0, w, h);
         splashes.length = 0;

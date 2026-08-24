@@ -256,8 +256,11 @@ void main() {
     }, false);
 
     canvas.addEventListener("webglcontextrestored", () => {
-      contextLost = false;
-      console.warn("[gpu-rain] context restored — caller should recreate");
+      contextLost = true;
+      running = false;
+      cancelAnimationFrame(raf);
+      raf = 0;
+      console.warn("[gpu-rain] context restored — recreate on resume");
     }, false);
 
     const rebuildBuffer = () => {

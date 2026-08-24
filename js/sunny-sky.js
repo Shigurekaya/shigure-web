@@ -805,6 +805,9 @@
     let resizeTimer = 0;
     let sceneRevealed = false;
     let bakedWithTex = false;
+    let lastBakeW = 0;
+    let lastBakeH = 0;
+    let resumeGuardUntil = 0;
 
     const revealScene = () => {
       if (sceneRevealed) return;
@@ -812,22 +815,46 @@
       sceneImg.classList.add("is-on");
     };
 
-    const applyResize = () => {
+    const readCssSize = () => {
       let cssW = window.innerWidth;
       let cssH = window.innerHeight;
       if (window.visualViewport) {
         cssW = Math.round(window.visualViewport.width);
         cssH = Math.round(window.visualViewport.height);
       }
+      return {
+        cssW: Math.max(1, Math.round(cssW)),
+        cssH: Math.max(1, Math.round(cssH)),
+      };
+    };
+
+    const applyResize = (force = false) => {
+      if (document.hidden) return;
+      /* 切回前台浏览器常误发 resize；短窗口内跳过，避免 toDataURL 卡死 */
+      if (!force && performance.now() < resumeGuardUntil) return;
+
+      const { cssW, cssH } = readCssSize();
       const weak = window.KayaPerfGovernor?.isWeakGpu?.() ?? false;
       const Gov = window.KayaPerfGovernor;
       dpr = Gov?.ambientDprCap
         ? Math.min(window.devicePixelRatio || 1, Gov.ambientDprCap(phone))
         : Math.min(window.devicePixelRatio || 1, phone ? 1.05 : (weak ? 1 : 1.08));
-      w = Math.max(1, Math.round(cssW));
-      h = Math.max(1, Math.round(cssH));
-      sceneImg.style.width = `${w}px`;
-      sceneImg.style.height = `${h}px`;
+
+      sceneImg.style.width = `${cssW}px`;
+      sceneImg.style.height = `${cssH}px`;
+
+      /* 尺寸未变且已有画面：绝不再跑 getImageData/toDataURL */
+      if (!force && sceneImg.src && cssW === lastBakeW && cssH === lastBakeH) {
+        w = cssW;
+        h = cssH;
+        revealScene();
+        return;
+      }
+
+      w = cssW;
+      h = cssH;
+      lastBakeW = cssW;
+      lastBakeH = cssH;
 
       if (!rainbowBuf) rainbowBuf = document.createElement("canvas");
       refreshRainbowBake();
@@ -839,8 +866,19 @@
 
     const resize = () => {
       window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(applyResize, 80);
+      resizeTimer = window.setTimeout(() => applyResize(false), 120);
     };
+
+    const onVisibility = () => {
+      if (document.hidden) return;
+      /* 恢复后 800ms 内忽略 resize 风暴 */
+      resumeGuardUntil = performance.now() + 800;
+      if (sceneImg.src) {
+        sceneImg.classList.add("is-on");
+        sceneRevealed = true;
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     window.__KayaSunnyStats = () => ({
       mode: "img-static",
@@ -869,19 +907,33 @@
 
     return {
       start() {
-        if (running) return;
+        /* 已在跑 / 已有烘焙：只保证可见，切勿再全屏 toDataURL */
+        if (running) {
+          sceneImg.classList.add("is-on");
+          sceneRevealed = true;
+          return;
+        }
         running = true;
         loadRainbowTex(rebakeWithTexture);
-        applyResize();
+        if (w > 1 && h > 1 && sceneImg.src) {
+          sceneImg.classList.add("is-on");
+          sceneRevealed = true;
+          return;
+        }
+        applyResize(true);
       },
       stop() {
+        /* 晴天是静态图，无 RAF。切标签时不要卸 is-on / 清状态，
+           否则恢复时 applyResize→toDataURL 会把页面卡死数秒 */
         running = false;
-        sceneRevealed = false;
-        sceneImg.classList.remove("is-on");
       },
       resize,
       destroy() {
+        document.removeEventListener("visibilitychange", onVisibility);
+        window.clearTimeout(resizeTimer);
         this.stop();
+        sceneRevealed = false;
+        sceneImg.classList.remove("is-on");
         host.classList.remove("has-sunny-css");
         document.body.classList.remove("kaya-ambient-eco");
         mist.remove();

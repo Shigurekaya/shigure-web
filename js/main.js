@@ -304,7 +304,8 @@ const Kaya = (() => {
     ".home-card",
     ".work-card",
     ".link-card",
-    ".footer-fuyuu",
+    ".footer-sites",
+    ".footer-sites-item",
     ".profile-avatar",
   ].join(",");
 
@@ -494,8 +495,10 @@ const Kaya = (() => {
     };
 
     const onResize = () => {
+      /* 晴天切回前台常伴随假 resize；交给 sunny 内部 guard，这里也节流 */
+      if (dry && document.hidden) return;
       window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(resize, 100);
+      resizeTimer = window.setTimeout(resize, dry ? 200 : 100);
     };
 
     const flushScroll = () => {
@@ -521,21 +524,38 @@ const Kaya = (() => {
         running = false;
         window.cancelAnimationFrame(scrollRaf);
         scrollRaf = 0;
-        heavyFx?.stop();
-        lightFx?.stop();
-        stormFx?.stop();
-        sunnyFx?.stop();
+        /* 晴天是静态层：切后台不要 stop（否则回来全屏重烘焙卡死） */
+        if (!dry) {
+          /* 大雨/雷暴：立刻硬停，避免淡出期间仍跑 RAF/截图 */
+          if (heavyFx?.pause) heavyFx.pause();
+          else heavyFx?.stop();
+          lightFx?.stop();
+          stormFx?.stop();
+        }
         return;
       }
-      running = true;
-      if (heavy) {
-        ensureHeavyFx()?.start();
-        ensureStormFx()?.start();
-      } else if (mode === "sunny") {
-        ensureDryFx()?.start();
-      } else {
-        ensureLightFx()?.start();
+      /* 后台挂起时浏览器会节流 timer/CSS，开场遮罩可能永不完结 */
+      if (document.body.classList.contains("home-intro-playing")) {
+        try { window.__kayaForceFinishIntro?.(); } catch { /* ignore */ }
+        document.body.classList.add("home-ready", "home-revealed");
+        document.body.classList.remove("home-intro-playing");
+        document.getElementById("home-intro")?.remove();
       }
+      running = true;
+      /* 晴天：尺寸未变就别 resize/rebake */
+      if (dry) {
+        sunnyFx?.start?.();
+        return;
+      }
+      resize();
+      window.requestAnimationFrame(() => {
+        if (document.hidden) return;
+        startActiveFx();
+        if (heavy) {
+          ensureSplashNodes(true);
+          collectLedges();
+        }
+      });
     };
 
     const startActiveFx = () => {
@@ -557,20 +577,25 @@ const Kaya = (() => {
     window.addEventListener("resize", onResize, { passive: true });
     window.visualViewport?.addEventListener("resize", onResize, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
+    const onPageShow = (e) => {
+      if (e.persisted && !document.hidden) onVisibility();
+    };
+    window.addEventListener("pageshow", onPageShow);
 
     if (heavy) {
       window.addEventListener("scroll", onScroll, { passive: true, capture: true });
       resize();
-      /* 开幕淡出时衔接主雨（雨丝 WebGL）；开场层仅作 2D 近似，避免双 WebGL */
+      /* 必须等 home-ready：贴屏 html2canvas 若在正文 opacity:0 时截图 → 全屏黑底只剩雨 */
       const introPlaying = document.body.classList.contains("home-intro-playing");
       if (introPlaying) {
         const waitIntro = () => {
-          const intro = document.getElementById("home-intro");
-          if (
-            !document.body.classList.contains("home-intro-playing")
-            || intro?.classList.contains("is-done")
-          ) {
-            startActiveFx();
+          const ready = document.body.classList.contains("home-ready");
+          const introGone = !document.body.classList.contains("home-intro-playing");
+          if (ready || introGone) {
+            /* 再等 1～2 帧让浏览器提交可见态，再挂贴屏折射 */
+            window.requestAnimationFrame(() => {
+              window.setTimeout(startActiveFx, ready ? 120 : 40);
+            });
             return;
           }
           window.setTimeout(waitIntro, 80);
@@ -622,6 +647,7 @@ const Kaya = (() => {
         window.removeEventListener("resize", onResize);
         window.visualViewport?.removeEventListener("resize", onResize);
         document.removeEventListener("visibilitychange", onVisibility);
+        window.removeEventListener("pageshow", onPageShow);
         window.removeEventListener("scroll", onScroll, true);
         try { heavyFx?.destroy?.(); } catch { /* ignore */ }
         try { lightFx?.destroy?.(); } catch { /* ignore */ }
@@ -654,6 +680,7 @@ const Kaya = (() => {
     initNav();
     initSiteNavRain();
     initWeatherPreview();
+    initFooterSites();
     initSiteRain(document.querySelector(".site-bg"), rainMode);
     initSandaimeHint();
     initSandaimeBrand();
@@ -1134,6 +1161,71 @@ const Kaya = (() => {
     return p ? normalizeRainMode(p[1].toLowerCase()) : null;
   }
 
+  function initFooterSites() {
+    const dialog = document.getElementById("footer-sites-dialog");
+    const openBtn = document.getElementById("footer-sites-open");
+    const closeBtn = document.getElementById("footer-sites-close");
+    let toast = document.getElementById("kaya-toast");
+    if (!dialog || !openBtn || typeof dialog.showModal !== "function") return;
+
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.className = "kaya-toast";
+      toast.id = "kaya-toast";
+      toast.hidden = true;
+      toast.setAttribute("aria-live", "polite");
+      dialog.appendChild(toast);
+    } else if (toast.parentElement !== dialog) {
+      dialog.appendChild(toast);
+    }
+
+    let toastTimer = 0;
+    let toastHideTimer = 0;
+    const hideToast = () => {
+      window.clearTimeout(toastTimer);
+      window.clearTimeout(toastHideTimer);
+      if (toast.hidden) return;
+      toast.classList.remove("is-on");
+      toast.classList.add("is-off");
+      toastHideTimer = window.setTimeout(() => {
+        toast.classList.remove("is-off");
+        toast.hidden = true;
+        toast.textContent = "";
+      }, 300);
+    };
+    const showToast = (msg) => {
+      window.clearTimeout(toastTimer);
+      window.clearTimeout(toastHideTimer);
+      toast.classList.remove("is-on", "is-off");
+      toast.textContent = msg || "暂未完成（懒得做）";
+      toast.hidden = false;
+      /* 强制重绘，保证连续点击也能重播入场 */
+      void toast.offsetWidth;
+      toast.classList.add("is-on");
+      toastTimer = window.setTimeout(hideToast, 2000);
+    };
+
+    const open = () => {
+      if (dialog.open) return;
+      dialog.showModal();
+    };
+    const close = () => {
+      if (dialog.open) dialog.close();
+    };
+
+    openBtn.addEventListener("click", open);
+    closeBtn?.addEventListener("click", close);
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) close();
+    });
+    dialog.querySelectorAll(".footer-sites-item.is-wip").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        showToast(el.getAttribute("data-wip-msg") || "暂未完成（懒得做）");
+      });
+    });
+  }
+
   function initWeatherPreview() {
     const footer = document.querySelector(".site-footer");
     if (!footer) return;
@@ -1263,6 +1355,7 @@ const Kaya = (() => {
 
     if (!intro || reduced || !play) {
       document.body.classList.add("home-ready");
+      document.body.classList.add("home-revealed");
       intro?.remove();
       return;
     }
@@ -1278,13 +1371,26 @@ const Kaya = (() => {
     let stopLiquid = null;
     let hardTimer = 0;
 
-    const finishIntro = () => {
+    const finishIntro = (force = false) => {
       if (finished) return;
       finished = true;
       window.clearTimeout(hardTimer);
+      delete window.__kayaForceFinishIntro;
+      if (force) {
+        document.body.classList.add("home-ready", "home-revealed");
+        document.body.classList.remove("home-intro-playing");
+        stopRain();
+        try { stopLiquid?.(); } catch { /* ignore */ }
+        intro.remove();
+        return;
+      }
       intro.classList.add("is-done");
       window.setTimeout(() => {
         document.body.classList.add("home-ready");
+        /* 入场动画结束后强制揭幕，防小米等机关闭/卡住 CSS 动画后正文永不可见 */
+        window.setTimeout(() => {
+          document.body.classList.add("home-revealed");
+        }, 1600);
       }, REVEAL_DELAY);
       window.setTimeout(() => {
         document.body.classList.remove("home-intro-playing");
@@ -1294,12 +1400,17 @@ const Kaya = (() => {
       }, OUT_MS);
     };
 
+    window.__kayaForceFinishIntro = () => finishIntro(true);
     hardTimer = window.setTimeout(finishIntro, INTRO_HARD_MS);
 
     startIntroLiquid(
       document.getElementById("intro-liquid"),
       "assets/images/script-en.png"
     ).then((stop) => {
+      if (finished) {
+        try { stop?.(); } catch { /* ignore */ }
+        return;
+      }
       stopLiquid = stop;
       window.setTimeout(finishIntro, HOLD_MS);
     }).catch(() => {

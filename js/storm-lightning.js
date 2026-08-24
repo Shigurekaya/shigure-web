@@ -398,7 +398,12 @@
 
     return {
       start() {
-        if (running) return;
+        if (running) {
+          last = performance.now();
+          if (!raf && !document.hidden) raf = requestAnimationFrame(tick);
+          if (!strikeTimer && !document.hidden) scheduleNext();
+          return;
+        }
         running = true;
         fit();
         last = performance.now();

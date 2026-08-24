@@ -613,7 +613,10 @@
   }
 
   /**
-   * 截图像素探测：仅整屏近黑才放弃（过严会误杀正常暗色暴风雨底）。
+   * 截图像素探测：
+   * 1) 整屏近黑 → 放弃
+   * 2) 几乎没有亮色 UI 块（正文仍 opacity:0 时截到纯天空）→ 也放弃
+   *    否则贴屏 WebGL 会用不含正文的底图盖满 z-index:50，表现为「只剩雨」。
    */
   function captureLooksBlack(canvas) {
     try {
@@ -624,15 +627,38 @@
       const img = cx.getImageData(0, 0, sw, sh).data;
       let sum = 0;
       let dark = 0;
+      let bright = 0;
       const n = sw * sh;
       for (let i = 0; i < img.length; i += 4) {
         const y = 0.2126 * img[i] + 0.7152 * img[i + 1] + 0.0722 * img[i + 2];
         sum += y;
         if (y < 8) dark += 1;
+        if (y > 72) bright += 1;
       }
       const mean = sum / n;
       const darkRatio = dark / n;
-      return mean < 10 || darkRatio > 0.94;
+      const brightRatio = bright / n;
+      if (mean < 10 || darkRatio > 0.94) return true;
+      /* 暗色暴风雨底 mean 可到 40～90，但正常有面板/头像时应有一定亮像素 */
+      if (brightRatio < 0.012 && mean < 95) return true;
+      return false;
+    } catch {
+      return true;
+    }
+  }
+
+  /** 主页正文是否已揭幕到可截图（避免 opacity:0 时截出纯天空） */
+  function isHomeUiCaptureReady() {
+    const body = document.body;
+    if (!body.classList.contains("page-home")) return true;
+    if (body.classList.contains("home-intro-playing") && !body.classList.contains("home-ready")) {
+      return false;
+    }
+    const probe = document.querySelector(".profile-name, .profile-avatar, .brand");
+    if (!probe) return body.classList.contains("home-ready") || body.classList.contains("home-revealed");
+    try {
+      const op = parseFloat(getComputedStyle(probe).opacity || "0");
+      return op > 0.15;
     } catch {
       return true;
     }
@@ -1366,8 +1392,106 @@
       return stormBg;
     };
 
+    let captureUiRetries = 0;
+    let captureWatchdog = 0;
+    let bgPushInFlight = false;
+    let bgPushQueued = false;
+    let glassStartGen = 0;
+
+    const pauseCaptureWork = () => {
+      window.clearTimeout(captureTimer);
+      window.clearInterval(captureInterval);
+      window.clearTimeout(captureWatchdog);
+      captureTimer = 0;
+      captureInterval = 0;
+      captureWatchdog = 0;
+      captureQueued = null;
+      /* 后台/异常中断时勿让 in-flight 锁死后续截图 */
+      captureInFlight = false;
+      bgPushQueued = false;
+    };
+
+    /** raindrop-fx.start() 每次都会再挂一条 RAF；必须先 stop，避免双循环卡死主线程 */
+    const safeGlassStart = () => {
+      if (!glassFx || !glassReady || screenGlassDemoted || document.hidden) return;
+      const gen = ++glassStartGen;
+      try { glassFx.stop(); } catch { /* ignore */ }
+      glassAnimating = false;
+      try {
+        const ret = glassFx.start();
+        void Promise.resolve(ret).then(() => {
+          if (gen !== glassStartGen || document.hidden || !running || targetIntensity <= 0) {
+            try { glassFx?.stop(); } catch { /* ignore */ }
+            return;
+          }
+          glassAnimating = true;
+        }).catch(() => {
+          glassAnimating = false;
+        });
+        glassAnimating = true;
+      } catch {
+        glassAnimating = false;
+      }
+    };
+
+    const safeGlassStop = () => {
+      glassStartGen += 1;
+      try { glassFx?.stop(); } catch { /* ignore */ }
+      glassAnimating = false;
+    };
+
+    const startCaptureInterval = () => {
+      if (!useScreenGlass || !glassReady || screenGlassDemoted || document.hidden) return;
+      window.clearInterval(captureInterval);
+      /* 旧值 24–72ms 会并发 setBackground→reloadBackground 毁掉纹理，切回前台必卡 */
+      const pushMs = storm ? 180 : (realPhone ? 360 : 220);
+      const recaptureMs = storm ? 2500 : (realPhone ? 6000 : 4000);
+      captureInterval = window.setInterval(() => {
+        if (!glassReady || !running || document.hidden || screenGlassDemoted || targetIntensity <= 0) return;
+        void pushGlassBackground();
+        if (performance.now() - lastDomCaptureAt > recaptureMs) scheduleDomCapture(240);
+      }, pushMs);
+    };
+
+    const ensureGpuRunning = () => {
+      if (!gpu) return;
+      if (gpu.ok) {
+        gpu.start();
+        return;
+      }
+      try { gpu.destroy?.(); } catch { /* ignore */ }
+      gpu = window.KayaGpuStreakRain?.attach?.(streakCanvas, gpuOpts()) || null;
+      if (!gpu) return;
+      gpu.resize(w, h);
+      const q = qualityFor(storm, phone);
+      const n = Math.round(q.streak * clamp((w * h) / (1280 * 720), 0.7, storm ? 1.6 : (realPhone ? 1.0 : 1.55)));
+      gpu.setCount(Math.min(n, streakCapFor(storm, phone)));
+      gpu.setFrameBudget(q.frameMs);
+      gpu.setWind?.(q.wind);
+      gpu.setSpeedMul?.(q.speedMul);
+      gpu.setSheet?.(storm ? 1 : 0.9);
+      gpu.setTilt?.(storm ? 0.045 : 0.065);
+      gpu.setSizeMul?.(storm ? (q.sizeMul || 1.12) : 1);
+      gpu.setAdaptive?.(!storm);
+      gpu.start();
+    };
+
     const runCaptureStormDom = async (bw, bh) => {
       if (!useScreenGlass || screenGlassDemoted) return stormDomReady;
+      if (document.hidden) {
+        scheduleDomCapture(480);
+        return stormDomReady;
+      }
+      if (!isHomeUiCaptureReady()) {
+        captureUiRetries += 1;
+        if (captureUiRetries > 24) {
+          demoteScreenGlass("ui never visible for capture");
+          return false;
+        }
+        /* 正文尚未可见：延后截图，切勿用纯天空底图启用贴屏 */
+        scheduleDomCapture(160);
+        return false;
+      }
       if (captureInFlight) {
         captureQueued = { bw, bh };
         return stormDomReady;
@@ -1375,6 +1499,15 @@
       const h2c = typeof window.html2canvas === "function" ? window.html2canvas : null;
       if (!h2c) return false;
       captureInFlight = true;
+      window.clearTimeout(captureWatchdog);
+      /* html2canvas 偶发永不 resolve；超时解锁，避免整页截图队列永久堵死 */
+      captureWatchdog = window.setTimeout(() => {
+        if (!captureInFlight) return;
+        console.warn("[kaya] storm glass capture watchdog");
+        captureInFlight = false;
+        captureQueued = null;
+        demoteScreenGlass("capture watchdog");
+      }, 8000);
       const prevGlass = glassCanvas.style.display;
       const prevSplash = splashCanvas.style.display;
       const prevDrops = glassDropCanvas.style.display;
@@ -1405,9 +1538,10 @@
           allowTaint: true,
           backgroundColor: skyHex,
           logging: false,
-          imageTimeout: 0,
+          imageTimeout: 4000,
           ignoreElements: ignoreCaptureEl,
         });
+        if (document.hidden || screenGlassDemoted) return stormDomReady && useScreenGlass;
         if (stormDomBg.width !== bw || stormDomBg.height !== bh) {
           stormDomBg.width = bw;
           stormDomBg.height = bh;
@@ -1423,9 +1557,16 @@
           dx.filter = "none";
           if (captureLooksBlack(stormDomBg)) {
             stormDomReady = false;
-            demoteScreenGlass("capture too dark");
+            captureUiRetries += 1;
+            if (captureUiRetries > 8) {
+              /* 多次截到无 UI / 过暗 → 降级，避免黑幕盖页 */
+              demoteScreenGlass("capture too dark or no UI");
+            } else {
+              scheduleDomCapture(220);
+            }
           } else {
             stormDomReady = true;
+            captureUiRetries = 0;
             lastDomCaptureAt = performance.now();
             stormRefract?.refreshTexture?.();
           }
@@ -1434,6 +1575,8 @@
         console.warn("[kaya] storm glass capture failed", err);
         demoteScreenGlass("capture threw");
       } finally {
+        window.clearTimeout(captureWatchdog);
+        captureWatchdog = 0;
         glassCanvas.style.display = prevGlass;
         splashCanvas.style.display = prevSplash;
         glassDropCanvas.style.display = prevDrops;
@@ -1441,10 +1584,12 @@
         streakCanvas.style.display = prevStreak;
         if (refractNode) refractNode.style.display = prevRefract;
         captureInFlight = false;
-        if (captureQueued) {
+        if (captureQueued && !document.hidden) {
           const next = captureQueued;
           captureQueued = null;
           void runCaptureStormDom(next.bw, next.bh);
+        } else {
+          captureQueued = null;
         }
       }
       return stormDomReady && useScreenGlass;
@@ -1453,20 +1598,34 @@
     const captureStormDom = (bw, bh) => runCaptureStormDom(bw, bh);
 
     const pushGlassBackground = async () => {
-      if (!glassReady || !glassFx || screenGlassDemoted) return;
-      const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, storm, realPhone);
-      composeGlassBackground(bw, bh);
+      if (!glassReady || !glassFx || screenGlassDemoted || document.hidden) return;
+      if (bgPushInFlight) {
+        bgPushQueued = true;
+        return;
+      }
+      bgPushInFlight = true;
       try {
+        const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, storm, realPhone);
+        composeGlassBackground(bw, bh);
         await glassFx.setBackground(stormBg);
       } catch { /* ignore */ }
+      finally {
+        bgPushInFlight = false;
+        if (bgPushQueued && !document.hidden && running && targetIntensity > 0) {
+          bgPushQueued = false;
+          void pushGlassBackground();
+        } else {
+          bgPushQueued = false;
+        }
+      }
     };
 
     const scheduleDomCapture = (delay = 420) => {
-      if (!useScreenGlass || !wantRaindropFx || screenGlassDemoted) return;
+      if (!useScreenGlass || !wantRaindropFx || screenGlassDemoted || document.hidden) return;
       window.clearTimeout(captureTimer);
       captureTimer = window.setTimeout(() => {
         void (async () => {
-          if (!running || targetIntensity <= 0 || screenGlassDemoted) return;
+          if (document.hidden || !running || targetIntensity <= 0 || screenGlassDemoted) return;
           const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, storm, realPhone);
           const ok = await captureStormDom(bw, bh);
           if (ok) await pushGlassBackground();
@@ -1485,6 +1644,17 @@
       try {
         const { bw, bh } = glassBufferSize(w || window.innerWidth, h || window.innerHeight, storm, realPhone);
         if (useScreenGlass) {
+          /* 等正文可见再截；超时则 demote，避免黑底贴屏 */
+          const waitUi = async () => {
+            for (let i = 0; i < 40; i += 1) {
+              if (screenGlassDemoted) return false;
+              if (isHomeUiCaptureReady()) return true;
+              await new Promise((r) => setTimeout(r, 80));
+            }
+            demoteScreenGlass("ui wait timeout");
+            return false;
+          };
+          if (!(await waitUi())) return false;
           const ok = await captureStormDom(bw, bh);
           if (!ok || screenGlassDemoted) return false;
         }
@@ -1541,14 +1711,7 @@
         syncGlassOpacity();
         if (useScreenGlass && !screenGlassDemoted) {
           scheduleDomCapture(storm ? 420 : (realPhone ? 1100 : 600));
-          const pushMs = storm ? 24 : (realPhone ? 72 : 40);
-          const recaptureMs = storm ? 900 : (realPhone ? 4000 : 2000);
-          window.clearInterval(captureInterval);
-          captureInterval = window.setInterval(() => {
-            if (!glassReady || !running || document.hidden || screenGlassDemoted) return;
-            void pushGlassBackground();
-            if (performance.now() - lastDomCaptureAt > recaptureMs) scheduleDomCapture(0);
-          }, pushMs);
+          startCaptureInterval();
         }
         return true;
       } catch (err) {
@@ -1776,10 +1939,12 @@
     const hardStop = () => {
       running = false;
       cancelAnimationFrame(raf);
+      raf = 0;
       window.clearTimeout(stopTimer);
       window.clearTimeout(resizeGlassTimer);
-      window.clearTimeout(captureTimer);
-      window.clearInterval(captureInterval);
+      pauseCaptureWork();
+      bgPushInFlight = false;
+      bgPushQueued = false;
       intensity = 0;
       targetIntensity = 0;
       splashes.length = 0;
@@ -1796,6 +1961,20 @@
       stormPost?.clear?.();
       stormOverlay?.clear?.();
       stormRefract?.clear?.();
+    };
+
+    /** 切后台立刻停，不做淡出（淡出期间 RAF/截图仍会拖垮恢复） */
+    const pauseNow = () => {
+      window.clearTimeout(stopTimer);
+      stopTimer = 0;
+      targetIntensity = 0;
+      pauseCaptureWork();
+      bgPushQueued = false;
+      cancelAnimationFrame(raf);
+      raf = 0;
+      running = false;
+      gpu?.stop();
+      safeGlassStop();
     };
 
     const tick = (now) => {
@@ -1956,14 +2135,24 @@
 
     const onVisibility = () => {
       if (document.hidden) {
-        gpu?.stop();
-        try { glassFx?.stop(); glassAnimating = false; } catch { /* ignore */ }
-      } else if (running && targetIntensity > 0) {
-        gpu?.start();
-        if (glassReady && glassFx) {
-          try { glassFx.start(); glassAnimating = true; } catch { /* ignore */ }
-        }
+        pauseNow();
+        return;
       }
+      /* 由 main 统一 resume（start）；这里只兜底 GPU/玻璃，避免双 start 叠 RAF */
+      if (!running || targetIntensity <= 0) return;
+      const now = performance.now();
+      last = now;
+      if (!raf) raf = requestAnimationFrame(tick);
+      ensureGpuRunning();
+      safeGlassStart();
+      lastDomCaptureAt = now;
+      window.setTimeout(() => {
+        if (document.hidden || !running || targetIntensity <= 0) return;
+        if (useScreenGlass && glassReady && !screenGlassDemoted) {
+          startCaptureInterval();
+          scheduleDomCapture(2000);
+        }
+      }, 2500);
     };
     document.addEventListener("visibilitychange", onVisibility);
 
@@ -1971,38 +2160,43 @@
       start() {
         window.clearTimeout(stopTimer);
         targetIntensity = 1;
+        const now = performance.now();
         if (!running) {
           running = true;
           resize();
           if (intensity <= 0) intensity = 0.02;
-          t0 = performance.now();
-          last = t0;
+          t0 = now;
+          last = now;
           raf = requestAnimationFrame(tick);
+        } else {
+          last = now;
+          if (!raf) raf = requestAnimationFrame(tick);
         }
-        /* 短切标签后 running 仍为 true 时也要拉起 GPU */
-        gpu?.start();
+        ensureGpuRunning();
         if (wantRaindropFx) {
           void ensureGlass().then((ok) => {
-            if (!ok || !running || targetIntensity <= 0) return;
-            if (!glassAnimating) {
-              try {
-                glassFx.start();
-                glassAnimating = true;
-              } catch { /* ignore */ }
-            }
+            if (!ok || !running || targetIntensity <= 0 || document.hidden) return;
+            safeGlassStart();
           });
         }
       },
+      pause: pauseNow,
       stop() {
         targetIntensity = 0;
         window.clearTimeout(stopTimer);
+        pauseCaptureWork();
+        /* 可见时淡出；后台由 pauseNow 硬停 */
+        if (document.hidden) {
+          pauseNow();
+          return;
+        }
         stopTimer = window.setTimeout(hardStop, FADE_SEC * 1000 + 60);
       },
       onScroll() {
         splashes.length = 0;
         rims.length = 0;
         splashAcc = 0;
-        if (useScreenGlass && glassReady) scheduleDomCapture(180);
+        if (useScreenGlass && glassReady && !document.hidden) scheduleDomCapture(280);
       },
       resize,
       destroy() {
