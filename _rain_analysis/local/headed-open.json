@@ -1,0 +1,38 @@
+{
+  "url": "https://www.shigurekaya.com/?sunny",
+  "status": 200,
+  "errors": [],
+  "diag": {
+    "title": "时雨榧",
+    "readyState": "complete",
+    "bodyClass": "page-home sunny-sky home-ready kaya-ambient-eco",
+    "hasKaya": true,
+    "hasBootError": false,
+    "headerOpacity": "1",
+    "scripts": [
+      "/js/site-data.js?v=202608241410",
+      "/js/mv-materials-data.js?v=202608241410",
+      "/js/perf-governor.js?v=202608241410",
+      "/js/rain-streak-profile.js?v=202608241410",
+      "/js/sunny-sky.js?v=202608241410",
+      "/js/main.js?v=202608241410",
+      "/js/kaya-rain-mode.js?v=202608241410",
+      "/js/kaya-boot.js?v=202608241410",
+      "https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496"
+    ],
+    "href": "https://www.shigurekaya.com/?sunny"
+  },
+  "shot": "E:\\网站\\测试框架\\shigure-web\\_rain_analysis\\local\\headed-open.png",
+  "sampleRequests": [
+    "https://www.shigurekaya.com/css/style-core.css?v=202608241410",
+    "https://www.shigurekaya.com/js/kaya-rain-mode.js?v=202608241410",
+    "https://www.shigurekaya.com/js/kaya-boot.js?v=202608241410",
+    "https://www.shigurekaya.com/css/style-weather.css?v=202608241410",
+    "https://www.shigurekaya.com/js/site-data.js?v=202608241410",
+    "https://www.shigurekaya.com/js/mv-materials-data.js?v=202608241410",
+    "https://www.shigurekaya.com/js/perf-governor.js?v=202608241410",
+    "https://www.shigurekaya.com/js/rain-streak-profile.js?v=202608241410",
+    "https://www.shigurekaya.com/js/sunny-sky.js?v=202608241410",
+    "https://www.shigurekaya.com/js/main.js?v=202608241410"
+  ]
+}

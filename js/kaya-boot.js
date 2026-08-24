@@ -2,12 +2,14 @@
  * 按页面 + 天气模式按需加载脚本（defer 入口）
  */
 (() => {
-  const V = "202608241410";
+  const V = "202608241145";
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
       const s = document.createElement("script");
       s.src = src;
+      /* 动态插入默认 async；设 false 才能并行下载 + 按文档顺序执行 */
+      s.async = false;
       s.onload = () => resolve();
       s.onerror = () => reject(new Error(`script failed: ${src}`));
       document.head.appendChild(s);
@@ -42,10 +44,7 @@
       ],
       works: [`js/site-data.js?v=${V}`],
       links: [`js/links-data.js?v=${V}`],
-      mv: [
-        `js/mv-materials-data.js?v=${V}`,
-        `js/mv-watermark.js?v=${V}`,
-      ],
+      mv: [`js/mv-materials-data.js?v=${V}`],
     };
 
     const shared = [

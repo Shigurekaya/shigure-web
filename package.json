@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "thumbs": "node scripts/generate-gallery-thumbs.mjs",
-    "mv-thumbs": "node scripts/generate-mv-thumbs.mjs",
-    "verify-watermark": "node scripts/verify-mv-watermark.mjs"
+    "mv-thumbs": "node scripts/generate-mv-thumbs.mjs"
   },
   "dependencies": {
     "sharp": "^0.34.2"

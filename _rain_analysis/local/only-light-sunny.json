@@ -1,0 +1,130 @@
+{
+  "base": "http://127.0.0.1:3000",
+  "at": "2026-08-24T03:13:48.568Z",
+  "results": [
+    {
+      "name": "sunny",
+      "url": "http://127.0.0.1:3000/?sunny",
+      "navMs": 6908,
+      "errors": [],
+      "failed": [],
+      "diag": {
+        "bodyClass": "page-home sunny-sky home-ready kaya-ambient-eco",
+        "hasKaya": true,
+        "sessionRain": "sunny",
+        "headerOpacity": "1",
+        "scriptCount": 8,
+        "scripts": [
+          "/js/site-data.js?v=202608241410",
+          "/js/mv-materials-data.js?v=202608241410",
+          "/js/perf-governor.js?v=202608241410",
+          "/js/rain-streak-profile.js?v=202608241410",
+          "/js/sunny-sky.js?v=202608241410",
+          "/js/main.js?v=202608241410",
+          "/js/kaya-rain-mode.js?v=202608241410",
+          "/js/kaya-boot.js?v=202608241410"
+        ],
+        "styles": [
+          "/css/style-core.css?v=202608241410",
+          "/css/style-weather.css?v=202608241410"
+        ],
+        "hasLight": false,
+        "hasSunny": true,
+        "hasHeavy": false,
+        "lightStats": null,
+        "sunnyStats": {
+          "mode": "img-static",
+          "frameMs": 0,
+          "effectFps": 0,
+          "staticLayer": true,
+          "static": true,
+          "dpr": 1,
+          "staticScale": 0.62,
+          "staticPx": 921600,
+          "w": 1280,
+          "h": 720,
+          "rainbow": true,
+          "rainbowCoverage": 0.323,
+          "rainbowCoverageOk": false,
+          "rainbowRepairPass": 2,
+          "weakGpu": false
+        },
+        "rainEl": {
+          "tag": "IMG",
+          "className": "site-bg__sunny-scene is-on",
+          "w": 1280,
+          "h": 720
+        },
+        "fps": {
+          "avg": 60,
+          "p50": 59.9,
+          "jankPct": 0
+        },
+        "mem": {
+          "usedMB": 31,
+          "totalMB": 35
+        }
+      },
+      "shot": "E:\\网站\\测试框架\\shigure-web\\_rain_analysis\\local\\only-sunny.png"
+    },
+    {
+      "name": "light",
+      "url": "http://127.0.0.1:3000/?rain=light",
+      "navMs": 908,
+      "errors": [],
+      "failed": [],
+      "diag": {
+        "bodyClass": "page-home light-rain home-ready kaya-ambient-eco",
+        "hasKaya": true,
+        "sessionRain": "light",
+        "headerOpacity": "1",
+        "scriptCount": 8,
+        "scripts": [
+          "/js/site-data.js?v=202608241410",
+          "/js/mv-materials-data.js?v=202608241410",
+          "/js/perf-governor.js?v=202608241410",
+          "/js/rain-streak-profile.js?v=202608241410",
+          "/js/light-rain.js?v=202608241410",
+          "/js/main.js?v=202608241410",
+          "/js/kaya-rain-mode.js?v=202608241410",
+          "/js/kaya-boot.js?v=202608241410"
+        ],
+        "styles": [
+          "/css/style-core.css?v=202608241410",
+          "/css/style-weather.css?v=202608241410"
+        ],
+        "hasLight": true,
+        "hasSunny": false,
+        "hasHeavy": false,
+        "lightStats": {
+          "mode": "canvas-rain+static-dom",
+          "frameMs": 2.4,
+          "dropMul": 1,
+          "tier": "mid",
+          "staticBg": true,
+          "weakGpu": false,
+          "dpr": 1,
+          "drops": 246,
+          "splashes": 182
+        },
+        "sunnyStats": null,
+        "rainEl": {
+          "tag": "CANVAS",
+          "className": "site-bg__rain",
+          "w": 1280,
+          "h": 720
+        },
+        "fps": {
+          "avg": 60.2,
+          "p50": 59.9,
+          "jankPct": 0
+        },
+        "mem": {
+          "usedMB": 2,
+          "totalMB": 8
+        }
+      },
+      "shot": "E:\\网站\\测试框架\\shigure-web\\_rain_analysis\\local\\only-light.png"
+    }
+  ]
+}
