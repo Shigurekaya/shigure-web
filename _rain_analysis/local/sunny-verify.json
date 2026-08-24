@@ -1,5 +1,5 @@
 {
-  "url": "http://127.0.0.1:3000/?rain=sunny",
+  "url": "http://127.0.0.1:3000/?sunny",
   "errors": [],
   "diag": {
     "scene": {
@@ -19,13 +19,13 @@
       "effectFps": 0,
       "staticLayer": true,
       "static": true,
-      "dpr": 1.05,
+      "dpr": 1.4,
       "staticScale": 0.62,
       "staticPx": 921600,
       "w": 1280,
       "h": 720,
       "rainbow": true,
-      "rainbowCoverage": 0.294,
+      "rainbowCoverage": 0.323,
       "rainbowCoverageOk": false,
       "rainbowRepairPass": 2,
       "weakGpu": false
@@ -55,7 +55,7 @@
     {
       "x": 200,
       "y": 180,
-      "top": "page-home sunny-sky home-ready kaya-ambient-eco",
+      "top": "home-main",
       "body": "rgb(200, 230, 245)"
     },
     {
@@ -89,9 +89,9 @@
       "b": 235
     },
     "center": {
-      "r": 72,
-      "g": 107,
-      "b": 128
+      "r": 153,
+      "g": 217,
+      "b": 244
     },
     "rainbowPos": {
       "x": 80,
@@ -102,5 +102,5 @@
     "notBlackBg": true,
     "maxChroma": 122
   },
-  "shot": "D:\\gamedev\\shigure-web\\_rain_analysis\\local\\sunny-verify.png"
+  "shot": "E:\\网站\\测试框架\\shigure-web\\_rain_analysis\\local\\sunny-verify.png"
 }

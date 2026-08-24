@@ -1,0 +1,88 @@
+﻿{
+  "url": "http://127.0.0.1:3000/?sunny",
+  "errors": [
+    "[kaya-boot] TypeError: Cannot read properties of undefined (reading 'initHome')\n    at home (http://127.0.0.1:3000/js/kaya-boot.js?v=202608241400:85:31)\n    at boot (http://127.0.0.1:3000/js/kaya-boot.js?v=202608241400:99:7)"
+  ],
+  "diag": {
+    "scene": null,
+    "mist": false,
+    "mistOpacity": null,
+    "bodyBg": "rgb(247, 248, 252)",
+    "bgFill": "rgb(247, 248, 252)",
+    "bodyClass": "page-home",
+    "hasFx": true,
+    "stats": null,
+    "cssOnly": false,
+    "pseudo": {
+      "display": "block",
+      "filter": "blur(64px)",
+      "animation": "bg-orb-drift"
+    },
+    "siteBar": {
+      "backdrop": "blur(16px) saturate(1.3)"
+    },
+    "fps": {
+      "avg": 60.5,
+      "p50": 59.9,
+      "jankPct": 0
+    }
+  },
+  "pixels": [
+    {
+      "x": 64,
+      "y": 64,
+      "top": "site-header",
+      "body": "rgb(247, 248, 252)"
+    },
+    {
+      "x": 200,
+      "y": 180,
+      "top": "home-main",
+      "body": "rgb(247, 248, 252)"
+    },
+    {
+      "x": 640,
+      "y": 120,
+      "top": "home-main",
+      "body": "rgb(247, 248, 252)"
+    },
+    {
+      "x": 1100,
+      "y": 200,
+      "top": "page-home",
+      "body": "rgb(247, 248, 252)"
+    },
+    {
+      "x": 640,
+      "y": 360,
+      "top": "profile-name",
+      "body": "rgb(247, 248, 252)"
+    }
+  ],
+  "bgCheck": {
+    "corner": {
+      "r": 201,
+      "g": 220,
+      "b": 251
+    },
+    "rainbow": {
+      "r": 192,
+      "g": 214,
+      "b": 252
+    },
+    "center": {
+      "r": 221,
+      "g": 229,
+      "b": 250
+    },
+    "rainbowPos": {
+      "x": 80,
+      "y": 208
+    },
+    "lightBgOk": true,
+    "rainbowOk": false,
+    "notBlackBg": true,
+    "maxChroma": 60
+  },
+  "shot": "E:\\缃戠珯\\娴嬭瘯妗嗘灦\\shigure-web\\_rain_analysis\\local\\sunny-verify.png"
+}

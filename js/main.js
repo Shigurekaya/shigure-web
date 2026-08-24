@@ -1590,3 +1590,6 @@ const Kaya = (() => {
 
   return { initHome, initWorks, initLinks, initMvMaterials, data };
 })();
+
+/* kaya-boot 通过 window.Kaya 调用；const 不会挂到 window */
+window.Kaya = Kaya;

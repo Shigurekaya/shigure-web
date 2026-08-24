@@ -21,9 +21,12 @@
 
 页面使用绝对路径（如 `/fuyuu/`、`/css/`），**必须从本仓库根目录**起静态服务，不要直接双击 HTML。
 
+本地开发地址见 **[docs/local-dev.md](docs/local-dev.md)**（固定 `127.0.0.1:3000`，不用 `localhost`）。
+
 ```powershell
 cd E:\网站\测试框架\shigure-web
 py -3 .\serve-local.py
+# 或 .\start-local.ps1
 ```
 
 （也可用 `py -3 -m http.server 3000`，但无 clean URL，且 HTML 可能被浏览器缓存旧跳转页；`serve-local.py` 会对 HTML 发 `Cache-Control: no-store`，并支持 `/works/` 等 clean 路径。）
@@ -32,10 +35,13 @@ py -3 .\serve-local.py
 
 | 路径 | 页面 |
 |------|------|
-| http://localhost:3000/ | 时雨榧（主站） |
-| http://localhost:3000/works/ | 作品 |
-| http://localhost:3000/links/ | 链接 |
-| http://localhost:3000/fuyuu/ | 浮游Lev |
+| http://127.0.0.1:3000/ | 时雨榧（主站） |
+| http://127.0.0.1:3000/works/ | 作品 |
+| http://127.0.0.1:3000/links/ | 链接 |
+| http://127.0.0.1:3000/mv-materials/ | MV 素材 |
+| http://127.0.0.1:3000/fuyuu/ | 浮游Lev |
+
+图片资源目录与分辨率见 **[docs/kaya-assets.md](docs/kaya-assets.md)**。
 
 无需 `npm install`；`package.json` 仅用于缩略图脚本（`npm run thumbs`）。线上部署由 Vercel 在推送 `main` 后自动完成。
 

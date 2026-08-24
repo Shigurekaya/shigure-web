@@ -11,6 +11,11 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent
 
+# 本地开发固定地址（文档：docs/local-dev.md）
+LOCAL_HOST = "127.0.0.1"
+LOCAL_PORT = 3000
+LOCAL_BASE_URL = f"http://{LOCAL_HOST}:{LOCAL_PORT}/"
+
 # Map clean paths → files on disk (mirrors Vercel cleanUrls + trailingSlash).
 CLEAN_MAP = {
     "/": "index.html",
@@ -71,12 +76,12 @@ class NoCacheHandler(SimpleHTTPRequestHandler):
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--port", type=int, default=3000)
-    parser.add_argument("--host", default="127.0.0.1", help="bind address (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=LOCAL_PORT)
+    parser.add_argument("--host", default=LOCAL_HOST, help=f"bind address (default: {LOCAL_HOST})")
     args = parser.parse_args()
     handler = functools.partial(NoCacheHandler, directory=str(ROOT))
     server = ThreadingHTTPServer((args.host, args.port), handler)
-    print(f"Serving {ROOT} on http://{args.host}:{args.port}/ (HTML no-store + clean URLs)")
+    print(f"Serving {ROOT} on {LOCAL_BASE_URL if args.host == LOCAL_HOST and args.port == LOCAL_PORT else f'http://{args.host}:{args.port}/'} (HTML no-store + clean URLs)")
     server.serve_forever()
 
 
