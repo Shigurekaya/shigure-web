@@ -2,7 +2,7 @@
  * 按页面 + 天气模式按需加载脚本（defer 入口）
  */
 (() => {
-  const V = "202608241500";
+  const V = "202608241740";
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const mode = window.KayaRainMode.pickInitial();
 
-    if (!reduced) loadWeatherCss();
+    if (!reduced || page === "quiz") loadWeatherCss();
 
     const dataByPage = {
       home: [
@@ -45,6 +45,10 @@
       works: [`js/site-data.js?v=${V}`],
       links: [`js/links-data.js?v=${V}`],
       mv: [`js/mv-materials-data.js?v=${V}`],
+      quiz: [
+        `js/gal-quiz-data.js?v=${V}`,
+        `js/gal-quiz.js?v=${V}`,
+      ],
     };
 
     const shared = [
@@ -72,8 +76,8 @@
       storm: [...heavyBundle, `js/storm-lightning.js?v=${V}`],
     };
 
-    const urls = [...(dataByPage[page] || []), ...shared];
-    if (!reduced) {
+    const urls = [...(dataByPage[page] || []), ...(page === "quiz" ? [] : shared)];
+    if (!reduced && page !== "quiz") {
       urls.push(...(weatherByMode[mode] || weatherByMode.light));
     }
     urls.push(`js/main.js?v=${V}`);
@@ -90,6 +94,10 @@
       works: () => api.initWorks(),
       links: () => api.initLinks(),
       mv: () => api.initMvMaterials(),
+      quiz: () => {
+        window.KayaQuiz?.init();
+        api.initQuiz();
+      },
     }[page];
 
     if (!init) {

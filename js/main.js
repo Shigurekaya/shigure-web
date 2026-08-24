@@ -681,7 +681,9 @@ const Kaya = (() => {
     initSiteNavRain();
     initWeatherPreview();
     initFooterSites();
-    initSiteRain(document.querySelector(".site-bg"), rainMode);
+    if (!document.body.classList.contains("page-quiz")) {
+      initSiteRain(document.querySelector(".site-bg"), rainMode);
+    }
     initSandaimeHint();
     initSandaimeBrand();
     const y = document.getElementById("year");
@@ -1671,7 +1673,28 @@ const Kaya = (() => {
     markPageReady();
   }
 
-  return { initHome, initWorks, initLinks, initMvMaterials, data };
+  function mountQuizStaticBg() {
+    applyRainTheme("light");
+    document.body.classList.add("kaya-ambient-eco");
+    const host = document.querySelector(".site-bg");
+    if (!host || host.querySelector(".site-bg__light-scene")) return;
+    const scene = document.createElement("div");
+    scene.className = "site-bg__light-scene is-on";
+    scene.setAttribute("aria-hidden", "true");
+    scene.innerHTML =
+      '<div class="site-bg__light-scene-orbs"></div>' +
+      '<div class="site-bg__light-scene-grain"></div>' +
+      '<div class="site-bg__light-scene-mist"></div>';
+    host.appendChild(scene);
+  }
+
+  function initQuiz() {
+    mountQuizStaticBg();
+    initCommon(null);
+    markPageReady();
+  }
+
+  return { initHome, initWorks, initLinks, initMvMaterials, initQuiz, data };
 })();
 
 /* kaya-boot 通过 window.Kaya 调用；const 不会挂到 window */

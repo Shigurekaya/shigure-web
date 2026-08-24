@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/" />
+  <title>Gal 水平测试 · 时雨榧</title>
+  <meta name="description" content="Gal 水平测试 — 题目改编自 ima-ero エロゲクイズ" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608241740" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body class="page-quiz light-rain kaya-ambient-eco" data-kaya-page="quiz">
+  <div class="site-bg" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="site-bar">
+      <a href="/" class="brand">时雨榧</a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <nav>
+        <ul class="site-nav" id="site-nav">
+          <li><a href="/">主页</a></li>
+          <li><a href="/works/">作品</a></li>
+          <li><a href="/links/">链接</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-main page-main--quiz">
+    <header class="page-head">
+      <p class="page-head__eyebrow">Gal Quiz</p>
+      <h1>Gal 水平测试</h1>
+      <p class="page-head__sub">题库改编自 ima-ero「エロゲクイズ」第1–5弹 · 共 125 题</p>
+    </header>
+
+    <section class="quiz-panel" id="quiz-root" aria-live="polite">
+      <div class="quiz-intro" id="quiz-intro">
+        <p>共收录五弹题目（含图片 / 音频 / 视频）。请选择测验模式。</p>
+        <p class="quiz-intro__note">部分题目含剧透与绅士向内容；音频/视频请手动播放。</p>
+        <div class="quiz-mode-actions">
+          <button type="button" class="quiz-btn quiz-btn--primary" id="quiz-start-random">随机 20 题</button>
+          <button type="button" class="quiz-btn" id="quiz-start-full">全部测试</button>
+        </div>
+        <p class="quiz-intro__hint">随机模式每题 5 分（满分 100）；全部模式按正确率计分（满分 100）。</p>
+      </div>
+
+      <div class="quiz-play" id="quiz-play" hidden>
+        <div class="quiz-progress">
+          <span id="quiz-progress-text">1 / 20</span>
+          <div class="quiz-progress__bar" aria-hidden="true"><i id="quiz-progress-fill"></i></div>
+        </div>
+        <article class="quiz-card" id="quiz-card">
+          <p class="quiz-card__meta" id="quiz-meta"></p>
+          <h2 class="quiz-card__q" id="quiz-question"></h2>
+          <div class="quiz-media" id="quiz-media"></div>
+          <div class="quiz-answers" id="quiz-answers"></div>
+          <p class="quiz-feedback" id="quiz-feedback" hidden></p>
+          <div class="quiz-actions">
+            <button type="button" class="quiz-btn quiz-btn--primary" id="quiz-submit">提交本题</button>
+            <button type="button" class="quiz-btn" id="quiz-next" hidden>下一题</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="quiz-result" id="quiz-result" hidden>
+        <p class="quiz-result__score"><span id="quiz-score">0</span><small id="quiz-score-max">/ 100</small></p>
+        <p class="quiz-result__detail" id="quiz-result-detail"></p>
+        <p class="quiz-result__rank" id="quiz-rank"></p>
+        <div class="quiz-actions">
+          <button type="button" class="quiz-btn quiz-btn--primary" id="quiz-retry">返回选模式</button>
+          <a class="quiz-btn" href="/">返回主页</a>
+        </div>
+        <details class="quiz-review">
+          <summary>查看本题回顾</summary>
+          <ol id="quiz-review-list"></ol>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> 时雨榧</p>
+    <p class="site-footer__motto">放弃幻想，开始战斗</p>
+    <p class="site-footer__credit">题目来源致谢：<a href="https://www.ima-ero.com/" target="_blank" rel="noopener noreferrer">今更だけどエロゲしようぜ！</a></p>
+  </footer>
+
+  <script src="js/kaya-rain-mode.js?v=202608241740" defer></script>
+  <script src="js/kaya-boot.js?v=202608241740" defer></script>
+</body>
+</html>
