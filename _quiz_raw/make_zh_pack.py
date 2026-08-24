@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""合并 part1 + part2，写出 zh_pack.json（125 题）。"""
+"""合并 part1 + part2，写出 zh_pack.json（119 题）。"""
 from __future__ import annotations
 
 import json
@@ -9,7 +9,7 @@ from make_zh_part1 import PACK as PACK1
 from make_zh_part2 import PACK_PART2 as PACK2
 
 RAW = Path(__file__).resolve().parent
-EXPECTED = 125
+EXPECTED = 119
 
 
 def main() -> None:

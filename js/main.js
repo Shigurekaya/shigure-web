@@ -677,15 +677,19 @@ const Kaya = (() => {
   }
 
   function initCommon(rainMode) {
-    initNav();
-    initSiteNavRain();
-    initWeatherPreview();
-    initFooterSites();
-    if (!document.body.classList.contains("page-quiz")) {
-      initSiteRain(document.querySelector(".site-bg"), rainMode);
+    const isStandaloneTool = document.body.classList.contains("page-quiz")
+      || document.body.classList.contains("page-sedai");
+    if (!isStandaloneTool) {
+      initNav();
+      initSiteNavRain();
+      initWeatherPreview();
+      initFooterSites();
     }
-    initSandaimeHint();
-    initSandaimeBrand();
+    if (!isStandaloneTool) {
+      initSiteRain(document.querySelector(".site-bg"), rainMode);
+      initSandaimeHint();
+      initSandaimeBrand();
+    }
     const y = document.getElementById("year");
     if (y) y.textContent = new Date().getFullYear();
   }
@@ -1694,7 +1698,13 @@ const Kaya = (() => {
     markPageReady();
   }
 
-  return { initHome, initWorks, initLinks, initMvMaterials, initQuiz, data };
+  function initSedai() {
+    mountQuizStaticBg();
+    initCommon(null);
+    markPageReady();
+  }
+
+  return { initHome, initWorks, initLinks, initMvMaterials, initQuiz, initSedai, data };
 })();
 
 /* kaya-boot 通过 window.Kaya 调用；const 不会挂到 window */

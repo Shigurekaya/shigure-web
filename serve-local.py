@@ -27,6 +27,8 @@ CLEAN_MAP = {
     "/mv-materials/": "mv-materials.html",
     "/gal-quiz": "gal-quiz.html",
     "/gal-quiz/": "gal-quiz.html",
+    "/gal-sedai": "gal-sedai.html",
+    "/gal-sedai/": "gal-sedai.html",
     "/heavy": "heavy.html",
     "/heavy/": "heavy.html",
     "/light": "light.html",

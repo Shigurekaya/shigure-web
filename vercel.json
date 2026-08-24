@@ -252,6 +252,18 @@
       ]
     },
     {
+      "source": "/gal-sedai",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/gal-sedai/",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
+      ]
+    },
+    {
       "source": "/fuyuu",
       "headers": [
         { "key": "Cache-Control", "value": "no-store, must-revalidate" }

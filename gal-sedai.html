@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/" />
+  <title>Gal世代</title>
+  <meta name="description" content="Gal世代 — 点击选择你玩过的 galgame" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608242230" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body class="page-sedai page-sedai--standalone light-rain kaya-ambient-eco" data-kaya-page="sedai">
+  <div class="site-bg" aria-hidden="true"></div>
+
+  <main class="page-main page-main--sedai">
+    <p class="sedai-back">
+      <a href="/">← 返回主页</a>
+    </p>
+
+    <div class="sedai-scroll">
+      <div class="sedai-grid-panel" id="grid-panel"></div>
+    </div>
+
+    <div class="sedai-actions">
+      <button type="button" class="sedai-action-btn" id="btn-select-all">全选</button>
+      <button type="button" class="sedai-action-btn" id="btn-clear" hidden>清除</button>
+      <button type="button" class="sedai-action-btn" id="btn-copy">复制图片</button>
+      <button type="button" class="sedai-action-btn" id="btn-download">下载图片</button>
+    </div>
+
+  </main>
+
+  <div class="sedai-toast" id="toast"></div>
+
+  <footer class="site-footer site-footer--sedai">
+    <p class="site-footer__credit">
+      参考：<a href="https://github.com/hibiyaQAQ/galgame-sedai" target="_blank" rel="noopener noreferrer">hibiyaQAQ/galgame-sedai</a>
+    </p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js"></script>
+  <script src="js/kaya-rain-mode.js?v=202608242230" defer></script>
+  <script src="js/kaya-boot.js?v=202608242230" defer></script>
+</body>
+</html>

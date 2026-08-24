@@ -1,6 +1,6 @@
 /**
  * Gal 水平测试题库
- * 题目来源：ima-ero「エロゲクイズ」第1–5弹（已人工汉化；含原题图片/音频/视频）。
+ * 题目来源：ima-ero「エロゲクイズ」第1–5弹（AI 汉化校对；含原题图片/音频/视频）。
  * 仅供本站娱乐测验。
  */
 window.GAL_QUIZ_BANK = [
@@ -9,8 +9,8 @@ window.GAL_QUIZ_BANK = [
     "source": 1,
     "num": 1,
     "type": "choice",
-    "question": "请根据图片：HARD 于 1989 年发售的那部エロゲ，正确标题是？",
-    "explain": "即《哈恰凯绫代小姐》系列开山作。",
+    "question": "请根据图片：HARD 于 1989 年发售的 Galgame，正确标题是？",
+    "explain": "即《发情小绫》（はっちゃけあやよさん）系列开山作。当年画面与动画都算精美，但第一作快则三分钟就能通关，堪称泡面级 Gal；人气却超出预期，最终系列化。绫代小姐历经死亡、性感奥运、宇宙冒险等波澜壮阔人生，却始终元气满满——这份韧性是认真的。",
     "images": [
       "/assets/gal-quiz/s1-01/images/ayayo_dl20200928.png"
     ],
@@ -20,6 +20,8 @@ window.GAL_QUIZ_BANK = [
       "はっちゃけあやよさん",
       "ぶっちゃけあやよさん",
       "ぶっとべあやよさん",
+      "YO！チェケ！あやよさん",
+      "あやよさんの秘密",
       "あやよさんの大冒険"
     ],
     "answer": 0
@@ -29,8 +31,8 @@ window.GAL_QUIZ_BANK = [
     "source": 1,
     "num": 2,
     "type": "choice",
-    "question": "请根据图片：PULLTOP《遥かに仰ぎ、麗しの》中，配角三嶋镜花属于哪一类学院生？",
-    "explain": "她是本校系宿舍的舍长。",
+    "question": "请根据图片：PULLTOP《遥仰凰华》中，配角三嶋镜花属于哪一类学院生？",
+    "explain": "她是本校系宿舍的舍长。为什么没有攻略线啊……",
     "images": [
       "/assets/gal-quiz/s1-02/images/Kyoka_Mishima.jpg"
     ],
@@ -49,8 +51,8 @@ window.GAL_QUIZ_BANK = [
     "source": 1,
     "num": 3,
     "type": "text",
-    "question": "请根据图片：Navel《SHUFFLE!》中，莉西亚斯（リシアンサス）与涅莉涅（ネリネ）分别属于神族还是魔族？",
-    "explain": "涅莉涅外表像天使，其实是魔族。",
+    "question": "请根据图片：Navel《SHUFFLE!》中，莉西亚斯与莉奈分别属于神族还是魔族？",
+    "explain": "莉奈心地纯洁如天使，当年很难相信她是魔族。如今再看，尖耳与红眼确实很有魔族气质。",
     "images": [
       "/assets/gal-quiz/s1-03/images/shuffle2.jpg"
     ],
@@ -69,11 +71,9 @@ window.GAL_QUIZ_BANK = [
     "source": 1,
     "num": 4,
     "type": "text",
-    "question": "Qruppo《拔作岛》（ぬきたし）中，主角秘密结社 / 敌对公益社团 / 学园生徒会·风纪的简称分别是？",
-    "explain": "三组缩写分别对应主角方、敌对方与校内机关。",
-    "images": [
-      "/assets/gal-quiz/s1-04/images/VF3rBtn3_400x400-150x150.jpg"
-    ],
+    "question": "Qruppo《拔作岛》中，主角秘密结社 / 敌对公益社团 / 学园生徒会·风纪的简称分别是？",
+    "explain": "三组缩写分别对应 NLNS（主角方）、SHO（敌对方）与 SS（校内机关）。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -89,8 +89,8 @@ window.GAL_QUIZ_BANK = [
     "source": 1,
     "num": 5,
     "type": "choice",
-    "question": "下列作品有一个共同点，请找出那个「落单」的：Kanon / Fate/stay night / CROSS†CHANNEL / ましろ色シンフォニー / ヨスガノソラ / ワルキューレロマンツェ",
-    "explain": "其余都有动画化，《CROSS†CHANNEL》没有。",
+    "question": "下列 Gal 作品有一个共同点（均已动画化）。请从选项中选出唯一没有动画化的那一部。",
+    "explain": "除《CROSS†CHANNEL》外，其余作品均有动画化。",
     "images": [],
     "audio": [],
     "video": [],
@@ -98,7 +98,9 @@ window.GAL_QUIZ_BANK = [
       "Kanon",
       "Fate/stay night",
       "CROSS†CHANNEL",
-      "ヨスガノソラ"
+      "ましろ色シンフォニー",
+      "ヨスガノソラ",
+      "ワルキューレロマンツェ"
     ],
     "answer": 2
   },
@@ -107,62 +109,68 @@ window.GAL_QUIZ_BANK = [
     "source": 1,
     "num": 6,
     "type": "choice",
-    "question": "下列作品有一个共同点，请找出落单的：WHITE ALBUM2 / 君が望む永遠 / 青空の見える丘 / キラ☆キラ / さくらさくら / もしも明日が晴れならば",
-    "explain": "其余都有三角关系要素，《キラ☆キラ》没有。",
+    "question": "下列 Gal 作品有一个共同点（均含三角关系）。请从选项中选出唯一不含三角关系的那一部。",
+    "explain": "除《Kira☆Kira》外，其余作品都有三角关系要素。",
     "images": [],
     "audio": [],
     "video": [],
     "options": [
       "WHITE ALBUM2",
-      "キラ☆キラ",
       "君が望む永遠",
-      "さくらさくら"
+      "青空の見える丘",
+      "キラ☆キラ",
+      "さくらさくら",
+      "もしも明日が晴れならば"
     ],
-    "answer": 1
+    "answer": 3
   },
   {
     "id": "s1-07",
     "source": 1,
     "num": 7,
     "type": "choice",
-    "question": "下列作品有一个共同点，请找出落单的：Phantom / 鬼哭街 / 沙耶の唄 / 吸血殲鬼ヴェドゴニア / 月光のカルネヴァーレ / 続・殺戮のジャンゴ",
-    "explain": "其余剧本都有虚渊玄参与，《月光のカルネヴァーレ》没有。",
+    "question": "下列 Nitro+ 系作品有一个共同点（剧本均与虚渊玄有关）。请从选项中选出唯一与虚渊玄无关的那一部。",
+    "explain": "除《月光嘉年华》（月光のカルネヴァーレ）外，其余剧本均有虚渊玄参与。该作为 Liar-soft 制作、Nitro+ 发行的哥特悬疑作，并非虚渊玄执笔。",
     "images": [],
     "audio": [],
     "video": [],
     "options": [
+      "Phantom ～Phantom of inferno～",
+      "鬼哭街 The Cyber Slayer",
       "沙耶の唄",
-      "Phantom",
+      "吸血殲鬼ヴェドゴニア",
       "月光のカルネヴァーレ",
-      "鬼哭街"
+      "続・殺戮のジャンゴ ─地獄の賞金首─"
     ],
-    "answer": 2
+    "answer": 4
   },
   {
     "id": "s1-08",
     "source": 1,
     "num": 8,
     "type": "choice",
-    "question": "下列作品有一个共同点，请找出落单的：車輪の国、向日葵の少女 / 黄昏のシンセミア / 水月 / この青空に約束を― / この大空に、翼をひろげて / カルタグラ",
-    "explain": "其余都以夏天为舞台，《カルタグラ》不是。",
+    "question": "下列 Gal 作品有一个共同点（均以夏天为舞台）。请从选项中选出唯一不以夏天为舞台的那一部。",
+    "explain": "除《恋狱～月狂病～》外，其余作品都以夏天为舞台。",
     "images": [],
     "audio": [],
     "video": [],
     "options": [
-      "カルタグラ ～ツキ狂イノ病～",
-      "水月",
+      "車輪の国、向日葵の少女",
+      "黄昏のシンセミア",
+      "水月 -すいげつ-",
       "この青空に約束を―",
-      "車輪の国、向日葵の少女"
+      "この大空に、翼をひろげて",
+      "カルタグラ ～ツキ狂イノ病～"
     ],
-    "answer": 0
+    "answer": 5
   },
   {
     "id": "s1-09",
     "source": 1,
     "num": 9,
     "type": "text",
-    "question": "请根据图片：把图中人物按年龄从高到低排列（填编号顺序，如 ②③①）。",
-    "explain": "伊头家三兄弟：遗作→臭作→鬼作，越年轻脸越「温柔」。",
+    "question": "请根据图片：把图中三位人物按年龄从高到低排列，填写编号顺序。",
+    "explain": "伊头家三兄弟：遗作→臭作→鬼作，越年轻脸越「温柔」，本应很好认……",
     "images": [
       "/assets/gal-quiz/s1-09/images/oyadi3.jpg"
     ],
@@ -181,7 +189,7 @@ window.GAL_QUIZ_BANK = [
     "num": 10,
     "type": "text",
     "question": "请根据图片：出场作品数最多与最少的角色编号分别是？",
-    "explain": "①兰斯系列作品极多；⑤佐藤太志只在一部出现。",
+    "explain": "①兰斯仅编号作就有 15 部，含 FD 等更难统计；⑤佐藤太志（胖次君）只在《学园催眠隶奴》一部登场，其余角色均跨多部作品。",
     "images": [
       "/assets/gal-quiz/s1-10/images/otokochara.jpg"
     ],
@@ -201,7 +209,7 @@ window.GAL_QUIZ_BANK = [
     "num": 11,
     "type": "text",
     "question": "请根据图片：写出①～⑤机体名称（可用作品里的通称）。",
-    "explain": "分别出自斩魔大圣、装甲恶鬼村正、BALDR SKY、闪钢的克拉利亚斯、Muv-Luv。",
+    "explain": "①斩魔大圣 Demonbane ②装甲恶鬼村正「剑胄/银星号」③BALDR SKY「Schwarz/阳炎」④闪钢的克拉利亚斯「Clarias/龙之心」⑤Muv-Luv「战术机/武御雷」。带 or 的任填其一即可。",
     "images": [
       "/assets/gal-quiz/s1-11/images/kitai.jpg"
     ],
@@ -219,8 +227,8 @@ window.GAL_QUIZ_BANK = [
     "source": 1,
     "num": 12,
     "type": "text",
-    "question": "请根据图片：写出《ソーサレス＊アライヴ！》该角色的全名。",
-    "explain": "超长全名梗。",
+    "question": "请根据图片：写出《世界末日陨落之星》该角色的全名。",
+    "explain": "这超长全名，除了作者还有谁记得住？",
     "images": [
       "/assets/gal-quiz/s1-12/images/Honeyview_twi_header_rir.jpg"
     ],
@@ -238,7 +246,7 @@ window.GAL_QUIZ_BANK = [
     "num": 13,
     "type": "text",
     "question": "请根据图片：这张插画的原画师是谁？（注意：作品本篇原画未必同一人）",
-    "explain": "作品本篇原画是べっかんこう，这张封面是夏野イオ。",
+    "explain": "作品本篇原画是 bikkanko，这张封面/jacket 由夏野伊绪绘制——这是道陷阱题，你中招了吗？",
     "images": [
       "/assets/gal-quiz/s1-13/images/travelling-august.jpg"
     ],
@@ -257,7 +265,7 @@ window.GAL_QUIZ_BANK = [
     "num": 14,
     "type": "text",
     "question": "请根据图片：①～④中，むりりん负责原画的角色编号是？（可多号）",
-    "explain": "柚子厨练出来的眼力题。",
+    "explain": "练成资深柚子厨的话，应该秒答。",
     "images": [
       "/assets/gal-quiz/s1-14/images/se-head.jpg"
     ],
@@ -277,7 +285,7 @@ window.GAL_QUIZ_BANK = [
     "num": 15,
     "type": "text",
     "question": "请根据图片：①～④中，宫坂みゆ负责原画的角色编号是？",
-    "explain": "④由宫坂なこ负责。",
+    "explain": "④由宫坂なこ负责，其余①②③均为宫坂みゆ。比小舞/むりりん好认一些吧？",
     "images": [
       "/assets/gal-quiz/s1-15/images/hobe_0455pl.jpg"
     ],
@@ -297,9 +305,8 @@ window.GAL_QUIZ_BANK = [
     "num": 16,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "经典「食い倒れ人形」制服。",
+    "explain": "《繁花落舞恋如樱》的制服冲击感极强，被戏称为「吃货人偶」制服，略感心酸。",
     "images": [
-      "/assets/gal-quiz/s1-16/images/c562265chara1.jpg",
       "/assets/gal-quiz/s1-16/images/cd09090c-8099-4a03-b200-0c4f9ad4f5b9-x2.png"
     ],
     "audio": [],
@@ -307,7 +314,8 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "それは舞い散る桜のように",
       "如随散落之樱",
-      "舞散樱"
+      "舞散樱",
+      "繁花落舞恋如樱"
     ],
     "placeholder": "输入答案…"
   },
@@ -317,10 +325,9 @@ window.GAL_QUIZ_BANK = [
     "num": 17,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "",
+    "explain": "初音岛（D.C.）系列校服。",
     "images": [
-      "/assets/gal-quiz/s1-17/images/127070-210x300.jpg",
-      "/assets/gal-quiz/s1-17/images/c53621chara1.jpg"
+      "/assets/gal-quiz/s1-17/images/127070-210x300.jpg"
     ],
     "audio": [],
     "video": [],
@@ -339,10 +346,9 @@ window.GAL_QUIZ_BANK = [
     "num": 18,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "",
+    "explain": "《大图书馆的牧羊人》校服。",
     "images": [
-      "/assets/gal-quiz/s1-18/images/69997-210x300.jpg",
-      "/assets/gal-quiz/s1-18/images/c724555chara1.jpg"
+      "/assets/gal-quiz/s1-18/images/69997-210x300.jpg"
     ],
     "audio": [],
     "video": [],
@@ -359,10 +365,9 @@ window.GAL_QUIZ_BANK = [
     "num": 19,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "答 Little Busters 也算对。",
+    "explain": "答 Little Busters 也算对；本测验标准答案为 LB EX（带 H 内容的版本）。",
     "images": [
-      "/assets/gal-quiz/s1-19/images/89671-210x300.jpg",
-      "/assets/gal-quiz/s1-19/images/c534765chara2.jpg"
+      "/assets/gal-quiz/s1-19/images/89671-210x300.jpg"
     ],
     "audio": [],
     "video": [],
@@ -381,10 +386,9 @@ window.GAL_QUIZ_BANK = [
     "num": 20,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "ef 系列。",
+    "explain": "ef 系列校服。",
     "images": [
-      "/assets/gal-quiz/s1-20/images/7368.jpg",
-      "/assets/gal-quiz/s1-20/images/c137481chara1.jpg"
+      "/assets/gal-quiz/s1-20/images/7368.jpg"
     ],
     "audio": [],
     "video": [],
@@ -392,7 +396,8 @@ window.GAL_QUIZ_BANK = [
       "efシリーズ",
       "ef",
       "ef - a fairy tale of the two.",
-      "ef - the latter tale."
+      "ef - the latter tale.",
+      "everlasting fairytale"
     ],
     "placeholder": "输入答案…"
   },
@@ -401,12 +406,9 @@ window.GAL_QUIZ_BANK = [
     "source": 1,
     "num": 21,
     "type": "text",
-    "question": "请根据下方图片与音频（体验版）：这位角色的声优是谁？",
-    "explain": "《枯れない世界と終わる花》的莲。",
-    "images": [
-      "/assets/gal-quiz/s1-21/images/clear_0017jp-004-300x169.jpg",
-      "/assets/gal-quiz/s1-21/images/clear_0017ps.jpg"
-    ],
+    "question": "请根据音频（体验版）：这位角色的声优是谁？",
+    "explain": "出自《永不枯萎的世界与终结之花》的莲，萌系游戏大赏 2016 新品牌奖获奖作，非常可爱的角色。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s1-21/audio/ren-voice.mp3",
       "/assets/gal-quiz/s1-21/video/ren-voice.mp3"
@@ -424,7 +426,7 @@ window.GAL_QUIZ_BANK = [
     "num": 22,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "",
+    "explain": "CLANNAD 经典曲目《空气力学少女与少年的诗》。",
     "images": [],
     "audio": [
       "/assets/gal-quiz/s1-22/audio/kuukirikigaku.mp3",
@@ -443,7 +445,7 @@ window.GAL_QUIZ_BANK = [
     "num": 23,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "",
+    "explain": "Muv-Luv Alternative 名曲《通向未来的咆哮》。",
     "images": [],
     "audio": [
       "/assets/gal-quiz/s1-23/audio/miraiheno.mp3",
@@ -463,7 +465,7 @@ window.GAL_QUIZ_BANK = [
     "num": 24,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "",
+    "explain": "官方上传的是重制版，曲名为 Leaf ticket，原题引用的是该版本。",
     "images": [],
     "audio": [
       "/assets/gal-quiz/s1-24/audio/leafticket.mp3",
@@ -482,7 +484,7 @@ window.GAL_QUIZ_BANK = [
     "num": 25,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "有人只记得绰号「きしめん」。",
+    "explain": "SHUFFLE! 名曲 true my heart。有人只记得绰号「きしめん（贵面）」而想不起曲名。",
     "images": [],
     "audio": [
       "/assets/gal-quiz/s1-25/audio/truemyheart.mp3",
@@ -501,11 +503,10 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 1,
     "type": "text",
-    "question": "请根据图片：动画《不徳のギルド》OP 里这个姿势，是在恶搞哪部复古エロゲ？",
-    "explain": "Enix 1983 年作品。",
+    "question": "请根据图片：动画《不德公会》OP 里这个姿势，是在恶搞哪部复古 Galgame？",
+    "explain": "Square Enix 前身 Enix 于 1983 年 2 月发售。玩家需救下被刀威胁的玛丽酱；危机当头却摆出从容姿态，十分 surreal。",
     "images": [
-      "/assets/gal-quiz/s2-01/images/futoku-1024x538.png",
-      "/assets/gal-quiz/s2-01/images/Honeyview_2018-06-05_222722-300x187.jpg"
+      "/assets/gal-quiz/s2-01/images/futoku-1024x538.png"
     ],
     "audio": [],
     "video": [],
@@ -521,8 +522,8 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 2,
     "type": "text",
-    "question": "请根据图片：Leaf《To Heart》中机器人女主玛露（マルチ）的型号是？",
-    "explain": "做错意大利面变「肉酱仙贝」的那位。",
+    "question": "请根据图片：Leaf《To Heart》中机器人女主 Multi（玛露）的型号是？",
+    "explain": "她是冒失女仆机器人。曾把肉酱意面煎成「肉酱仙贝」，当年还有宅友真的复刻并上传博客/视频——据说因为焦了所以发苦，理所当然。",
     "images": [
       "/assets/gal-quiz/s2-02/images/Honeyview_2017-03-10_051009-243x300.jpg"
     ],
@@ -541,10 +542,9 @@ window.GAL_QUIZ_BANK = [
     "num": 3,
     "type": "text",
     "question": "请根据图片：Key《Little Busters! EX》里枣恭介募捐时喊出的台词是？",
-    "explain": "钱包里只剩 5 日元或一万日元那一幕。",
+    "explain": "他想募捐，钱包里却只有 5 日元或 1 万日元。他一脸英勇要把 1 万扔出去，被周围人拦住——2024 换新钞后这梗就用不了了。",
     "images": [
-      "/assets/gal-quiz/s2-03/images/c534765chara11.jpg",
-      "/assets/gal-quiz/s2-03/images/yukichi.jpg"
+      "/assets/gal-quiz/s2-03/images/c534765chara11.jpg"
     ],
     "audio": [],
     "video": [],
@@ -561,11 +561,9 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 4,
     "type": "text",
-    "question": "《それは舞い散る桜のように》女主名字（希望/小町/つばさ/こだま/青葉）的共同点是？",
-    "explain": "のぞみ・こまち・つばさ・こだま・あおば。",
-    "images": [
-      "/assets/gal-quiz/s2-04/images/100kei-300x114.png"
-    ],
+    "question": "《繁花落舞恋如樱》五位女主名字（希望/小町/翼/回声/青叶）的共同点是？",
+    "explain": "分别取自东海道新干线「のぞみ」、秋田新干线「こまち」、山形新干线「つばさ」、东海道新干线「こだま」、东北新干线「あおば」的爱称。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -581,11 +579,9 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 5,
     "type": "text",
-    "question": "请根据图片：《ヘンタイ・プリズン》里外号「ブランコすりの金さん」是因何入狱？",
-    "explain": "外号文化拉满的一部。",
-    "images": [
-      "/assets/gal-quiz/s2-05/images/Honeyview_SS_2022-01-28_205634.jpg"
-    ],
+    "question": "Qruppo《变态监狱》里，外号「秋千小偷金先生」是因何入狱？",
+    "explain": "罪大恶极。同作还有在各地涂鸦被捕的「Bumpussy」、把别人污物当乐器吸食的「Skatotron」等个性十足的外号角色。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -600,8 +596,8 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 6,
     "type": "text",
-    "question": "HOOKSOFT《放課後シンデレラ》中，築島つくし与小瀬葉月的キャッチフレーズ黑条分别是？",
-    "explain": "名字双关宣传。",
+    "question": "HOOKSOFT《放学后的灰姑娘》中，築島つくし（尽×××）与小瀬葉月（お世話××）宣传语被黑条遮住的两处，分别填什么？",
+    "explain": "把名字与特性绑定的宣传语策略，非常清晰有效。",
     "images": [],
     "audio": [],
     "video": [],
@@ -617,8 +613,8 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 7,
     "type": "text",
-    "question": "写出下列厂商名读法：GLOVETY / feng / 娘。",
-    "explain": "feng 常被误读成「ふぇんぐ」，启动音声是「フォン」。",
+    "question": "写出下列 Gal 厂商名的日语读法：GLOVETY / feng / 娘。",
+    "explain": "②常被误读为「ふぇんぐ」，启动时会语音念「フォン」，玩过 feng 作品应能答对；①③知道的人较少。",
     "images": [],
     "audio": [],
     "video": [],
@@ -634,8 +630,8 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 8,
     "type": "text",
-    "question": "请根据图片：写出两部作品中的虚构运动名——《苍之彼方的四重奏》的「□□□马戏团」与《绊きらめく恋いろは》的「□道」。",
-    "explain": "",
+    "question": "请根据图片：写出两部作品中的虚构运动名——《苍之彼方的四重奏》的「□□□马戏团」与《牵绊闪耀的恋之伊吕波》的「□道」。",
+    "explain": "①空中飞行对战运动 Flying Circus；②用刀对决的刃道（じんどう）。",
     "images": [
       "/assets/gal-quiz/s2-08/images/kakuusports.jpg"
     ],
@@ -655,7 +651,7 @@ window.GAL_QUIZ_BANK = [
     "num": 9,
     "type": "choice",
     "question": "请根据图片：①～⑥中只有一人属性不同（其余皆为女装男主），落单的是几号？",
-    "explain": "④以外都是女装主人公。",
+    "explain": "④以外均为女装主人公。涉及作品：《智以泪聚》《Kira☆Kira》《近月少女的礼仪》《若明日晴》《星之乙女与六华姐妹》《少女＊领域》等。",
     "images": [
       "/assets/gal-quiz/s2-09/images/dagaotokoda.jpg"
     ],
@@ -674,8 +670,8 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 10,
     "type": "text",
-    "question": "请根据图片：按①～⑥顺序写出对应口头禅/台词（候选见原题图下列表）。",
-    "explain": "对应 Kanon、兰斯、AIR、车轮之国、きゃんきゃんバニー、星空メモリア等。",
+    "question": "请根据图片：按①～⑥顺序写出对应口头禅/台词。\n候选：「まだまだだね」「きゃる～ん☆」「バカバカ」「ピッピカチュウ」「うぐぅ」「グッドだ」「いっけーマグナム」「はにゃーん」「がお」「ぶっこぉすぞ！」「興味ないね」",
+    "explain": "对应 Kanon、兰斯系列、AIR、车轮之国、Can Can Bunny 系列、《星空下的回忆》。",
     "images": [
       "/assets/gal-quiz/s2-10/images/kuchiguse.jpg"
     ],
@@ -693,10 +689,9 @@ window.GAL_QUIZ_BANK = [
     "num": 11,
     "type": "text",
     "question": "请根据图片：这个启动图标来自哪部作品？",
-    "explain": "小人坐在胸部上的那个图标。",
+    "explain": "Q 版小人坐在胸上的那个图标，出自《巨乳幻想》。",
     "images": [
-      "/assets/gal-quiz/s2-11/images/icon-kyo.jpg",
-      "/assets/gal-quiz/s2-11/images/SS_2022-06-17_021705.jpg"
+      "/assets/gal-quiz/s2-11/images/icon-kyo.jpg"
     ],
     "audio": [],
     "video": [],
@@ -708,30 +703,12 @@ window.GAL_QUIZ_BANK = [
     "placeholder": "输入答案…"
   },
   {
-    "id": "s2-12",
-    "source": 2,
-    "num": 12,
-    "type": "text",
-    "question": "请根据图片：恶搞综艺《ガチンコ！ファイトクラブ》的那部作品标题是？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s2-12/images/gachinko.jpg"
-    ],
-    "audio": [],
-    "video": [],
-    "answers": [
-      "ガチンコ！ビッチクラブ",
-      "真剑！碧池俱乐部"
-    ],
-    "placeholder": "输入答案…"
-  },
-  {
     "id": "s2-13",
     "source": 2,
     "num": 13,
     "type": "text",
-    "question": "请根据图片：吉祥物「おこるヒト・こわいちゃん」属于哪家厂商？",
-    "explain": "设计里藏了青蛙与枕头。",
+    "question": "请根据图片：吉祥物「おこるヒト·こわいちゃん」属于哪家厂商？",
+    "explain": "设计里同时藏了青蛙与枕头，非常直观；也有人凭画风认出。",
     "images": [
       "/assets/gal-quiz/s2-13/images/EV9wxQvUcAEI97B.jpg"
     ],
@@ -752,7 +729,7 @@ window.GAL_QUIZ_BANK = [
     "num": 14,
     "type": "text",
     "question": "请根据图片：这是哪部作品里谁的家？",
-    "explain": "",
+    "explain": "玩过《秽翼的尤斯蒂娅》的话应该秒答——主人公凯姆的家。",
     "images": [
       "/assets/gal-quiz/s2-14/images/Honeyview_SS_2022-10-14_034440.jpg"
     ],
@@ -771,11 +748,9 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 15,
     "type": "choice",
-    "question": "请根据图片：《暁の護衛》合宿房间挂轴上写的是？",
-    "explain": "还有「尿路结石」挂轴……",
+    "question": "请根据图片：《晓之护卫》合宿房间挂轴上写的是？",
+    "explain": "熟悉作品风格的人或许能猜到。同作还有写着「尿路结石」的挂轴——作者本人曾因结石发作而感同身受，绝不原谅。",
     "images": [
-      "/assets/gal-quiz/s2-15/images/Honeyview_SS_2022-08-25_074117.png",
-      "/assets/gal-quiz/s2-15/images/Honeyview_SS_2022-09-11_060701.png",
       "/assets/gal-quiz/s2-15/images/kakejiku.jpg"
     ],
     "audio": [],
@@ -793,18 +768,17 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 16,
     "type": "text",
-    "question": "广告语「童贞丢了，人也不干了。」对应哪部作品？",
-    "explain": "柚子社。",
-    "images": [
-      "/assets/gal-quiz/s2-16/images/SS_2022-10-14_040056.jpg"
-    ],
+    "question": "广告语「本想丢掉童贞，结果连人都不当了。」对应哪部作品？",
+    "explain": "柚子社《大恶党》（DRACU-RIOT!）官方极具冲击力的宣传语。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
       "DRACU-RIOT!",
       "DRACU-RIOT",
       "ドラクリオット",
-      "龙骑士骚动"
+      "龙骑士骚动",
+      "大恶党"
     ],
     "placeholder": "输入答案…"
   },
@@ -813,11 +787,9 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 17,
     "type": "text",
-    "question": "官方类型名「絶対キミと添い遂げる、臆病で勇敢なブレイブハートストーリー」是哪部？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s2-17/images/SS_2022-10-14_040707.jpg"
-    ],
+    "question": "官方类型名「绝对与你白头偕老、胆小又勇敢的心跳故事」是哪部？",
+    "explain": "《野良与皇女与流浪猫之心》——个人印象极深的官方 genre 名。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -834,14 +806,18 @@ window.GAL_QUIZ_BANK = [
     "num": 18,
     "type": "text",
     "question": "《Dies irae》2007 版咏唱最后一句（对应德语 Verweile doch…）填什么？",
-    "explain": "浮士德名句。",
+    "explain": "出自 Dies irae 2007 版咏唱。不懂作品也可凭《浮士德》或尼采《查拉图斯特拉如是说》答出；2009 完全版咏唱更长。",
     "images": [],
     "audio": [],
     "video": [],
     "answers": [
       "時よ止まれ。おまえは美しい。",
       "时よ止まれ。おまえは美しい。",
-      "时间啊停下吧。你是如此美丽。"
+      "时间啊停下吧。你是如此美丽。",
+      "浮士德",
+      "查拉图斯特拉如是说",
+      "时啊停下吧",
+      "时啊停住吧"
     ],
     "placeholder": "输入答案…"
   },
@@ -851,7 +827,7 @@ window.GAL_QUIZ_BANK = [
     "num": 19,
     "type": "text",
     "question": "请根据图片：包装封面上左右角色的原画师分别是？",
-    "explain": "",
+    "explain": "左白羽、右梱枝りこ，画风都很独特，不难分辨。（敬称略）",
     "images": [
       "/assets/gal-quiz/s2-19/images/cabbage_0004pl.jpg"
     ],
@@ -870,18 +846,16 @@ window.GAL_QUIZ_BANK = [
     "num": 20,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "",
+    "explain": "Fate/stay night 校服。",
     "images": [
-      "/assets/gal-quiz/s2-20/images/fa-seihuku-169x300.jpg",
-      "/assets/gal-quiz/s2-20/images/Rin-127x300.jpg"
+      "/assets/gal-quiz/s2-20/images/fa-seihuku-169x300.jpg"
     ],
     "audio": [],
     "video": [],
     "answers": [
       "Fate/stay night",
-      "FATE",
-      "Fate",
-      "fate stay night"
+      "fate stay night",
+      "命运之夜"
     ],
     "placeholder": "输入答案…"
   },
@@ -890,12 +864,9 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 21,
     "type": "text",
-    "question": "请根据图片与音频：这位角色的声优是谁？（体验版）",
-    "explain": "《神様のような君へ》的ツクヨミ。",
-    "images": [
-      "/assets/gal-quiz/s2-21/images/cuffs_0040ps.jpg",
-      "/assets/gal-quiz/s2-21/images/tsukuyomicha001.jpg"
-    ],
+    "question": "请根据音频（体验版）：这位角色的声优是谁？",
+    "explain": "《献给神明般的你》的月咏（ツクヨミ），称主角为 Master 的健美人型泛用机器人。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s2-21/audio/tsukuyomi-Voice.mp3",
       "/assets/gal-quiz/s2-21/video/tsukuyomi-Voice.mp3"
@@ -913,12 +884,9 @@ window.GAL_QUIZ_BANK = [
     "source": 2,
     "num": 22,
     "type": "text",
-    "question": "请根据图片与音频：这位角色的声优是谁？（体验版）",
-    "explain": "《ゲームみたいな、ステキな恋がしたいっ！》的高见屋つづり。",
-    "images": [
-      "/assets/gal-quiz/s2-22/images/c1153964chara2.jpg",
-      "/assets/gal-quiz/s2-22/images/vsat_0282ps.jpg"
-    ],
+    "question": "请根据音频（体验版）：这位角色的声优是谁？",
+    "explain": "《像 Gal 一样来场美好的恋爱吧！》（ゲームみたいな、ステキな恋がしたいっ！）的高见屋缀，溺爱系巨乳姐姐。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s2-22/audio/tsuduri-Voice.mp3",
       "/assets/gal-quiz/s2-22/video/tsuduri-Voice.mp3"
@@ -937,7 +905,7 @@ window.GAL_QUIZ_BANK = [
     "num": 23,
     "type": "text",
     "question": "请听音频：曲名是？",
-    "explain": "",
+    "explain": "答案就是 Answer——冷笑话。引用的是官方或试玩版视频。",
     "images": [],
     "audio": [
       "/assets/gal-quiz/s2-23/audio/Answer-Voice.mp3",
@@ -957,7 +925,7 @@ window.GAL_QUIZ_BANK = [
     "num": 24,
     "type": "text",
     "question": "请听音频：曲名是？",
-    "explain": "《景の海のアペイリア》。",
+    "explain": "《流景之海的艾佩理雅》OP。节奏与填词极难，唱起来是地狱难度。",
     "images": [],
     "audio": [
       "/assets/gal-quiz/s2-24/audio/apeiria-Voice.mp3",
@@ -967,7 +935,9 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "アペイリア",
       "Apeiria",
-      "apeiria"
+      "apeiria",
+      "流景之海的艾佩理雅",
+      "Apelia"
     ],
     "placeholder": "输入答案…"
   },
@@ -977,7 +947,7 @@ window.GAL_QUIZ_BANK = [
     "num": 25,
     "type": "text",
     "question": "请听音频：曲名是？",
-    "explain": "",
+    "explain": "曲名 Love♡Vacation（ときめき常夏ランデブー♪）。",
     "images": [],
     "audio": [
       "/assets/gal-quiz/s2-25/audio/LoveVacation-Voice.mp3",
@@ -997,11 +967,10 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 1,
     "type": "text",
-    "question": "请根据图片：动画《16bitセンセーション ANOTHER LAYER》ED 卡模仿了哪部エロゲ的包装构图？",
-    "explain": "兰斯4 的包装构图。",
+    "question": "请根据图片：动画《16bit 的感动 ANOTHER LAYER》ED 卡模仿了哪部 Galgame 的包装构图？",
+    "explain": "兰斯 4 包装构图。注意兰斯握剑的手左右是反的——旧兰斯右利手，新兰斯左利手，按现行设定记左利手即可。",
     "images": [
-      "/assets/gal-quiz/s3-01/images/F8t-EF3bgAAzNpn.jpg",
-      "/assets/gal-quiz/s3-01/images/rance4.jpg"
+      "/assets/gal-quiz/s3-01/images/F8t-EF3bgAAzNpn.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1019,9 +988,8 @@ window.GAL_QUIZ_BANK = [
     "num": 2,
     "type": "text",
     "question": "请根据图片（含角色剪影提示）：这是哪部作品的圣地？",
-    "explain": "町田站前。",
+    "explain": "《幸福噩梦》（Happiness Mare）。平坂景子 nightly 弹吉他的地方，位于町田站前。",
     "images": [
-      "/assets/gal-quiz/s3-02/images/Honeyview_SS_2023-06-05_043109.jpg",
       "/assets/gal-quiz/s3-02/images/Shintoshin.jpg"
     ],
     "audio": [],
@@ -1038,11 +1006,10 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 3,
     "type": "text",
-    "question": "请根据图片：《我们没翅膀》里登场的 Don Quijote 被改成了什么名字？",
-    "explain": "Don → Mon 的谐音梗。",
+    "question": "Gal 里常把麦当劳改成 WacDonald、LINE 改成 LIME 等。请根据图片：《我们没有翅膀》里 Don Quijote 被改成了什么名字？",
+    "explain": "Don → Mon 的谐音梗。Mon 听起来比 Don 弱多了；此 Monkyhote 在新宿 Donki 还是圣地。",
     "images": [
-      "/assets/gal-quiz/s3-03/images/donki.jpg",
-      "/assets/gal-quiz/s3-03/images/monki.jpg"
+      "/assets/gal-quiz/s3-03/images/donki.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1058,11 +1025,10 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 4,
     "type": "text",
-    "question": "请根据图片：《こいのす☆イチャコライズ》主人公房间「改造后」属于哪位女主路线？",
-    "explain": "いちか / サチ / なつめ 三路线房间不同。",
+    "question": "请根据图片：《恋之巢☆甜蜜同居》主人公房间「改造后」属于哪位女主路线？",
+    "explain": "一香/萨奇/夏目三路线房间各不同。改造后房间青蛙等小物很多，选看起来最幼的萨奇就对了。（《恋之巢☆甜蜜同居》）",
     "images": [
       "/assets/gal-quiz/s3-04/images/Honeyview_SS_2023-01-13_031927.jpg",
-      "/assets/gal-quiz/s3-04/images/Honeyview_SS_2023-06-21_043540.jpg",
       "/assets/gal-quiz/s3-04/images/ichika.jpg",
       "/assets/gal-quiz/s3-04/images/koinosu-room.jpg",
       "/assets/gal-quiz/s3-04/images/natsume.jpg",
@@ -1082,11 +1048,9 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 5,
     "type": "text",
-    "question": "请根据图片：下列部活中，唯一「从未在エロゲ出现且没有女主所属」的是？",
-    "explain": "其余都在某作出现过。",
-    "images": [
-      "/assets/gal-quiz/s3-05/images/sports_juu_kendou.png"
-    ],
+    "question": "アクティ部／ソアリング部／チャカポコ部／ぬこ部／乙女部／銃剣道部——以上部活均曾在 Gal 中出现或有女主所属。唯一例外的是哪一个？",
+    "explain": "铳剑道是用枪当剑的对战运动，虽在部分 Gal 出现过，但女主所属铳剑道部的作品据我所知没有。其余：Act 部（《绽放★青春全力向前冲！》）、Soaring 部（《在这苍穹展翅》）、Chakapoko 部（《无人知晓的天体之泪》）、猫部（《纯白交响曲》）、乙女部（《乙女剑与秘密协奏曲》）。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1101,16 +1065,14 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 6,
     "type": "text",
-    "question": "请根据图片：为①～⑦各吉祥物选出正确名称（候选见原题）。",
-    "explain": "",
+    "question": "请根据图片：为①～⑦各吉祥物选出正确名称。\n候选：うたまる／歌丸／QP／キティ・ホワイト／儀左右衛門／ソフィーティア／ドルジ／ハニー／ぱんにゃ／ピカチュウ／ミッキーマウス",
+    "explain": "谜之生物很多以猫为原型。ぱんにゃ（《纯白交响曲》）、Sophitia（9-nine-）、歌丸（初音岛）、仪左右卫门（《大图书馆的牧羊人》）、Dorji（Little Busters EX）、QP（Missing-X-Link）、Honey（Alice Soft）。QP 曾在《喜欢我的话就要说出来！》登场，厂商 Chuablesoft 解散后，相关人员在 Missing-X-Link 中致敬再现。",
     "images": [
       "/assets/gal-quiz/s3-06/images/do-100x100.png",
       "/assets/gal-quiz/s3-06/images/gi-100x100.png",
       "/assets/gal-quiz/s3-06/images/ha-100x100.png",
       "/assets/gal-quiz/s3-06/images/pa-100x100.png",
       "/assets/gal-quiz/s3-06/images/qp-100x100.png",
-      "/assets/gal-quiz/s3-06/images/qp.png",
-      "/assets/gal-quiz/s3-06/images/QP_on.png",
       "/assets/gal-quiz/s3-06/images/so-100x100.png",
       "/assets/gal-quiz/s3-06/images/ut-100x100.png"
     ],
@@ -1128,7 +1090,7 @@ window.GAL_QUIZ_BANK = [
     "num": 7,
     "type": "text",
     "question": "请根据图片：①～③三种姿势在玩家间通称什么？",
-    "explain": "",
+    "explain": "①《天神乱漫》OP 谜之 pose，因太离谱迅速传播，官方还出了手办；②BALDR SKY 吉尔伯特立绘「登堂入室构」；③《灵感满溢的甜蜜创想凸》（常轨脱离 Creative 凸）OP《一册的 Arrow》封面 pose，暗中人气很高。",
     "images": [
       "/assets/gal-quiz/s3-07/images/araburu-300x300.png",
       "/assets/gal-quiz/s3-07/images/douniittakamae-300x300.jpg",
@@ -1139,7 +1101,10 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "①荒ぶる天神乱漫のポーズ②堂に入った構え③アローポーズ",
       "荒ぶる天神乱漫のポーズ / 堂に入った構え / アローポーズ",
-      "①荒ぶる天神乱漫のポーズ　②堂に入った構え　③アローポーズ（一冊のアローポーズ）"
+      "①荒ぶる天神乱漫のポーズ　②堂に入った構え　③アローポーズ（一冊のアローポーズ）",
+      "灵感满溢的甜蜜创想凸",
+      "一册的 Arrow",
+      "常轨脱离 Creative 凸"
     ],
     "placeholder": "输入答案…"
   },
@@ -1148,18 +1113,15 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 8,
     "type": "text",
-    "question": "请根据图片：T 恤 A/B/C 分别由哪位女主穿着？写出对应关系（如 ①B ②A ③C）。",
-    "explain": "",
+    "question": "请根据图片：三件 T 恤（A/B/C）分别由哪位女主穿着？按 ①②③ 顺序写出对应字母。",
+    "explain": "①《乙女剑与秘密协奏曲》小柴杏奈（MochiUsa 设计超赞）；②《Liminal Border》（Criminal Border）勅使河原琴子（写着「仁义」的 T，俗称「屎味仁义 T」）；③《巨乳飞机杯妖怪与乡下生活》吾妻桃桃（拟人化 heroine，魔芋文字「こんにゃくぅ」极妙）。",
     "images": [
-      "/assets/gal-quiz/s3-08/images/Honeyview_SS_2022-10-31_060636.jpg",
-      "/assets/gal-quiz/s3-08/images/Honeyview_SS_2023-09-11_102656.png",
       "/assets/gal-quiz/s3-08/images/SS_2024-01-04_003243-100x100.jpg",
       "/assets/gal-quiz/s3-08/images/SS_2024-01-04_003520-100x100.jpg",
       "/assets/gal-quiz/s3-08/images/SS_2024-01-04_003616-100x100.jpg",
       "/assets/gal-quiz/s3-08/images/SS_2024-01-04_004142.jpg",
       "/assets/gal-quiz/s3-08/images/SS_2024-01-04_004149.jpg",
-      "/assets/gal-quiz/s3-08/images/SS_2024-01-04_004155.jpg",
-      "/assets/gal-quiz/s3-08/images/zoom04.jpg"
+      "/assets/gal-quiz/s3-08/images/SS_2024-01-04_004155.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1176,11 +1138,9 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 9,
     "type": "text",
-    "question": "请根据图片：Cross Concerto / Dies irae / MUSICUS! / VenusBlood-FRONTIER- / お嬢様と憐れな（こ）執事 / 君が望む永遠 / クドわふたー / けれど輝く夜空のような / ハミダシクリエイティブ 的共同点是？",
-    "explain": "提示：1亿3千万日元。",
-    "images": [
-      "/assets/gal-quiz/s3-09/images/orz-a.jpg"
-    ],
+    "question": "Cross Concerto / Dies irae / MUSICUS! / VenusBlood-FRONTIER- / お嬢様と憐れな（こ）執事 / 君が望む永遠 / クドわふたー / けれど輝く夜空のような / ハミダシクリエイティブ —— 这些作品的共同点是？（提示：1 亿 3 千万日元）",
+    "explain": "共同点是进行过众筹。提示的 1.3 亿是 MUSICUS! 众筹金额；超 1 亿的案件还有不少。笔者对上述全部都有过支援，也有惨痛失败案例。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1196,11 +1156,9 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 10,
     "type": "text",
-    "question": "请根据图片：补全《车轮之国、向日葵的少女》法月将臣的台词——「森田は　　　　　　　　　になるんだ？」",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s3-10/images/itiryuu.jpg"
-    ],
+    "question": "以下是《车轮之国、向日葵的少女》中的台词。请补全黑条部分。\n\n法月将臣：只会照做的人，是三流。\n法月将臣：能把交代的事做好的人，才刚够二流。\n法月将臣：森田要什么时候才能成为一流啊？\n\n（原句：森田は　　　　　　　　　になるんだ？）",
+    "explain": "完整句：森田はいつになったら一流になるんだ？（森田到底什么时候才能成为一流？）",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1215,11 +1173,9 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 11,
     "type": "text",
-    "question": "请根据图片：以「それは、一振りのバイブであった。」开篇的作品标题是？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s3-11/images/Honeyview_2018-08-01_034235.jpg"
-    ],
+    "question": "以「那是一柄振动棒。」开篇的作品标题是？",
+    "explain": "《拔作岛》。Qruppo 开场即高能，用振动棒造型武器战斗；开篇疑似 parody《Fate/stay night》。萌系游戏大赏 2018 剧本奖·新品牌奖。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1235,11 +1191,9 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 12,
     "type": "text",
-    "question": "请根据图片：下列注意事项出自哪部作品？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s3-12/images/VJ009745_img_main.jpg"
-    ],
+    "question": "以下是哪部作品的注意事项？\n\n【请注意】\n本软件含有可能引起精神不适的内容。若符合以下情况，请谨慎购买：\n· 无法区分现实与虚构\n· 觉得活着很痛苦\n· 计划实施犯罪行为\n· 想要依附于某物\n· 有杀人癖好",
+    "explain": "《教你说再见 ～Comment te dire adieu～》试玩版/包装背面警示。实体版曾溢价，现下载版更易入手。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1254,11 +1208,10 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 13,
     "type": "text",
-    "question": "请根据图片：《TO･RA･WA･SE ～囚われの偽妃が夢みる初夜～》主人公容貌变化顺序是？（填编号）",
-    "explain": "",
+    "question": "请根据图片：《Toraware ～被囚的伪妃所梦见的初夜～》主人公容貌变化顺序是？（填编号）",
+    "explain": "性转（TS）题材，这题应该不难。",
     "images": [
-      "/assets/gal-quiz/s3-13/images/mia-q.jpg",
-      "/assets/gal-quiz/s3-13/images/mia-transition.jpg"
+      "/assets/gal-quiz/s3-13/images/mia-q.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1270,37 +1223,14 @@ window.GAL_QUIZ_BANK = [
     "placeholder": "输入答案…"
   },
   {
-    "id": "s3-14",
-    "source": 3,
-    "num": 14,
-    "type": "text",
-    "question": "请根据图片：①～③分别属于「エロゲ女主尻 / ギャル尻 / 煮卵」哪一类？",
-    "explain": "经典迷惑题。",
-    "images": [
-      "/assets/gal-quiz/s3-14/images/nijimu-shiri.jpg",
-      "/assets/gal-quiz/s3-14/images/shiri-or-nitamago.jpg",
-      "/assets/gal-quiz/s3-14/images/SS_2024-01-03_023848-87x300.jpg"
-    ],
-    "audio": [],
-    "video": [],
-    "answers": [
-      "①煮卵②エロゲヒロインの尻③ギャルの尻",
-      "①煮卵　②エロゲヒロインの尻　③ギャルの尻",
-      "1煮卵2二次元3三次元"
-    ],
-    "placeholder": "输入答案…"
-  },
-  {
     "id": "s3-15",
     "source": 3,
     "num": 15,
     "type": "text",
-    "question": "请根据图片：《星空のメモリア》双胞胎姐妹，谁是姐姐、谁是妹妹？",
-    "explain": "",
+    "question": "请根据图片：《星空下的回忆》双胞胎姐妹，谁是姐姐、谁是妹妹？",
+    "explain": "姐姐→小桃，妹妹→小雨。00 年代双子模板常是「姐吊眼强势、妹垂眼温柔」，懂套路就能答。",
     "images": [
-      "/assets/gal-quiz/s3-15/images/clannad-twins.jpg",
-      "/assets/gal-quiz/s3-15/images/komomo-kosame.jpg",
-      "/assets/gal-quiz/s3-15/images/luckystar-twins.jpg"
+      "/assets/gal-quiz/s3-15/images/komomo-kosame.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1317,11 +1247,10 @@ window.GAL_QUIZ_BANK = [
     "num": 16,
     "type": "text",
     "question": "请根据图片：①与②分别是「初回版」还是「豪华版」？",
-    "explain": "",
+    "explain": "初回版包装常作官网头图或下载版 KV，也就是最常见的那张=初回版。",
     "images": [
       "/assets/gal-quiz/s3-16/images/gds613_ic-300x300.jpg",
-      "/assets/gal-quiz/s3-16/images/gds614_ic-300x300.jpg",
-      "/assets/gal-quiz/s3-16/images/Honeyview_DSC_0185.jpg"
+      "/assets/gal-quiz/s3-16/images/gds614_ic-300x300.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1337,8 +1266,8 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 17,
     "type": "text",
-    "question": "请根据图片：《D.C.10周年 ありがとうパック》左、右哪边是 E-15、哪边是 R-18？",
-    "explain": "",
+    "question": "请根据图片：《D.C. 10 周年感谢包》左、右哪边是 E-15、哪边是 R-18？",
+    "explain": "正面几乎一样，看背面样图是 H CG 还是替换 CG 即可区分。笔者曾订 R-18 却收到 E-15，投诉后两种都寄来了。",
     "images": [
       "/assets/gal-quiz/s3-17/images/Honeyview_DSC_0330.jpg",
       "/assets/gal-quiz/s3-17/images/Honeyview_DSC_0331.jpg"
@@ -1357,11 +1286,9 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 18,
     "type": "text",
-    "question": "请根据图片：《暁の護衛》光头男「抓头发」描写在后续移植版中如何修正？",
-    "explain": "网络梗来源。",
+    "question": "请根据图片：《晓之护卫》光头男「抓头发」描写在后续移植版中如何修正？",
+    "explain": "改成类似《拉面超人》的发型——现实中确有这种发型（如 Rodrigo Palacio）。",
     "images": [
-      "/assets/gal-quiz/s3-18/images/columnsv2_17126.jpg",
-      "/assets/gal-quiz/s3-18/images/Cq2kulgVUAAFZwu.jpg",
       "/assets/gal-quiz/s3-18/images/satake.jpg"
     ],
     "audio": [],
@@ -1378,8 +1305,8 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 19,
     "type": "text",
-    "question": "请根据图片：《天使のいない12月》包装角色由哪位原画师负责？（提示图可选）",
-    "explain": "みつみ美里负责另一角色。",
+    "question": "请根据图片：《没有天使的 12 月》包装角色由哪位原画师负责？（提示图可选）",
+    "explain": "中村武士与みつみ美里两位原画；包装角由中村武士负责。上一世代 Gal 玩家应较熟悉，有提示图更好认。",
     "images": [
       "/assets/gal-quiz/s3-19/images/event_touma01_large-300x300.jpg",
       "/assets/gal-quiz/s3-19/images/ten.png",
@@ -1399,8 +1326,8 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 20,
     "type": "text",
-    "question": "请根据图片：《コイバナ恋愛》包装女主中，结城リカ负责的是几号？",
-    "explain": "可参考《フタマタ恋愛》结城リカ原画。",
+    "question": "请根据图片：《八卦恋爱》包装女主中，结城りこ负责的是几号？",
+    "explain": "可参考前作《恋爱成双》结城りこ的画风，对资深玩家应能分辨。",
     "images": [
       "/assets/gal-quiz/s3-20/images/has_0112jp-008.jpg",
       "/assets/gal-quiz/s3-20/images/koibana-ca.jpg"
@@ -1410,7 +1337,8 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "②",
       "2",
-      "二号"
+      "二号",
+      "恋爱成双"
     ],
     "placeholder": "输入答案…"
   },
@@ -1420,11 +1348,9 @@ window.GAL_QUIZ_BANK = [
     "num": 21,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "",
+    "explain": "《认真和我恋爱！》——二次元才敢这么设计的制服，根本不像校服。萌系游戏大赏 2009 银奖。",
     "images": [
-      "/assets/gal-quiz/s3-21/images/46239.jpg",
-      "/assets/gal-quiz/s3-21/images/hawkeye_0002ps.jpg",
-      "/assets/gal-quiz/s3-21/images/majikoi-head.jpg"
+      "/assets/gal-quiz/s3-21/images/46239.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1441,11 +1367,9 @@ window.GAL_QUIZ_BANK = [
     "source": 3,
     "num": 22,
     "type": "text",
-    "question": "请根据图片与音频（体验版）：这位角色的声优是谁？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s3-22/images/inferno_0028ps.jpg"
-    ],
+    "question": "请根据音频（体验版）：这位角色的声优是谁？",
+    "explain": "北大路ゆき声线极具辨识度。角色是《Unless Terminalia》（アンレス・テルミナリア）女主恋ちゃん，超积极开放。该作获萌系游戏大赏 2022 图像奖。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s3-22/audio/ren.mp3",
       "/assets/gal-quiz/s3-22/video/ren.mp3"
@@ -1454,7 +1378,9 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "北大路ゆき",
       "北大路雪",
-      "kitajoji yuki"
+      "kitajoji yuki",
+      "Unless Terminalia",
+      "终末的米诺陶"
     ],
     "placeholder": "输入答案…"
   },
@@ -1464,10 +1390,8 @@ window.GAL_QUIZ_BANK = [
     "num": 23,
     "type": "text",
     "question": "请听音频：标题画面 BGM 出自哪部作品？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s3-23/images/spal_0048pl.jpg"
-    ],
+    "explain": "Flyable Heart 标题 BGM。产品版标题图有多套，启动随机切换，还有约千分之一概率的稀有图。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s3-23/audio/flyable-heart.mp3",
       "/assets/gal-quiz/s3-23/video/flyable-heart.mp3"
@@ -1486,10 +1410,8 @@ window.GAL_QUIZ_BANK = [
     "num": 24,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s3-24/images/cabbage_0005ps.jpg"
-    ],
+    "explain": "《樱之云＊绯红之恋》OP「樱烂罗曼西亚」。前奏帅到离谱，且在高潮场景播放，气氛拉满。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s3-24/audio/sakulet.mp3",
       "/assets/gal-quiz/s3-24/video/sakulet.mp3"
@@ -1498,7 +1420,9 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "桜爛ロマンシア",
       "樱烂罗曼西亚",
-      "sakulet"
+      "sakulet",
+      "樱之云＊绯红之恋",
+      "樱之云绯红之恋"
     ],
     "placeholder": "输入答案…"
   },
@@ -1508,10 +1432,8 @@ window.GAL_QUIZ_BANK = [
     "num": 25,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s3-25/images/alice_0053pl.jpg"
-    ],
+    "explain": "《多娜多娜 一起来干坏事吧》OP，2020 年发售却已 200 万播放的怪物级作品。萌系游戏大赏 2020 准大赏。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s3-25/audio/donadona.mp3",
       "/assets/gal-quiz/s3-25/video/donadona.mp3"
@@ -1520,27 +1442,8 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "ドーナドーナのうた",
       "多娜多娜之歌",
-      "donadona"
-    ],
-    "placeholder": "输入答案…"
-  },
-  {
-    "id": "s4-01",
-    "source": 4,
-    "num": 1,
-    "type": "text",
-    "question": "请根据图片（复古エロゲ）：该插画使用了多少种颜色？（填数字）",
-    "explain": "PC-98 16 色。",
-    "images": [
-      "/assets/gal-quiz/s4-01/images/star-platinum.png",
-      "/assets/gal-quiz/s4-01/images/StarPlatinum_02.png"
-    ],
-    "audio": [],
-    "video": [],
-    "answers": [
-      "１６",
-      "16",
-      "十六"
+      "donadona",
+      "多娜多娜 一起来干坏事吧"
     ],
     "placeholder": "输入答案…"
   },
@@ -1549,11 +1452,9 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 2,
     "type": "text",
-    "question": "请根据图片：「ある/なし」クイズ中，「ある」一侧的共同点是？",
-    "explain": "Whirlpool  logo 提示。",
-    "images": [
-      "/assets/gal-quiz/s4-02/images/Whirlpool-logo.png"
-    ],
+    "question": "「有/无」测验中，「有」一侧的共同点是？",
+    "explain": "Gal 厂商略称：8月→AUGUST、前翼→FrontWing、月石→MOONSTONE、漩涡→Whirlpool、角砂糖→Lump of Sugar 等。Whirlpool logo 的漩涡很可爱。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1569,11 +1470,9 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 3,
     "type": "text",
-    "question": "请根据图片：补全《景の海のアペイリア》台词黑条部分。",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s4-03/images/Honeyview_SS_2022-06-16_063426.jpg"
-    ],
+    "question": "以下是《流景之海的艾佩理雅》中的台词。请补全零一的黑条部分。\n\n零一：■■■■■■■■\n沙罗：什………………\n七海：……处……男…………",
+    "explain": "奇幻战斗名场面：以精液为 cost 放技能的主角双手被封无法自慰，却贴着对方说「别动。你是童贞」——靠多年童贞妄想力随时能射的威胁，声线超帅内容超蠢，笑出声。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1588,11 +1487,9 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 4,
     "type": "text",
-    "question": "请根据图片：补全《Fate/stay night》无限剑制咏唱最后一句日文。",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s4-04/images/unlimited-blade-works.jpg"
-    ],
+    "question": "补全《Fate/stay night》无限剑制咏唱最后一句日文。",
+    "explain": "动画版诹访部顺一帅到沉迷，但英语发音被海外观众吐槽到哭。近年 Gal 缺的就是「咏唱」啊。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1607,17 +1504,16 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 5,
     "type": "text",
-    "question": "广告语「にじまない、キミへの想い――」对应哪部作品？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s4-05/images/Honeyview_SS_2021-11-24_041919.png"
-    ],
+    "question": "广告语「不晕染的、对你的思念——」对应哪部作品？",
+    "explain": "《吻痕》（キスアト）以美术学校为背景，把绘画「晕染」比作恋爱，Ending 再显示这句，格调拉满——笔者所知最重视 catch copy 的 Gal 之一。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
       "キスアト",
       "Kiss Ato",
-      "キスアト -Kiss angle-"
+      "キスアト -Kiss angle-",
+      "吻痕"
     ],
     "placeholder": "输入答案…"
   },
@@ -1626,11 +1522,9 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 6,
     "type": "text",
-    "question": "官方类型名「100年の時を超えるミステリイADV」是哪部？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s4-06/images/cabbage_0005jp-002.jpg"
-    ],
+    "question": "官方类型名「跨越百年的 Mystery ADV」是哪部？",
+    "explain": "《樱之云＊绯红之恋》，大正时代 mystery 作品。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -1645,15 +1539,13 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 7,
     "type": "text",
-    "question": "请根据图片：《フタマタ恋愛》启动图标是①～④中的哪一个？",
-    "explain": "",
+    "question": "请根据图片：《恋爱成双》启动图标是①～④中的哪一个？",
+    "explain": "本作准 Boss 角色作启动图标，玩过应能猜；卸载图标是 heroine 呕吐图，很有趣。",
     "images": [
       "/assets/gal-quiz/s4-07/images/fg_about1_3.png",
       "/assets/gal-quiz/s4-07/images/fg_about2_3.png",
       "/assets/gal-quiz/s4-07/images/fg_about3_2.png",
-      "/assets/gal-quiz/s4-07/images/fg_about3_3.png",
-      "/assets/gal-quiz/s4-07/images/SS_2025-01-05_210727.jpg",
-      "/assets/gal-quiz/s4-07/images/SS_2025-01-05_210742.jpg"
+      "/assets/gal-quiz/s4-07/images/fg_about3_3.png"
     ],
     "audio": [],
     "video": [],
@@ -1669,15 +1561,14 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 8,
     "type": "text",
-    "question": "请根据图片：下方三角色分别出自哪部作品？（ゆるキャン△ / シス△キャン / △エロキャン / キャン・ドゥ / きゃんきゃんバニー）",
-    "explain": "中间 SisCamp 风。",
+    "question": "请根据图片：下方三位角色分别出自哪部作品？请从下列候选中选择对应编号。\nゆるキャン△ / シス△キャン / △エロキャン / キャン·ドゥ / きゃんきゃんバニー",
+    "explain": "② SisCamp（シス△キャン）。Gal 数以万计，撞设计难免……但这标题到角色都太像了。",
     "images": [
       "/assets/gal-quiz/s4-08/images/chino.jpg",
       "/assets/gal-quiz/s4-08/images/miku.webp",
       "/assets/gal-quiz/s4-08/images/siscamp-1aoba.png",
       "/assets/gal-quiz/s4-08/images/siscamp-2futaba.png",
       "/assets/gal-quiz/s4-08/images/siscamp-3ren.png",
-      "/assets/gal-quiz/s4-08/images/views_0686pl.jpg",
       "/assets/gal-quiz/s4-08/images/yue-1.webp"
     ],
     "audio": [],
@@ -1696,11 +1587,9 @@ window.GAL_QUIZ_BANK = [
     "num": 9,
     "type": "text",
     "question": "请根据图片：①②分别是哪家厂商的吉祥物？",
-    "explain": "",
+    "explain": "① Orthros（双头犬「Or」「Ros」，中间红家伙也叫「尾巴」且有独立人格）；② Cuteuphoria 宣传狐 Q 酱，也会出现在作品中。",
     "images": [
-      "/assets/gal-quiz/s4-09/images/Ry6M-gEe_400x400-100x100.png",
       "/assets/gal-quiz/s4-09/images/Ry6M-gEe_400x400.png",
-      "/assets/gal-quiz/s4-09/images/T_IEW190_400x400-100x100.jpg",
       "/assets/gal-quiz/s4-09/images/T_IEW190_400x400.jpg"
     ],
     "audio": [],
@@ -1717,11 +1606,10 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 10,
     "type": "text",
-    "question": "请根据图片：《ゲームみたいな、ステキな恋がしたいっ！》作中作列表里，哪两个不是作中作？（填编号）",
-    "explain": "",
+    "question": "请根据图片：《像 Gal 一样来场美好的恋爱吧！》作中作列表里，哪两个不是作中作？（填编号）",
+    "explain": "②⑤是真实存在的 Gal。笔者最想玩的是作中作《种付大叔 VS 迷你裙警察》。",
     "images": [
-      "/assets/gal-quiz/s4-10/images/Honeyview_SS_2022-03-04_035713.jpg",
-      "/assets/gal-quiz/s4-10/images/Honeyview_SS_2022-03-12_152930.jpg"
+      "/assets/gal-quiz/s4-10/images/Honeyview_SS_2022-03-04_035713.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1734,37 +1622,13 @@ window.GAL_QUIZ_BANK = [
     "placeholder": "输入答案…"
   },
   {
-    "id": "s4-11",
-    "source": 4,
-    "num": 11,
-    "type": "text",
-    "question": "请根据图片：①～③分别属于「エロゲ女主尻 / ギャル尻 / 煮卵」哪一类？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s4-11/images/2ban.jpg",
-      "/assets/gal-quiz/s4-11/images/SS_2025-01-05_163214.jpg",
-      "/assets/gal-quiz/s4-11/images/SS_2025-01-05_163319.jpg",
-      "/assets/gal-quiz/s4-11/images/SS_2025-01-05_163619.jpg",
-      "/assets/gal-quiz/s4-11/images/SS_2025-01-05_163626.jpg"
-    ],
-    "audio": [],
-    "video": [],
-    "answers": [
-      "①エロゲヒロイン②ギャル③煮卵",
-      "①エロゲヒロイン　②ギャル　③煮卵",
-      "1二次元2三次元3煮卵"
-    ],
-    "placeholder": "输入答案…"
-  },
-  {
     "id": "s4-12",
     "source": 4,
     "num": 12,
     "type": "choice",
-    "question": "请根据图片：《艶嬢学園》系列主角大和正义给自己的「那话儿」起了什么名？",
-    "explain": "④陰龍王。",
+    "question": "请根据图片：《艳娘学园》系列主角大和正义给自己的「那话儿」起了什么名？",
+    "explain": "④阴龙王。",
     "images": [
-      "/assets/gal-quiz/s4-12/images/Honeyview_SS_2024-11-25_063105.jpg",
       "/assets/gal-quiz/s4-12/images/Honeyview_SS_2024-11-25_064941.jpg"
     ],
     "audio": [],
@@ -1783,10 +1647,9 @@ window.GAL_QUIZ_BANK = [
     "num": 13,
     "type": "text",
     "question": "请根据图片：这是哪部作品主人公的房间？",
-    "explain": "",
+    "explain": "《前辈在我的妄想里打同人？！～小心身体接触～》。没玩过也能从海报推断厂商。",
     "images": [
-      "/assets/gal-quiz/s4-13/images/Honeyview_SS_2024-10-02_045344.jpg",
-      "/assets/gal-quiz/s4-13/images/Honeyview_SS_2024-10-02_050204.jpg"
+      "/assets/gal-quiz/s4-13/images/Honeyview_SS_2024-10-02_045344.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1803,11 +1666,9 @@ window.GAL_QUIZ_BANK = [
     "num": 14,
     "type": "text",
     "question": "请根据图片（含剪影）：这是哪部作品的圣地？",
-    "explain": "町田站前。",
+    "explain": "《拔作创意》（Hamidashi Creative，常称常轨脱离 Creative）——与妃爱在町田站前的回忆之地。（作者自白梗）",
     "images": [
-      "/assets/gal-quiz/s4-14/images/hiyorin.jpg",
-      "/assets/gal-quiz/s4-14/images/machidaekimae.jpg",
-      "/assets/gal-quiz/s4-14/images/yumeka.jpg"
+      "/assets/gal-quiz/s4-14/images/machidaekimae.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1824,7 +1685,7 @@ window.GAL_QUIZ_BANK = [
     "num": 15,
     "type": "text",
     "question": "请根据图片：①与②分别是「通常版」还是「限定版」？",
-    "explain": "",
+    "explain": "CUFFS 系常把日常一瞬作通常版、特别瞬间作限定版。（本作由 azarashi soft 发售，CUFFS 协助制作）",
     "images": [
       "/assets/gal-quiz/s4-15/images/tir-na-nog-1.jpg",
       "/assets/gal-quiz/s4-15/images/tir-na-nog-2.jpg"
@@ -1843,10 +1704,9 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 16,
     "type": "text",
-    "question": "请根据图片：①与②哪一个是「10th Anniversary 特別仕様版（フルボイス版）」？",
-    "explain": "素晴日相关包装。",
+    "question": "请根据图片：①与②哪一个是「10th Anniversary 特别仕様版（全语音版）」？",
+    "explain": "《美好的每一天～不连续的存在～》（素晴日）相关包装。即使不了解作品，细看也能发现①涂色更细腻。",
     "images": [
-      "/assets/gal-quiz/s4-16/images/mnphs_0011pl.jpg",
       "/assets/gal-quiz/s4-16/images/subahibi1.jpg",
       "/assets/gal-quiz/s4-16/images/subahibi2.jpg"
     ],
@@ -1860,36 +1720,14 @@ window.GAL_QUIZ_BANK = [
     "placeholder": "输入答案…"
   },
   {
-    "id": "s4-17",
-    "source": 4,
-    "num": 17,
-    "type": "text",
-    "question": "请根据图片：《淫獄の放課後２》中，水島☆多也负责的是几号女主？",
-    "explain": "可参考提示图过往角色。",
-    "images": [
-      "/assets/gal-quiz/s4-17/images/bishop_0059jp-002.jpg",
-      "/assets/gal-quiz/s4-17/images/ingk2-h.jpg"
-    ],
-    "audio": [],
-    "video": [],
-    "answers": [
-      "②③",
-      "23",
-      "2和3",
-      "②と③"
-    ],
-    "placeholder": "输入答案…"
-  },
-  {
     "id": "s4-18",
     "source": 4,
     "num": 18,
     "type": "text",
-    "question": "请根据图片：《オトメ世界の歩き方》主角为隐瞒性别而虚构的宗教叫什么？",
-    "explain": "谐音梗。",
+    "question": "请根据图片：《少女世界的生存之道》主角为隐瞒性别而虚构的宗教叫什么？",
+    "explain": "贫乳教（ヒンニュー教）——谐音梗。「离谱吧？但别人真信。这样就能……」",
     "images": [
-      "/assets/gal-quiz/s4-18/images/Honeyview_SS_2024-10-30_060411.jpg",
-      "/assets/gal-quiz/s4-18/images/Honeyview_SS_2024-10-30_063920.jpg"
+      "/assets/gal-quiz/s4-18/images/Honeyview_SS_2024-10-30_060411.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1906,10 +1744,9 @@ window.GAL_QUIZ_BANK = [
     "num": 19,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "",
+    "explain": "Kanon TV 动画版，披风像妖精一样可爱。「走吧，名雪。」",
     "images": [
-      "/assets/gal-quiz/s4-19/images/78383.jpg",
-      "/assets/gal-quiz/s4-19/images/nayuki-all.gif"
+      "/assets/gal-quiz/s4-19/images/78383.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1926,10 +1763,9 @@ window.GAL_QUIZ_BANK = [
     "num": 20,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "",
+    "explain": "Muv-Luv，特征明显的制服。",
     "images": [
-      "/assets/gal-quiz/s4-20/images/0Hnwmn9rFc0J.jpg",
-      "/assets/gal-quiz/s4-20/images/Honeyview_SS_2021-08-25_082036.jpg"
+      "/assets/gal-quiz/s4-20/images/0Hnwmn9rFc0J.jpg"
     ],
     "audio": [],
     "video": [],
@@ -1946,12 +1782,9 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 21,
     "type": "text",
-    "question": "请根据图片与音频（体验版）：这位角色的声优是谁？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s4-21/images/cha001.jpg",
-      "/assets/gal-quiz/s4-21/images/frn_0012ps.jpg"
-    ],
+    "question": "请根据音频（体验版）：这位角色的声优是谁？",
+    "explain": "《从Kiss开始的自我主义～EGOISM～》的和央桐香（わおっち），平时语调独特；本作她压低抑扬演 Android heroine，化学反应奇妙。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s4-21/audio/kissego.mp3",
       "/assets/gal-quiz/s4-21/video/kissego.mp3"
@@ -1960,7 +1793,8 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "和央きりか",
       "和央桐香",
-      "wakou"
+      "wakou",
+      "从Kiss开始的自我主义"
     ],
     "placeholder": "输入答案…"
   },
@@ -1969,12 +1803,9 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 22,
     "type": "text",
-    "question": "请根据图片与音频（体验版）：这位角色的声优是谁？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s4-22/images/cha002.jpg",
-      "/assets/gal-quiz/s4-22/images/inferno_0038ps.jpg"
-    ],
+    "question": "请根据音频（体验版）：这位角色的声优是谁？",
+    "explain": "明羽杏子常演门面 heroine，本作角色偏男孩子气，可能较难辨认。出自《起始世界的理想论 -goodbye world index-》。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s4-22/audio/hajiron.mp3",
       "/assets/gal-quiz/s4-22/video/hajiron.mp3"
@@ -1983,7 +1814,9 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "明羽杏子",
       "明羽あんこ",
-      "meiu"
+      "meiu",
+      "起始世界的理想论",
+      "goodbye world index"
     ],
     "placeholder": "输入答案…"
   },
@@ -1993,10 +1826,8 @@ window.GAL_QUIZ_BANK = [
     "num": 23,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "《Euphoria》。",
-    "images": [
-      "/assets/gal-quiz/s4-23/images/hobc_0435ps.jpg"
-    ],
+    "explain": "《Euphoria》OP「乐园之门」。店头用短版 intro 与完整版不同，故以官方短版出题。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s4-23/audio/euphoria.mp3",
       "/assets/gal-quiz/s4-23/video/euphoria.mp3"
@@ -2015,10 +1846,8 @@ window.GAL_QUIZ_BANK = [
     "num": 24,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s4-24/images/eg_0052pl.jpg"
-    ],
+    "explain": "《Chocolat ～maid cafe curio～》BGM Cream+Mint，开头「ポッ」一声就爱上。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s4-24/audio/chocola.mp3",
       "/assets/gal-quiz/s4-24/video/chocola.mp3"
@@ -2027,7 +1856,8 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "Cream+Mint",
       "Cream Mint",
-      "cream mint"
+      "cream mint",
+      "Chocolat ～maid cafe curio～"
     ],
     "placeholder": "输入答案…"
   },
@@ -2037,10 +1867,8 @@ window.GAL_QUIZ_BANK = [
     "num": 25,
     "type": "text",
     "question": "请听音频：这首曲的标题是？",
-    "explain": "《SELECT OBLIGE》。",
-    "images": [
-      "/assets/gal-quiz/s4-25/images/mwnds_0013ps.jpg"
-    ],
+    "explain": "《Select Oblige》Path to glory。销量尚可，故选为题目；太小众就太难了。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s4-25/audio/selectoblige.mp3",
       "/assets/gal-quiz/s4-25/video/selectoblige.mp3"
@@ -2049,7 +1877,8 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "Path to glory",
       "Path To Glory",
-      "pathtoglory"
+      "pathtoglory",
+      "Select Oblige"
     ],
     "placeholder": "输入答案…"
   },
@@ -2058,8 +1887,8 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 1,
     "type": "choice",
-    "question": "请根据图片（复古エロゲ）：正确标题是？",
-    "explain": "④透明人間 あらわるあらわる。",
+    "question": "请根据图片（复古 Galgame）：正确标题是？",
+    "explain": "④《透明人间 出现出现》，1993 年 Fairy Tale 系 RED-ZONE 发售。标题可能 parody 粉红淑女《透明人间》；Rare 地支持 3D 眼镜立体画面。",
     "images": [
       "/assets/gal-quiz/s5-01/images/01184.png",
       "/assets/gal-quiz/s5-01/images/35df4025.jpg",
@@ -2081,11 +1910,9 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 2,
     "type": "text",
-    "question": "请根据图片：下列官方梗概出自哪部作品？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s5-02/images/ten.png"
-    ],
+    "question": "以下官方梗概出自哪部作品？\n\n　所愿不过片刻安宁\n　所得却是名为永远的赎罪\n　主人公以「人际关系要轻、要薄、要小」为信条，对凡事敷衍了事。\n　尤其有个吵人的妹妹，让他觉得女人很麻烦。\n　友人却沉迷恋爱、视肉体关系为至高，不断劝他去恋爱，他充耳不闻。\n　然而，与某女孩的口角，竟让他出于好奇发生了一次逢场作戏的关系……",
+    "explain": "《没有天使的 12 月》——玩过的人看梗概就懂有多「峰」。官方梗概不写角色名，找起来费工夫。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -2100,8 +1927,8 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 3,
     "type": "text",
-    "question": "请根据图片：补全《义妹达との生活は気持ちいいけど少し疲れる》黑条台词（近义即可）。",
-    "explain": "",
+    "question": "以下是《与义妹们的生活虽爽但有点累》中的台词。请补全夏海的黑条（近义即可）。\n\n主人公：喂、喂，别勉强啊\n夏海：勉、勉强什么？我才没有勉强呢？\n主人公：那这颤抖是？\n夏海：这、这是……■■■■■■■■！\n主人公：这样啊",
+    "explain": "笔者几乎不记得剧情，唯独这段对话印象深刻——「振动棒的模仿（バイブのモネマネ）」。",
     "images": [],
     "audio": [],
     "video": [],
@@ -2117,13 +1944,10 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 4,
     "type": "text",
-    "question": "请根据图片：《アマカノ３》「甘え度」初始值最高与最低的女主分别是？",
-    "explain": "",
+    "question": "请根据图片：《甜蜜女友 3》「撒娇度」初始值最高与最低的女主分别是？",
+    "explain": "最高鸿沙由美，最低柳木诗梦（-100%）。像捡了橡皮被说「不要了给你」的级别，但 AMA 男主能翻盘。",
     "images": [
-      "/assets/gal-quiz/s5-04/images/amakano3-chara.jpg",
-      "/assets/gal-quiz/s5-04/images/Honeyview_SS_2025-10-19_072803.jpg",
-      "/assets/gal-quiz/s5-04/images/Honeyview_SS_2025-10-21_101438.jpg",
-      "/assets/gal-quiz/s5-04/images/nantekotta.jpg"
+      "/assets/gal-quiz/s5-04/images/amakano3-chara.jpg"
     ],
     "audio": [],
     "video": [],
@@ -2140,11 +1964,9 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 5,
     "type": "text",
-    "question": "广告语「恋はどこからきて、どこにいくんだろう――」对应哪部作品？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s5-05/images/vsat_0261pl.jpg"
-    ],
+    "question": "广告语「恋从何来，又将何去——」对应哪部作品？",
+    "explain": "《爱因斯坦携爱而来》。所以恋到底从哪来去哪啊，谁来告诉我。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
@@ -2159,18 +1981,17 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 6,
     "type": "text",
-    "question": "官方类型名「落ちこぼれクラスが世界を救う青春学園ファンタジー」是哪部？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s5-06/images/Honeyview_SS_2022-07-29_234707.jpg"
-    ],
+    "question": "官方类型名「落第班级拯救世界的青春学园 Fantasy」是哪部？",
+    "explain": "《霞流宝石心 -壮志凌云振寰宇-》（ジュエリー・ハーツ・アカデミア），充满冲突与互助，笔者很爱的作品。",
+    "images": [],
     "audio": [],
     "video": [],
     "answers": [
       "ジュエリー・ハーツ・アカデミア -We will wing wonder world-",
       "Jewelry Hearts Academia",
       "JHA",
-      "宝石心学院"
+      "宝石心学院",
+      "霞流宝石心 -壮志凌云振寰宇-"
     ],
     "placeholder": "输入答案…"
   },
@@ -2179,14 +2000,10 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 7,
     "type": "text",
-    "question": "请根据图片：《恋愛×ロワイアル》启动图标是①～④中的哪一个？",
-    "explain": "",
+    "question": "请根据图片：《恋爱× Royale》启动图标是①～④中的哪一个？",
+    "explain": "中心 heroine 作图标，玩过应能猜。卸载图标是 heroine 悲伤脸。官网投票：中心 heroine 22 万票 vs 副 heroine 3005 万票，差距离谱。",
     "images": [
-      "/assets/gal-quiz/s5-07/images/Honeyview_SS_2025-08-20_025107.jpg",
-      "/assets/gal-quiz/s5-07/images/Honeyview_SS_2025-08-20_025113.jpg",
-      "/assets/gal-quiz/s5-07/images/koirowa.png",
-      "/assets/gal-quiz/s5-07/images/SS_2026-01-24_024158.jpg",
-      "/assets/gal-quiz/s5-07/images/SS_2026-01-24_024213.jpg"
+      "/assets/gal-quiz/s5-07/images/koirowa.png"
     ],
     "audio": [],
     "video": [],
@@ -2202,8 +2019,8 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 8,
     "type": "text",
-    "question": "请根据图片：《ハミダシクリエイティブ》和泉妃爱三句台词中，哪句是作中实际台词？",
-    "explain": "①③为立绘鉴赏模式自制。",
+    "question": "请根据图片：《拔作创意》（常轨脱离 Creative）和泉妃爱三句台词中，哪句是作中实际台词？",
+    "explain": "①③是立绘鉴赏模式笔者自造，爱妃爱的应秒答②。",
     "images": [
       "/assets/gal-quiz/s5-08/images/SS_2026-01-24_075734.jpg",
       "/assets/gal-quiz/s5-08/images/SS_2026-01-24_080401.jpg",
@@ -2223,10 +2040,9 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 9,
     "type": "text",
-    "question": "请根据图片：《流星ワールドアクター》①舞台「第■共和国」②所属「警察庁■■课」③妖精 Melissa 身高约■■ cm —— 填入数字。",
-    "explain": "",
+    "question": "请根据图片：《流星世界演绎者》①舞台「第■共和国」②所属「警察厅■■课」③妖精 Melissa 身高约■■ cm —— 填入数字。",
+    "explain": "①7 ②13 ③20。①②玩过应知，③ Melissa 身高较少人记得。完结作将至，现在入坑正好。",
     "images": [
-      "/assets/gal-quiz/s5-09/images/digination_0006ps.jpg",
       "/assets/gal-quiz/s5-09/images/Honeyview_SS_2026-01-20_122036.png"
     ],
     "audio": [],
@@ -2244,19 +2060,18 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 10,
     "type": "text",
-    "question": "请根据图片：《搾精病棟》系列除嫌恶/阴湿/粗暴护士外，第四位护士的属性是？",
-    "explain": "",
+    "question": "请根据图片：《搾精病栋》系列除嫌恶/阴湿/粗暴护士外，第四位护士的属性是？",
+    "explain": "无气护士（無気力ナース），基本没干劲，赖在病房睡觉，上班还喝酒。人气低，spin-off 还把她删了。（本作中文常译《榨精病栋》）",
     "images": [
-      "/assets/gal-quiz/s5-10/images/sakuseibyoto-chara.jpg",
-      "/assets/gal-quiz/s5-10/images/SS_2025-09-11_081222.jpg",
-      "/assets/gal-quiz/s5-10/images/SS_2025-09-27_215003.jpg"
+      "/assets/gal-quiz/s5-10/images/sakuseibyoto-chara.jpg"
     ],
     "audio": [],
     "video": [],
     "answers": [
       "無気力ナース",
       "无气护士",
-      "无动力护士"
+      "无动力护士",
+      "榨精病栋"
     ],
     "placeholder": "输入答案…"
   },
@@ -2266,11 +2081,8 @@ window.GAL_QUIZ_BANK = [
     "num": 11,
     "type": "text",
     "question": "请根据图片：《DEARDROPS》角色与乐器 A/B/C 的正确对应是？",
-    "explain": "",
+    "explain": "没玩过也能凭角色外观判断。",
     "images": [
-      "/assets/gal-quiz/s5-11/images/cg_06b.jpg",
-      "/assets/gal-quiz/s5-11/images/cg_14b.jpg",
-      "/assets/gal-quiz/s5-11/images/cg_17b.jpg",
       "/assets/gal-quiz/s5-11/images/cha_gonda_tatie_sihuku_1.jpg",
       "/assets/gal-quiz/s5-11/images/cha_strat.jpg",
       "/assets/gal-quiz/s5-11/images/cha_syouiti_tatie_sihuku_1.jpg",
@@ -2293,19 +2105,10 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 12,
     "type": "text",
-    "question": "请根据图片：①～⑧中哪一个是《創作彼女の恋愛公式》标题 logo 的「恋」字？",
-    "explain": "",
+    "question": "请根据图片：①～⑧中哪一个是《创作彼女的恋爱公式》标题 logo 的「恋」字？",
+    "explain": "⑥。另附各作 logo 对照，笔者喜欢《恋岚 Spirit》的 logo。",
     "images": [
-      "/assets/gal-quiz/s5-12/images/akbs_0022pl.jpg",
-      "/assets/gal-quiz/s5-12/images/akbs_0127pl.jpg",
-      "/assets/gal-quiz/s5-12/images/has_0150pl.jpg",
-      "/assets/gal-quiz/s5-12/images/hawkeye_0002pl.jpg",
-      "/assets/gal-quiz/s5-12/images/koi.jpg",
-      "/assets/gal-quiz/s5-12/images/next_0063pl.jpg",
-      "/assets/gal-quiz/s5-12/images/russ_0301pl.jpg",
-      "/assets/gal-quiz/s5-12/images/spal_0114pl.jpg",
-      "/assets/gal-quiz/s5-12/images/spal_0128pl.jpg",
-      "/assets/gal-quiz/s5-12/images/SS_2026-01-23_031922.jpg"
+      "/assets/gal-quiz/s5-12/images/koi.jpg"
     ],
     "audio": [],
     "video": [],
@@ -2321,10 +2124,9 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 13,
     "type": "text",
-    "question": "请根据图片：《サクラノ刻》本间心铃立绘，左/右哪边发型正确？",
-    "explain": "",
+    "question": "请根据图片：《樱之刻》本间心铃立绘，左/右哪边发型正确？",
+    "explain": "左。二次元双马尾常在较高位置扎（rabbit style）。",
     "images": [
-      "/assets/gal-quiz/s5-13/images/Honeyview_SS_2023-02-25_203059.jpg",
       "/assets/gal-quiz/s5-13/images/n-misuzu.png",
       "/assets/gal-quiz/s5-13/images/sakurano_image09.png"
     ],
@@ -2343,11 +2145,9 @@ window.GAL_QUIZ_BANK = [
     "num": 14,
     "type": "text",
     "question": "请根据图片（含剪影）：这是哪部作品的圣地？",
-    "explain": "",
+    "explain": "《魔女的夜宴》（Sanoba Witch）——与因幡巡的回忆学园。（作者自白梗）",
     "images": [
-      "/assets/gal-quiz/s5-14/images/kk-meguru.png",
-      "/assets/gal-quiz/s5-14/images/kyoto-ch.png",
-      "/assets/gal-quiz/s5-14/images/yumeka.jpg"
+      "/assets/gal-quiz/s5-14/images/kyoto-ch.png"
     ],
     "audio": [],
     "video": [],
@@ -2363,11 +2163,10 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 15,
     "type": "text",
-    "question": "请根据图片：①与②分别是「パッケージ版」还是「ダウンロード版」？",
-    "explain": "",
+    "question": "请根据图片：①与②分别是「实体版」还是「下载版」？",
+    "explain": "①下载版 ②实体版。笔者预订实体版，玩时发现 heroine 待遇与封面预期差距惊人。",
     "images": [
       "/assets/gal-quiz/s5-15/images/hobe_0407pl-1.jpg",
-      "/assets/gal-quiz/s5-15/images/Honeyview_DSC_0802.jpg",
       "/assets/gal-quiz/s5-15/images/pack_b-1.jpg"
     ],
     "audio": [],
@@ -2380,45 +2179,13 @@ window.GAL_QUIZ_BANK = [
     "placeholder": "输入答案…"
   },
   {
-    "id": "s5-16",
-    "source": 5,
-    "num": 16,
-    "type": "text",
-    "question": "请观看下方视频（最多看 3 遍）：10 张样图中有几张是エロゲ？（含原作为エロゲ的移植作）",
-    "explain": "Flash クイズ。",
-    "images": [
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-1.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-10.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-2.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-3.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-4.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-5.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-6.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-7.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-8.jpg",
-      "/assets/gal-quiz/s5-16/images/FlashQuiz-9.jpg"
-    ],
-    "audio": [],
-    "video": [
-      "/assets/gal-quiz/s5-16/audio/FlashQuiz.mp4"
-    ],
-    "answers": [
-      "４つ",
-      "4",
-      "四个",
-      "4つ"
-    ],
-    "placeholder": "输入答案…"
-  },
-  {
     "id": "s5-17",
     "source": 5,
     "num": 17,
     "type": "text",
-    "question": "请根据图片：《ライムライト・レモネードジャム》中，ほかん负责的是几号女主？",
-    "explain": "可参考柚子 ten 页面提示图。",
+    "question": "请根据图片：《逐光柠檬协奏曲》（LimeLight Lemonade Jam）中，ほかん负责的是几号女主？",
+    "explain": "③。ほかん 的眉毛略粗且下垂，是识别特征；可参考柚子 ten 页面提示图。",
     "images": [
-      "/assets/gal-quiz/s5-17/images/Honeyview_LLLJ_screenshot-2025_10_08-09_36_58.png",
       "/assets/gal-quiz/s5-17/images/LLLJ_chara.jpg",
       "/assets/gal-quiz/s5-17/images/SS_2026-01-24_040715.jpg"
     ],
@@ -2436,11 +2203,10 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 18,
     "type": "choice",
-    "question": "请根据图片：《DeepOne -領界侵犯-》比奈森沙耶咏唱后使出的技是？",
-    "explain": "③無数の刀を生成する。",
+    "question": "请根据图片：《DeepOne -领界侵犯-》比奈森沙耶咏唱后使出的技是？",
+    "explain": "③生成无数把刀。娇小少女批量产刀，心跳加速。",
     "images": [
-      "/assets/gal-quiz/s5-18/images/Honeyview_2025-08-12-07-42-36-463.jpg",
-      "/assets/gal-quiz/s5-18/images/Honeyview_2025-08-12-07-43-08-759.jpg"
+      "/assets/gal-quiz/s5-18/images/Honeyview_2025-08-12-07-42-36-463.jpg"
     ],
     "audio": [],
     "video": [],
@@ -2460,10 +2226,9 @@ window.GAL_QUIZ_BANK = [
     "num": 19,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "",
+    "explain": "AIR。「がお……」",
     "images": [
-      "/assets/gal-quiz/s5-19/images/AkL2t5KocE41.jpg",
-      "/assets/gal-quiz/s5-19/images/kJF7oWqhbO1U.jpg"
+      "/assets/gal-quiz/s5-19/images/AkL2t5KocE41.jpg"
     ],
     "audio": [],
     "video": [],
@@ -2480,10 +2245,9 @@ window.GAL_QUIZ_BANK = [
     "num": 20,
     "type": "text",
     "question": "请根据图片：这是哪部作品的校服？",
-    "explain": "",
+    "explain": "《同级生 2》（含 Remake），配色极艳，穿着一眼 cosplay。",
     "images": [
-      "/assets/gal-quiz/s5-20/images/5mwIoH8hM7NS.jpg",
-      "/assets/gal-quiz/s5-20/images/sah6FywlO6pU.jpg"
+      "/assets/gal-quiz/s5-20/images/5mwIoH8hM7NS.jpg"
     ],
     "audio": [],
     "video": [],
@@ -2500,11 +2264,9 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 21,
     "type": "text",
-    "question": "请根据图片与音频（体验版）：这位角色的声优是谁？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s5-21/images/sui-cha001.jpg"
-    ],
+    "question": "请根据音频（体验版）：这位角色的声优是谁？",
+    "explain": "柳仁美通常演开朗可爱角色，本作却压抑情感、声线带阴影，演技极强。出自《几度相逢若初见》（何度目かのはじめまして）。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s5-21/audio/lapla.mp3",
       "/assets/gal-quiz/s5-21/video/lapla.mp3"
@@ -2513,7 +2275,8 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "柳ひとみ",
       "柳仁美",
-      "yanagi hitomi"
+      "yanagi hitomi",
+      "几度相逢若初见"
     ],
     "placeholder": "输入答案…"
   },
@@ -2522,11 +2285,9 @@ window.GAL_QUIZ_BANK = [
     "source": 5,
     "num": 22,
     "type": "text",
-    "question": "请根据图片与音频（体验版）：这位角色的声优是谁？",
-    "explain": "",
-    "images": [
-      "/assets/gal-quiz/s5-22/images/airi-cha005.jpg"
-    ],
+    "question": "请根据音频（体验版）：这位角色的声优是谁？",
+    "explain": "苍乃むすび，2024 年 Gal 顶级刺中率 heroine 之一，协助主角的特殊位置；Extra 故事极其感人。出自《催眠性指导 -Secret Lesson-》。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s5-22/audio/saiminseishidou.mp3",
       "/assets/gal-quiz/s5-22/video/saiminseishidou.mp3"
@@ -2535,7 +2296,9 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "蒼乃むすび",
       "苍乃结",
-      "aono musubi"
+      "aono musubi",
+      "催眠性指导",
+      "Secret Lesson"
     ],
     "placeholder": "输入答案…"
   },
@@ -2545,10 +2308,8 @@ window.GAL_QUIZ_BANK = [
     "num": 23,
     "type": "text",
     "question": "请听音频：回答「曲名」或「使用作品名」均可。",
-    "explain": "曲名 your little sister / 作品《リアル妹がいる大泉くんのばあい》。",
-    "images": [
-      "/assets/gal-quiz/s5-23/images/views_0314ps.jpg"
-    ],
+    "explain": "曲名 your little sister / 作品《有个真妹妹的大泉君》。笔者超爱，妹控必玩，音乐也是神级。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s5-23/audio/your-little-sister.mp3",
       "/assets/gal-quiz/s5-23/video/your-little-sister.mp3"
@@ -2560,7 +2321,8 @@ window.GAL_QUIZ_BANK = [
       "リアル妹がいる大泉くんのばあい",
       "曲名your little sister",
       "大泉くん",
-      "リアル妹"
+      "リアル妹",
+      "有个真妹妹的大泉君"
     ],
     "placeholder": "输入答案…"
   },
@@ -2570,10 +2332,8 @@ window.GAL_QUIZ_BANK = [
     "num": 24,
     "type": "text",
     "question": "请听音频：回答「曲名」或「使用作品名」均可。",
-    "explain": "曲名「冬に咲く華」/ 作品《彼女のセイイキ》。",
-    "images": [
-      "/assets/gal-quiz/s5-24/images/feng_0003ps.jpg"
-    ],
+    "explain": "曲名「冬に咲く華」/ 作品《她的圣域》。低价作有好 OP 就是爽；前奏优雅→节奏加速→歌声舒缓，刺激大脑的好曲。萌系游戏大赏 2014 话题奖。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s5-24/audio/seiiki.mp3",
       "/assets/gal-quiz/s5-24/video/seiiki.mp3"
@@ -2593,10 +2353,8 @@ window.GAL_QUIZ_BANK = [
     "num": 25,
     "type": "text",
     "question": "请听音频：回答「曲名」或「使用作品名」均可。",
-    "explain": "曲名「孤籠の鶫」/ 作品《廃村少女［弐］》。",
-    "images": [
-      "/assets/gal-quiz/s5-25/images/views_0901ps.jpg"
-    ],
+    "explain": "曲名「孤笼之鸫」/ 作品《废村少女［贰］～诱引阴翳的秘姬之匣～》。发售前 OP 就在海外爆火，28 万播放；本体质量也很高。",
+    "images": [],
     "audio": [
       "/assets/gal-quiz/s5-25/audio/haison2.mp3",
       "/assets/gal-quiz/s5-25/video/haison2.mp3"
@@ -2607,7 +2365,8 @@ window.GAL_QUIZ_BANK = [
       "廃村少女［弐］",
       "廃村少女［弐］～陰り誘う秘姫の匣～",
       "废村少女2",
-      "孤笼之鸫"
+      "孤笼之鸫",
+      "废村少女［贰］～诱引阴翳的秘姬之匣～"
     ],
     "placeholder": "输入答案…"
   }

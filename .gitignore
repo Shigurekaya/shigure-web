@@ -6,6 +6,9 @@ Thumbs.db
 node_modules/
 scrapers/
 
+# 本地抽帧缓存（雨效对照用，不入库）
+.ref-frames/
+
 # 雨效分析：大体量本机缓存不入库；脚本 / 抽帧样本 / 对照图入库（换机续作）
 _rain_analysis/chrome_profile/
 _rain_analysis/hi/
@@ -22,10 +25,8 @@ _rain_analysis/uv.lock
 _rain_analysis/ref_audio.wav
 
 # 中间迭代全页截图不入库（体积大）；保留对照图与最新一版
-_rain_analysis/local/iter*.png
-_rain_analysis/local/iter*_glass.png
-_rain_analysis/local/iter*_bg.png
-_rain_analysis/local/iter*.json
+_rain_analysis/local/*
+_rain_analysis/_rain_analysis/
 !_rain_analysis/local/compare*.png
 !_rain_analysis/local/iter34.png
 !_rain_analysis/local/iter34_bg.png

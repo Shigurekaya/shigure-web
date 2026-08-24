@@ -1,0 +1,36 @@
+﻿Total: 119
+Issues: 34
+s1-14	jp_question	请根据图片：①～④中，むりりん负责原画的角色编号是？（可多号）
+s1-15	jp_question	请根据图片：①～④中，宫坂みゆ负责原画的角色编号是？
+s1-15	jp_in_explain	④由宫坂なこ负责，其余①②③均为宫坂みゆ。比小舞/むりりん好认一些吧？
+s1-25	jp_in_explain	SHUFFLE! 名曲 true my heart。有人只记得绰号「きしめん（贵面）」而想不起曲名。
+s2-04	jp_in_explain	分别取自东海道新干线「のぞみ」、秋田新干线「こまち」、山形新干线「つばさ」、东海道新干线「こだま」、东北新干线「あおば」的爱称。
+s2-06	jp_question	HOOKSOFT《放学后的灰姑娘》中，築島つくし（尽×××）与小瀬葉月（お世話××）宣传语被黑条遮住的两处，分别填什么？
+s2-07	jp_in_explain	②常被误读为「ふぇんぐ」，启动时会语音念「フォン」，玩过 feng 作品应能答对；①③知道的人较少。
+s2-08	jp_in_explain	①空中飞行对战运动 Flying Circus；②用刀对决的刃道（じんどう）。
+s2-10	jp_in_explain	对应 Kanon、兰斯系列、AIR、车轮之国、きゃんきゃんバニー、星空下的回忆。
+s2-13	jp_question	请根据图片：吉祥物「おこるヒト·こわいちゃん」属于哪家厂商？
+s2-19	jp_in_explain	左白羽、右梱枝りこ，画风都很独特，不难分辨。（敬称略）
+s2-22	jp_in_explain	《像 Gal 一样，来场美好的恋爱吧！》的高见屋つづり，溺爱系巨乳姐姐。
+s2-24	jp_in_explain	《景之海のアペイリア》OP。节奏与填词极难，唱起来是地狱难度。
+s3-06	jp_in_explain	谜之生物很多以猫为原型。ぱんにゃ（纯白交响曲）、Sophitia（9-nine-）、歌丸（初音岛）、仪左右卫门（大图书馆的牧羊人）、Dorji（Little Busters EX）、QP（Missin
+s3-08	jp_in_explain	①《乙女剑与秘密协奏曲》小柴杏奈（MochiUsa 设计超赞）；②《Criminal Border》勅使河原琴子（写着「仁义」的 T，俗称「屎味仁义 T」）；③《巨乳飞机杯妖怪与乡下生活》吾妻桃桃（拟
+s3-09	jp_question	Cross Concerto / Dies irae / MUSICUS! / VenusBlood-FRONTIER- / お嬢様と憐れな（こ）執事 / 君が望む永遠 / クドわふたー / けれど輝
+s3-10	jp_question	补全《车轮之国、向日葵的少女》法月将臣的台词——「森田は　　　　　　　　　になるんだ？」
+s3-10	jp_in_explain	完整句：森田はいつになったら一流になるんだ？（森田到底什么时候才能成为一流？）
+s3-19	jp_in_explain	中村武士与みつみ美里两位原画；包装角由中村武士负责。上一世代 Gal 玩家应较熟悉，有提示图更好认。
+s3-20	jp_question	请根据图片：《恋爱花束》包装女主中，结城りこ负责的是几号？
+s3-20	jp_in_explain	可参考前作《双重恋爱》结城りこ的画风，对资深玩家应能分辨。
+s3-22	jp_in_explain	北大路ゆき声线极具辨识度。角色是《Unleash Terminalia》女主恋ちゃん，超积极开放。该作获萌系游戏大赏 2022 图像奖。
+s4-03	jp_question	补全《景之海のアペイリア》台词黑条部分。
+s4-08	jp_question	请根据图片：下方三位角色分别出自哪部作品？（选项：ゆるキャン△ / シス△キャン / △エロキャン / キャン·ドゥ / きゃんきゃんバニー）
+s4-08	jp_in_explain	② SisCamp（シス△キャン）。Gal 数以万计，撞设计难免……但这标题到角色都太像了。
+s4-18	jp_in_explain	贫乳教（ヒンニュー教）——谐音梗。「离谱吧？但别人真信。这样就能……」
+s4-21	jp_in_explain	《从吻开始的自我中心》和央桐香（わおっち），平时语调独特；本作她压低抑扬演 Android heroine，化学反应奇妙。
+s4-24	jp_in_explain	《Chocolat ～maid cafe curio～》BGM Cream+Mint，开头「ポッ」一声就爱上。
+s5-10	jp_in_explain	无气护士（無気力ナース），基本没干劲，赖在病房睡觉，上班还喝酒。人气低，spin-off 还把她删了。
+s5-17	jp_question	请根据图片：《LimeLight Lemonade Jam》中，ほかん负责的是几号女主？
+s5-17	jp_in_explain	③。ほかん 的眉毛略粗且下垂，是识别特征；可参考柚子 ten 页面提示图。
+s5-19	jp_explain_kana	AIR。「がお……」
+s5-22	jp_in_explain	苍乃むすび，2024 年 Gal 顶级刺中率 heroine 之一，协助主角的特殊位置；Extra 故事极其感人。出自《催眠性指导 -Secret Lesson-》。
+s5-24	jp_in_explain	曲名「冬に咲く華」/ 作品《她的圣域》。低价作有好 OP 就是爽；前奏优雅→节奏加速→歌声舒缓，刺激大脑的好曲。萌系游戏大赏 2014 话题奖。
