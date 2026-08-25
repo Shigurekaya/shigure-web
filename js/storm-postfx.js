@@ -126,7 +126,7 @@
     };
 
     const rebuildLens = () => {
-      const n = Math.max(28, Math.round(48 + w / 28));
+      const n = Math.max(18, Math.round(28 + w / 48));
       while (lensDrops.length < n) {
         const edge = Math.random();
         let x;
@@ -147,10 +147,10 @@
         lensDrops.push({
           x,
           y,
-          r: rand(2.5, 9),
-          vy: rand(8, 28),
-          a: rand(0.12, 0.38),
-          trail: rand(6, 22),
+          r: rand(1.8, 5.5),
+          vy: rand(6, 18),
+          a: rand(0.1, 0.28),
+          trail: rand(4, 14),
           phase: Math.random() * Math.PI * 2,
           edge,
         });
@@ -310,8 +310,8 @@
             d.x = rand(w * 0.9, w);
             d.y = rand(0, h);
           }
-          d.r = rand(2.5, 9);
-          d.vy = rand(8, 28);
+          d.r = rand(1.8, 5.5);
+          d.vy = rand(6, 18);
         }
 
         const alpha = d.a * aMul * (0.7 + flashBoost * 0.65);

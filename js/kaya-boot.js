@@ -2,7 +2,7 @@
  * 按页面 + 天气模式按需加载脚本（defer 入口）
  */
 (() => {
-  const V = "202608251735";
+  const V = "202608252330";
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -49,6 +49,10 @@
         `js/gal-quiz-data.js?v=${V}`,
         `js/gal-quiz.js?v=${V}`,
       ],
+      pick: [
+        `js/gal-pick-data.js?v=${V}`,
+        `js/gal-pick.js?v=${V}`,
+      ],
       sedai: [
         `js/gal-sedai-data.js?v=${V}`,
         `js/gal-sedai.js?v=${V}`,
@@ -80,8 +84,9 @@
       storm: [...heavyBundle, `js/storm-lightning.js?v=${V}`],
     };
 
-    const urls = [...(dataByPage[page] || []), ...(page === "quiz" || page === "sedai" ? [] : shared)];
-    if (!reduced && page !== "quiz" && page !== "sedai") {
+    const noWeather = page === "quiz" || page === "sedai" || page === "pick";
+    const urls = [...(dataByPage[page] || []), ...(noWeather ? [] : shared)];
+    if (!reduced && !noWeather) {
       urls.push(...(weatherByMode[mode] || weatherByMode.light));
     }
     urls.push(`js/main.js?v=${V}`);
@@ -101,6 +106,10 @@
       quiz: () => {
         window.KayaQuiz?.init();
         api.initQuiz();
+      },
+      pick: () => {
+        window.KayaGalPick?.init();
+        api.initPick();
       },
       sedai: () => {
         window.KayaGalSedai?.init();

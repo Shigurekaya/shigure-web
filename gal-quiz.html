@@ -6,32 +6,77 @@
   <base href="/" />
   <title>Gal 水平测试</title>
   <meta name="description" content="Gal 水平测试 — 题目改编自 ima-ero エロゲクイズ" />
-  <meta name="theme-color" content="#f7f8fc" />
-  <link rel="stylesheet" href="css/style-core.css?v=202608251735" />
+  <meta name="theme-color" content="#1a1030" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608252320" />
+  <link rel="stylesheet" href="css/gal-quiz.css?v=202608252330" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
 <body class="page-quiz page-quiz--standalone page-quiz--flat-bg" data-kaya-page="quiz">
-  <div class="site-bg" aria-hidden="true"></div>
+  <div class="site-bg quiz-stage-bg" aria-hidden="true">
+    <span class="quiz-stage-bg__sky"></span>
+    <span class="quiz-stage-bg__bokeh"></span>
+    <span class="quiz-stage-bg__horizon"></span>
+    <span class="quiz-stage-bg__grain"></span>
+    <div class="quiz-stage-bg__petals" aria-hidden="true">
+      <!-- far: soft / blurred -->
+      <span class="quiz-stage-bg__petal is-far"></span>
+      <span class="quiz-stage-bg__petal is-far"></span>
+      <span class="quiz-stage-bg__petal is-far"></span>
+      <span class="quiz-stage-bg__petal is-far"></span>
+      <span class="quiz-stage-bg__petal is-far"></span>
+      <span class="quiz-stage-bg__petal is-far"></span>
+      <!-- mid -->
+      <span class="quiz-stage-bg__petal is-mid"></span>
+      <span class="quiz-stage-bg__petal is-mid"></span>
+      <span class="quiz-stage-bg__petal is-mid"></span>
+      <span class="quiz-stage-bg__petal is-mid"></span>
+      <!-- near: clearer, few -->
+      <span class="quiz-stage-bg__petal is-near"></span>
+      <span class="quiz-stage-bg__petal is-near"></span>
+    </div>
+  </div>
 
   <main class="page-main page-main--quiz">
     <p class="quiz-back">
-      <a href="/">← 返回主页</a>
+      <a href="/">返回主页</a>
     </p>
-    <header class="page-head">
-      <p class="page-head__eyebrow">Gal Quiz</p>
-      <h1>Gal 水平测试</h1>
-      <p class="page-head__sub">题库改编自 ima-ero「エロゲクイズ」第1–5弹 · 共 116 题</p>
+
+    <header class="quiz-hero" id="quiz-hero">
+      <p class="quiz-hero__label">Gal Quiz</p>
+      <h1 class="quiz-hero__title">Gal 水平测试</h1>
+      <p class="quiz-hero__sub">题库改编自 ima-ero「エロゲクイズ」第 1–5 弹</p>
+      <ul class="quiz-hero__stats">
+        <li><strong>116</strong> 题</li>
+        <li><strong>5</strong> 弹</li>
+        <li>图 / 音 / 视频</li>
+      </ul>
     </header>
 
     <section class="quiz-panel" id="quiz-root" aria-live="polite">
       <div class="quiz-intro" id="quiz-intro">
-        <p>共收录五弹题目（含图片 / 音频 / 视频）。请选择测验模式。</p>
-        <p class="quiz-intro__note">部分题目含剧透与绅士向内容；音频/视频请手动播放。</p>
+        <p class="quiz-intro__lead">选择挑战路线，测试你的 Gal 知识储备。</p>
+        <p class="quiz-intro__note">※ 含剧透与绅士向内容 · 音视频需手动播放</p>
+
         <div class="quiz-mode-actions">
-          <button type="button" class="quiz-btn quiz-btn--primary" id="quiz-start-random">随机 20 题</button>
-          <button type="button" class="quiz-btn" id="quiz-start-full">全部测试</button>
+          <button type="button" class="quiz-mode-card quiz-mode-card--primary" id="quiz-start-random">
+            <span class="quiz-mode-card__num" aria-hidden="true">01</span>
+            <span class="quiz-mode-card__body">
+              <span class="quiz-mode-card__title">随机 20 题</span>
+              <span class="quiz-mode-card__desc">每题 5 分 · 满分 100</span>
+            </span>
+            <span class="quiz-mode-card__go" aria-hidden="true">▸</span>
+          </button>
+          <button type="button" class="quiz-mode-card" id="quiz-start-full">
+            <span class="quiz-mode-card__num" aria-hidden="true">02</span>
+            <span class="quiz-mode-card__body">
+              <span class="quiz-mode-card__title">全部测试</span>
+              <span class="quiz-mode-card__desc">按正确率计分 · 满分 100</span>
+            </span>
+            <span class="quiz-mode-card__go" aria-hidden="true">▸</span>
+          </button>
         </div>
-        <p class="quiz-intro__hint">随机模式每题 5 分（满分 100）；全部模式按正确率计分（满分 100）。作答后直接点「下一题」，全部完成后可查看错题与参考答案。</p>
+
+        <p class="quiz-intro__hint">作答后点「下一题」继续 · 完成后可回顾错题</p>
       </div>
 
       <div class="quiz-play" id="quiz-play" hidden>
@@ -39,7 +84,7 @@
         <aside class="quiz-nav" id="quiz-nav" aria-label="题目导航">
           <div class="quiz-nav__head">
             <div class="quiz-nav__head-row">
-              <p class="quiz-nav__title">题目进度</p>
+              <p class="quiz-nav__title">题目</p>
               <button type="button" class="quiz-nav__close" id="quiz-nav-close" aria-label="关闭题目列表">
                 <span aria-hidden="true">×</span>
               </button>
@@ -66,11 +111,13 @@
             </div>
           </div>
           <article class="quiz-card" id="quiz-card">
-            <header class="quiz-card__head">
-              <span class="quiz-card__num" id="quiz-card-num">Q1</span>
-              <span class="quiz-card__meta" id="quiz-meta"></span>
-            </header>
-            <h2 class="quiz-card__q" id="quiz-question"></h2>
+            <div class="quiz-dialogue">
+              <header class="quiz-card__head">
+                <span class="quiz-card__num" id="quiz-card-num">Q1</span>
+                <span class="quiz-card__meta" id="quiz-meta"></span>
+              </header>
+              <h2 class="quiz-card__q" id="quiz-question"></h2>
+            </div>
             <aside class="quiz-answer-debug" id="quiz-answer-debug" aria-label="临时参考答案"></aside>
             <div class="quiz-media" id="quiz-media"></div>
             <div class="quiz-answers" id="quiz-answers"></div>
@@ -84,6 +131,7 @@
       </div>
 
       <div class="quiz-result" id="quiz-result" hidden>
+        <p class="quiz-result__eyebrow">Result</p>
         <p class="quiz-result__score"><span id="quiz-score">0</span><small id="quiz-score-max">/ 100</small></p>
         <p class="quiz-result__detail" id="quiz-result-detail"></p>
         <p class="quiz-result__rank" id="quiz-rank"></p>
@@ -104,7 +152,7 @@
     <p class="site-footer__credit">题目来源致谢：<a href="https://www.ima-ero.com/" target="_blank" rel="noopener noreferrer">今更だけどエロゲしようぜ！</a></p>
   </footer>
 
-  <script src="js/kaya-rain-mode.js?v=202608251735" defer></script>
-  <script src="js/kaya-boot.js?v=202608251735" defer></script>
+  <script src="js/kaya-rain-mode.js?v=202608252320" defer></script>
+  <script src="js/kaya-boot.js?v=202608252320" defer></script>
 </body>
 </html>

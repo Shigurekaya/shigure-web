@@ -139,15 +139,16 @@
     };
 
     const rebuildBokeh = () => {
-      const n = Math.max(16, Math.round(22 + w / 80));
+      /* 远景柔光斑，勿做成贴屏冷凝大圆 */
+      const n = Math.max(6, Math.round(8 + w / 140));
       while (bokehs.length < n) {
         bokehs.push({
           x: Math.random() * w,
           y: Math.random() * h,
-          vx: rand(-8, 8),
-          vy: rand(-4, 6),
-          r: rand(28, 88),
-          a: rand(0.04, 0.14),
+          vx: rand(-6, 6),
+          vy: rand(-3, 4),
+          r: rand(10, 32),
+          a: rand(0.02, 0.07),
           phase: Math.random() * Math.PI * 2,
         });
       }

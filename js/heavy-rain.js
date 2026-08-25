@@ -663,9 +663,12 @@
     const body = document.body;
     if (!body.classList.contains("page-home")) return true;
     if (body.classList.contains("home-intro-playing")) return false;
-    if (!body.classList.contains("home-revealed")) return false;
+    /* home-ready 且正文已可见即可截；勿强依赖 home-revealed（跳过 intro 时可能未加） */
+    if (!body.classList.contains("home-ready")
+      && !body.classList.contains("home-revealed")) return false;
     const probes = document.querySelectorAll(".profile-avatar, .profile-name, .intro-panel");
-    if (!probes.length) return body.classList.contains("home-ready");
+    if (!probes.length) return body.classList.contains("home-ready")
+      || body.classList.contains("home-revealed");
     try {
       return Array.from(probes).some((el) => {
         const st = getComputedStyle(el);
@@ -675,6 +678,12 @@
     } catch {
       return true;
     }
+  }
+
+  /** 2D 冷凝微珠上限（贴屏由 raindrop droplets 负责，回退路径勿上千级粒子） */
+  function condenseMicroN(storm, phone) {
+    if (storm) return phone ? 56 : 88;
+    return phone ? 40 : 64;
   }
 
   /**
@@ -807,25 +816,25 @@
     };
     if (storm) {
       /*
-       * 雷暴贴屏大珠：透亮透镜 + 主珠下滑；勿程序化冷凝（harder 下发黑/白糊）。
-       * 大珠保留体积，光照对齐大雨修复（中亮 diffuse + 折射）。
+       * 雷暴贴屏：水色大折射珠 + 稀疏冷凝微珠（勿满屏霜、勿零冷凝）。
+       * 珠径对齐库默认量级；光照保持中亮青白（忌高阴影→墨团）。
        */
-      opts.spawnSize = phone ? [22, 44] : [56, 108];
-      opts.slipRate = 0.96;
-      opts.trailDropDensity = 0.12 * STORM_BEAD_MUL;
-      opts.trailDropSize = [0.2, 0.34];
+      opts.spawnSize = phone ? [72, 150] : [88, 180];
+      opts.slipRate = 0.92;
+      opts.trailDropDensity = 0.14;
+      opts.trailDropSize = [0.22, 0.38];
       opts.trailDistance = [28, 54];
-      opts.trailSpread = 0.34;
-      opts.initialSpread = 0.34;
-      opts.shrinkRate = 0.026;
-      opts.velocitySpread = 0.22;
-      opts.evaporate = 22;
-      opts.gravity = 2900;
+      opts.trailSpread = 0.36;
+      opts.initialSpread = 0.4;
+      opts.shrinkRate = 0.018;
+      opts.velocitySpread = 0.24;
+      opts.evaporate = 16;
+      opts.gravity = 2700;
       opts.xShifting = [0, 0.022];
-      opts.colliderSize = phone ? 0.74 : 0.82;
-      opts.motionInterval = [0.02, 0.06];
+      opts.colliderSize = phone ? 0.78 : 0.86;
+      opts.motionInterval = [0.04, 0.1];
       opts.refractBase = 0.48;
-      opts.refractScale = 0.88;
+      opts.refractScale = 0.9;
       opts.raindropCompose = "harder";
       opts.smoothRaindrop = [0.95, 0.99];
       opts.backgroundBlurSteps = 0;
@@ -839,30 +848,31 @@
       opts.raindropShadowOffset = 0.13;
       opts.raindropLightPos = [-0.45, 1.36, 2.72, 0];
       opts.raindropEraserSize = [0.9, 1.0];
-      opts.dropletsPerSeconds = 0;
-      opts.dropletSize = [4, 8];
+      /* 稀疏冷凝：突出大珠；过密→霜罩，为 0→玻璃发干 */
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 40 : 70) : 0;
+      opts.dropletSize = screenGlass ? [5, 12] : [4, 8];
       opts.spawnLimit = Math.min(
         opts.spawnLimit || 2400,
-        screenGlass ? (phone ? 36 : 168) * STORM_BEAD_MUL : 220,
+        screenGlass ? (phone ? 120 : 240) : 220,
       );
-      opts.spawnInterval = screenGlass ? [0.028, 0.062] : [0.04, 0.09];
+      opts.spawnInterval = screenGlass ? [0.05, 0.11] : [0.04, 0.09];
     } else {
       /*
-       * 大雨冷凝：透明透镜珠 + 匀速下滑（勿极小珠+超高重力→墨泪痕）。
+       * 大雨贴屏：透明透镜主珠 + 少量冷凝微珠（对齐参考片湿玻璃）。
        */
-      opts.spawnSize = phone ? [20, 40] : [22, 44];
-      opts.slipRate = 0.98;
-      opts.trailDropDensity = 0.1;
-      opts.trailDropSize = [0.14, 0.28];
+      opts.spawnSize = phone ? [52, 110] : [64, 130];
+      opts.slipRate = 0.94;
+      opts.trailDropDensity = 0.12;
+      opts.trailDropSize = [0.18, 0.32];
       opts.trailDistance = [22, 46];
       opts.trailSpread = 0.34;
-      opts.initialSpread = 0.34;
-      opts.shrinkRate = 0.028;
+      opts.initialSpread = 0.38;
+      opts.shrinkRate = 0.02;
       opts.velocitySpread = 0.26;
-      opts.evaporate = 20;
-      opts.gravity = 3100;
+      opts.evaporate = 18;
+      opts.gravity = 2850;
       opts.xShifting = [0, 0.018];
-      opts.colliderSize = 0.8;
+      opts.colliderSize = 0.84;
       opts.refractBase = 0.48;
       opts.refractScale = 0.9;
       opts.raindropCompose = "harder";
@@ -878,18 +888,18 @@
       opts.raindropShadowOffset = 0.13;
       opts.raindropLightPos = [-0.48, 1.38, 2.75, 0];
       opts.raindropEraserSize = [0.92, 1.0];
-      opts.motionInterval = [0.02, 0.055];
-      opts.dropletsPerSeconds = 0;
-      opts.dropletSize = [4, 8];
+      opts.motionInterval = [0.035, 0.08];
+      opts.dropletsPerSeconds = screenGlass ? (phone ? 28 : 48) : 0;
+      opts.dropletSize = screenGlass ? [5, 12] : [4, 8];
       opts.spawnLimit = Math.min(
         opts.spawnLimit || 400,
-        screenGlass ? (phone ? 48 : 62) : 120,
+        screenGlass ? (phone ? 140 : 220) : 120,
       );
-      opts.spawnInterval = screenGlass ? [0.042, 0.088] : [0.055, 0.11];
+      opts.spawnInterval = screenGlass ? [0.055, 0.12] : [0.055, 0.11];
       if (phone && !screenGlass) {
-        opts.spawnSize = [12, 28];
-        opts.spawnLimit = 200;
-        opts.trailDropDensity = 0.35;
+        opts.spawnSize = [44, 96];
+        opts.spawnLimit = 180;
+        opts.trailDropDensity = 0.28;
       }
     }
     return opts;
@@ -1135,16 +1145,9 @@
     glassDropCanvas.classList.add("is-clear-glass");
 
     const glassMainN = storm
-      ? Math.max(realPhone ? 88 : 128, q0.glassMain || 128)
+      ? Math.max(realPhone ? 56 : 72, Math.round((q0.glassMain || 128) * 0.42))
       : (realPhone ? Math.max(36, Math.round((q0.glassMain || 34) * 1.0)) : (q0.glassMain || 90));
-    const glassMicroN = storm
-      ? Math.max(
-        realPhone ? 320 : 620,
-        Math.round((q0.glassMicro || 980) * 0.88 * STORM_BEAD_MUL),
-      )
-      : (realPhone || mobileLite
-        ? Math.max(90, Math.round((q0.glassMicro || 360) * 0.28))
-        : Math.max(140, Math.round((q0.glassMicro || 560) * 0.32)));
+    const glassMicroN = condenseMicroN(storm, realPhone);
 
     const glassDrops = window.KayaGlassDrops?.attach
       ? window.KayaGlassDrops.attach(glassDropCanvas, {
@@ -1364,7 +1367,8 @@
         || cls.contains("site-bg__heavy-mist")
         || cls.contains("site-bg__heavy")
         || cls.contains("site-bg__glass")
-        || cls.contains("site-fx");
+        || cls.contains("site-fx")
+        || [...cls].some((c) => c.startsWith("site-fx__storm-"));
     };
 
     /** 贴屏：天空 + DOM 快照 + GitHub 小雨雨丝。绝不 drawImage WebGL */
@@ -1408,6 +1412,7 @@
 
     let captureUiRetries = 0;
     let captureWatchdog = 0;
+    let captureWatchdogFails = 0;
     let bgPushInFlight = false;
     let bgPushQueued = false;
     let glassStartGen = 0;
@@ -1514,14 +1519,19 @@
       if (!h2c) return false;
       captureInFlight = true;
       window.clearTimeout(captureWatchdog);
-      /* html2canvas 偶发永不 resolve；超时解锁，避免整页截图队列永久堵死 */
+      /* html2canvas 偶发永不 resolve；暴雨层多，超时放宽并先重试再降级 */
       captureWatchdog = window.setTimeout(() => {
         if (!captureInFlight) return;
         console.warn("[kaya] storm glass capture watchdog");
         captureInFlight = false;
         captureQueued = null;
-        demoteScreenGlass("capture watchdog");
-      }, 8000);
+        captureWatchdogFails += 1;
+        if (captureWatchdogFails >= 3) {
+          demoteScreenGlass("capture watchdog");
+        } else {
+          scheduleDomCapture(storm ? 480 : 240);
+        }
+      }, storm ? 18000 : 10000);
       const prevGlass = glassCanvas.style.display;
       const prevSplash = splashCanvas.style.display;
       const prevDrops = glassDropCanvas.style.display;
@@ -1535,10 +1545,22 @@
       mist.style.display = "none";
       streakCanvas.style.display = "none";
       if (refractNode) refractNode.style.display = "none";
+      /** 暴雨：截图时暂藏整层 site-fx，加速 html2canvas 并避免截进半透明特效 */
+      const hiddenStormLayers = [];
+      if (storm) {
+        document.querySelectorAll(".site-fx").forEach((el) => {
+          hiddenStormLayers.push({ el, display: el.style.display });
+          el.style.display = "none";
+        });
+      }
       const skyHex = storm ? "#1a283c" : "#455f7a";
       try {
-        const scale = bw / Math.max(1, window.innerWidth);
-        const shot = await h2c(document.documentElement, {
+        const scale = Math.min(
+          bw / Math.max(1, window.innerWidth),
+          storm ? 1.12 : 2.5,
+        );
+        const captureRoot = storm ? document.body : document.documentElement;
+        const shot = await h2c(captureRoot, {
           width: bw,
           height: bh,
           windowWidth: window.innerWidth,
@@ -1581,6 +1603,7 @@
           } else {
             stormDomReady = true;
             captureUiRetries = 0;
+            captureWatchdogFails = 0;
             lastDomCaptureAt = performance.now();
             stormRefract?.refreshTexture?.();
           }
@@ -1591,6 +1614,7 @@
       } finally {
         window.clearTimeout(captureWatchdog);
         captureWatchdog = 0;
+        hiddenStormLayers.forEach(({ el, display }) => { el.style.display = display; });
         glassCanvas.style.display = prevGlass;
         splashCanvas.style.display = prevSplash;
         glassDropCanvas.style.display = prevDrops;
@@ -1669,8 +1693,20 @@
             return false;
           };
           if (!(await waitUi())) return false;
-          const ok = await captureStormDom(bw, bh);
-          if (!ok || screenGlassDemoted) return false;
+          const captureOk = await Promise.race([
+            captureStormDom(bw, bh),
+            new Promise((resolve) => {
+              window.setTimeout(() => resolve(false), storm ? 14000 : 9000);
+            }),
+          ]);
+          if (screenGlassDemoted) return false;
+          /* 暴雨截图慢时先用天空+雨丝底图启贴屏（冷凝珠不依赖 DOM 快照） */
+          if (!captureOk && storm) {
+            composeGlassBackground(bw, bh);
+            scheduleDomCapture(520);
+          } else if (!captureOk) {
+            return false;
+          }
         }
         composeGlassBackground(bw, bh);
         glassCanvas.width = bw;
@@ -1780,13 +1816,9 @@
       gpu?.setAdaptive?.(!storm);
       glassDrops?.setCounts(
         storm
-          ? Math.max(realPhone ? 120 : 168, q.glassMain || 168)
+          ? Math.max(realPhone ? 56 : 72, Math.round((q.glassMain || 168) * 0.42))
           : (realPhone ? Math.max(36, Math.round((q.glassMain || 34) * 1.0)) : (q.glassMain || 90)),
-        storm
-          ? Math.max(realPhone ? 420 : 720, Math.round((q.glassMicro || 980) * 0.88 * STORM_BEAD_MUL))
-          : (realPhone || mobileLite
-            ? Math.max(90, Math.round((q.glassMicro || 360) * 0.28))
-            : Math.max(140, Math.round((q.glassMicro || 560) * 0.32))),
+        condenseMicroN(storm, realPhone),
       );
       const ledgeSnap = (opts.collectLedges
         ? opts.collectLedges()

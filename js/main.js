@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 时雨榧个人站
  */
 const Kaya = (() => {
@@ -249,7 +249,7 @@ const Kaya = (() => {
     });
   }
 
-  const KAYA_ASSET_V = "202608251200";
+  const KAYA_ASSET_V = "202608252100";
   const SPA_PAGE_CLASSES = ["page-home", "page-works", "page-links", "page-mv"];
   const SPA_TITLES = {
     home: "时雨榧",
@@ -278,6 +278,11 @@ const Kaya = (() => {
       <div class="intro-panel__body" id="intro-body"></div>
     </section>
     <div class="home-tool-entries" aria-label="Gal 工具">
+      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide" aria-label="萌新入坑 Gal 推荐">
+        <span class="site-quiz-entry__label">Pick</span>
+        <span class="site-quiz-entry__title">萌新入坑推荐</span>
+        <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
+      </a>
       <a href="/gal-quiz/" class="site-quiz-entry" aria-label="Gal 水平测试">
         <span class="site-quiz-entry__label">Quiz</span>
         <span class="site-quiz-entry__title">gal水平测试</span>
@@ -1013,7 +1018,8 @@ const Kaya = (() => {
 
   function initCommon(rainMode) {
     const isStandaloneTool = document.body.classList.contains("page-quiz")
-      || document.body.classList.contains("page-sedai");
+      || document.body.classList.contains("page-sedai")
+      || document.body.classList.contains("page-pick");
     if (!isStandaloneTool && !shellInited) {
       shellInited = true;
       initNav();
@@ -2051,13 +2057,18 @@ const Kaya = (() => {
     markPageReady();
   }
 
+  function initPick() {
+    initCommon(null);
+    markPageReady();
+  }
+
   function initSedai() {
     mountQuizStaticBg();
     initCommon(null);
     markPageReady();
   }
 
-  return { initHome, initWorks, initLinks, initMvMaterials, initQuiz, initSedai, data };
+  return { initHome, initWorks, initLinks, initMvMaterials, initQuiz, initPick, initSedai, data };
 })();
 
 /* kaya-boot 通过 window.Kaya 调用；const 不会挂到 window */

@@ -400,14 +400,14 @@
       if (noSpray || microN <= 0) return;
       const preferUi = opts2.preferUi !== false && ledges.length && Math.random() < (storm ? 0.52 : 0.42);
       const ui = preferUi ? pickInLedge(0.95) : null;
-      const scale = opts2.scale ?? rand(storm ? 0.18 : 0.32, storm ? 0.55 : 0.78);
-      const clingMax = storm ? (lite ? 2.4 : 3.5) : 0.08;
-      const clingMin = storm ? 0.2 : 0;
+      const scale = opts2.scale ?? rand(storm ? 0.1 : 0.32, storm ? 0.34 : 0.78);
+      const clingMax = storm ? (lite ? 1.8 : 2.6) : 0.08;
+      const clingMin = storm ? 0.15 : 0;
       beads.push({
         x: opts2.x ?? ui?.x ?? Math.random() * w,
-        y: opts2.y ?? ui?.y ?? Math.pow(Math.random(), storm ? 0.52 : 0.6) * h,
+        y: opts2.y ?? ui?.y ?? Math.pow(Math.random(), storm ? 0.62 : 0.6) * h,
         scale,
-        a: opts2.a ?? rand(0.34, storm ? 0.85 : 0.56),
+        a: opts2.a ?? rand(0.28, storm ? 0.62 : 0.56),
         cling: opts2.cling ?? rand(clingMin, clingMax),
         flowing: false,
         vy: 0,
@@ -420,8 +420,8 @@
     const targetBeadN = () => {
       if (noSpray || microN <= 0) return 0;
       const area = clamp((w * h) / (1280 * 720), 0.65, 1.5);
-      /* 大雨珠径已加大，密度略降以免糊成霜罩 */
-      const dens = storm ? (lite ? 0.58 : 0.72) : 0.34;
+      /* 冷凝微珠：稀疏透亮，勿糊成满屏大光斑 */
+      const dens = storm ? (lite ? 0.28 : 0.34) : 0.34;
       return Math.round(microN * dens * area);
     };
 

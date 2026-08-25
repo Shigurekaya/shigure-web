@@ -496,6 +496,10 @@ body.sunny-sky .kaya-sandaime-hint {
   min-width: 0;
 }
 
+.home-tool-entries .site-quiz-entry--wide {
+  grid-column: 1 / -1;
+}
+
 @media (max-width: 520px) {
   .home-tool-entries {
     grid-template-columns: 1fr;
@@ -3403,7 +3407,10 @@ body.heavy-rain .footer-sites-item__avatar {
 .page-sedai .sedai-back,
 .page-sedai .sedai-scroll,
 .page-sedai .sedai-actions,
-.page-sedai .site-footer {
+.page-sedai .site-footer,
+.page-pick .pick-back,
+.page-pick .pick-shell,
+.page-pick .site-footer {
   opacity: 0;
 }
 
