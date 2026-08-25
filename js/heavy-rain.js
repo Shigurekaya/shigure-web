@@ -618,29 +618,40 @@
    * 2) 几乎没有亮色 UI 块（正文仍 opacity:0 时截到纯天空）→ 也放弃
    *    否则贴屏 WebGL 会用不含正文的底图盖满 z-index:50，表现为「只剩雨」。
    */
+  function sampleRegionBrightness(cx, canvas, rx, ry, rw, rh) {
+    const x0 = Math.max(0, Math.min(canvas.width - 1, Math.floor(rx * canvas.width)));
+    const y0 = Math.max(0, Math.min(canvas.height - 1, Math.floor(ry * canvas.height)));
+    const sw = Math.max(4, Math.min(64, Math.floor(rw * canvas.width), canvas.width - x0));
+    const sh = Math.max(4, Math.min(64, Math.floor(rh * canvas.height), canvas.height - y0));
+    const img = cx.getImageData(x0, y0, sw, sh).data;
+    let sum = 0;
+    let dark = 0;
+    let bright = 0;
+    const n = sw * sh;
+    for (let i = 0; i < img.length; i += 4) {
+      const y = 0.2126 * img[i] + 0.7152 * img[i + 1] + 0.0722 * img[i + 2];
+      sum += y;
+      if (y < 8) dark += 1;
+      if (y > 72) bright += 1;
+    }
+    return {
+      mean: sum / n,
+      darkRatio: dark / n,
+      brightRatio: bright / n,
+    };
+  }
+
   function captureLooksBlack(canvas) {
     try {
       const cx = canvas.getContext("2d");
       if (!cx || canvas.width < 8) return true;
-      const sw = Math.min(64, canvas.width);
-      const sh = Math.min(64, canvas.height);
-      const img = cx.getImageData(0, 0, sw, sh).data;
-      let sum = 0;
-      let dark = 0;
-      let bright = 0;
-      const n = sw * sh;
-      for (let i = 0; i < img.length; i += 4) {
-        const y = 0.2126 * img[i] + 0.7152 * img[i + 1] + 0.0722 * img[i + 2];
-        sum += y;
-        if (y < 8) dark += 1;
-        if (y > 72) bright += 1;
-      }
-      const mean = sum / n;
-      const darkRatio = dark / n;
-      const brightRatio = bright / n;
-      if (mean < 10 || darkRatio > 0.94) return true;
+      const full = sampleRegionBrightness(cx, canvas, 0, 0, 1, 1);
+      if (full.mean < 10 || full.darkRatio > 0.94) return true;
       /* 暗色暴风雨底 mean 可到 40～90，但正常有面板/头像时应有一定亮像素 */
-      if (brightRatio < 0.012 && mean < 95) return true;
+      if (full.brightRatio < 0.012 && full.mean < 95) return true;
+      /* 正文区（头像/名字）应在画面中上部；仅顶栏+天空通过时仍会黑屏 */
+      const hero = sampleRegionBrightness(cx, canvas, 0.18, 0.16, 0.64, 0.34);
+      if (hero.brightRatio < 0.018 && hero.mean < 88) return true;
       return false;
     } catch {
       return true;
@@ -651,14 +662,16 @@
   function isHomeUiCaptureReady() {
     const body = document.body;
     if (!body.classList.contains("page-home")) return true;
-    if (body.classList.contains("home-intro-playing") && !body.classList.contains("home-ready")) {
-      return false;
-    }
-    const probe = document.querySelector(".profile-name, .profile-avatar, .brand");
-    if (!probe) return body.classList.contains("home-ready") || body.classList.contains("home-revealed");
+    if (body.classList.contains("home-intro-playing")) return false;
+    if (!body.classList.contains("home-revealed")) return false;
+    const probes = document.querySelectorAll(".profile-avatar, .profile-name, .intro-panel");
+    if (!probes.length) return body.classList.contains("home-ready");
     try {
-      const op = parseFloat(getComputedStyle(probe).opacity || "0");
-      return op > 0.15;
+      return Array.from(probes).some((el) => {
+        const st = getComputedStyle(el);
+        const op = parseFloat(st.opacity || "0");
+        return op > 0.55 && st.visibility !== "hidden" && st.display !== "none";
+      });
     } catch {
       return true;
     }
@@ -943,7 +956,8 @@
      * 关键：贴屏时不创建 GPU 雨丝（手机双 WebGL 会抢上下文 → raindrop 静默失败）。
      * 雨丝画进折射底图；失败 demote 后再挂 GPU + 2D 珠。 */
     const h2cOk = typeof window.html2canvas === "function";
-    let useScreenGlass = !!(RaindropCtor && h2cOk);
+    /* 手机禁用贴屏折射：html2canvas 常截不到正文 → 全屏黑底只剩雨丝，顶栏 z-index 仍可见 */
+    let useScreenGlass = !!(RaindropCtor && h2cOk) && !realPhone;
     let screenGlassDemoted = !useScreenGlass;
 
     const glassCanvas = document.createElement("canvas");

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-"""把所有 gal-quiz 图片复制到单一文件夹，供人工删 R18。文件名：{题号}__{原文件名}"""
+"""
+把所有 gal-quiz 配图复制到单一文件夹，方便人工删图。
+文件名：{题号}__{原文件名}
+删完后执行：python _quiz_raw/sync_after_image_review.py
+"""
 from __future__ import annotations
 
 import json
@@ -8,8 +12,9 @@ import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-REVIEW = ROOT / "assets" / "gal-quiz" / "_review-delete-r18"
+REVIEW = ROOT / "assets" / "gal-quiz" / "_delete-images"
 JS = ROOT / "js" / "gal-quiz-data.js"
+KEEP = {"manifest.json", "README.txt"}
 
 
 def load_bank() -> list[dict]:
@@ -18,8 +23,15 @@ def load_bank() -> list[dict]:
     return json.loads(m.group(1))
 
 
-def main() -> None:
+def clear_old_images() -> None:
     REVIEW.mkdir(parents=True, exist_ok=True)
+    for p in REVIEW.iterdir():
+        if p.is_file() and p.name not in KEEP:
+            p.unlink()
+
+
+def main() -> None:
+    clear_old_images()
     bank = load_bank()
     manifest: list[dict] = []
     copied = 0
@@ -51,16 +63,15 @@ def main() -> None:
     manifest_path.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    readme = REVIEW / "README.txt"
-    readme.write_text(
-        "GAL 问答图片审查文件夹\n"
-        "====================\n\n"
-        "1. 在此文件夹内浏览并删除 R18 / H 场景图片。\n"
-        "2. 文件名格式：题号__原文件名（如 s3-14__nijimu-shiri.jpg）\n"
-        "3. 删完后在项目根目录执行：\n"
+    (REVIEW / "README.txt").write_text(
+        "GAL 水平测试 — 配图删除文件夹\n"
+        "============================\n\n"
+        "1. 在此文件夹浏览并删除不想保留的图片。\n"
+        "2. 文件名格式：题号__原文件名（如 s3-14__foo.jpg）\n"
+        "3. 删完后在 shigure-web 目录执行：\n"
         "   python _quiz_raw/sync_after_image_review.py\n\n"
-        "注意：不要删 manifest.json 和本 README。\n"
-        "同一题有多张图时，删掉任意一张 R18 图会移除整道题。\n",
+        "规则：同一题任意一张图被删 → 整道题从题库移除。\n"
+        "不要删 manifest.json 和本 README。\n",
         encoding="utf-8",
     )
     print(f"Review folder: {REVIEW}")

@@ -47,7 +47,7 @@ function correctAnswerText(q) {
 }
 
 test("bank loaded", () => {
-  assert.equal(bank.length, 119);
+  assert.equal(bank.length, 116);
 });
 
 test("every question has valid structure", () => {
@@ -103,16 +103,26 @@ test("all media files exist on disk", () => {
   assert.deepEqual(missing, []);
 });
 
-test("checkText accepts single-char and multi-char answers", () => {
-  const textQ = bank.find((q) => q.id === "s1-09");
-  assert.ok(textQ);
-  assert.equal(checkText("②③①", textQ.answers), true);
-  assert.equal(checkText("231", textQ.answers), true);
-  assert.equal(checkText("", textQ.answers), false);
-  assert.equal(checkText("②", bank.find((q) => q.id === "s3-20").answers), true);
-  assert.equal(checkText("左", bank.find((q) => q.id === "s5-13").answers), true);
+test("choice answers resolve correctly for converted closed-set questions", () => {
+  const s109 = bank.find((q) => q.id === "s1-09");
+  assert.equal(s109.type, "choice");
+  assert.equal(s109.options[s109.answer], "②③①");
+  const s321 = bank.find((q) => q.id === "s3-21");
+  assert.equal(s321.type, "text");
+  assert.ok(checkText("真剣で私に恋しなさい！", s321.answers));
+  const s513 = bank.find((q) => q.id === "s5-13");
+  assert.equal(s513.type, "choice");
+  assert.equal(s513.options[s513.answer], "左");
   const choiceQ = bank.find((q) => q.id === "s1-05");
   assert.equal(choiceQ.options[choiceQ.answer], "CROSS†CHANNEL");
+});
+
+test("bank mixes choice and text appropriately", () => {
+  const textCount = bank.filter((q) => q.type === "text").length;
+  const choiceCount = bank.filter((q) => q.type === "choice").length;
+  assert.equal(bank.length, 116);
+  assert.equal(choiceCount, 61);
+  assert.equal(textCount, 55);
 });
 
 test("correctAnswerText returns non-empty for all questions", () => {
@@ -123,8 +133,11 @@ test("correctAnswerText returns non-empty for all questions", () => {
 });
 
 test("gal-quiz.html wiring", () => {
-  assert.match(html, /共 119 题/);
+  assert.match(html, /共 116 题/);
   assert.match(html, /id="quiz-next"/);
+  assert.match(html, /id="quiz-prev"/);
+  assert.match(html, /id="quiz-nav-list"/);
+  assert.match(html, /id="quiz-nav-count"/);
   assert.match(html, /id="quiz-review-list"/);
   assert.match(html, /id="quiz-review-title"/);
   assert.match(html, /data-kaya-page="quiz"/);
@@ -132,8 +145,10 @@ test("gal-quiz.html wiring", () => {
   assert.doesNotMatch(html, /quiz-live-review/);
 });
 
-test("gal-quiz.js has deferred review flow", () => {
+test("gal-quiz.js has navigation and review flow", () => {
   assert.match(quizJs, /recordCurrent/);
+  assert.match(quizJs, /renderNav/);
+  assert.match(quizJs, /saveCurrentIfFilled/);
   assert.match(quizJs, /mountMedia/);
   assert.doesNotMatch(quizJs, /renderLiveReview/);
   assert.doesNotMatch(quizJs, /quiz-submit/);

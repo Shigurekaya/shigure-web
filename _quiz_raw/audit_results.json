@@ -1,5 +1,144 @@
 {
-  "leaks": [],
+  "leaks": [
+    {
+      "id": "s2-03",
+      "kind": "text_answer_in_question",
+      "value": "Little Busters!",
+      "question": "Key《Little Busters! EX》里枣恭介募捐时喊出的台词是？"
+    },
+    {
+      "id": "s2-04",
+      "kind": "text_answer_in_question",
+      "value": "繁花落舞恋如樱",
+      "question": "《繁花落舞恋如樱》五位女主名字（希望/小町/翼/回声/青叶）的共同点是？"
+    },
+    {
+      "id": "s2-05",
+      "kind": "text_answer_in_question",
+      "value": "变态监狱",
+      "question": "Qruppo《变态监狱》里，外号「秋千小偷金先生」是因何入狱？"
+    },
+    {
+      "id": "s2-06",
+      "kind": "text_answer_in_question",
+      "value": "放学后的灰姑娘",
+      "question": "HOOKSOFT《放学后的灰姑娘》中，築島つくし（尽×××）与小瀬葉月（お世話××）宣传语被黑条遮住的两处，分别填什么？"
+    },
+    {
+      "id": "s2-08",
+      "kind": "text_answer_in_question",
+      "value": "苍之彼方的四重奏",
+      "question": "写出两部作品中的虚构运动名——《苍之彼方的四重奏》的「□□□马戏团」与《牵绊闪耀的恋之伊吕波》的「□道」。"
+    },
+    {
+      "id": "s2-08",
+      "kind": "text_answer_in_question",
+      "value": "牵绊闪耀的恋之伊吕波",
+      "question": "写出两部作品中的虚构运动名——《苍之彼方的四重奏》的「□□□马戏团」与《牵绊闪耀的恋之伊吕波》的「□道」。"
+    },
+    {
+      "id": "s2-18",
+      "kind": "text_answer_in_question",
+      "value": "Dies irae",
+      "question": "《Dies irae》2007 版咏唱最后一句（对应德语 Verweile doch…）填什么？"
+    },
+    {
+      "id": "s3-01",
+      "kind": "text_answer_in_question",
+      "value": "Another",
+      "question": "请根据图片：动画《16bit 的感动 ANOTHER LAYER》ED 卡模仿了哪部 Galgame 的包装构图？"
+    },
+    {
+      "id": "s3-03",
+      "kind": "text_answer_in_question",
+      "value": "我们没有翅膀",
+      "question": "Gal 里常把麦当劳改成 WacDonald、LINE 改成 LIME 等。《我们没有翅膀》里 Don Quijote 被改成了什么名字？"
+    },
+    {
+      "id": "s3-04",
+      "kind": "text_answer_in_question",
+      "value": "こいのす☆イチャコライズ",
+      "question": "请根据图片：《恋之巢》（こいのす☆イチャコライズ）主人公房间「改造后」属于哪位女主路线？"
+    },
+    {
+      "id": "s3-05",
+      "kind": "text_answer_in_question",
+      "value": "銃剣道部",
+      "question": "アクティ部／ソアリング部／チャカポコ部／ぬこ部／乙女部／銃剣道部——以上部活均曾在 Gal 中出现或有女主所属。唯一例外的是哪一个？"
+    },
+    {
+      "id": "s3-10",
+      "kind": "text_answer_in_question",
+      "value": "车轮之国、向日葵的少女",
+      "question": "以下是《车轮之国、向日葵的少女》中的台词。请补全黑条部分。\n\n法月将臣：只会照做的人，是三流。\n法月将臣：能把交代的事做好的人，才刚够二流。\n法月将臣：森田要什么时候才能成为一流啊？\n\n（原句：森田は"
+    },
+    {
+      "id": "s3-18",
+      "kind": "text_answer_in_question",
+      "value": "晓之护卫",
+      "question": "《晓之护卫》光头男「抓头发」描写在后续移植版中如何修正？"
+    },
+    {
+      "id": "s3-19",
+      "kind": "text_answer_in_question",
+      "value": "没有天使的12月",
+      "question": "请根据图片：《没有天使的 12 月》包装角色由哪位原画师负责？（提示图可选）"
+    },
+    {
+      "id": "s3-20",
+      "kind": "text_answer_in_question",
+      "value": "八卦恋爱",
+      "question": "请根据图片：《八卦恋爱》包装女主中，结城りこ负责的是几号？"
+    },
+    {
+      "id": "s4-03",
+      "kind": "text_answer_in_question",
+      "value": "景之海的艾佩理雅",
+      "question": "以下是《流景之海的艾佩理雅》中的台词。请补全零一的黑条部分。\n\n零一：■■■■■■■■\n沙罗：什………………\n七海：……处……男…………"
+    },
+    {
+      "id": "s4-03",
+      "kind": "text_answer_in_question",
+      "value": "景之海",
+      "question": "以下是《流景之海的艾佩理雅》中的台词。请补全零一的黑条部分。\n\n零一：■■■■■■■■\n沙罗：什………………\n七海：……处……男…………"
+    },
+    {
+      "id": "s4-04",
+      "kind": "text_answer_in_question",
+      "value": "Fate/Stay Night",
+      "question": "补全《Fate/stay night》无限剑制咏唱最后一句日文。"
+    },
+    {
+      "id": "s4-07",
+      "kind": "text_answer_in_question",
+      "value": "恋爱成双",
+      "question": "请根据图片：《恋爱成双》启动图标是①～④中的哪一个？"
+    },
+    {
+      "id": "s4-08",
+      "kind": "text_answer_in_question",
+      "value": "シス△キャン",
+      "question": "请根据图片：下方三位角色分别出自哪部作品？请从下列候选中选择对应编号。\nゆるキャン△ / シス△キャン / △エロキャン / キャン·ドゥ / きゃんきゃんバニー"
+    },
+    {
+      "id": "s4-18",
+      "kind": "text_answer_in_question",
+      "value": "少女世界的生存之道",
+      "question": "《少女世界的生存之道》主角为隐瞒性别而虚构的宗教叫什么？"
+    },
+    {
+      "id": "s5-07",
+      "kind": "text_answer_in_question",
+      "value": "恋爱×决胜战",
+      "question": "请根据图片：《恋爱×决胜战》启动图标是①～④中的哪一个？"
+    },
+    {
+      "id": "s5-12",
+      "kind": "text_answer_in_question",
+      "value": "创作少女的恋爱公式",
+      "question": "请根据图片：①～⑧中哪一个是《创作少女的恋爱公式》标题 logo 的「恋」字？"
+    }
+  ],
   "choice_opts_in_q": [],
   "missing_media": []
 }

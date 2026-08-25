@@ -1,7 +1,64 @@
 {
   "total": 119,
   "bank_media_in_answer_section": [],
-  "text_leaks_direct": [],
+  "text_leaks_direct": [
+    {
+      "id": "s2-03",
+      "value": "Little Busters!"
+    },
+    {
+      "id": "s2-04",
+      "value": "繁花落舞恋如樱"
+    },
+    {
+      "id": "s2-06",
+      "value": "放学后的灰姑娘"
+    },
+    {
+      "id": "s2-08",
+      "value": "苍之彼方的四重奏"
+    },
+    {
+      "id": "s2-08",
+      "value": "牵绊闪耀的恋之伊吕波"
+    },
+    {
+      "id": "s2-18",
+      "value": "Dies irae"
+    },
+    {
+      "id": "s3-01",
+      "value": "Another"
+    },
+    {
+      "id": "s3-03",
+      "value": "我们没有翅膀"
+    },
+    {
+      "id": "s3-04",
+      "value": "こいのす☆イチャコライズ"
+    },
+    {
+      "id": "s3-10",
+      "value": "车轮之国、向日葵的少女"
+    },
+    {
+      "id": "s3-19",
+      "value": "没有天使的12月"
+    },
+    {
+      "id": "s4-03",
+      "value": "景之海的艾佩理雅"
+    },
+    {
+      "id": "s4-04",
+      "value": "Fate/Stay Night"
+    },
+    {
+      "id": "s4-18",
+      "value": "少女世界的生存之道"
+    }
+  ],
   "choice_options_embedded": [],
   "media_prompt_mismatch": []
 }

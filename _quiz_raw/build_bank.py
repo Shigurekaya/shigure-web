@@ -14,23 +14,39 @@ VID_EXT = {".mp4", ".webm", ".mkv", ".mov"}
 
 
 def clean_media(m: dict) -> dict:
-    """Drop misfiled audio from video; dedupe by path."""
+    """Drop misfiled audio from video; dedupe by basename (audio/ vs video/ copies)."""
     out = {"images": [], "audio": [], "video": []}
+    seen_img = set()
+    seen_aud = set()
+    seen_vid = set()
+
+    def base(src: str) -> str:
+        return Path(src.split("?", 1)[0]).name.lower()
+
     for src in m.get("images") or []:
-        if src not in out["images"]:
-            out["images"].append(src)
+        k = base(src)
+        if k in seen_img:
+            continue
+        seen_img.add(k)
+        out["images"].append(src)
     for src in m.get("audio") or []:
-        if src not in out["audio"]:
-            out["audio"].append(src)
+        k = base(src)
+        if k in seen_aud:
+            continue
+        seen_aud.add(k)
+        out["audio"].append(src)
     for src in m.get("video") or []:
         ext = Path(src.split("?", 1)[0]).suffix.lower()
         if ext not in VID_EXT:
-            if src not in out["audio"]:
+            k = base(src)
+            if k not in seen_aud:
+                seen_aud.add(k)
                 out["audio"].append(src)
             continue
-        name = Path(src.split("?", 1)[0]).name
-        if name in {Path(v.split("?", 1)[0]).name for v in out["video"]}:
+        k = base(src)
+        if k in seen_vid:
             continue
+        seen_vid.add(k)
         out["video"].append(src)
     return out
 

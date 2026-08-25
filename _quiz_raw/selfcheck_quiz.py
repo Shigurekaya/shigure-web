@@ -81,29 +81,27 @@ def main() -> int:
 
     # simulate canonical answers
     import subprocess
+    _sub_kw = {"capture_output": True, "text": True, "encoding": "utf-8", "errors": "replace"}
     r = subprocess.run(
         [sys.executable, str(Path(__file__).parent / "selfcheck_simulate.py")],
-        capture_output=True,
-        text=True,
+        **_sub_kw,
     )
     if r.returncode != 0:
-        errors.append(f"answer simulation failed: {r.stdout.strip() or r.stderr.strip()}")
+        errors.append(f"answer simulation failed: {(r.stdout or '').strip() or (r.stderr or '').strip()}")
 
     r2 = subprocess.run(
         [sys.executable, str(Path(__file__).parent / "audit_answer_images.py")],
-        capture_output=True,
-        text=True,
+        **_sub_kw,
     )
     if "Found 0 questions" not in (r2.stdout or ""):
-        errors.append(f"answer-reveal image leak: {r2.stdout.strip() or r2.stderr.strip()}")
+        errors.append(f"answer-reveal image leak: {(r2.stdout or '').strip() or (r2.stderr or '').strip()}")
 
     r3 = subprocess.run(
         [sys.executable, str(Path(__file__).parent / "deep_audit_quiz.py")],
-        capture_output=True,
-        text=True,
+        **_sub_kw,
     )
     if r3.returncode != 0:
-        errors.append(f"deep audit failed: {r3.stdout.strip() or r3.stderr.strip()}")
+        errors.append(f"deep audit failed: {(r3.stdout or '').strip() or (r3.stderr or '').strip()}")
 
     if errors:
         print("SELF-CHECK FAILED:")

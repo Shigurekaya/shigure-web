@@ -7,10 +7,10 @@
   <title>Gal 水平测试</title>
   <meta name="description" content="Gal 水平测试 — 题目改编自 ima-ero エロゲクイズ" />
   <meta name="theme-color" content="#f7f8fc" />
-  <link rel="stylesheet" href="css/style-core.css?v=202608242115" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608251338" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
-<body class="page-quiz page-quiz--standalone light-rain kaya-ambient-eco" data-kaya-page="quiz">
+<body class="page-quiz page-quiz--standalone page-quiz--flat-bg" data-kaya-page="quiz">
   <div class="site-bg" aria-hidden="true"></div>
 
   <main class="page-main page-main--quiz">
@@ -20,7 +20,7 @@
     <header class="page-head">
       <p class="page-head__eyebrow">Gal Quiz</p>
       <h1>Gal 水平测试</h1>
-      <p class="page-head__sub">题库改编自 ima-ero「エロゲクイズ」第1–5弹 · 共 119 题</p>
+      <p class="page-head__sub">题库改编自 ima-ero「エロゲクイズ」第1–5弹 · 共 116 题</p>
     </header>
 
     <section class="quiz-panel" id="quiz-root" aria-live="polite">
@@ -35,20 +35,51 @@
       </div>
 
       <div class="quiz-play" id="quiz-play" hidden>
-        <div class="quiz-progress">
-          <span id="quiz-progress-text">1 / 20</span>
-          <div class="quiz-progress__bar" aria-hidden="true"><i id="quiz-progress-fill"></i></div>
-        </div>
-        <article class="quiz-card" id="quiz-card">
-          <p class="quiz-card__meta" id="quiz-meta"></p>
-          <h2 class="quiz-card__q" id="quiz-question"></h2>
-          <div class="quiz-media" id="quiz-media"></div>
-          <div class="quiz-answers" id="quiz-answers"></div>
-          <p class="quiz-feedback" id="quiz-feedback" hidden></p>
-          <div class="quiz-actions">
-            <button type="button" class="quiz-btn quiz-btn--primary" id="quiz-next">下一题</button>
+        <div class="quiz-nav-backdrop" id="quiz-nav-backdrop" hidden></div>
+        <aside class="quiz-nav" id="quiz-nav" aria-label="题目导航">
+          <div class="quiz-nav__head">
+            <div class="quiz-nav__head-row">
+              <p class="quiz-nav__title">题目进度</p>
+              <button type="button" class="quiz-nav__close" id="quiz-nav-close" aria-label="关闭题目列表">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <p class="quiz-nav__count" id="quiz-nav-count" aria-live="polite">
+              <span class="quiz-nav__count-done" id="quiz-nav-count-done">0</span>
+              <span class="quiz-nav__count-sep">/</span>
+              <span class="quiz-nav__count-total" id="quiz-nav-count-total">20</span>
+              <span class="quiz-nav__count-label">已答</span>
+            </p>
+            <div class="quiz-nav__mini-bar" aria-hidden="true"><i id="quiz-nav-mini-fill"></i></div>
           </div>
-        </article>
+          <ol class="quiz-nav__list" id="quiz-nav-list"></ol>
+        </aside>
+        <div class="quiz-play__main">
+          <div class="quiz-play__toolbar">
+            <button type="button" class="quiz-nav-toggle" id="quiz-nav-toggle" aria-expanded="false" aria-controls="quiz-nav">
+              <span class="quiz-nav-toggle__icon" aria-hidden="true"></span>
+              <span class="quiz-nav-toggle__text" id="quiz-nav-toggle-text">0/20</span>
+            </button>
+            <div class="quiz-progress">
+              <span class="quiz-progress__label" id="quiz-progress-text">1 / 20</span>
+              <div class="quiz-progress__track" aria-hidden="true"><i id="quiz-progress-fill"></i></div>
+            </div>
+          </div>
+          <article class="quiz-card" id="quiz-card">
+            <header class="quiz-card__head">
+              <span class="quiz-card__num" id="quiz-card-num">Q1</span>
+              <span class="quiz-card__meta" id="quiz-meta"></span>
+            </header>
+            <h2 class="quiz-card__q" id="quiz-question"></h2>
+            <div class="quiz-media" id="quiz-media"></div>
+            <div class="quiz-answers" id="quiz-answers"></div>
+            <p class="quiz-feedback" id="quiz-feedback" hidden></p>
+            <div class="quiz-actions">
+              <button type="button" class="quiz-btn" id="quiz-prev" hidden>上一题</button>
+              <button type="button" class="quiz-btn quiz-btn--primary" id="quiz-next">下一题</button>
+            </div>
+          </article>
+        </div>
       </div>
 
       <div class="quiz-result" id="quiz-result" hidden>
@@ -59,9 +90,9 @@
           <button type="button" class="quiz-btn quiz-btn--primary" id="quiz-retry">返回选模式</button>
           <a class="quiz-btn" href="/">返回主页</a>
         </div>
-        <section class="quiz-review quiz-review--final" aria-label="错题回顾">
-          <h3 class="quiz-review__title" id="quiz-review-title">错题回顾</h3>
-          <p class="quiz-review__empty" id="quiz-review-empty" hidden>全部答对，没有错题。</p>
+        <section class="quiz-review quiz-review--final" aria-label="答题回顾">
+          <h3 class="quiz-review__title" id="quiz-review-title">答题回顾</h3>
+          <p class="quiz-review__empty" id="quiz-review-empty" hidden>暂无答题记录。</p>
           <ol class="quiz-review-list" id="quiz-review-list"></ol>
         </section>
       </div>
@@ -72,7 +103,7 @@
     <p class="site-footer__credit">题目来源致谢：<a href="https://www.ima-ero.com/" target="_blank" rel="noopener noreferrer">今更だけどエロゲしようぜ！</a></p>
   </footer>
 
-  <script src="js/kaya-rain-mode.js?v=202608242115" defer></script>
-  <script src="js/kaya-boot.js?v=202608242115" defer></script>
+  <script src="js/kaya-rain-mode.js?v=202608251345" defer></script>
+  <script src="js/kaya-boot.js?v=202608251345" defer></script>
 </body>
 </html>

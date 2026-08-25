@@ -249,41 +249,374 @@ const Kaya = (() => {
     });
   }
 
-  /** 站内导航点击前把当前天气写入 session，防止跨页时 session 空窗导致重抽签 */
-  function initSiteNavRain() {
-    const persistRainMode = () => {
-      const mode = rainModeFromBody() || readStoredRainMode();
-      if (mode) writeStoredRainMode(mode);
-    };
+  const KAYA_ASSET_V = "202608251200";
+  const SPA_PAGE_CLASSES = ["page-home", "page-works", "page-links", "page-mv"];
+  const SPA_TITLES = {
+    home: "时雨榧",
+    works: "作品 · 时雨榧",
+    links: "链接 · 时雨榧",
+    mv: "MV 素材 · 时雨榧",
+  };
+  const SPA_PATHS = {
+    home: "/",
+    works: "/works/",
+    links: "/links/",
+    mv: "/mv-materials/",
+  };
+  const SPA_MAIN = {
+    home: `<main class="home-main">
+    <section class="profile-hero">
+      <div class="profile-avatar">
+        <img id="hero-avatar" class="avatar" src="assets/images/avatar.jpg" alt="时雨榧" width="128" height="128" fetchpriority="high" decoding="async" />
+      </div>
+      <h1 class="profile-name" id="hero-name">时雨榧</h1>
+      <p class="profile-roman">ShigureKaya</p>
+      <p class="profile-sign" id="hero-sign">实现愿望程度的能力</p>
+      <nav class="social-row" id="social-icons" aria-label="外部链接"></nav>
+    </section>
+    <section class="intro-panel" aria-label="简介">
+      <div class="intro-panel__body" id="intro-body"></div>
+    </section>
+    <div class="home-tool-entries" aria-label="Gal 工具">
+      <a href="/gal-quiz/" class="site-quiz-entry" aria-label="Gal 水平测试">
+        <span class="site-quiz-entry__label">Quiz</span>
+        <span class="site-quiz-entry__title">gal水平测试</span>
+        <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="/gal-sedai/" class="site-quiz-entry" aria-label="Gal 世代">
+        <span class="site-quiz-entry__label">Sedai</span>
+        <span class="site-quiz-entry__title">Gal世代</span>
+        <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+    <aside class="site-log" aria-label="站点日志">
+      <div class="site-log__inner">
+        <span class="site-log__tag">LOG</span>
+        <p class="site-log__text">因本人在2026年8月20日被突然的暴雨淋了五分钟（一条不可挡雨的路），以水鬼姿态进入地铁，故增加了暴雨页面<br>经本人亲身证明，即使人在滴水，地铁安检员也会放你进去</p>
+        <div class="site-log__action">
+          <a href="/?rain=storm" class="site-log__btn">暴雨页面</a>
+          <p class="site-log__hint">对电脑性能极其自信再点击</p>
+        </div>
+      </div>
+    </aside>
+    <section class="home-cards" aria-label="快捷入口">
+      <a href="/works/" class="home-card">
+        <span class="home-card__label">Portfolio</span>
+        <span class="home-card__title">作品集</span>
+        <span class="home-card__desc">视频与投稿列表</span>
+        <span class="home-card__arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="/mv-materials/" class="home-card home-card--mv">
+        <span class="home-card__label">MV Assets</span>
+        <span class="home-card__title">部分 MV 素材</span>
+        <span class="home-card__desc">立绘与分镜素材预览</span>
+        <div class="home-card__preview" id="mv-preview" aria-hidden="true"></div>
+        <span class="home-card__arrow" aria-hidden="true">→</span>
+      </a>
+    </section>
+  </main>`,
+    works: `<main class="page-main">
+    <header class="page-head">
+      <p class="page-head__eyebrow">Portfolio</p>
+      <h1>作品集</h1>
+      <p class="page-head__sub">点击封面跳转 B 站观看</p>
+    </header>
+    <div class="works-grid" id="works-grid"></div>
+  </main>`,
+    links: `<main class="page-main page-main--narrow">
+    <header class="page-head page-head--center">
+      <p class="page-head__eyebrow">Links</p>
+      <h1>链接</h1>
+      <p class="page-head__sub">各平台主页</p>
+    </header>
+    <nav class="link-cards" id="link-cards" aria-label="外部链接"></nav>
+  </main>`,
+    mv: `<main class="page-main page-main--mv">
+    <header class="page-head page-head--center">
+      <p class="page-head__eyebrow">MV Assets</p>
+      <h1>部分 MV 素材</h1>
+    </header>
+    <div class="mv-board" id="mv-gallery"></div>
+  </main>`,
+  };
+  const MV_LIGHTBOX_HTML = `<dialog class="mv-lightbox" id="mv-lightbox" aria-label="图片预览">
+    <button type="button" class="mv-lightbox__close" id="mv-lightbox-close" aria-label="关闭">×</button>
+    <div class="mv-lightbox__layout">
+      <figure class="mv-lightbox__figure">
+        <img class="mv-lightbox__img" id="mv-lightbox-img" alt="" />
+      </figure>
+      <aside class="mv-lightbox__rail" id="mv-lightbox-rail" aria-label="缩略图列表"></aside>
+    </div>
+  </dialog>`;
 
-    const shouldTrack = (a) => {
-      if (!(a instanceof HTMLAnchorElement)) return false;
-      if (a.classList.contains("heavy-gate")) return false;
-      if (a.target === "_blank") return false;
-      const href = a.getAttribute("href") || "";
-      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
-        return false;
+  let shellInited = false;
+  let spaPage = null;
+  let spaBusy = false;
+  let mvLightboxInited = false;
+  const loadedScripts = new Set(
+    [...document.querySelectorAll("script[src]")].map((s) => s.getAttribute("src") || ""),
+  );
+
+  function spaPageFromPath(pathname) {
+    const p = normalizePathname(pathname);
+    if (p === "/" || p === "/index.html") return "home";
+    if (p === "/works") return "works";
+    if (p === "/links") return "links";
+    if (p === "/mv-materials") return "mv";
+    return null;
+  }
+
+  function persistRainMode() {
+    const mode = rainModeFromBody() || readStoredRainMode();
+    if (mode) writeStoredRainMode(mode);
+  }
+
+  function spaUrlHasWeatherOverride(url) {
+    if ([...url.searchParams.keys()].some((k) => (
+      k === "rain" || k === "storm" || k === "heavy" || k === "light"
+      || k === "sunny" || k === "clear" || k === "rainbow" || k === "after"
+    ))) return true;
+    const p = normalizePathname(url.pathname);
+    return p === "/heavy" || p === "/light" || p === "/storm" || p === "/sunny" || p === "/rainbow";
+  }
+
+  function isSpaNavUrl(url) {
+    if (!(url instanceof URL)) return false;
+    if (url.origin !== window.location.origin) return false;
+    if (spaUrlHasWeatherOverride(url)) return false;
+    return spaPageFromPath(url.pathname) != null;
+  }
+
+  function loadScriptOnce(src) {
+    if (loadedScripts.has(src) || document.querySelector(`script[src="${src}"]`)) {
+      loadedScripts.add(src);
+      return Promise.resolve();
+    }
+    return new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.async = false;
+      s.onload = () => {
+        loadedScripts.add(src);
+        resolve();
+      };
+      s.onerror = () => reject(new Error(`script failed: ${src}`));
+      document.head.appendChild(s);
+    });
+  }
+
+  async function ensurePageData(page) {
+    const jobs = [];
+    if ((page === "home" || page === "works") && !window.SITE_DATA?.videos?.length) {
+      jobs.push(loadScriptOnce(`js/site-data.js?v=${KAYA_ASSET_V}`));
+    }
+    if ((page === "home" || page === "mv") && !window.MV_MATERIALS) {
+      jobs.push(loadScriptOnce(`js/mv-materials-data.js?v=${KAYA_ASSET_V}`));
+    }
+    if (page === "links" && !window.SITE_DATA?.links?.length) {
+      jobs.push(loadScriptOnce(`js/links-data.js?v=${KAYA_ASSET_V}`));
+    }
+    if (jobs.length) await Promise.all(jobs);
+  }
+
+  function prefetchSpaData() {
+    const jobs = [];
+    if (!window.SITE_DATA?.videos?.length) {
+      jobs.push(loadScriptOnce(`js/site-data.js?v=${KAYA_ASSET_V}`));
+    }
+    if (!window.MV_MATERIALS) {
+      jobs.push(loadScriptOnce(`js/mv-materials-data.js?v=${KAYA_ASSET_V}`));
+    }
+    Promise.all(jobs).catch(() => { /* ignore */ });
+  }
+
+  function updateSpaNav(page) {
+    const activePath = SPA_PATHS[page] || "/";
+    document.querySelectorAll("#site-nav a").forEach((a) => {
+      let url;
+      try {
+        url = new URL(a.getAttribute("href") || "", window.location.href);
+      } catch {
+        return;
       }
+      const key = spaPageFromPath(url.pathname);
+      a.classList.toggle("active", key === page || normalizePathname(url.pathname) === normalizePathname(activePath));
+    });
+  }
+
+  function setSpaBodyPage(page) {
+    document.body.classList.remove(
+      ...SPA_PAGE_CLASSES,
+      "page-ready",
+      "home-intro-playing",
+      "home-ready",
+      "home-revealed",
+    );
+    document.body.classList.add(`page-${page === "mv" ? "mv" : page}`);
+    document.body.dataset.kayaPage = page;
+    if (page === "home") {
+      document.body.classList.add("home-ready", "home-revealed");
+    }
+    document.getElementById("home-intro")?.remove();
+  }
+
+  function ensureMvLightboxDom() {
+    if (document.getElementById("mv-lightbox")) return;
+    const footer = document.querySelector(".site-footer");
+    if (footer) footer.insertAdjacentHTML("beforebegin", MV_LIGHTBOX_HTML);
+    else document.body.insertAdjacentHTML("beforeend", MV_LIGHTBOX_HTML);
+  }
+
+  function closeMvLightbox() {
+    const dialog = document.getElementById("mv-lightbox");
+    if (!dialog?.open) return;
+    try { dialog.close(); } catch { /* ignore */ }
+    const img = document.getElementById("mv-lightbox-img");
+    const rail = document.getElementById("mv-lightbox-rail");
+    if (img) img.src = "";
+    if (rail) rail.innerHTML = "";
+  }
+
+  function swapSpaMain(page) {
+    const html = SPA_MAIN[page];
+    if (!html) return;
+    const cur = document.querySelector("main");
+    if (cur) cur.outerHTML = html;
+    else document.querySelector(".site-header")?.insertAdjacentHTML("afterend", html);
+  }
+
+  function mountSpaContent(page) {
+    if (page === "home") {
+      initHero();
+      renderMvHomePreview(document.getElementById("mv-preview"));
+      return;
+    }
+    if (page === "works") {
+      renderGrid(document.getElementById("works-grid"), data().videos);
+      return;
+    }
+    if (page === "links") {
+      renderLinkCards(document.getElementById("link-cards"));
+      return;
+    }
+    if (page === "mv") {
+      ensureMvLightboxDom();
+      renderMvGallery(document.getElementById("mv-gallery"));
+      initMvLightbox();
+    }
+  }
+
+  async function softNavigate(page, { url, replace = false, fromPop = false } = {}) {
+    if (!page || !SPA_MAIN[page]) return false;
+    if (spaBusy) return false;
+    if (page === spaPage && !fromPop) {
+      if (url && !replace) {
+        const next = typeof url === "string" ? url : `${url.pathname}${url.search}${url.hash}`;
+        if (`${window.location.pathname}${window.location.search}${window.location.hash}` !== next) {
+          history.pushState({ kayaSpa: page }, "", next);
+        }
+      }
+      return true;
+    }
+
+    spaBusy = true;
+    persistRainMode();
+    try {
+      await ensurePageData(page);
+      const nextUrl = url
+        ? (typeof url === "string" ? url : `${url.pathname}${url.search}${url.hash}`)
+        : SPA_PATHS[page];
+
+      closeMvLightbox();
+      document.getElementById("site-nav")?.classList.remove("open");
+      document.getElementById("menu-toggle")?.setAttribute("aria-expanded", "false");
+      setSpaBodyPage(page);
+      document.title = SPA_TITLES[page] || document.title;
+      updateSpaNav(page);
+      swapSpaMain(page);
+      mountSpaContent(page);
+
+      if (!fromPop) {
+        if (replace) history.replaceState({ kayaSpa: page }, "", nextUrl);
+        else history.pushState({ kayaSpa: page }, "", nextUrl);
+      } else if (!history.state?.kayaSpa) {
+        history.replaceState({ kayaSpa: page }, "", `${window.location.pathname}${window.location.search}${window.location.hash}`);
+      }
+
+      window.scrollTo(0, 0);
+      spaPage = page;
+      refreshRainLedges();
+      markPageReady();
+      return true;
+    } catch (err) {
+      console.error("[kaya-spa]", err);
+      return false;
+    } finally {
+      spaBusy = false;
+    }
+  }
+
+  /** 站内主区软切换：保留天气层；天气参数 / 外链仍整页跳转 */
+  function initSpaRouter() {
+    if (document.body.dataset.kayaSpaRouter) return;
+    document.body.dataset.kayaSpaRouter = "1";
+
+    spaPage = spaPageFromPath(window.location.pathname) || document.body.dataset.kayaPage || null;
+    if (spaPage) {
+      history.replaceState({ kayaSpa: spaPage }, "", `${window.location.pathname}${window.location.search}${window.location.hash}`);
+    }
+
+    document.addEventListener("click", (e) => {
+      if (e.defaultPrevented) return;
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest?.("a[href]");
+      if (!(a instanceof HTMLAnchorElement)) return;
+      if (a.target === "_blank" || a.hasAttribute("download")) return;
+      if (a.classList.contains("heavy-gate") || a.classList.contains("site-log__btn")) return;
+
+      const href = a.getAttribute("href") || "";
+      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
+
       let url;
       try {
         url = new URL(href, window.location.href);
       } catch {
-        return false;
+        return;
       }
-      if (url.origin !== window.location.origin) return false;
-      const p = normalizePathname(url.pathname);
-      if (
-        p.startsWith("/fuyuu")
-        || p === "/heavy" || p === "/light" || p === "/storm"
-        || p === "/sunny" || p === "/rainbow"
-      ) return false;
-      return p === "/" || p === "/works" || p === "/links" || p === "/mv-materials";
-    };
+      if (!isSpaNavUrl(url)) {
+        if (url.origin === window.location.origin) persistRainMode();
+        return;
+      }
 
-    document.querySelectorAll("a[href]").forEach((a) => {
-      if (!shouldTrack(a)) return;
-      a.addEventListener("click", persistRainMode, { capture: true });
+      const page = spaPageFromPath(url.pathname);
+      if (!page) return;
+
+      e.preventDefault();
+      persistRainMode();
+      softNavigate(page, { url }).then((ok) => {
+        if (!ok) window.location.assign(url.href);
+      });
+    }, true);
+
+    window.addEventListener("popstate", () => {
+      const page = spaPageFromPath(window.location.pathname);
+      if (!page) return;
+      if (!rainApi) {
+        window.location.reload();
+        return;
+      }
+      softNavigate(page, { fromPop: true });
     });
+
+    const schedulePrefetch = () => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(() => prefetchSpaData(), { timeout: 2500 });
+      } else {
+        window.setTimeout(prefetchSpaData, 1200);
+      }
+    };
+    if (document.readyState === "complete") schedulePrefetch();
+    else window.addEventListener("load", schedulePrefetch, { once: true });
   }
 
   const rm = () => window.KayaRainMode;
@@ -667,10 +1000,12 @@ const Kaya = (() => {
 
   function markPageReady() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.body.classList.remove("page-ready");
     if (reduced) {
       document.body.classList.add("page-ready");
       return;
     }
+    void document.body.offsetWidth;
     window.requestAnimationFrame(() => {
       document.body.classList.add("page-ready");
     });
@@ -679,13 +1014,12 @@ const Kaya = (() => {
   function initCommon(rainMode) {
     const isStandaloneTool = document.body.classList.contains("page-quiz")
       || document.body.classList.contains("page-sedai");
-    if (!isStandaloneTool) {
+    if (!isStandaloneTool && !shellInited) {
+      shellInited = true;
       initNav();
-      initSiteNavRain();
+      initSpaRouter();
       initWeatherPreview();
       initFooterSites();
-    }
-    if (!isStandaloneTool) {
       initSiteRain(document.querySelector(".site-bg"), rainMode);
       initSandaimeHint();
       initSandaimeBrand();
@@ -1173,6 +1507,8 @@ const Kaya = (() => {
     const closeBtn = document.getElementById("footer-sites-close");
     let toast = document.getElementById("kaya-toast");
     if (!dialog || !openBtn || typeof dialog.showModal !== "function") return;
+    if (dialog.dataset.kayaBound) return;
+    dialog.dataset.kayaBound = "1";
 
     if (!toast) {
       toast = document.createElement("div");
@@ -1355,11 +1691,15 @@ const Kaya = (() => {
   function initHomeIntro() {
     const intro = document.getElementById("home-intro");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const phoneLike = window.KayaPerfGovernor?.isPhoneLike?.()
+      ?? window.matchMedia("(max-width: 720px)").matches;
+    const heavySession = document.body.classList.contains("heavy-rain")
+      || document.body.classList.contains("storm-rain");
     /* URL 测试入口，或会话已是晴/虹：跳过开场，避免遮罩 + 错挂小雨 */
     const drySession = document.body.classList.contains("sunny-sky");
     const play = !forceSpecialWeatherFromUrl() && !drySession && shouldPlayHomeIntro("/");
 
-    if (!intro || reduced || !play) {
+    if (!intro || reduced || !play || (phoneLike && heavySession)) {
       document.body.classList.add("home-ready");
       document.body.classList.add("home-revealed");
       intro?.remove();
@@ -1396,7 +1736,7 @@ const Kaya = (() => {
         /* 入场动画结束后强制揭幕，防小米等机关闭/卡住 CSS 动画后正文永不可见 */
         window.setTimeout(() => {
           document.body.classList.add("home-revealed");
-        }, 1600);
+        }, phoneLike ? 80 : 1600);
       }, REVEAL_DELAY);
       window.setTimeout(() => {
         document.body.classList.remove("home-intro-playing");
@@ -1527,19 +1867,26 @@ const Kaya = (() => {
   }
 
   function initMvLightbox() {
+    ensureMvLightboxDom();
     const dialog = document.getElementById("mv-lightbox");
     const imgEl = document.getElementById("mv-lightbox-img");
     const closeBtn = document.getElementById("mv-lightbox-close");
     const railEl = document.getElementById("mv-lightbox-rail");
     if (!dialog || !imgEl || !railEl) return;
+    if (mvLightboxInited) return;
+    mvLightboxInited = true;
 
-    const items = mvAllItems();
     let currentIndex = 0;
     let wheelLocked = false;
 
+    function items() {
+      return mvAllItems();
+    }
+
     function renderRail() {
+      const list = items();
       railEl.innerHTML = "";
-      items.forEach((item, index) => {
+      list.forEach((item, index) => {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "mv-lightbox__thumb";
@@ -1567,9 +1914,10 @@ const Kaya = (() => {
     }
 
     function show(index) {
-      if (!items.length) return;
-      currentIndex = (index + items.length) % items.length;
-      const item = items[currentIndex];
+      const list = items();
+      if (!list.length) return;
+      currentIndex = (index + list.length) % list.length;
+      const item = list[currentIndex];
       imgEl.src = mvAssetUrl(item.src);
       imgEl.alt = "";
       railEl.querySelectorAll(".mv-lightbox__thumb").forEach((el, i) => {
@@ -1585,8 +1933,9 @@ const Kaya = (() => {
     }
 
     function openAt(src) {
+      const list = items();
       const key = mvSrcKey(src);
-      const idx = items.findIndex((item) => mvSrcKey(item.src) === key);
+      const idx = list.findIndex((item) => mvSrcKey(item.src) === key);
       currentIndex = idx >= 0 ? idx : 0;
       renderRail();
       show(currentIndex);
@@ -1599,9 +1948,10 @@ const Kaya = (() => {
       railEl.innerHTML = "";
     }
 
-    document.getElementById("mv-gallery")?.addEventListener("click", (e) => {
-      const btn = e.target.closest(".mv-board__item");
-      if (!btn) return;
+    document.addEventListener("click", (e) => {
+      const gallery = document.getElementById("mv-gallery");
+      const btn = e.target.closest?.(".mv-board__item");
+      if (!gallery || !btn || !gallery.contains(btn)) return;
       const image = btn.querySelector("img");
       if (!image) return;
       openAt(image.dataset.full || image.src);
@@ -1640,6 +1990,7 @@ const Kaya = (() => {
     const mode = pickInitialRainMode();
     applyRainTheme(mode);
     initCommon(mode);
+    spaPage = "mv";
     renderMvGallery(document.getElementById("mv-gallery"));
     initMvLightbox();
     refreshRainLedges();
@@ -1655,6 +2006,7 @@ const Kaya = (() => {
     }
     initHomeIntro();
     initCommon(mode);
+    spaPage = "home";
     initHero();
     renderMvHomePreview(document.getElementById("mv-preview"));
   }
@@ -1663,6 +2015,7 @@ const Kaya = (() => {
     const mode = pickInitialRainMode();
     applyRainTheme(mode);
     initCommon(mode);
+    spaPage = "works";
     renderGrid(document.getElementById("works-grid"), data().videos);
     refreshRainLedges();
     markPageReady();
@@ -1672,6 +2025,7 @@ const Kaya = (() => {
     const mode = pickInitialRainMode();
     applyRainTheme(mode);
     initCommon(mode);
+    spaPage = "links";
     renderLinkCards(document.getElementById("link-cards"));
     refreshRainLedges();
     markPageReady();
@@ -1693,7 +2047,6 @@ const Kaya = (() => {
   }
 
   function initQuiz() {
-    mountQuizStaticBg();
     initCommon(null);
     markPageReady();
   }

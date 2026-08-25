@@ -1,0 +1,1195 @@
+{
+  "bank_questions": 116,
+  "runtime_refs": 133,
+  "candidates": 134,
+  "safe_delete": [
+    {
+      "path": "assets/gal-quiz/s1-04/images/VF3rBtn3_400x400-150x150.jpg",
+      "bytes": 5497,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q1.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s1-04"
+    },
+    {
+      "path": "assets/gal-quiz/s1-16/images/c562265chara1.jpg",
+      "bytes": 17075,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q1.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s1-16"
+    },
+    {
+      "path": "assets/gal-quiz/s1-17/images/c53621chara1.jpg",
+      "bytes": 14272,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q1.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s1-17"
+    },
+    {
+      "path": "assets/gal-quiz/s1-18/images/c724555chara1.jpg",
+      "bytes": 17238,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q1.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s1-18"
+    },
+    {
+      "path": "assets/gal-quiz/s1-19/images/c534765chara2.jpg",
+      "bytes": 16376,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q1.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s1-19"
+    },
+    {
+      "path": "assets/gal-quiz/s1-20/images/c137481chara1.jpg",
+      "bytes": 14707,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q1.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s1-20"
+    },
+    {
+      "path": "assets/gal-quiz/s1-21/images/clear_0017jp-004-300x169.jpg",
+      "bytes": 17152,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q1.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s1-21"
+    },
+    {
+      "path": "assets/gal-quiz/s1-21/images/clear_0017ps.jpg",
+      "bytes": 19430,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q1.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s1-21"
+    },
+    {
+      "path": "assets/gal-quiz/s1-21/video/ren-voice.mp3",
+      "bytes": 152064,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s1-21/audio/ren-voice.mp3"
+      ],
+      "qid": "s1-21"
+    },
+    {
+      "path": "assets/gal-quiz/s1-22/video/kuukirikigaku.mp3",
+      "bytes": 99456,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s1-22/audio/kuukirikigaku.mp3"
+      ],
+      "qid": "s1-22"
+    },
+    {
+      "path": "assets/gal-quiz/s1-23/video/miraiheno.mp3",
+      "bytes": 107904,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s1-23/audio/miraiheno.mp3"
+      ],
+      "qid": "s1-23"
+    },
+    {
+      "path": "assets/gal-quiz/s1-24/video/leafticket.mp3",
+      "bytes": 72192,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s1-24/audio/leafticket.mp3"
+      ],
+      "qid": "s1-24"
+    },
+    {
+      "path": "assets/gal-quiz/s1-25/video/truemyheart.mp3",
+      "bytes": 58752,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s1-25/audio/truemyheart.mp3"
+      ],
+      "qid": "s1-25"
+    },
+    {
+      "path": "assets/gal-quiz/s2-01/images/Honeyview_2018-06-05_222722-300x187.jpg",
+      "bytes": 12704,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-01"
+    },
+    {
+      "path": "assets/gal-quiz/s2-03/images/yukichi.jpg",
+      "bytes": 178181,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-03"
+    },
+    {
+      "path": "assets/gal-quiz/s2-04/images/100kei-300x114.png",
+      "bytes": 20633,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-04"
+    },
+    {
+      "path": "assets/gal-quiz/s2-05/images/Honeyview_SS_2022-01-28_205634.jpg",
+      "bytes": 65107,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-05"
+    },
+    {
+      "path": "assets/gal-quiz/s2-15/images/Honeyview_SS_2022-08-25_074117.png",
+      "bytes": 268610,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-15"
+    },
+    {
+      "path": "assets/gal-quiz/s2-15/images/Honeyview_SS_2022-09-11_060701.png",
+      "bytes": 257570,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-15"
+    },
+    {
+      "path": "assets/gal-quiz/s2-16/images/SS_2022-10-14_040056.jpg",
+      "bytes": 242357,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-16"
+    },
+    {
+      "path": "assets/gal-quiz/s2-17/images/SS_2022-10-14_040707.jpg",
+      "bytes": 29564,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-17"
+    },
+    {
+      "path": "assets/gal-quiz/s2-20/images/Rin-127x300.jpg",
+      "bytes": 8600,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-20"
+    },
+    {
+      "path": "assets/gal-quiz/s2-21/images/cuffs_0040ps.jpg",
+      "bytes": 16583,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-21"
+    },
+    {
+      "path": "assets/gal-quiz/s2-21/images/tsukuyomicha001.jpg",
+      "bytes": 5290,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-21"
+    },
+    {
+      "path": "assets/gal-quiz/s2-21/video/tsukuyomi-Voice.mp3",
+      "bytes": 184704,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s2-21/audio/tsukuyomi-voice.mp3"
+      ],
+      "qid": "s2-21"
+    },
+    {
+      "path": "assets/gal-quiz/s2-22/images/c1153964chara2.jpg",
+      "bytes": 17143,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-22"
+    },
+    {
+      "path": "assets/gal-quiz/s2-22/images/vsat_0282ps.jpg",
+      "bytes": 18297,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s2-22"
+    },
+    {
+      "path": "assets/gal-quiz/s2-22/video/tsuduri-Voice.mp3",
+      "bytes": 153216,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s2-22/audio/tsuduri-voice.mp3"
+      ],
+      "qid": "s2-22"
+    },
+    {
+      "path": "assets/gal-quiz/s2-23/video/Answer-Voice.mp3",
+      "bytes": 119040,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s2-23/audio/answer-voice.mp3"
+      ],
+      "qid": "s2-23"
+    },
+    {
+      "path": "assets/gal-quiz/s2-24/video/apeiria-Voice.mp3",
+      "bytes": 177024,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s2-24/audio/apeiria-voice.mp3"
+      ],
+      "qid": "s2-24"
+    },
+    {
+      "path": "assets/gal-quiz/s2-25/video/LoveVacation-Voice.mp3",
+      "bytes": 84480,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s2-25/audio/lovevacation-voice.mp3"
+      ],
+      "qid": "s2-25"
+    },
+    {
+      "path": "assets/gal-quiz/s3-01/images/rance4.jpg",
+      "bytes": 43072,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-01"
+    },
+    {
+      "path": "assets/gal-quiz/s3-02/images/Honeyview_SS_2023-06-05_043109.jpg",
+      "bytes": 72390,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-02"
+    },
+    {
+      "path": "assets/gal-quiz/s3-03/images/monki.jpg",
+      "bytes": 94554,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-03"
+    },
+    {
+      "path": "assets/gal-quiz/s3-04/images/Honeyview_SS_2023-06-21_043540.jpg",
+      "bytes": 58757,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-04"
+    },
+    {
+      "path": "assets/gal-quiz/s3-05/images/sports_juu_kendou.png",
+      "bytes": 115228,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-05"
+    },
+    {
+      "path": "assets/gal-quiz/s3-06/images/QP_on.png",
+      "bytes": 10150,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-06"
+    },
+    {
+      "path": "assets/gal-quiz/s3-06/images/qp.png",
+      "bytes": 42850,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-06"
+    },
+    {
+      "path": "assets/gal-quiz/s3-08/images/Honeyview_SS_2022-10-31_060636.jpg",
+      "bytes": 51450,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-08"
+    },
+    {
+      "path": "assets/gal-quiz/s3-08/images/Honeyview_SS_2023-09-11_102656.png",
+      "bytes": 195085,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-08"
+    },
+    {
+      "path": "assets/gal-quiz/s3-08/images/zoom04.jpg",
+      "bytes": 86035,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-08"
+    },
+    {
+      "path": "assets/gal-quiz/s3-09/images/orz-a.jpg",
+      "bytes": 12101,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-09"
+    },
+    {
+      "path": "assets/gal-quiz/s3-10/images/itiryuu.jpg",
+      "bytes": 104936,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-10"
+    },
+    {
+      "path": "assets/gal-quiz/s3-11/images/Honeyview_2018-08-01_034235.jpg",
+      "bytes": 38249,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-11"
+    },
+    {
+      "path": "assets/gal-quiz/s3-12/images/VJ009745_img_main.jpg",
+      "bytes": 135157,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-12"
+    },
+    {
+      "path": "assets/gal-quiz/s3-13/images/mia-transition.jpg",
+      "bytes": 69203,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-13"
+    },
+    {
+      "path": "assets/gal-quiz/s3-15/images/clannad-twins.jpg",
+      "bytes": 58760,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-15"
+    },
+    {
+      "path": "assets/gal-quiz/s3-15/images/luckystar-twins.jpg",
+      "bytes": 122048,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-15"
+    },
+    {
+      "path": "assets/gal-quiz/s3-16/images/Honeyview_DSC_0185.jpg",
+      "bytes": 67097,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-16"
+    },
+    {
+      "path": "assets/gal-quiz/s3-18/images/Cq2kulgVUAAFZwu.jpg",
+      "bytes": 149273,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-18"
+    },
+    {
+      "path": "assets/gal-quiz/s3-18/images/columnsv2_17126.jpg",
+      "bytes": 29214,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-18"
+    },
+    {
+      "path": "assets/gal-quiz/s3-21/images/hawkeye_0002ps.jpg",
+      "bytes": 17099,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-21"
+    },
+    {
+      "path": "assets/gal-quiz/s3-21/images/majikoi-head.jpg",
+      "bytes": 87586,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-21"
+    },
+    {
+      "path": "assets/gal-quiz/s3-22/images/inferno_0028ps.jpg",
+      "bytes": 11515,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-22"
+    },
+    {
+      "path": "assets/gal-quiz/s3-22/video/ren.mp3",
+      "bytes": 207744,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s3-22/audio/ren.mp3"
+      ],
+      "qid": "s3-22"
+    },
+    {
+      "path": "assets/gal-quiz/s3-23/images/spal_0048pl.jpg",
+      "bytes": 67369,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-23"
+    },
+    {
+      "path": "assets/gal-quiz/s3-23/video/flyable-heart.mp3",
+      "bytes": 128640,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s3-23/audio/flyable-heart.mp3"
+      ],
+      "qid": "s3-23"
+    },
+    {
+      "path": "assets/gal-quiz/s3-24/images/cabbage_0005ps.jpg",
+      "bytes": 16495,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-24"
+    },
+    {
+      "path": "assets/gal-quiz/s3-24/video/sakulet.mp3",
+      "bytes": 89472,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s3-24/audio/sakulet.mp3"
+      ],
+      "qid": "s3-24"
+    },
+    {
+      "path": "assets/gal-quiz/s3-25/images/alice_0053pl.jpg",
+      "bytes": 114114,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q3.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s3-25"
+    },
+    {
+      "path": "assets/gal-quiz/s3-25/video/donadona.mp3",
+      "bytes": 79872,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s3-25/audio/donadona.mp3"
+      ],
+      "qid": "s3-25"
+    },
+    {
+      "path": "assets/gal-quiz/s4-02/images/Whirlpool-logo.png",
+      "bytes": 3795,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-02"
+    },
+    {
+      "path": "assets/gal-quiz/s4-03/images/Honeyview_SS_2022-06-16_063426.jpg",
+      "bytes": 51414,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-03"
+    },
+    {
+      "path": "assets/gal-quiz/s4-04/images/unlimited-blade-works.jpg",
+      "bytes": 74486,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-04"
+    },
+    {
+      "path": "assets/gal-quiz/s4-05/images/Honeyview_SS_2021-11-24_041919.png",
+      "bytes": 41166,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-05"
+    },
+    {
+      "path": "assets/gal-quiz/s4-06/images/cabbage_0005jp-002.jpg",
+      "bytes": 58541,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-06"
+    },
+    {
+      "path": "assets/gal-quiz/s4-07/images/SS_2025-01-05_210727.jpg",
+      "bytes": 3310,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-07"
+    },
+    {
+      "path": "assets/gal-quiz/s4-07/images/SS_2025-01-05_210742.jpg",
+      "bytes": 3513,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-07"
+    },
+    {
+      "path": "assets/gal-quiz/s4-08/images/views_0686pl.jpg",
+      "bytes": 73336,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-08"
+    },
+    {
+      "path": "assets/gal-quiz/s4-09/images/Ry6M-gEe_400x400-100x100.png",
+      "bytes": 7071,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-09"
+    },
+    {
+      "path": "assets/gal-quiz/s4-09/images/T_IEW190_400x400-100x100.jpg",
+      "bytes": 2823,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-09"
+    },
+    {
+      "path": "assets/gal-quiz/s4-10/images/Honeyview_SS_2022-03-12_152930.jpg",
+      "bytes": 68563,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-10"
+    },
+    {
+      "path": "assets/gal-quiz/s4-12/images/Honeyview_SS_2024-11-25_063105.jpg",
+      "bytes": 55109,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-12"
+    },
+    {
+      "path": "assets/gal-quiz/s4-13/images/Honeyview_SS_2024-10-02_050204.jpg",
+      "bytes": 99698,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-13"
+    },
+    {
+      "path": "assets/gal-quiz/s4-14/images/hiyorin.jpg",
+      "bytes": 254137,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-14"
+    },
+    {
+      "path": "assets/gal-quiz/s4-14/images/yumeka.jpg",
+      "bytes": 32233,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-14"
+    },
+    {
+      "path": "assets/gal-quiz/s4-16/images/mnphs_0011pl.jpg",
+      "bytes": 99082,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-16"
+    },
+    {
+      "path": "assets/gal-quiz/s4-18/images/Honeyview_SS_2024-10-30_063920.jpg",
+      "bytes": 100421,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-18"
+    },
+    {
+      "path": "assets/gal-quiz/s4-19/images/nayuki-all.gif",
+      "bytes": 13662,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-19"
+    },
+    {
+      "path": "assets/gal-quiz/s4-20/images/Honeyview_SS_2021-08-25_082036.jpg",
+      "bytes": 118676,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-20"
+    },
+    {
+      "path": "assets/gal-quiz/s4-21/images/cha001.jpg",
+      "bytes": 4773,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q2.html,_quiz_raw/q4.html,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-21"
+    },
+    {
+      "path": "assets/gal-quiz/s4-21/images/frn_0012ps.jpg",
+      "bytes": 12684,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-21"
+    },
+    {
+      "path": "assets/gal-quiz/s4-21/video/kissego.mp3",
+      "bytes": 185088,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s4-21/audio/kissego.mp3"
+      ],
+      "qid": "s4-21"
+    },
+    {
+      "path": "assets/gal-quiz/s4-22/images/cha002.jpg",
+      "bytes": 5240,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-22"
+    },
+    {
+      "path": "assets/gal-quiz/s4-22/images/inferno_0038ps.jpg",
+      "bytes": 15357,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-22"
+    },
+    {
+      "path": "assets/gal-quiz/s4-22/video/hajiron.mp3",
+      "bytes": 170880,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s4-22/audio/hajiron.mp3"
+      ],
+      "qid": "s4-22"
+    },
+    {
+      "path": "assets/gal-quiz/s4-23/images/hobc_0435ps.jpg",
+      "bytes": 12057,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-23"
+    },
+    {
+      "path": "assets/gal-quiz/s4-23/video/euphoria.mp3",
+      "bytes": 150912,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s4-23/audio/euphoria.mp3"
+      ],
+      "qid": "s4-23"
+    },
+    {
+      "path": "assets/gal-quiz/s4-24/images/eg_0052pl.jpg",
+      "bytes": 81587,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-24"
+    },
+    {
+      "path": "assets/gal-quiz/s4-24/video/chocola.mp3",
+      "bytes": 147840,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s4-24/audio/chocola.mp3"
+      ],
+      "qid": "s4-24"
+    },
+    {
+      "path": "assets/gal-quiz/s4-25/images/mwnds_0013ps.jpg",
+      "bytes": 11001,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s4-25"
+    },
+    {
+      "path": "assets/gal-quiz/s4-25/video/selectoblige.mp3",
+      "bytes": 107520,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s4-25/audio/selectoblige.mp3"
+      ],
+      "qid": "s4-25"
+    },
+    {
+      "path": "assets/gal-quiz/s5-04/images/Honeyview_SS_2025-10-19_072803.jpg",
+      "bytes": 110210,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-04"
+    },
+    {
+      "path": "assets/gal-quiz/s5-04/images/Honeyview_SS_2025-10-21_101438.jpg",
+      "bytes": 111179,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-04"
+    },
+    {
+      "path": "assets/gal-quiz/s5-04/images/nantekotta.jpg",
+      "bytes": 22376,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-04"
+    },
+    {
+      "path": "assets/gal-quiz/s5-05/images/vsat_0261pl.jpg",
+      "bytes": 111947,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-05"
+    },
+    {
+      "path": "assets/gal-quiz/s5-06/images/Honeyview_SS_2022-07-29_234707.jpg",
+      "bytes": 86202,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-06"
+    },
+    {
+      "path": "assets/gal-quiz/s5-07/images/Honeyview_SS_2025-08-20_025107.jpg",
+      "bytes": 82038,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-07"
+    },
+    {
+      "path": "assets/gal-quiz/s5-07/images/Honeyview_SS_2025-08-20_025113.jpg",
+      "bytes": 74642,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-07"
+    },
+    {
+      "path": "assets/gal-quiz/s5-07/images/SS_2026-01-24_024158.jpg",
+      "bytes": 15225,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-07"
+    },
+    {
+      "path": "assets/gal-quiz/s5-07/images/SS_2026-01-24_024213.jpg",
+      "bytes": 13150,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-07"
+    },
+    {
+      "path": "assets/gal-quiz/s5-09/images/digination_0006ps.jpg",
+      "bytes": 16452,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-09"
+    },
+    {
+      "path": "assets/gal-quiz/s5-10/images/SS_2025-09-11_081222.jpg",
+      "bytes": 52912,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-10"
+    },
+    {
+      "path": "assets/gal-quiz/s5-10/images/SS_2025-09-27_215003.jpg",
+      "bytes": 49609,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-10"
+    },
+    {
+      "path": "assets/gal-quiz/s5-11/images/cg_06b.jpg",
+      "bytes": 59497,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-11"
+    },
+    {
+      "path": "assets/gal-quiz/s5-11/images/cg_14b.jpg",
+      "bytes": 41412,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-11"
+    },
+    {
+      "path": "assets/gal-quiz/s5-11/images/cg_17b.jpg",
+      "bytes": 37021,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-11"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/SS_2026-01-23_031922.jpg",
+      "bytes": 30748,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/akbs_0022pl.jpg",
+      "bytes": 63797,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/akbs_0127pl.jpg",
+      "bytes": 49887,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/has_0150pl.jpg",
+      "bytes": 108498,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/hawkeye_0002pl.jpg",
+      "bytes": 60348,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/next_0063pl.jpg",
+      "bytes": 76330,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/russ_0301pl.jpg",
+      "bytes": 98843,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/spal_0114pl.jpg",
+      "bytes": 62611,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-12/images/spal_0128pl.jpg",
+      "bytes": 137993,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-12"
+    },
+    {
+      "path": "assets/gal-quiz/s5-13/images/Honeyview_SS_2023-02-25_203059.jpg",
+      "bytes": 84877,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-13"
+    },
+    {
+      "path": "assets/gal-quiz/s5-14/images/kk-meguru.png",
+      "bytes": 433451,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-14"
+    },
+    {
+      "path": "assets/gal-quiz/s5-14/images/yumeka.jpg",
+      "bytes": 32233,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q4.html,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-14"
+    },
+    {
+      "path": "assets/gal-quiz/s5-17/images/Honeyview_LLLJ_screenshot-2025_10_08-09_36_58.png",
+      "bytes": 346348,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-17"
+    },
+    {
+      "path": "assets/gal-quiz/s5-18/images/Honeyview_2025-08-12-07-43-08-759.jpg",
+      "bytes": 48881,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-18"
+    },
+    {
+      "path": "assets/gal-quiz/s5-19/images/kJF7oWqhbO1U.jpg",
+      "bytes": 69075,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-19"
+    },
+    {
+      "path": "assets/gal-quiz/s5-20/images/sah6FywlO6pU.jpg",
+      "bytes": 95966,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-20"
+    },
+    {
+      "path": "assets/gal-quiz/s5-21/images/sui-cha001.jpg",
+      "bytes": 4549,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-21"
+    },
+    {
+      "path": "assets/gal-quiz/s5-21/video/lapla.mp3",
+      "bytes": 219264,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s5-21/audio/lapla.mp3"
+      ],
+      "qid": "s5-21"
+    },
+    {
+      "path": "assets/gal-quiz/s5-22/images/airi-cha005.jpg",
+      "bytes": 4627,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-22"
+    },
+    {
+      "path": "assets/gal-quiz/s5-22/video/saiminseishidou.mp3",
+      "bytes": 294912,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s5-22/audio/saiminseishidou.mp3"
+      ],
+      "qid": "s5-22"
+    },
+    {
+      "path": "assets/gal-quiz/s5-23/images/views_0314ps.jpg",
+      "bytes": 11321,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-23"
+    },
+    {
+      "path": "assets/gal-quiz/s5-23/video/your-little-sister.mp3",
+      "bytes": 135552,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s5-23/audio/your-little-sister.mp3"
+      ],
+      "qid": "s5-23"
+    },
+    {
+      "path": "assets/gal-quiz/s5-24/images/feng_0003ps.jpg",
+      "bytes": 17724,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-24"
+    },
+    {
+      "path": "assets/gal-quiz/s5-24/video/seiiki.mp3",
+      "bytes": 144768,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s5-24/audio/seiiki.mp3"
+      ],
+      "qid": "s5-24"
+    },
+    {
+      "path": "assets/gal-quiz/s5-25/images/views_0901ps.jpg",
+      "bytes": 16010,
+      "why": [
+        "audit_only",
+        "text_mention:_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/q5.html,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-25"
+    },
+    {
+      "path": "assets/gal-quiz/s5-25/video/haison2.mp3",
+      "bytes": 174336,
+      "why": [
+        "dup_audio_of:assets/gal-quiz/s5-25/audio/haison2.mp3"
+      ],
+      "qid": "s5-25"
+    }
+  ],
+  "suspicious_keep": [
+    {
+      "path": "assets/gal-quiz/s5-02/images/ten.png",
+      "bytes": 54989,
+      "why": [
+        "basename_used_elsewhere:assets/gal-quiz/s3-19/images/ten.png",
+        "text_mention:js/gal-quiz-data.js,_quiz_raw/extracted.txt,_quiz_raw/media_list.json,_quiz_raw/media_local_map.json,_quiz_raw/q3.html,_quiz_raw/q5.html,_quiz_raw/questions_raw.json,_quiz_raw/r18_scan_results.json"
+      ],
+      "qid": "s5-02"
+    }
+  ],
+  "missing_used": [],
+  "safe_count": 133,
+  "safe_mb": 10.13,
+  "suspicious_count": 1
+}

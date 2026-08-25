@@ -132,40 +132,35 @@
   "s1-21": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s1-21/audio/ren-voice.mp3",
-      "/assets/gal-quiz/s1-21/video/ren-voice.mp3"
+      "/assets/gal-quiz/s1-21/audio/ren-voice.mp3"
     ],
     "video": []
   },
   "s1-22": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s1-22/audio/kuukirikigaku.mp3",
-      "/assets/gal-quiz/s1-22/video/kuukirikigaku.mp3"
+      "/assets/gal-quiz/s1-22/audio/kuukirikigaku.mp3"
     ],
     "video": []
   },
   "s1-23": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s1-23/audio/miraiheno.mp3",
-      "/assets/gal-quiz/s1-23/video/miraiheno.mp3"
+      "/assets/gal-quiz/s1-23/audio/miraiheno.mp3"
     ],
     "video": []
   },
   "s1-24": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s1-24/audio/leafticket.mp3",
-      "/assets/gal-quiz/s1-24/video/leafticket.mp3"
+      "/assets/gal-quiz/s1-24/audio/leafticket.mp3"
     ],
     "video": []
   },
   "s1-25": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s1-25/audio/truemyheart.mp3",
-      "/assets/gal-quiz/s1-25/video/truemyheart.mp3"
+      "/assets/gal-quiz/s1-25/audio/truemyheart.mp3"
     ],
     "video": []
   },
@@ -231,13 +226,6 @@
     "audio": [],
     "video": []
   },
-  "s2-11": {
-    "images": [
-      "/assets/gal-quiz/s2-11/images/icon-kyo.jpg"
-    ],
-    "audio": [],
-    "video": []
-  },
   "s2-13": {
     "images": [
       "/assets/gal-quiz/s2-13/images/EV9wxQvUcAEI97B.jpg"
@@ -291,40 +279,35 @@
   "s2-21": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s2-21/audio/tsukuyomi-Voice.mp3",
-      "/assets/gal-quiz/s2-21/video/tsukuyomi-Voice.mp3"
+      "/assets/gal-quiz/s2-21/audio/tsukuyomi-Voice.mp3"
     ],
     "video": []
   },
   "s2-22": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s2-22/audio/tsuduri-Voice.mp3",
-      "/assets/gal-quiz/s2-22/video/tsuduri-Voice.mp3"
+      "/assets/gal-quiz/s2-22/audio/tsuduri-Voice.mp3"
     ],
     "video": []
   },
   "s2-23": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s2-23/audio/Answer-Voice.mp3",
-      "/assets/gal-quiz/s2-23/video/Answer-Voice.mp3"
+      "/assets/gal-quiz/s2-23/audio/Answer-Voice.mp3"
     ],
     "video": []
   },
   "s2-24": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s2-24/audio/apeiria-Voice.mp3",
-      "/assets/gal-quiz/s2-24/video/apeiria-Voice.mp3"
+      "/assets/gal-quiz/s2-24/audio/apeiria-Voice.mp3"
     ],
     "video": []
   },
   "s2-25": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s2-25/audio/LoveVacation-Voice.mp3",
-      "/assets/gal-quiz/s2-25/video/LoveVacation-Voice.mp3"
+      "/assets/gal-quiz/s2-25/audio/LoveVacation-Voice.mp3"
     ],
     "video": []
   },
@@ -352,10 +335,10 @@
   "s3-04": {
     "images": [
       "/assets/gal-quiz/s3-04/images/Honeyview_SS_2023-01-13_031927.jpg",
-      "/assets/gal-quiz/s3-04/images/ichika.jpg",
       "/assets/gal-quiz/s3-04/images/koinosu-room.jpg",
-      "/assets/gal-quiz/s3-04/images/natsume.jpg",
-      "/assets/gal-quiz/s3-04/images/sachi.jpg"
+      "/assets/gal-quiz/s3-04/images/ichika.jpg",
+      "/assets/gal-quiz/s3-04/images/sachi.jpg",
+      "/assets/gal-quiz/s3-04/images/natsume.jpg"
     ],
     "audio": [],
     "video": []
@@ -367,13 +350,13 @@
   },
   "s3-06": {
     "images": [
-      "/assets/gal-quiz/s3-06/images/do-100x100.png",
-      "/assets/gal-quiz/s3-06/images/gi-100x100.png",
-      "/assets/gal-quiz/s3-06/images/ha-100x100.png",
       "/assets/gal-quiz/s3-06/images/pa-100x100.png",
-      "/assets/gal-quiz/s3-06/images/qp-100x100.png",
       "/assets/gal-quiz/s3-06/images/so-100x100.png",
-      "/assets/gal-quiz/s3-06/images/ut-100x100.png"
+      "/assets/gal-quiz/s3-06/images/ut-100x100.png",
+      "/assets/gal-quiz/s3-06/images/gi-100x100.png",
+      "/assets/gal-quiz/s3-06/images/do-100x100.png",
+      "/assets/gal-quiz/s3-06/images/qp-100x100.png",
+      "/assets/gal-quiz/s3-06/images/ha-100x100.png"
     ],
     "audio": [],
     "video": []
@@ -435,8 +418,8 @@
   },
   "s3-16": {
     "images": [
-      "/assets/gal-quiz/s3-16/images/gds613_ic-300x300.jpg",
-      "/assets/gal-quiz/s3-16/images/gds614_ic-300x300.jpg"
+      "/assets/gal-quiz/s3-16/images/gds614_ic-300x300.jpg",
+      "/assets/gal-quiz/s3-16/images/gds613_ic-300x300.jpg"
     ],
     "audio": [],
     "video": []
@@ -458,17 +441,9 @@
   },
   "s3-19": {
     "images": [
-      "/assets/gal-quiz/s3-19/images/event_touma01_large-300x300.jpg",
       "/assets/gal-quiz/s3-19/images/ten.png",
+      "/assets/gal-quiz/s3-19/images/event_touma01_large-300x300.jpg",
       "/assets/gal-quiz/s3-19/images/vis01a-300x300.jpg"
-    ],
-    "audio": [],
-    "video": []
-  },
-  "s3-20": {
-    "images": [
-      "/assets/gal-quiz/s3-20/images/has_0112jp-008.jpg",
-      "/assets/gal-quiz/s3-20/images/koibana-ca.jpg"
     ],
     "audio": [],
     "video": []
@@ -483,32 +458,28 @@
   "s3-22": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s3-22/audio/ren.mp3",
-      "/assets/gal-quiz/s3-22/video/ren.mp3"
+      "/assets/gal-quiz/s3-22/audio/ren.mp3"
     ],
     "video": []
   },
   "s3-23": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s3-23/audio/flyable-heart.mp3",
-      "/assets/gal-quiz/s3-23/video/flyable-heart.mp3"
+      "/assets/gal-quiz/s3-23/audio/flyable-heart.mp3"
     ],
     "video": []
   },
   "s3-24": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s3-24/audio/sakulet.mp3",
-      "/assets/gal-quiz/s3-24/video/sakulet.mp3"
+      "/assets/gal-quiz/s3-24/audio/sakulet.mp3"
     ],
     "video": []
   },
   "s3-25": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s3-25/audio/donadona.mp3",
-      "/assets/gal-quiz/s3-25/video/donadona.mp3"
+      "/assets/gal-quiz/s3-25/audio/donadona.mp3"
     ],
     "video": []
   },
@@ -539,9 +510,9 @@
   },
   "s4-07": {
     "images": [
-      "/assets/gal-quiz/s4-07/images/fg_about1_3.png",
-      "/assets/gal-quiz/s4-07/images/fg_about2_3.png",
       "/assets/gal-quiz/s4-07/images/fg_about3_2.png",
+      "/assets/gal-quiz/s4-07/images/fg_about2_3.png",
+      "/assets/gal-quiz/s4-07/images/fg_about1_3.png",
       "/assets/gal-quiz/s4-07/images/fg_about3_3.png"
     ],
     "audio": [],
@@ -549,20 +520,20 @@
   },
   "s4-08": {
     "images": [
+      "/assets/gal-quiz/s4-08/images/yue-1.webp",
       "/assets/gal-quiz/s4-08/images/chino.jpg",
       "/assets/gal-quiz/s4-08/images/miku.webp",
       "/assets/gal-quiz/s4-08/images/siscamp-1aoba.png",
       "/assets/gal-quiz/s4-08/images/siscamp-2futaba.png",
-      "/assets/gal-quiz/s4-08/images/siscamp-3ren.png",
-      "/assets/gal-quiz/s4-08/images/yue-1.webp"
+      "/assets/gal-quiz/s4-08/images/siscamp-3ren.png"
     ],
     "audio": [],
     "video": []
   },
   "s4-09": {
     "images": [
-      "/assets/gal-quiz/s4-09/images/Ry6M-gEe_400x400.png",
-      "/assets/gal-quiz/s4-09/images/T_IEW190_400x400.jpg"
+      "/assets/gal-quiz/s4-09/images/T_IEW190_400x400.jpg",
+      "/assets/gal-quiz/s4-09/images/Ry6M-gEe_400x400.png"
     ],
     "audio": [],
     "video": []
@@ -597,16 +568,16 @@
   },
   "s4-15": {
     "images": [
-      "/assets/gal-quiz/s4-15/images/tir-na-nog-1.jpg",
-      "/assets/gal-quiz/s4-15/images/tir-na-nog-2.jpg"
+      "/assets/gal-quiz/s4-15/images/tir-na-nog-2.jpg",
+      "/assets/gal-quiz/s4-15/images/tir-na-nog-1.jpg"
     ],
     "audio": [],
     "video": []
   },
   "s4-16": {
     "images": [
-      "/assets/gal-quiz/s4-16/images/subahibi1.jpg",
-      "/assets/gal-quiz/s4-16/images/subahibi2.jpg"
+      "/assets/gal-quiz/s4-16/images/subahibi2.jpg",
+      "/assets/gal-quiz/s4-16/images/subahibi1.jpg"
     ],
     "audio": [],
     "video": []
@@ -635,40 +606,35 @@
   "s4-21": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s4-21/audio/kissego.mp3",
-      "/assets/gal-quiz/s4-21/video/kissego.mp3"
+      "/assets/gal-quiz/s4-21/audio/kissego.mp3"
     ],
     "video": []
   },
   "s4-22": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s4-22/audio/hajiron.mp3",
-      "/assets/gal-quiz/s4-22/video/hajiron.mp3"
+      "/assets/gal-quiz/s4-22/audio/hajiron.mp3"
     ],
     "video": []
   },
   "s4-23": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s4-23/audio/euphoria.mp3",
-      "/assets/gal-quiz/s4-23/video/euphoria.mp3"
+      "/assets/gal-quiz/s4-23/audio/euphoria.mp3"
     ],
     "video": []
   },
   "s4-24": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s4-24/audio/chocola.mp3",
-      "/assets/gal-quiz/s4-24/video/chocola.mp3"
+      "/assets/gal-quiz/s4-24/audio/chocola.mp3"
     ],
     "video": []
   },
   "s4-25": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s4-25/audio/selectoblige.mp3",
-      "/assets/gal-quiz/s4-25/video/selectoblige.mp3"
+      "/assets/gal-quiz/s4-25/audio/selectoblige.mp3"
     ],
     "video": []
   },
@@ -740,12 +706,12 @@
   },
   "s5-11": {
     "images": [
-      "/assets/gal-quiz/s5-11/images/cha_gonda_tatie_sihuku_1.jpg",
-      "/assets/gal-quiz/s5-11/images/cha_strat.jpg",
       "/assets/gal-quiz/s5-11/images/cha_syouiti_tatie_sihuku_1.jpg",
+      "/assets/gal-quiz/s5-11/images/cha_yayoi_tatie_seihuku_1.jpg",
+      "/assets/gal-quiz/s5-11/images/cha_gonda_tatie_sihuku_1.jpg",
       "/assets/gal-quiz/s5-11/images/cha_terecaster.jpg",
       "/assets/gal-quiz/s5-11/images/cha_thander.jpg",
-      "/assets/gal-quiz/s5-11/images/cha_yayoi_tatie_seihuku_1.jpg"
+      "/assets/gal-quiz/s5-11/images/cha_strat.jpg"
     ],
     "audio": [],
     "video": []
@@ -759,8 +725,8 @@
   },
   "s5-13": {
     "images": [
-      "/assets/gal-quiz/s5-13/images/n-misuzu.png",
-      "/assets/gal-quiz/s5-13/images/sakurano_image09.png"
+      "/assets/gal-quiz/s5-13/images/sakurano_image09.png",
+      "/assets/gal-quiz/s5-13/images/n-misuzu.png"
     ],
     "audio": [],
     "video": []
@@ -768,14 +734,6 @@
   "s5-14": {
     "images": [
       "/assets/gal-quiz/s5-14/images/kyoto-ch.png"
-    ],
-    "audio": [],
-    "video": []
-  },
-  "s5-15": {
-    "images": [
-      "/assets/gal-quiz/s5-15/images/hobe_0407pl-1.jpg",
-      "/assets/gal-quiz/s5-15/images/pack_b-1.jpg"
     ],
     "audio": [],
     "video": []
@@ -812,40 +770,35 @@
   "s5-21": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s5-21/audio/lapla.mp3",
-      "/assets/gal-quiz/s5-21/video/lapla.mp3"
+      "/assets/gal-quiz/s5-21/audio/lapla.mp3"
     ],
     "video": []
   },
   "s5-22": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s5-22/audio/saiminseishidou.mp3",
-      "/assets/gal-quiz/s5-22/video/saiminseishidou.mp3"
+      "/assets/gal-quiz/s5-22/audio/saiminseishidou.mp3"
     ],
     "video": []
   },
   "s5-23": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s5-23/audio/your-little-sister.mp3",
-      "/assets/gal-quiz/s5-23/video/your-little-sister.mp3"
+      "/assets/gal-quiz/s5-23/audio/your-little-sister.mp3"
     ],
     "video": []
   },
   "s5-24": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s5-24/audio/seiiki.mp3",
-      "/assets/gal-quiz/s5-24/video/seiiki.mp3"
+      "/assets/gal-quiz/s5-24/audio/seiiki.mp3"
     ],
     "video": []
   },
   "s5-25": {
     "images": [],
     "audio": [
-      "/assets/gal-quiz/s5-25/audio/haison2.mp3",
-      "/assets/gal-quiz/s5-25/video/haison2.mp3"
+      "/assets/gal-quiz/s5-25/audio/haison2.mp3"
     ],
     "video": []
   }

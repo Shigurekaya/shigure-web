@@ -624,6 +624,32 @@ body.storm-rain .weather-gate__panel a:hover {
   .site-bg__after-mist.is-on {
     animation: none;
   }
+
+  /* 手机大雨：禁用贴屏折射层，避免 z-index:50 黑幕盖住正文（顶栏 100 仍可见） */
+  body.heavy-rain .site-fx__rain-glass,
+  body.storm-rain .site-fx__rain-glass {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-hero,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-avatar,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-name,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-roman,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-sign,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .social-row,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .intro-panel,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .home-tool-entries,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .site-log,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .home-cards,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .site-footer,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .social-pill {
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 @keyframes light-mist-drift {
