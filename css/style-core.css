@@ -1888,7 +1888,7 @@ body.sedai-capture-mode .sedai-grid-header__counter {
   margin-bottom: 1rem;
 }
 
-/* TEMP: 校对用参考答案（已注释，确认后可恢复）
+/* TEMP: 校对用参考答案，确认后删除 */
 .quiz-answer-debug {
   margin: -0.35rem 0 1rem;
   padding: 0.7rem 0.85rem;
@@ -1952,7 +1952,6 @@ body.sedai-capture-mode .sedai-grid-header__counter {
   color: #9a3412;
   opacity: 0.92;
 }
-*/
 
 .quiz-media {
   display: flex;

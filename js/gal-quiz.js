@@ -161,7 +161,7 @@
     return (q.answers || []).join(" / ");
   }
 
-  /* TEMP: 校对用临时答案相关（已注释）
+  /** TEMP: 原本为填空、后改成选择题的题号（校对用；已再改为 match 的已移出） */
   const CONVERTED_FROM_TEXT = new Set([
     "s1-09", "s1-10", "s1-14", "s1-15",
     "s2-02", "s2-03", "s2-04", "s2-05",
@@ -179,7 +179,6 @@
     if (CONVERTED_FROM_TEXT.has(q.id)) return "原填空→选择题";
     return "原本选择题";
   }
-  */
 
   function resolveMediaUrl(src) {
     if (!src) return "";
@@ -745,7 +744,6 @@
     if (cardNum) cardNum.textContent = `Q${state.i + 1}`;
     $("quiz-meta").textContent = q.id;
     $("quiz-question").textContent = q.question;
-    /* TEMP: 校对用临时答案，确认后可恢复
     const debug = $("quiz-answer-debug");
     if (debug) {
       const ans = correctAnswerText(q);
@@ -763,7 +761,6 @@
         <p class="quiz-answer-debug__ans">${escapeHtml(ans || "（无）")}</p>
         ${explain ? `<p class="quiz-answer-debug__explain">${escapeHtml(explain)}</p>` : ""}`;
     }
-    */
     mountMedia(q);
     preloadAhead(state.i, 2);
     clearWarn();
