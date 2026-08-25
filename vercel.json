@@ -8,11 +8,11 @@
   "rewrites": [
     {
       "source": "/gal-quiz/:qid",
-      "destination": "/gal-quiz.html"
+      "destination": "/gal-quiz"
     },
     {
       "source": "/gal-quiz/:qid/",
-      "destination": "/gal-quiz.html"
+      "destination": "/gal-quiz"
     }
   ],
   "redirects": [
