@@ -8,7 +8,7 @@
   <meta name="description" content="Gal 水平测试 — 题目改编自 ima-ero エロゲクイズ" />
   <meta name="theme-color" content="#1a1030" />
   <link rel="stylesheet" href="css/style-core.css?v=202608252320" />
-  <link rel="stylesheet" href="css/gal-quiz.css?v=202608252330" />
+  <link rel="stylesheet" href="css/gal-quiz.css?v=202608252420" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
 <body class="page-quiz page-quiz--standalone page-quiz--flat-bg" data-kaya-page="quiz">
@@ -17,23 +17,7 @@
     <span class="quiz-stage-bg__bokeh"></span>
     <span class="quiz-stage-bg__horizon"></span>
     <span class="quiz-stage-bg__grain"></span>
-    <div class="quiz-stage-bg__petals" aria-hidden="true">
-      <!-- far: soft / blurred -->
-      <span class="quiz-stage-bg__petal is-far"></span>
-      <span class="quiz-stage-bg__petal is-far"></span>
-      <span class="quiz-stage-bg__petal is-far"></span>
-      <span class="quiz-stage-bg__petal is-far"></span>
-      <span class="quiz-stage-bg__petal is-far"></span>
-      <span class="quiz-stage-bg__petal is-far"></span>
-      <!-- mid -->
-      <span class="quiz-stage-bg__petal is-mid"></span>
-      <span class="quiz-stage-bg__petal is-mid"></span>
-      <span class="quiz-stage-bg__petal is-mid"></span>
-      <span class="quiz-stage-bg__petal is-mid"></span>
-      <!-- near: clearer, few -->
-      <span class="quiz-stage-bg__petal is-near"></span>
-      <span class="quiz-stage-bg__petal is-near"></span>
-    </div>
+    <canvas class="quiz-stage-bg__float" id="quiz-bg-float" aria-hidden="true"></canvas>
   </div>
 
   <main class="page-main page-main--quiz">
@@ -153,6 +137,6 @@
   </footer>
 
   <script src="js/kaya-rain-mode.js?v=202608252320" defer></script>
-  <script src="js/kaya-boot.js?v=202608252320" defer></script>
+  <script src="js/kaya-boot.js?v=202608252420" defer></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
  * 按页面 + 天气模式按需加载脚本（defer 入口）
  */
 (() => {
-  const V = "202608252330";
+  const V = "202608252420";
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -48,6 +48,7 @@
       quiz: [
         `js/gal-quiz-data.js?v=${V}`,
         `js/gal-quiz.js?v=${V}`,
+        `js/gal-quiz-float.js?v=${V}`,
       ],
       pick: [
         `js/gal-pick-data.js?v=${V}`,
@@ -105,6 +106,7 @@
       mv: () => api.initMvMaterials(),
       quiz: () => {
         window.KayaQuiz?.init();
+        window.KayaQuizFloat?.init();
         api.initQuiz();
       },
       pick: () => {

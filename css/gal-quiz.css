@@ -79,10 +79,10 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 15% 55%, rgba(255, 150, 190, 0.14) 0%, transparent 22%),
-    radial-gradient(circle at 85% 35%, rgba(184, 160, 255, 0.16) 0%, transparent 26%),
-    radial-gradient(circle at 45% 75%, rgba(255, 217, 138, 0.08) 0%, transparent 18%),
-    radial-gradient(circle at 70% 70%, rgba(255, 126, 179, 0.1) 0%, transparent 20%);
+    radial-gradient(circle at 15% 55%, rgba(255, 95, 105, 0.14) 0%, transparent 22%),
+    radial-gradient(circle at 85% 35%, rgba(255, 70, 85, 0.16) 0%, transparent 26%),
+    radial-gradient(circle at 45% 75%, rgba(230, 80, 90, 0.1) 0%, transparent 18%),
+    radial-gradient(circle at 70% 70%, rgba(255, 110, 120, 0.12) 0%, transparent 20%);
   animation: qz-bokeh 20s ease-in-out infinite alternate;
   pointer-events: none;
 }
@@ -110,93 +110,15 @@
   to { transform: scale(1.04) translate(-1%, 1%); }
 }
 
-/* 樱花瓣：远景淡 / 中景 / 近景，素材来自 D:\花瓣 裁切 */
-.quiz-stage-bg__petals {
+/* 浮游光点 canvas（逻辑见 js/gal-quiz-float.js） */
+.quiz-stage-bg__float {
   position: absolute;
   inset: 0;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 1;
-}
-
-.quiz-stage-bg__petal {
-  position: absolute;
-  top: -8%;
-  width: auto;
-  aspect-ratio: 3 / 10;
-  opacity: 0;
-  background: center / contain no-repeat;
-  animation-name: qz-petal-drift;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  will-change: transform, opacity;
-  transform-origin: center center;
-}
-
-/* 远景：小、淡、强虚化 */
-.quiz-stage-bg__petal.is-far {
-  background-image: url("/assets/gal-quiz/petal-soft.webp");
-  filter: blur(1.6px);
-}
-
-.quiz-stage-bg__petal.is-far:nth-child(1) { left: 4%;  --dx: 42px;  --spin: 22deg;  --rot-start: -6deg;  --peak: 0.18; --scale: 0.92; height: 16px; animation-duration: 28s; animation-delay: 0s;    }
-.quiz-stage-bg__petal.is-far:nth-child(2) { left: 18%; --dx: -36px; --spin: -18deg; --rot-start: 10deg;  --peak: 0.14; --scale: 0.88; --flip: -1; height: 14px; animation-duration: 32s; animation-delay: 4.5s;  }
-.quiz-stage-bg__petal.is-far:nth-child(3) { left: 31%; --dx: 28px;  --spin: 16deg;  --rot-start: 4deg;   --peak: 0.2;  --scale: 1;    height: 18px; animation-duration: 26s; animation-delay: 9s;    }
-.quiz-stage-bg__petal.is-far:nth-child(4) { left: 48%; --dx: -48px; --spin: -24deg; --rot-start: -8deg;  --peak: 0.16; --scale: 0.9;  --flip: -1; height: 15px; animation-duration: 30s; animation-delay: 2s;    }
-.quiz-stage-bg__petal.is-far:nth-child(5) { left: 62%; --dx: 34px;  --spin: 20deg;  --rot-start: 6deg;   --peak: 0.19; --scale: 0.95; height: 17px; animation-duration: 27s; animation-delay: 14s;   }
-.quiz-stage-bg__petal.is-far:nth-child(6) { left: 84%; --dx: -30px; --spin: -14deg; --rot-start: -4deg;  --peak: 0.15; --scale: 0.86; --flip: -1; height: 13px; animation-duration: 34s; animation-delay: 7s;    }
-
-/* 中景：中等尺寸，轻微虚化 */
-.quiz-stage-bg__petal.is-mid {
-  background-image: url("/assets/gal-quiz/petal-a.webp");
-  filter: blur(0.35px);
-}
-
-.quiz-stage-bg__petal.is-mid:nth-child(7)  { left: 10%; --dx: 56px;  --spin: 28deg;  --rot-start: 12deg;  --peak: 0.42; --scale: 1;    height: 30px; animation-duration: 22s; animation-delay: 1s;    }
-.quiz-stage-bg__petal.is-mid:nth-child(8)  { left: 36%; --dx: -44px; --spin: -32deg; --rot-start: -10deg; --peak: 0.38; --scale: 0.96; --flip: -1; height: 26px; animation-duration: 24s; animation-delay: 6.5s;  }
-.quiz-stage-bg__petal.is-mid:nth-child(9)  { left: 55%; --dx: 38px;  --spin: 24deg;  --rot-start: 8deg;   --peak: 0.45; --scale: 1.02; height: 34px; animation-duration: 20s; animation-delay: 11s;   }
-.quiz-stage-bg__petal.is-mid:nth-child(10) { left: 78%; --dx: -52px; --spin: -26deg; --rot-start: -14deg; --peak: 0.4;  --scale: 0.98; --flip: -1; height: 28px; animation-duration: 23s; animation-delay: 16s;   }
-
-/* 近景：少而清晰 */
-.quiz-stage-bg__petal.is-near {
-  background-image: url("/assets/gal-quiz/petal-a.webp");
-}
-
-.quiz-stage-bg__petal.is-near:nth-child(11) { left: 24%; --dx: 64px;  --spin: 30deg;  --rot-start: 16deg;  --peak: 0.58; --scale: 1.05; height: 48px; animation-duration: 19s; animation-delay: 3s;    }
-.quiz-stage-bg__petal.is-near:nth-child(12) { left: 68%; --dx: -58px; --spin: -34deg; --rot-start: -18deg; --peak: 0.52; --scale: 1;    --flip: -1; height: 44px; animation-duration: 21s; animation-delay: 12s;   }
-
-@keyframes qz-petal-drift {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, -5vh, 0) rotate(var(--rot-start, 0deg)) scale(calc(var(--scale, 1) * var(--flip, 1)), var(--scale, 1));
-  }
-  6% {
-    opacity: var(--peak, 0.35);
-  }
-  22% {
-    transform: translate3d(calc(var(--dx, 30px) * 0.18), 20vh, 0)
-      rotate(calc(var(--rot-start, 0deg) + var(--spin, 20deg) * 0.22))
-      scale(calc(var(--scale, 1) * var(--flip, 1)), var(--scale, 1));
-  }
-  45% {
-    transform: translate3d(calc(var(--dx, 30px) * 0.48), 46vh, 0)
-      rotate(calc(var(--rot-start, 0deg) + var(--spin, 20deg) * 0.48))
-      scale(calc(var(--scale, 1) * var(--flip, 1)), var(--scale, 1));
-  }
-  68% {
-    transform: translate3d(calc(var(--dx, 30px) * 0.72), 70vh, 0)
-      rotate(calc(var(--rot-start, 0deg) + var(--spin, 20deg) * 0.72))
-      scale(calc(var(--scale, 1) * var(--flip, 1)), var(--scale, 1));
-  }
-  88% {
-    opacity: calc(var(--peak, 0.35) * 0.45);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--dx, 30px), 108vh, 0)
-      rotate(calc(var(--rot-start, 0deg) + var(--spin, 20deg)))
-      scale(calc(var(--scale, 1) * var(--flip, 1)), var(--scale, 1));
-  }
+  opacity: 0.8;
 }
 
 /* ── 布局 ── */
@@ -1050,7 +972,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .quiz-stage-bg__bokeh,
-  .quiz-stage-bg__petal,
+  .quiz-stage-bg__float,
   .page-quiz.page-ready .quiz-back,
   .page-quiz.page-ready .quiz-hero,
   .page-quiz.page-ready .quiz-panel,
