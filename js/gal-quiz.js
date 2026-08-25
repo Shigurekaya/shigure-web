@@ -335,12 +335,11 @@
     const ok = h.ok;
     const cls = ok ? "is-ok" : "is-ng";
     const badge = ok ? "✓" : "✗";
-    const right = correctAnswerText(h.q);
+    // const right = correctAnswerText(h.q); // 临时关闭参考答案
     const userLabel = h.skipped ? "（未作答）" : h.user || "（空）";
     const meta = ok
       ? `<div><dt>你的答案</dt><dd>${escapeHtml(userLabel)}</dd></div>`
       : `<div><dt>你的答案</dt><dd>${escapeHtml(userLabel)}</dd></div>
-        <div><dt>参考答案</dt><dd>${escapeHtml(right)}</dd></div>
         ${h.q.explain ? `<div><dt>解析</dt><dd>${escapeHtml(h.q.explain)}</dd></div>` : ""}`;
     return `<li class="quiz-review-item ${cls}">
       <div class="quiz-review-item__head">
@@ -744,6 +743,7 @@
     if (cardNum) cardNum.textContent = `Q${state.i + 1}`;
     $("quiz-meta").textContent = q.id;
     $("quiz-question").textContent = q.question;
+    /* 临时关闭参考答案
     const debug = $("quiz-answer-debug");
     if (debug) {
       const ans = correctAnswerText(q);
@@ -761,6 +761,7 @@
         <p class="quiz-answer-debug__ans">${escapeHtml(ans || "（无）")}</p>
         ${explain ? `<p class="quiz-answer-debug__explain">${escapeHtml(explain)}</p>` : ""}`;
     }
+    */
     mountMedia(q);
     preloadAhead(state.i, 2);
     clearWarn();
