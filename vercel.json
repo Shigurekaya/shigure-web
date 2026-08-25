@@ -5,6 +5,16 @@
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": true,
+  "rewrites": [
+    {
+      "source": "/gal-quiz/:qid",
+      "destination": "/gal-quiz.html"
+    },
+    {
+      "source": "/gal-quiz/:qid/",
+      "destination": "/gal-quiz.html"
+    }
+  ],
   "redirects": [
     {
       "source": "/kaya",
@@ -247,6 +257,18 @@
     },
     {
       "source": "/gal-quiz/",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/gal-quiz/:qid",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/gal-quiz/:qid/",
       "headers": [
         { "key": "Cache-Control", "value": "no-store, must-revalidate" }
       ]

@@ -84,9 +84,17 @@ def main():
         if item["type"] == "choice":
             item["options"] = z["options"]
             item["answer"] = z["answer"]
+        elif item["type"] == "match":
+            item["slots"] = z["slots"]
+            item["pool"] = z["pool"]
+            item["answer"] = z["answer"]
         else:
             item["answers"] = z["answers"]
             item["placeholder"] = z.get("placeholder", "输入答案…")
+            if z.get("match_blanks"):
+                item["match_blanks"] = z["match_blanks"]
+            if z.get("blank_labels"):
+                item["blank_labels"] = z["blank_labels"]
         bank.append(item)
 
     if missing:

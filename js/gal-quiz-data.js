@@ -50,39 +50,62 @@ window.GAL_QUIZ_BANK = [
     "id": "s1-03",
     "source": 1,
     "num": 3,
-    "type": "choice",
-    "question": "Navel《SHUFFLE!》中，莉西亚斯与莉奈分别属于神族还是魔族？",
-    "explain": "莉奈心地纯洁如天使，当年很难相信她是魔族。如今再看，尖耳与红眼确实很有魔族气质。",
+    "type": "match",
+    "question": "Navel《SHUFFLE!》中，请将「神族 / 魔族」拖入或点选填入莉西亚斯与涅莉涅。",
+    "explain": "涅莉涅心地纯洁如天使，当年很难相信她是魔族。如今再看，尖耳与红眼确实很有魔族气质。",
     "images": [
       "/assets/gal-quiz/s1-03/images/shuffle2.jpg"
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "莉西亚斯＝神族、莉奈＝魔族",
-      "莉西亚斯＝魔族、莉奈＝神族",
-      "两人都是神族",
-      "两人都是魔族"
+    "slots": [
+      "莉西亚斯",
+      "涅莉涅"
     ],
-    "answer": 0
+    "pool": [
+      "神族",
+      "魔族"
+    ],
+    "answer": [
+      [
+        "神族"
+      ],
+      [
+        "魔族"
+      ]
+    ]
   },
   {
     "id": "s1-04",
     "source": 1,
     "num": 4,
-    "type": "choice",
-    "question": "Qruppo《拔作岛》中，主角秘密结社 / 敌对公益社团 / 学园生徒会·风纪的简称分别是？",
+    "type": "match",
+    "question": "Qruppo《拔作岛》中，请将简称拖入或点选填入：主角秘密结社 / 敌对公益社团 / 学园生徒会·风纪。",
     "explain": "三组缩写分别对应 NLNS（主角方）、SHO（敌对方）与 SS（校内机关）。",
     "images": [],
     "audio": [],
     "video": [],
-    "options": [
-      "NLNS / SHO / SS",
-      "SHO / NLNS / SS",
-      "SS / SHO / NLNS",
-      "NLNS / SS / SHO"
+    "slots": [
+      "主角秘密结社",
+      "敌对公益社团",
+      "学园生徒会·风纪"
     ],
-    "answer": 0
+    "pool": [
+      "NLNS",
+      "SHO",
+      "SS"
+    ],
+    "answer": [
+      [
+        "NLNS"
+      ],
+      [
+        "SHO"
+      ],
+      [
+        "SS"
+      ]
+    ]
   },
   {
     "id": "s1-05",
@@ -211,20 +234,53 @@ window.GAL_QUIZ_BANK = [
     "id": "s1-11",
     "source": 1,
     "num": 11,
-    "type": "text",
-    "question": "请根据图片：写出①～⑤机体名称（可用作品里的通称）。",
+    "type": "match",
+    "question": "请根据图片：将机体名称拖入或点选填入①～⑤（同槽位可任选通称之一）。",
     "explain": "①斩魔大圣 Demonbane ②装甲恶鬼村正「剑胄/银星号」③BALDR SKY「Schwarz/阳炎」④闪钢的克拉利亚斯「Clarias/龙之心」⑤Muv-Luv「战术机/武御雷」。带 or 的任填其一即可。",
     "images": [
       "/assets/gal-quiz/s1-11/images/kitai.jpg"
     ],
     "audio": [],
     "video": [],
-    "answers": [
-      "デモンベイン / 劔冑或银星号 / シュミクラム或カゲロウ / クラリアス或ハートオブドラゴン / 戦術机或武御雷",
-      "①デモンベイン②劔冑③シュミクラム④クラリアス⑤戦術機",
-      "デモンベイン、劔冑、シュミクラム、クラリアス、武御雷"
+    "slots": [
+      "①",
+      "②",
+      "③",
+      "④",
+      "⑤"
     ],
-    "placeholder": "输入答案…"
+    "pool": [
+      "デモンベイン",
+      "劔冑",
+      "銀星号",
+      "シュミクラム",
+      "カゲロウ",
+      "クラリアス",
+      "ハートオブドラゴン",
+      "戦術機",
+      "武御雷"
+    ],
+    "answer": [
+      [
+        "デモンベイン"
+      ],
+      [
+        "劔冑",
+        "銀星号"
+      ],
+      [
+        "シュミクラム",
+        "カゲロウ"
+      ],
+      [
+        "クラリアス",
+        "ハートオブドラゴン"
+      ],
+      [
+        "戦術機",
+        "武御雷"
+      ]
+    ]
   },
   {
     "id": "s1-12",
@@ -601,57 +657,97 @@ window.GAL_QUIZ_BANK = [
     "id": "s2-06",
     "source": 2,
     "num": 6,
-    "type": "choice",
-    "question": "HOOKSOFT《放学后的灰姑娘》中，築島つくし与小瀬葉月宣传语被黑条遮住的两处，分别填什么？",
+    "type": "match",
+    "question": "HOOKSOFT《放学后的灰姑娘》中，请将宣传语黑条内容拖入或点选填入築島つくし与小瀬葉月。",
     "explain": "把名字与特性绑定的宣传语策略，非常清晰有效。",
     "images": [],
     "audio": [],
     "video": [],
-    "options": [
-      "尽くしたい / お世話好き",
-      "お世話好き / 尽くしたい",
-      "恋したい / お世話好き",
-      "尽くしたい / 甘えたい"
+    "slots": [
+      "築島つくし",
+      "小瀬葉月"
     ],
-    "answer": 0
+    "pool": [
+      "尽くしたい",
+      "お世話好き",
+      "恋したい",
+      "甘えたい"
+    ],
+    "answer": [
+      [
+        "尽くしたい"
+      ],
+      [
+        "お世話好き"
+      ]
+    ]
   },
   {
     "id": "s2-07",
     "source": 2,
     "num": 7,
-    "type": "choice",
-    "question": "写出下列 Gal 厂商名的日语读法：GLOVETY / feng / 娘。",
+    "type": "match",
+    "question": "请将日语读法拖入或点选填入下列 Gal 厂商名：GLOVETY / feng / 娘。",
     "explain": "②常被误读为「ふぇんぐ」，启动时会语音念「フォン」，玩过 feng 作品应能答对；①③知道的人较少。",
     "images": [],
     "audio": [],
     "video": [],
-    "options": [
-      "グロブティ / フォン / にゃん。",
-      "グロブティ / フェング / むすめ。",
-      "グローブティ / フォン / むすめ。",
-      "グロブティ / フォン / むすめ。"
+    "slots": [
+      "GLOVETY",
+      "feng",
+      "娘"
     ],
-    "answer": 0
+    "pool": [
+      "グロブティ",
+      "フォン",
+      "にゃん。",
+      "フェング",
+      "グローブティ",
+      "むすめ。"
+    ],
+    "answer": [
+      [
+        "グロブティ"
+      ],
+      [
+        "フォン"
+      ],
+      [
+        "にゃん。"
+      ]
+    ]
   },
   {
     "id": "s2-08",
     "source": 2,
     "num": 8,
-    "type": "choice",
-    "question": "写出两部作品中的虚构运动名——《苍之彼方的四重奏》的「□□□马戏团」与《牵绊闪耀的恋之伊吕波》的「□道」。",
+    "type": "match",
+    "question": "请将虚构运动名拖入或点选填入：《苍之彼方的四重奏》的「□□□马戏团」与《牵绊闪耀的恋之伊吕波》的「□道」。",
     "explain": "①空中飞行对战运动 Flying Circus；②用刀对决的刃道（じんどう）。",
     "images": [
       "/assets/gal-quiz/s2-08/images/kakuusports.jpg"
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "フライングサーカス / 刃道",
-      "スカイサーカス / 剣道",
-      "フライングサーカス / 剣道",
-      "エアロサーカス / 刃道"
+    "slots": [
+      "苍之彼方「□□□马戏团」",
+      "恋之伊吕波「□道」"
     ],
-    "answer": 0
+    "pool": [
+      "フライングサーカス",
+      "刃道",
+      "スカイサーカス",
+      "剣道",
+      "エアロサーカス"
+    ],
+    "answer": [
+      [
+        "フライングサーカス"
+      ],
+      [
+        "刃道"
+      ]
+    ]
   },
   {
     "id": "s2-09",
@@ -677,21 +773,54 @@ window.GAL_QUIZ_BANK = [
     "id": "s2-10",
     "source": 2,
     "num": 10,
-    "type": "choice",
-    "question": "请根据图片：按①～⑥顺序选出对应口头禅/台词。",
+    "type": "match",
+    "question": "请根据图片：将口头禅/台词拖入或点选填入①～⑥。",
     "explain": "对应 Kanon、兰斯系列、AIR、车轮之国、Can Can Bunny 系列、《星空下的回忆》。",
     "images": [
       "/assets/gal-quiz/s2-10/images/kuchiguse.jpg"
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "①うぐぅ②グッドだ③がお④ぶっこぉすぞ！⑤きゃる～ん☆⑥バカバカ",
-      "①まだまだだね②うぐぅ③がお④はにゃーん⑤きゃる～ん☆⑥バカバカ",
-      "①うぐぅ②グッドだ③がお④いっけーマグナム⑤ピッピカチュウ⑥バカバカ",
-      "①がお②グッドだ③うぐぅ④ぶっこぉすぞ！⑤きゃる～ん☆⑥バカバカ"
+    "slots": [
+      "①",
+      "②",
+      "③",
+      "④",
+      "⑤",
+      "⑥"
     ],
-    "answer": 0
+    "pool": [
+      "うぐぅ",
+      "グッドだ",
+      "がお",
+      "ぶっこぉすぞ！",
+      "きゃる～ん☆",
+      "バカバカ",
+      "まだまだだね",
+      "はにゃーん",
+      "いっけーマグナム",
+      "ピッピカチュウ"
+    ],
+    "answer": [
+      [
+        "うぐぅ"
+      ],
+      [
+        "グッドだ"
+      ],
+      [
+        "がお"
+      ],
+      [
+        "ぶっこぉすぞ！"
+      ],
+      [
+        "きゃる～ん☆"
+      ],
+      [
+        "バカバカ"
+      ]
+    ]
   },
   {
     "id": "s2-13",
@@ -760,7 +889,7 @@ window.GAL_QUIZ_BANK = [
     "num": 16,
     "type": "text",
     "question": "广告语「本想丢掉童贞，结果连人都不当了。」对应哪部作品？",
-    "explain": "柚子社《大恶党》（DRACU-RIOT!）官方极具冲击力的宣传语。",
+    "explain": "柚子社《DRACU-RIOT!》（民间常译「龙骑士骚动」，官方中文版《吸血鬼搞事情！》）官方极具冲击力的宣传语。",
     "images": [],
     "audio": [],
     "video": [],
@@ -769,7 +898,8 @@ window.GAL_QUIZ_BANK = [
       "DRACU-RIOT",
       "ドラクリオット",
       "龙骑士骚动",
-      "大恶党"
+      "吸血鬼搞事情",
+      "吸血鬼搞事情！"
     ],
     "placeholder": "输入答案…"
   },
@@ -813,21 +943,35 @@ window.GAL_QUIZ_BANK = [
     "id": "s2-19",
     "source": 2,
     "num": 19,
-    "type": "choice",
-    "question": "请根据图片：包装封面上左右角色的原画师分别是？",
-    "explain": "左白羽、右梱枝りこ，画风都很独特，不难分辨。（敬称略）",
+    "type": "match",
+    "question": "请根据图片：将原画师拖入或点选填入包装封面左右角色。",
+    "explain": "左白玉（しらたま）、右梱枝りこ，画风都很独特，不难分辨。（敬称略）",
     "images": [
       "/assets/gal-quiz/s2-19/images/cabbage_0004pl.jpg"
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "左＝しらたま、右＝梱枝りこ",
-      "左＝梱枝りこ、右＝しらたま",
-      "左＝みつみ美里、右＝梱枝りこ",
-      "左＝しらたま、右＝むりりん"
+    "slots": [
+      "左",
+      "右"
     ],
-    "answer": 0
+    "pool": [
+      "しらたま",
+      "白玉",
+      "梱枝りこ",
+      "むりりん",
+      "夏野イオ",
+      "永山ゆうのん"
+    ],
+    "answer": [
+      [
+        "しらたま",
+        "白玉"
+      ],
+      [
+        "梱枝りこ"
+      ]
+    ]
   },
   {
     "id": "s2-20",
@@ -911,7 +1055,7 @@ window.GAL_QUIZ_BANK = [
     "num": 24,
     "type": "text",
     "question": "请听音频：曲名是？",
-    "explain": "《流景之海的艾佩理雅》OP。节奏与填词极难，唱起来是地狱难度。",
+    "explain": "《景之海的艾佩理雅》OP。节奏与填词极难，唱起来是地狱难度。",
     "images": [],
     "audio": [
       "/assets/gal-quiz/s2-24/audio/apeiria-Voice.mp3"
@@ -971,7 +1115,7 @@ window.GAL_QUIZ_BANK = [
     "num": 2,
     "type": "text",
     "question": "请根据图片（含角色剪影提示）：这是哪部作品的圣地？",
-    "explain": "《幸福噩梦》（Happiness Mare）。平坂景子 nightly 弹吉他的地方，位于町田站前。",
+    "explain": "《幸福噩梦》（ハピメア / Hapymaher）。平坂景子 nightly 弹吉他的地方，位于町田站前。",
     "images": [
       "/assets/gal-quiz/s3-02/images/Shintoshin.jpg"
     ],
@@ -979,8 +1123,10 @@ window.GAL_QUIZ_BANK = [
     "video": [],
     "answers": [
       "ハピメア",
-      "Happiness Mare",
-      "幸福噩梦"
+      "Hapymaher",
+      "幸福噩梦",
+      "Hapimea",
+      "Happy Nightmare"
     ],
     "placeholder": "输入答案…"
   },
@@ -1052,8 +1198,8 @@ window.GAL_QUIZ_BANK = [
     "id": "s3-06",
     "source": 3,
     "num": 6,
-    "type": "choice",
-    "question": "请根据图片：为①～⑦各吉祥物选出正确名称对应。",
+    "type": "match",
+    "question": "请根据图片：将吉祥物名称拖入或点选填入①～⑦。",
     "explain": "谜之生物很多以猫为原型。ぱんにゃ（《纯白交响曲》）、Sophitia（9-nine-）、歌丸（初音岛）、仪左右卫门（《大图书馆的牧羊人》）、Dorji（Little Busters EX）、QP（Missing-X-Link）、Honey（Alice Soft）。QP 曾在《喜欢我的话就要说出来！》登场，厂商 Chuablesoft 解散后，相关人员在 Missing-X-Link 中致敬再现。",
     "images": [
       "/assets/gal-quiz/s3-06/images/pa-100x100.png",
@@ -1066,20 +1212,54 @@ window.GAL_QUIZ_BANK = [
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "①ぱんにゃ②ソフィーティア③うたまる④儀左右衛門⑤ドルジ⑥QP⑦ハニー",
-      "①ぱんにゃ②うたまる③ソフィーティア④儀左右衛門⑤ドルジ⑥QP⑦ハニー",
-      "①QP②ソフィーティア③うたまる④儀左右衛門⑤ドルジ⑥ぱんにゃ⑦ハニー",
-      "①ぱんにゃ②ソフィーティア③うたまる④ドルジ⑤儀左右衛門⑥QP⑦ハニー"
+    "slots": [
+      "①",
+      "②",
+      "③",
+      "④",
+      "⑤",
+      "⑥",
+      "⑦"
     ],
-    "answer": 0
+    "pool": [
+      "ぱんにゃ",
+      "ソフィーティア",
+      "うたまる",
+      "儀左右衛門",
+      "ドルジ",
+      "QP",
+      "ハニー"
+    ],
+    "answer": [
+      [
+        "ぱんにゃ"
+      ],
+      [
+        "ソフィーティア"
+      ],
+      [
+        "うたまる"
+      ],
+      [
+        "儀左右衛門"
+      ],
+      [
+        "ドルジ"
+      ],
+      [
+        "QP"
+      ],
+      [
+        "ハニー"
+      ]
+    ]
   },
   {
     "id": "s3-07",
     "source": 3,
     "num": 7,
-    "type": "choice",
-    "question": "请根据图片：①～③三种姿势在玩家间通称什么？",
+    "type": "match",
+    "question": "请根据图片：将姿势通称拖入或点选填入①～③。",
     "explain": "①《天神乱漫》OP 谜之 pose，因太离谱迅速传播，官方还出了手办；②BALDR SKY 吉尔伯特立绘「登堂入室构」；③《常轨脱离Creative凸》（民间汉化常译「灵感满溢的甜蜜创想凸」）OP《一册的 Arrow》封面 pose，暗中人气很高。",
     "images": [
       "/assets/gal-quiz/s3-07/images/araburu-300x300.png",
@@ -1088,20 +1268,34 @@ window.GAL_QUIZ_BANK = [
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "①荒ぶる天神乱漫のポーズ②堂に入った構え③アローポーズ",
-      "①アローポーズ②堂に入った構え③荒ぶる天神乱漫のポーズ",
-      "①荒ぶる天神乱漫のポーズ②アローポーズ③堂に入った構え",
-      "①堂に入った構え②荒ぶる天神乱漫のポーズ③アローポーズ"
+    "slots": [
+      "①",
+      "②",
+      "③"
     ],
-    "answer": 0
+    "pool": [
+      "荒ぶる天神乱漫のポーズ",
+      "堂に入った構え",
+      "アローポーズ"
+    ],
+    "answer": [
+      [
+        "荒ぶる天神乱漫のポーズ"
+      ],
+      [
+        "堂に入った構え"
+      ],
+      [
+        "アローポーズ"
+      ]
+    ]
   },
   {
     "id": "s3-08",
     "source": 3,
     "num": 8,
-    "type": "choice",
-    "question": "请根据图片：三件 T 恤（A/B/C）分别由哪位女主穿着？按 ①②③ 顺序选出对应字母。",
+    "type": "match",
+    "question": "请根据图片：将 T 恤字母（A/B/C）拖入或点选填入女主①～③。",
     "explain": "①《乙女剑与秘密协奏曲》小柴杏奈（MochiUsa 设计超赞）；②《Liminal Border》（Criminal Border）勅使河原琴子（写着「仁义」的 T，俗称「屎味仁义 T」）；③《巨乳飞机杯妖怪与乡下生活》吾妻桃桃（拟人化 heroine，魔芋文字「こんにゃくぅ」极妙）。",
     "images": [
       "/assets/gal-quiz/s3-08/images/SS_2024-01-04_003243-100x100.jpg",
@@ -1113,32 +1307,47 @@ window.GAL_QUIZ_BANK = [
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "①Ａ②Ｂ③Ｃ",
-      "①Ｂ②Ａ③Ｃ",
-      "①Ｃ②Ａ③Ｂ",
-      "①Ｂ②Ｃ③Ａ"
+    "slots": [
+      "①",
+      "②",
+      "③"
     ],
-    "answer": 1
+    "pool": [
+      "Ａ",
+      "Ｂ",
+      "Ｃ"
+    ],
+    "answer": [
+      [
+        "Ｂ"
+      ],
+      [
+        "Ａ"
+      ],
+      [
+        "Ｃ"
+      ]
+    ]
   },
   {
     "id": "s3-09",
     "source": 3,
     "num": 9,
-    "type": "choice",
+    "type": "text",
     "question": "Cross Concerto / Dies irae / MUSICUS! / VenusBlood-FRONTIER- / お嬢様と憐れな（こ）執事 / 君が望む永遠 / クドわふたー / けれど輝く夜空のような / ハミダシクリエイティブ —— 这些作品的共同点是？（提示：1 亿 3 千万日元）",
     "explain": "共同点是进行过众筹。提示的 1.3 亿是 MUSICUS! 众筹金额；超 1 亿的案件还有不少。笔者对上述全部都有过支援，也有惨痛失败案例。",
     "images": [],
     "audio": [],
     "video": [],
-    "options": [
-      "都进行过众筹（クラウドファンディング）",
-      "都改编成了动画",
-      "都是同人社团作品",
-      "都是 18 禁全年龄双版本",
-      "都由同一剧本家执笔"
+    "answers": [
+      "众筹",
+      "クラウドファンディング",
+      "クラファン",
+      "crowdfunding",
+      "进行过众筹",
+      "クラウドファンディングを行った"
     ],
-    "answer": 0
+    "placeholder": "输入答案…"
   },
   {
     "id": "s3-10",
@@ -1190,7 +1399,10 @@ window.GAL_QUIZ_BANK = [
     "answers": [
       "さよならを教えて ～comment te dire adieu～",
       "さよならを教えて",
-      "教你说再见"
+      "教你说再见",
+      "对你说再见",
+      "Sayooshi",
+      "さよ教"
     ],
     "placeholder": "输入答案…"
   },
@@ -1440,7 +1652,7 @@ window.GAL_QUIZ_BANK = [
     "source": 4,
     "num": 3,
     "type": "choice",
-    "question": "以下是《流景之海的艾佩理雅》中的台词。零一对沙罗说的黑条内容是？",
+    "question": "以下是《景之海的艾佩理雅》中的台词。零一对沙罗说的黑条内容是？",
     "explain": "奇幻战斗名场面：以精液为 cost 放技能的主角双手被封无法自慰，却贴着对方说「别动。你是童贞」——靠多年童贞妄想力随时能射的威胁，声线超帅内容超蠢，笑出声。",
     "images": [],
     "audio": [],
@@ -1563,8 +1775,8 @@ window.GAL_QUIZ_BANK = [
     "id": "s4-09",
     "source": 4,
     "num": 9,
-    "type": "choice",
-    "question": "请根据图片：①②分别是哪家厂商的吉祥物？",
+    "type": "match",
+    "question": "请根据图片：将厂商名拖入或点选填入①②吉祥物。",
     "explain": "① Orthros（双头犬「Or」「Ros」，中间红家伙也叫「尾巴」且有独立人格）；② Cuteuphoria 宣传狐 Q 酱，也会出现在作品中。",
     "images": [
       "/assets/gal-quiz/s4-09/images/T_IEW190_400x400.jpg",
@@ -1572,13 +1784,24 @@ window.GAL_QUIZ_BANK = [
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "①Orthros、②Cuteuphoria",
-      "①Cuteuphoria、②Orthros",
-      "①ASa Project、②Cuteuphoria",
-      "①Orthros、②ゆずソフト"
+    "slots": [
+      "①",
+      "②"
     ],
-    "answer": 0
+    "pool": [
+      "Orthros",
+      "Cuteuphoria",
+      "ASa Project",
+      "ゆずソフト"
+    ],
+    "answer": [
+      [
+        "Orthros"
+      ],
+      [
+        "Cuteuphoria"
+      ]
+    ]
   },
   {
     "id": "s4-10",
@@ -1759,7 +1982,7 @@ window.GAL_QUIZ_BANK = [
       "マブラヴ",
       "Muv-Luv",
       "muvluv",
-      "无限轮回"
+      "マブラブ"
     ],
     "placeholder": "输入答案…"
   },
@@ -1924,21 +2147,32 @@ window.GAL_QUIZ_BANK = [
     "id": "s5-04",
     "source": 5,
     "num": 4,
-    "type": "choice",
-    "question": "《甜蜜女友 3》「撒娇度」初始值最高与最低的女主分别是？",
+    "type": "match",
+    "question": "《甜蜜女友 3》「撒娇度」初始值：请将女主拖入或点选填入最高与最低。",
     "explain": "最高鸿沙由美，最低柳木诗梦（-100%）。像捡了橡皮被说「不要了给你」的级别，但 AMA 男主能翻盘。",
     "images": [
       "/assets/gal-quiz/s5-04/images/amakano3-chara.jpg"
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "最高＝鴻さゆみ、最低＝柳木詩夢",
-      "最高＝柳木詩夢、最低＝鴻さゆみ",
-      "最高＝鴻さゆみ、最低＝硯川・e・涙香",
-      "最高＝黒姫結灯、最低＝柳木詩夢"
+    "slots": [
+      "最高",
+      "最低"
     ],
-    "answer": 0
+    "pool": [
+      "鴻さゆみ",
+      "柳木詩夢",
+      "硯川・e・涙香",
+      "黒姫結灯"
+    ],
+    "answer": [
+      [
+        "鴻さゆみ"
+      ],
+      [
+        "柳木詩夢"
+      ]
+    ]
   },
   {
     "id": "s5-05",
@@ -1946,13 +2180,15 @@ window.GAL_QUIZ_BANK = [
     "num": 5,
     "type": "text",
     "question": "广告语「恋从何来，又将何去——」对应哪部作品？",
-    "explain": "《爱因斯坦携爱而来》。所以恋到底从哪来去哪啊，谁来告诉我。",
+    "explain": "《爱因斯坦携爱敬上》。所以恋到底从哪来去哪啊，谁来告诉我。",
     "images": [],
     "audio": [],
     "video": [],
     "answers": [
       "アインシュタインより愛を込めて",
-      "爱因斯坦携爱而来",
+      "爱因斯坦携爱敬上",
+      "来自爱因斯坦之爱",
+      "アイこめ",
       "爱因斯坦"
     ],
     "placeholder": "输入答案…"
@@ -1971,8 +2207,10 @@ window.GAL_QUIZ_BANK = [
       "ジュエリー・ハーツ・アカデミア -We will wing wonder world-",
       "Jewelry Hearts Academia",
       "JHA",
+      "ジュエハ",
       "宝石心学院",
-      "霞流宝石心 -壮志凌云振寰宇-"
+      "霞流宝石心 -壮志凌云振寰宇-",
+      "霞流宝石心"
     ],
     "placeholder": "输入答案…"
   },
@@ -2021,21 +2259,42 @@ window.GAL_QUIZ_BANK = [
     "id": "s5-09",
     "source": 5,
     "num": 9,
-    "type": "choice",
-    "question": "请根据图片：《流星世界演绎者》①舞台「第■共和国」②所属「警察厅■■课」③妖精 Melissa 身高约■■ cm —— 选出正确数字组合。",
+    "type": "match",
+    "question": "请根据图片：《流星世界演绎者》将数字拖入或点选填入①舞台「第■共和国」②所属「警察厅■■课」③妖精 Melissa 身高约■■ cm。",
     "explain": "①7 ②13 ③20。①②玩过应知，③ Melissa 身高较少人记得。完结作将至，现在入坑正好。",
     "images": [
       "/assets/gal-quiz/s5-09/images/Honeyview_SS_2026-01-20_122036.png"
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "①七　②十三　③２０",
-      "①八　②十二　③２５",
-      "①七　②十一　③１８",
-      "①九　②十三　③２２"
+    "slots": [
+      "①第■共和国",
+      "②警察厅■■课",
+      "③Melissa身高cm"
     ],
-    "answer": 0
+    "pool": [
+      "七",
+      "八",
+      "九",
+      "十一",
+      "十二",
+      "十三",
+      "１８",
+      "２０",
+      "２２",
+      "２５"
+    ],
+    "answer": [
+      [
+        "七"
+      ],
+      [
+        "十三"
+      ],
+      [
+        "２０"
+      ]
+    ]
   },
   {
     "id": "s5-10",
@@ -2062,8 +2321,8 @@ window.GAL_QUIZ_BANK = [
     "id": "s5-11",
     "source": 5,
     "num": 11,
-    "type": "choice",
-    "question": "请根据图片：《DEARDROPS》角色与乐器 A/B/C 的正确对应是？",
+    "type": "match",
+    "question": "请根据图片：《DEARDROPS》将乐器字母（A/B/C）拖入或点选填入角色①～③。",
     "explain": "没玩过也能凭角色外观判断。",
     "images": [
       "/assets/gal-quiz/s5-11/images/cha_syouiti_tatie_sihuku_1.jpg",
@@ -2075,13 +2334,27 @@ window.GAL_QUIZ_BANK = [
     ],
     "audio": [],
     "video": [],
-    "options": [
-      "①Ａ②Ｂ③Ｃ",
-      "①Ｂ②Ｃ③Ａ",
-      "①Ｃ②Ａ③Ｂ",
-      "①Ｃ②Ｂ③Ａ"
+    "slots": [
+      "①",
+      "②",
+      "③"
     ],
-    "answer": 2
+    "pool": [
+      "Ａ",
+      "Ｂ",
+      "Ｃ"
+    ],
+    "answer": [
+      [
+        "Ｃ"
+      ],
+      [
+        "Ａ"
+      ],
+      [
+        "Ｂ"
+      ]
+    ]
   },
   {
     "id": "s5-12",

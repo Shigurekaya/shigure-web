@@ -46,12 +46,29 @@
 
   function partialMatch(u, v) {
     if (u === v) return true;
+    // 短中文关键词（如「众筹」）：用户答案包含即可
+    if (cjkCount(v) >= 2 && v.length >= 2 && v.length < 4 && u.includes(v)) {
+      return true;
+    }
     if (v.length >= 4 && u.includes(v)) return true;
     if (u.length >= 4 && v.includes(u)) {
       if (cjkCount(u) >= 3 && cjkCount(v) >= 3) return true;
       if (u.length >= Math.ceil(v.length * 0.6)) return true;
     }
     return false;
+  }
+
+  function checkMatchBlanks(parts, blanks) {
+    if (!blanks || !blanks.length) return false;
+    if (parts.length < blanks.length) return false;
+    return blanks.every((keys, i) => {
+      const u = normalize(parts[i] || "");
+      if (!u) return false;
+      return (keys || []).some((k) => {
+        const v = normalize(k);
+        return v && u.includes(v);
+      });
+    });
   }
 
   function checkText(user, answers) {
@@ -129,8 +146,40 @@
       const idxs = Array.isArray(q.answer) ? q.answer : [q.answer];
       return idxs.map((i) => q.options[i]).filter(Boolean).join(" / ");
     }
+    if (q.type === "match") {
+      const slots = q.slots || [];
+      return (q.answer || [])
+        .map((opts, i) => `${slots[i] || i + 1}${(opts || []).join("/")}`)
+        .join("　");
+    }
+    if (q.match_blanks && q.match_blanks.length) {
+      const labels = q.blank_labels || [];
+      return q.match_blanks
+        .map((keys, i) => `${labels[i] || i + 1}：${(keys || []).join("/")}`)
+        .join("　");
+    }
     return (q.answers || []).join(" / ");
   }
+
+  /* TEMP: 校对用临时答案相关（已注释）
+  const CONVERTED_FROM_TEXT = new Set([
+    "s1-09", "s1-10", "s1-14", "s1-15",
+    "s2-02", "s2-03", "s2-04", "s2-05",
+    "s2-13", "s2-18",
+    "s3-01", "s3-03", "s3-04", "s3-05",
+    "s3-10", "s3-13", "s3-15", "s3-16", "s3-17", "s3-18",
+    "s4-02", "s4-03", "s4-04", "s4-07", "s4-08", "s4-10", "s4-15", "s4-16",
+    "s5-03", "s5-07", "s5-08", "s5-10", "s5-12",
+    "s5-13", "s5-17",
+  ]);
+
+  function debugTypeLabel(q) {
+    if (q.type === "match") return "选填题（拖拽/点选）";
+    if (q.type === "text") return "填空题";
+    if (CONVERTED_FROM_TEXT.has(q.id)) return "原填空→选择题";
+    return "原本选择题";
+  }
+  */
 
   function resolveMediaUrl(src) {
     if (!src) return "";
@@ -288,9 +337,10 @@
     const cls = ok ? "is-ok" : "is-ng";
     const badge = ok ? "✓" : "✗";
     const right = correctAnswerText(h.q);
+    const userLabel = h.skipped ? "（未作答）" : h.user || "（空）";
     const meta = ok
-      ? `<div><dt>你的答案</dt><dd>${escapeHtml(h.user || "（空）")}</dd></div>`
-      : `<div><dt>你的答案</dt><dd>${escapeHtml(h.user || "（空）")}</dd></div>
+      ? `<div><dt>你的答案</dt><dd>${escapeHtml(userLabel)}</dd></div>`
+      : `<div><dt>你的答案</dt><dd>${escapeHtml(userLabel)}</dd></div>
         <div><dt>参考答案</dt><dd>${escapeHtml(right)}</dd></div>
         ${h.q.explain ? `<div><dt>解析</dt><dd>${escapeHtml(h.q.explain)}</dd></div>` : ""}`;
     return `<li class="quiz-review-item ${cls}">
@@ -310,6 +360,8 @@
     total: RANDOM_DRAW,
     i: 0,
     chosen: null,
+    matchPicks: [],
+    matchHeld: null,
     records: [],
   };
 
@@ -329,6 +381,16 @@
     return state.mode === "random" ? RANDOM_PTS : FULL_MAX / state.total;
   }
 
+  function checkMatchSlots(picks, answer) {
+    if (!answer || !answer.length) return false;
+    if (!picks || picks.length < answer.length) return false;
+    return answer.every((accepted, i) => {
+      const v = normalize(picks[i] || "");
+      if (!v) return false;
+      return (accepted || []).some((a) => normalize(a) === v);
+    });
+  }
+
   function readAnswer(q) {
     if (q.type === "choice") {
       if (state.chosen == null) return { user: "", ok: false, missing: true };
@@ -336,6 +398,30 @@
       const ans = q.answer;
       const ok = Array.isArray(ans) ? ans.includes(state.chosen) : state.chosen === ans;
       return { user, ok, missing: false };
+    }
+    if (q.type === "match") {
+      const slots = q.slots || [];
+      const picks = state.matchPicks || [];
+      const filled = picks.filter(Boolean);
+      if (!filled.length) return { user: "", ok: false, missing: true };
+      const user = slots
+        .map((lab, i) => `${lab}${picks[i] || "（空）"}`)
+        .join(" / ");
+      return {
+        user,
+        ok: checkMatchSlots(picks, q.answer),
+        missing: false,
+        matchPicks: picks.slice(),
+      };
+    }
+    if (q.match_blanks && q.match_blanks.length) {
+      const parts = q.match_blanks.map((_, i) => {
+        const el = $(`quiz-text-input-${i}`);
+        return (el && el.value.trim()) || "";
+      });
+      if (parts.every((p) => !p)) return { user: "", ok: false, missing: true };
+      const user = parts.join(" / ");
+      return { user, ok: checkMatchBlanks(parts, q.match_blanks), missing: false };
     }
     const input = $("quiz-text-input");
     const user = (input && input.value.trim()) || "";
@@ -369,30 +455,27 @@
   function saveCurrentIfFilled() {
     const q = current();
     if (!q) return;
-    const { user, ok, missing } = readAnswer(q);
+    const { user, ok, missing, matchPicks } = readAnswer(q);
     if (missing) {
       state.records[state.i] = null;
       return;
     }
-    state.records[state.i] = { user, ok, chosen: state.chosen };
-  }
-
-  function recordCurrent() {
-    const q = current();
-    const { user, ok, missing } = readAnswer(q);
-    if (missing) return false;
-
-    state.records[state.i] = { user, ok, chosen: state.chosen };
-    return true;
+    state.records[state.i] = {
+      user,
+      ok,
+      chosen: state.chosen,
+      matchPicks: matchPicks || null,
+    };
   }
 
   function buildHistory() {
-    return state.records
-      .map((rec, idx) => {
-        if (!rec) return null;
-        return { q: state.deck[idx], user: rec.user, ok: rec.ok, num: idx + 1 };
-      })
-      .filter(Boolean);
+    return state.records.map((rec, idx) => ({
+      q: state.deck[idx],
+      user: rec ? rec.user : "",
+      ok: !!(rec && rec.ok),
+      skipped: !rec,
+      num: idx + 1,
+    }));
   }
 
   function unansweredCount() {
@@ -464,16 +547,18 @@
     }
   }
 
-  function start(mode) {
+  function start(mode, opts) {
     const all = bank();
     if (!all.length) {
       alert("题库未加载");
       return;
     }
 
-    state.mode = mode === "full" ? "full" : "random";
+    const focusId = opts && opts.focusId ? String(opts.focusId).trim() : "";
+    state.mode = mode === "full" || focusId ? "full" : "random";
     if (state.mode === "full") {
-      state.deck = shuffle(all);
+      /* 深链直达时保持题库顺序，便于定位；普通全题仍打乱 */
+      state.deck = focusId ? all.slice() : shuffle(all);
       state.total = all.length;
     } else {
       if (all.length < RANDOM_DRAW) {
@@ -485,6 +570,15 @@
     }
 
     state.i = 0;
+    if (focusId) {
+      const idx = state.deck.findIndex((q) => q.id === focusId);
+      if (idx < 0) {
+        alert(`未找到题目 ${focusId}`);
+        return;
+      }
+      state.i = idx;
+    }
+
     state.records = Array(state.total).fill(null);
     clearImagePreload();
     document.querySelector(".page-main--quiz")?.classList.add("is-quiz-active");
@@ -494,8 +588,151 @@
     closeNavMobile();
     $("quiz-play")?.classList.toggle("is-full", state.mode === "full");
     /* 开局预取第 1、2 题配图，再渲染 */
-    preloadAhead(-1, 2);
+    preloadAhead(state.i - 1, 2);
     renderQ();
+  }
+
+  function focusIdFromLocation() {
+    try {
+      const path = window.location.pathname || "";
+      const m = path.match(/^\/gal-quiz\/([^/]+)\/?$/i);
+      if (m) {
+        const seg = decodeURIComponent(m[1]).trim();
+        if (seg && !/\.html?$/i.test(seg)) return seg;
+      }
+    } catch (_) {}
+    try {
+      const params = new URLSearchParams(window.location.search || "");
+      return (params.get("q") || params.get("id") || "").trim();
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function applyDeepLink() {
+    const focusId = focusIdFromLocation();
+    if (!focusId) return;
+    start("full", { focusId });
+  }
+
+  function paintMatch(box, q) {
+    const used = new Set((state.matchPicks || []).filter(Boolean));
+    box.querySelectorAll("[data-match-slot]").forEach((el) => {
+      const i = Number(el.dataset.matchSlot);
+      const val = (state.matchPicks && state.matchPicks[i]) || "";
+      el.classList.toggle("is-filled", !!val);
+      el.classList.toggle("is-drop-target", state.matchHeld != null && !val);
+      const valueEl = el.querySelector(".quiz-match-slot__value");
+      if (valueEl) valueEl.textContent = val || "拖入 / 点选填入";
+    });
+    box.querySelectorAll("[data-match-pool]").forEach((el) => {
+      const word = el.dataset.matchPool;
+      const taken = used.has(word);
+      const held = state.matchHeld === word;
+      el.classList.toggle("is-used", taken);
+      el.classList.toggle("is-held", held);
+      el.draggable = !taken;
+      el.disabled = taken;
+    });
+  }
+
+  function placeMatchWord(slotIdx, word, q, box) {
+    if (slotIdx < 0 || slotIdx >= (q.slots || []).length) return;
+    if (!word) return;
+    const picks = state.matchPicks || [];
+    const prevAt = picks.indexOf(word);
+    if (prevAt >= 0) picks[prevAt] = "";
+    picks[slotIdx] = word;
+    state.matchPicks = picks;
+    state.matchHeld = null;
+    clearWarn();
+    paintMatch(box, q);
+  }
+
+  function clearMatchSlot(slotIdx, q, box) {
+    if (!state.matchPicks) return;
+    state.matchPicks[slotIdx] = "";
+    state.matchHeld = null;
+    clearWarn();
+    paintMatch(box, q);
+  }
+
+  function renderMatch(box, q) {
+    const wrap = document.createElement("div");
+    wrap.className = "quiz-match";
+
+    const hint = document.createElement("p");
+    hint.className = "quiz-match__hint";
+    hint.textContent = "点选词条后点槽位填入，也可拖拽；再点已填槽位可清空。";
+    wrap.appendChild(hint);
+
+    const slots = document.createElement("div");
+    slots.className = "quiz-match-slots";
+    (q.slots || []).forEach((lab, i) => {
+      const slot = document.createElement("button");
+      slot.type = "button";
+      slot.className = "quiz-match-slot";
+      slot.dataset.matchSlot = String(i);
+      slot.innerHTML = `<span class="quiz-match-slot__lab">${escapeHtml(lab)}</span><span class="quiz-match-slot__value">拖入 / 点选填入</span>`;
+      slot.addEventListener("click", () => {
+        const cur = (state.matchPicks && state.matchPicks[i]) || "";
+        if (state.matchHeld) {
+          placeMatchWord(i, state.matchHeld, q, box);
+          return;
+        }
+        if (cur) clearMatchSlot(i, q, box);
+      });
+      slot.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        slot.classList.add("is-dragover");
+      });
+      slot.addEventListener("dragleave", () => slot.classList.remove("is-dragover"));
+      slot.addEventListener("drop", (e) => {
+        e.preventDefault();
+        slot.classList.remove("is-dragover");
+        const word = e.dataTransfer.getData("text/plain");
+        if (word) placeMatchWord(i, word, q, box);
+      });
+      slots.appendChild(slot);
+    });
+    wrap.appendChild(slots);
+
+    const pool = document.createElement("div");
+    pool.className = "quiz-match-pool";
+    (q.pool || []).forEach((word) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "quiz-match-chip";
+      chip.dataset.matchPool = word;
+      chip.textContent = word;
+      chip.draggable = true;
+      chip.addEventListener("click", () => {
+        if (chip.classList.contains("is-used")) return;
+        state.matchHeld = state.matchHeld === word ? null : word;
+        clearWarn();
+        paintMatch(box, q);
+      });
+      chip.addEventListener("dragstart", (e) => {
+        if (chip.classList.contains("is-used")) {
+          e.preventDefault();
+          return;
+        }
+        e.dataTransfer.setData("text/plain", word);
+        e.dataTransfer.effectAllowed = "move";
+        chip.classList.add("is-dragging");
+        state.matchHeld = word;
+        paintMatch(box, q);
+      });
+      chip.addEventListener("dragend", () => {
+        chip.classList.remove("is-dragging");
+        state.matchHeld = null;
+        paintMatch(box, q);
+      });
+      pool.appendChild(chip);
+    });
+    wrap.appendChild(pool);
+    box.appendChild(wrap);
+    paintMatch(box, q);
   }
 
   function renderQ() {
@@ -508,6 +745,25 @@
     if (cardNum) cardNum.textContent = `Q${state.i + 1}`;
     $("quiz-meta").textContent = q.id;
     $("quiz-question").textContent = q.question;
+    /* TEMP: 校对用临时答案，确认后可恢复
+    const debug = $("quiz-answer-debug");
+    if (debug) {
+      const ans = correctAnswerText(q);
+      const explain = (q.explain || "").trim();
+      const typeLabel = debugTypeLabel(q);
+      const typeClass = CONVERTED_FROM_TEXT.has(q.id)
+        ? "is-converted"
+        : q.type === "match"
+          ? "is-match"
+          : q.type === "text"
+            ? "is-text"
+            : "is-orig-choice";
+      debug.innerHTML = `<span class="quiz-answer-debug__label">临时答案</span>
+        <span class="quiz-answer-debug__type ${typeClass}">${escapeHtml(typeLabel)}</span>
+        <p class="quiz-answer-debug__ans">${escapeHtml(ans || "（无）")}</p>
+        ${explain ? `<p class="quiz-answer-debug__explain">${escapeHtml(explain)}</p>` : ""}`;
+    }
+    */
     mountMedia(q);
     preloadAhead(state.i, 2);
     clearWarn();
@@ -524,6 +780,8 @@
 
     const box = $("quiz-answers");
     box.innerHTML = "";
+    state.matchHeld = null;
+    state.matchPicks = (q.slots || []).map(() => "");
 
     if (q.type === "choice") {
       q.options.forEach((opt, idx) => {
@@ -540,6 +798,40 @@
         });
         box.appendChild(btn);
       });
+    } else if (q.type === "match") {
+      renderMatch(box, q);
+    } else if (q.match_blanks && q.match_blanks.length) {
+      const wrap = document.createElement("div");
+      wrap.className = "quiz-text-wrap quiz-text-wrap--blanks";
+      const labels = q.blank_labels || [];
+      q.match_blanks.forEach((_, i) => {
+        const row = document.createElement("div");
+        row.className = "quiz-blank-row";
+        const lab = document.createElement("label");
+        lab.className = "quiz-blank-label";
+        lab.htmlFor = `quiz-text-input-${i}`;
+        lab.textContent = labels[i] || `${i + 1}`;
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "quiz-input";
+        input.id = `quiz-text-input-${i}`;
+        input.placeholder = q.placeholder || "输入答案…";
+        input.autocomplete = "off";
+        input.addEventListener("input", clearWarn);
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const nextBlank = $(`quiz-text-input-${i + 1}`);
+            if (nextBlank) nextBlank.focus();
+            else next();
+          }
+        });
+        row.appendChild(lab);
+        row.appendChild(input);
+        wrap.appendChild(row);
+      });
+      box.appendChild(wrap);
+      setTimeout(() => $("quiz-text-input-0")?.focus(), 50);
     } else {
       const wrap = document.createElement("div");
       wrap.className = "quiz-text-wrap";
@@ -594,7 +886,16 @@
         state.chosen = rec.chosen;
         const btns = box.querySelectorAll(".quiz-option");
         if (btns[rec.chosen]) btns[rec.chosen].classList.add("is-selected");
-      } else if (q.type !== "choice") {
+      } else if (q.type === "match" && Array.isArray(rec.matchPicks)) {
+        state.matchPicks = rec.matchPicks.slice();
+        paintMatch(box, q);
+      } else if (q.match_blanks && q.match_blanks.length) {
+        const parts = String(rec.user || "").split(/\s*\/\s*/);
+        q.match_blanks.forEach((_, i) => {
+          const input = $(`quiz-text-input-${i}`);
+          if (input) input.value = parts[i] || "";
+        });
+      } else if (q.type !== "choice" && q.type !== "match") {
         const input = $("quiz-text-input");
         if (input) input.value = rec.user;
       }
@@ -616,10 +917,8 @@
   }
 
   function next() {
-    if (!recordCurrent()) {
-      showWarn("请先选择或填写答案");
-      return;
-    }
+    saveCurrentIfFilled();
+    clearWarn();
 
     if (state.i >= state.total - 1) {
       finish();
@@ -630,13 +929,11 @@
   }
 
   function finish() {
-    const missing = unansweredCount();
-    if (missing > 0) {
-      showWarn(`还有 ${missing} 题未作答，请完成后再查看成绩`);
-      return;
-    }
+    saveCurrentIfFilled();
+    clearWarn();
 
     const history = buildHistory();
+    const skipped = unansweredCount();
     show($("quiz-play"), false);
     show($("quiz-result"), true);
     document.querySelector(".page-main--quiz")?.classList.remove("is-quiz-active");
@@ -651,7 +948,10 @@
 
     $("quiz-score").textContent = String(displayScore);
     $("quiz-score-max").textContent = " / 100";
-    $("quiz-result-detail").textContent = `答对 ${correct} / ${state.total} 题`;
+    $("quiz-result-detail").textContent =
+      skipped > 0
+        ? `答对 ${correct} / ${state.total} 题（未作答 ${skipped}）`
+        : `答对 ${correct} / ${state.total} 题`;
     $("quiz-rank").textContent = rankLabel(displayScore);
 
     const list = $("quiz-review-list");
@@ -659,7 +959,10 @@
     const reviewEmpty = $("quiz-review-empty");
 
     if (reviewTitle) {
-      reviewTitle.textContent = `答题回顾（答对 ${correct}，答错 ${wrong}）`;
+      reviewTitle.textContent =
+        skipped > 0
+          ? `答题回顾（答对 ${correct}，答错 ${wrong - skipped}，未作答 ${skipped}）`
+          : `答题回顾（答对 ${correct}，答错 ${wrong}）`;
     }
 
     if (list) {
@@ -689,6 +992,24 @@
     });
     $("quiz-nav-close")?.addEventListener("click", closeNavMobile);
     $("quiz-nav-backdrop")?.addEventListener("click", closeNavMobile);
+
+    document.addEventListener("keydown", (e) => {
+      const play = $("quiz-play");
+      if (!play || play.hidden) return;
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+
+      const tag = (e.target && e.target.tagName) || "";
+      if (tag === "INPUT" || tag === "TEXTAREA" || e.target?.isContentEditable) {
+        return;
+      }
+
+      e.preventDefault();
+      if (e.key === "ArrowRight") next();
+      else prev();
+    });
+
+    applyDeepLink();
   }
 
   window.KayaQuiz = { init: bind, start };

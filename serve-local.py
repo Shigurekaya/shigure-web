@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import functools
+import re
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -59,19 +60,41 @@ CLEAN_MAP = {
     "/kaya/storm/": "kaya/storm.html",
 }
 
+# /gal-quiz/s1-01 → gal-quiz.html（深链直达某题）
+GAL_QUIZ_FOCUS_RE = re.compile(r"^/gal-quiz/([^/]+)/?$", re.IGNORECASE)
+
+
+def resolve_clean_path(clean: str) -> str | None:
+    mapped = CLEAN_MAP.get(clean)
+    if mapped:
+        return mapped
+    m = GAL_QUIZ_FOCUS_RE.match(clean)
+    if m:
+        seg = m.group(1)
+        if not re.search(r"\.html?$", seg, re.IGNORECASE):
+            return "gal-quiz.html"
+    return None
+
 
 class NoCacheHandler(SimpleHTTPRequestHandler):
     def translate_path(self, path: str) -> str:
         split = urlsplit(path)
         clean = unquote(split.path)
-        mapped = CLEAN_MAP.get(clean)
+        mapped = resolve_clean_path(clean)
         if mapped:
             return str(ROOT / mapped)
         return super().translate_path(path)
 
     def end_headers(self) -> None:
         path = (self.path or "").split("?", 1)[0]
-        if path.endswith("/") or path.endswith(".html") or path in ("", "/") or path in CLEAN_MAP:
+        clean = unquote(urlsplit(path).path)
+        if (
+            path.endswith("/")
+            or path.endswith(".html")
+            or path in ("", "/")
+            or path in CLEAN_MAP
+            or resolve_clean_path(clean)
+        ):
             self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
             self.send_header("Pragma", "no-cache")
             self.send_header("Expires", "0")

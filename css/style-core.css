@@ -1888,6 +1888,72 @@ body.sedai-capture-mode .sedai-grid-header__counter {
   margin-bottom: 1rem;
 }
 
+/* TEMP: 校对用参考答案（已注释，确认后可恢复）
+.quiz-answer-debug {
+  margin: -0.35rem 0 1rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px dashed #c45c26;
+  border-radius: 10px;
+  background: #fff7ed;
+  color: #7c2d12;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.quiz-answer-debug__label {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: #c45c26;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.quiz-answer-debug__type {
+  display: inline-block;
+  margin: 0 0 0.25rem 0.35rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.quiz-answer-debug__type.is-converted {
+  background: #7c3aed;
+  color: #fff;
+}
+
+.quiz-answer-debug__type.is-text {
+  background: #0f766e;
+  color: #fff;
+}
+
+.quiz-answer-debug__type.is-match {
+  background: #b45309;
+  color: #fff;
+}
+
+.quiz-answer-debug__type.is-orig-choice {
+  background: #475569;
+  color: #fff;
+}
+
+.quiz-answer-debug__ans {
+  margin: 0.2rem 0 0;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.quiz-answer-debug__explain {
+  margin: 0.35rem 0 0;
+  color: #9a3412;
+  opacity: 0.92;
+}
+*/
+
 .quiz-media {
   display: flex;
   flex-direction: column;
@@ -1950,6 +2016,143 @@ body.sedai-capture-mode .sedai-grid-header__counter {
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
+}
+
+.quiz-match {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.quiz-match__hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-faint);
+  line-height: 1.45;
+}
+
+.quiz-match-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quiz-match-slot {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  font: inherit;
+  color: var(--ink-soft);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1.5px dashed var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.quiz-match-slot.is-drop-target,
+.quiz-match-slot.is-dragover {
+  border-color: var(--accent);
+  background: rgba(139, 111, 212, 0.08);
+  box-shadow: 0 0 0 2px rgba(139, 111, 212, 0.12);
+}
+
+.quiz-match-slot.is-filled {
+  border-style: solid;
+  border-color: var(--accent-ring);
+  color: var(--ink);
+  background: #fff;
+}
+
+.quiz-match-slot__lab {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+  text-align: center;
+}
+
+.quiz-match-slot__value {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  min-height: 1.25em;
+}
+
+.quiz-match-slot:not(.is-filled) .quiz-match-slot__value {
+  color: var(--ink-faint);
+}
+
+.quiz-match-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.quiz-match-chip {
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: grab;
+  user-select: none;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease),
+    opacity var(--dur) var(--ease),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+.quiz-match-chip:hover:not(:disabled) {
+  border-color: var(--accent-ring);
+  transform: translateY(-1px);
+}
+
+.quiz-match-chip.is-held {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, rgba(139, 111, 212, 0.16), rgba(139, 111, 212, 0.06));
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(107, 79, 184, 0.14);
+}
+
+.quiz-match-chip.is-dragging {
+  opacity: 0.45;
+}
+
+.quiz-match-chip.is-used,
+.quiz-match-chip:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+  text-decoration: line-through;
+}
+
+.quiz-text-wrap--blanks {
+  gap: 0.75rem;
+}
+
+.quiz-blank-row {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.quiz-blank-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+  text-align: center;
 }
 
 .quiz-chips {

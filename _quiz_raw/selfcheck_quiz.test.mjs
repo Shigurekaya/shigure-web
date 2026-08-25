@@ -43,6 +43,12 @@ function correctAnswerText(q) {
     const idxs = Array.isArray(q.answer) ? q.answer : [q.answer];
     return idxs.map((i) => q.options[i]).filter(Boolean).join(" / ");
   }
+  if (q.type === "match") {
+    const slots = q.slots || [];
+    return (q.answer || [])
+      .map((opts, i) => `${slots[i] || i + 1}${(opts || []).join("/")}`)
+      .join("　");
+  }
   return (q.answers || []).join(" / ");
 }
 
@@ -61,6 +67,14 @@ test("every question has valid structure", () => {
       assert.ok(Array.isArray(q.options) && q.options.length >= 2, q.id);
       const ans = Array.isArray(q.answer) ? q.answer : [q.answer];
       ans.forEach((i) => assert.ok(i < q.options.length, q.id));
+    } else if (q.type === "match") {
+      assert.ok(Array.isArray(q.slots) && q.slots.length >= 1, q.id);
+      assert.ok(Array.isArray(q.pool) && q.pool.length >= 1, q.id);
+      assert.ok(Array.isArray(q.answer) && q.answer.length === q.slots.length, q.id);
+      for (const opts of q.answer) {
+        assert.ok(Array.isArray(opts) && opts.length >= 1, q.id);
+        for (const a of opts) assert.ok(q.pool.includes(a), `${q.id}:${a}`);
+      }
     } else {
       assert.ok(Array.isArray(q.answers) && q.answers.length >= 1, q.id);
     }
@@ -82,6 +96,13 @@ test("no answer text embedded in question stem", () => {
         return n.length >= 3 && text.includes(n);
       });
       if (hits.length >= 2) leaks.push(`${q.id}:multi_opts`);
+    } else if (q.type === "match") {
+      for (const opts of q.answer || []) {
+        for (const a of opts) {
+          const n = normalize(a);
+          if (n.length >= 3 && text.includes(n)) leaks.push(`${q.id}:${a}`);
+        }
+      }
     } else {
       for (const a of q.answers) {
         const n = normalize(a);
@@ -115,14 +136,20 @@ test("choice answers resolve correctly for converted closed-set questions", () =
   assert.equal(s513.options[s513.answer], "左");
   const choiceQ = bank.find((q) => q.id === "s1-05");
   assert.equal(choiceQ.options[choiceQ.answer], "CROSS†CHANNEL");
+  const s111 = bank.find((q) => q.id === "s1-11");
+  assert.equal(s111.type, "match");
+  assert.equal(s111.slots.length, 5);
+  assert.ok(s111.pool.includes("デモンベイン"));
 });
 
 test("bank mixes choice and text appropriately", () => {
   const textCount = bank.filter((q) => q.type === "text").length;
   const choiceCount = bank.filter((q) => q.type === "choice").length;
+  const matchCount = bank.filter((q) => q.type === "match").length;
   assert.equal(bank.length, 116);
-  assert.equal(choiceCount, 61);
-  assert.equal(textCount, 55);
+  assert.equal(choiceCount, 59);
+  assert.equal(textCount, 56);
+  assert.equal(matchCount, 1);
 });
 
 test("correctAnswerText returns non-empty for all questions", () => {
@@ -146,10 +173,16 @@ test("gal-quiz.html wiring", () => {
 });
 
 test("gal-quiz.js has navigation and review flow", () => {
-  assert.match(quizJs, /recordCurrent/);
   assert.match(quizJs, /renderNav/);
   assert.match(quizJs, /saveCurrentIfFilled/);
   assert.match(quizJs, /mountMedia/);
+  assert.doesNotMatch(quizJs, /请先选择或填写答案/);
+  assert.doesNotMatch(quizJs, /请完成后再查看成绩/);
+  assert.match(quizJs, /ArrowRight/);
+  assert.match(quizJs, /applyDeepLink/);
+  assert.match(quizJs, /focusIdFromLocation/);
+  assert.match(quizJs, /\\\/gal-quiz\\\//);
+  assert.match(quizJs, /params\.get\("q"\)/);
   assert.doesNotMatch(quizJs, /renderLiveReview/);
   assert.doesNotMatch(quizJs, /quiz-submit/);
   assert.doesNotMatch(quizJs, /loading="lazy"/);

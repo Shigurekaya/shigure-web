@@ -57,6 +57,23 @@ def main() -> int:
             hits = sum(1 for o in opts if norm(o) and len(norm(o)) >= 3 and norm(o) in text)
             if hits >= 2:
                 errors.append(f"{qid}: {hits} options embedded in question stem")
+        elif q.get("type") == "match":
+            slots = q.get("slots") or []
+            pool = q.get("pool") or []
+            ans = q.get("answer") or []
+            if not slots or not pool or not ans:
+                errors.append(f"{qid}: match missing slots/pool/answer")
+            elif len(slots) != len(ans):
+                errors.append(f"{qid}: match slots/answer length mismatch")
+            else:
+                pool_set = set(pool)
+                if len(pool_set) != len(pool):
+                    errors.append(f"{qid}: match pool has duplicates")
+                for i, accepted in enumerate(ans):
+                    if not accepted:
+                        errors.append(f"{qid}: match slot {i} empty answer")
+                    elif not any(a in pool_set for a in accepted):
+                        errors.append(f"{qid}: match slot {i} answer not in pool: {accepted}")
         else:
             if not q.get("answers"):
                 errors.append(f"{qid}: text question without answers")
