@@ -88,6 +88,8 @@ def main():
             item["slots"] = z["slots"]
             item["pool"] = z["pool"]
             item["answer"] = z["answer"]
+            if z.get("match_any_order"):
+                item["match_any_order"] = True
         else:
             item["answers"] = z["answers"]
             item["placeholder"] = z.get("placeholder", "输入答案…")

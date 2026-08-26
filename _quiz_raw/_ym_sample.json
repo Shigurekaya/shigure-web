@@ -1,0 +1,787 @@
+{
+  "success": true,
+  "code": 0,
+  "data": {
+    "game": {
+      "publishVersion": 9,
+      "publishTime": "2025-03-31 22:11:19",
+      "publisher": 20320,
+      "name": "ハミダシクリエイティブ",
+      "chineseName": "常轨脱离Creative",
+      "extensionName": [
+        {
+          "name": "ハミクリ",
+          "type": "",
+          "desc": ""
+        },
+        {
+          "name": "Hamikuri",
+          "type": "",
+          "desc": ""
+        },
+        {
+          "name": "哈密达斯创意",
+          "type": "另一种汉化名",
+          "desc": ""
+        },
+        {
+          "name": "哈密达斯",
+          "type": "简称",
+          "desc": ""
+        },
+        {
+          "name": "灵感满溢的甜蜜创想",
+          "type": "民汉",
+          "desc": ""
+        },
+        {
+          "name": "富婆妹",
+          "type": "中文别名",
+          "desc": ""
+        }
+      ],
+      "introduction": "季节还未更迭的6月底。\n自己与他人都公认的边缘人——和泉智宏。\n本应今天也在教室的角落度过平稳的一天。\n「恭喜当选，下任的学生会长就决定是和泉同学了」\n这是学校一起兴起举行的抽签决定学生会长的活动\n智宏居然凭借着运气抽中了！\n无论是现充还是边缘人都对沐浴在聚光灯下的智宏议论纷纷。\n骑虎难下的智宏，依靠顾问开始召集伙伴。\n但是，顾问推荐的成员人选：\n同级生——华乃\n后辈——亚澄\n甚至连妹妹——妃爱\n可是她们根本就一直没来学校啊。\n在混乱的情况下，杳无音讯的前会长——诗樱也现身了。\n这是命运使然，还是冥冥注定呢！？\n前所未有，空前绝后！？\n「抽签学生会长」的战斗\n如今，拉开序幕。",
+      "state": "PUBLIC_PUBLISHED",
+      "weights": 0,
+      "mainImg": "https://cdn.ymgal.games/archive/main/04/04fc1e161ab84c5c92326b728d4a101d.webp",
+      "moreEntry": [],
+      "gid": 35581,
+      "developerId": 13052,
+      "haveChinese": true,
+      "typeDesc": "学園に来ない女子と見過ごしがちな青春を探す学園恋愛ADV",
+      "releaseDate": "2020-09-25",
+      "restricted": true,
+      "country": "",
+      "website": [
+        {
+          "title": "官网",
+          "link": "http://madosoft.net/hamidashi/"
+        },
+        {
+          "title": "DLsite",
+          "link": "https://www.dlsite.com/pro/work/=/product_id/VJ013906.html"
+        },
+        {
+          "title": "eshop",
+          "link": "https://store-jp.nintendo.com/list/software/70010000037967.html"
+        },
+        {
+          "title": "steam",
+          "link": "https://store.steampowered.com/app/1604380/Creative/"
+        }
+      ],
+      "characters": [
+        {
+          "cid": 58309,
+          "characterPosition": 1
+        },
+        {
+          "cid": 58310,
+          "cvId": 21357,
+          "characterPosition": 2
+        },
+        {
+          "cid": 58311,
+          "cvId": 10741,
+          "characterPosition": 2
+        },
+        {
+          "cid": 58312,
+          "cvId": 19766,
+          "characterPosition": 2
+        },
+        {
+          "cid": 58313,
+          "characterPosition": 2
+        },
+        {
+          "cid": 61920,
+          "cvId": 10148,
+          "characterPosition": 2
+        },
+        {
+          "cid": 61921,
+          "cvId": 10178,
+          "characterPosition": 2
+        },
+        {
+          "cid": 61922,
+          "cvId": 15199,
+          "characterPosition": 2
+        },
+        {
+          "cid": 61923,
+          "cvId": 13204,
+          "characterPosition": 2
+        }
+      ],
+      "releases": [
+        {
+          "id": 795554,
+          "releaseName": "灵感满溢的甜蜜创想",
+          "relatedLink": "https://tieba.baidu.com/p/7170228083",
+          "platform": "Windows",
+          "releaseDate": "2021-08-27",
+          "releaseLanguage": "Chinese",
+          "restrictionLevel": "R18+"
+        },
+        {
+          "id": 795555,
+          "releaseName": "ハミダシクリエイティブ 通常版",
+          "relatedLink": "https://imel.co.jp/hamidashi/",
+          "platform": "PlayStation 4",
+          "releaseDate": "2021-06-24",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R15+"
+        },
+        {
+          "id": 795556,
+          "releaseName": "ハミダシクリエイティブ 通常版",
+          "relatedLink": "https://imel.co.jp/hamidashi/",
+          "platform": "Nintendo Switch",
+          "releaseDate": "2021-06-24",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R15+"
+        },
+        {
+          "id": 795557,
+          "releaseName": "ハミダシクリエイティブ 初回限定特装版",
+          "relatedLink": "https://imel.co.jp/hamidashi/",
+          "platform": "PlayStation 4",
+          "releaseDate": "2021-06-24",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R15+"
+        },
+        {
+          "id": 795558,
+          "releaseName": "ハミダシクリエイティブ 初回限定特装版",
+          "relatedLink": "https://imel.co.jp/hamidashi/",
+          "platform": "Nintendo Switch",
+          "releaseDate": "2021-06-24",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R15+"
+        },
+        {
+          "id": 795559,
+          "releaseName": "ハミダシクリエイティブ ダウンロード版",
+          "relatedLink": "http://madosoft.net/hamidashi/",
+          "platform": "Windows",
+          "releaseDate": "2020-10-09",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R18+"
+        },
+        {
+          "id": 795560,
+          "releaseName": "ハミダシクリエイティブ パッケージ版",
+          "relatedLink": "http://madosoft.net/hamidashi/",
+          "platform": "Windows",
+          "releaseDate": "2020-09-25",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R18+"
+        },
+        {
+          "id": 795561,
+          "releaseName": "ハミダシクリエイティブ「プロローグ」",
+          "relatedLink": "",
+          "platform": "Android",
+          "releaseDate": "2020-09-16",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R17+"
+        },
+        {
+          "id": 795562,
+          "releaseName": "ハミダシクリエイティブ「プロローグ」",
+          "relatedLink": "",
+          "platform": "Apple iProduct",
+          "releaseDate": "2020-09-16",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R17+"
+        },
+        {
+          "id": 795563,
+          "releaseName": "灵感满溢的甜蜜创想 - 体验版",
+          "relatedLink": "https://tieba.baidu.com/p/6942151029",
+          "platform": "Windows",
+          "releaseDate": "2020-09-11",
+          "releaseLanguage": "Chinese",
+          "restrictionLevel": "R18+"
+        },
+        {
+          "id": 795564,
+          "releaseName": "ハミダシクリエイティブ 体験版",
+          "relatedLink": "http://madosoft.net/hamidashi/trial",
+          "platform": "Windows",
+          "releaseDate": "2020-08-14",
+          "releaseLanguage": "Japanese",
+          "restrictionLevel": "R18+"
+        }
+      ],
+      "staff": [
+        {
+          "sid": 885445,
+          "pid": 27052,
+          "empName": "None",
+          "empDesc": "Movie production",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885446,
+          "pid": 27113,
+          "empName": "逢瀬 アキラ",
+          "empDesc": "Shio ED lyrics",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885447,
+          "pid": 21357,
+          "empName": "柳 ひとみ",
+          "empDesc": "Hiyori ED 'Real intention' (As Izumi Hiyori)",
+          "jobName": "歌曲"
+        },
+        {
+          "sid": 885448,
+          "pid": 13908,
+          "empName": "せいま",
+          "empDesc": "Cutin illustrator",
+          "jobName": "原画"
+        },
+        {
+          "sid": 885449,
+          "pid": 28204,
+          "empName": "None",
+          "empDesc": "Design director, Web design",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885450,
+          "pid": 14154,
+          "empName": "有限会社アフェス「無月庭」",
+          "empDesc": "Graphics",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885451,
+          "pid": 14333,
+          "empName": "田中 俊裕",
+          "empDesc": "Asumi insert song",
+          "jobName": "音乐"
+        },
+        {
+          "sid": 885452,
+          "pid": 31681,
+          "empName": "堀江 晶太",
+          "empDesc": "OP",
+          "jobName": "音乐"
+        },
+        {
+          "sid": 885453,
+          "pid": 10536,
+          "empName": "櫻川 めぐ",
+          "empDesc": "OP 'Unreal Creation!'",
+          "jobName": "歌曲"
+        },
+        {
+          "sid": 885454,
+          "pid": 15152,
+          "empName": "アトリエ空機関",
+          "empDesc": "Background graphic",
+          "jobName": "原画"
+        },
+        {
+          "sid": 885455,
+          "pid": 28523,
+          "empName": "アダムス",
+          "empDesc": "Script",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885456,
+          "pid": 16075,
+          "empName": "日野 ほのか",
+          "empDesc": "Kano ED 'Everyday'",
+          "jobName": "歌曲"
+        },
+        {
+          "sid": 885457,
+          "pid": 29926,
+          "empName": "None",
+          "empDesc": "Debug",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885458,
+          "pid": 17320,
+          "empName": "立花 詩穂",
+          "empDesc": "Movie production",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885459,
+          "pid": 17520,
+          "empName": "株式会社クリープ",
+          "empDesc": "Background visual",
+          "jobName": "原画"
+        },
+        {
+          "sid": 885460,
+          "pid": 18452,
+          "empName": "よる。",
+          "empDesc": "Hiyori ED",
+          "jobName": "音乐"
+        },
+        {
+          "sid": 885461,
+          "pid": 30831,
+          "empName": "None",
+          "empDesc": "Shio ED 'Lovers Moment'",
+          "jobName": "歌曲"
+        },
+        {
+          "sid": 885462,
+          "pid": 19651,
+          "empName": "みかさなつひさ",
+          "empDesc": "Assistant writer",
+          "jobName": "脚本"
+        },
+        {
+          "sid": 885463,
+          "pid": 19651,
+          "empName": "みかさなつひさ",
+          "empDesc": "Debug",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885464,
+          "pid": 19765,
+          "empName": "甲木 順之助",
+          "empDesc": "",
+          "jobName": "脚本"
+        },
+        {
+          "sid": 885465,
+          "pid": 19766,
+          "empName": "紬 雪乃",
+          "empDesc": "Asumi insert song 'Kazabana Musume'",
+          "jobName": "歌曲"
+        },
+        {
+          "sid": 885466,
+          "pid": 31014,
+          "empName": "None",
+          "empDesc": "OP lyrics",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885467,
+          "pid": 19767,
+          "empName": "星羽 こはく",
+          "empDesc": "Asumi ED 'Yukidoke'",
+          "jobName": "歌曲"
+        },
+        {
+          "sid": 885468,
+          "pid": 21765,
+          "empName": "None",
+          "empDesc": "Graphics",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885469,
+          "pid": 21988,
+          "empName": "iMel株式会社",
+          "empDesc": "System and Production management",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885470,
+          "pid": 22753,
+          "empName": "もじゃすびい",
+          "empDesc": "",
+          "jobName": "导演/监督"
+        },
+        {
+          "sid": 885471,
+          "pid": 22754,
+          "empName": "まつむー",
+          "empDesc": "BGM",
+          "jobName": "音乐"
+        },
+        {
+          "sid": 885472,
+          "pid": 22756,
+          "empName": "アルケ",
+          "empDesc": "Producer",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885473,
+          "pid": 22758,
+          "empName": "None",
+          "empDesc": "PR",
+          "jobName": "其他"
+        },
+        {
+          "sid": 885474,
+          "pid": 22842,
+          "empName": "宇都宮 つみれ",
+          "empDesc": "",
+          "jobName": "原画"
+        },
+        {
+          "sid": 885475,
+          "pid": 22842,
+          "empName": "宇都宮 つみれ",
+          "empDesc": "",
+          "jobName": "人物设计"
+        },
+        {
+          "sid": 885476,
+          "pid": 23162,
+          "empName": "茜屋",
+          "empDesc": "SD",
+          "jobName": "原画"
+        },
+        {
+          "sid": 885477,
+          "pid": 23772,
+          "empName": "YUKI NAKANO",
+          "empDesc": "Shio ED",
+          "jobName": "音乐"
+        }
+      ],
+      "type": "GAME",
+      "freeze": false
+    },
+    "cidMapping": {
+      "61920": {
+        "cid": 61920,
+        "name": "竜閑 天梨",
+        "chineseName": "龙闲天梨",
+        "mainImg": "https://cdn.ymgal.games/archive/main/ee/ee1ec5dac96e43249f069170b8a707cf.jpg",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "61921": {
+        "cid": 61921,
+        "name": "和泉 里",
+        "chineseName": "和泉里",
+        "mainImg": "https://cdn.ymgal.games/archive/main/15/155830aee80a4809ad06d78f50e4ed9f.jpg",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "61922": {
+        "cid": 61922,
+        "name": "新川 広夢",
+        "chineseName": "新川广梦",
+        "mainImg": "https://cdn.ymgal.games/archive/main/24/24573ff3be6240eeb7fb9274c3ec60e9.jpg",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "61923": {
+        "cid": 61923,
+        "name": "聖 莉々子",
+        "chineseName": "圣莉莉子",
+        "mainImg": "https://cdn.ymgal.games/archive/main/8c/8ceaed436d7445e9aa8295907f71b629.jpg",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "58309": {
+        "cid": 58309,
+        "name": "和泉 智宏",
+        "chineseName": "和泉智宏",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "58310": {
+        "cid": 58310,
+        "name": "和泉 妃愛",
+        "chineseName": "和泉妃爱",
+        "mainImg": "https://cdn.ymgal.games/archive/main/08/08cce586c6f9418091912f62266102c7.jpg",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "58311": {
+        "cid": 58311,
+        "name": "常磐 華乃",
+        "mainImg": "https://cdn.ymgal.games/archive/main/68/684f9006711a4dedbfc25abd1427d43d.jpg",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "58312": {
+        "cid": 58312,
+        "name": "錦 あすみ",
+        "chineseName": "锦亚澄",
+        "mainImg": "https://cdn.ymgal.games/archive/main/c9/c937f6fb4946411a893ac9a62c8c812c.jpg",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "58313": {
+        "cid": 58313,
+        "name": "鎌倉 詩桜",
+        "chineseName": "镰仓诗樱",
+        "mainImg": "https://cdn.ymgal.games/archive/main/e1/e171a1a73d8c4fd1a64c59bfa70b034d.jpg",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      }
+    },
+    "pidMapping": {
+      "31681": {
+        "pid": 31681,
+        "name": "堀江 晶太",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "10178": {
+        "pid": 10178,
+        "name": "前田 恵",
+        "mainImg": "https://cdn.ymgal.games/archive/main/ee/eee813a243214b0ea788bd7046cc8516.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "19651": {
+        "pid": 19651,
+        "name": "みかさなつひさ",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "21765": {
+        "pid": 21765,
+        "name": "Massan",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "14154": {
+        "pid": 14154,
+        "name": "有限会社アフェス「無月庭」",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "16075": {
+        "pid": 16075,
+        "name": "日野 ほのか",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "18452": {
+        "pid": 18452,
+        "name": "よる。",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "13908": {
+        "pid": 13908,
+        "name": "せいま",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "13204": {
+        "pid": 13204,
+        "name": "笹本 菜津枝",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "23772": {
+        "pid": 23772,
+        "name": "YUKI NAKANO",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "15199": {
+        "pid": 15199,
+        "name": "藤沢 れい香",
+        "mainImg": "https://cdn.ymgal.games/archive/main/6a/6a7c71a9a8c14221afb0e6c0d3918485.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "22753": {
+        "pid": 22753,
+        "name": "もじゃすびい",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "22754": {
+        "pid": 22754,
+        "name": "まつむー",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "22756": {
+        "pid": 22756,
+        "name": "アルケ",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "10148": {
+        "pid": 10148,
+        "name": "岡本 理絵",
+        "chineseName": "冈本理绘",
+        "mainImg": "https://cdn.ymgal.games/archive/main/27/27dc44e7b4554846b554607347b321f6.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "21988": {
+        "pid": 21988,
+        "name": "iMel株式会社",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "22758": {
+        "pid": 22758,
+        "name": "Taichi",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "29926": {
+        "pid": 29926,
+        "name": "s_e_beat",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "31014": {
+        "pid": 31014,
+        "name": "stel",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "17320": {
+        "pid": 17320,
+        "name": "立花 詩穂",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "10536": {
+        "pid": 10536,
+        "name": "櫻川 めぐ",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "27113": {
+        "pid": 27113,
+        "name": "逢瀬 アキラ",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "28523": {
+        "pid": 28523,
+        "name": "アダムス",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "27052": {
+        "pid": 27052,
+        "name": "Syamo",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "28204": {
+        "pid": 28204,
+        "name": "cao.",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "21357": {
+        "pid": 21357,
+        "name": "戸田 ぐみ",
+        "chineseName": "户田惠",
+        "mainImg": "https://cdn.ymgal.games/archive/main/4c/4c89796808e1487db1e8a09a42b4167c.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "30831": {
+        "pid": 30831,
+        "name": "KyoKa",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "17520": {
+        "pid": 17520,
+        "name": "株式会クリープ",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "15152": {
+        "pid": 15152,
+        "name": "アトリエ空機関",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "10741": {
+        "pid": 10741,
+        "name": "あさみ ほとり",
+        "chineseName": "长井 亚沙美",
+        "mainImg": "https://cdn.ymgal.games/archive/main/0c/0c7c2d58b09749138771b1a5479a3578.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "19765": {
+        "pid": 19765,
+        "name": "甲木 順之助",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "19766": {
+        "pid": 19766,
+        "name": "紬 雪乃",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "19767": {
+        "pid": 19767,
+        "name": "星羽 こはく",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "22842": {
+        "pid": 22842,
+        "name": "宇都宮 つみれ",
+        "mainImg": "https://cdn.ymgal.games/archive/main/92/92af06e2b51d4b1abb0bcc461d78bf5a.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "23162": {
+        "pid": 23162,
+        "name": "茜屋",
+        "chineseName": "茜屋",
+        "mainImg": "https://cdn.ymgal.games/archive/main/12/122c5336c5f54f5e93446245b45cc135.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      },
+      "14333": {
+        "pid": 14333,
+        "name": "田中 俊裕",
+        "mainImg": "https://cdn.ymgal.games/archive/def_img.webp",
+        "state": "PUBLIC_PUBLISHED",
+        "freeze": false
+      }
+    }
+  }
+}

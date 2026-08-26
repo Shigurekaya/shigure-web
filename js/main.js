@@ -116,6 +116,77 @@ const Kaya = (() => {
     });
   }
 
+  const BRAND_HOME = "榧";
+  const BRAND_DEFAULT = "时雨榧";
+  const PROFILE_GATED_PAGES = new Set(["works", "links", "mv"]);
+
+  function isProfileGatedHome() {
+    return document.body.classList.contains("page-home")
+      && !document.body.classList.contains("profile-open");
+  }
+
+  function syncProfileBrand(page) {
+    const brand = document.querySelector(".site-header .brand");
+    if (!brand) return;
+    const onHome = page === "home" || document.body.classList.contains("page-home");
+    if (onHome) {
+      const avatarSrc = document.getElementById("hero-avatar")?.getAttribute("src")
+        || document.getElementById("brand-avatar")?.getAttribute("src")
+        || "assets/images/avatar.jpg";
+      const open = document.body.classList.contains("profile-open");
+      const label = open ? BRAND_DEFAULT : BRAND_HOME;
+      brand.innerHTML =
+        `<img class="brand-avatar" id="brand-avatar" src="${escapeHtml(avatarSrc)}" alt="" width="32" height="32" decoding="async" />`
+        + `<span class="brand-text">${escapeHtml(label)}</span>`;
+      brand.setAttribute("href", "#");
+      brand.setAttribute("data-profile-toggle", "");
+      brand.setAttribute("role", "button");
+      brand.setAttribute("aria-controls", "profile-hero");
+      brand.setAttribute("aria-expanded", open ? "true" : "false");
+    } else {
+      brand.textContent = BRAND_DEFAULT;
+      brand.setAttribute("href", "/");
+      brand.removeAttribute("data-profile-toggle");
+      brand.removeAttribute("role");
+      brand.removeAttribute("aria-controls");
+      brand.removeAttribute("aria-expanded");
+    }
+  }
+
+  function clearProfileInlineStyles() {
+    document.querySelectorAll(
+      ".profile-hero, .profile-avatar, .profile-name, .profile-roman, .profile-sign, .social-row, .profile-gated, .nav-gated, .social-pill, .home-card",
+    ).forEach((el) => {
+      el.style.opacity = "";
+      el.style.animation = "";
+      el.style.transform = "";
+      el.style.visibility = "";
+      el.style.display = "";
+      el.style.maxHeight = "";
+      el.style.height = "";
+      el.style.filter = "";
+      el.style.overflow = "";
+      el.style.pointerEvents = "";
+      el.style.maxWidth = "";
+      el.style.willChange = "";
+    });
+  }
+
+  function initProfileToggle() {
+    const brand = document.querySelector(".site-header .brand");
+    if (!brand || brand.dataset.profileToggleBound) return;
+    brand.dataset.profileToggleBound = "1";
+    brand.addEventListener("click", (e) => {
+      if (!document.body.classList.contains("page-home")) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const next = !document.body.classList.contains("profile-open");
+      setProfileOpen(next);
+    });
+    syncProfileBrand(document.body.dataset.kayaPage || spaPage || "home");
+    window.KayaProfileReveal?.syncFromDom?.();
+  }
+
   function clamp(n, lo, hi) {
     return Math.max(lo, Math.min(hi, n));
   }
@@ -252,10 +323,10 @@ const Kaya = (() => {
   const KAYA_ASSET_V = "202608252100";
   const SPA_PAGE_CLASSES = ["page-home", "page-works", "page-links", "page-mv"];
   const SPA_TITLES = {
-    home: "时雨榧",
-    works: "作品 · 时雨榧",
-    links: "链接 · 时雨榧",
-    mv: "MV 素材 · 时雨榧",
+    home: "榧站",
+    works: "作品 · 榧站",
+    links: "链接 · 榧站",
+    mv: "MV 素材 · 榧站",
   };
   const SPA_PATHS = {
     home: "/",
@@ -265,7 +336,7 @@ const Kaya = (() => {
   };
   const SPA_MAIN = {
     home: `<main class="home-main">
-    <section class="profile-hero">
+    <section class="profile-hero" id="profile-hero">
       <div class="profile-avatar">
         <img id="hero-avatar" class="avatar" src="assets/images/avatar.jpg" alt="时雨榧" width="128" height="128" fetchpriority="high" decoding="async" />
       </div>
@@ -278,9 +349,9 @@ const Kaya = (() => {
       <div class="intro-panel__body" id="intro-body"></div>
     </section>
     <div class="home-tool-entries" aria-label="Gal 工具">
-      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide" aria-label="萌新入坑 Gal 推荐">
+      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide" aria-label="Gal 心选">
         <span class="site-quiz-entry__label">Pick</span>
-        <span class="site-quiz-entry__title">萌新入坑推荐</span>
+        <span class="site-quiz-entry__title">Gal 心选</span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
       <a href="/gal-quiz/" class="site-quiz-entry" aria-label="Gal 水平测试">
@@ -294,7 +365,7 @@ const Kaya = (() => {
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
     </div>
-    <aside class="site-log" aria-label="站点日志">
+    <aside class="site-log profile-gated" aria-label="站点日志">
       <div class="site-log__inner">
         <span class="site-log__tag">LOG</span>
         <p class="site-log__text">因本人在2026年8月20日被突然的暴雨淋了五分钟（一条不可挡雨的路），以水鬼姿态进入地铁，故增加了暴雨页面<br>经本人亲身证明，即使人在滴水，地铁安检员也会放你进去</p>
@@ -304,7 +375,7 @@ const Kaya = (() => {
         </div>
       </div>
     </aside>
-    <section class="home-cards" aria-label="快捷入口">
+    <section class="home-cards profile-gated" aria-label="快捷入口">
       <a href="/works/" class="home-card">
         <span class="home-card__label">Portfolio</span>
         <span class="home-card__title">作品集</span>
@@ -374,6 +445,40 @@ const Kaya = (() => {
   function persistRainMode() {
     const mode = rainModeFromBody() || readStoredRainMode();
     if (mode) writeStoredRainMode(mode);
+  }
+
+  /** SPA 切换时把当前天气写进目标 URL，避免丢掉 ?sunny / ?rain=… */
+  function withPersistedRainQuery(target) {
+    let url;
+    try {
+      url = typeof target === "string"
+        ? new URL(target, window.location.href)
+        : new URL(target.href);
+    } catch {
+      return typeof target === "string"
+        ? target
+        : `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    }
+
+    let mode = null;
+    try {
+      const q = url.searchParams;
+      const rain = normalizeRainMode((q.get("rain") || "").toLowerCase());
+      if (rain === "storm" || rain === "heavy" || rain === "light" || rain === "sunny") mode = rain;
+      else if (q.has("storm")) mode = "storm";
+      else if (q.has("heavy")) mode = "heavy";
+      else if (q.has("light")) mode = "light";
+      else if (q.has("sunny") || q.has("clear") || q.has("rainbow") || q.has("after")) mode = "sunny";
+    } catch { /* ignore */ }
+
+    if (!mode) mode = normalizeRainMode(rainModeFromBody() || readStoredRainMode());
+    if (!mode) return `${url.pathname}${url.search}${url.hash}`;
+
+    url.searchParams.set("rain", mode);
+    ["storm", "heavy", "light", "sunny", "clear", "rainbow", "after"].forEach((k) => {
+      url.searchParams.delete(k);
+    });
+    return `${url.pathname}${url.search}${url.hash}`;
   }
 
   function spaUrlHasWeatherOverride(url) {
@@ -461,7 +566,11 @@ const Kaya = (() => {
     document.body.dataset.kayaPage = page;
     if (page === "home") {
       document.body.classList.add("home-ready", "home-revealed");
+      setProfileOpen(false, { instant: true });
+    } else {
+      document.body.classList.remove("profile-open", "profile-animating");
     }
+    syncProfileBrand(page);
     document.getElementById("home-intro")?.remove();
   }
 
@@ -514,9 +623,12 @@ const Kaya = (() => {
   async function softNavigate(page, { url, replace = false, fromPop = false } = {}) {
     if (!page || !SPA_MAIN[page]) return false;
     if (spaBusy) return false;
+    if (isProfileGatedHome() && PROFILE_GATED_PAGES.has(page)) return false;
     if (page === spaPage && !fromPop) {
       if (url && !replace) {
-        const next = typeof url === "string" ? url : `${url.pathname}${url.search}${url.hash}`;
+        const next = withPersistedRainQuery(
+          typeof url === "string" ? url : `${url.pathname}${url.search}${url.hash}`,
+        );
         if (`${window.location.pathname}${window.location.search}${window.location.hash}` !== next) {
           history.pushState({ kayaSpa: page }, "", next);
         }
@@ -528,9 +640,10 @@ const Kaya = (() => {
     persistRainMode();
     try {
       await ensurePageData(page);
-      const nextUrl = url
+      const rawNext = url
         ? (typeof url === "string" ? url : `${url.pathname}${url.search}${url.hash}`)
         : SPA_PATHS[page];
+      const nextUrl = withPersistedRainQuery(rawNext);
 
       closeMvLightbox();
       document.getElementById("site-nav")?.classList.remove("open");
@@ -545,7 +658,11 @@ const Kaya = (() => {
         if (replace) history.replaceState({ kayaSpa: page }, "", nextUrl);
         else history.pushState({ kayaSpa: page }, "", nextUrl);
       } else if (!history.state?.kayaSpa) {
-        history.replaceState({ kayaSpa: page }, "", `${window.location.pathname}${window.location.search}${window.location.hash}`);
+        history.replaceState(
+          { kayaSpa: page },
+          "",
+          withPersistedRainQuery(`${window.location.pathname}${window.location.search}${window.location.hash}`),
+        );
       }
 
       window.scrollTo(0, 0);
@@ -568,7 +685,10 @@ const Kaya = (() => {
 
     spaPage = spaPageFromPath(window.location.pathname) || document.body.dataset.kayaPage || null;
     if (spaPage) {
-      history.replaceState({ kayaSpa: spaPage }, "", `${window.location.pathname}${window.location.search}${window.location.hash}`);
+      const sticky = withPersistedRainQuery(
+        `${window.location.pathname}${window.location.search}${window.location.hash}`,
+      );
+      history.replaceState({ kayaSpa: spaPage }, "", sticky);
     }
 
     document.addEventListener("click", (e) => {
@@ -576,6 +696,7 @@ const Kaya = (() => {
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const a = e.target.closest?.("a[href]");
       if (!(a instanceof HTMLAnchorElement)) return;
+      if (a.hasAttribute("data-profile-toggle")) return;
       if (a.target === "_blank" || a.hasAttribute("download")) return;
       if (a.classList.contains("heavy-gate") || a.classList.contains("site-log__btn")) return;
 
@@ -595,6 +716,7 @@ const Kaya = (() => {
 
       const page = spaPageFromPath(url.pathname);
       if (!page) return;
+      if (isProfileGatedHome() && PROFILE_GATED_PAGES.has(page)) return;
 
       e.preventDefault();
       persistRainMode();
@@ -1003,6 +1125,48 @@ const Kaya = (() => {
     window.requestAnimationFrame(() => rainApi?.refreshLedges?.());
   }
 
+  function refreshRainLedgesAfterProfile() {
+    /* 晴天/小雨无 ledge；大雨才需要，且只扫一次 */
+    if (!document.body.classList.contains("heavy-rain")
+      && !document.body.classList.contains("storm-rain")) return;
+    window.setTimeout(() => {
+      rainApi?.refreshLedges?.();
+    }, 80);
+  }
+
+  function setProfileOpen(open, { instant = false } = {}) {
+    const want = !!open;
+    const brand = document.querySelector(".site-header .brand");
+    if (brand?.hasAttribute("data-profile-toggle")) {
+      brand.setAttribute("aria-expanded", want ? "true" : "false");
+    }
+    const brandText = brand?.querySelector(".brand-text");
+    if (instant && brandText && brand?.hasAttribute("data-profile-toggle")) {
+      brandText.textContent = want ? "时雨榧" : "榧";
+    }
+
+    const reveal = window.KayaProfileReveal;
+    if (!instant && reveal?.setOpen) {
+      reveal.setOpen(want).then(() => {
+        clearProfileInlineStyles();
+        refreshRainLedgesAfterProfile();
+      }).catch(() => {
+        document.body.classList.toggle("profile-open", want);
+        document.body.classList.remove("profile-animating", "is-avatar-flying");
+        if (brandText) brandText.textContent = want ? "时雨榧" : "榧";
+        clearProfileInlineStyles();
+        refreshRainLedgesAfterProfile();
+      });
+      return;
+    }
+
+    clearProfileInlineStyles();
+    document.body.classList.toggle("profile-open", want);
+    document.body.classList.remove("profile-animating", "is-avatar-flying");
+    reveal?.syncFromDom?.();
+    window.setTimeout(() => refreshRainLedgesAfterProfile(), want ? 60 : 20);
+  }
+
   function markPageReady() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.body.classList.remove("page-ready");
@@ -1029,6 +1193,7 @@ const Kaya = (() => {
       initSiteRain(document.querySelector(".site-bg"), rainMode);
       initSandaimeHint();
       initSandaimeBrand();
+      initProfileToggle();
     }
     const y = document.getElementById("year");
     if (y) y.textContent = new Date().getFullYear();
@@ -1052,6 +1217,10 @@ const Kaya = (() => {
     if (avatarEl && d.user.avatar) {
       avatarEl.src = d.user.avatar;
       avatarEl.alt = d.user.name || "";
+    }
+    const brandAvatar = document.getElementById("brand-avatar");
+    if (brandAvatar) {
+      brandAvatar.src = avatarEl?.src || d.user.avatar || brandAvatar.src;
     }
 
     renderSocialIcons(document.getElementById("social-icons"));
@@ -2063,7 +2232,7 @@ const Kaya = (() => {
   }
 
   function initSedai() {
-    mountQuizStaticBg();
+    /* 纯静态 flat-bg，不挂 blur 光斑 / 雨效层 */
     initCommon(null);
     markPageReady();
   }

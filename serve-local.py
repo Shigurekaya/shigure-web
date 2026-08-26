@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent
 
 # 本地开发固定地址（文档：docs/local-dev.md）
 LOCAL_HOST = "127.0.0.1"
-LOCAL_PORT = 3000
+LOCAL_PORT = 3456
 LOCAL_BASE_URL = f"http://{LOCAL_HOST}:{LOCAL_PORT}/"
 
 # Map clean paths → files on disk (mirrors Vercel cleanUrls + trailingSlash).

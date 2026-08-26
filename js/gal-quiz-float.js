@@ -1,12 +1,13 @@
-/** Gal Quiz 背景浮游光点 — 移植自 fuyuu/js/fy-app.js startIntroFloat */
+/** Gal Quiz 背景浮游光点 — 与 fuyuu/js/fy-app.js startIntroFloat 同款 */
 (() => {
   const MOBILE_MAX = 768;
-  const RED_PALETTE = [
-    [232, 102, 118],
+  /* 与浮游片头 RGB 色差呼应：粉 / 青 / 琥珀 / 紫 / 薄荷 */
+  const PALETTE = [
     [214, 69, 106],
-    [255, 120, 130],
-    [200, 80, 90],
-    [240, 140, 150],
+    [78, 156, 200],
+    [232, 168, 72],
+    [148, 112, 214],
+    [72, 186, 158],
   ];
 
   let stopFn = null;
@@ -31,46 +32,34 @@
     let t0 = performance.now();
 
     const resize = () => {
-      const host = canvas.parentElement;
-      const w = host?.clientWidth || window.innerWidth;
-      const h = host?.clientHeight || window.innerHeight;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    const viewSize = () => {
-      const host = canvas.parentElement;
-      return {
-        w: host?.clientWidth || window.innerWidth,
-        h: host?.clientHeight || window.innerHeight,
-      };
-    };
-
     const columnCount = () => {
-      const { w, h } = viewSize();
+      const w = window.innerWidth;
+      const h = window.innerHeight || 1;
       const minCols = isMobile() ? 6 : 8;
       return Math.max(minCols, Math.round(Math.sqrt(dotCount() * (w / h))));
     };
 
     const pickX = (col, cols) => {
-      const { w } = viewSize();
-      const cellW = w / cols;
+      const cellW = window.innerWidth / cols;
       return (col + 0.12 + Math.random() * 0.76) * cellW;
     };
 
     const makeDot = (opts = {}) => {
-      const [r, g, b] = RED_PALETTE[(Math.random() * RED_PALETTE.length) | 0];
+      const [r, g, b] = PALETTE[(Math.random() * PALETTE.length) | 0];
       const glow = Math.random() < 0.42;
       const cols = columnCount();
       const col = opts.col ?? ((Math.random() * cols) | 0);
-      const { w, h } = viewSize();
       const x = opts.x ?? pickX(col, cols);
       const y = opts.y ?? (
         opts.fromBottom
-          ? h + 8 + Math.random() * 40
-          : Math.random() * h
+          ? window.innerHeight + 8 + Math.random() * 40
+          : Math.random() * window.innerHeight
       );
       return {
         x,
@@ -87,7 +76,8 @@
     };
 
     const spawnEven = (n) => {
-      const { w, h } = viewSize();
+      const w = window.innerWidth;
+      const h = window.innerHeight;
       const cols = columnCount();
       const rows = Math.ceil(n / cols);
       const cellW = w / cols;
@@ -111,8 +101,7 @@
     const tick = (now) => {
       if (stopped || paused) return;
       const t = (now - t0) / 1000;
-      const { w, h } = viewSize();
-      ctx.clearRect(0, 0, w, h);
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       dots.forEach((d) => {
         const breathe = 0.72 + 0.28 * Math.sin(t * d.pulse + d.phase);
         const a = d.alpha * breathe;
@@ -138,8 +127,8 @@
         d.x += d.vx + Math.sin(t * 0.7 + d.phase) * 0.08;
         d.y += d.vy;
         if (d.y < -12) respawnDot(d);
-        if (d.x < -12) d.x = w + 12;
-        if (d.x > w + 12) d.x = -12;
+        if (d.x < -12) d.x = window.innerWidth + 12;
+        if (d.x > window.innerWidth + 12) d.x = -12;
       });
       raf = window.requestAnimationFrame(tick);
     };

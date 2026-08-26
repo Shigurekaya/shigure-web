@@ -2,7 +2,7 @@
  * 按页面 + 天气模式按需加载脚本（defer 入口）
  */
 (() => {
-  const V = "202608252430";
+  const V = "202608261730";
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -33,9 +33,11 @@
   async function boot() {
     const page = document.body.dataset.kayaPage || "home";
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mode = window.KayaRainMode.pickInitial();
+    const noWeather = page === "quiz" || page === "sedai" || page === "pick";
+    const mode = noWeather ? null : (window.KayaRainMode?.pickInitial?.() ?? "light");
 
-    if (!reduced || page === "sedai") loadWeatherCss();
+    /* 工具页纯静态底，不拉天气 CSS（含大面积 blur） */
+    if (!reduced && !noWeather) loadWeatherCss();
 
     const dataByPage = {
       home: [
@@ -85,10 +87,12 @@
       storm: [...heavyBundle, `js/storm-lightning.js?v=${V}`],
     };
 
-    const noWeather = page === "quiz" || page === "sedai" || page === "pick";
     const urls = [...(dataByPage[page] || []), ...(noWeather ? [] : shared)];
     if (!reduced && !noWeather) {
       urls.push(...(weatherByMode[mode] || weatherByMode.light));
+    }
+    if (page === "home" && !reduced) {
+      urls.push("js/vendor/anime.umd.min.js", `js/profile-reveal.js?v=${V}`);
     }
     urls.push(`js/main.js?v=${V}`);
 

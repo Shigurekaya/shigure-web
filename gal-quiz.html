@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/" />
   <title>Gal 水平测试</title>
-  <meta name="description" content="Gal 水平测试 — 题目改编自 ima-ero エロゲクイズ" />
-  <meta name="theme-color" content="#1a1030" />
-  <link rel="stylesheet" href="css/style-core.css?v=202608252320" />
-  <link rel="stylesheet" href="css/gal-quiz.css?v=202608252420" />
+  <meta name="description" content="Gal 水平测试" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608261330" />
+  <link rel="stylesheet" href="css/gal-quiz.css?v=202608261330" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
 <body class="page-quiz page-quiz--standalone page-quiz--flat-bg" data-kaya-page="quiz">
@@ -21,19 +21,26 @@
   </div>
 
   <main class="page-main page-main--quiz">
-    <p class="quiz-back">
-      <a href="/">返回主页</a>
-    </p>
+    <nav class="quiz-topnav" aria-label="页面导航">
+      <button type="button" class="quiz-topnav__btn quiz-topnav__btn--quiz" id="quiz-back-intro" hidden>
+        <svg class="quiz-topnav__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M15 6 9 12l6 6" />
+          <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M10 5.5h7.5A2.5 2.5 0 0 1 20 8v8a2.5 2.5 0 0 1-2.5 2.5H10" />
+        </svg>
+        <span>问答主页</span>
+      </button>
+      <a class="quiz-topnav__btn quiz-topnav__btn--home" href="/">
+        <span>返回主站</span>
+        <svg class="quiz-topnav__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M4.5 11.5 12 5l7.5 6.5" />
+          <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M7 10.5V19h4.2v-4.2h1.6V19H17v-8.5" />
+        </svg>
+      </a>
+    </nav>
 
     <header class="quiz-hero" id="quiz-hero">
       <p class="quiz-hero__label">Gal Quiz</p>
       <h1 class="quiz-hero__title">Gal 水平测试</h1>
-      <p class="quiz-hero__sub">题库改编自 ima-ero「エロゲクイズ」第 1–5 弹</p>
-      <ul class="quiz-hero__stats">
-        <li><strong>116</strong> 题</li>
-        <li><strong>5</strong> 弹</li>
-        <li>图 / 音 / 视频</li>
-      </ul>
     </header>
 
     <section class="quiz-panel" id="quiz-root" aria-live="polite">
@@ -42,7 +49,7 @@
         <p class="quiz-intro__note">※ 含剧透与绅士向内容 · 音视频需手动播放</p>
 
         <div class="quiz-mode-actions">
-          <button type="button" class="quiz-mode-card quiz-mode-card--primary" id="quiz-start-random">
+          <button type="button" class="quiz-mode-card" id="quiz-start-random">
             <span class="quiz-mode-card__num" aria-hidden="true">01</span>
             <span class="quiz-mode-card__body">
               <span class="quiz-mode-card__title">随机 20 题</span>
@@ -59,8 +66,6 @@
             <span class="quiz-mode-card__go" aria-hidden="true">▸</span>
           </button>
         </div>
-
-        <p class="quiz-intro__hint">作答后点「下一题」继续 · 完成后可回顾错题</p>
       </div>
 
       <div class="quiz-play" id="quiz-play" hidden>
@@ -134,11 +139,21 @@
     </section>
   </main>
 
-  <footer class="site-footer site-footer--quiz">
-    <p class="site-footer__credit">题目来源致谢：<a href="https://www.ima-ero.com/" target="_blank" rel="noopener noreferrer">今更だけどエロゲしようぜ！</a></p>
-  </footer>
+  <footer class="site-footer site-footer--quiz" hidden></footer>
 
-  <script src="js/kaya-rain-mode.js?v=202608252320" defer></script>
-  <script src="js/kaya-boot.js?v=202608252430" defer></script>
+  <dialog class="quiz-lightbox" id="quiz-lightbox" aria-label="图片预览">
+    <div class="quiz-lightbox__stage" id="quiz-lightbox-stage">
+      <button type="button" class="quiz-lightbox__close" id="quiz-lightbox-close" aria-label="关闭">×</button>
+      <button type="button" class="quiz-lightbox__nav quiz-lightbox__nav--prev" id="quiz-lightbox-prev" aria-label="上一张" hidden>‹</button>
+      <button type="button" class="quiz-lightbox__nav quiz-lightbox__nav--next" id="quiz-lightbox-next" aria-label="下一张" hidden>›</button>
+      <figure class="quiz-lightbox__figure">
+        <img class="quiz-lightbox__img" id="quiz-lightbox-img" alt="" />
+        <figcaption class="quiz-lightbox__cap" id="quiz-lightbox-cap" hidden></figcaption>
+      </figure>
+      <p class="quiz-lightbox__hint" id="quiz-lightbox-hint" hidden></p>
+    </div>
+  </dialog>
+
+  <script src="js/kaya-boot.js?v=202608261330" defer></script>
 </body>
 </html>

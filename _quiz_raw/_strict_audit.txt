@@ -1,0 +1,13 @@
+MANUAL	s1-03	JA=リシアンサス→神族　ネリネ→魔族	ZH=莉西亚斯＝神族、涅莉涅＝魔族
+MANUAL	s1-04	JA=①NLNS　②SHO　③SS	ZH=NLNS / SHO / SS
+MANUAL	s2-04	JA=新幹線の愛称	ZH=都是新干线列车的爱称
+MANUAL	s2-05	JA=女児の座ったブランコを1000個以上盗んだ	ZH=偷了 1000 个以上有女孩坐过的秋千
+MANUAL	s2-06	JA=１つ目「尽くしたい」　２つ目「お世話好き」	ZH=尽くしたい / お世話好き
+MANUAL	s2-07	JA=①グロブティ　②フォン　③にゃん。	ZH=グロブティ / フォン / にゃん。
+MANUAL	s2-08	JA=①フライングサーカス　②刃道（じんどう）	ZH=フライングサーカス / 刃道
+MANUAL	s3-15	JA=姉→こもも　妹→こさめ	ZH=姐姐＝小桃、妹妹＝小雨
+MANUAL	s3-16	JA=①初回版　②豪華版	ZH=①初回版、②豪华版
+MANUAL	s3-18	JA=ラーメンマンのようなヘアスタイルに変更された	ZH=改成拉面超人那种发型
+MANUAL	s4-02	JA=エロゲメーカーの略称	ZH=都是 Gal 厂商名的略称
+MANUAL	s4-09	JA=①Orthrosオルトロス　②Cuteuphoriaキューフォリア	ZH=①Orthros、②Cuteuphoria
+MANUAL	s5-04	JA=１番高い＝鴻さゆみ　１番低い＝柳木詩夢	ZH=最高＝鴻さゆみ、最低＝柳木詩夢

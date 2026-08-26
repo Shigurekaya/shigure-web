@@ -633,16 +633,16 @@ body.storm-rain .weather-gate__panel a:hover {
     visibility: hidden !important;
   }
 
-  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-hero,
-  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-avatar,
-  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-name,
-  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-roman,
-  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .profile-sign,
-  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .social-row,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-hero,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-avatar,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-name,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-roman,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-sign,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .social-row,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-gated,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .nav-gated,
   body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .intro-panel,
   body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .home-tool-entries,
-  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .site-log,
-  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .home-cards,
   body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .site-footer,
   body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .social-pill {
     opacity: 1 !important;

@@ -1,0 +1,28 @@
+s1-10	'催眠'	最多① 最少⑤
+s1-10	'催眠'	short? ja=最多→①　最少→⑤
+s1-19	'LB'	short? ja=リトルバスターズ！エクスタシー
+s2-13	'枕'	single-char
+s2-21	'神君'	short? ja=夏和小かなこ
+s3-04	'萨奇'	short? ja=サチ
+s3-08	'屎'	①Ｂ②Ａ③Ｃ
+s3-08	'屎'	single-char
+s3-08	'屎'	short? ja=①Ｂ　②Ａ　③Ｃ
+s3-09	'众筹'	short? ja=クラウドファンディングを行った
+s3-20	'2'	single-char
+s3-20	'二号'	short? ja=②
+s3-21	'真恋'	short? ja=真剣で私に恋しなさい！
+s3-23	'FH'	short? ja=Flyable Heart
+s4-05	'吻痕'	short? ja=キスアト
+s4-06	'樱云'	short? ja=さくらの雲＊スカアレットの恋
+s4-07	'1'	single-char
+s4-08	'2'	single-char
+s4-16	'1'	single-char
+s4-19	'카논'	short? ja=Kanon
+s5-07	'1'	single-char
+s5-08	'2'	single-char
+s5-08	'二号'	short? ja=②
+s5-12	'6'	single-char
+s5-12	'六'	single-char
+s5-13	'左边'	short? ja=左
+s5-17	'3'	single-char
+s5-17	'三号'	short? ja=③

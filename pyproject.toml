@@ -1,0 +1,8 @@
+[project]
+name = "shigure-web"
+version = "0.1.0"
+description = "Local dev helpers for shigure-web (serve-local.py + tag fetch)"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx>=0.28",
+]

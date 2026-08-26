@@ -1,0 +1,42 @@
+multi-image questions: 19
+PROBLEM (need numbers, no UI labels): 0
+
+--- OK / labeled ---
+ok s3-04 n=5 layout=None needs_num=False
+   请根据图片：《恋之巢》（こいのす☆イチャコライズ）主人公房间「改造后」属于哪位女主路线？
+ok s3-06 n=7 layout=sept needs_num=True
+   请根据图片：为①～⑦各吉祥物选出正确名称。 / 候选：うたまる／歌丸／QP／キティ・ホワイト／儀左右衛門／ソフィーティア／ドルジ／ハニー／ぱんにゃ／ピカチュウ／ミッキーマウス
+ok s3-07 n=3 layout=triple needs_num=True
+   请根据图片：①～③三种姿势在玩家间通称什么？
+ok s3-08 n=6 layout=tee needs_num=True
+   请根据图片：三件 T 恤（A/B/C）分别由哪位女主穿着？按 ①②③ 顺序写出对应字母。
+ok s3-16 n=2 layout=dual needs_num=True
+   请根据图片：①与②分别是「初回版」还是「豪华版」？
+ok s3-17 n=2 layout=lr needs_num=False
+   请根据图片：《D.C. 10 周年感谢包》左、右哪边是 E-15、哪边是 R-18？
+ok s3-19 n=3 layout=None needs_num=False
+   请根据图片：《没有天使的 12 月》包装角色由哪位原画师负责？（提示图可选）
+ok s3-20 n=2 layout=hint2 needs_num=True
+   请根据图片：《八卦恋爱》包装女主中，结城りこ负责的是几号？（可参考提示图）
+ok s4-07 n=4 layout=quad needs_num=True
+   请根据图片：《恋爱成双》启动图标是①～④中的哪一个？
+ok s4-08 n=6 layout=ref6 needs_num=True
+   请根据图片：图中下方三位角色出自下列哪一部作品？（填候选编号） / ①ゆるキャン△ ②シス△キャン ③△エロキャン ④キャン·ドゥ ⑤きゃんきゃんバニー
+ok s4-09 n=2 layout=dual needs_num=True
+   请根据图片：①②分别是哪家厂商的吉祥物？
+ok s4-15 n=2 layout=dual needs_num=True
+   请根据图片：①与②分别是「通常版」还是「限定版」？
+ok s4-16 n=2 layout=dual needs_num=True
+   请根据图片：①与②哪一个是「10th Anniversary 特别仕様版（全语音版）」？
+ok s5-01 n=3 layout=None needs_num=False
+   请根据图片（复古 Galgame）：正确标题是？
+ok s5-08 n=3 layout=triple needs_num=False
+   请根据图片：《常轨脱离Creative》和泉妃爱三句台词中，哪句是作中实际台词？
+ok s5-11 n=6 layout=instrument needs_num=False
+   请根据图片：《DEARDROPS》角色与乐器 A/B/C 的正确对应是？
+ok s5-13 n=2 layout=lr needs_num=False
+   请根据图片：《樱之刻》本间心铃立绘，左/右哪边发型正确？
+ok s5-15 n=2 layout=dual needs_num=True
+   请根据图片：①与②分别是「实体版」还是「下载版」？
+ok s5-17 n=2 layout=hint2 needs_num=True
+   请根据图片：《LimeLight Lemonade Jam》（民间译「逐光柠檬协奏曲」）中，ほかん负责的是几号女主？（可参考提示图）

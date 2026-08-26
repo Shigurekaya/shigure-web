@@ -87,17 +87,32 @@
     const imgs = q.images || [];
     const text = q.question || "";
     const n = imgs.length;
+    if (n < 2) return null;
+
     if (n === 2) {
       if (LR_Q.test(text)) return "lr";
-      if (DUAL_Q.test(text)) return "dual";
+      if (/提示图|ヒント|参考にして|可参考/.test(text)) return "hint2";
+      /* 双图默认并排，避免纵向堆叠占满屏 */
+      return "dual";
     }
-    if (n === 3 && /①.*②.*③|①～③|①②③|三句|三张|3张/.test(text)) {
-      return "triple";
+
+    if (n === 3) {
+      if (/①.*②.*③|①～③|①②③|三句|三张|3张/.test(text)) return "triple";
+      if (/提示图|ヒント|可参考|提示/.test(text)) return "hint3";
+      return "gallery3";
     }
+
     // 启动图标等：恰好 4 张且题干写 ①～④
-    if (n === 4 && /①～④|①〜④/.test(text)) return "quad";
+    if (n === 4) {
+      if (/①～④|①〜④/.test(text)) return "quad";
+      return "gallery4";
+    }
+
+    if (n === 5) return "gallery5";
+
     // 吉祥物 ①～⑦
     if (n === 7 && /①～⑦|①〜⑦/.test(text)) return "sept";
+
     // T 恤 A/B/C + 女主 ①②③（前 3 件衫、后 3 人）
     if (n === 6 && /T\s*恤|Ｔシャツ/.test(text) && /①.*②.*③|①②③|①～③/.test(text)) {
       return "tee";
@@ -105,10 +120,6 @@
     // DEARDROPS：角色 ①②③ + 乐器 ＡＢＣ
     if (n === 6 && /乐器|楽器/.test(text) && /A\/B\/C|Ａ|①/.test(text)) {
       return "instrument";
-    }
-    // 包装原画题：主图 + 提示图
-    if (n === 2 && /提示图|ヒント|参考にして|可参考/.test(text)) {
-      return "hint2";
     }
     // 上排参考 + 下排角色（如 s4-08）
     if (
@@ -118,19 +129,57 @@
     ) {
       return "ref6";
     }
+    if (n === 6) return "gallery6";
+    if (n === 7) return "sept";
     return null;
   }
 
   function compareLabels(mode) {
     if (mode === "lr") return ["左", "右"];
-    if (mode === "triple") return ["①", "②", "③"];
-    if (mode === "quad") return CIRC.slice(0, 4);
+    if (mode === "triple" || mode === "gallery3") return ["①", "②", "③"];
+    if (mode === "hint3") return ["题目图", "提示①", "提示②"];
+    if (mode === "quad" || mode === "gallery4") return CIRC.slice(0, 4);
+    if (mode === "gallery5") return CIRC.slice(0, 5);
+    if (mode === "gallery6") return CIRC.slice(0, 6);
     if (mode === "sept") return CIRC.slice(0, 7);
     if (mode === "tee") return ["Ａ", "Ｂ", "Ｃ", "①", "②", "③"];
     if (mode === "instrument") return ["①", "②", "③", "Ａ", "Ｂ", "Ｃ"];
     if (mode === "hint2") return ["题目图", "提示图"];
     if (mode === "ref6") return ["参考①", "参考②", "参考③", "①", "②", "③"];
     return ["①", "②"];
+  }
+
+  const COMPARE_CLASSES = [
+    "quiz-media--compare",
+    "quiz-media--compare-lr",
+    "quiz-media--compare-dual",
+    "quiz-media--compare-triple",
+    "quiz-media--compare-quad",
+    "quiz-media--compare-sept",
+    "quiz-media--compare-six",
+    "quiz-media--compare-gallery3",
+    "quiz-media--compare-gallery4",
+    "quiz-media--compare-gallery5",
+    "quiz-media--compare-gallery6",
+    "quiz-media--compare-hint3",
+  ];
+
+  function layoutClassName(layout) {
+    if (!layout) return "";
+    if (layout === "lr") return "quiz-media--compare-lr";
+    if (layout === "triple") return "quiz-media--compare-triple";
+    if (layout === "quad") return "quiz-media--compare-quad";
+    if (layout === "sept") return "quiz-media--compare-sept";
+    if (layout === "tee" || layout === "instrument" || layout === "ref6") {
+      return "quiz-media--compare-six";
+    }
+    if (layout === "hint2" || layout === "dual") return "quiz-media--compare-dual";
+    if (layout === "hint3") return "quiz-media--compare-hint3";
+    if (layout === "gallery3") return "quiz-media--compare-gallery3";
+    if (layout === "gallery4") return "quiz-media--compare-gallery4";
+    if (layout === "gallery5") return "quiz-media--compare-gallery5";
+    if (layout === "gallery6") return "quiz-media--compare-gallery6";
+    return "quiz-media--compare-dual";
   }
 
   function rankLabel(score) {
@@ -186,8 +235,21 @@
     return src.startsWith("/") ? src : `/${String(src).replace(/^\.\//, "")}`;
   }
 
-  /** 已发起预加载的 URL → Promise，切题时复用浏览器缓存 */
+  /** 媒体预加载：图片 URL → Promise；音视频 URL → { el, promise } */
   const imgPreload = new Map();
+  const avPreload = new Map();
+  const questionPrep = new Map();
+  let preloadHost = null;
+
+  function getPreloadHost() {
+    if (preloadHost?.isConnected) return preloadHost;
+    preloadHost = document.createElement("div");
+    preloadHost.id = "quiz-preload-host";
+    preloadHost.hidden = true;
+    preloadHost.setAttribute("aria-hidden", "true");
+    document.body.appendChild(preloadHost);
+    return preloadHost;
+  }
 
   function preloadImage(src) {
     const url = resolveMediaUrl(src);
@@ -197,34 +259,214 @@
     const job = new Promise((resolve) => {
       const el = new Image();
       el.decoding = "async";
-      const done = () => resolve(el);
+      const done = () => {
+        if (el.decode) {
+          el.decode().then(() => resolve(el)).catch(() => resolve(el));
+        } else {
+          resolve(el);
+        }
+      };
       el.onload = done;
       el.onerror = () => resolve(null);
       el.src = url;
+      if (el.complete) done();
     });
     imgPreload.set(url, job);
     return job;
   }
 
-  function preloadQuestionImages(q) {
-    if (!q?.images?.length) return;
-    q.images.forEach((src) => {
-      preloadImage(src);
+  function preloadAv(src, tag) {
+    const url = resolveMediaUrl(src);
+    if (!url) return Promise.resolve(null);
+    const cached = avPreload.get(url);
+    if (cached) return cached.promise;
+
+    const host = getPreloadHost();
+    const el = document.createElement(tag);
+    el.preload = "auto";
+    if (tag === "video") {
+      el.muted = true;
+      el.playsInline = true;
+    }
+
+    let settled = false;
+    const promise = new Promise((resolve) => {
+      const done = () => {
+        if (settled) return;
+        settled = true;
+        resolve(el);
+      };
+      el.addEventListener("canplaythrough", done, { once: true });
+      el.addEventListener("loadeddata", done, { once: true });
+      el.addEventListener("error", done, { once: true });
+      setTimeout(done, 12000);
     });
+
+    el.src = url;
+    el.load();
+    host.appendChild(el);
+    avPreload.set(url, { el, promise, tag });
+    return promise;
   }
 
-  /** 预加载当前题之后的若干题配图（默认下一题 + 再下一题） */
+  function adoptAvElement(src) {
+    const url = resolveMediaUrl(src);
+    const entry = avPreload.get(url);
+    if (!entry) return null;
+    avPreload.delete(url);
+    const { el } = entry;
+    el.preload = "auto";
+    if (el.tagName === "VIDEO") {
+      el.muted = false;
+      el.playsInline = true;
+    }
+    return el;
+  }
+
+  function preloadQuestion(q) {
+    if (!q) return Promise.resolve();
+    const jobs = [];
+    (q.images || []).forEach((src) => jobs.push(preloadImage(src)));
+    (q.audio || []).forEach((src) => jobs.push(preloadAv(src, "audio")));
+    (q.video || []).forEach((src) => jobs.push(preloadAv(src, "video")));
+    return Promise.all(jobs);
+  }
+
+  function warmQuestion(index) {
+    const q = state.deck[index];
+    if (!q) return null;
+    if (!questionPrep.has(index)) {
+      questionPrep.set(index, {
+        matchPoolShuffled: q.type === "match" ? shuffle(q.pool || []) : null,
+      });
+    }
+    preloadQuestion(q);
+    return questionPrep.get(index);
+  }
+
+  /** 预加载 fromIndex 起连续 ahead+1 道题（含当前题）的媒体与选填词条顺序 */
   function preloadAhead(fromIndex, ahead = 2) {
     const deck = state.deck;
     if (!deck.length) return;
-    const end = Math.min(deck.length, fromIndex + 1 + ahead);
-    for (let i = fromIndex + 1; i < end; i++) {
-      preloadQuestionImages(deck[i]);
+    const start = Math.max(0, fromIndex);
+    const end = Math.min(deck.length, fromIndex + ahead + 1);
+    for (let i = start; i < end; i++) warmQuestion(i);
+  }
+
+  function clearMediaPreload() {
+    imgPreload.clear();
+    avPreload.clear();
+    questionPrep.clear();
+    if (preloadHost) preloadHost.replaceChildren();
+  }
+
+  let lightboxTrigger = null;
+  const lightboxState = {
+    open: false,
+    items: [],
+    index: 0,
+  };
+
+  function isLightboxOpen() {
+    const dialog = $("quiz-lightbox");
+    return !!(lightboxState.open || (dialog && dialog.open));
+  }
+
+  function paintLightbox() {
+    const img = $("quiz-lightbox-img");
+    const cap = $("quiz-lightbox-cap");
+    const hint = $("quiz-lightbox-hint");
+    const prevBtn = $("quiz-lightbox-prev");
+    const nextBtn = $("quiz-lightbox-next");
+    const item = lightboxState.items[lightboxState.index];
+    if (!img || !item) return;
+
+    img.src = item.src;
+    img.alt = item.alt || "题目配图";
+
+    if (cap) {
+      const text = item.label || "";
+      cap.textContent = text;
+      cap.hidden = !text;
+    }
+
+    const multi = lightboxState.items.length > 1;
+    if (prevBtn) prevBtn.hidden = !multi;
+    if (nextBtn) nextBtn.hidden = !multi;
+    if (hint) {
+      hint.hidden = false;
+      hint.textContent = multi
+        ? `${lightboxState.index + 1} / ${lightboxState.items.length}　← → 切换　Esc 关闭`
+        : "点击空白处或 Esc 关闭";
     }
   }
 
-  function clearImagePreload() {
-    imgPreload.clear();
+  function stepLightbox(delta) {
+    const n = lightboxState.items.length;
+    if (n < 2) return;
+    lightboxState.index = (lightboxState.index + delta + n) % n;
+    paintLightbox();
+  }
+
+  function openQuizLightbox(items, startIndex) {
+    const dialog = $("quiz-lightbox");
+    if (!dialog || !items?.length) return;
+
+    const list = items
+      .map((it) => ({
+        src: resolveMediaUrl(it.src || it),
+        alt: it.alt || "题目配图",
+        label: it.label || "",
+      }))
+      .filter((it) => it.src);
+    if (!list.length) return;
+
+    let idx = Number(startIndex) || 0;
+    if (idx < 0 || idx >= list.length) idx = 0;
+
+    lightboxState.items = list;
+    lightboxState.index = idx;
+    lightboxState.open = true;
+    lightboxTrigger = document.activeElement;
+    paintLightbox();
+
+    if (typeof dialog.showModal === "function") {
+      if (!dialog.open) dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+    $("quiz-lightbox-close")?.focus();
+  }
+
+  function closeQuizLightbox() {
+    const dialog = $("quiz-lightbox");
+    lightboxState.open = false;
+    lightboxState.items = [];
+    lightboxState.index = 0;
+
+    if (dialog) {
+      if (typeof dialog.close === "function" && dialog.open) dialog.close();
+      else dialog.removeAttribute("open");
+    }
+
+    const img = $("quiz-lightbox-img");
+    if (img) {
+      img.removeAttribute("src");
+      img.alt = "";
+    }
+    const cap = $("quiz-lightbox-cap");
+    if (cap) {
+      cap.textContent = "";
+      cap.hidden = true;
+    }
+
+    const trigger = lightboxTrigger;
+    lightboxTrigger = null;
+    if (trigger && typeof trigger.focus === "function") {
+      try {
+        trigger.focus();
+      } catch (_) {}
+    }
   }
 
   function mountMedia(q) {
@@ -237,47 +479,40 @@
     const video = q.video || [];
 
     if (!images.length && !audio.length && !video.length) {
+      host.classList.remove(...COMPARE_CLASSES);
       host.hidden = true;
       return;
     }
 
     host.hidden = false;
 
+    /* 先清空旧对照类，避免切题时残留错误网格 */
+    host.classList.remove(...COMPARE_CLASSES);
+
     const layout = compareLayout(q);
     if (layout) {
       host.classList.add("quiz-media--compare");
-      const layoutClass =
-        layout === "lr"
-          ? "quiz-media--compare-lr"
-          : layout === "triple"
-            ? "quiz-media--compare-triple"
-            : layout === "quad"
-              ? "quiz-media--compare-quad"
-              : layout === "sept"
-                ? "quiz-media--compare-sept"
-                : layout === "tee" || layout === "instrument" || layout === "ref6"
-                  ? "quiz-media--compare-six"
-                  : layout === "hint2"
-                    ? "quiz-media--compare-dual"
-                    : "quiz-media--compare-dual";
-      host.classList.add(layoutClass);
-    } else {
-      host.classList.remove(
-        "quiz-media--compare",
-        "quiz-media--compare-lr",
-        "quiz-media--compare-dual",
-        "quiz-media--compare-triple",
-        "quiz-media--compare-quad",
-        "quiz-media--compare-sept",
-        "quiz-media--compare-six"
-      );
+      const layoutClass = layoutClassName(layout);
+      if (layoutClass) host.classList.add(layoutClass);
     }
 
     const labels = layout ? compareLabels(layout) : [];
+    const denseCompare = !!(layout && images.length >= 3);
+    const gallery = images.map((src, idx) => ({
+      src: resolveMediaUrl(src),
+      alt: labels[idx] ? `题目配图 ${labels[idx]}` : "题目配图",
+      label: labels[idx] || (images.length > 1 ? `${idx + 1}` : ""),
+    }));
 
     images.forEach((src, idx) => {
       const fig = document.createElement("figure");
-      fig.className = "quiz-media__item";
+      fig.className = "quiz-media__item quiz-media__item--zoomable";
+      fig.tabIndex = 0;
+      fig.setAttribute("role", "button");
+      fig.setAttribute(
+        "aria-label",
+        labels[idx] ? `查看大图 ${labels[idx]}` : "查看大图"
+      );
       if (labels[idx]) {
         const cap = document.createElement("figcaption");
         cap.className = "quiz-media__label";
@@ -285,11 +520,36 @@
         fig.appendChild(cap);
       }
       const img = document.createElement("img");
-      img.src = resolveMediaUrl(src);
-      img.alt = "题目配图";
+      const url = resolveMediaUrl(src);
+      img.alt = gallery[idx].alt;
       img.loading = "eager";
       img.decoding = "async";
+      img.className = "quiz-media__img--zoom";
+      img.title = "点击查看大图";
+      img.draggable = false;
+      fig.classList.add("is-media-loading");
+
+      const openAt = () => openQuizLightbox(gallery, idx);
+      fig.addEventListener("click", (e) => {
+        e.preventDefault();
+        openAt();
+      });
+      fig.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openAt();
+        }
+      });
+
+      const markReady = () => {
+        fig.classList.remove("is-media-loading");
+        fig.classList.add("is-media-ready");
+      };
+      img.addEventListener("load", markReady, { once: true });
       img.addEventListener("error", () => {
+        fig.classList.remove("is-media-loading", "quiz-media__item--zoomable");
+        fig.removeAttribute("role");
+        fig.removeAttribute("tabIndex");
         fig.classList.add("is-error");
         const msg = document.createElement("p");
         msg.className = "quiz-media__error";
@@ -297,16 +557,38 @@
         img.replaceWith(msg);
       });
       fig.appendChild(img);
+
+      /* 密铺对照题省略「点击放大」文案，减少噪音；灯箱仍可用 */
+      if (!denseCompare) {
+        const hint = document.createElement("span");
+        hint.className = "quiz-media__zoom-hint";
+        hint.textContent = "点击放大";
+        fig.appendChild(hint);
+      }
+
       host.appendChild(fig);
+      img.src = url;
+      if (img.complete && img.naturalWidth) markReady();
+      else {
+        preloadImage(src).then((pre) => {
+          if (pre?.complete && img.isConnected && !fig.classList.contains("is-media-ready")) {
+            markReady();
+          }
+        });
+      }
     });
 
     audio.forEach((src) => {
       const wrap = document.createElement("div");
       wrap.className = "quiz-media__item quiz-media__audio";
-      const el = document.createElement("audio");
+      let el = adoptAvElement(src);
+      if (!el) {
+        el = document.createElement("audio");
+        el.src = resolveMediaUrl(src);
+        preloadAv(src, "audio");
+      }
       el.controls = true;
-      el.preload = "none";
-      el.src = resolveMediaUrl(src);
+      el.preload = "auto";
       wrap.appendChild(el);
       host.appendChild(wrap);
     });
@@ -314,10 +596,16 @@
     video.forEach((src) => {
       const wrap = document.createElement("div");
       wrap.className = "quiz-media__item quiz-media__video";
-      const el = document.createElement("video");
+      let el = adoptAvElement(src);
+      if (!el) {
+        el = document.createElement("video");
+        el.src = resolveMediaUrl(src);
+        el.playsInline = true;
+        preloadAv(src, "video");
+      }
       el.controls = true;
-      el.preload = "none";
-      el.src = resolveMediaUrl(src);
+      el.preload = "auto";
+      el.playsInline = true;
       wrap.appendChild(el);
       host.appendChild(wrap);
     });
@@ -379,9 +667,27 @@
     return state.mode === "random" ? RANDOM_PTS : FULL_MAX / state.total;
   }
 
-  function checkMatchSlots(picks, answer) {
+  function checkMatchSlots(picks, answer, anyOrder) {
     if (!answer || !answer.length) return false;
     if (!picks || picks.length < answer.length) return false;
+
+    if (anyOrder) {
+      const expected = new Set();
+      answer.forEach((accepted) => {
+        (accepted || []).forEach((a) => {
+          const v = normalize(a);
+          if (v) expected.add(v);
+        });
+      });
+      const got = picks
+        .slice(0, answer.length)
+        .map((p) => normalize(p || ""))
+        .filter(Boolean);
+      if (got.length !== answer.length) return false;
+      if (new Set(got).size !== got.length) return false;
+      return got.every((g) => expected.has(g));
+    }
+
     return answer.every((accepted, i) => {
       const v = normalize(picks[i] || "");
       if (!v) return false;
@@ -407,7 +713,7 @@
         .join(" / ");
       return {
         user,
-        ok: checkMatchSlots(picks, q.answer),
+        ok: checkMatchSlots(picks, q.answer, q.match_any_order),
         missing: false,
         matchPicks: picks.slice(),
       };
@@ -529,6 +835,7 @@
           return;
         }
         saveCurrentIfFilled();
+        if (isLightboxOpen()) closeQuizLightbox();
         state.i = idx;
         renderQ();
         closeNavMobile();
@@ -578,16 +885,16 @@
     }
 
     state.records = Array(state.total).fill(null);
-    clearImagePreload();
+    clearMediaPreload();
     document.querySelector(".page-main--quiz")?.classList.add("is-quiz-active");
     show($("quiz-intro"), false);
     show($("quiz-result"), false);
     show($("quiz-play"), true);
     closeNavMobile();
     $("quiz-play")?.classList.toggle("is-full", state.mode === "full");
-    /* 开局预取第 1、2 题配图，再渲染 */
-    preloadAhead(state.i - 1, 2);
+    preloadAhead(state.i, 2);
     renderQ();
+    syncTopNav();
   }
 
   function focusIdFromLocation() {
@@ -697,7 +1004,7 @@
 
     const pool = document.createElement("div");
     pool.className = "quiz-match-pool";
-    (q.pool || []).forEach((word) => {
+    (state.matchPoolShuffled || q.pool || []).forEach((word) => {
       const chip = document.createElement("button");
       chip.type = "button";
       chip.className = "quiz-match-chip";
@@ -737,6 +1044,9 @@
     const q = current();
     state.chosen = null;
 
+    const prep = warmQuestion(state.i);
+    state.matchPoolShuffled = prep?.matchPoolShuffled ?? null;
+
     $("quiz-progress-text").textContent = `${state.i + 1} / ${state.total}`;
     $("quiz-progress-fill").style.width = `${((state.i + 1) / state.total) * 100}%`;
     const cardNum = $("quiz-card-num");
@@ -763,7 +1073,7 @@
     }
     */
     mountMedia(q);
-    preloadAhead(state.i, 2);
+    preloadAhead(state.i + 1, 2);
     clearWarn();
 
     const nextBtn = $("quiz-next");
@@ -834,32 +1144,7 @@
       const wrap = document.createElement("div");
       wrap.className = "quiz-text-wrap";
 
-      // 仅左右/①②③ 对照题提供格式 chip；禁止把 answers 白名单渲成可点选项（泄题）
-      const layout = compareLayout(q);
-      const chipLabels = layout ? compareLabels(layout) : [];
-
-      if (chipLabels.length) {
-        const chips = document.createElement("div");
-        chips.className = "quiz-chips";
-        chipLabels.forEach((label) => {
-          const chip = document.createElement("button");
-          chip.type = "button";
-          chip.className = "quiz-chip";
-          chip.textContent = label;
-          chip.title = label;
-          chip.addEventListener("click", () => {
-            const input = wrap.querySelector("#quiz-text-input");
-            if (input) {
-              input.value = label;
-              clearWarn();
-              input.focus();
-            }
-          });
-          chips.appendChild(chip);
-        });
-        wrap.appendChild(chips);
-      }
-
+      /* 对照图标签不是答案；填空题不提供 chip，避免误导/泄题感 */
       const input = document.createElement("input");
       input.type = "text";
       input.className = "quiz-input";
@@ -900,21 +1185,25 @@
     }
 
     const toolbar = document.querySelector(".quiz-play__toolbar");
-    if (toolbar && typeof toolbar.scrollIntoView === "function") {
+    const card = $("quiz-card");
+    const anchor = card || toolbar;
+    if (anchor && typeof anchor.scrollIntoView === "function") {
       requestAnimationFrame(() => {
-        toolbar.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        anchor.scrollIntoView({ block: "nearest", behavior: "auto" });
       });
     }
   }
 
   function prev() {
     if (state.i <= 0) return;
+    if (isLightboxOpen()) closeQuizLightbox();
     saveCurrentIfFilled();
     state.i -= 1;
     renderQ();
   }
 
   function next() {
+    if (isLightboxOpen()) closeQuizLightbox();
     saveCurrentIfFilled();
     clearWarn();
 
@@ -936,6 +1225,7 @@
     show($("quiz-result"), true);
     document.querySelector(".page-main--quiz")?.classList.remove("is-quiz-active");
     closeNavMobile();
+    syncTopNav();
 
     const correct = history.filter((h) => h.ok).length;
     const wrong = history.filter((h) => !h.ok).length;
@@ -975,6 +1265,13 @@
     show($("quiz-intro"), true);
     document.querySelector(".page-main--quiz")?.classList.remove("is-quiz-active");
     closeNavMobile();
+    syncTopNav();
+  }
+
+  function syncTopNav() {
+    const intro = $("quiz-intro");
+    const onIntro = !!(intro && !intro.hidden);
+    show($("quiz-back-intro"), !onIntro);
   }
 
   function bind() {
@@ -983,6 +1280,7 @@
     $("quiz-next")?.addEventListener("click", next);
     $("quiz-prev")?.addEventListener("click", prev);
     $("quiz-retry")?.addEventListener("click", backToIntro);
+    $("quiz-back-intro")?.addEventListener("click", backToIntro);
     $("quiz-nav-toggle")?.addEventListener("click", () => {
       const play = $("quiz-play");
       if (play?.classList.contains("is-nav-open")) closeNavMobile();
@@ -990,8 +1288,56 @@
     });
     $("quiz-nav-close")?.addEventListener("click", closeNavMobile);
     $("quiz-nav-backdrop")?.addEventListener("click", closeNavMobile);
+    $("quiz-lightbox-close")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeQuizLightbox();
+    });
+    $("quiz-lightbox-prev")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stepLightbox(-1);
+    });
+    $("quiz-lightbox-next")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stepLightbox(1);
+    });
+    $("quiz-lightbox")?.addEventListener("click", (e) => {
+      const t = e.target;
+      if (!t) return;
+      if (t.id === "quiz-lightbox" || t.id === "quiz-lightbox-stage") {
+        closeQuizLightbox();
+      }
+    });
+    $("quiz-lightbox")?.addEventListener("close", () => {
+      lightboxState.open = false;
+    });
+    $("quiz-lightbox")?.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      closeQuizLightbox();
+    });
 
     document.addEventListener("keydown", (e) => {
+      if (isLightboxOpen()) {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          closeQuizLightbox();
+          return;
+        }
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          stepLightbox(-1);
+          return;
+        }
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          stepLightbox(1);
+          return;
+        }
+        return;
+      }
+
       const play = $("quiz-play");
       if (!play || play.hidden) return;
       if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
@@ -1008,6 +1354,7 @@
     });
 
     applyDeepLink();
+    syncTopNav();
   }
 
   window.KayaQuiz = { init: bind, start };

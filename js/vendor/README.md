@@ -1,5 +1,12 @@
 # Vendor notes
 
+## anime.js
+
+- Source: https://github.com/juliangarnier/anime
+- Version: 4.0.2 (`dist/bundles/anime.umd.min.js`)
+- License: MIT
+- Used by: `js/profile-reveal.js`（主页「榧」展开/收回 timeline + stagger + spring）
+
 ## raindrop-fx
 
 - Source: https://github.com/SardineFish/raindrop-fx

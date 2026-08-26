@@ -1,37 +1,28 @@
-# Gal 萌新推荐 — 参考网站
+# 入坑风向标
 
-本页记录 `gal-pick`（萌新入坑推荐）样板所参考的外部站点。
+独立页面：`/gal-pick/`
 
-## 1. galgatest（玩法 / UI 参考）
+## 机制
 
-- 地址：<http://galgatest.netlify.app/>
-- 全称：萌新的你，最适合哪款 Galgame？（177 结果版）
-- 托管：Netlify
+- 作品池 = **Gal 世代页有外站标签的作品** + **Getchu 年榜人气补位**，目标 **400** 部（全部有 VNDB/Bangumi/CnGal 标签）
+- 标签轴来自 **VNDB / Bangumi / CnGal**（`_sedai_raw/fetch_sedai_tags.py`）
+- 题库 ≤100，每局随机打乱抽取
+- 每题：**加权（boost）+ 排除（drop）**
+- 若排除后候选 **只剩 1 部** → 提前结束并展示
+- 若题答完仍有多部 → 按分取 Top 3
 
-**借鉴点：**
+## 生成
 
-- 轻松 / 硬核双模式（森绿 / 海蓝主题切换）
-- 多选题 + 权重矩阵（如 +5 / +3 / +1）计分
-- 结果页：2 个主推荐 + 若干次要推荐；第 2 主推荐倾向拉开风格差异
-- 娱乐向定位，结果仅供参考
+```powershell
+# 一键：重试未命中 + Getchu/人气种子补到 400（需代理）
+. ..\gal-\ops\proxy.ps1; Enable-RepoProxy
+uv run python _sedai_raw/fill_pick_pool.py
+uv run python _sedai_raw/extract_pick_catalog.py
+```
 
-当前本站样板为缩小版：12 候选作品、每模式 8 题，本地路径 `/gal-pick/`。
+也可分步：`fetch_sedai_tags.py` → `fetch_sedai_tags.py --supplement` → `extract_pick_catalog.py`
 
-## 2. Bangumi（封面 / 条目数据）
-
-- 地址：<https://bgm.tv/>
-- API 封面示例：`https://api.bgm.tv/v0/subjects/{id}/image?type=medium`
-- 条目页：`https://bgm.tv/subject/{id}`
-
-**用途：**
-
-- 结果卡片封面图走 Bangumi，不本地存图
-- 结果可跳转对应 Bangumi 条目
-- 题库里的 `subjectId` 与 Bangumi 游戏条目对应
-
----
-
-| 本站页面 | 路径 |
-|----------|------|
-| 萌新入坑推荐 | `/gal-pick/` |
-| 相关实现 | `gal-pick.html`、`js/gal-pick.js`、`js/gal-pick-data.js`、`css/gal-pick.css` |
+产出：
+- `_sedai_raw/sedai_tags.json`（仅保留有 tags 的进池）
+- `_sedai_raw/pick_supplement_tags.json`（人气补位）
+- `js/gal-pick-data.js`

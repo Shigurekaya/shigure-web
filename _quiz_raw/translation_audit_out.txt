@@ -1,0 +1,14 @@
+﻿Translation audit: 7 issues
+  explain_ref_not_in_answers: 5
+  explain_title_not_answer: 1
+  suspect_translation: 1
+
+s1-21 [explain_ref_not_in_answers] 永不枯萎的世界与终结之花
+s2-10 [explain_ref_not_in_answers] 星空下的回忆
+s2-21 [explain_ref_not_in_answers] 献给神明般的你
+s2-22 [explain_ref_not_in_answers] 像 Gal 一样来场美好的恋爱吧！
+s3-04 [explain_ref_not_in_answers] 恋之巢☆甜蜜同居
+s4-16 [explain_title_not_answer] 美好的每一天～不连续的存在～
+s5-10 [suspect_translation] 题干用日文旧字搾，explain 应用统一译名「榨精病栋」
+
+Wrote E:\网站\测试框架\shigure-web\_quiz_raw\translation_audit.json

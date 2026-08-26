@@ -4,92 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/" />
-  <title>萌新入坑 Gal 推荐</title>
-  <meta name="description" content="测一测萌新最适合哪款 Galgame — 轻松 / 硬核双模式样板" />
-  <meta name="theme-color" content="#0f1a14" />
-  <link rel="stylesheet" href="css/style-core.css?v=202608252300" />
-  <link rel="stylesheet" href="css/gal-pick.css?v=202608252300" />
+  <title>Gal 心选</title>
+  <meta name="description" content="找出最适合你的 Gal" />
+  <meta name="theme-color" content="#f4f2f8" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608261730" />
+  <link rel="stylesheet" href="css/gal-pick.css?v=202608261730" />
   <link rel="icon" href="assets/images/avatar.jpg" />
 </head>
-<body class="page-pick page-pick--standalone page-pick--mode-home" data-kaya-page="pick">
+<body class="page-pick page-pick--standalone" data-kaya-page="pick">
   <div class="site-bg pick-stage-bg" aria-hidden="true"></div>
 
   <main class="page-main page-main--pick">
     <p class="pick-back">
-      <a href="/"><span class="pick-back__mark" aria-hidden="true">◂</span> 返回主页</a>
+      <a href="/"><span aria-hidden="true">◂</span> 返回主页</a>
     </p>
 
     <section class="pick-shell" id="pick-root" aria-live="polite">
-      <!-- 首页：模式选择 -->
-      <div class="pick-home" id="pick-home">
-        <p class="pick-kicker">双模式样板 · 轻松 / 硬核</p>
-        <h1 class="pick-title">萌新的你，<br><span>最适合哪款 Galgame？</span></h1>
-        <p class="pick-lead">参考 <a href="http://galgatest.netlify.app/" target="_blank" rel="noopener noreferrer">galgatest</a> 的入坑问法做的样板页。共 12 个候选结果、每模式 8 题，完成后给出 2 个主推荐。</p>
+      <header class="pick-hero" id="pick-hero">
+        <p class="pick-hero__label">PICK</p>
+        <h1 class="pick-hero__title">Gal 心选</h1>
+        <p class="pick-hero__lead" id="pick-hero-lead"></p>
+      </header>
 
-        <div class="pick-mode-grid">
-          <button type="button" class="pick-mode-card pick-mode-card--easy" data-mode="easy">
-            <span class="pick-mode-card__icon pick-mode-card__icon--easy" aria-hidden="true"></span>
-            <span class="pick-mode-card__tag">轻松模式</span>
-            <strong class="pick-mode-card__name">柔和入坑问法</strong>
-            <span class="pick-mode-card__desc">更直觉的选择，森绿玻璃风。适合第一次接触 Gal 的你。</span>
-            <span class="pick-mode-card__go" aria-hidden="true">开始 ▸</span>
-          </button>
-          <button type="button" class="pick-mode-card pick-mode-card--hard" data-mode="hard">
-            <span class="pick-mode-card__icon pick-mode-card__icon--hard" aria-hidden="true"></span>
-            <span class="pick-mode-card__tag">硬核模式</span>
-            <strong class="pick-mode-card__name">具体场景抉择</strong>
-            <span class="pick-mode-card__desc">更细分的偏好权重，海蓝主题。适合想被精准推坑的你。</span>
-            <span class="pick-mode-card__go" aria-hidden="true">开始 ▸</span>
-          </button>
-        </div>
-
-        <p class="pick-note">※ 样板数据仅供演示 · 结果娱乐向 · 封面来自 Bangumi</p>
-      </div>
-
-      <!-- 答题 -->
-      <div class="pick-quiz" id="pick-quiz" hidden>
-        <header class="pick-quiz-head">
-          <button type="button" class="pick-quiz-exit" id="pick-exit">退出</button>
-          <p class="pick-quiz-mode" id="pick-mode-label">轻松模式</p>
-          <div class="pick-progress" aria-hidden="true">
-            <span class="pick-progress__bar" id="pick-progress-bar"></span>
-          </div>
-          <p class="pick-progress__text"><span id="pick-progress-current">1</span> / <span id="pick-progress-total">8</span></p>
-        </header>
-
-        <article class="pick-question glass">
-          <h2 class="pick-question__text" id="pick-question-text"></h2>
-          <div class="pick-options" id="pick-options"></div>
-        </article>
-      </div>
-
-      <!-- 结果 -->
-      <div class="pick-result" id="pick-result" hidden>
-        <header class="pick-result-head">
-          <p class="pick-result-eyebrow">MATCH RESULT</p>
-          <h2 class="pick-result-title">你的入坑推荐</h2>
-          <p class="pick-result-sub" id="pick-result-mode"></p>
-        </header>
-
-        <div class="pick-result-primary" id="pick-result-primary"></div>
-        <div class="pick-result-secondary">
-          <p class="pick-result-secondary__label">次要推荐</p>
-          <div class="pick-result-secondary__list" id="pick-result-secondary"></div>
-        </div>
-
-        <div class="pick-result-actions">
-          <button type="button" class="pick-btn pick-btn--ghost" id="pick-retry">重新测试</button>
-          <button type="button" class="pick-btn pick-btn--primary" id="pick-home-btn">返回模式选择</button>
-        </div>
-        <p class="pick-note pick-note--result">结果仅供娱乐参考 · 极个别信息可能有误</p>
-      </div>
+      <div class="pick-panel" id="pick-panel"></div>
     </section>
   </main>
 
-  <footer class="site-footer site-footer--pick">
-    <p class="site-footer__credit">样板参考：<a href="http://galgatest.netlify.app/" target="_blank" rel="noopener noreferrer">galgatest.netlify.app</a></p>
-  </footer>
+  <footer class="site-footer site-footer--pick"></footer>
 
-  <script src="js/kaya-boot.js?v=202608252300" defer></script>
+  <script src="js/kaya-rain-mode.js?v=202608261730" defer></script>
+  <script src="js/kaya-boot.js?v=202608261730" defer></script>
 </body>
 </html>

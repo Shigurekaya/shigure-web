@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/" />
-  <title>时雨榧</title>
+  <title>榧站</title>
   <meta name="description" content="时雨榧 — 个人主页" />
   <meta name="theme-color" content="#f7f8fc" />
-  <link rel="stylesheet" href="css/style-core.css?v=202608242140" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608261620" />
   <link rel="icon" href="assets/images/avatar.jpg" />
-  <noscript><style>.page-home .site-header,.page-home .profile-avatar,.page-home .profile-name,.page-home .profile-roman,.page-home .profile-sign,.page-home .social-row,.page-home .intro-panel,.page-home .home-tool-entries,.page-home .site-log,.page-home .home-cards,.page-home .site-footer{opacity:1!important}</style></noscript>
+  <noscript><style>.page-home .profile-hero,.page-home .nav-gated,.page-home .profile-gated{display:block!important;opacity:1!important;visibility:visible!important;transform:none!important;pointer-events:auto!important}.page-home .site-header,.page-home .intro-panel,.page-home .home-tool-entries,.page-home .site-footer{opacity:1!important}</style></noscript>
 </head>
 <body class="page-home" data-kaya-page="home">
   <div class="site-bg" aria-hidden="true"></div>
@@ -28,22 +28,25 @@
 
   <header class="site-header">
     <div class="site-bar">
-      <a href="/" class="brand">时雨榧</a>
+      <a href="#" class="brand" id="brand-profile-toggle" data-profile-toggle role="button" aria-expanded="false" aria-controls="profile-hero">
+        <img class="brand-avatar" id="brand-avatar" src="assets/images/avatar.jpg" alt="" width="32" height="32" decoding="async" />
+        <span class="brand-text">榧</span>
+      </a>
       <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单" aria-expanded="false">
         <span></span><span></span>
       </button>
       <nav>
         <ul class="site-nav" id="site-nav">
           <li><a href="/" class="active">主页</a></li>
-          <li><a href="/works/">作品</a></li>
-          <li><a href="/links/">链接</a></li>
+          <li class="nav-gated"><a href="/works/">作品</a></li>
+          <li class="nav-gated"><a href="/links/">链接</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <main class="home-main">
-    <section class="profile-hero">
+    <section class="profile-hero" id="profile-hero">
       <div class="profile-avatar">
         <img id="hero-avatar" class="avatar" src="assets/images/avatar.jpg" alt="时雨榧" width="128" height="128" fetchpriority="high" decoding="async" />
       </div>
@@ -58,9 +61,9 @@
     </section>
 
     <div class="home-tool-entries" aria-label="Gal 工具">
-      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide" aria-label="萌新入坑 Gal 推荐">
+      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide" aria-label="Gal 心选">
         <span class="site-quiz-entry__label">Pick</span>
-        <span class="site-quiz-entry__title">萌新入坑推荐</span>
+        <span class="site-quiz-entry__title">Gal 心选</span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
       <a href="/gal-quiz/" class="site-quiz-entry" aria-label="Gal 水平测试">
@@ -75,7 +78,7 @@
       </a>
     </div>
 
-    <aside class="site-log" aria-label="站点日志">
+    <aside class="site-log profile-gated" aria-label="站点日志">
       <div class="site-log__inner">
         <span class="site-log__tag">LOG</span>
         <p class="site-log__text">因本人在2026年8月20日被突然的暴雨淋了五分钟（一条不可挡雨的路），以水鬼姿态进入地铁，故增加了暴雨页面<br>经本人亲身证明，即使人在滴水，地铁安检员也会放你进去</p>
@@ -86,7 +89,7 @@
       </div>
     </aside>
 
-    <section class="home-cards" aria-label="快捷入口">
+    <section class="home-cards profile-gated" aria-label="快捷入口">
       <a href="/works/" class="home-card">
         <span class="home-card__label">Portfolio</span>
         <span class="home-card__title">作品集</span>
@@ -147,7 +150,7 @@
     <div class="kaya-toast" id="kaya-toast" hidden aria-live="polite"></div>
   </dialog>
 
-  <script src="js/kaya-rain-mode.js?v=202608252300" defer></script>
-  <script src="js/kaya-boot.js?v=202608252300" defer></script>
+  <script src="js/kaya-rain-mode.js?v=202608261300" defer></script>
+  <script src="js/kaya-boot.js?v=202608261300" defer></script>
 </body>
 </html>

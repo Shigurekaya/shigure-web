@@ -1,8 +1,11 @@
 const STORAGE_KEY = "selectedGalgames";
 const DISPLAY_COUNT = 20;
+const HTML_TO_IMAGE_SRC =
+  "https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js";
 
-let selected = loadSelected();
-const totalGames = getAllDisplayTitles().length;
+let selected = new Set(loadSelected());
+let allTitles = null;
+let htmlToImageReady = null;
 
 const gridPanel = document.getElementById("grid-panel");
 const clearBtn = document.getElementById("btn-clear");
@@ -11,32 +14,58 @@ const toastEl = document.getElementById("toast");
 function loadSelected() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const list = raw ? JSON.parse(raw) : [];
+    return Array.isArray(list) ? list : [];
   } catch {
     return [];
   }
 }
 
 function saveSelected() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(selected));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...selected]));
 }
 
 function getAllDisplayTitles() {
-  return Object.keys(GAMES).flatMap((year) =>
-    GAMES[year].slice(0, DISPLAY_COUNT).map((game) => game.title)
-  );
+  if (allTitles) return allTitles;
+  allTitles = Object.keys(GAMES)
+    .sort((a, b) => Number(a) - Number(b))
+    .flatMap((year) => GAMES[year].slice(0, DISPLAY_COUNT).map((game) => game.title));
+  return allTitles;
+}
+
+function totalGames() {
+  return getAllDisplayTitles().length;
+}
+
+function updateCounter() {
+  const el = document.getElementById("counter");
+  if (el) {
+    el.textContent = `我玩过 ${selected.size}/${totalGames()} 部galgame`;
+  }
+  clearBtn.hidden = selected.size === 0;
+}
+
+function setButtonSelected(btn, on) {
+  btn.classList.toggle("is-selected", on);
+}
+
+function syncAllButtons() {
+  gridPanel.querySelectorAll(".sedai-game-btn").forEach((btn) => {
+    setButtonSelected(btn, selected.has(btn.dataset.title));
+  });
+  updateCounter();
 }
 
 function renderGrid() {
-  gridPanel.innerHTML = "";
+  const frag = document.createDocumentFragment();
 
   const header = document.createElement("div");
   header.className = "sedai-grid-header";
   header.innerHTML = `
     <h1>Gal世代<span class="sedai-grid-header__subtitle"> - 点击选择你玩过的galgame</span></h1>
-    <span class="sedai-grid-header__counter" id="counter">我玩过 ${selected.length}/${totalGames} 部galgame</span>
+    <span class="sedai-grid-header__counter" id="counter">我玩过 ${selected.size}/${totalGames()} 部galgame</span>
   `;
-  gridPanel.appendChild(header);
+  frag.appendChild(header);
 
   Object.keys(GAMES)
     .sort((a, b) => Number(a) - Number(b))
@@ -54,123 +83,214 @@ function renderGrid() {
       gamesRow.className = "sedai-games-row";
 
       games.forEach((game) => {
-        const isSelected = selected.includes(game.title);
         const btn = document.createElement("button");
         btn.type = "button";
-        btn.className = `sedai-game-btn${isSelected ? " is-selected" : ""}`;
+        btn.className = "sedai-game-btn";
+        if (selected.has(game.title)) btn.classList.add("is-selected");
         btn.title = game.title;
         btn.dataset.title = game.title;
-        btn.innerHTML = `<span>${escapeHtml(game.title)}</span>`;
-        btn.addEventListener("click", () => toggleGame(game.title));
+        const span = document.createElement("span");
+        span.textContent = game.title;
+        btn.appendChild(span);
         gamesRow.appendChild(btn);
       });
 
       row.appendChild(gamesRow);
-      gridPanel.appendChild(row);
+      frag.appendChild(row);
     });
 
+  gridPanel.replaceChildren(frag);
   updateCounter();
 }
 
-function updateCounter() {
-  const el = document.getElementById("counter");
-  if (el) {
-    el.textContent = `我玩过 ${selected.length}/${totalGames} 部galgame`;
-  }
-  clearBtn.hidden = selected.length === 0;
-}
-
-function toggleGame(title) {
-  if (selected.includes(title)) {
-    selected = selected.filter((item) => item !== title);
+function toggleGame(title, btn) {
+  if (selected.has(title)) {
+    selected.delete(title);
+    if (btn) setButtonSelected(btn, false);
   } else {
-    selected = [...selected, title];
+    selected.add(title);
+    if (btn) setButtonSelected(btn, true);
   }
   saveSelected();
-  renderGrid();
+  updateCounter();
 }
 
 function selectAll() {
-  selected = getAllDisplayTitles();
+  selected = new Set(getAllDisplayTitles());
   saveSelected();
-  renderGrid();
+  syncAllButtons();
 }
 
 function clearAll() {
-  selected = [];
+  selected.clear();
   saveSelected();
-  renderGrid();
+  syncAllButtons();
 }
 
 function showToast(message) {
   toastEl.textContent = message;
   toastEl.classList.add("show");
   clearTimeout(showToast.timer);
-  showToast.timer = setTimeout(() => toastEl.classList.remove("show"), 2000);
+  showToast.timer = setTimeout(() => toastEl.classList.remove("show"), 2200);
 }
 
+function canWriteImageClipboard() {
+  return !!(navigator.clipboard && typeof navigator.clipboard.write === "function" && typeof ClipboardItem !== "undefined");
+}
+
+function loadHtmlToImage() {
+  if (typeof htmlToImage !== "undefined") return Promise.resolve();
+  if (htmlToImageReady) return htmlToImageReady;
+  htmlToImageReady = new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = HTML_TO_IMAGE_SRC;
+    s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => {
+      htmlToImageReady = null;
+      reject(new Error("截图组件加载失败"));
+    };
+    document.head.appendChild(s);
+  });
+  return htmlToImageReady;
+}
+
+function normalizePngBlob(blob) {
+  if (!blob) throw new Error("生成图片失败");
+  if (!blob.type || blob.type === "image/png") return blob;
+  return blob.slice(0, blob.size, "image/png");
+}
+
+function restoreScroll(x, y) {
+  const apply = () => window.scrollTo(x, y);
+  apply();
+  requestAnimationFrame(apply);
+}
+
+/**
+ * 离屏克隆截图，不改动可见页面尺寸，避免滚动跳到中间。
+ */
 async function captureImage() {
   const panel = document.getElementById("grid-panel");
-  if (!panel || typeof htmlToImage === "undefined") {
+  if (!panel) throw new Error("截图区域不存在");
+
+  await loadHtmlToImage();
+  if (typeof htmlToImage === "undefined") {
     throw new Error("截图组件未加载");
   }
 
-  document.body.classList.add("sedai-capture-mode");
+  const scrollX = window.scrollX;
+  const scrollY = window.scrollY;
+
+  const host = document.createElement("div");
+  host.className = "sedai-capture-host";
+  host.setAttribute("aria-hidden", "true");
+
+  const clone = panel.cloneNode(true);
+  clone.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+  host.appendChild(clone);
+  document.body.appendChild(host);
+
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
+  const scale = Math.min(1.5, Math.max(1, window.devicePixelRatio || 1));
   try {
-    return await htmlToImage.toBlob(panel, {
-      scale: 2,
+    const blob = await htmlToImage.toBlob(clone, {
+      scale,
+      pixelRatio: scale,
+      cacheBust: false,
       filter: (node) => !(node instanceof HTMLElement && node.classList.contains("remove")),
     });
+    return normalizePngBlob(blob);
   } finally {
-    document.body.classList.remove("sedai-capture-mode");
+    host.remove();
+    restoreScroll(scrollX, scrollY);
   }
+}
+
+function triggerDownload(blob) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "gal-sedai.png";
+  link.rel = "noopener";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
 async function copyImage() {
   showToast("复制中...");
+
+  if (!canWriteImageClipboard()) {
+    try {
+      triggerDownload(await captureImage());
+      showToast("当前浏览器不支持复制图片，已改为下载");
+    } catch (error) {
+      showToast(`操作失败: ${error instanceof Error ? error.message : "未知错误"}`);
+    }
+    return;
+  }
+
+  let resolvedBlob = null;
+  const blobPromise = captureImage().then((blob) => {
+    resolvedBlob = blob;
+    return blob;
+  });
+
   try {
-    const blob = await captureImage();
-    if (!blob) throw new Error("生成图片失败");
-    await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+    /* 同步构造 ClipboardItem(Promise)，保留点击手势；手机端尤其依赖这点 */
+    await navigator.clipboard.write([
+      new ClipboardItem({ "image/png": blobPromise }),
+    ]);
     showToast("复制成功");
   } catch (error) {
-    showToast(`复制失败: ${error instanceof Error ? error.message : "未知错误"}`);
+    try {
+      const blob = resolvedBlob || (await blobPromise.catch(() => null)) || (await captureImage());
+      triggerDownload(blob);
+      showToast("浏览器不支持复制图片，已改为下载");
+    } catch {
+      showToast(`复制失败: ${error instanceof Error ? error.message : "未知错误"}`);
+    }
   }
 }
 
 async function downloadImage() {
   showToast("下载中...");
+  const scrollX = window.scrollX;
+  const scrollY = window.scrollY;
   try {
     const blob = await captureImage();
-    if (!blob) throw new Error("生成图片失败");
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "gal-sedai.png";
-    link.click();
-    URL.revokeObjectURL(url);
+    triggerDownload(blob);
+    restoreScroll(scrollX, scrollY);
     showToast("下载成功");
   } catch (error) {
+    restoreScroll(scrollX, scrollY);
     showToast(`下载失败: ${error instanceof Error ? error.message : "未知错误"}`);
   }
 }
 
-function escapeHtml(text) {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
 window.KayaGalSedai = {
   init() {
+    gridPanel.addEventListener("click", (event) => {
+      const btn = event.target.closest(".sedai-game-btn");
+      if (!btn || !gridPanel.contains(btn)) return;
+      toggleGame(btn.dataset.title, btn);
+    });
     document.getElementById("btn-select-all").addEventListener("click", selectAll);
     clearBtn.addEventListener("click", clearAll);
     document.getElementById("btn-copy").addEventListener("click", copyImage);
     document.getElementById("btn-download").addEventListener("click", downloadImage);
     renderGrid();
+
+    const warm = () => {
+      loadHtmlToImage().catch(() => {});
+    };
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(warm, { timeout: 2500 });
+    } else {
+      setTimeout(warm, 1200);
+    }
   },
 };
