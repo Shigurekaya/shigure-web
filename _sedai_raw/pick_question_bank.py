@@ -1,12 +1,125 @@
 """Gal 心选 — 原创题库（≤100 题，运行时随机抽题）。"""
 
+from __future__ import annotations
 
-def q(text: str, options: list[dict], qid: str) -> dict:
-    return {"id": qid, "text": text, "options": options}
+
+def q(
+    text: str,
+    options: list[dict],
+    qid: str,
+    *,
+    hint: str | None = None,
+    skippable: bool = False,
+) -> dict:
+    row: dict = {"id": qid, "text": text, "options": options}
+    if hint:
+        row["hint"] = hint
+    if skippable:
+        row["skippable"] = True
+    return row
 
 
 def opt(label: str, boost: dict[str, int], drop: list[str] | None = None) -> dict:
     return {"label": label, "boost": boost, "drop": drop or []}
+
+
+# 题干改写：去掉圈内黑话，改成普通人能懂的说法
+QUESTION_REWRITE: dict[str, str] = {
+    "忙完一天打开 Gal，你最先想要什么？": "忙完一天，你想先体验哪种故事？",
+    "你对「日常闲聊」的容忍度？": "你能接受多少日常铺垫（聊天、吃饭、放学）？",
+    "什么设定最容易让你出戏？（选你能接受的）": "哪种背景设定你更能接受？",
+    "对「多线互动」的态度？": "你更喜欢哪种路线结构？",
+    "对「多周目结构」？": "通关一次后，你还愿意再玩一遍吗？",
+    "对「重制 / FD / 移植版」？": "更想玩新版还是原版？",
+    "故事的叙述视角，你更喜欢？": "你更喜欢哪种讲故事方式？",
+    "对经典关系位（妹 / 姐 / 青梅）？": "经典角色设定（妹妹/姐姐/青梅竹马），你吃哪套？",
+    "对「超长共通线」？": "进入个人路线前，前面共用的剧情要多长？",
+    "分支很多、选项很多，你怎么看？": "选项和分支很多，你怎么看？",
+    "你会为了二周目吗？": "你会为了看其他内容再玩一遍吗？",
+    "对「哲学式台词」？": "角色讲大道理、人生感悟，你能接受多少？",
+    "这部 Gal 对你来说是？": "以你现在的游玩经验，你更像哪种玩家？",
+    "对「旁白很多」的写法？": "旁白（内心独白/叙述）很多，你能接受吗？",
+    "「异能战斗学园」这类设定？": "「超能力 + 学园 + 战斗」这类设定？",
+    "什么最容易让你弃坑？": "什么最容易让你中途不想玩了？",
+    "情感上，你能接受到什么程度？": "故事情绪上，你能接受到什么程度？",
+    "你更在意角色相处，还是剧情事件？": "你更在意角色互动，还是剧情事件？",
+    "你愿意花多少时间推完一部？": "你愿意花多少时间读完一部？",
+    "你平时怎么推 Gal？": "你平时一般怎么读这类故事？",
+    "对「突然的生离死别」桥段？": "对「角色突然离开或死亡」这类桥段？",
+    "对「不可靠叙述、信息差」": "叙述者在隐瞒或误导你",
+    "不可靠叙述、信息差": "有人在骗你或隐瞒关键信息",
+    "为拼图二周目": "为了拼完整条谜题再玩一遍",
+    "为群像二周目": "为了看清每个角色再玩一遍",
+    "共通短一点更好": "前面共用部分短一点更好",
+    "能接受，想多相处": "可以长一点，想和角色多相处",
+    "共通要有事件推进": "共用部分也要有事件推进",
+    "喜欢，愿意重读拼图": "愿意，为了拼完整条谜题",
+    "更想单线一次讲完": "更想一条线一次讲完",
+    "多周目若服务群像就加分": "若是为了看清每个角色，可以",
+}
+
+# 圈外玩家可能看不懂的题：附一句解释 + 允许跳过
+QUESTION_POLISH: dict[str, dict] = {
+    "你更喜欢哪种路线结构？": {
+        "hint": "多线=多位角色各有独立故事线；单线=专注一位角色",
+        "skippable": True,
+    },
+    "通关一次后，你还愿意再玩一遍吗？": {
+        "hint": "有些作品要二周目才能看到完整真相",
+        "skippable": True,
+    },
+    "更想玩新版还是原版？": {
+        "hint": "重制=画面翻新；FD=后日谈/续篇",
+        "skippable": True,
+    },
+    "你更喜欢哪种讲故事方式？": {
+        "hint": "不可靠叙述=叙述者在骗你或隐瞒信息",
+        "skippable": True,
+    },
+    "经典角色设定（妹妹/姐姐/青梅竹马），你吃哪套？": {
+        "hint": "不涉及具体作品，只是常见角色类型",
+        "skippable": True,
+    },
+    "进入个人路线前，前面共用的剧情要多长？": {
+        "hint": "共用剧情=还没进入某位角色专属路线前的部分",
+        "skippable": True,
+    },
+    "选项和分支很多，你怎么看？": {
+        "hint": "分支=不同选择会走向不同剧情",
+        "skippable": True,
+    },
+    "你会为了看其他内容再玩一遍吗？": {
+        "hint": "二周目=通关后再开新存档",
+        "skippable": True,
+    },
+    "「超能力 + 学园 + 战斗」这类设定？": {"skippable": True},
+    "你能接受多少日常铺垫（聊天、吃饭、放学）？": {"skippable": True},
+    "以你现在的游玩经验，你更像哪种玩家？": {
+        "hint": "没玩过几部也完全 OK",
+        "skippable": True,
+    },
+    "年代和名气，你更怎么选？": {"skippable": True},
+    "对「推理 / 解谜」标签？": {"skippable": True},
+    "看到「科幻」标签，你的反应？": {"skippable": True},
+}
+
+
+def polish_questions(bank: list[dict]) -> None:
+    for item in bank:
+        text = item.get("text") or ""
+        if text in QUESTION_REWRITE:
+            item["text"] = QUESTION_REWRITE[text]
+            text = item["text"]
+        meta = QUESTION_POLISH.get(text)
+        if meta:
+            if meta.get("hint"):
+                item["hint"] = meta["hint"]
+            if meta.get("skippable"):
+                item["skippable"] = True
+        for opt_row in item.get("options") or []:
+            label = opt_row.get("label") or ""
+            if label in QUESTION_REWRITE:
+                opt_row["label"] = QUESTION_REWRITE[label]
 
 
 def build_question_bank() -> list[dict]:
@@ -138,7 +251,7 @@ def build_question_bank() -> list[dict]:
         (
             "周末下午，哪种节奏最对味？",
             [
-                opt("边笑边推，毫无压力", {"tone:hype": 3, "tone:sweet": 3, "pace:breezy": 3}, ["pace:dense"]),
+                opt("边笑边读，毫无压力", {"tone:hype": 3, "tone:sweet": 3, "pace:breezy": 3}, ["pace:dense"]),
                 opt("慢慢铺，情绪自己涨", {"tone:drama": 3, "pace:slowburn": 4}, ["pace:short"]),
                 opt("短而精，尽快到核心", {"tone:heal": 3, "pace:short": 5}, ["pace:slowburn"]),
                 opt("信息量大也没关系", {"tone:mindbend": 3, "pace:dense": 5}, ["pace:breezy"]),
@@ -512,7 +625,7 @@ def build_question_bank() -> list[dict]:
             [
                 opt("亲密第一人称，像陪着角色", {"tone:sweet": 3, "tone:heal": 3}, ["tone:epic"]),
                 opt("冷静旁观群像", {"tone:literary": 3, "tone:drama": 2}, ["tone:hype"]),
-                opt("不可靠叙述、信息差", {"tone:mindbend": 5, "setting:mystery": 3}, ["tone:sweet"]),
+                opt("有人在骗你或隐瞒关键信息", {"tone:mindbend": 5, "setting:mystery": 3}, ["tone:sweet"]),
                 opt("史诗大视角推进", {"tone:epic": 5, "pace:dense": 2}, ["pace:breezy"]),
             ],
         ),
@@ -842,8 +955,8 @@ def build_question_bank() -> list[dict]:
             [
                 opt("很想二周目", {"tone:sweet": 3, "pace:breezy": 2, "setting:school": 2}, ["pace:dense"]),
                 opt("一周目就够", {"pace:short": 3, "tone:heal": 2}, []),
-                opt("为拼图二周目", {"tone:mindbend": 5, "pace:dense": 2}, ["tone:sweet"]),
-                opt("为群像二周目", {"tone:drama": 2, "tone:epic": 2}, []),
+                opt("为了拼完整条谜题再玩一遍", {"tone:mindbend": 5, "pace:dense": 2}, ["tone:sweet"]),
+                opt("为了看清每个角色再玩一遍", {"tone:drama": 2, "tone:epic": 2}, []),
             ],
         ),
         (
@@ -966,6 +1079,8 @@ def build_question_bank() -> list[dict]:
     ]
     for i, (prompt, options) in enumerate(closing, 1):
         bank.append(q(prompt, options, f"close-{i}"))
+
+    polish_questions(bank)
 
     # 去重并截断到 100
     seen_text: set[str] = set()

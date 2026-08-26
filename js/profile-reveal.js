@@ -33,13 +33,19 @@
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  /** @type {Animation | null} */
+  let activePinWa = null;
+  /** @type {HTMLElement | null} */
+  let pinnedAvatar = null;
+  /** @type {{ parent: Element, next: ChildNode | null, placeholder: HTMLElement | null } | null} */
+  let avatarHome = null;
+  /** @type {{ w: number, h: number }} */
+  let avatarNatural = { w: 128, h: 128 };
+
   function isLite() {
     if (window.KayaPerfGovernor?.isPhoneLike?.()) return true;
     if (window.matchMedia("(max-width: 720px)").matches) return true;
     if (window.matchMedia("(prefers-reduced-data: reduce)").matches) return true;
-    try {
-      if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) return true;
-    } catch { /* ignore */ }
     return false;
   }
 
@@ -85,7 +91,26 @@
   }
 
   function socialPills() {
-    return [...document.querySelectorAll(".page-home .social-row .social-pill")];
+    return [...document.querySelectorAll(".page-home .social-pill")];
+  }
+
+  function navLinkEls() {
+    return navEls().map((el) => el.querySelector("a") || el);
+  }
+
+  function prepNavClosed() {
+    navEls().forEach((el) => {
+      el.style.overflow = "visible";
+      el.style.maxWidth = "";
+      el.style.opacity = "1";
+      el.style.transform = "";
+    });
+    navLinkEls().forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translate3d(-8px,0,0)";
+      el.style.willChange = "opacity, transform";
+      el.style.whiteSpace = "nowrap";
+    });
   }
 
   function setBrandLabel(open) {
@@ -94,6 +119,22 @@
   }
 
   function killActive() {
+    if (activePinWa) {
+      try {
+        if (activePinWa.playState === "finished" && typeof activePinWa.commitStyles === "function") {
+          activePinWa.commitStyles();
+        }
+        activePinWa.cancel();
+      } catch { /* ignore */ }
+      activePinWa = null;
+    }
+    if (pinnedAvatar) {
+      pinnedAvatar.style.transform = "none";
+      clearInline(pinnedAvatar);
+      restoreAvatarHome();
+    }
+    pinnedAvatar = null;
+    document.body.classList.remove("is-avatar-pinned");
     if (!activeTl) return;
     try {
       activeTl.pause?.();
@@ -105,6 +146,7 @@
   const INLINE_KEYS = [
     "height", "opacity", "transform", "overflow", "visibility",
     "pointerEvents", "maxWidth", "willChange", "width", "borderWidth",
+    "position", "left", "top", "zIndex", "margin",
   ];
 
   function clearInline(el) {
@@ -113,8 +155,15 @@
   }
 
   function clearAllInline() {
+    cancelPinMotion();
+    restoreAvatarHome();
+    unpinAvatar(pinnedAvatar);
+    pinnedAvatar = null;
+    avatarHome = null;
+    document.body.classList.remove("is-avatar-pinned");
     sectionEls().forEach(clearInline);
     navEls().forEach(clearInline);
+    navLinkEls().forEach(clearInline);
     heroChildren(document.getElementById("profile-hero")).forEach(clearInline);
     cardChildren().forEach(clearInline);
     socialPills().forEach(clearInline);
@@ -128,45 +177,166 @@
     return { x: r.left, y: r.top, w: r.width, h: r.height };
   }
 
-  function ensureFlyer() {
-    let flyer = document.getElementById("avatar-flyer");
-    if (!flyer) {
-      flyer = document.createElement("div");
-      flyer.id = "avatar-flyer";
-      flyer.className = "avatar-flyer";
-      flyer.setAttribute("aria-hidden", "true");
-      flyer.innerHTML = "<img alt=\"\" decoding=\"async\" />";
-      document.body.appendChild(flyer);
+  function cancelPinMotion() {
+    if (activePinWa) {
+      try { activePinWa.cancel(); } catch { /* ignore */ }
+      activePinWa = null;
     }
-    const img = flyer.querySelector("img");
-    const src = brandAvatarEl()?.currentSrc
-      || brandAvatarEl()?.src
-      || document.getElementById("hero-avatar")?.currentSrc
-      || document.getElementById("hero-avatar")?.src
-      || "assets/images/avatar.jpg";
-    if (img && img.getAttribute("src") !== src) img.src = src;
-    return flyer;
   }
 
-  function placeFlyer(flyer, rect) {
-    flyer.style.left = `${rect.x}px`;
-    flyer.style.top = `${rect.y}px`;
-    flyer.style.width = `${rect.w}px`;
-    flyer.style.height = `${rect.h}px`;
-    flyer.style.transform = "translateZ(0)";
-    flyer.style.opacity = "1";
-    flyer.style.visibility = "visible";
-    flyer.style.willChange = "left, top, width, height";
-    flyer.classList.add("is-on");
+  function avatarCenter(rect) {
+    return { cx: rect.x + rect.w / 2, cy: rect.y + rect.h / 2 };
   }
 
-  function hideFlyer(flyer) {
-    if (!flyer) flyer = document.getElementById("avatar-flyer");
-    if (!flyer) return;
-    flyer.classList.remove("is-on");
-    flyer.style.opacity = "0";
-    flyer.style.visibility = "hidden";
-    flyer.style.willChange = "auto";
+  /** 脱离 profile-hero；占位 div 防止名字/签名顶上来与飞入头像重叠 */
+  function detachAvatar(avatar) {
+    if (!avatar || avatarHome) return;
+    const parent = avatar.parentElement;
+    if (!parent) return;
+    const placeholder = document.createElement("div");
+    placeholder.className = "profile-avatar-placeholder";
+    placeholder.setAttribute("aria-hidden", "true");
+    parent.replaceChild(placeholder, avatar);
+    avatarHome = { parent, next: placeholder.nextSibling, placeholder };
+    document.body.appendChild(avatar);
+  }
+
+  function restoreAvatarHome(avatar) {
+    const el = avatar || pinnedAvatar;
+    if (!el || !avatarHome?.parent) {
+      avatarHome?.placeholder?.remove();
+      avatarHome = null;
+      return;
+    }
+    const { parent, placeholder } = avatarHome;
+    if (placeholder?.isConnected) {
+      parent.replaceChild(el, placeholder);
+    } else {
+      parent.insertBefore(el, avatarHome.next);
+    }
+    avatarHome = null;
+  }
+
+  /** 固定真实 .profile-avatar：保持自然尺寸，中心对齐 + scale 匹配目标框 */
+  function pinAvatar(avatar, targetRect) {
+    detachAvatar(avatar);
+    const { w: nw, h: nh } = avatarNatural;
+    const { cx, cy } = avatarCenter(targetRect);
+    const scale = targetRect.w / nw;
+    avatar.style.position = "fixed";
+    avatar.style.left = `${cx}px`;
+    avatar.style.top = `${cy}px`;
+    avatar.style.width = `${nw}px`;
+    avatar.style.height = `${nh}px`;
+    avatar.style.margin = "0";
+    avatar.style.transformOrigin = "50% 50%";
+    avatar.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    avatar.style.zIndex = "240";
+    avatar.style.opacity = "1";
+    avatar.style.visibility = "visible";
+    avatar.style.pointerEvents = "none";
+    avatar.style.willChange = "transform";
+  }
+
+  function unpinAvatar(avatar) {
+    cancelPinMotion();
+    if (!avatar) return;
+    clearInline(avatar);
+  }
+
+  function buildPinKeyframes(first, last) {
+    const f = avatarCenter(first);
+    const l = avatarCenter(last);
+    const s0 = first.w / avatarNatural.w;
+    const s1 = last.w / avatarNatural.w;
+    return [
+      { transform: `translate(-50%, -50%) translate3d(0px, 0px, 0) scale(${s0})` },
+      { transform: `translate(-50%, -50%) translate3d(${l.cx - f.cx}px, ${l.cy - f.cy}px, 0) scale(${s1})` },
+    ];
+  }
+
+  function syncPinMotion(tl, avatar, first, last, duration, at) {
+    if (!avatar?.animate || !first || !last || !duration) return null;
+    cancelPinMotion();
+    const wa = avatar.animate(buildPinKeyframes(first, last), {
+      duration,
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      fill: "forwards",
+    });
+    activePinWa = wa;
+    if (typeof tl.sync === "function") {
+      tl.sync(wa, at);
+    } else {
+      wa.pause();
+      tl.call(() => { wa.play(); }, at);
+      tl.add({ duration }, at);
+    }
+    return wa;
+  }
+
+  /** 落地前读取占位槽，与飞入终点对齐 */
+  function readSlotRect() {
+    const ph = avatarHome?.placeholder;
+    return ph ? readRect(ph) : null;
+  }
+
+  function releasePinnedAvatar(avatar, { restore = true } = {}) {
+    if (activePinWa) {
+      try {
+        if (typeof activePinWa.commitStyles === "function") {
+          activePinWa.commitStyles();
+        }
+        activePinWa.cancel();
+      } catch { /* ignore */ }
+      activePinWa = null;
+    }
+    const hero = document.getElementById("profile-hero");
+    if (hero) hero.style.transform = "none";
+    if (avatar) {
+      avatar.style.transition = "none";
+      const slot = restore ? readSlotRect() : null;
+      const avRect = readRect(avatar);
+      if (restore && slot && avRect && avatar.style.position === "fixed") {
+        const { cx, cy } = avatarCenter(slot);
+        const scale = slot.w / avatarNatural.w;
+        avatar.style.left = `${cx}px`;
+        avatar.style.top = `${cy}px`;
+        avatar.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        void avatar.offsetWidth;
+      }
+      avatar.style.transform = restore ? "none" : avatar.style.transform;
+      if (restore) clearInline(avatar);
+      if (restore) restoreAvatarHome(avatar);
+    } else {
+      avatarHome?.placeholder?.remove();
+      avatarHome = null;
+    }
+    if (restore) pinnedAvatar = null;
+    document.body.classList.remove("is-avatar-pinned");
+  }
+
+  /** 关闭时：在 brand 位置隐藏，保持 fixed，finish 再还原 DOM */
+  function hidePinnedAvatar(avatar) {
+    if (activePinWa) {
+      try {
+        if (typeof activePinWa.commitStyles === "function") {
+          activePinWa.commitStyles();
+        }
+        activePinWa.cancel();
+      } catch { /* ignore */ }
+      activePinWa = null;
+    }
+    if (avatar) {
+      avatar.style.transition = "none";
+      avatar.style.opacity = "0";
+      avatar.style.visibility = "hidden";
+      avatar.style.pointerEvents = "none";
+    }
+    document.body.classList.remove("is-avatar-pinned");
+  }
+
+  function removeLegacyFlyer() {
+    document.getElementById("avatar-flyer")?.remove();
   }
 
   /** 批量测高：一次写、一次读，减少 reflow */
@@ -228,6 +398,7 @@
     wrap.style.visibility = "visible";
     void hero.offsetHeight;
     const rect = readRect(wrap);
+    if (rect) avatarNatural = { w: rect.w, h: rect.h };
     Object.assign(hero.style, prev);
     Object.assign(wrap.style, prevAv);
     return rect;
@@ -287,31 +458,31 @@
     }, at + 130);
   }
 
-  function prepClosedVisual(el) {
+  function prepClosedVisual(el, { skipY = false } = {}) {
     el.style.overflow = "hidden";
     el.style.height = "0px";
     el.style.opacity = "0";
     el.style.visibility = "visible";
     el.style.pointerEvents = "none";
-    el.style.transform = "translate3d(0,-16px,0)";
-    el.style.willChange = "height, opacity, transform";
+    el.style.transform = skipY ? "none" : "translate3d(0,-16px,0)";
+    el.style.willChange = skipY ? "height, opacity" : "height, opacity, transform";
   }
 
   function snapOpen() {
     document.body.classList.add("profile-open");
-    document.body.classList.remove("profile-animating", "is-avatar-flying");
+    document.body.classList.remove("profile-animating", "is-avatar-flying", "is-avatar-pinned");
+    removeLegacyFlyer();
     clearAllInline();
     setBrandLabel(true);
-    hideFlyer();
     openState = true;
     brandEl()?.setAttribute("aria-expanded", "true");
   }
 
   function snapClosed() {
-    document.body.classList.remove("profile-open", "profile-animating", "is-avatar-flying");
+    document.body.classList.remove("profile-open", "profile-animating", "is-avatar-flying", "is-avatar-pinned");
+    removeLegacyFlyer();
     clearAllInline();
     setBrandLabel(false);
-    hideFlyer();
     openState = false;
     brandEl()?.setAttribute("aria-expanded", "false");
   }
@@ -331,6 +502,7 @@
     }
 
     killActive();
+    removeLegacyFlyer();
     const token = ++gen;
     busy = true;
     document.body.classList.add("profile-animating");
@@ -352,6 +524,7 @@
 
       const sections = sectionEls();
       const nav = navEls();
+      const navLinks = navLinkEls();
       const hero = document.getElementById("profile-hero");
       const kids = heroChildren(hero);
       const cards = cardChildren();
@@ -359,7 +532,7 @@
       const avatar = heroAvatarWrap();
       const restKids = kids.filter((el) => el !== avatar);
 
-      sections.forEach(prepClosedVisual);
+      sections.forEach((el) => prepClosedVisual(el));
       kids.forEach((el) => {
         el.style.opacity = "0";
         el.style.transform = el === avatar ? "none" : "translate3d(0,18px,0)";
@@ -373,28 +546,34 @@
         el.style.opacity = "0";
         el.style.transform = "translate3d(0,10px,0) scale(0.85)";
       });
-      nav.forEach((el) => {
-        el.style.maxWidth = "0px";
-        el.style.opacity = "0";
-        el.style.overflow = "hidden";
-        el.style.transform = "translate3d(-8px,0,0)";
-        el.style.visibility = "visible";
-      });
+      prepNavClosed();
 
       const heights = measureHeights(sections);
       const last = measureHeroAvatarRect(heights[0]) || first;
-      const useFlyer = !lite && first && last;
-      const flyer = useFlyer ? ensureFlyer() : null;
-      if (flyer && first) {
-        document.body.classList.add("is-avatar-flying");
+      const usePinFly = !lite && first && last && avatar;
+      if (usePinFly && hero) prepClosedVisual(hero, { skipY: true });
+
+      let avatarReleased = false;
+      const releaseOnce = (av) => {
+        if (avatarReleased) return;
+        avatarReleased = true;
+        releasePinnedAvatar(av);
+      };
+
+      if (usePinFly) {
+        document.body.classList.add("is-avatar-flying", "is-avatar-pinned");
         if (brandAv) brandAv.style.opacity = "0";
-        if (avatar) avatar.style.opacity = "0";
-        placeFlyer(flyer, first);
+        avatar.style.opacity = "1";
+        avatar.style.visibility = "visible";
+        avatar.style.transition = "none";
+        pinAvatar(avatar, first);
+        pinnedAvatar = avatar;
       }
 
       const durSection = lite ? 420 : 620;
-      const durFlyer = lite ? 0 : 720;
+      const durPinFly = lite ? 0 : 720;
       const staggerGap = lite ? 40 : 70;
+      const releaseAt = usePinFly ? Math.max(durPinFly, durSection + 40) : 0;
 
       const finish = () => {
         if (token !== gen) return;
@@ -410,14 +589,20 @@
         cards.forEach(clearInline);
         pills.forEach(clearInline);
         nav.forEach(clearInline);
+        navLinkEls().forEach(clearInline);
         if (brandAv) brandAv.style.opacity = "";
         setBrandLabel(true);
-        hideFlyer(flyer);
-        document.body.classList.remove("profile-animating", "is-avatar-flying");
-        activeTl = null;
-        busy = false;
-        openState = true;
-        resolve();
+        releaseOnce(avatar);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (token !== gen) return;
+            document.body.classList.remove("profile-animating", "is-avatar-flying");
+            activeTl = null;
+            busy = false;
+            openState = true;
+            resolve();
+          });
+        });
       };
 
       const tl = createTimeline({
@@ -426,24 +611,11 @@
       });
       activeTl = tl;
 
-      morphBrandLabel(true, tl, 20);
+      morphBrandLabel(true, tl, usePinFly ? durPinFly - 80 : 20);
 
-      if (flyer && first && last) {
-        tl.add(flyer, {
-          left: [`${first.x}px`, `${last.x}px`],
-          top: [`${first.y}px`, `${last.y}px`],
-          width: [`${first.w}px`, `${last.w}px`],
-          height: [`${first.h}px`, `${last.h}px`],
-          duration: durFlyer,
-          ease: EASE_OUT,
-        }, 0);
-        if (avatar) {
-          tl.add(avatar, {
-            opacity: [0, 1],
-            duration: 160,
-            ease: EASE_SOFT,
-          }, Math.max(0, durFlyer - 140));
-        }
+      if (usePinFly) {
+        syncPinMotion(tl, avatar, first, last, durPinFly, 0);
+        tl.call(() => releaseOnce(avatar), releaseAt);
       } else if (avatar) {
         tl.add(avatar, {
           opacity: [0, 1],
@@ -455,14 +627,19 @@
       }
 
       sections.forEach((el, i) => {
-        tl.add(el, {
+        const skipHeroY = usePinFly && el === hero;
+        const props = {
           height: [`0px`, `${heights[i]}px`],
           opacity: [0, 1],
-          y: [-16, 0],
           duration: durSection,
           ease: EASE_OUT,
-        }, i * staggerGap);
+        };
+        if (!skipHeroY) props.y = [-16, 0];
+        tl.add(el, props, i * staggerGap);
       });
+
+      const textRevealAt = usePinFly ? durPinFly + 64 : (lite ? 120 : 200);
+      const pillsRevealAt = usePinFly ? durPinFly + 140 : 280;
 
       if (restKids.length) {
         tl.add(restKids, {
@@ -471,7 +648,7 @@
           delay: stagger(lite ? 40 : 60),
           duration: lite ? 360 : 480,
           ease: EASE_SOFT,
-        }, lite ? 120 : 200);
+        }, textRevealAt);
       }
 
       if (pills.length) {
@@ -482,12 +659,11 @@
           delay: stagger(40),
           duration: 360,
           ease: EASE_SOFT,
-        }, 280);
+        }, pillsRevealAt);
       }
 
-      if (nav.length) {
-        tl.add(nav, {
-          maxWidth: ["0px", "5.5rem"],
+      if (navLinks.length) {
+        tl.add(navLinks, {
           opacity: [0, 1],
           x: [-8, 0],
           delay: stagger(40),
@@ -515,6 +691,7 @@
 
       const sections = sectionEls();
       const nav = navEls();
+      const navLinks = navLinkEls();
       const kids = heroChildren(document.getElementById("profile-hero"));
       const cards = cardChildren();
       const pills = lite ? [] : socialPills();
@@ -542,25 +719,32 @@
       });
 
       nav.forEach((el) => {
-        el.style.maxWidth = `${Math.ceil(el.getBoundingClientRect().width || 72)}px`;
-        el.style.overflow = "hidden";
+        el.style.overflow = "visible";
+        el.style.maxWidth = "";
+      });
+      navLinks.forEach((el) => {
+        el.style.whiteSpace = "nowrap";
+        el.style.willChange = "opacity, transform";
       });
 
-      const useFlyer = !lite && first && last;
-      const flyer = useFlyer ? ensureFlyer() : null;
-      if (flyer && first) {
-        document.body.classList.add("is-avatar-flying");
-        if (avatar) avatar.style.opacity = "0";
+      const usePinFly = !lite && first && last && avatar;
+      const durPinClose = lite ? 0 : 520;
+      if (usePinFly) {
+        document.body.classList.add("is-avatar-flying", "is-avatar-pinned");
+        avatar.style.opacity = "1";
+        avatar.style.visibility = "visible";
+        avatar.style.transition = "none";
+        pinAvatar(avatar, first);
+        pinnedAvatar = avatar;
         if (brandAv) brandAv.style.opacity = "0";
-        placeFlyer(flyer, first);
       }
 
       const finish = () => {
         if (token !== gen) return;
-        document.body.classList.remove("profile-open", "profile-animating", "is-avatar-flying");
+        if (avatar && avatarHome) releasePinnedAvatar(avatar);
+        document.body.classList.remove("profile-open", "profile-animating", "is-avatar-flying", "is-avatar-pinned");
         clearAllInline();
         setBrandLabel(false);
-        hideFlyer(flyer);
         activeTl = null;
         busy = false;
         openState = false;
@@ -575,22 +759,16 @@
 
       morphBrandLabel(false, tl, 40);
 
-      if (flyer && first && last) {
-        tl.add(flyer, {
-          left: [`${first.x}px`, `${last.x}px`],
-          top: [`${first.y}px`, `${last.y}px`],
-          width: [`${first.w}px`, `${last.w}px`],
-          height: [`${first.h}px`, `${last.h}px`],
-          duration: 520,
-          ease: EASE_OUT,
-        }, 20);
+      if (usePinFly) {
+        syncPinMotion(tl, avatar, first, last, durPinClose, 20);
         if (brandAv) {
           tl.add(brandAv, {
             opacity: [0, 1],
             duration: 160,
             ease: EASE_SOFT,
-          }, 480);
+          }, 20 + durPinClose - 48);
         }
+        tl.call(() => hidePinnedAvatar(avatar), 20 + durPinClose);
       }
 
       if (cards.length) {
@@ -622,13 +800,13 @@
         }, 40);
       }
 
-      if (nav.length) {
-        tl.add(nav, {
-          maxWidth: "0px",
+      if (navLinks.length) {
+        tl.add(navLinks, {
           opacity: 0,
           x: -8,
           delay: stagger(24, { reversed: true }),
           duration: 220,
+          ease: EASE_IN,
         }, 50);
       }
 
@@ -649,6 +827,8 @@
     openState = document.body.classList.contains("profile-open");
     setBrandLabel(openState);
   }
+
+  removeLegacyFlyer();
 
   window.KayaProfileReveal = {
     setOpen,

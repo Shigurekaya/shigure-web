@@ -197,6 +197,28 @@
   font-variant-numeric: tabular-nums;
 }
 
+.pick-skip {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--pk-soft);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(26, 25, 34, 0.22);
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.pick-skip:hover,
+.pick-skip:focus-visible {
+  color: var(--pk-accent-deep);
+  text-decoration-color: rgba(107, 92, 255, 0.45);
+  outline: none;
+}
+
 .pick-progress {
   height: 3px;
   border-radius: 999px;
@@ -216,6 +238,13 @@
   font-size: clamp(1.05rem, 2.4vw, 1.25rem);
   line-height: 1.55;
   font-weight: 650;
+}
+
+.pick-q-hint {
+  margin: -0.55rem 0 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--pk-soft);
 }
 
 .pick-options {

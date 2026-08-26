@@ -179,57 +179,47 @@ img { max-width: 100%; height: auto; display: block; }
   pointer-events: none;
 }
 
+.page-home.profile-animating.is-avatar-flying .profile-avatar {
+  pointer-events: none;
+}
+
+.page-home.profile-animating.is-avatar-flying .profile-avatar,
+.page-home.profile-animating.is-avatar-flying .profile-avatar::before,
+.page-home.profile-animating.is-avatar-flying .profile-avatar .avatar {
+  transition: none !important;
+}
+
+.page-home.profile-animating.is-avatar-pinned .profile-avatar {
+  overflow: visible;
+}
+
+.page-home.profile-animating.is-avatar-pinned .profile-avatar .avatar {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.page-home.profile-animating.is-avatar-pinned .profile-name,
+.page-home.profile-animating.is-avatar-pinned .profile-roman,
+.page-home.profile-animating.is-avatar-pinned .profile-sign,
+.page-home.profile-animating.is-avatar-pinned .social-row {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none;
+}
+
+.profile-avatar-placeholder {
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 1.35rem;
+  pointer-events: none;
+  visibility: hidden;
+}
+
 .page-home.profile-open:not(.profile-animating) .brand-avatar {
   width: 0;
   margin: 0;
   border-width: 0;
-}
-
-.avatar-flyer {
-  position: fixed;
-  z-index: 240;
-  left: 0;
-  top: 0;
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  padding: 0;
-  border-radius: 50%;
-  overflow: visible;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  contain: layout style;
-  box-shadow: 0 12px 28px rgba(26, 25, 34, 0.16);
-}
-
-.avatar-flyer.is-on {
-  opacity: 1;
-  visibility: visible;
-}
-
-.avatar-flyer::before {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--warm), var(--accent));
-  opacity: 0.75;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.avatar-flyer img {
-  position: relative;
-  z-index: 1;
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid rgba(255, 255, 255, 0.92);
-  box-sizing: border-box;
-  background: transparent;
 }
 
 .site-bar > nav {
@@ -377,7 +367,12 @@ img { max-width: 100%; height: auto; display: block; }
 
 .page-home.profile-animating .nav-gated {
   display: list-item;
-  overflow: hidden;
+  overflow: visible;
+  max-width: none;
+}
+
+.page-home.profile-animating .nav-gated a {
+  white-space: nowrap;
 }
 
 .page-home.profile-open:not(.profile-animating) .profile-hero,

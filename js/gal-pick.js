@@ -1,6 +1,5 @@
 /**
- * Gal 心选 v4 — trait 向量 + IDF + 多维亲和 + trait 余弦 MMR
- * 属性参考 Galgame Wiki / VNDB / CnGal 分类体系
+ * Gal 心选 v5 — trait 向量 + IDF + 自适应选题 + 可跳过
  */
 (() => {
   const DATA = typeof GAL_PICK_DATA !== "undefined" ? GAL_PICK_DATA : null;
@@ -10,7 +9,9 @@
   }
 
   const DRAW_MAX = Math.min(28, DATA.meta?.drawMax || 28, DATA.questions.length);
-  const MIN_ANSWERS = 10;
+  const MIN_ANSWERS = 8;
+  const MIN_TOTAL = 10;
+  const MAX_SKIPS = 10;
   const CORE_IDS = new Set(["Q001", "Q002", "Q003", "Q004", "Q005", "Q006", "Q007", "Q008", "Q009", "Q010"]);
 
   const AXIS_WEIGHT = {
@@ -146,11 +147,14 @@
 
   const state = {
     index: 0,
+    answered: 0,
+    skipped: 0,
     boost: Object.create(null),
     penalty: Object.create(null),
     drops: new Set(),
     alive: [],
     asked: new Set(),
+    skippedIds: new Set(),
     early: false,
   };
 
@@ -356,18 +360,29 @@
     return variance * (1.15 + 1 / (topBand + 0.5)) + spread * 0.18;
   }
 
+  function questionWeight(q) {
+    let w = 1;
+    if (state.skippedIds.has(q.id)) w *= 0.15;
+    if (q.skippable && state.answered < 6) w *= 0.55;
+    if (CORE_IDS.has(q.id) && state.answered < 8) w *= 1.35;
+    return w;
+  }
+
   function pickNextQuestion() {
     const coreLeft = DATA.questions.filter((q) => CORE_IDS.has(q.id) && !state.asked.has(q.id));
-    if (state.index < 6 && coreLeft.length) {
+    if (state.answered < 6 && coreLeft.length) {
       return coreLeft[Math.floor(Math.random() * coreLeft.length)];
     }
     const pool = DATA.questions.filter((q) => !state.asked.has(q.id));
     if (!pool.length) return null;
-    const sample = shuffle(pool).slice(0, 30);
+    const sample = shuffle(pool)
+      .sort((a, b) => questionWeight(b) - questionWeight(a))
+      .slice(0, 32);
     let best = sample[0];
     let bestV = -1;
     sample.forEach((q) => {
-      const v = Math.max(...q.options.map((o) => optionDiscrimination(o, state.alive, state.boost, state.penalty)));
+      const disc = Math.max(...q.options.map((o) => optionDiscrimination(o, state.alive, state.boost, state.penalty)));
+      const v = disc * questionWeight(q);
       if (v > bestV) {
         bestV = v;
         best = q;
@@ -378,11 +393,13 @@
 
   function shouldConfidentFinish(ranked) {
     if (ranked.length <= 1) return true;
-    if (state.index < MIN_ANSWERS) return false;
+    if (state.answered < MIN_ANSWERS) return false;
+    if (state.index < MIN_TOTAL && state.skipped < 3) return false;
     const g1 = ranked[0].score - ranked[1].score;
     const g2 = ranked.length > 2 ? ranked[1].score - ranked[2].score : g1 * 0.5;
     const rel = g1 / (Math.abs(ranked[0].score) + 1e-5);
-    return g1 >= 3.5 && rel >= 0.14 && g2 >= 0.6;
+    const skipBonus = state.skipped >= 4 ? 0.85 : 1;
+    return g1 >= 3.2 * skipBonus && rel >= 0.12 && g2 >= 0.55;
   }
 
   function label(dim, val) {
@@ -515,11 +532,14 @@
 
   function resetRun() {
     state.index = 0;
+    state.answered = 0;
+    state.skipped = 0;
     state.boost = Object.create(null);
     state.penalty = Object.create(null);
     state.drops = new Set();
     state.alive = games.slice();
     state.asked = new Set();
+    state.skippedIds = new Set();
     state.early = false;
   }
 
@@ -560,6 +580,18 @@
     return false;
   }
 
+  function advanceQuestion() {
+    state.index += 1;
+    finishOrContinue() || renderQuestion();
+  }
+
+  function skipQuestion(q) {
+    if (state.skipped >= MAX_SKIPS) return;
+    state.skipped += 1;
+    state.skippedIds.add(q.id);
+    advanceQuestion();
+  }
+
   function renderQuestion() {
     if (finishOrContinue()) return;
 
@@ -571,20 +603,25 @@
     state.asked.add(q.id);
 
     const current = state.index + 1;
-    const pct = Math.min(100, (current / DRAW_MAX) * 100);
+    const pct = Math.min(100, ((state.answered + 1) / DRAW_MAX) * 100);
+    const canSkip = state.skipped < MAX_SKIPS;
 
     els.panel.innerHTML = `
       <div class="pick-stage pick-stage--quiz">
         <div class="pick-status">
           <div class="pick-status__row">
-            <span>第 <strong>${current}</strong> 题</span>
+            <span>第 <strong>${current}</strong> 题${state.answered ? ` · 已答 ${state.answered}` : ""}</span>
+            ${canSkip ? `<button type="button" class="pick-skip" data-pick-skip>跳过</button>` : ""}
           </div>
           <div class="pick-progress" aria-hidden="true"><span class="pick-progress__bar" style="width:${pct}%"></span></div>
         </div>
         <h2 class="pick-q">${q.text}</h2>
+        ${q.hint ? `<p class="pick-q-hint">${q.hint}</p>` : ""}
         <div class="pick-options" id="pick-options"></div>
       </div>
     `;
+
+    els.panel.querySelector("[data-pick-skip]")?.addEventListener("click", () => skipQuestion(q));
 
     const box = els.panel.querySelector("#pick-options");
     q.options.forEach((opt, i) => {
@@ -594,8 +631,8 @@
       btn.innerHTML = `<span class="pick-option__idx">${String.fromCharCode(65 + i)}</span><span class="pick-option__label">${opt.label}</span>`;
       btn.addEventListener("click", () => {
         applyOption(opt);
-        state.index += 1;
-        finishOrContinue() || renderQuestion();
+        state.answered += 1;
+        advanceQuestion();
       });
       box.appendChild(btn);
     });

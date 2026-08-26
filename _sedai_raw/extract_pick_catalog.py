@@ -17,30 +17,6 @@ TONES = ("sweet", "heal", "drama", "mindbend", "epic", "hype", "literary", "utsu
 SETTINGS = ("school", "daily", "fantasy", "scifi", "mystery")
 PACES = ("short", "breezy", "slowburn", "dense")
 
-TAG_RULES: list[tuple[re.Pattern[str], dict[str, str]]] = [
-    (re.compile(r"Fate|空の境界|魔法使いの夜|月姫|MELTY|真月譚|型月", re.I), {"tone": "epic", "setting": "fantasy", "pace": "dense"}),
-    (re.compile(r"CLANNAD|Kanon|AIR|Little Busters|Summer Pockets|智代|Rewrite|rewrite|Angel Beats", re.I), {"tone": "drama", "setting": "school", "pace": "slowburn"}),
-    (re.compile(r"白色相簿|WHITE ALBUM", re.I), {"tone": "drama", "setting": "daily", "pace": "slowburn"}),
-    (re.compile(r"Steins|CHAOS;|ROBOTICS;|命运石|科学.?[Aa][Dd][Vv]|Anonymous;Code", re.I), {"tone": "mindbend", "setting": "scifi", "pace": "dense"}),
-    (re.compile(r"Muv-Luv|マブラヴ|シュヴァルツェス", re.I), {"tone": "epic", "setting": "scifi", "pace": "dense"}),
-    (re.compile(r"千恋|夜宴|サノバ|RIDDLE|アマカノ|甘甜|近月|月に寄りそう|星光咖啡|喫茶ステラ|ゆず|柚子|天使嚣嚣|天使☆騒々|天使騒々", re.I), {"tone": "sweet", "setting": "school", "pace": "breezy"}),
-    (re.compile(r"ATRI|方舟|海对面|水仙|narcissu|planetarian|星之梦|PL@NET", re.I), {"tone": "heal", "setting": "scifi", "pace": "short"}),
-    (re.compile(r"樱之诗|樱之刻|サクラノ|夏空のモノローグ|素晴らしき日々|SubaHibi|美少女万華鏡", re.I), {"tone": "literary", "setting": "daily", "pace": "slowburn"}),
-    (re.compile(r"9-nine|拔作|ドーナ|多娜|闪乱|対魔忍|Baldr|BALDR|大番长", re.I), {"tone": "hype", "setting": "fantasy", "pace": "breezy"}),
-    (re.compile(r"沙耶|郁|鬱|dark|psychological horror|寒蝉|海猫", re.I), {"tone": "utsuge", "setting": "mystery", "pace": "dense"}),
-    (re.compile(r"心跳文学|Meta|第四面墙|你和她和她", re.I), {"tone": "mindbend", "setting": "mystery", "pace": "dense"}),
-    (re.compile(r"D\.C\.|ダ[・･]?カーポ|ToHeart|SHUFFLE|初音岛|恋姬|恋と選挙とチョコレート", re.I), {"tone": "sweet", "setting": "school", "pace": "breezy"}),
-    (re.compile(r"兰斯|Rance|戦国ランス", re.I), {"tone": "hype", "setting": "fantasy", "pace": "dense"}),
-    (re.compile(r"Ever17|Remember11|十二時|時計仕掛け|ルートダブル|Root Double", re.I), {"tone": "mindbend", "setting": "scifi", "pace": "dense"}),
-    (re.compile(r"グリザイア|灰色|Grisaia", re.I), {"tone": "drama", "setting": "school", "pace": "dense"}),
-    (re.compile(r"魔女的夜宴|千恋＊万花|千恋\*万花|千恋万花", re.I), {"tone": "sweet", "setting": "fantasy", "pace": "breezy"}),
-    (re.compile(r"ノラと皇女|ノラとと|Clover Day|クロデイ", re.I), {"tone": "sweet", "setting": "fantasy", "pace": "breezy"}),
-    (re.compile(r"恋×シンアイ|恋×心|ハミダシ|はみだし|常轨脱离", re.I), {"tone": "hype", "setting": "school", "pace": "breezy"}),
-    (re.compile(r"艦隊これくしょん|舰娘|アズールレーン", re.I), {"tone": "hype", "setting": "scifi", "pace": "breezy"}),
-    (re.compile(r"学園|学园|スクール|学校", re.I), {"setting": "school"}),
-    (re.compile(r"異世界|异世界|ファンタジー|魔王|勇者", re.I), {"setting": "fantasy"}),
-]
-
 
 def clean(title: str) -> str:
     t = title.strip()
@@ -115,6 +91,8 @@ def load_getchu() -> list[tuple[int, int, str]]:
 
 from pick_question_bank import build_question_bank
 from pick_traits import attach_traits
+from pick_tag_axes import count_meaningful_tag_hits, is_sweet_incompatible, refine_axes, rederive_row_axes
+from pick_title_rules import TAG_RULES, apply_title_rules
 
 TAGS_JSON = Path(__file__).with_name("sedai_tags.json")
 SUPPLEMENT_TAGS_JSON = Path(__file__).with_name("pick_supplement_tags.json")
@@ -150,6 +128,7 @@ _ROUTE_HINTS = (
     "multiple endings",
     "more than seven endings",
     "route unlock",
+    "unlockable routes",
     "time travel",
     "loop",
     "轮回",
@@ -157,16 +136,21 @@ _ROUTE_HINTS = (
     "拼图",
 )
 _PLAYSTYLE_HINTS: dict[str, tuple[str, ...]] = {
-    "rpg": ("role-playing", "rpg", "turn-based", "dungeon", "srpg", "战棋", "ランス", "rance"),
+    "rpg": ("role-playing", "rpg", "turn-based", "dungeon", "srpg", "战棋", "ランス", "rance", "map movement"),
     "sim": ("simulation", "raising sim", "schedule", "养成", "slg", "simulation game", "raising"),
-    "vn": ("kinetic novel", "sound novel", "linear", "no branching", "音响小说", "视觉小说"),
-    "adv": ("branching", "choices matter", "multiple routes", "adv", "文字冒险"),
+    "vn": ("kinetic novel", "sound novel", "linear plot", "linear", "no branching", "音响小说", "视觉小说"),
+    "adv": ("branching", "choices matter", "multiple routes", "branching plot", "adv", "文字冒险"),
 }
-_CAST_HAREM = ("harem", "multiple heroine", "多女主", "heroine routes")
+_CAST_HAREM = ("harem", "multiple heroine", "multiple heroines", "多女主", "heroine routes")
 _CAST_SOLO = ("single heroine", "one heroine", "单女主", "kinetic", "single route")
 _CAST_ENSEMBLE = ("ensemble cast", "群像", "large cast", "multiple protagonists")
 _UTSUGE_HINTS = ("utsuge", "鬱", "郁", "depressing", "tragedy", "dark story", "psychological trauma")
 _HORROR_HINTS = ("horror", "恐怖", "psychological horror", "gore", "thriller", "悬疑恐怖")
+_DARK_NUKIGE_HINTS = (
+    "rape", "mindbreak", "sexual slavery", "bestiality", "gang rape", "torture",
+    "guro", "cannibalism", "villainous protagonist", "choukyou", "nukige",
+    "high amounts of rape",
+)
 _META_HINTS = ("meta", "fourth wall", "打破第四面墙", "self-aware", "metafiction")
 
 
@@ -198,11 +182,24 @@ def derive_cast(raw_blob: str, tone: str, pace: str) -> str:
 
 def derive_profile(row: dict) -> dict[str, str]:
     """从已有轴 + VNDB 原始标签推导 focus / entry / mood / routes / playstyle / cast。"""
-    tone = row.get("tone") or "sweet"
-    setting = row.get("setting") or "school"
-    pace = row.get("pace") or "breezy"
+    raw_tags = row.get("raw_tags") or []
+    refined = refine_axes(raw_tags, {
+        "tone": row.get("tone") or "sweet",
+        "setting": row.get("setting") or "school",
+        "pace": row.get("pace") or "breezy",
+    })
+    # BGM 噪声标签或无轴命中时，用标题规则补全
+    if count_meaningful_tag_hits(raw_tags) == 0:
+        refined = apply_title_rules(row.get("name") or "", refined)
+    tone = refined["tone"]
+    setting = refined["setting"]
+    pace = refined["pace"]
     fame = row.get("fame") or "solid"
-    raw_blob = " ".join(row.get("raw_tags") or []).lower()
+    raw_blob = " ".join(raw_tags).lower()
+
+    # 重口 / 拔作：禁止甜系恋爱画像（如 黒獣2）
+    if is_sweet_incompatible(raw_tags) and tone in ("sweet", "heal"):
+        tone = "utsuge" if _blob_has(raw_blob, _DARK_NUKIGE_HINTS) else "hype"
 
     # 郁系 / 心理恐怖：微调 tone（Galgame Wiki 基调分类）
     if tone not in ("mindbend", "literary") and _blob_has(raw_blob, _UTSUGE_HINTS):
@@ -215,7 +212,7 @@ def derive_profile(row: dict) -> dict[str, str]:
         focus = "mystery"
     elif setting in ("fantasy", "scifi") and tone in ("epic", "mindbend", "utsuge"):
         focus = "world"
-    elif setting == "school" and tone in ("sweet", "hype"):
+    elif setting == "school" and tone in ("sweet", "hype") and not is_sweet_incompatible(raw_tags):
         focus = "romance"
 
     if tone in ("sweet", "heal", "hype") and pace in ("breezy", "short") and fame in ("icon", "hit"):
@@ -231,6 +228,19 @@ def derive_profile(row: dict) -> dict[str, str]:
     elif tone == "heal" and pace == "short":
         mood = "light"
 
+    # 拔作 / 重口：不得呈现甜系恋爱画像（tone=hype 的轻度拔作同理）
+    if is_sweet_incompatible(raw_tags):
+        if _blob_has(raw_blob, _DARK_NUKIGE_HINTS):
+            mood = "heavy"
+            if focus == "romance":
+                focus = "world" if setting in ("fantasy", "scifi") else "story"
+        else:
+            mood = "bittersweet"
+            if focus == "romance":
+                focus = "story"
+        if entry == "easy":
+            entry = "standard"
+
     puzzle_hint = any(h in raw_blob for h in _ROUTE_HINTS)
     if puzzle_hint or (tone == "mindbend" and pace == "dense"):
         routes = "puzzle"
@@ -243,15 +253,18 @@ def derive_profile(row: dict) -> dict[str, str]:
     else:
         routes = "multi"
 
-    return {
+    profile = {
         "focus": focus,
         "entry": entry,
         "mood": mood,
         "routes": routes,
         "playstyle": derive_playstyle(raw_blob),
         "cast": derive_cast(raw_blob, tone, pace),
-        **({"tone": tone} if tone != row.get("tone") else {}),
     }
+    for key, val in (("tone", tone), ("setting", setting), ("pace", pace)):
+        if val != row.get(key):
+            profile[key] = val
+    return profile
 
 
 _TRAD_CHARS = set("國臺戀綺體發為這與門開關網電畫聽說讀寫實際後來從無時間歡樂樂園藝術")
@@ -401,6 +414,13 @@ def enrich_display_names(catalog: list[dict]) -> None:
 
 
 def is_tagged(row: dict) -> bool:
+    if row.get("tag_source") in (None, "none", "heuristic"):
+        return False
+    return bool(row.get("raw_tags"))
+
+
+def is_tagged_entry(row: dict) -> bool:
+    """最终 catalog 条目（可能已剥离 raw_tags）。"""
     return row.get("tag_source") not in (None, "none", "heuristic")
 
 
@@ -422,16 +442,21 @@ def row_to_game(r: dict, source: str) -> dict:
     }
     game.update(derive_profile(r))
     attach_traits(game, r)
+    if r.get("raw_tags"):
+        game["raw_tags"] = r["raw_tags"]
     return game
 
 
 def _prefer_game(a: dict, b: dict) -> dict:
-    """重复条目保留：世代优先 > 有中文名 > 较新年份。"""
+    """重复条目保留：世代优先 > 有 raw_tags > 有中文名 > 名称更完整 > 较新年份。"""
+
     def rank(g: dict) -> tuple:
         sedai = 1 if g.get("source") == "sedai" else 0
+        raw_n = len(g.get("raw_tags") or [])
         label = g.get("displayName") or g.get("name") or ""
         han = 1 if _has_han(label) and _han_count(label) >= 2 else 0
-        return (sedai, han, g.get("year", 0))
+        name_len = len(g.get("name") or "")
+        return (sedai, 1 if raw_n else 0, raw_n, han, name_len, g.get("year", 0))
 
     return a if rank(a) >= rank(b) else b
 
@@ -460,9 +485,31 @@ def dedupe_catalog(pool: list[dict]) -> list[dict]:
     return out[:POOL_TARGET]
 
 
+def rederive_tags_file(path: Path) -> int:
+    """从 raw_tags 重算 tone/setting/pace 并写回 JSON。返回变更条数。"""
+    if not path.exists():
+        return 0
+    rows = json.loads(path.read_text(encoding="utf-8"))
+    changed = 0
+    for i, row in enumerate(rows):
+        if not row.get("raw_tags"):
+            continue
+        updated = rederive_row_axes(row)
+        if any(updated.get(k) != row.get(k) for k in ("tone", "setting", "pace")):
+            rows[i] = updated
+            changed += 1
+    if changed:
+        path.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
+    return changed
+
+
 def catalog_from_fetched_tags() -> list[dict] | None:
     if not TAGS_JSON.exists():
         return None
+    n1 = rederive_tags_file(TAGS_JSON)
+    n2 = rederive_tags_file(SUPPLEMENT_TAGS_JSON)
+    if n1 or n2:
+        print(f"rederived axes: sedai={n1} supplement={n2}")
     sedai_rows = json.loads(TAGS_JSON.read_text(encoding="utf-8"))
     base_rows = [r for r in sedai_rows if is_tagged(r)]
     if not base_rows:
@@ -503,13 +550,13 @@ def catalog_from_fetched_tags() -> list[dict] | None:
 
 
 def build_js(catalog: list[dict], questions: list[dict]) -> str:
-    tagged = sum(1 for g in catalog if is_tagged(g))
+    tagged = sum(1 for g in catalog if is_tagged_entry(g))
     sedai_n = sum(1 for g in catalog if g.get("source") == "sedai")
     supp_n = sum(1 for g in catalog if g.get("source") == "getchu-popular")
     payload = {
         "meta": {
             "title": "Gal 心选",
-            "subtitle": "找出最适合你的 Gal。",
+            "subtitle": "答几道题，找出适合你的 Gal。看不懂的题可以跳过。",
             "resultCount": 1,
             "poolSize": len(catalog),
             "poolTarget": POOL_TARGET,
@@ -518,7 +565,7 @@ def build_js(catalog: list[dict], questions: list[dict]) -> str:
             "taggedCount": tagged,
             "questionBank": len(questions),
             "drawMax": 28,
-            "scoringVersion": 4,
+            "scoringVersion": 5,
             "source": "gal-sedai(tagged) + getchu-popular + vndb/bangumi/cngal",
         },
         "games": catalog,
@@ -576,13 +623,14 @@ def main() -> None:
     slim = []
     for g in catalog:
         row = {k: v for k, v in g.items() if v is not None}
+        row.pop("raw_tags", None)
         # displayName 与 name 相同时省略以减小体积
         if row.get("displayName") == row.get("name"):
             row.pop("displayName", None)
         slim.append(row)
     OUT_JSON.write_text(json.dumps(slim, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT_JS.write_text(build_js(slim, questions), encoding="utf-8")
-    tagged = sum(1 for g in slim if is_tagged(g))
+    tagged = sum(1 for g in slim if is_tagged_entry(g))
     supp = sum(1 for g in slim if g.get("source") == "getchu-popular")
     print(f"games={len(slim)} tagged={tagged} supplement={supp} questions={len(questions)}")
     print(f"wrote {OUT_JS.name}")

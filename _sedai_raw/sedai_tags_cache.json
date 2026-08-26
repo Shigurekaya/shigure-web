@@ -1,0 +1,1007 @@
+{
+  "vndb": {
+    "アリス×・・・！": {
+      "id": "v19133",
+      "title": "Haruoto Alice * Gram",
+      "alttitle": "春音アリス＊グラム",
+      "titles": [
+        "Haruoto Alice * Gram",
+        "春音アリス＊グラム",
+        "春音Alice＊Gram"
+      ],
+      "tags": [
+        {
+          "name": "Male Protagonist",
+          "rating": 2.5
+        },
+        {
+          "name": "Spring",
+          "rating": 2.5
+        },
+        {
+          "name": "Magic",
+          "rating": 2
+        },
+        {
+          "name": "Mystery",
+          "rating": 2
+        },
+        {
+          "name": "ADV",
+          "rating": 2
+        },
+        {
+          "name": "High School",
+          "rating": 2
+        },
+        {
+          "name": "Magic/ESP Combat",
+          "rating": 2
+        },
+        {
+          "name": "Romance",
+          "rating": 2
+        },
+        {
+          "name": "Kuudere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Genius Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Multiple Endings",
+          "rating": 2
+        },
+        {
+          "name": "Ojousama Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Airhead Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Modern Tsundere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Classic Tsundere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Deredere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Student Council",
+          "rating": 2
+        },
+        {
+          "name": "Protagonist's Childhood Friend as a Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Princess Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Time Loop",
+          "rating": 2
+        },
+        {
+          "name": "Heroine with Zettai Ryouiki",
+          "rating": 2
+        },
+        {
+          "name": "Bookworm Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Sword Wielding Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Branching Plot",
+          "rating": 2
+        },
+        {
+          "name": "Proactive Protagonist",
+          "rating": 2
+        },
+        {
+          "name": "Clumsy Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Protagonist with a Face",
+          "rating": 2
+        },
+        {
+          "name": "Side Portraits",
+          "rating": 2
+        },
+        {
+          "name": "Winter",
+          "rating": 2
+        },
+        {
+          "name": "Twin Tail Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Super Deformed CGs",
+          "rating": 2
+        },
+        {
+          "name": "Student Council President Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Student Club President Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Passage of Time",
+          "rating": 2
+        },
+        {
+          "name": "Lots of Choices",
+          "rating": 2
+        },
+        {
+          "name": "Heroine with Ahoge",
+          "rating": 2
+        },
+        {
+          "name": "Built-in Encyclopedia",
+          "rating": 2
+        },
+        {
+          "name": "Discipline Committee Leader Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Choices with 4 or More Options",
+          "rating": 2
+        },
+        {
+          "name": "Long Common Route",
+          "rating": 2
+        }
+      ],
+      "score": 70.0
+    },
+    "Alice 2010": null,
+    "Alice Soft 2010": null,
+    "アリス2010": null,
+    "アリス× ！": {
+      "id": "v19133",
+      "title": "Haruoto Alice * Gram",
+      "alttitle": "春音アリス＊グラム",
+      "titles": [
+        "Haruoto Alice * Gram",
+        "春音アリス＊グラム",
+        "春音Alice＊Gram"
+      ],
+      "tags": [
+        {
+          "name": "Male Protagonist",
+          "rating": 2.5
+        },
+        {
+          "name": "Spring",
+          "rating": 2.5
+        },
+        {
+          "name": "Magic",
+          "rating": 2
+        },
+        {
+          "name": "Mystery",
+          "rating": 2
+        },
+        {
+          "name": "ADV",
+          "rating": 2
+        },
+        {
+          "name": "High School",
+          "rating": 2
+        },
+        {
+          "name": "Magic/ESP Combat",
+          "rating": 2
+        },
+        {
+          "name": "Romance",
+          "rating": 2
+        },
+        {
+          "name": "Kuudere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Genius Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Multiple Endings",
+          "rating": 2
+        },
+        {
+          "name": "Ojousama Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Airhead Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Modern Tsundere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Classic Tsundere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Deredere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Student Council",
+          "rating": 2
+        },
+        {
+          "name": "Protagonist's Childhood Friend as a Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Princess Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Time Loop",
+          "rating": 2
+        },
+        {
+          "name": "Heroine with Zettai Ryouiki",
+          "rating": 2
+        },
+        {
+          "name": "Bookworm Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Sword Wielding Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Branching Plot",
+          "rating": 2
+        },
+        {
+          "name": "Proactive Protagonist",
+          "rating": 2
+        },
+        {
+          "name": "Clumsy Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Protagonist with a Face",
+          "rating": 2
+        },
+        {
+          "name": "Side Portraits",
+          "rating": 2
+        },
+        {
+          "name": "Winter",
+          "rating": 2
+        },
+        {
+          "name": "Twin Tail Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Super Deformed CGs",
+          "rating": 2
+        },
+        {
+          "name": "Student Council President Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Student Club President Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Passage of Time",
+          "rating": 2
+        },
+        {
+          "name": "Lots of Choices",
+          "rating": 2
+        },
+        {
+          "name": "Heroine with Ahoge",
+          "rating": 2
+        },
+        {
+          "name": "Built-in Encyclopedia",
+          "rating": 2
+        },
+        {
+          "name": "Discipline Committee Leader Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Choices with 4 or More Options",
+          "rating": 2
+        },
+        {
+          "name": "Long Common Route",
+          "rating": 2
+        }
+      ],
+      "score": 70.0
+    },
+    "id:v906": {
+      "id": "v906",
+      "title": "Reminiscence",
+      "alttitle": null,
+      "titles": [
+        "Reminiscence"
+      ],
+      "tags": [],
+      "score": 100.0
+    },
+    "Reminiscence": {
+      "id": "v906",
+      "title": "Reminiscence",
+      "alttitle": null,
+      "titles": [
+        "Reminiscence"
+      ],
+      "tags": [],
+      "score": 100.0
+    },
+    "回想録": {
+      "id": "v21534",
+      "title": "Boukyaku Shitsuji to Koi Suru Ojou-sama no Memoir",
+      "alttitle": "忘却執事と恋するお嬢様の回想録",
+      "titles": [
+        "Boukyaku Shitsuji to Koi Suru Ojou-sama no Memoir",
+        "忘却執事と恋するお嬢様の回想録",
+        "忘却管家与恋爱大小姐的回忆录"
+      ],
+      "tags": [
+        {
+          "name": "Ojousama Heroine",
+          "rating": 3
+        },
+        {
+          "name": "Only a Single Heroine",
+          "rating": 3
+        },
+        {
+          "name": "Male Protagonist",
+          "rating": 2.5
+        },
+        {
+          "name": "Butler Protagonist",
+          "rating": 2.5
+        },
+        {
+          "name": "ADV",
+          "rating": 2
+        },
+        {
+          "name": "Genius Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Amnesia",
+          "rating": 2
+        },
+        {
+          "name": "Late Sexual Content",
+          "rating": 2
+        },
+        {
+          "name": "Donkan Protagonist",
+          "rating": 2
+        },
+        {
+          "name": "Childhood Promise",
+          "rating": 2
+        },
+        {
+          "name": "Flashback",
+          "rating": 2
+        },
+        {
+          "name": "Kinetic Novel",
+          "rating": 2
+        },
+        {
+          "name": "Reunion",
+          "rating": 2
+        },
+        {
+          "name": "Only Loli Heroines",
+          "rating": 2
+        },
+        {
+          "name": "Unlockable Epilogue",
+          "rating": 2
+        },
+        {
+          "name": "Legwear Footjob",
+          "rating": 2
+        },
+        {
+          "name": "Single Boobjob",
+          "rating": 2
+        },
+        {
+          "name": "Single Footjob",
+          "rating": 2
+        },
+        {
+          "name": "Under the Same Roof",
+          "rating": 1
+        }
+      ],
+      "score": 63.0
+    },
+    "Team Device": null,
+    "Team Device Reminiscence": null,
+    "id:v22499": {
+      "id": "v22499",
+      "title": "Deep One",
+      "alttitle": "Deep One -ディープワン-",
+      "titles": [
+        "Deep One",
+        "Deep One -ディープワン-"
+      ],
+      "tags": [
+        {
+          "name": "Magic",
+          "rating": 3
+        },
+        {
+          "name": "Action",
+          "rating": 3
+        },
+        {
+          "name": "Magic/ESP Combat",
+          "rating": 3
+        },
+        {
+          "name": "Linear Plot",
+          "rating": 3
+        },
+        {
+          "name": "Protagonist with a Face",
+          "rating": 3
+        },
+        {
+          "name": "High Amount of Special Effects",
+          "rating": 3
+        },
+        {
+          "name": "Protagonist's Younger Sister as a Heroine",
+          "rating": 3
+        },
+        {
+          "name": "Blood-related Brother/Sister Incest",
+          "rating": 3
+        },
+        {
+          "name": "Martial Artist Protagonist",
+          "rating": 2.5
+        },
+        {
+          "name": "Sword Wielding Protagonist",
+          "rating": 2.5
+        },
+        {
+          "name": "Twincest",
+          "rating": 2.5
+        },
+        {
+          "name": "Protagonist's Twin as a Heroine",
+          "rating": 2.33333325386047
+        },
+        {
+          "name": "Yamato Nadeshiko Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Sword Combat",
+          "rating": 2
+        },
+        {
+          "name": "Male Protagonist",
+          "rating": 2
+        },
+        {
+          "name": "Modern Day",
+          "rating": 2
+        },
+        {
+          "name": "Low Sexual Content",
+          "rating": 2
+        },
+        {
+          "name": "Shy Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Brief NVL Scenes",
+          "rating": 2
+        },
+        {
+          "name": "Witch Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Infodumping",
+          "rating": 2
+        },
+        {
+          "name": "Protagonist with Partial Voice Acting",
+          "rating": 2
+        },
+        {
+          "name": "Tactician Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Spontaneous Power-ups",
+          "rating": 2
+        },
+        {
+          "name": "Protagonist with Heterochromia",
+          "rating": 2
+        },
+        {
+          "name": "Built-in Walkthrough",
+          "rating": 2
+        },
+        {
+          "name": "White Haired Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Built-in Encyclopedia",
+          "rating": 2
+        },
+        {
+          "name": "Urban Fantasy",
+          "rating": 2
+        },
+        {
+          "name": "Bad Endings with Story",
+          "rating": 1
+        },
+        {
+          "name": "Hint Corner",
+          "rating": 1
+        },
+        {
+          "name": "Varied Title Screens",
+          "rating": 1
+        },
+        {
+          "name": "Straight Lolicon",
+          "rating": 1
+        }
+      ],
+      "score": 100.0
+    },
+    "id:v25366": {
+      "id": "v25366",
+      "title": "Ren'ai, Karichaimashita",
+      "alttitle": "恋愛、借りちゃいました",
+      "titles": [
+        "Ren'ai, Karichaimashita",
+        "恋愛、借りちゃいました",
+        "Koikari - Love For Hire",
+        "恋爱，我就借走了"
+      ],
+      "tags": [
+        {
+          "name": "Slice of Life Comedy",
+          "rating": 3
+        },
+        {
+          "name": "Part-time Job",
+          "rating": 3
+        },
+        {
+          "name": "Perverted Heroine",
+          "rating": 3
+        },
+        {
+          "name": "Love Triangle",
+          "rating": 3
+        },
+        {
+          "name": "Twin Sisters as Heroines",
+          "rating": 2.88888883590698
+        },
+        {
+          "name": "Comedy",
+          "rating": 2.875
+        },
+        {
+          "name": "Teacher Heroine",
+          "rating": 2.83333325386047
+        },
+        {
+          "name": "Protagonist's Sister as a Support Character",
+          "rating": 2.83333325386047
+        },
+        {
+          "name": "ADV",
+          "rating": 2.79999995231628
+        },
+        {
+          "name": "Other Perspectives",
+          "rating": 2.79999995231628
+        },
+        {
+          "name": "Only Virgin Heroines",
+          "rating": 2.79999995231628
+        },
+        {
+          "name": "Siscon Protagonist",
+          "rating": 2.79999995231628
+        },
+        {
+          "name": "Ladder Structure",
+          "rating": 2.79999995231628
+        },
+        {
+          "name": "Tsundere Heroine",
+          "rating": 2.75
+        },
+        {
+          "name": "Pretending Protagonist",
+          "rating": 2.75
+        },
+        {
+          "name": "High School Student Heroine",
+          "rating": 2.75
+        },
+        {
+          "name": "Male Protagonist",
+          "rating": 2.71428561210632
+        },
+        {
+          "name": "High School Student Protagonist",
+          "rating": 2.66666674613953
+        },
+        {
+          "name": "Chosen Choices Marking",
+          "rating": 2.66666674613953
+        },
+        {
+          "name": "Jump to Prior Choices",
+          "rating": 2.66666674613953
+        },
+        {
+          "name": "Jump to Next Choice",
+          "rating": 2.66666674613953
+        },
+        {
+          "name": "Imouto-type Heroine",
+          "rating": 2.59999990463257
+        },
+        {
+          "name": "Summer",
+          "rating": 2.59999990463257
+        },
+        {
+          "name": "School Life Comedy",
+          "rating": 2.5
+        },
+        {
+          "name": "Pretending Heroine",
+          "rating": 2.5
+        },
+        {
+          "name": "Tsundere Protagonist",
+          "rating": 2.5
+        },
+        {
+          "name": "Long Common Route",
+          "rating": 2.5
+        },
+        {
+          "name": "Kissing Scene",
+          "rating": 2.5
+        },
+        {
+          "name": "Shimaidon with Twins Ending",
+          "rating": 2.33333325386047
+        },
+        {
+          "name": "Heroine with Big Breasts",
+          "rating": 2.33333325386047
+        },
+        {
+          "name": "Adult Heroine",
+          "rating": 2.25
+        },
+        {
+          "name": "Defloration",
+          "rating": 2.25
+        },
+        {
+          "name": "Sprite Viewer",
+          "rating": 2.25
+        },
+        {
+          "name": "Romance",
+          "rating": 2.20000004768372
+        },
+        {
+          "name": "Naked Sprites",
+          "rating": 2.20000004768372
+        },
+        {
+          "name": "Deredere Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Energetic Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Sex in Public Places",
+          "rating": 2
+        },
+        {
+          "name": "Twin Tail Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Super Deformed CGs",
+          "rating": 2
+        }
+      ],
+      "score": 100.0
+    },
+    "id:v28130": {
+      "id": "v28130",
+      "title": "Nekotsuku, Sakura.",
+      "alttitle": "ねこツク、さくら。",
+      "titles": [
+        "Nekotsuku, Sakura.",
+        "ねこツク、さくら。"
+      ],
+      "tags": [
+        {
+          "name": "Romance",
+          "rating": 3
+        },
+        {
+          "name": "Slice of Life Comedy",
+          "rating": 3
+        },
+        {
+          "name": "Possession",
+          "rating": 3
+        },
+        {
+          "name": "Loli Heroine",
+          "rating": 2.33333325386047
+        },
+        {
+          "name": "Fantasy",
+          "rating": 2
+        },
+        {
+          "name": "ADV",
+          "rating": 2
+        },
+        {
+          "name": "Male Protagonist",
+          "rating": 2
+        },
+        {
+          "name": "Otaku Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Catgirl Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Defloration",
+          "rating": 2
+        },
+        {
+          "name": "Armpit Sex",
+          "rating": 2
+        },
+        {
+          "name": "Tailjob",
+          "rating": 2
+        },
+        {
+          "name": "Legwear Footjob",
+          "rating": 2
+        },
+        {
+          "name": "Single Footjob",
+          "rating": 2
+        },
+        {
+          "name": "High School Student Heroine",
+          "rating": 2
+        },
+        {
+          "name": "Heroine with Big Breasts",
+          "rating": 2
+        },
+        {
+          "name": "Heroine with Flat Chest (Non-Loli)",
+          "rating": 2
+        },
+        {
+          "name": "School Life Comedy",
+          "rating": 1.5
+        },
+        {
+          "name": "Urban Fantasy",
+          "rating": 1
+        }
+      ],
+      "score": 100.0
+    }
+  },
+  "bangumi": {
+    "id:406566": {
+      "id": 406566,
+      "name": "アリス×・・・！",
+      "name_cn": "",
+      "tags": [
+        {
+          "name": "DJ",
+          "count": 1
+        },
+        {
+          "name": "游戏",
+          "count": 1
+        },
+        {
+          "name": "PC",
+          "count": 1
+        }
+      ],
+      "score": 100.0
+    },
+    "id:384270": {
+      "id": 384270,
+      "name": "Reminiscence",
+      "name_cn": "",
+      "tags": [
+        {
+          "name": "游戏",
+          "count": 1
+        },
+        {
+          "name": "PC",
+          "count": 1
+        }
+      ],
+      "score": 100.0
+    },
+    "id:350300": {
+      "id": 350300,
+      "name": "Deep onE",
+      "name_cn": "",
+      "tags": [
+        {
+          "name": "游戏",
+          "count": 1
+        },
+        {
+          "name": "PC",
+          "count": 1
+        },
+        {
+          "name": "同人",
+          "count": 1
+        }
+      ],
+      "score": 100.0
+    },
+    "Ren'ai, Karichaimashita": null,
+    "Renai Karichaimashita": null,
+    "恋、借りちゃいました": null,
+    "Koi, Karichaimashita": {
+      "id": 443471,
+      "name": "KOI",
+      "name_cn": "鲤",
+      "tags": [
+        {
+          "name": "游戏",
+          "count": 1
+        },
+        {
+          "name": "PC",
+          "count": 1
+        }
+      ],
+      "score": 73.15789473684211
+    },
+    "恋爱，我借走了": null,
+    "Nekotsuku, Sakura.": null,
+    "Nekotsuku Sakura": null,
+    "ねこツク、さくら。": null,
+    "猫附，樱舞": {
+      "id": 499675,
+      "name": "Cats",
+      "name_cn": "猫",
+      "tags": [
+        {
+          "name": "PC",
+          "count": 3
+        },
+        {
+          "name": "游戏",
+          "count": 1
+        }
+      ],
+      "score": 74.0
+    },
+    "猫咪相随，樱花舞": null
+  },
+  "cngal": {
+    "アリス×・・・！": null,
+    "Alice 2010": null,
+    "Alice Soft 2010": null,
+    "アリス2010": null,
+    "アリス× ！": null,
+    "Haruoto Alice * Gram": null,
+    "Haruoto Alice Gram": null,
+    "春音アリス＊グラム": null,
+    "春音アリスグラム": null,
+    "春音Alice＊Gram": null,
+    "春音AliceGram": null,
+    "春音Alice＊": null,
+    "Gram": null,
+    "Reminiscence": null,
+    "回想録": null,
+    "Team Device": null,
+    "Team Device Reminiscence": null,
+    "Boukyaku Shitsuji to Koi Suru Ojou-sama no Memoir": null,
+    "忘却執事と恋するお嬢様の回想録": null,
+    "忘却管家与恋爱大小姐的回忆录": null,
+    "Deep One": null,
+    "堕欲魔导书": null,
+    "Deep One 堕欲魔导书": null,
+    "Deep One -ディープワン": null,
+    "Ren'ai, Karichaimashita": null,
+    "Renai Karichaimashita": null,
+    "恋、借りちゃいました": null,
+    "Koi, Karichaimashita": null,
+    "恋爱，我借走了": null,
+    "恋愛、借りちゃいました": null,
+    "Koikari - Love For Hire": null,
+    "恋爱，我就借走了": null,
+    "Nekotsuku, Sakura.": null,
+    "Nekotsuku Sakura": null,
+    "ねこツク、さくら。": null,
+    "猫附，樱舞": null,
+    "猫咪相随，樱花舞": null
+  }
+}

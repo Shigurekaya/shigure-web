@@ -13,6 +13,10 @@ import json
 import os
 import re
 import sys
+
+from pick_tag_axes import (
+    derive_axes_from_raw_tags,
+)
 import time
 import urllib.parse
 from pathlib import Path
@@ -37,6 +41,7 @@ BRAND_NOISE = {
     "Eushully", "KeroQ", "NekoNeko Soft", "Bonbee!", "AliceSoft", "FrontWing",
     "戏画", "F&C", "Circus", "HOOKSOFT", "NITRO PLUS", "Purple software",
     "feng", "Clochette", "ASa Project", "MOONSTONE", "Silky's Plus WASABI",
+    "CUBE", "PULLTOP", "PULLTOP 20周年Project",
 }
 
 # Hard CN sedai titles → better search keys (JP/EN)
@@ -73,85 +78,8 @@ def load_title_aliases() -> dict[str, list[str]]:
 
 TITLE_ALIASES_MAP = load_title_aliases()
 
-# VNDB English tags → our axes
-VNDB_MAP: dict[str, dict[str, str]] = {
-    "Romance": {"tone": "sweet"},
-    "Comedy": {"tone": "hype"},
-    "Drama": {"tone": "drama"},
-    "Tragedy": {"tone": "drama"},
-    "Melodrama": {"tone": "drama"},
-    "Nakige": {"tone": "drama"},
-    "Utsuge": {"tone": "drama"},
-    "Healing": {"tone": "heal"},
-    "Iyashikei": {"tone": "heal"},
-    "Slice of Life": {"tone": "heal", "setting": "daily"},
-    "Mystery": {"tone": "mindbend", "setting": "mystery"},
-    "Thriller": {"tone": "mindbend", "setting": "mystery"},
-    "Horror": {"tone": "mindbend", "setting": "mystery"},
-    "Sci-fi": {"setting": "scifi", "tone": "mindbend"},
-    "Science Fiction": {"setting": "scifi"},
-    "Fantasy": {"setting": "fantasy"},
-    "High Fantasy": {"setting": "fantasy"},
-    "Urban Fantasy": {"setting": "fantasy"},
-    "High School": {"setting": "school"},
-    "School Life": {"setting": "school"},
-    "College": {"setting": "school"},
-    "ADV": {"pace": "breezy"},
-    "Kinetic Novel": {"pace": "short"},
-    "Short": {"pace": "short"},
-    "Long": {"pace": "slowburn"},
-    "Very Long": {"pace": "dense"},
-    "Action": {"tone": "hype"},
-    "Combat": {"tone": "epic"},
-    "War": {"tone": "epic"},
-    "Politics": {"tone": "epic"},
-    "Philosophy": {"tone": "literary"},
-    "Literary Fiction": {"tone": "literary"},
-    "Time Travel": {"setting": "scifi", "tone": "mindbend"},
-    "Multiple Route Mystery": {"tone": "mindbend", "setting": "mystery"},
-}
-
-# Bangumi / CnGal Chinese tags → axes
-CN_MAP: dict[str, dict[str, str]] = {
-    "恋爱": {"tone": "sweet"},
-    "纯爱": {"tone": "sweet"},
-    "甜作": {"tone": "sweet"},
-    "废萌": {"tone": "sweet"},
-    "萌": {"tone": "sweet"},
-    "治愈": {"tone": "heal"},
-    "温馨": {"tone": "heal"},
-    "日常": {"tone": "heal", "setting": "daily"},
-    "致郁": {"tone": "drama"},
-    "催泪": {"tone": "drama"},
-    "泪腺崩坏": {"tone": "drama"},
-    "泣きゲー": {"tone": "drama"},
-    "Drama": {"tone": "drama"},
-    "悬疑": {"tone": "mindbend", "setting": "mystery"},
-    "推理": {"tone": "mindbend", "setting": "mystery"},
-    "神秘": {"tone": "mindbend", "setting": "mystery"},
-    "猎奇": {"tone": "mindbend"},
-    "科幻": {"setting": "scifi", "tone": "mindbend"},
-    "未来": {"setting": "scifi"},
-    "奇幻": {"setting": "fantasy"},
-    "幻想": {"setting": "fantasy"},
-    "魔法": {"setting": "fantasy"},
-    "异世界": {"setting": "fantasy"},
-    "校园": {"setting": "school"},
-    "学园": {"setting": "school"},
-    "高中": {"setting": "school"},
-    "短篇": {"pace": "short"},
-    "长篇": {"pace": "slowburn"},
-    "超长篇": {"pace": "dense"},
-    "全年龄": {"tone": "heal"},
-    "文学": {"tone": "literary"},
-    "哲学": {"tone": "literary"},
-    "战斗": {"tone": "epic"},
-    "热血": {"tone": "hype"},
-    "喜剧": {"tone": "hype"},
-    "欢脱": {"tone": "hype"},
-    "后宫": {"tone": "sweet"},
-    "群像": {"tone": "drama"},
-}
+# Re-exported from pick_tag_axes for scripts that import fetch_sedai_tags
+__all__ = ["VNDB_MAP", "CN_MAP", "derive_axes", "derive_axes_from_raw_tags"]
 
 
 def client() -> httpx.Client:
@@ -500,6 +428,82 @@ def vndb_fetch(c: httpx.Client, cache: dict, keyword: str) -> dict | None:
     return pick
 
 
+def vndb_fetch_by_id(c: httpx.Client, cache: dict, vn_id: str) -> dict | None:
+    """Fetch VN by exact VNDB id (e.g. v906). Cached separately from keyword search."""
+    cache_key = f"id:{vn_id}"
+    if cache_key in cache["vndb"]:
+        return cache["vndb"][cache_key]
+    try:
+        r = c.post(
+            "https://api.vndb.org/kana/vn",
+            json={
+                "filters": ["id", "=", vn_id],
+                "fields": "id,title,alttitle,titles{title,lang,main,official},tags{name,rating}",
+                "results": 1,
+            },
+            headers={"Content-Type": "application/json", "Accept": "application/json"},
+        )
+        r.raise_for_status()
+        row = (r.json().get("results") or [None])[0]
+    except Exception as e:
+        _log(f"  vndb id err {vn_id!r}: {e}")
+        time.sleep(0.35)
+        return None
+    if not row:
+        cache["vndb"][cache_key] = None
+        save_cache(cache)
+        return None
+    tags = sorted(row.get("tags") or [], key=lambda t: -(t.get("rating") or 0))[:40]
+    titles = [row.get("title") or "", row.get("alttitle") or ""]
+    for t in row.get("titles") or []:
+        if isinstance(t, dict) and t.get("title"):
+            titles.append(t["title"])
+    pick = {
+        "id": row.get("id"),
+        "title": row.get("title"),
+        "alttitle": row.get("alttitle"),
+        "titles": list(dict.fromkeys(t for t in titles if t))[:12],
+        "tags": [{"name": t.get("name"), "rating": t.get("rating")} for t in tags],
+        "score": 100.0,
+    }
+    cache["vndb"][cache_key] = pick
+    save_cache(cache)
+    time.sleep(0.35)
+    return pick
+
+
+def bangumi_fetch_by_id(c: httpx.Client, cache: dict, subject_id: int) -> dict | None:
+    cache_key = f"id:{subject_id}"
+    if cache_key in cache["bangumi"]:
+        return cache["bangumi"][cache_key]
+    try:
+        r = c.get(f"https://api.bgm.tv/v0/subjects/{subject_id}")
+        if r.status_code == 404:
+            cache["bangumi"][cache_key] = None
+            save_cache(cache)
+            return None
+        r.raise_for_status()
+        detail = r.json()
+        tags = [
+            {"name": t.get("name"), "count": t.get("count")}
+            for t in (detail.get("tags") or [])[:30]
+        ]
+        out = {
+            "id": subject_id,
+            "name": detail.get("name"),
+            "name_cn": detail.get("name_cn") or "",
+            "tags": tags,
+            "score": 100.0,
+        }
+    except Exception as e:
+        _log(f"  bgm id err {subject_id}: {e}")
+        out = None
+    cache["bangumi"][cache_key] = out
+    save_cache(cache)
+    time.sleep(0.3)
+    return out
+
+
 def bangumi_fetch(c: httpx.Client, cache: dict, keyword: str) -> dict | None:
     if keyword in cache["bangumi"]:
         return cache["bangumi"][keyword]
@@ -632,71 +636,27 @@ def first_hit(fetch_fn, c, cache, queries: list[str]):
     return best_hit(fetch_fn, c, cache, queries)
 
 
-def vote_axes(tag_votes: dict[str, dict[str, float]]) -> dict[str, str]:
-    axes = {}
-    for dim, votes in tag_votes.items():
-        if not votes:
-            continue
-        axes[dim] = max(votes.items(), key=lambda kv: kv[1])[0]
-    return axes
-
-
 def derive_axes(vndb: dict | None, bgm: dict | None, cngal: dict | None, year: int, rank: int) -> dict:
-    votes: dict[str, dict[str, float]] = {
-        "tone": {},
-        "setting": {},
-        "pace": {},
-    }
     raw_tags: list[str] = []
-
-    def add(dim: str, val: str, w: float) -> None:
-        votes[dim][val] = votes[dim].get(val, 0) + w
-
-    def apply_map(name: str, mapping: dict[str, dict[str, str]], w: float) -> None:
-        hit = mapping.get(name)
-        if not hit:
-            # partial contains for CN tags
-            for k, v in mapping.items():
-                if k in name or name in k:
-                    hit = v
-                    break
-        if not hit:
-            return
-        for dim, val in hit.items():
-            add(dim, val, w)
 
     if vndb:
         for t in vndb.get("tags") or []:
             name = t.get("name") or ""
-            if not name:
-                continue
-            raw_tags.append(f"vndb:{name}")
-            rating = float(t.get("rating") or 0)
-            w = 1.0 + min(rating, 3.0)
-            apply_map(name, VNDB_MAP, w)
+            if name:
+                raw_tags.append(f"vndb:{name}")
 
     if bgm:
         for t in bgm.get("tags") or []:
             name = t.get("name") or ""
-            if not name:
-                continue
-            raw_tags.append(f"bgm:{name}")
-            count = float(t.get("count") or 1)
-            w = 1.0 + min(count / 20.0, 3.0)
-            apply_map(name, CN_MAP, w)
+            if name:
+                raw_tags.append(f"bgm:{name}")
 
     if cngal:
         for name in cngal.get("tags") or []:
-            if not name:
-                continue
-            raw_tags.append(f"cngal:{name}")
-            apply_map(name, CN_MAP, 1.5)
+            if name:
+                raw_tags.append(f"cngal:{name}")
 
-    axes = vote_axes(votes)
-    # defaults only if missing
-    axes.setdefault("tone", "sweet")
-    axes.setdefault("setting", "school")
-    axes.setdefault("pace", "breezy")
+    axes = derive_axes_from_raw_tags(raw_tags)
     axes["era"] = "classic" if year <= 2012 else "modern"
     axes["fame"] = "icon" if rank <= 5 else ("hit" if rank <= 12 else "solid")
     axes["tag_source"] = "+".join(

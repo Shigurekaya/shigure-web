@@ -680,10 +680,13 @@
     }
   }
 
-  /** 2D 冷凝微珠上限（贴屏由 raindrop droplets 负责，回退路径勿上千级粒子） */
+  /** 2D 冷凝溅冠：参考片 ~300+ 打屏微水花；贴屏大珠由 raindrop-fx */
   function condenseMicroN(storm, phone) {
-    if (storm) return phone ? 56 : 88;
-    return phone ? 40 : 64;
+    if (storm) {
+      const base = phone ? 165 : 175;
+      return Math.round(base * STORM_BEAD_MUL);
+    }
+    return phone ? 110 : 165;
   }
 
   /**
@@ -848,9 +851,9 @@
       opts.raindropShadowOffset = 0.13;
       opts.raindropLightPos = [-0.45, 1.36, 2.72, 0];
       opts.raindropEraserSize = [0.9, 1.0];
-      /* 稀疏冷凝：突出大珠；过密→霜罩，为 0→玻璃发干 */
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 40 : 70) : 0;
-      opts.dropletSize = screenGlass ? [5, 12] : [4, 8];
+      /* 冷凝由 2D 静态离屏层负责；raindrop droplets 动态粒子易像「冒泡」 */
+      opts.dropletsPerSeconds = 0;
+      opts.dropletSize = [4, 8];
       opts.spawnLimit = Math.min(
         opts.spawnLimit || 2400,
         screenGlass ? (phone ? 120 : 240) : 220,
@@ -858,11 +861,12 @@
       opts.spawnInterval = screenGlass ? [0.05, 0.11] : [0.04, 0.09];
     } else {
       /*
-       * 大雨贴屏：透明透镜主珠 + 少量冷凝微珠（对齐参考片湿玻璃）。
+       * 大雨贴屏：透明透镜主珠 + 2D 打屏溅冠（对齐 REF 湿玻璃）。
+       * 冷凝微珠禁 raindrop droplets，避免与 2D 溅冠叠成双套圆点。
        */
       opts.spawnSize = phone ? [52, 110] : [64, 130];
       opts.slipRate = 0.94;
-      opts.trailDropDensity = 0.12;
+      opts.trailDropDensity = 0;
       opts.trailDropSize = [0.18, 0.32];
       opts.trailDistance = [22, 46];
       opts.trailSpread = 0.34;
@@ -889,8 +893,8 @@
       opts.raindropLightPos = [-0.48, 1.38, 2.75, 0];
       opts.raindropEraserSize = [0.92, 1.0];
       opts.motionInterval = [0.035, 0.08];
-      opts.dropletsPerSeconds = screenGlass ? (phone ? 28 : 48) : 0;
-      opts.dropletSize = screenGlass ? [5, 12] : [4, 8];
+      opts.dropletsPerSeconds = 0;
+      opts.dropletSize = [4, 8];
       opts.spawnLimit = Math.min(
         opts.spawnLimit || 400,
         screenGlass ? (phone ? 140 : 220) : 120,
@@ -1137,7 +1141,7 @@
 
     const useGpuStreaks = () => !!gpu;
 
-    /* 贴屏未就绪时仍显示 2D 珠；就绪后关掉避免叠两层 */
+    /* 贴屏成功时 2D 仅绘静态冷凝；未就绪时全开 2D 水珠 */
     const wantSplash = true;
     splashCanvas.style.display = wantSplash ? "" : "none";
     glassDropCanvas.style.display = "";
@@ -1146,7 +1150,7 @@
 
     const glassMainN = storm
       ? Math.max(realPhone ? 56 : 72, Math.round((q0.glassMain || 128) * 0.42))
-      : (realPhone ? Math.max(36, Math.round((q0.glassMain || 34) * 1.0)) : (q0.glassMain || 90));
+      : (realPhone ? 22 : 28);
     const glassMicroN = condenseMicroN(storm, realPhone);
 
     const glassDrops = window.KayaGlassDrops?.attach
@@ -1158,6 +1162,7 @@
         storm,
         lite: mobileLite,
         noSpray: false,
+        microSplashOnly: !storm,
       })
       : null;
     if (!glassDrops) glassDropCanvas.style.display = "none";
@@ -1313,13 +1318,15 @@
       }
       /* 贴屏成功后停 GPU（本来也可能未创建）；雨丝在折射底图里 */
       gpu?.setIntensity(screenOn ? 0 : intensity);
-      /* 贴屏未就绪 / 失败：开 2D 珠；成功后关掉 */
+      /* 大雨 2D 永远只绘冷凝溅冠；大折射珠仅 raindrop-fx（或降级时不铺大透镜 2D 珠） */
       if (glassDrops) {
-        const dropsOn = !screenOn;
-        glassDrops.setEnabled?.(dropsOn);
-        glassDrops.setIntensity(dropsOn ? intensity : 0);
-        glassDropCanvas.style.display = dropsOn ? "" : "none";
-        glassDropCanvas.style.opacity = String(clamp(dropsOn ? intensity : 0, 0, 1));
+        const condenseOn = intensity > 0.05;
+        glassDrops.setCondenseOnly?.(storm ? screenOn : true);
+        glassDrops.setEnabled?.(condenseOn);
+        glassDrops.setIntensity(condenseOn ? intensity : 0);
+        glassDropCanvas.style.display = condenseOn ? "" : "none";
+        const condenseAlpha = screenOn ? intensity * (storm ? 0.88 : 0.96) : intensity;
+        glassDropCanvas.style.opacity = String(clamp(condenseAlpha, 0, 1));
       }
       mist.classList.toggle("is-on", intensity > 0.05 && (!screenOn || storm));
       /* 贴屏：背景层雨丝（site-bg__heavy）+ 前景叠层 */
@@ -1526,8 +1533,10 @@
         captureInFlight = false;
         captureQueued = null;
         captureWatchdogFails += 1;
-        if (captureWatchdogFails >= 3) {
+        if (captureWatchdogFails >= 3 && storm) {
           demoteScreenGlass("capture watchdog");
+        } else if (!storm) {
+          scheduleDomCapture(480);
         } else {
           scheduleDomCapture(storm ? 480 : 240);
         }
@@ -1594,9 +1603,10 @@
           if (captureLooksBlack(stormDomBg)) {
             stormDomReady = false;
             captureUiRetries += 1;
-            if (captureUiRetries > 8) {
-              /* 多次截到无 UI / 过暗 → 降级，避免黑幕盖页 */
+            if (captureUiRetries > 8 && storm) {
               demoteScreenGlass("capture too dark or no UI");
+            } else if (!storm) {
+              scheduleDomCapture(480);
             } else {
               scheduleDomCapture(220);
             }
@@ -1610,7 +1620,13 @@
         }
       } catch (err) {
         console.warn("[kaya] storm glass capture failed", err);
-        demoteScreenGlass("capture threw");
+        if (storm) {
+          demoteScreenGlass("capture threw");
+        } else {
+          /* 大雨：快照失败不 demote；冷凝溅冠不依赖 DOM 截图 */
+          stormDomReady = false;
+          captureWatchdogFails += 1;
+        }
       } finally {
         window.clearTimeout(captureWatchdog);
         captureWatchdog = 0;
@@ -1689,26 +1705,36 @@
               if (isHomeUiCaptureReady()) return true;
               await new Promise((r) => setTimeout(r, 80));
             }
-            demoteScreenGlass("ui wait timeout");
-            return false;
+            if (storm) {
+              demoteScreenGlass("ui wait timeout");
+              return false;
+            }
+            return true;
           };
           if (!(await waitUi())) return false;
-          const captureOk = await Promise.race([
-            captureStormDom(bw, bh),
-            new Promise((resolve) => {
-              window.setTimeout(() => resolve(false), storm ? 14000 : 9000);
-            }),
-          ]);
-          if (screenGlassDemoted) return false;
-          /* 暴雨截图慢时先用天空+雨丝底图启贴屏（冷凝珠不依赖 DOM 快照） */
-          if (!captureOk && storm) {
+          if (storm) {
+            const captureOk = await Promise.race([
+              captureStormDom(bw, bh),
+              new Promise((resolve) => {
+                window.setTimeout(() => resolve(false), 14000);
+              }),
+            ]);
+            if (screenGlassDemoted) return false;
+            if (!captureOk) {
+              composeGlassBackground(bw, bh);
+              scheduleDomCapture(520);
+            }
+          } else {
+            /* 大雨：先天空+雨丝启贴屏；DOM 快照后台重试（color-mix 常致 h2c 失败） */
             composeGlassBackground(bw, bh);
-            scheduleDomCapture(520);
-          } else if (!captureOk) {
-            return false;
+            void captureStormDom(bw, bh).then((ok) => {
+              if (ok && glassReady && !screenGlassDemoted) {
+                void pushGlassBackground();
+              }
+            });
           }
         }
-        composeGlassBackground(bw, bh);
+        if (storm || useScreenGlass) composeGlassBackground(bw, bh);
         glassCanvas.width = bw;
         glassCanvas.height = bh;
         const gOpts = glassOptsFor(storm, realPhone, useScreenGlass) || {};
@@ -1746,7 +1772,7 @@
           glassFx.options.smoothRaindrop = gOpts.smoothRaindrop || [0.95, 0.99];
           glassFx.options.spawnSize = gOpts.spawnSize || glassFx.options.spawnSize;
           glassFx.options.dropletsPerSeconds = gOpts.dropletsPerSeconds ?? 0;
-          glassFx.options.trailDropDensity = gOpts.trailDropDensity ?? 0.1;
+          glassFx.options.trailDropDensity = gOpts.trailDropDensity ?? 0;
           glassFx.options.slipRate = gOpts.slipRate ?? 0.98;
           glassFx.options.gravity = gOpts.gravity ?? 3100;
           glassFx.options.motionInterval = gOpts.motionInterval || [0.02, 0.055];
@@ -1817,7 +1843,7 @@
       glassDrops?.setCounts(
         storm
           ? Math.max(realPhone ? 56 : 72, Math.round((q.glassMain || 168) * 0.42))
-          : (realPhone ? Math.max(36, Math.round((q.glassMain || 34) * 1.0)) : (q.glassMain || 90)),
+          : (realPhone ? 22 : 28),
         condenseMicroN(storm, realPhone),
       );
       const ledgeSnap = (opts.collectLedges

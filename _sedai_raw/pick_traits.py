@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import re
 
+from pick_tag_axes import _any_match, _blob, _DARK_TONE_PATTERNS, is_sweet_incompatible
+
 # 主标签向邻近 trait 扩散（权重）
 TRAIT_SPREAD: dict[str, list[tuple[str, float]]] = {
     "tone:sweet": [("tone:heal", 0.42), ("tone:hype", 0.35), ("focus:romance", 0.55), ("mood:light", 0.5), ("appeal:moe", 0.45)],
@@ -63,7 +65,17 @@ RAW_TRAIT_RULES: list[tuple[re.Pattern[str], dict[str, float]]] = [
     (re.compile(r"time travel|loop|轮回|多周目|route unlock|multiple route", re.I), {"routes:puzzle": 0.45, "appeal:mystery": 0.25}),
     (re.compile(r"war|combat|mecha|战斗|action|turn.?based", re.I), {"appeal:action": 0.5, "tone:epic": 0.25, "playstyle:rpg": 0.35}),
     (re.compile(r"philosophy|literary|文学|哲学|psychological", re.I), {"appeal:literary": 0.5, "tone:literary": 0.3}),
-    (re.compile(r"harem|后宫|multiple heroine|多女主", re.I), {"cast:harem": 0.55, "routes:multi": 0.3}),
+    (re.compile(r"harem|后宫|multiple heroine|multiple heroines|多女主", re.I), {"cast:harem": 0.55, "routes:multi": 0.3}),
+    (re.compile(r"multiple endings|unlockable routes|more than seven endings|branching plot", re.I), {"routes:multi": 0.5, "playstyle:adv": 0.35}),
+    (re.compile(r"one true end|linear plot|kinetic|linear", re.I), {"routes:single": 0.45, "pace:short": 0.25, "playstyle:vn": 0.4}),
+    (re.compile(r"map movement|turn.?based|dungeon", re.I), {"playstyle:rpg": 0.55, "appeal:action": 0.3}),
+    (re.compile(r"group of friends|under the same roof|ensemble", re.I), {"cast:ensemble": 0.4, "focus:story": 0.2}),
+    (re.compile(r"love overcomes all", re.I), {"focus:romance": 0.35, "tone:sweet": 0.2}),
+    (re.compile(r"bad ending|tragedy|life and death", re.I), {"mood:heavy": 0.35, "tone:drama": 0.25}),
+    (re.compile(r"student heroine|high school|school life", re.I), {"setting:school": 0.35}),
+    (re.compile(r"fighting protagonist|fighting heroine|combat", re.I), {"appeal:action": 0.45, "tone:hype": 0.2}),
+    (re.compile(r"ladder structure|route unlock|choices matter", re.I), {"routes:puzzle": 0.4, "entry:deep": 0.25}),
+    (re.compile(r"no sexual content|all ages|全年龄", re.I), {"tone:heal": 0.3, "entry:easy": 0.25}),
     (re.compile(r"single route|kinetic|linear|短篇|short|sound novel|音响小说", re.I), {"routes:single": 0.4, "pace:short": 0.25, "playstyle:vn": 0.4}),
     (re.compile(r"ensemble|群像|large cast", re.I), {"cast:ensemble": 0.45, "focus:story": 0.2}),
     (re.compile(r"healing|iyashikei|治愈", re.I), {"tone:heal": 0.35, "mood:light": 0.3}),
@@ -76,7 +88,15 @@ RAW_TRAIT_RULES: list[tuple[re.Pattern[str], dict[str, float]]] = [
     (re.compile(r"simulation|raising|schedule|养成|slg", re.I), {"playstyle:sim": 0.5}),
     (re.compile(r"role.?playing|rpg|srpg|dungeon|战棋", re.I), {"playstyle:rpg": 0.5, "appeal:action": 0.25}),
     (re.compile(r"visual novel|adv|branching|choices matter", re.I), {"playstyle:adv": 0.35}),
-    (re.compile(r"nukige|拔作|eroge focus|sexual content", re.I), {"tone:hype": 0.2}),  # 弱标记，不单独推荐
+    (re.compile(r"nukige|拔作|eroge focus|sexual content", re.I), {"tone:hype": 0.35, "mood:heavy": 0.25}),
+    (
+        re.compile(
+            r"rape|mindbreak|sexual slavery|bestiality|gang rape|torture|guro|cannibalism|"
+            r"villainous protagonist|choukyou|high amounts of rape|heroine rape",
+            re.I,
+        ),
+        {"tone:utsuge": 0.65, "mood:heavy": 0.55, "focus:story": 0.3, "entry:deep": 0.35},
+    ),
 ]
 
 
@@ -116,6 +136,19 @@ def build_traits(row: dict) -> dict[str, float]:
             if pat.search(blob):
                 for k, w in adds.items():
                     _bump(traits, k, w)
+
+    raw_tags = row.get("raw_tags") or []
+    if raw_tags and is_sweet_incompatible(raw_tags):
+        traits.pop("focus:romance", None)
+        _bump(traits, "focus:story", 0.5)
+        if _any_match(_blob(raw_tags), _DARK_TONE_PATTERNS):
+            _bump(traits, "mood:heavy", 0.55)
+        else:
+            _bump(traits, "mood:bittersweet", 0.45)
+        if traits.get("mood:light", 0) > 0.3:
+            traits["mood:light"] = 0.22
+        if traits.get("tone:sweet", 0) > 0.25:
+            traits["tone:sweet"] = 0.22
 
     return {k: round(v, 2) for k, v in traits.items() if v >= 0.18}
 

@@ -635,6 +635,8 @@ body.storm-rain .weather-gate__panel a:hover {
 
   body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-hero,
   body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-avatar,
+  body.storm-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-hero,
+  body.storm-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-avatar,
   body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-name,
   body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-roman,
   body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-sign,
@@ -864,7 +866,8 @@ body.heavy-rain .profile-avatar {
   box-shadow: none;
 }
 
-body.heavy-rain .profile-avatar::before {
+body.heavy-rain .profile-avatar::before,
+body.storm-rain .profile-avatar::before {
   opacity: 0;
   visibility: hidden;
 }
@@ -1119,10 +1122,10 @@ body.storm-rain .site-bg {
 
 body.storm-rain .site-fx__glass-drops.is-storm-glass,
 body.heavy-rain .site-fx__glass-drops.is-clear-glass {
-  /* 透明叠加；透明度由 JS 控制，勿 !important 盖掉贴屏成功后的关闭 */
+  /* 冷凝溅冠须在贴屏折射层 (z6) 之上，否则完全被 raindrop-fx 盖住 */
   filter: none;
   mix-blend-mode: normal;
-  z-index: 4;
+  z-index: 8;
   background: transparent;
 }
 
