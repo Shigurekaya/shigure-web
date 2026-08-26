@@ -308,6 +308,18 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ── 主页 ── */
+.page-home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.page-home .site-header,
+.page-home .home-main {
+  width: 100%;
+}
+
 .home-main {
   max-width: var(--max);
   margin: 0 auto;
@@ -316,6 +328,24 @@ img { max-width: 100%; height: auto; display: block; }
 
 .page-home .home-main {
   max-width: var(--max-wide);
+  flex: 1 0 auto;
+}
+
+/* 主页页脚：网页最底；背景全宽，内容仍居中 */
+.page-home .site-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 1rem var(--pad) 1.35rem;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bg) 72%, transparent) 38%,
+    color-mix(in srgb, var(--bg) 92%, transparent) 100%
+  );
 }
 
 .profile-hero {
@@ -384,33 +414,6 @@ img { max-width: 100%; height: auto; display: block; }
   background:
     radial-gradient(circle, rgba(139, 111, 212, 0.35) 0%, rgba(161, 196, 253, 0.18) 42%, transparent 72%);
   box-shadow: 0 0 0 1px rgba(139, 111, 212, 0.12);
-}
-
-/* 主页页脚贴视口底 */
-.page-home .site-footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 40;
-  max-width: none;
-  margin: 0;
-  padding: 1rem var(--pad) 1.35rem;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    color-mix(in srgb, var(--bg) 72%, transparent) 38%,
-    color-mix(in srgb, var(--bg) 92%, transparent) 100%
-  );
-  pointer-events: none;
-}
-
-.page-home .site-footer > * {
-  pointer-events: auto;
-}
-
-.page-home .home-main {
-  padding-bottom: clamp(7.5rem, 18vh, 10rem);
 }
 
 .profile-avatar {
