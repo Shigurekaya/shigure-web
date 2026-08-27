@@ -5,6 +5,7 @@ tianhu/
 _rain_analysis/
 _sedai_raw/
 _quiz_raw/
+_gal_quotes/
 .venv/
 node_modules/
 .git/

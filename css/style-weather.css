@@ -509,12 +509,19 @@ body.after-rain {
   background: var(--bg);
 }
 
-/* 页脚隐秘天气入口（视口左下角透明按钮，点开切换） */
+/* 页脚隐秘天气入口（视口左下，抬到名言行上方，避免挡住台词） */
 .weather-gate {
   position: fixed;
-  left: 8px;
-  bottom: 8px;
+  left: max(8px, env(safe-area-inset-left, 0px));
+  bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
   z-index: 30;
+}
+
+@media (max-width: 640px) {
+  .weather-gate {
+    /* 手机名言单行 + 页脚底 padding ≈ 2.5–3rem */
+    bottom: calc(2.85rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .weather-gate__trigger {

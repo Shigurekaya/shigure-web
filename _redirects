@@ -3,6 +3,7 @@
 # API trailing slash (admin uses /api/fuyuu/*/ )
 /api/fuyuu/upload/ /api/fuyuu/upload 200
 /api/fuyuu/gallery/ /api/fuyuu/gallery 200
+/api/gal-quotes/approved/ /api/gal-quotes/approved 200
 
 # gal-quiz deep links → single-page app
 /gal-quiz/:qid /gal-quiz.html 200
@@ -36,6 +37,7 @@
 /gal-quiz /gal-quiz/ 301
 /gal-pick /gal-pick/ 301
 /gal-sedai /gal-sedai/ 301
+/gal-quotes /gal-quotes/ 301
 /heavy /heavy/ 301
 /light /light/ 301
 /storm /storm/ 301
@@ -54,6 +56,7 @@
 /gal-quiz/ /gal-quiz.html 200
 /gal-pick/ /gal-pick.html 200
 /gal-sedai/ /gal-sedai.html 200
+/gal-quotes/ /gal-quotes/index.html 200
 /heavy/ /heavy.html 200
 /light/ /light.html 200
 /storm/ /storm.html 200

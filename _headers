@@ -7,6 +7,9 @@
 /fuyuu/js/gallery-images.js
   Cache-Control: no-cache, must-revalidate
 
+/gal-quotes/quotes.json
+  Cache-Control: public, max-age=300, stale-while-revalidate=3600
+
 /js/site-data.js
   Cache-Control: no-cache, must-revalidate
 

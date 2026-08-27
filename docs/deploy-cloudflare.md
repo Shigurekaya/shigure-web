@@ -33,6 +33,8 @@
 | `.cfignore` | 部署排除（开发目录 + 服务端源码） |
 | `wrangler.toml` | Pages 配置（`nodejs_compat` 供 API 使用 Buffer） |
 | `functions/api/fuyuu/*` | 浮游管理 API（Pages Functions） |
+| `gal-quotes/` | Gal 名言多人审阅页 + `quotes.json` |
+| `functions/api/gal-quotes/*` | 名言勾选共享 API（写到 `gal-quotes-data` 分支） |
 
 ## 本地预览 Pages Functions（可选）
 

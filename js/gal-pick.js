@@ -12,6 +12,23 @@
   const MIN_ANSWERS_STRICT = 8;
   const MAX_SKIPS = 10;
   const CORE_CATEGORIES = new Set(["core", "horror"]);
+  const REDUCED_MOTION = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const CATEGORY_BADGE = {
+    core: "基础取向",
+    horror: "接受度",
+  };
+
+  const TONE_GRADIENT = {
+    sweet: "linear-gradient(145deg, #ffd8ec 0%, #fff5fa 55%, #f3eeff 100%)",
+    heal: "linear-gradient(145deg, #d4f5e8 0%, #f0fff8 55%, #eef8ff 100%)",
+    drama: "linear-gradient(145deg, #e8dff5 0%, #f5f0ff 55%, #fce8f0 100%)",
+    mindbend: "linear-gradient(145deg, #dce4ff 0%, #eef2ff 55%, #e8f0ff 100%)",
+    epic: "linear-gradient(145deg, #ffe8cc 0%, #fff6e8 55%, #ffeef5 100%)",
+    hype: "linear-gradient(145deg, #ffe0c8 0%, #fff3e6 55%, #fff8dc 100%)",
+    literary: "linear-gradient(145deg, #e6e2dc 0%, #f7f4ef 55%, #eeeaf5 100%)",
+    utsuge: "linear-gradient(145deg, #ddd8e8 0%, #f0edf5 55%, #e8eaf5 100%)",
+  };
 
   const AXIS_WEIGHT = {
     tone: 1.18,
@@ -141,8 +158,10 @@
     "playstyle:rpg": "RPG 玩法",
   };
 
+  const els = {};
   let tagIdf = () => 1;
   let games = [];
+  let optionKeyHandler = null;
 
   const state = {
     index: 0,
@@ -157,8 +176,6 @@
     /** @type {'quiz'|'single'|'auto'|'early'|'random'} */
     finishMode: "quiz",
   };
-
-  const els = {};
 
   function shuffle(list) {
     const a = list.slice();
@@ -591,6 +608,84 @@
     return Math.min(1, sim);
   }
 
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function boostTags(opt, limit = 2) {
+    const boosts = Object.entries(opt.boost || {})
+      .filter(([, w]) => w > 0)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, limit);
+    return boosts.map(([axis]) => {
+      const [dim, val] = axis.split(":");
+      const text = REASON_LABEL[axis] || label(dim, val) || val;
+      return `<span class="pick-option__tag">${escapeHtml(text)}</span>`;
+    }).join("");
+  }
+
+  function optionsLayoutClass(count) {
+    if (count === 2) return "pick-options--duel";
+    if (count === 3) return "pick-options--trio";
+    if (count >= 4) return "pick-options--grid";
+    return "";
+  }
+
+  function categoryStageClass(q) {
+    if (q.category === "horror") return "pick-stage--horror";
+    if (q.category === "core") return "pick-stage--core";
+    return "";
+  }
+
+  function profileBarsHtml() {
+    const entries = Object.entries(state.boost)
+      .filter(([, w]) => w > 0)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+    if (!entries.length) return "";
+    const max = entries[0][1] || 1;
+    const bars = entries.map(([axis, w]) => {
+      const [dim, val] = axis.split(":");
+      const name = REASON_LABEL[axis] || label(dim, val) || axis;
+      const pct = Math.min(100, Math.round((w / max) * 100));
+      return `<div class="pick-profile__row">
+        <span class="pick-profile__name">${escapeHtml(name)}</span>
+        <span class="pick-profile__track"><span class="pick-profile__fill" style="width:${pct}%"></span></span>
+      </div>`;
+    }).join("");
+    return `<div class="pick-profile" aria-hidden="true"><p class="pick-profile__label">你的偏好</p>${bars}</div>`;
+  }
+
+  function introStatsHtml() {
+    const meta = DATA.meta || {};
+    const pool = meta.poolSize || games.length || "—";
+    const bank = meta.questionBank || DATA.questions.length || "—";
+    return `<ul class="pick-facts pick-facts--intro">
+      <li><span>作品池</span><strong>${pool}</strong><small>部候选</small></li>
+      <li><span>题库</span><strong>${bank}</strong><small>题随机抽</small></li>
+      <li><span>题量</span><strong>∞</strong><small>随池缩小</small></li>
+    </ul>`;
+  }
+
+  function traitChipsHtml(g) {
+    const chips = [
+      label("tone", g.tone),
+      label("setting", g.setting),
+      label("focus", g.focus),
+    ].filter(Boolean);
+    return chips.map((c) => `<span class="pick-chip">${escapeHtml(c)}</span>`).join("");
+  }
+
+  function panelPulse() {
+    els.panel?.classList.remove("pick-panel--pulse");
+    void els.panel?.offsetWidth;
+    els.panel?.classList.add("pick-panel--pulse");
+  }
+
   function gameUrl(g) {
     const id = (g.vndb_id || "").trim();
     if (/^v\d+$/i.test(id)) return `https://vndb.org/${id.toLowerCase()}`;
@@ -600,18 +695,22 @@
 
   function appendPickCard(container, g, { rank, compact }) {
     const reasons = matchReasons(g);
+    const grad = TONE_GRADIENT[g.tone] || TONE_GRADIENT.sweet;
     const a = document.createElement("a");
     a.className = `pick-card${compact ? " pick-card--alt" : " pick-card--top"}`;
     a.href = gameUrl(g);
     a.target = "_blank";
     a.rel = "noopener noreferrer";
+    a.style.setProperty("--pick-card-grad", grad);
     a.innerHTML = `
+      ${compact ? "" : `<span class="pick-card__tone" aria-hidden="true"></span>`}
       <span class="pick-card__rank">${String(rank).padStart(2, "0")}</span>
       <span class="pick-card__body">
-        <strong class="pick-card__name">${gameLabel(g)}</strong>
-        ${g.displayName && g.displayName !== g.name ? `<small class="pick-card__alt">${g.name}</small>` : ""}
-        <small class="pick-card__meta">${reasonLine(g)}</small>
-        ${reasons.length ? `<small class="pick-card__why">合你：${reasons.join(" · ")}</small>` : ""}
+        <strong class="pick-card__name">${escapeHtml(gameLabel(g))}</strong>
+        ${g.displayName && g.displayName !== g.name ? `<small class="pick-card__alt">${escapeHtml(g.name)}</small>` : ""}
+        <span class="pick-card__chips">${traitChipsHtml(g)}</span>
+        <small class="pick-card__meta">${escapeHtml(reasonLine(g))}</small>
+        ${reasons.length ? `<small class="pick-card__why">合你：${reasons.map(escapeHtml).join(" · ")}</small>` : ""}
       </span>
       <span class="pick-card__go" aria-hidden="true">↗</span>
     `;
@@ -699,16 +798,59 @@
   }
 
   function renderIntro() {
+    clearOptionKeys();
     els.panel.innerHTML = `
-      <div class="pick-stage pick-stage--intro pick-stage--intro-minimal">
+      <div class="pick-stage pick-stage--intro pick-stage--intro-minimal pick-stage--enter">
+        ${introStatsHtml()}
         <div class="pick-intro-actions">
           <button type="button" class="pick-btn pick-btn--primary" data-pick-start>开始答题</button>
-          <button type="button" class="pick-btn pick-btn--ghost" data-pick-random>不作答，随机一部</button>
+          <button type="button" class="pick-btn pick-btn--ghost pick-btn--dice" data-pick-random>
+            <span class="pick-btn__dice" aria-hidden="true">🎲</span> 不作答，随机一部
+          </button>
         </div>
       </div>
     `;
     els.panel.querySelector("[data-pick-start]")?.addEventListener("click", startQuiz);
     els.panel.querySelector("[data-pick-random]")?.addEventListener("click", startRandomPick);
+  }
+
+  function handleOptionPick(btn, opt, box) {
+    if (box.dataset.lock === "1") return;
+    box.dataset.lock = "1";
+    btn.classList.add("is-selected");
+    box.querySelectorAll(".pick-option").forEach((el) => {
+      if (el !== btn) el.classList.add("is-faded");
+    });
+    panelPulse();
+    const delay = REDUCED_MOTION() ? 0 : 340;
+    window.setTimeout(() => {
+      applyOption(opt);
+      state.answered += 1;
+      advanceQuestion();
+    }, delay);
+  }
+
+  function clearOptionKeys() {
+    if (optionKeyHandler) {
+      window.removeEventListener("keydown", optionKeyHandler);
+      optionKeyHandler = null;
+    }
+  }
+
+  function bindOptionKeys(box, options) {
+    clearOptionKeys();
+    optionKeyHandler = (ev) => {
+      if (!box.isConnected || box.dataset.lock === "1") return;
+      const key = ev.key.toLowerCase();
+      let idx = -1;
+      if (key >= "1" && key <= "9") idx = Number(key) - 1;
+      else if (key >= "a" && key <= "z") idx = key.charCodeAt(0) - 97;
+      if (idx < 0 || idx >= options.length) return;
+      ev.preventDefault();
+      const btn = box.querySelectorAll(".pick-option")[idx];
+      if (btn) handleOptionPick(btn, options[idx], box);
+    };
+    window.addEventListener("keydown", optionKeyHandler);
   }
 
   function finishOrContinue() {
@@ -758,9 +900,12 @@
     const pct = Math.min(100, (conf * 0.55 + poolShrinkRatio() * 0.45) * 100);
     const canSkip = state.skipped < MAX_SKIPS;
     const canFinishEarly = state.answered >= 1;
+    const catBadge = CATEGORY_BADGE[q.category];
+    const optLayout = optionsLayoutClass(q.options.length);
+    const shrinkPct = Math.round(poolShrinkRatio() * 100);
 
     els.panel.innerHTML = `
-      <div class="pick-stage pick-stage--quiz">
+      <div class="pick-stage pick-stage--quiz pick-stage--enter ${categoryStageClass(q)}">
         <div class="pick-status">
           <div class="pick-status__row">
             <span>第 <strong>${current}</strong> 题 · 候选 <strong>${state.alive.length}</strong> 部${state.answered ? ` · 已答 ${state.answered}` : ""}</span>
@@ -769,11 +914,17 @@
               ${canSkip ? `<button type="button" class="pick-skip" data-pick-skip>跳过</button>` : ""}
             </span>
           </div>
-          <div class="pick-progress" aria-hidden="true"><span class="pick-progress__bar" style="width:${pct}%"></span></div>
+          <div class="pick-progress pick-progress--rich" aria-hidden="true">
+            <span class="pick-progress__bar" style="width:${pct}%"></span>
+            <span class="pick-progress__glow" style="width:${pct}%"></span>
+          </div>
+          <p class="pick-status__hint">已收窄 ${shrinkPct}% · 按 1–${q.options.length} 或 A–${String.fromCharCode(64 + q.options.length)} 选择</p>
         </div>
-        <h2 class="pick-q">${q.text}</h2>
-        ${q.hint ? `<p class="pick-q-hint">${q.hint}</p>` : ""}
-        <div class="pick-options" id="pick-options"></div>
+        ${profileBarsHtml()}
+        ${catBadge ? `<p class="pick-q-badge">${escapeHtml(catBadge)}</p>` : ""}
+        <h2 class="pick-q">${escapeHtml(q.text)}</h2>
+        ${q.hint ? `<p class="pick-q-hint">${escapeHtml(q.hint)}</p>` : ""}
+        <div class="pick-options ${optLayout}" id="pick-options"></div>
       </div>
     `;
 
@@ -784,18 +935,23 @@
     q.options.forEach((opt, i) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "pick-option";
-      btn.innerHTML = `<span class="pick-option__idx">${String.fromCharCode(65 + i)}</span><span class="pick-option__label">${opt.label}</span>`;
-      btn.addEventListener("click", () => {
-        applyOption(opt);
-        state.answered += 1;
-        advanceQuestion();
-      });
+      btn.className = "pick-option pick-option--enter";
+      btn.style.setProperty("--pick-opt-i", String(i));
+      const tags = boostTags(opt);
+      btn.innerHTML = `
+        <span class="pick-option__idx">${String.fromCharCode(65 + i)}</span>
+        <span class="pick-option__body">
+          <span class="pick-option__label">${escapeHtml(opt.label)}</span>
+          ${tags ? `<span class="pick-option__tags">${tags}</span>` : ""}
+        </span>`;
+      btn.addEventListener("click", () => handleOptionPick(btn, opt, box));
       box.appendChild(btn);
     });
+    bindOptionKeys(box, q.options);
   }
 
   function renderResult() {
+    clearOptionKeys();
     let alive = survivingGames();
     if (!alive.length) alive = games.slice();
     const ranked = rankList(alive);
@@ -803,7 +959,7 @@
     const alts = top ? pickSecondaryCandidates(top, ranked) : [];
 
     els.panel.innerHTML = `
-      <div class="pick-stage pick-stage--result">
+      <div class="pick-stage pick-stage--result pick-stage--enter">
         <p class="pick-result-kicker">${resultKicker()}</p>
         <h2 class="pick-result-title">${state.finishMode === "random" ? "试试这部" : "就是这部"}</h2>
         <div class="pick-results pick-results--hero" id="pick-results-main"></div>

@@ -20,6 +20,9 @@ from pathlib import Path
 
 import httpx
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from motto_filter import is_motto, motto_quality  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 DIR = Path(__file__).resolve().parent
 DATA = DIR / "data"
@@ -158,25 +161,26 @@ def known_quote_zh(text: str) -> str:
 
 
 def translate_to_zh(http: httpx.Client, text: str) -> str:
-    """优先 Google gtx；429/失败则回退 MyMemory。"""
+    """优先 Google gtx；失败则 Bing / MyMemory。"""
     text = (text or "").strip()
     if not text:
         return ""
-    zh = _translate_google(http, text)
-    if zh:
-        return zh
-    return _translate_mymemory(http, text)
+    for fn in (_translate_google, _translate_bing, _translate_mymemory):
+        zh = fn(http, text)
+        if zh:
+            return zh
+    return ""
 
 
 def _translate_google(http: httpx.Client, text: str) -> str:
-    for attempt in range(3):
+    for attempt in range(2):
         try:
             r = http.get(
                 "https://translate.googleapis.com/translate_a/single",
                 params={"client": "gtx", "sl": "auto", "tl": "zh-CN", "dt": "t", "q": text},
             )
             if r.status_code == 429:
-                time.sleep(1.2 * (attempt + 1))
+                time.sleep(0.8 * (attempt + 1))
                 continue
             if r.status_code != 200:
                 return ""
@@ -187,8 +191,88 @@ def _translate_google(http: httpx.Client, text: str) -> str:
                     parts.append(chunk[0])
             return "".join(parts).strip()
         except Exception:  # noqa: BLE001
-            time.sleep(0.5 * (attempt + 1))
+            time.sleep(0.4 * (attempt + 1))
     return ""
+
+
+_BING_LOCK = threading.Lock()
+_BING_TOKEN: dict[str, str | float] = {"ig": "", "key": "", "token": "", "expire": 0.0}
+
+
+def _bing_refresh_token(http: httpx.Client) -> bool:
+    try:
+        r = http.get(
+            "https://www.bing.com/translator",
+            headers={**BROWSER_HEADERS, "Accept": "text/html,application/xhtml+xml"},
+        )
+        if r.status_code != 200:
+            return False
+        ig_m = re.search(r'IG:"([^"]+)"', r.text) or re.search(r'IG="([^"]+)"', r.text)
+        abuse_m = re.search(r"params_AbusePreventionHelper\s*=\s*(\[[^\]]+\])", r.text)
+        if not ig_m or not abuse_m:
+            return False
+        arr = json.loads(abuse_m.group(1))
+        _BING_TOKEN["ig"] = ig_m.group(1)
+        _BING_TOKEN["key"] = str(arr[0])
+        _BING_TOKEN["token"] = str(arr[1])
+        # token 约 1 小时有效；提前刷新
+        _BING_TOKEN["expire"] = time.time() + 50 * 60
+        return True
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _translate_bing(http: httpx.Client, text: str) -> str:
+    with _BING_LOCK:
+        need = (
+            not _BING_TOKEN.get("token")
+            or float(_BING_TOKEN.get("expire") or 0) < time.time()
+        )
+        if need and not _bing_refresh_token(http):
+            return ""
+        ig = str(_BING_TOKEN["ig"])
+        key = str(_BING_TOKEN["key"])
+        token = str(_BING_TOKEN["token"])
+
+    try:
+        url = f"https://www.bing.com/ttranslatev3?isVertical=1&&IG={ig}&IID=translator.5023.1"
+        r = http.post(
+            url,
+            data={
+                "fromLang": "auto-detect",
+                "to": "zh-Hans",
+                "text": text,
+                "token": token,
+                "key": key,
+            },
+            headers={
+                **BROWSER_HEADERS,
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Origin": "https://www.bing.com",
+                "Referer": "https://www.bing.com/translator",
+            },
+        )
+        if r.status_code in {401, 403, 429}:
+            with _BING_LOCK:
+                _BING_TOKEN["expire"] = 0
+            return ""
+        if r.status_code != 200:
+            return ""
+        data = r.json()
+        # 新版：[{"translations":[{"text":"..."}]}]
+        if isinstance(data, list) and data:
+            first = data[0] or {}
+            trans = first.get("translations") or []
+            if trans and trans[0].get("text"):
+                return str(trans[0]["text"]).strip()
+            # 旧版：[{"detectedLanguage":...,"translations":...}] 同结构
+        if isinstance(data, dict):
+            trans = data.get("translations") or []
+            if trans and trans[0].get("text"):
+                return str(trans[0]["text"]).strip()
+        return ""
+    except Exception:  # noqa: BLE001
+        return ""
 
 
 def _translate_mymemory(http: httpx.Client, text: str) -> str:
@@ -202,8 +286,11 @@ def _translate_mymemory(http: httpx.Client, text: str) -> str:
             return ""
         data = r.json()
         zh = ((data.get("responseData") or {}).get("translatedText") or "").strip()
-        # MyMemory 超额时常原样返回英文
-        if not zh or zh.lower() == text.lower()[: len(zh)]:
+        if not zh:
+            return ""
+        if "MYMEMORY WARNING" in zh.upper():
+            return ""
+        if zh.lower() == text.lower()[: len(zh)]:
             return ""
         return zh
     except Exception:  # noqa: BLE001
@@ -213,7 +300,7 @@ def _translate_mymemory(http: httpx.Client, text: str) -> str:
 def _translate_one(idx: int, text: str) -> tuple[int, str]:
     """线程内自建 client，避免共享连接。"""
     with client(for_translate=True) as http:
-        time.sleep(0.05 + (idx % 11) * 0.02)
+        time.sleep(0.08 + (idx % 9) * 0.03)
         return idx, translate_to_zh(http, text)
 
 
@@ -264,14 +351,16 @@ def enrich_zh(quotes: list[dict], *, do_translate: bool, workers: int = 8) -> li
     return quotes
 
 
-def normalize_row(row: dict, alias_map: dict[str, str]) -> dict:
+def normalize_row(row: dict, alias_map: dict[str, str], *, motto_rank: int = 0) -> dict:
     qid = row.get("id") or ""
     vn = row.get("vn") or {}
     ch = row.get("character") or {}
     quote = (row.get("quote") or "").strip()
     vn_title = (vn.get("title") or "").strip()
     vn_id = vn.get("id") or ""
+    vndb_score = int(row.get("score") or 0)
     quote_zh = known_quote_zh(quote) or quote_zh_from_text(quote)
+    mq = motto_quality(quote, vndb_score, vn_title) or 0
     return {
         "id": qid,
         "quote": quote,
@@ -281,56 +370,70 @@ def normalize_row(row: dict, alias_map: dict[str, str]) -> dict:
         "vn_id": vn_id,
         "vn_title": vn_title,
         "vn_title_zh": pick_zh_title(vn_title, vn.get("alttitle"), alias_map),
-        "score": int(row.get("score") or 0),
+        "score": vndb_score,
+        "motto_rank": motto_rank or mq,
         "source": "VNDB",
         "source_url": f"https://vndb.org/{qid}" if qid else "",
         "vn_url": f"https://vndb.org/{vn_id}" if vn_id else "",
     }
 
 
-def fetch_quotes(limit: int, min_score: int) -> list[dict]:
-    alias_map = load_alias_map()
+def fetch_all_vndb_quotes(http: httpx.Client) -> list[dict]:
+    """拉取 VNDB 全库台词（约 9k），再客户端筛名言。"""
     rows: list[dict] = []
     page = 1
-    # VNDB quote API 不支持 score 字段过滤，按 score 排序后客户端截断
-    fetch_target = limit * 3 if min_score > 0 else limit
-
-    with client() as http:
-        while len(rows) < fetch_target:
-            payload = {
-                "fields": "id,quote,score,character{id,name},vn{id,title,alttitle}",
-                "sort": "score",
-                "reverse": True,
-                "results": min(PAGE_SIZE, fetch_target - len(rows)),
-                "page": page,
-            }
-            _log(f"[fetch] page={page} have={len(rows)}")
-            r = http.post(VNDB_QUOTE, json=payload)
-            if r.status_code != 200:
-                raise RuntimeError(f"VNDB quote API {r.status_code}: {r.text[:400]}")
-            body = r.json()
-            batch = body.get("results") or []
-            if not batch:
-                break
-            for item in batch:
-                rows.append(normalize_row(item, alias_map))
-            if not body.get("more"):
-                break
-            page += 1
-            time.sleep(0.35)
-
-    seen: set[str] = set()
-    deduped: list[dict] = []
-    for row in rows:
-        if row["id"] in seen:
-            continue
-        if min_score > 0 and row["score"] < min_score:
-            continue
-        seen.add(row["id"])
-        deduped.append(row)
-        if len(deduped) >= limit:
+    while True:
+        payload = {
+            "fields": "id,quote,score,character{id,name},vn{id,title,alttitle}",
+            "sort": "id",
+            "results": PAGE_SIZE,
+            "page": page,
+        }
+        _log(f"[fetch] scan page={page} raw={len(rows)}")
+        r = http.post(VNDB_QUOTE, json=payload)
+        if r.status_code != 200:
+            raise RuntimeError(f"VNDB quote API {r.status_code}: {r.text[:400]}")
+        body = r.json()
+        batch = body.get("results") or []
+        if not batch:
             break
-    return deduped
+        rows.extend(batch)
+        if not body.get("more"):
+            break
+        page += 1
+        time.sleep(0.25)
+    return rows
+
+
+def fetch_quotes(limit: int) -> list[dict]:
+    """从 VNDB 全库筛选名言（排除梗/迷言 vote 高分项）。"""
+    alias_map = load_alias_map()
+    with client() as http:
+        raw = fetch_all_vndb_quotes(http)
+
+    scored: list[tuple[int, dict]] = []
+    seen_text: set[str] = set()
+    for item in raw:
+        quote = (item.get("quote") or "").strip()
+        vn = item.get("vn") or {}
+        vn_title = (vn.get("title") or "").strip()
+        vndb_score = int(item.get("score") or 0)
+        if not is_motto(quote, vndb_score, vn_title):
+            continue
+        key = re.sub(r"\s+", " ", quote.lower())
+        if key in seen_text:
+            continue
+        seen_text.add(key)
+        mq = motto_quality(quote, vndb_score, vn_title) or 0
+        scored.append((mq, item))
+
+    scored.sort(key=lambda x: (-x[0], -int(x[1].get("score") or 0)))
+    _log(f"[filter] raw={len(raw)} motto={len(scored)} take={min(limit, len(scored))}")
+
+    out: list[dict] = []
+    for rank, (mq, item) in enumerate(scored[:limit], 1):
+        out.append(normalize_row(item, alias_map, motto_rank=mq))
+    return out
 
 
 def load_approved() -> dict:
@@ -422,19 +525,20 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
       font-family: "Segoe UI", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
     }}
     .app {{
-      display: grid;
-      grid-template-columns: 1fr 340px;
+      display: flex;
+      flex-direction: column;
       height: 100vh;
+      max-width: 56rem;
+      margin: 0 auto;
     }}
     .main {{
       display: flex;
       flex-direction: column;
-      min-width: 0;
-      border-right: 1px solid var(--line);
+      flex: 1;
+      min-height: 0;
     }}
     .toolbar {{
       display: flex;
@@ -444,6 +548,7 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
       padding: .85rem 1rem;
       background: var(--panel);
       border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
     }}
     .toolbar input, .toolbar select {{
       padding: .45rem .65rem;
@@ -453,98 +558,55 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
       background: #fff;
     }}
     .toolbar input[type=search] {{ flex: 1; min-width: 12rem; }}
+    .toolbar-actions {{ display: flex; gap: .45rem; flex-wrap: wrap; }}
     .stats {{ margin-left: auto; color: var(--muted); font-size: .85rem; }}
     .list {{
-      overflow: auto;
-      padding: .75rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: .75rem 1rem 1.25rem;
       flex: 1;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
     }}
     .item {{
-      display: block;
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
       width: 100%;
       text-align: left;
       border: 1px solid var(--line);
       background: var(--panel);
       border-radius: 12px;
-      padding: .85rem 1rem;
+      padding: .75rem .9rem;
       margin-bottom: .55rem;
-      cursor: pointer;
-      transition: border-color .15s, box-shadow .15s;
+      transition: border-color .15s, background .15s;
     }}
     .item:hover {{ border-color: #cbd5e1; }}
-    .item.is-active {{ border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }}
-    .item.is-approved {{ border-left: 4px solid var(--ok); background: linear-gradient(90deg, var(--ok-soft), var(--panel) 40%); }}
-    .item__zh {{ font-size: .95rem; line-height: 1.5; margin: 0 0 .35rem; }}
-    .item__orig {{ color: var(--muted); font-size: .82rem; margin: 0 0 .4rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }}
-    .item__meta {{ font-size: .78rem; color: var(--muted); display: flex; gap: .5rem; flex-wrap: wrap; }}
-    .badge {{ background: #f1f5f9; padding: .1rem .45rem; border-radius: 999px; }}
-    .side {{
-      background: var(--panel);
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow);
-    }}
-    .side__head {{
-      padding: 1rem 1.1rem .6rem;
-      border-bottom: 1px solid var(--line);
-      font-weight: 600;
-    }}
-    .side__body {{
-      padding: 1rem 1.1rem;
-      overflow: auto;
-      flex: 1;
-    }}
-    .side__empty {{ color: var(--muted); font-size: .9rem; line-height: 1.6; }}
-    label {{ display: block; font-size: .8rem; color: var(--muted); margin: .75rem 0 .35rem; }}
-    textarea {{
-      width: 100%;
-      min-height: 5.5rem;
-      resize: vertical;
-      font: inherit;
-      line-height: 1.55;
-      padding: .65rem .75rem;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-    }}
-    .orig-box {{
-      background: #f8fafc;
-      border-radius: 10px;
-      padding: .75rem;
-      font-size: .88rem;
-      line-height: 1.55;
-      color: #334155;
-      white-space: pre-wrap;
-    }}
-    .meta-links {{ font-size: .82rem; margin-top: .75rem; }}
-    .meta-links a {{ color: var(--accent); }}
-    .approve {{
-      margin-top: 1.25rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--line);
-    }}
-    .approve label.approve-row {{
+    .item.is-approved {{ border-color: #86efac; background: linear-gradient(90deg, var(--ok-soft), var(--panel) 36%); }}
+    .item__check {{
+      flex: 0 0 auto;
       display: flex;
       align-items: center;
-      gap: .65rem;
-      font-size: 1rem;
-      color: var(--text);
-      cursor: pointer;
-      user-select: none;
+      justify-content: center;
+      padding-top: .15rem;
       margin: 0;
     }}
-    .approve input[type=checkbox] {{
+    .item__check input[type=checkbox] {{
       width: 1.35rem;
       height: 1.35rem;
       accent-color: var(--ok);
       cursor: pointer;
     }}
-    .side__foot {{
-      padding: .75rem 1.1rem 1rem;
-      border-top: 1px solid var(--line);
-      display: flex;
-      gap: .5rem;
-      flex-wrap: wrap;
+    .item__body {{
+      flex: 1;
+      min-width: 0;
     }}
+    .item__zh {{ font-size: .95rem; line-height: 1.5; margin: 0 0 .35rem; }}
+    .item__orig {{ color: var(--muted); font-size: .82rem; margin: 0 0 .4rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }}
+    .item__meta {{ font-size: .78rem; color: var(--muted); display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }}
+    .item__meta a {{ color: var(--accent); text-decoration: none; }}
+    .item__meta a:hover {{ text-decoration: underline; }}
+    .badge {{ background: #f1f5f9; padding: .1rem .45rem; border-radius: 999px; }}
     .btn {{
       border: 1px solid var(--line);
       background: #fff;
@@ -569,12 +631,9 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
       opacity: 0;
       pointer-events: none;
       transition: opacity .2s;
+      z-index: 10;
     }}
     .toast.is-on {{ opacity: 1; }}
-    @media (max-width: 860px) {{
-      .app {{ grid-template-columns: 1fr; grid-template-rows: 1fr auto; }}
-      .side {{ max-height: 45vh; }}
-    }}
   </style>
 </head>
 <body>
@@ -588,20 +647,14 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
           <option value="approved">已保留</option>
           <option value="no-zh">缺中文</option>
         </select>
+        <div class="toolbar-actions">
+          <button type="button" class="btn" id="export-json">导出 approved.json</button>
+          <button type="button" class="btn btn--primary" id="open-approved">已保留列表</button>
+        </div>
         <span class="stats" id="stats"></span>
       </div>
       <div class="list" id="list"></div>
     </section>
-    <aside class="side">
-      <div class="side__head">审阅</div>
-      <div class="side__body" id="panel">
-        <p class="side__empty">点击左侧一条名言，在右侧勾选 ✓ 保留。<br>可编辑中文译文；勾选会通过本地服务写回 <code>approved.json</code>。<br>来源默认标注 VNDB；机翻句需人工校对。</p>
-      </div>
-      <div class="side__foot">
-        <button type="button" class="btn" id="export-json">导出 approved.json</button>
-        <button type="button" class="btn btn--primary" id="open-approved">打开 approved.html</button>
-      </div>
-    </aside>
   </div>
   <div class="toast" id="toast"></div>
   <script id="bootstrap" type="application/json">{payload}</script>
@@ -611,12 +664,10 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
   const boot = JSON.parse(document.getElementById("bootstrap").textContent);
   let quotes = boot.quotes || [];
   let approved = {{ ...(boot.approved || {{}}) }};
-  let activeId = null;
   let apiOk = false;
 
   const $ = (s) => document.querySelector(s);
   const listEl = $("#list");
-  const panelEl = $("#panel");
   const statsEl = $("#stats");
   const toastEl = $("#toast");
 
@@ -660,66 +711,35 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
     const rows = filtered();
     const kept = quotes.filter((q) => isApproved(q.id)).length;
     statsEl.textContent = `显示 ${{rows.length}} / ${{quotes.length}} · 已保留 ${{kept}}`;
+    const scrollTop = listEl.scrollTop;
     listEl.innerHTML = rows.map((row) => {{
       const zh = displayZh(row);
       const cls = ["item"];
-      if (row.id === activeId) cls.push("is-active");
       if (isApproved(row.id)) cls.push("is-approved");
-      return `<button type="button" class="${{cls.join(" ")}}" data-id="${{row.id}}">
-        <p class="item__zh">${{esc(zh)}}</p>
-        <p class="item__orig">${{esc(row.quote)}}</p>
-        <div class="item__meta">
-          <span>${{esc(row.vn_title_zh || row.vn_title)}}</span>
-          ${{row.character ? `<span>${{esc(row.character)}}</span>` : ""}}
-          <span class="badge">score ${{row.score}}</span>
-        </div>
-      </button>`;
-    }}).join("");
-  }}
-
-  function renderPanel(id) {{
-    const row = quotes.find((q) => q.id === id);
-    if (!row) {{
-      panelEl.innerHTML = '<p class="side__empty">未选中</p>';
-      return;
-    }}
-    const rec = approved[id] || {{}};
-    const zhVal = rec.quote_zh ?? row.quote_zh ?? "";
-    const zhSrc = row.quote_zh_source === "mt" ? "机翻（待校对）"
-      : row.quote_zh_source === "known" ? "公认译法"
-      : row.quote_zh_source === "native" ? "原文已是中文"
-      : "未汉化";
-    panelEl.innerHTML = `
-      <label>中文（汉化） · ${{zhSrc}}</label>
-      <textarea id="zh-edit">${{esc(zhVal)}}</textarea>
-      <label>原文</label>
-      <div class="orig-box">${{esc(row.quote)}}</div>
-      <label>来源</label>
-      <div class="meta-links">
-        《${{esc(row.vn_title_zh || row.vn_title)}}》
-        ${{row.vn_title_zh ? `<br><span style="color:var(--muted)">${{esc(row.vn_title)}}</span>` : ""}}
-        ${{row.character ? `<br>角色：${{esc(row.character)}}` : ""}}
-        <br>数据来源：${{esc(row.source)}}（社区投稿台词库）
-        <br><a href="${{esc(row.source_url)}}" target="_blank" rel="noopener">${{esc(row.source_url)}}</a>
-        ${{row.vn_url ? `<br><a href="${{esc(row.vn_url)}}" target="_blank" rel="noopener">作品页</a>` : ""}}
-      </div>
-      <div class="approve">
-        <label class="approve-row">
-          <input type="checkbox" id="approve-cb" ${{rec.approved ? "checked" : ""}}>
-          <span>✓ 保留这条名言</span>
+      return `<div class="${{cls.join(" ")}}" data-id="${{row.id}}">
+        <label class="item__check" title="保留">
+          <input type="checkbox" class="item-approve" data-id="${{row.id}}" ${{isApproved(row.id) ? "checked" : ""}} aria-label="保留这条名言">
         </label>
+        <div class="item__body">
+          <p class="item__zh">${{esc(zh)}}</p>
+          <p class="item__orig">${{esc(row.quote)}}</p>
+          <div class="item__meta">
+            <span>《${{esc(row.vn_title_zh || row.vn_title)}}》</span>
+            ${{row.character ? `<span>${{esc(row.character)}}</span>` : ""}}
+            <a href="${{esc(row.source_url)}}" target="_blank" rel="noopener">VNDB</a>
+            <span class="badge">名言 ${{row.motto_rank || row.score}}</span>
+          </div>
+        </div>
       </div>`;
-    $("#zh-edit").addEventListener("input", debounce(saveCurrent, 400));
-    $("#approve-cb").addEventListener("change", () => saveCurrent(true));
+    }}).join("");
+    listEl.scrollTop = scrollTop;
   }}
 
-  async function saveCurrent(fromApprove) {{
-    if (!activeId) return;
-    const row = quotes.find((q) => q.id === activeId);
+  async function saveApprove(id, ok) {{
+    const row = quotes.find((q) => q.id === id);
     if (!row) return;
-    const zh = ($("#zh-edit") && $("#zh-edit").value.trim()) || "";
-    const ok = $("#approve-cb") && $("#approve-cb").checked;
-    approved[activeId] = {{
+    const zh = displayZh(row);
+    approved[id] = {{
       approved: !!ok,
       quote_zh: zh,
       updated_at: new Date().toISOString(),
@@ -730,13 +750,13 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
         await fetch("/api/approve", {{
           method: "POST",
           headers: {{ "Content-Type": "application/json" }},
-          body: JSON.stringify({{ id: activeId, approved: !!ok, quote_zh: zh }}),
+          body: JSON.stringify({{ id, approved: !!ok, quote_zh: zh }}),
         }});
-        if (fromApprove) toast(ok ? "已保留" : "已取消保留");
+        toast(ok ? "已保留" : "已取消保留");
       }} catch (e) {{
         toast("保存失败（仅 localStorage）");
       }}
-    }} else if (fromApprove) {{
+    }} else {{
       toast(ok ? "已保留（仅浏览器缓存）" : "已取消保留");
     }}
     renderList();
@@ -755,12 +775,11 @@ def render_review_html(quotes: list[dict], approved: dict) -> str:
     return (...a) => {{ clearTimeout(t); t = setTimeout(() => fn(...a), ms); }};
   }}
 
-  listEl.addEventListener("click", (e) => {{
-    const btn = e.target.closest(".item");
-    if (!btn) return;
-    activeId = btn.dataset.id;
-    renderList();
-    renderPanel(activeId);
+  listEl.addEventListener("change", (e) => {{
+    const cb = e.target.closest(".item-approve");
+    if (!cb) return;
+    e.stopPropagation();
+    saveApprove(cb.dataset.id, cb.checked);
   }});
 
   $("#q").addEventListener("input", debounce(renderList, 120));
@@ -812,14 +831,21 @@ def write_outputs(quotes: list[dict]) -> None:
     approved = load_approved()
     REVIEW_HTML.write_text(render_review_html(quotes, approved), encoding="utf-8")
     APPROVED_HTML.write_text(render_approved_html(quotes, approved), encoding="utf-8")
+
+    # 公开站路径（Cloudflare Pages）
+    public_dir = ROOT / "gal-quotes"
+    public_dir.mkdir(parents=True, exist_ok=True)
+    (public_dir / "quotes.json").write_text(
+        json.dumps(quotes, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     _log(f"[ok] {len(quotes)} quotes -> {QUOTES_JSON}")
     _log(f"[ok] review -> {REVIEW_HTML}")
+    _log(f"[ok] public -> {public_dir / 'quotes.json'}")
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Fetch gal quotes from VNDB")
-    ap.add_argument("--limit", type=int, default=1200, help="max quotes (default 1200)")
-    ap.add_argument("--min-score", type=int, default=0, help="VNDB score filter (default 0)")
+    ap = argparse.ArgumentParser(description="Fetch gal motto quotes from VNDB (filtered)")
+    ap.add_argument("--limit", type=int, default=1000, help="max mottos (default 1000)")
     ap.add_argument("--translate", action="store_true", help="机翻英文台词为中文")
     ap.add_argument(
         "--workers",
@@ -832,13 +858,25 @@ def main() -> int:
         action="store_true",
         help="不重新抓取，基于现有 quotes.json 补汉化并重生 HTML",
     )
+    ap.add_argument(
+        "--preview",
+        type=int,
+        default=0,
+        help="仅预览前 N 条名言（不写文件）",
+    )
     args = ap.parse_args()
+
+    if args.preview > 0:
+        quotes = fetch_quotes(limit=max(args.preview, 1))
+        for q in quotes[: args.preview]:
+            _log(f"[{q['motto_rank']}] {q['vn_title']}: {q['quote'][:100]}")
+        return 0
 
     if args.reuse and QUOTES_JSON.is_file():
         quotes = json.loads(QUOTES_JSON.read_text(encoding="utf-8"))
         _log(f"[reuse] {len(quotes)} from {QUOTES_JSON}")
     else:
-        quotes = fetch_quotes(limit=max(1, args.limit), min_score=max(0, args.min_score))
+        quotes = fetch_quotes(limit=max(1, args.limit))
 
     quotes = enrich_zh(
         quotes,

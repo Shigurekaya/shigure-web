@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gal 名言多人审阅 · 时雨</title>
+  <meta name="robots" content="noindex">
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --panel: #fff;
+      --line: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+      --accent: #3b82f6;
+      --ok: #16a34a;
+      --ok-soft: #dcfce7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 56rem;
+      margin: 0 auto;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      align-items: center;
+      padding: .85rem 1rem;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .toolbar input, .toolbar select {
+      padding: .45rem .65rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font: inherit;
+      background: #fff;
+    }
+    .toolbar input[type=search] { flex: 1; min-width: 10rem; }
+    .toolbar input[type=text] { width: 7.5rem; }
+    .stats { margin-left: auto; color: var(--muted); font-size: .85rem; }
+    .hint {
+      width: 100%;
+      font-size: .78rem;
+      color: var(--muted);
+      margin: 0;
+    }
+    .list {
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: .75rem 1rem 1.25rem;
+      flex: 1;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+    .item {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 12px;
+      padding: .75rem .9rem;
+      margin-bottom: .55rem;
+    }
+    .item.is-approved {
+      border-color: #86efac;
+      background: linear-gradient(90deg, var(--ok-soft), var(--panel) 36%);
+    }
+    .item__check {
+      flex: 0 0 auto;
+      margin: 0;
+      padding-top: .15rem;
+    }
+    .item__check input {
+      width: 1.35rem;
+      height: 1.35rem;
+      accent-color: var(--ok);
+      cursor: pointer;
+    }
+    .item__body { flex: 1; min-width: 0; }
+    .item__zh { font-size: .95rem; line-height: 1.5; margin: 0 0 .35rem; }
+    .item__orig {
+      color: var(--muted);
+      font-size: .82rem;
+      margin: 0 0 .4rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .item__meta {
+      font-size: .78rem;
+      color: var(--muted);
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .item__meta a { color: var(--accent); text-decoration: none; }
+    .badge { background: #f1f5f9; padding: .1rem .45rem; border-radius: 999px; }
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #fff;
+      padding: .5rem 1rem;
+      border-radius: 999px;
+      font-size: .85rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
+      z-index: 10;
+    }
+    .toast.is-on { opacity: 1; }
+    .loading, .error {
+      padding: 2rem 1rem;
+      text-align: center;
+      color: var(--muted);
+    }
+    .error { color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="搜索台词 / 作品 / 角色…" autocomplete="off">
+      <select id="filter">
+        <option value="all">全部</option>
+        <option value="pending">未选</option>
+        <option value="approved">已保留</option>
+      </select>
+      <input type="text" id="by" placeholder="昵称（可选）" maxlength="24" autocomplete="nickname">
+      <span class="stats" id="stats">加载中…</span>
+      <p class="hint">多人共用同一份勾选结果，左侧打勾即同步。约每 8 秒自动刷新他人选择。</p>
+    </div>
+    <div class="list" id="list"><p class="loading">正在加载名言…</p></div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script>
+(() => {
+  const listEl = document.getElementById("list");
+  const statsEl = document.getElementById("stats");
+  const toastEl = document.getElementById("toast");
+  const byEl = document.getElementById("by");
+  let quotes = [];
+  let approved = {};
+  let busy = new Set();
+
+  try {
+    const saved = localStorage.getItem("gal-quotes-by");
+    if (saved) byEl.value = saved;
+  } catch {}
+
+  byEl.addEventListener("change", () => {
+    try { localStorage.setItem("gal-quotes-by", byEl.value.trim()); } catch {}
+  });
+
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-on");
+    clearTimeout(toastEl._t);
+    toastEl._t = setTimeout(() => toastEl.classList.remove("is-on"), 1600);
+  }
+
+  function esc(s) {
+    return String(s ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function displayZh(q) {
+    const rec = approved[q.id];
+    if (rec && rec.quote_zh) return rec.quote_zh;
+    return q.quote_zh || q.quote || "";
+  }
+
+  function isApproved(id) {
+    return !!(approved[id] && approved[id].approved);
+  }
+
+  function filtered() {
+    const q = (document.getElementById("q").value || "").trim().toLowerCase();
+    const f = document.getElementById("filter").value;
+    return quotes.filter((row) => {
+      if (f === "approved" && !isApproved(row.id)) return false;
+      if (f === "pending" && isApproved(row.id)) return false;
+      if (!q) return true;
+      const hay = [row.quote, row.quote_zh, row.vn_title, row.vn_title_zh, row.character, row.id].join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  function renderList() {
+    const rows = filtered();
+    const kept = quotes.filter((q) => isApproved(q.id)).length;
+    statsEl.textContent = `显示 ${rows.length} / ${quotes.length} · 已保留 ${kept}`;
+    const scrollTop = listEl.scrollTop;
+    listEl.innerHTML = rows.map((row) => {
+      const zh = displayZh(row);
+      const ok = isApproved(row.id);
+      const by = (approved[row.id] && approved[row.id].by) || "";
+      return `<div class="item${ok ? " is-approved" : ""}" data-id="${esc(row.id)}">
+        <label class="item__check" title="保留">
+          <input type="checkbox" class="item-approve" data-id="${esc(row.id)}" ${ok ? "checked" : ""} ${busy.has(row.id) ? "disabled" : ""}>
+        </label>
+        <div class="item__body">
+          <p class="item__zh">${esc(zh)}</p>
+          <p class="item__orig">${esc(row.quote)}</p>
+          <div class="item__meta">
+            <span>《${esc(row.vn_title_zh || row.vn_title)}》</span>
+            ${row.character ? `<span>${esc(row.character)}</span>` : ""}
+            <a href="${esc(row.source_url)}" target="_blank" rel="noopener">VNDB</a>
+            ${by ? `<span class="badge">by ${esc(by)}</span>` : ""}
+          </div>
+        </div>
+      </div>`;
+    }).join("") || `<p class="loading">没有匹配的名言</p>`;
+    listEl.scrollTop = scrollTop;
+  }
+
+  async function loadApproved() {
+    const r = await fetch("/api/gal-quotes/approved", { cache: "no-store" });
+    const data = await r.json();
+    if (!data.ok) throw new Error(data.error || "读取勾选失败");
+    approved = data.approved || {};
+  }
+
+  async function toggle(id, ok) {
+    if (busy.has(id)) return;
+    busy.add(id);
+    renderList();
+    try {
+      const row = quotes.find((q) => q.id === id);
+      const r = await fetch("/api/gal-quotes/approved", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id,
+          approved: !!ok,
+          quote_zh: displayZh(row || {}),
+          by: byEl.value.trim(),
+        }),
+      });
+      const data = await r.json();
+      if (!data.ok) throw new Error(data.error || "保存失败");
+      approved = data.approved || approved;
+      toast(ok ? "已保留（全员可见）" : "已取消");
+    } catch (e) {
+      toast(e.message || "保存失败");
+      await loadApproved().catch(() => {});
+    } finally {
+      busy.delete(id);
+      renderList();
+    }
+  }
+
+  listEl.addEventListener("change", (e) => {
+    const cb = e.target.closest(".item-approve");
+    if (!cb) return;
+    toggle(cb.dataset.id, cb.checked);
+  });
+
+  function debounce(fn, ms) {
+    let t;
+    return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+  }
+  document.getElementById("q").addEventListener("input", debounce(renderList, 120));
+  document.getElementById("filter").addEventListener("change", renderList);
+
+  async function boot() {
+    try {
+      const [qr, _] = await Promise.all([
+        fetch("./quotes.json", { cache: "no-store" }).then((r) => {
+          if (!r.ok) throw new Error("quotes.json 加载失败");
+          return r.json();
+        }),
+        loadApproved(),
+      ]);
+      quotes = Array.isArray(qr) ? qr : [];
+      renderList();
+    } catch (e) {
+      listEl.innerHTML = `<p class="error">${esc(e.message || e)}<br>若 API 报 GITHUB_TOKEN，请在 Cloudflare Pages 环境变量中配置（与浮游相同）。</p>`;
+    }
+  }
+
+  boot();
+  setInterval(() => {
+    if (busy.size) return;
+    loadApproved().then(renderList).catch(() => {});
+  }, 8000);
+})();
+  </script>
+</body>
+</html>
