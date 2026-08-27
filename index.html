@@ -7,9 +7,9 @@
   <title>榧站</title>
   <meta name="description" content="时雨榧 — 个人主页" />
   <meta name="theme-color" content="#f7f8fc" />
-  <link rel="stylesheet" href="css/style-core.css?v=202608262110" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608271315" />
   <link rel="icon" href="assets/images/avatar.jpg" />
-  <noscript><style>.page-home .profile-hero,.page-home .nav-gated,.page-home .profile-gated{display:block!important;opacity:1!important;visibility:visible!important;transform:none!important;pointer-events:auto!important}.page-home .site-header,.page-home .intro-panel,.page-home .home-tool-entries,.page-home .site-footer{opacity:1!important}</style></noscript>
+  <noscript><style>.page-home .profile-hero,.page-home .nav-gated,.page-home .profile-gated{display:block!important;opacity:1!important;visibility:visible!important;transform:none!important;pointer-events:auto!important}.page-home .site-header,.page-home .intro-panel,.page-home .home-stack,.page-home .site-footer{opacity:1!important}</style></noscript>
 </head>
 <body class="page-home" data-kaya-page="home">
   <div class="site-bg" aria-hidden="true"></div>
@@ -60,23 +60,42 @@
       <div class="intro-panel__body" id="intro-body"></div>
     </section>
 
-    <div class="home-tool-entries" aria-label="Gal 工具">
-      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide" aria-label="Gal 心选">
-        <span class="site-quiz-entry__label">Pick</span>
-        <span class="site-quiz-entry__title">Gal 心选</span>
+    <div class="home-stack">
+      <section class="home-section home-section--tools" aria-label="Gal 工具">
+        <p class="home-section__label">Gal 工具</p>
+        <div class="home-tool-entries">
+      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide site-quiz-entry--pick" aria-label="选一款适合你的视觉小说">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M7 8.5c-1.5 0-2.5 1-2.5 2.2V19c0 .9 1 1.4 2.5 1"/><path d="M17 8.5c1.5 0 2.5 1 2.5 2.2V19c0 .9-1 1.4-2.5 1"/><path d="M7 8.5C7 6.6 9.2 5.5 12 5.5s5 2.1 5 3"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Pick</span>
+          <span class="site-quiz-entry__title">选一款适合你的视觉小说</span>
+        </span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
-      <a href="/gal-quiz/" class="site-quiz-entry" aria-label="Gal 水平测试">
-        <span class="site-quiz-entry__label">Quiz</span>
-        <span class="site-quiz-entry__title">gal水平测试</span>
+      <a href="/gal-quiz/" class="site-quiz-entry site-quiz-entry--quiz" aria-label="Gal 水平测试">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.4a2.6 2.6 0 1 1 4.2 2.1c-.7.5-1.2 1-1.2 1.9V14"/><circle cx="12" cy="17.2" r=".55" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Quiz</span>
+          <span class="site-quiz-entry__title">Gal水平测试</span>
+        </span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
-      <a href="/gal-sedai/" class="site-quiz-entry" aria-label="Gal 世代">
-        <span class="site-quiz-entry__label">Sedai</span>
-        <span class="site-quiz-entry__title">Gal世代</span>
+      <a href="/gal-sedai/" class="site-quiz-entry site-quiz-entry--sedai" aria-label="Gal 世代">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="5" height="5" rx="1.1"/><rect x="15" y="4" width="5" height="5" rx="1.1"/><rect x="4" y="15" width="5" height="5" rx="1.1"/><rect x="15" y="15" width="5" height="5" rx="1.1"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Sedai</span>
+          <span class="site-quiz-entry__title">Gal世代</span>
+        </span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
-    </div>
+        </div>
+      </section>
 
     <aside class="site-log profile-gated" aria-label="站点日志">
       <div class="site-log__inner">
@@ -89,8 +108,10 @@
       </div>
     </aside>
 
-    <section class="home-cards profile-gated" aria-label="快捷入口">
-      <a href="/works/" class="home-card">
+    <section class="home-section home-section--more profile-gated" aria-label="快捷入口">
+      <p class="home-section__label">创作与素材</p>
+      <div class="home-cards">
+      <a href="/works/" class="home-card home-card--works">
         <span class="home-card__label">Portfolio</span>
         <span class="home-card__title">作品集</span>
         <span class="home-card__desc">视频与投稿列表</span>
@@ -103,7 +124,9 @@
         <div class="home-card__preview" id="mv-preview" aria-hidden="true"></div>
         <span class="home-card__arrow" aria-hidden="true">→</span>
       </a>
+      </div>
     </section>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -150,7 +173,7 @@
     <div class="kaya-toast" id="kaya-toast" hidden aria-live="polite"></div>
   </dialog>
 
-  <script src="js/kaya-rain-mode.js?v=202608262050" defer></script>
-  <script src="js/kaya-boot.js?v=202608262050" defer></script>
+  <script src="js/kaya-rain-mode.js?v=202608271315" defer></script>
+  <script src="js/kaya-boot.js?v=202608271315" defer></script>
 </body>
 </html>

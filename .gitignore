@@ -9,6 +9,10 @@ scrapers/
 # 本地抽帧缓存（雨效对照用，不入库）
 .ref-frames/
 
+# gal-pick 构建中间产物（运行时只用 js/gal-pick-data.js）
+_sedai_raw/gal-pick-catalog.json
+js/gal-pick-catalog.json
+
 # 雨效分析：大体量本机缓存不入库；脚本 / 抽帧样本 / 对照图入库（换机续作）
 _rain_analysis/chrome_profile/
 _rain_analysis/hi/

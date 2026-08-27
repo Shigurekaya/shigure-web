@@ -153,11 +153,11 @@
     "超昂閃忍ハルカ",
     "Choukou Taisen Onmitsu Haruka"
   ],
-    "智以泪聚": [
-        "智以泪聚 -吹向明日彼岸的可视之风-",
-        "Rui wa Tomo o Yobu",
-        "類は友を呼ぶ"
-    ],
+  "智以泪聚": [
+    "智以泪聚 -吹向明日彼岸的可视之风-",
+    "Rui wa Tomo o Yobu",
+    "類は友を呼ぶ"
+  ],
   "樱之刻": [
     "樱之刻-在樱之森下漫步",
     "サクラノ刻",
@@ -271,11 +271,6 @@
   "樱之诗": [
     "サクラノ詩",
     "Sakura no Uta"
-  ],
-  "樱之刻": [
-    "樱之刻-在樱之森下漫步",
-    "サクラノ刻",
-    "Sakura no Toki"
   ],
   "多娜多娜 一起来干坏事吧": [
     "ドーナドーナ",
@@ -540,6 +535,59 @@
   "格诺西亚": [
     "Gnosia",
     "グノーシア"
+  ],
+  "NOeSIS ~Uso o Tsuita Kioku no Monogatari~": [
+    "NOeSIS",
+    "ノエシス",
+    "NOeSIS ～嘘をついた記憶の物語～"
+  ],
+  "NOeSIS02 -Uka-": [
+    "NOeSIS02",
+    "NOeSIS Ⅱ-人间无常"
+  ],
+  "濒死轮回的卿于馆中萌生的憎恶": [
+    "死に逝く君、館に芽吹く憎悪",
+    "Shiniyuku Kimi, Yakata ni Mebuku Zouo",
+    "死馆",
+    "にくにく",
+    "Nikuniku",
+    "逝去的你，馆里苏醒的罪恶",
+    "逝去的你、于馆中萌生的憎恶"
+  ],
+  "逝去的你，馆里苏醒的罪恶": [
+    "死に逝く君、館に芽吹く憎悪",
+    "Shiniyuku Kimi, Yakata ni Mebuku Zouo",
+    "死馆",
+    "にくにく",
+    "Nikuniku",
+    "濒死轮回的卿于馆中萌生的憎恶",
+    "逝去的你、于馆中萌生的憎恶"
+  ],
+  "euphoria": [
+    "Euphoria",
+    "Euphoria -Kindan no Euphoria-",
+    "エウフォリア"
+  ],
+  "STARLESS": [
+    "Starless",
+    "Starless ~Nihonban~",
+    "スターレス"
+  ],
+  "戈尔尖叫秀": [
+    "Gore Screaming Show",
+    "ゴア・スクリーミング・ショウ",
+    "GSS",
+    "ゴアスク"
+  ],
+  "狂嗜之血": [
+    "SaDistic BlooD",
+    "Sadistic Blood",
+    "サディスティック・ブラッド",
+    "SDB"
+  ],
+  "DIVI-DEAD": [
+    "Divi-Dead",
+    "ディヴィ・デッド"
   ],
   "猫娘乐园 Vol.0": [
     "Nekopara Vol.0"

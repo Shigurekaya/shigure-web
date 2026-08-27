@@ -1,4 +1,4 @@
-# Cloudflare Pages — mirrors vercel.json + serve-local.py clean URLs
+# Cloudflare Pages — clean URLs + API (mirrors serve-local.py)
 
 # API trailing slash (admin uses /api/fuyuu/*/ )
 /api/fuyuu/upload/ /api/fuyuu/upload 200

@@ -31,6 +31,7 @@
   font-family: var(--qz-font);
   color: var(--qz-ink);
   background: var(--qz-bg-deep);
+  color-scheme: light;
 }
 
 .page-quiz ::selection {
@@ -525,6 +526,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
+  background: var(--qz-surface);
 }
 
 .page-quiz .quiz-play__toolbar {

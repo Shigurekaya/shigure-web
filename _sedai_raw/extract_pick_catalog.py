@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SEDAI_JS = ROOT / "js" / "gal-sedai-data.js"
 GETCHU = Path(__file__).with_name("getchu_rankings.json")
-OUT_JSON = ROOT / "js" / "gal-pick-catalog.json"
+OUT_JSON = Path(__file__).with_name("gal-pick-catalog.json")
 OUT_JS = ROOT / "js" / "gal-pick-data.js"
 
 TONES = ("sweet", "heal", "drama", "mindbend", "epic", "hype", "literary", "utsuge")
@@ -92,14 +92,26 @@ def load_getchu() -> list[tuple[int, int, str]]:
 from pick_question_bank import build_question_bank
 from pick_traits import attach_traits
 from pick_tag_axes import count_meaningful_tag_hits, is_sweet_incompatible, refine_axes, rederive_row_axes
-from pick_title_rules import TAG_RULES, apply_title_rules
+from pick_title_rules import TAG_RULES, apply_title_rules, has_title_rule
 
 TAGS_JSON = Path(__file__).with_name("sedai_tags.json")
 SUPPLEMENT_TAGS_JSON = Path(__file__).with_name("pick_supplement_tags.json")
 DISPLAY_OVERRIDES_JSON = Path(__file__).with_name("pick_display_overrides.json")
+VNDB_OVERRIDES_JSON = Path(__file__).with_name("pick_vndb_overrides.json")
 TAGS_CACHE_JSON = Path(__file__).with_name("sedai_tags_cache.json")
 YM_ALIAS_PACK = ROOT / "_quiz_raw" / "ym_vndb_alias_pack.json"
-POOL_TARGET = 500
+POOL_TARGET = 600
+# 猎奇/重口向代表作：dedupe 截断 600 时仍强制保留
+POOL_PIN_VNDB = frozenset(
+    {
+        "v19233",  # 逝去的你，馆里苏醒的罪恶（死馆）
+        "v933",  # 戈尔尖叫秀
+        "v26721",  # 狂嗜之血
+        "v119",  # DIVI-DEAD
+        "v6540",  # euphoria
+        "v3161",  # STARLESS
+    }
+)
 
 # 由 tone/setting/pace/fame/raw_tags 推导的可辨识属性（供权重矩阵匹配）
 # 参考：Galgame Wiki 基调分类（萌/泣/郁/燃/悬疑/恐怖/Meta）+ 玩法（ADV/VN/SLG/RPG）
@@ -188,8 +200,10 @@ def derive_profile(row: dict) -> dict[str, str]:
         "setting": row.get("setting") or "school",
         "pace": row.get("pace") or "breezy",
     })
-    # BGM 噪声标签或无轴命中时，用标题规则补全
-    if count_meaningful_tag_hits(raw_tags) == 0:
+    # BGM 噪声标签或轴命中不足时，用标题规则补全（知名系列优先）
+    if count_meaningful_tag_hits(raw_tags) < 3 and has_title_rule(row.get("name") or ""):
+        refined = apply_title_rules(row.get("name") or "", refined)
+    elif count_meaningful_tag_hits(raw_tags) == 0:
         refined = apply_title_rules(row.get("name") or "", refined)
     tone = refined["tone"]
     setting = refined["setting"]
@@ -292,6 +306,37 @@ def _name_score(s: str) -> float:
     return score
 
 
+def _load_vndb_overrides() -> dict[str, str]:
+    if not VNDB_OVERRIDES_JSON.exists():
+        return {}
+    raw = json.loads(VNDB_OVERRIDES_JSON.read_text(encoding="utf-8"))
+    return {k: v for k, v in raw.items() if not k.startswith("_") and v}
+
+
+def apply_vndb_overrides_file(path: Path) -> int:
+    """把 pick_vndb_overrides.json 写回 sedai_tags / supplement 源文件。"""
+    overrides = _load_vndb_overrides()
+    if not overrides or not path.exists():
+        return 0
+    rows = json.loads(path.read_text(encoding="utf-8"))
+    changed = 0
+    for row in rows:
+        vid = overrides.get(row.get("name") or "")
+        if vid and row.get("vndb_id") != vid:
+            row["vndb_id"] = vid
+            changed += 1
+    if changed:
+        path.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
+    return changed
+
+
+def _load_authoritative_cn() -> dict[str, dict]:
+    path = Path(__file__).with_name("pick_authoritative_cn.json")
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def _load_display_overrides() -> dict[str, str]:
     out: dict[str, str] = {}
     if DISPLAY_OVERRIDES_JSON.exists():
@@ -346,7 +391,7 @@ def pick_display_name(
             return ov
     if vndb_id:
         ov_key = f"vndb:{vndb_id}".casefold()
-        if overrides.get(ov_key) and _han_count(overrides[ov_key]) >= 2:
+        if overrides.get(ov_key):
             return overrides[ov_key]
 
     candidates: list[tuple[float, str]] = []
@@ -354,7 +399,14 @@ def pick_display_name(
         candidates.append((_name_score(name) + 20.0, name))
 
     if vndb_id and vndb_id in ym_cn:
-        candidates.append((92.0, ym_cn[vndb_id]))
+        candidates.append((85.0, ym_cn[vndb_id]))
+
+    auth = (_load_authoritative_cn().get(vndb_id) or {}) if vndb_id else {}
+    auth_name = auth.get("name_cn")
+    auth_src = auth.get("source") or ""
+    if auth_name and _han_count(auth_name) >= 2:
+        score = 98.0 if auth_src == "vndb_official" else 94.0 if auth_src == "bangumi" else 90.0
+        candidates.append((score, auth_name))
 
     if vndb_id and vndb_id in vndb_by_id:
         hit = vndb_by_id[vndb_id]
@@ -424,7 +476,8 @@ def is_tagged_entry(row: dict) -> bool:
     return row.get("tag_source") not in (None, "none", "heuristic")
 
 
-def row_to_game(r: dict, source: str) -> dict:
+def row_to_game(r: dict, source: str, vndb_overrides: dict[str, str] | None = None) -> dict:
+    vndb_overrides = vndb_overrides or {}
     game = {
         "name": r["name"],
         "year": r["year"],
@@ -436,7 +489,7 @@ def row_to_game(r: dict, source: str) -> dict:
         "era": r.get("era") or ("classic" if r["year"] <= 2012 else "modern"),
         "fame": r.get("fame") or "solid",
         "tag_source": r.get("tag_source") or "none",
-        "vndb_id": r.get("vndb_id"),
+        "vndb_id": vndb_overrides.get(r["name"]) or r.get("vndb_id"),
         "bangumi_id": r.get("bangumi_id"),
         "cngal_id": r.get("cngal_id"),
     }
@@ -469,6 +522,23 @@ def _dedupe_group_key(g: dict) -> str:
     return f"n:{g['name'].casefold()}"
 
 
+def _inject_pinned(pool: list[dict], pinned_rows: list[dict]) -> list[dict]:
+    """把 pinned 条目并入 pool（按 vndb_id 去重，pinned 优先）。"""
+    by_vid = {g["vndb_id"]: g for g in pool if g.get("vndb_id")}
+    for g in pinned_rows:
+        vid = g.get("vndb_id")
+        if not vid:
+            continue
+        if vid in by_vid:
+            by_vid[vid] = _prefer_game(g, by_vid[vid])
+        else:
+            by_vid[vid] = g
+    rest = [g for g in pool if not g.get("vndb_id")]
+    rest += [g for vid, g in by_vid.items() if vid not in POOL_PIN_VNDB]
+    pinned = [by_vid[vid] for vid in POOL_PIN_VNDB if vid in by_vid]
+    return pinned + rest
+
+
 def dedupe_catalog(pool: list[dict]) -> list[dict]:
     """按 vndb / bangumi / 名称合并重复作品（如英文名与中文名双条目）。"""
     groups: dict[str, list[dict]] = {}
@@ -482,20 +552,84 @@ def dedupe_catalog(pool: list[dict]) -> list[dict]:
         out.append(best)
     fame_ord = {"icon": 0, "hit": 1, "solid": 2}
     out.sort(key=lambda g: (fame_ord.get(g["fame"], 9), -g["year"], g["name"]))
-    return out[:POOL_TARGET]
+    pinned = [g for g in out if g.get("vndb_id") in POOL_PIN_VNDB]
+    rest = [g for g in out if g.get("vndb_id") not in POOL_PIN_VNDB]
+    cap = max(POOL_TARGET - len(pinned), 0)
+    return pinned + rest[:cap]
+
+
+def _upgrade_raw_tags_from_cache(row: dict, cache: dict) -> dict:
+    """用 cache 中的 VNDB tag.rating / BGM tag.count 为 raw_tags 补权重。"""
+    raw = row.get("raw_tags") or []
+    if not raw:
+        return row
+    if any(t.count(":") >= 2 for t in raw if t.startswith(("vndb:", "bgm:"))):
+        return row
+
+    vndb_bucket = cache.get("vndb") or {}
+    bgm_bucket = cache.get("bangumi") or {}
+    upgraded: list[str] = []
+
+    vid = row.get("vndb_id")
+    vhit = None
+    if vid:
+        vhit = vndb_bucket.get(f"id:{vid}")
+        if not isinstance(vhit, dict):
+            for v in vndb_bucket.values():
+                if isinstance(v, dict) and v.get("id") == vid:
+                    vhit = v
+                    break
+
+    bid = row.get("bangumi_id")
+    bhit = None
+    if bid:
+        bhit = bgm_bucket.get(f"id:{bid}")
+        if not isinstance(bhit, dict):
+            for v in bgm_bucket.values():
+                if isinstance(v, dict) and v.get("id") == bid:
+                    bhit = v
+                    break
+
+    vndb_tags = {t.get("name"): float(t.get("rating") or 1.0) for t in (vhit or {}).get("tags") or [] if t.get("name")}
+    bgm_tags = {t.get("name"): min(3.0, 0.8 + int(t.get("count") or 1) / 25.0) for t in (bhit or {}).get("tags") or [] if t.get("name")}
+
+    for tag in raw:
+        if tag.startswith("vndb:"):
+            name = tag.split(":", 1)[1]
+            w = vndb_tags.get(name, 1.0)
+            upgraded.append(f"vndb:{name}:{w:.2f}")
+        elif tag.startswith("bgm:"):
+            name = tag.split(":", 1)[1]
+            w = bgm_tags.get(name, 1.0)
+            upgraded.append(f"bgm:{name}:{w:.2f}")
+        elif tag.startswith("cngal:"):
+            name = tag.split(":", 1)[1]
+            upgraded.append(f"cngal:{name}:1.20")
+        else:
+            upgraded.append(tag)
+
+    out = dict(row)
+    out["raw_tags"] = upgraded[:36]
+    return out
 
 
 def rederive_tags_file(path: Path) -> int:
     """从 raw_tags 重算 tone/setting/pace 并写回 JSON。返回变更条数。"""
     if not path.exists():
         return 0
+    cache = {}
+    if TAGS_CACHE_JSON.exists():
+        cache = json.loads(TAGS_CACHE_JSON.read_text(encoding="utf-8"))
     rows = json.loads(path.read_text(encoding="utf-8"))
     changed = 0
     for i, row in enumerate(rows):
         if not row.get("raw_tags"):
             continue
+        row = _upgrade_raw_tags_from_cache(row, cache)
         updated = rederive_row_axes(row)
-        if any(updated.get(k) != row.get(k) for k in ("tone", "setting", "pace")):
+        if row.get("raw_tags") != rows[i].get("raw_tags") or any(
+            updated.get(k) != rows[i].get(k) for k in ("tone", "setting", "pace")
+        ):
             rows[i] = updated
             changed += 1
     if changed:
@@ -510,15 +644,20 @@ def catalog_from_fetched_tags() -> list[dict] | None:
     n2 = rederive_tags_file(SUPPLEMENT_TAGS_JSON)
     if n1 or n2:
         print(f"rederived axes: sedai={n1} supplement={n2}")
+    vndb_overrides = _load_vndb_overrides()
     sedai_rows = json.loads(TAGS_JSON.read_text(encoding="utf-8"))
     base_rows = [r for r in sedai_rows if is_tagged(r)]
     if not base_rows:
         return None
 
     seen = {r["name"].casefold() for r in base_rows}
-    seen_vndb = {r["vndb_id"] for r in base_rows if r.get("vndb_id")}
+    seen_vndb = {
+        vndb_overrides.get(r["name"]) or r.get("vndb_id")
+        for r in base_rows
+        if vndb_overrides.get(r["name"]) or r.get("vndb_id")
+    }
     seen_bgm = {r["bangumi_id"] for r in base_rows if r.get("bangumi_id")}
-    pool = [row_to_game(r, "sedai") for r in base_rows]
+    pool = [row_to_game(r, "sedai", vndb_overrides) for r in base_rows]
 
     if SUPPLEMENT_TAGS_JSON.exists() and len(pool) < POOL_TARGET:
         supp_rows = json.loads(SUPPLEMENT_TAGS_JSON.read_text(encoding="utf-8"))
@@ -537,9 +676,27 @@ def catalog_from_fetched_tags() -> list[dict] | None:
                 seen_vndb.add(vid)
             if bid:
                 seen_bgm.add(bid)
-            pool.append(row_to_game(r, "getchu-popular"))
+            pool.append(row_to_game(r, "getchu-popular", vndb_overrides))
             if len(pool) >= POOL_TARGET + 24:
                 break
+
+    pinned_games: list[dict] = []
+    if SUPPLEMENT_TAGS_JSON.exists() and POOL_PIN_VNDB:
+        supp_by_vid = {
+            r["vndb_id"]: r
+            for r in json.loads(SUPPLEMENT_TAGS_JSON.read_text(encoding="utf-8"))
+            if r.get("vndb_id") and is_tagged(r)
+        }
+        for vid in POOL_PIN_VNDB:
+            r = supp_by_vid.get(vid)
+            if not r:
+                continue
+            if vid in seen_vndb:
+                continue
+            pinned_games.append(row_to_game(r, "getchu-popular", vndb_overrides))
+            seen_vndb.add(vid)
+    if pinned_games:
+        pool = _inject_pinned(pool, pinned_games)
 
     fame_ord = {"icon": 0, "hit": 1, "solid": 2}
     pool.sort(key=lambda g: (fame_ord.get(g["fame"], 9), -g["year"], g["name"]))
@@ -555,7 +712,7 @@ def build_js(catalog: list[dict], questions: list[dict]) -> str:
     supp_n = sum(1 for g in catalog if g.get("source") == "getchu-popular")
     payload = {
         "meta": {
-            "title": "Gal 心选",
+            "title": "Gal缘结",
             "subtitle": "答几道题，找出适合你的 Gal。看不懂的题可以跳过。",
             "resultCount": 1,
             "poolSize": len(catalog),
@@ -564,8 +721,8 @@ def build_js(catalog: list[dict], questions: list[dict]) -> str:
             "supplementCount": supp_n,
             "taggedCount": tagged,
             "questionBank": len(questions),
-            "drawMax": 28,
-            "scoringVersion": 5,
+            "drawMax": 32,
+            "scoringVersion": 7,
             "source": "gal-sedai(tagged) + getchu-popular + vndb/bangumi/cngal",
         },
         "games": catalog,
@@ -574,7 +731,7 @@ def build_js(catalog: list[dict], questions: list[dict]) -> str:
     body = json.dumps(payload, ensure_ascii=False, indent=2)
     return (
         "/**\n"
-        " * Gal 心选 — 原创题库(≤100) + 世代全量作品 + 外站 tags\n"
+        " * Gal缘结 — 原创题库(≤100) + 世代全量作品 + 外站 tags\n"
         " * 由 _sedai_raw/extract_pick_catalog.py 生成；tags 见 fetch_sedai_tags.py\n"
         " */\n"
         f"const GAL_PICK_DATA = {body};\n"
@@ -582,6 +739,11 @@ def build_js(catalog: list[dict], questions: list[dict]) -> str:
 
 
 def main() -> None:
+    n1 = apply_vndb_overrides_file(TAGS_JSON)
+    n2 = apply_vndb_overrides_file(SUPPLEMENT_TAGS_JSON)
+    if n1 or n2:
+        print(f"patched vndb_id: sedai={n1} supplement={n2}")
+
     catalog = catalog_from_fetched_tags()
     if catalog is None:
         print("sedai_tags.json missing — fallback heuristic tags; run fetch_sedai_tags.py first")

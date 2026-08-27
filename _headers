@@ -1,4 +1,4 @@
-# Cloudflare Pages — mirrors vercel.json cache + security headers
+# Cloudflare Pages — cache + security headers
 # More specific paths must appear before wildcards.
 
 /fuyuu/js/site-data.js

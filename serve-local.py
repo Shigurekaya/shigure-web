@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local static server: HTML no-store + clean URL aliases (Vercel-like)."""
+"""Local static server: HTML no-store + clean URL aliases."""
 from __future__ import annotations
 
 import argparse
@@ -17,7 +17,7 @@ LOCAL_HOST = "127.0.0.1"
 LOCAL_PORT = 3456
 LOCAL_BASE_URL = f"http://{LOCAL_HOST}:{LOCAL_PORT}/"
 
-# Map clean paths → files on disk (mirrors Vercel cleanUrls + trailingSlash).
+# Map clean paths → files on disk (cleanUrls + trailingSlash).
 CLEAN_MAP = {
     "/": "index.html",
     "/works": "works.html",
@@ -50,16 +50,31 @@ CLEAN_MAP = {
     "/fuyuu/about/": "fuyuu/about.html",
     "/fuyuu/portfolio": "fuyuu/portfolio.html",
     "/fuyuu/portfolio/": "fuyuu/portfolio.html",
-    "/kaya": "kaya/index.html",
-    "/kaya/": "kaya/index.html",
-    "/kaya/works": "kaya/works.html",
-    "/kaya/works/": "kaya/works.html",
-    "/kaya/links": "kaya/links.html",
-    "/kaya/links/": "kaya/links.html",
-    "/kaya/heavy": "kaya/heavy.html",
-    "/kaya/heavy/": "kaya/heavy.html",
-    "/kaya/storm": "kaya/storm.html",
-    "/kaya/storm/": "kaya/storm.html",
+    # Legacy /kaya/* → same as root (matches _redirects /kaya/* → /:splat)
+    "/kaya": "index.html",
+    "/kaya/": "index.html",
+    "/kaya/works": "works.html",
+    "/kaya/works/": "works.html",
+    "/kaya/links": "links.html",
+    "/kaya/links/": "links.html",
+    "/kaya/mv-materials": "mv-materials.html",
+    "/kaya/mv-materials/": "mv-materials.html",
+    "/kaya/gal-quiz": "gal-quiz.html",
+    "/kaya/gal-quiz/": "gal-quiz.html",
+    "/kaya/gal-pick": "gal-pick.html",
+    "/kaya/gal-pick/": "gal-pick.html",
+    "/kaya/gal-sedai": "gal-sedai.html",
+    "/kaya/gal-sedai/": "gal-sedai.html",
+    "/kaya/heavy": "heavy.html",
+    "/kaya/heavy/": "heavy.html",
+    "/kaya/light": "light.html",
+    "/kaya/light/": "light.html",
+    "/kaya/storm": "storm.html",
+    "/kaya/storm/": "storm.html",
+    "/kaya/sunny": "sunny.html",
+    "/kaya/sunny/": "sunny.html",
+    "/kaya/rainbow": "rainbow.html",
+    "/kaya/rainbow/": "rainbow.html",
 }
 
 # /gal-quiz/s1-01 → gal-quiz.html（深链直达某题）

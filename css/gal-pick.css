@@ -1,4 +1,4 @@
-/* Gal 心选 — 独立页 */
+/* Gal缘结 — 独立页 */
 
 .page-pick {
   --pk-ink: #1a1922;
@@ -10,6 +10,8 @@
   --pk-accent-deep: #5246d6;
   --pk-glow: rgba(107, 92, 255, 0.16);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   color: var(--pk-ink);
 }
 
@@ -28,13 +30,20 @@
 .page-main--pick {
   position: relative;
   z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: min(720px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: 1.25rem 0 3rem;
+  padding: 3.5rem 0 2.5rem;
 }
 
 .pick-back {
-  margin: 0 0 1.25rem;
+  position: absolute;
+  top: 1.25rem;
+  left: 0;
+  margin: 0;
   font-size: 0.9rem;
 }
 
@@ -53,6 +62,7 @@
 .pick-shell {
   display: grid;
   gap: 1rem;
+  width: 100%;
 }
 
 .pick-hero {
@@ -138,6 +148,14 @@
   padding: 0.5rem 0 0.25rem;
 }
 
+.pick-intro-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.55rem;
+  width: min(100%, 16rem);
+}
+
 .pick-stage--intro-minimal .pick-btn--primary {
   min-width: 8.5rem;
 }
@@ -195,6 +213,13 @@
 .pick-status__row strong {
   color: var(--pk-accent-deep);
   font-variant-numeric: tabular-nums;
+}
+
+.pick-status__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
 }
 
 .pick-skip {

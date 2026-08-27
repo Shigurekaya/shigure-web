@@ -2,7 +2,7 @@
 
 个人网站静态页面，部署于 **Cloudflare Pages**（自定义域名 [www.shigurekaya.com](https://www.shigurekaya.com)）。
 
-> 迁移说明见 **[docs/deploy-cloudflare.md](docs/deploy-cloudflare.md)**。`vercel.json` 为历史配置，切流量后可删。
+> 迁移说明见 **[docs/deploy-cloudflare.md](docs/deploy-cloudflare.md)**。
 
 当前线上仅开放：
 

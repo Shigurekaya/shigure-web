@@ -46,8 +46,9 @@ from pick_pool_dedupe import (  # noqa: E402
     is_tagged as row_is_tagged,
 )
 
-POOL_TARGET = 500
+POOL_TARGET = 600
 POPULAR_SEED_EXTRA = Path(__file__).with_name("pick_popular_seed_extra.json")
+POPULAR_SEED_FILL600 = Path(__file__).with_name("pick_popular_seed_fill600.json")
 
 # Extra mainstream / iconic titles often missing from sedai+getchu gaps
 POPULAR_DEFAULT: list[tuple[int, int, str]] = [
@@ -183,6 +184,12 @@ def load_popular_seed(
                 seed_items.append((2015, 5, item))
             else:
                 seed_items.append((int(item.get("year", 2015)), int(item.get("rank", 5)), item["name"]))
+    if POPULAR_SEED_FILL600.exists():
+        for item in json.loads(POPULAR_SEED_FILL600.read_text(encoding="utf-8")):
+            if isinstance(item, str):
+                seed_items.append((2015, 5, item))
+            else:
+                seed_items.append((int(item.get("year", 2015)), int(item.get("rank", 5)), item["name"]))
     alias_to_cn = load_alias_to_cn()
     normalized: list[tuple[int, int, str]] = []
     for year, rank, title in seed_items:
@@ -252,7 +259,7 @@ def fill_supplement(need: int) -> int:
 
     # 中文种子优先，再 getchu
     combined = seed + getchu
-    fetch_list = combined[: need + 80]
+    fetch_list = combined[: max(need + 200, need + 80)]
     clear_null_cache_for([t for _, _, t in fetch_list])
     _log(f"supplement fetch={len(fetch_list)} need={need} seed={len(seed)} getchu={len(getchu)}")
     existing: list[dict] = []

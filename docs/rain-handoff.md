@@ -32,7 +32,7 @@ py -3 .\serve-local.py
 
 线上对照：
 
-- https://shigure-web.vercel.app/?rain=heavy  
+- https://www.shigurekaya.com/?rain=heavy
 - https://www.shigurekaya.com/?heavy  
 
 ## 3. 必读文档（仓库内）

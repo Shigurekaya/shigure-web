@@ -25,4 +25,5 @@ uv run python _sedai_raw/extract_pick_catalog.py
 产出：
 - `_sedai_raw/sedai_tags.json`（仅保留有 tags 的进池）
 - `_sedai_raw/pick_supplement_tags.json`（人气补位）
-- `js/gal-pick-data.js`
+- `_sedai_raw/gal-pick-catalog.json`（中间产物，不入库）
+- `js/gal-pick-data.js`（线上运行时数据）

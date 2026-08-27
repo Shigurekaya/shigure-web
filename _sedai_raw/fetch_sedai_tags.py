@@ -163,6 +163,31 @@ def match_score(query: str, candidate: str) -> float:
     return 0.0
 
 
+def bangumi_matches_vndb(vndb_title: str, bgm: dict) -> bool:
+    """Bangumi 条目是否与 VNDB 主标题同一作品（排除 Starless Abyss 误配 STARLESS 等）。"""
+    vtitle = (vndb_title or "").strip()
+    vt = norm_cmp(vtitle)
+    if not vt or not bgm:
+        return False
+    for raw in (bgm.get("name"), bgm.get("name_cn")):
+        if not raw:
+            continue
+        nc = norm_cmp(raw)
+        if vt == nc:
+            return True
+        sc = match_score(vtitle, raw)
+        if sc < 70:
+            continue
+        # 英文主标题：拒绝带明显后缀的更长英文名
+        if re.search(r"[A-Za-z]", vtitle) and nc.startswith(vt) and len(nc) - len(vt) >= 4:
+            continue
+        if re.search(r"[\u4e00-\u9fff]", raw) and not re.search(r"[\u4e00-\u9fff]", vtitle):
+            if sc < 92:
+                continue
+        return True
+    return False
+
+
 def query_variants(title: str) -> list[str]:
     """Generate search keywords from a sedai display title."""
     out: list[str] = []
@@ -642,19 +667,22 @@ def derive_axes(vndb: dict | None, bgm: dict | None, cngal: dict | None, year: i
     if vndb:
         for t in vndb.get("tags") or []:
             name = t.get("name") or ""
+            rating = float(t.get("rating") or 1.0)
             if name:
-                raw_tags.append(f"vndb:{name}")
+                raw_tags.append(f"vndb:{name}:{rating:.2f}")
 
     if bgm:
         for t in bgm.get("tags") or []:
             name = t.get("name") or ""
+            count = int(t.get("count") or 1)
             if name:
-                raw_tags.append(f"bgm:{name}")
+                w = min(3.0, 0.8 + count / 25.0)
+                raw_tags.append(f"bgm:{name}:{w:.2f}")
 
     if cngal:
         for name in cngal.get("tags") or []:
             if name:
-                raw_tags.append(f"cngal:{name}")
+                raw_tags.append(f"cngal:{name}:1.20")
 
     axes = derive_axes_from_raw_tags(raw_tags)
     axes["era"] = "classic" if year <= 2012 else "modern"
@@ -662,7 +690,7 @@ def derive_axes(vndb: dict | None, bgm: dict | None, cngal: dict | None, year: i
     axes["tag_source"] = "+".join(
         s for s, obj in (("vndb", vndb), ("bangumi", bgm), ("cngal", cngal)) if obj
     ) or "none"
-    axes["raw_tags"] = raw_tags[:24]
+    axes["raw_tags"] = raw_tags[:36]
     return axes
 
 

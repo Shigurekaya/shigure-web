@@ -2,7 +2,7 @@
 
 > 更新日期：2026-08-22  
 > 对照 URL：本地 `http://127.0.0.1:3000/?rain=heavy`  
-> 线上：`https://shigure-web.vercel.app/?rain=heavy` / `https://www.shigurekaya.com/?heavy`  
+> 线上：`https://www.shigurekaya.com/?rain=heavy`
 > 参考视频（本机路径，换机需自备）：`d:\Documents\Tencent Files\2205003070\nt_qq\nt_data\Video\2026-08\Ori\d63123f5e68f97c298dea1bec5aad3a0.mp4`  
 > 硬约束：**天空自研模仿，禁止视频截帧作底图**
 

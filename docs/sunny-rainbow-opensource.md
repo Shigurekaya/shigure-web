@@ -1,7 +1,7 @@
 # 晴天 / 雨后彩虹开源调研
 
 调研日期：2026-08-22  
-用途：评估如何替换当前草稿级 `sunny-sky.js` / `after-rain.js`，达到「可当站背景」的质感，而非玩具椭圆云 + 硬描边彩虹。
+用途：评估如何替换当前草稿级 `sunny-sky.js`，达到「可当站背景」的质感，而非玩具椭圆云 + 硬描边彩虹。
 
 ## 产品约束
 
@@ -86,10 +86,9 @@
 
 ## 若落地到本站（已实施 · 2026-08-22）
 
-1. `js/sunny-sky.js`：真蓝天顶→地平漂白 + 多层太阳晕/光柱 + **FBM 卷云/积云**烘焙慢漂  
-2. `js/after-rain.js`：破云暖光（左）+ **HSL 柔边主虹/副虹**（screen）+ FBM 残云 + 稀雨丝 + 湿气  
-3. CSS `body.sunny-sky` / `body.after-rain` 仅 UI token 与极轻叠光  
-4. 入口：`?sunny` / `/sunny/`，`?rainbow` / `/rainbow/`
+1. `js/sunny-sky.js`：真蓝天顶→地平漂白 + 多层太阳晕/光柱 + **FBM 卷云/积云**烘焙慢漂；雨后彩虹模式亦在此实现  
+2. CSS `body.sunny-sky` 仅 UI token 与极轻叠光（`body.after-rain` 类名保留作样式 hook）  
+3. 入口：`?sunny` / `/sunny/`，`?rainbow` / `/rainbow/`
 
 ---
 

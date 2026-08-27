@@ -295,6 +295,106 @@ const Kaya = (() => {
     }
   }
 
+  function initFooterMotto() {
+    const MOTTO_MQ = window.matchMedia("(max-width: 640px)");
+    const MIN_PX = 9;
+    const MAX_PX = 13;
+    /** @type {WeakSet<Element>} */
+    const wired = new WeakSet();
+
+    function readMaxPx(el) {
+      const cs = getComputedStyle(el);
+      const fromVar = parseFloat(cs.getPropertyValue("--motto-max-size"));
+      if (Number.isFinite(fromVar) && fromVar > 0) return fromVar;
+      const fromFont = parseFloat(cs.fontSize);
+      return Number.isFinite(fromFont) && fromFont > 0 ? Math.min(fromFont, MAX_PX) : MAX_PX;
+    }
+
+    function fitOne(el) {
+      const text = el.textContent?.trim();
+      if (!text) return;
+      el.title = text;
+      el.classList.remove("is-fit", "is-truncated");
+
+      if (!MOTTO_MQ.matches) {
+        el.style.fontSize = "";
+        el.style.textOverflow = "";
+        return;
+      }
+
+      const maxPx = readMaxPx(el);
+      let lo = MIN_PX;
+      let hi = maxPx;
+      let best = MIN_PX;
+
+      el.style.whiteSpace = "nowrap";
+      el.style.textOverflow = "clip";
+      el.style.fontSize = `${hi}px`;
+      if (el.scrollWidth <= el.clientWidth + 1) {
+        el.style.fontSize = `${hi}px`;
+        el.style.textOverflow = "";
+        el.classList.add("is-fit");
+        return;
+      }
+
+      while (hi - lo > 0.25) {
+        const mid = (lo + hi) / 2;
+        el.style.fontSize = `${mid}px`;
+        if (el.scrollWidth <= el.clientWidth + 1) {
+          best = mid;
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+      }
+
+      el.style.fontSize = `${best}px`;
+      if (el.scrollWidth > el.clientWidth + 1) {
+        el.style.textOverflow = "ellipsis";
+        el.classList.add("is-truncated");
+      } else {
+        el.style.textOverflow = "";
+        el.classList.add("is-fit");
+      }
+    }
+
+    function fitAll() {
+      document.querySelectorAll(".site-footer__motto").forEach(fitOne);
+    }
+
+    function wire(el) {
+      if (!(el instanceof HTMLElement) || wired.has(el)) return;
+      wired.add(el);
+      if (typeof ResizeObserver !== "undefined") {
+        const ro = new ResizeObserver(() => fitOne(el));
+        ro.observe(el);
+        const footer = el.closest(".site-footer");
+        if (footer && footer !== el) ro.observe(footer);
+      }
+    }
+
+    document.querySelectorAll(".site-footer__motto").forEach((el) => {
+      wire(el);
+      fitOne(el);
+    });
+
+    const onReflow = () => fitAll();
+    MOTTO_MQ.addEventListener("change", onReflow);
+    window.addEventListener("resize", onReflow, { passive: true });
+    window.visualViewport?.addEventListener("resize", onReflow, { passive: true });
+    document.fonts?.ready?.then(onReflow).catch(() => {});
+
+    window.KayaFooterMotto = {
+      /** 换句后调用：el.textContent = quote; KayaFooterMotto.refit(); */
+      refit: fitAll,
+      setText(text, el = document.querySelector(".site-footer__motto")) {
+        if (!(el instanceof HTMLElement)) return;
+        el.textContent = text ?? "";
+        fitOne(el);
+      },
+    };
+  }
+
   function initNav() {
     const toggle = document.getElementById("menu-toggle");
     const nav = document.getElementById("site-nav");
@@ -305,8 +405,16 @@ const Kaya = (() => {
       toggle.setAttribute("aria-expanded", "false");
     };
 
+    const homeNavLocked = () => document.body.classList.contains("page-home")
+      && !document.body.classList.contains("profile-open")
+      && !document.body.classList.contains("profile-animating");
+
     toggle.addEventListener("click", (e) => {
       e.stopPropagation();
+      if (homeNavLocked()) {
+        closeNav();
+        return;
+      }
       const open = nav.classList.toggle("open");
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
@@ -318,6 +426,8 @@ const Kaya = (() => {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeNav();
     });
+
+    document.body.addEventListener("kaya:profile-open-change", closeNav);
   }
 
   const KAYA_ASSET_V = "202608252100";
@@ -348,23 +458,42 @@ const Kaya = (() => {
     <section class="intro-panel" aria-label="简介">
       <div class="intro-panel__body" id="intro-body"></div>
     </section>
-    <div class="home-tool-entries" aria-label="Gal 工具">
-      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide" aria-label="Gal 心选">
-        <span class="site-quiz-entry__label">Pick</span>
-        <span class="site-quiz-entry__title">Gal 心选</span>
+    <div class="home-stack">
+      <section class="home-section home-section--tools" aria-label="Gal 工具">
+        <p class="home-section__label">Gal 工具</p>
+        <div class="home-tool-entries">
+      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide site-quiz-entry--pick" aria-label="选一款适合你的视觉小说">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M7 8.5c-1.5 0-2.5 1-2.5 2.2V19c0 .9 1 1.4 2.5 1"/><path d="M17 8.5c1.5 0 2.5 1 2.5 2.2V19c0 .9-1 1.4-2.5 1"/><path d="M7 8.5C7 6.6 9.2 5.5 12 5.5s5 2.1 5 3"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Pick</span>
+          <span class="site-quiz-entry__title">选一款适合你的视觉小说</span>
+        </span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
-      <a href="/gal-quiz/" class="site-quiz-entry" aria-label="Gal 水平测试">
-        <span class="site-quiz-entry__label">Quiz</span>
-        <span class="site-quiz-entry__title">gal水平测试</span>
+      <a href="/gal-quiz/" class="site-quiz-entry site-quiz-entry--quiz" aria-label="Gal 水平测试">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.4a2.6 2.6 0 1 1 4.2 2.1c-.7.5-1.2 1-1.2 1.9V14"/><circle cx="12" cy="17.2" r=".55" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Quiz</span>
+          <span class="site-quiz-entry__title">Gal水平测试</span>
+        </span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
-      <a href="/gal-sedai/" class="site-quiz-entry" aria-label="Gal 世代">
-        <span class="site-quiz-entry__label">Sedai</span>
-        <span class="site-quiz-entry__title">Gal世代</span>
+      <a href="/gal-sedai/" class="site-quiz-entry site-quiz-entry--sedai" aria-label="Gal 世代">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="5" height="5" rx="1.1"/><rect x="15" y="4" width="5" height="5" rx="1.1"/><rect x="4" y="15" width="5" height="5" rx="1.1"/><rect x="15" y="15" width="5" height="5" rx="1.1"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Sedai</span>
+          <span class="site-quiz-entry__title">Gal世代</span>
+        </span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
-    </div>
+        </div>
+      </section>
     <aside class="site-log profile-gated" aria-label="站点日志">
       <div class="site-log__inner">
         <span class="site-log__tag">LOG</span>
@@ -375,8 +504,10 @@ const Kaya = (() => {
         </div>
       </div>
     </aside>
-    <section class="home-cards profile-gated" aria-label="快捷入口">
-      <a href="/works/" class="home-card">
+    <section class="home-section home-section--more profile-gated" aria-label="快捷入口">
+      <p class="home-section__label">创作与素材</p>
+      <div class="home-cards">
+      <a href="/works/" class="home-card home-card--works">
         <span class="home-card__label">Portfolio</span>
         <span class="home-card__title">作品集</span>
         <span class="home-card__desc">视频与投稿列表</span>
@@ -389,7 +520,9 @@ const Kaya = (() => {
         <div class="home-card__preview" id="mv-preview" aria-hidden="true"></div>
         <span class="home-card__arrow" aria-hidden="true">→</span>
       </a>
+      </div>
     </section>
+    </div>
   </main>`,
     works: `<main class="page-main">
     <header class="page-head">
@@ -1145,17 +1278,22 @@ const Kaya = (() => {
       brandText.textContent = want ? "时雨榧" : "榧";
     }
 
+    document.getElementById("site-nav")?.classList.remove("open");
+    document.getElementById("menu-toggle")?.setAttribute("aria-expanded", "false");
+
     const reveal = window.KayaProfileReveal;
     if (!instant && reveal?.setOpen) {
       reveal.setOpen(want).then(() => {
         clearProfileInlineStyles();
         refreshRainLedgesAfterProfile();
+        document.body.dispatchEvent(new CustomEvent("kaya:profile-open-change", { detail: { open: want } }));
       }).catch(() => {
         document.body.classList.toggle("profile-open", want);
         document.body.classList.remove("profile-animating", "is-avatar-flying");
         if (brandText) brandText.textContent = want ? "时雨榧" : "榧";
         clearProfileInlineStyles();
         refreshRainLedgesAfterProfile();
+        document.body.dispatchEvent(new CustomEvent("kaya:profile-open-change", { detail: { open: want } }));
       });
       return;
     }
@@ -1165,6 +1303,7 @@ const Kaya = (() => {
     document.body.classList.remove("profile-animating", "is-avatar-flying");
     reveal?.syncFromDom?.();
     window.setTimeout(() => refreshRainLedgesAfterProfile(), want ? 60 : 20);
+    document.body.dispatchEvent(new CustomEvent("kaya:profile-open-change", { detail: { open: want } }));
   }
 
   function markPageReady() {
@@ -1187,6 +1326,7 @@ const Kaya = (() => {
     if (!isStandaloneTool && !shellInited) {
       shellInited = true;
       initNav();
+      initFooterMotto();
       initSpaRouter();
       initWeatherPreview();
       initFooterSites();

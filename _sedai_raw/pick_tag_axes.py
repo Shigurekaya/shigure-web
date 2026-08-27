@@ -75,6 +75,15 @@ VNDB_MAP: dict[str, dict[str, str]] = {
     "Dystopia": {"setting": "scifi", "tone": "utsuge"},
     "Post-apocalyptic Science Fiction": {"setting": "scifi", "tone": "mindbend"},
     "Mecha": {"setting": "scifi", "tone": "epic"},
+    "War": {"tone": "epic", "setting": "scifi"},
+    "Military": {"tone": "epic", "setting": "scifi"},
+    "Politics": {"tone": "epic"},
+    "Apocalypse": {"setting": "scifi", "tone": "mindbend"},
+    "Post-apocalyptic": {"setting": "scifi", "tone": "mindbend"},
+    "Space": {"setting": "scifi", "tone": "epic"},
+    "Alternate History": {"setting": "fantasy", "tone": "epic"},
+    "Genre Shift": {"tone": "mindbend", "setting": "scifi"},
+    "Global Conflict": {"tone": "epic", "setting": "scifi"},
     "Magic": {"setting": "fantasy"},
     "No Sexual Content": {"tone": "heal"},
     "Student Heroine": {"setting": "school"},
@@ -198,11 +207,30 @@ def _is_noise_tag(source: str, name: str) -> bool:
     return False
 
 
+def parse_raw_tag(tag: str) -> tuple[str, str, float]:
+    """解析 vndb:Tag:2.5 / bgm:恋爱:1.8 格式（旧格式无权重时默认 1.0）。"""
+    if ":" not in tag:
+        return "vndb", tag, 1.0
+    parts = tag.split(":")
+    source = parts[0]
+    if len(parts) == 2:
+        return source, parts[1], 1.0
+    name = parts[1]
+    try:
+        weight = float(parts[2])
+    except ValueError:
+        weight = 1.0
+    return source, name, max(0.25, weight)
+
+
 def apply_map(name: str, mapping: dict[str, dict[str, str]], votes: dict[str, dict[str, float]], w: float) -> None:
     hit = mapping.get(name)
     if not hit:
+        # 仅对较长键做子串匹配，避免 Drama/Melodrama 类误伤
         best_len = 0
         for k, v in mapping.items():
+            if len(k) < 4:
+                continue
             if k in name or name in k:
                 if len(k) > best_len:
                     best_len = len(k)
@@ -212,6 +240,19 @@ def apply_map(name: str, mapping: dict[str, dict[str, str]], votes: dict[str, di
     for dim, val in hit.items():
         bucket = votes.setdefault(dim, {})
         bucket[val] = bucket.get(val, 0.0) + w
+
+
+def _resolve_epic_romance_conflict(votes: dict[str, dict[str, float]], blob: str) -> None:
+    """War/Mecha 等史诗标签存在时，压低甜系票，避免 Muv-Luv 类被标成恋爱日常。"""
+    if not any(k in blob for k in ("war", "mecha", "military", "apocalypse", "post-apocalyptic", "dystopia")):
+        return
+    tone = votes.setdefault("tone", {})
+    epic = tone.get("epic", 0.0) + tone.get("mindbend", 0.0) * 0.6
+    if epic < 1.2:
+        return
+    for soft in ("sweet", "heal"):
+        if soft in tone:
+            tone[soft] *= 0.4
 
 
 def apply_vndb_dark_map(name: str, votes: dict[str, dict[str, float]], weight: float) -> None:
@@ -282,10 +323,7 @@ def refine_axes(raw_tags: list[str], axes: dict[str, str]) -> dict[str, str]:
 def count_meaningful_tag_hits(raw_tags: list[str]) -> int:
     n = 0
     for tag in raw_tags:
-        if ":" in tag:
-            source, name = tag.split(":", 1)
-        else:
-            source, name = "vndb", tag
+        source, name, _w = parse_raw_tag(tag)
         if _is_noise_tag(source, name):
             continue
         if tag_maps_to(name, source):
@@ -296,22 +334,23 @@ def count_meaningful_tag_hits(raw_tags: list[str]) -> int:
 def derive_axes_from_raw_tags(raw_tags: list[str]) -> dict[str, str]:
     """Full axis vote from stored raw_tags (vndb:/bgm:/cngal: prefixes)."""
     votes: dict[str, dict[str, float]] = {"tone": {}, "setting": {}, "pace": {}}
+    blob_parts: list[str] = []
     for tag in raw_tags:
-        if ":" in tag:
-            source, name = tag.split(":", 1)
-        else:
-            source, name = "vndb", tag
+        source, name, weight = parse_raw_tag(tag)
+        blob_parts.append(name.lower())
         if _is_noise_tag(source, name):
             continue
+        base_w = weight
         if source == "vndb":
-            apply_map(name, VNDB_MAP, votes, 1.5)
+            apply_map(name, VNDB_MAP, votes, 1.5 * base_w)
         elif source in ("bgm", "cngal"):
-            apply_map(name, CN_MAP, votes, 1.2)
+            apply_map(name, CN_MAP, votes, 1.2 * base_w)
         else:
-            apply_map(name, VNDB_MAP, votes, 1.2)
-            apply_map(name, CN_MAP, votes, 1.2)
+            apply_map(name, VNDB_MAP, votes, 1.2 * base_w)
+            apply_map(name, CN_MAP, votes, 1.2 * base_w)
 
     apply_raw_tag_signals(raw_tags, votes)
+    _resolve_epic_romance_conflict(votes, " ".join(blob_parts))
     axes = vote_axes(votes)
     apply_axis_defaults(raw_tags, axes)
     return refine_axes(raw_tags, axes)

@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SEDAI = Path(__file__).with_name("sedai_tags.json")
 SUPP = Path(__file__).with_name("pick_supplement_tags.json")
-CATALOG = ROOT / "js" / "gal-pick-catalog.json"
+CATALOG = Path(__file__).with_name("gal-pick-catalog.json")
 
 from extract_pick_catalog import derive_profile, is_tagged, row_to_game  # noqa: E402
 from pick_tag_axes import (  # noqa: E402

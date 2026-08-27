@@ -5,7 +5,7 @@
 | 环境 | URL |
 |------|-----|
 | 本地 | `http://127.0.0.1:3000/?rain=heavy` |
-| 线上 Vercel | `https://shigure-web.vercel.app/?rain=heavy` |
+| 线上 | `https://www.shigurekaya.com/?rain=heavy` |
 | 线上域名 | `https://www.shigurekaya.com/?heavy` |
 
 视口：**390×844**  

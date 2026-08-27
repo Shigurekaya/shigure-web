@@ -14,6 +14,7 @@ CACHE_JSON = SEDAI_RAW / "sedai_tags_cache.json"
 ALIASES_JSON = SEDAI_RAW / "pick_title_aliases.json"
 YM_PACK = ROOT / "_quiz_raw" / "ym_vndb_alias_pack.json"
 DISPLAY_OVERRIDES = SEDAI_RAW / "pick_display_overrides.json"
+AUTHORITATIVE_CN = SEDAI_RAW / "pick_authoritative_cn.json"
 
 
 def _has_han(s: str) -> bool:
@@ -342,6 +343,17 @@ def load_display_overrides() -> dict[str, str]:
     return out
 
 
+def load_authoritative_cn() -> dict[str, dict]:
+    """vndb_id -> {name_cn, source} from pick_authoritative_cn.json"""
+    if not AUTHORITATIVE_CN.exists():
+        return {}
+    data = json.loads(AUTHORITATIVE_CN.read_text(encoding="utf-8"))
+    if isinstance(data, dict) and data and "vndb_id" in next(iter(data.values()), {}):
+        return data
+    # flat vndb_id -> name_cn legacy
+    return {k: {"name_cn": v, "source": "legacy"} for k, v in data.items() if isinstance(v, str)}
+
+
 def pool_id_sets(rows: list[dict] | None = None) -> tuple[set[str], set[int], set[str]]:
     """已收录 vndb_id / bangumi_id / 名称键（含规范化键）。"""
     if rows is None:
@@ -443,14 +455,19 @@ def canonical_name(
     alias_to_cn = alias_to_cn or load_alias_to_cn()
     vndb_cn = vndb_cn or load_ym_maps()[0]
     overrides = overrides or load_display_overrides()
+    auth_cn = load_authoritative_cn()
     cache = cache or load_cache()
 
     if overrides.get(name.casefold()) and _han_count(overrides[name.casefold()]) >= 2:
         return overrides[name.casefold()]
     if vndb_id:
         ov = overrides.get(f"vndb:{vndb_id}".casefold())
-        if ov and _han_count(ov) >= 2:
+        if ov:
             return ov
+        auth = auth_cn.get(vndb_id) or {}
+        cn_auth = auth.get("name_cn") if isinstance(auth, dict) else None
+        if cn_auth and _han_count(cn_auth) >= 2:
+            return cn_auth
         if vndb_id in vndb_cn:
             return vndb_cn[vndb_id]
     cn = alias_to_cn.get(name.casefold())

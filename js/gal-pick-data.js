@@ -1,30 +1,350 @@
 /**
- * Gal 心选 — 原创题库(≤100) + 世代全量作品 + 外站 tags
+ * Gal缘结 — 原创题库(≤100) + 世代全量作品 + 外站 tags
  * 由 _sedai_raw/extract_pick_catalog.py 生成；tags 见 fetch_sedai_tags.py
  */
 const GAL_PICK_DATA = {
   "meta": {
-    "title": "Gal 心选",
+    "title": "Gal缘结",
     "subtitle": "答几道题，找出适合你的 Gal。看不懂的题可以跳过。",
     "resultCount": 1,
-    "poolSize": 456,
-    "poolTarget": 500,
-    "sedaiCount": 353,
-    "supplementCount": 103,
-    "taggedCount": 456,
+    "poolSize": 600,
+    "poolTarget": 600,
+    "sedaiCount": 349,
+    "supplementCount": 251,
+    "taggedCount": 600,
     "questionBank": 100,
-    "drawMax": 28,
-    "scoringVersion": 5,
+    "drawMax": 32,
+    "scoringVersion": 7,
     "source": "gal-sedai(tagged) + getchu-popular + vndb/bangumi/cngal"
   },
   "games": [
+    {
+      "name": "狂嗜之血",
+      "year": 2019,
+      "rank": 10,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "fantasy",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v26721",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.28,
+        "appeal:action": 0.5,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:epic": 0.35,
+        "fame:solid": 0.2,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "tone:mindbend": 0.32,
+        "appeal:literary": 0.19,
+        "appeal:horror": 0.62,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G001"
+    },
+    {
+      "name": "逝去的你，馆里苏醒的罪恶",
+      "year": 2016,
+      "rank": 8,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v19233",
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:mindbend": 0.4,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "appeal:action": 0.5,
+        "tone:sweet": 0.25,
+        "appeal:horror": 0.62,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G002"
+    },
+    {
+      "name": "STARLESS",
+      "year": 2011,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v3161",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "cast:ensemble": 0.4,
+        "tone:hype": 0.35
+      },
+      "id": "G003"
+    },
+    {
+      "name": "戈尔尖叫秀",
+      "year": 2006,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v933",
+      "bangumi_id": 608416,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:mindbend": 0.4,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.5,
+        "appeal:horror": 0.62,
+        "setting:school": 0.35
+      },
+      "id": "G004"
+    },
+    {
+      "name": "DIVI-DEAD",
+      "year": 1998,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v119",
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.28,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:meta": 0.25,
+        "focus:story": 0.5,
+        "mood:heavy": 0.4,
+        "appeal:literary": 0.19,
+        "focus:world": 0.2,
+        "appeal:action": 0.3,
+        "setting:fantasy": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
+        "playstyle:rpg": 0.55,
+        "setting:school": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G005"
+    },
+    {
+      "name": "euphoria",
+      "year": 2011,
+      "rank": 16,
+      "source": "sedai",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "solid",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v6540",
+      "bangumi_id": 327161,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:solid": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "mood:bittersweet": 0.3,
+        "tone:heal": 0.25,
+        "tone:epic": 0.3,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.45,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "pace:short": 0.25,
+        "focus:mystery": 0.19,
+        "playstyle:vn": 0.4,
+        "appeal:horror": 0.62,
+        "tone:hype": 0.35
+      },
+      "id": "G006"
+    },
     {
       "name": "天使嚣嚣",
       "year": 2023,
       "rank": 3,
       "source": "sedai",
       "tone": "sweet",
-      "setting": "daily",
+      "setting": "school",
       "pace": "breezy",
       "era": "modern",
       "fame": "icon",
@@ -39,7 +359,7 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:sweet": 1.0,
-        "setting:daily": 1.0,
+        "setting:school": 1.0,
         "pace:breezy": 1.0,
         "era:modern": 1.0,
         "fame:icon": 1.0,
@@ -52,14 +372,15 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.42,
         "tone:hype": 0.35,
         "appeal:moe": 0.45,
-        "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
-        "cast:solo": 0.35
+        "cast:solo": 0.35,
+        "focus:story": 0.19
       },
-      "id": "G001"
+      "id": "G007",
+      "displayName": "天使☆囂囂 RE-BOOT!"
     },
     {
       "name": "樱之刻",
@@ -107,8 +428,8 @@ const GAL_PICK_DATA = {
         "tone:sweet": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G002",
-      "displayName": "樱之刻-在樱之森下漫步"
+      "id": "G008",
+      "displayName": "樱之刻－漫步于樱花之森下－"
     },
     {
       "name": "纯白交响曲 -Love is pure white- Remake for FHD",
@@ -157,8 +478,8 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G003",
-      "displayName": "纯白交响曲"
+      "id": "G009",
+      "displayName": "純白交響曲"
     },
     {
       "name": "纯白交响曲 SANA EDITION",
@@ -201,7 +522,8 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "playstyle:adv": 0.35
       },
-      "id": "G004"
+      "id": "G010",
+      "displayName": "純白交響曲 SANA EDITION"
     },
     {
       "name": "AMBITIOUS MISSION",
@@ -254,7 +576,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G005",
+      "id": "G011",
       "displayName": "AMBITIOUS MISSION 雄心Mission"
     },
     {
@@ -307,7 +629,62 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "setting:school": 0.35
       },
-      "id": "G006"
+      "id": "G012"
+    },
+    {
+      "name": "主播女孩重度依赖",
+      "year": 2022,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "mystery",
+      "pace": "dense",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v33493",
+      "bangumi_id": 328321,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "sim",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:mystery": 1.0,
+        "pace:dense": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:sim": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.45,
+        "pace:slowburn": 0.3,
+        "appeal:literary": 0.5,
+        "entry:easy": 0.3,
+        "tone:mindbend": 0.4,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:meta": 0.25,
+        "cast:harem": 0.25,
+        "pace:breezy": 0.2,
+        "routes:single": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.25,
+        "appeal:nakige": 0.18,
+        "routes:multi": 0.5,
+        "playstyle:adv": 0.35,
+        "appeal:horror": 0.62
+      },
+      "id": "G013"
     },
     {
       "name": "变态监狱",
@@ -350,7 +727,7 @@ const GAL_PICK_DATA = {
         "cast:solo": 0.35,
         "cast:ensemble": 0.4
       },
-      "id": "G007"
+      "id": "G014"
     },
     {
       "name": "常轨脱离Creative凸",
@@ -395,8 +772,7 @@ const GAL_PICK_DATA = {
         "cast:harem": 0.35,
         "routes:single": 0.3
       },
-      "id": "G008",
-      "displayName": "常轨脱离Creative"
+      "id": "G015"
     },
     {
       "name": "霞流宝石心",
@@ -404,7 +780,7 @@ const GAL_PICK_DATA = {
       "rank": 2,
       "source": "sedai",
       "tone": "hype",
-      "setting": "fantasy",
+      "setting": "scifi",
       "pace": "slowburn",
       "era": "modern",
       "fame": "icon",
@@ -418,7 +794,7 @@ const GAL_PICK_DATA = {
       "cast": "solo",
       "traits": {
         "tone:hype": 1.0,
-        "setting:fantasy": 1.0,
+        "setting:scifi": 1.0,
         "pace:slowburn": 1.0,
         "era:modern": 1.0,
         "fame:icon": 1.0,
@@ -432,9 +808,10 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:scifi": 0.28,
-        "focus:world": 0.45,
-        "appeal:action": 0.5,
+        "setting:fantasy": 0.35,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:breezy": 0.28,
         "pace:dense": 0.25,
         "entry:easy": 0.3,
@@ -445,10 +822,11 @@ const GAL_PICK_DATA = {
         "routes:single": 0.45,
         "pace:short": 0.25,
         "mood:heavy": 0.25,
+        "appeal:action": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G009",
-      "displayName": "霞流宝石心 -壮志凌云振寰宇-"
+      "id": "G016",
+      "displayName": "宝石心学院"
     },
     {
       "name": "LOOPERS",
@@ -501,7 +879,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:mystery": 0.25
       },
-      "id": "G010"
+      "id": "G017"
     },
     {
       "name": "Monkeys!¡",
@@ -549,7 +927,7 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.2,
         "focus:mystery": 0.19
       },
-      "id": "G011",
+      "id": "G018",
       "displayName": "Monkeys!¡ 猴子"
     },
     {
@@ -600,7 +978,7 @@ const GAL_PICK_DATA = {
         "playstyle:adv": 0.35,
         "cast:ensemble": 0.4
       },
-      "id": "G012"
+      "id": "G019"
     },
     {
       "name": "VenusBlood FRONTIER International",
@@ -656,7 +1034,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "tone:hype": 0.35
       },
-      "id": "G013"
+      "id": "G020"
     },
     {
       "name": "もっと！孕ませ！炎のおっぱい異世界超エロサキュバス学園！",
@@ -703,7 +1081,8 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.45,
         "appeal:literary": 0.19
       },
-      "id": "G014"
+      "id": "G021",
+      "displayName": "吹弹！丰盈！波涛汹涌！异世界魅魔学园！"
     },
     {
       "name": "冥契的牧神节",
@@ -753,7 +1132,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "routes:puzzle": 0.4
       },
-      "id": "G015"
+      "id": "G022"
     },
     {
       "name": "创作少女的恋爱公式",
@@ -802,10 +1181,10 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "mood:heavy": 0.35
       },
-      "id": "G016"
+      "id": "G023"
     },
     {
-      "name": "甜蜜女友3",
+      "name": "甜蜜女友 3",
       "year": 2021,
       "rank": 1,
       "source": "getchu-popular",
@@ -847,7 +1226,7 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.25,
         "mood:heavy": 0.25
       },
-      "id": "G017"
+      "id": "G024"
     },
     {
       "name": "9-nine-雪色雪花雪之痕",
@@ -900,7 +1279,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "mood:heavy": 0.35
       },
-      "id": "G018"
+      "id": "G025"
     },
     {
       "name": "Summer Pockets REFLECTION BLUE",
@@ -961,11 +1340,11 @@ const GAL_PICK_DATA = {
         "setting:school": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G019",
+      "id": "G026",
       "displayName": "夏日口袋 REFLECTION BLUE"
     },
     {
-      "name": "亚托莉 -我挚爱的时光-",
+      "name": "亞托莉 -我摯愛的時光-",
       "year": 2020,
       "rank": 2,
       "source": "getchu-popular",
@@ -1009,7 +1388,7 @@ const GAL_PICK_DATA = {
         "setting:scifi": 0.35,
         "focus:world": 0.2
       },
-      "id": "G020"
+      "id": "G027"
     },
     {
       "name": "多娜多娜 一起来干坏事吧",
@@ -1069,7 +1448,56 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "tone:hype": 0.35
       },
-      "id": "G021"
+      "id": "G028"
+    },
+    {
+      "name": "愛上火車-Last Run!!-",
+      "year": 2020,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v25635",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.28,
+        "entry:easy": 0.3,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "mood:heavy": 0.25,
+        "focus:mystery": 0.19
+      },
+      "id": "G029"
     },
     {
       "name": "樱色之云＊绯色之恋",
@@ -1121,56 +1549,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "tone:sweet": 0.25
       },
-      "id": "G022"
-    },
-    {
-      "name": "爱上火车 Last Run!!",
-      "year": 2020,
-      "rank": 3,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "daily",
-      "pace": "slowburn",
-      "era": "modern",
-      "fame": "icon",
-      "tag_source": "vndb",
-      "vndb_id": "v25635",
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "solo",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:daily": 1.0,
-        "pace:slowburn": 1.0,
-        "era:modern": 1.0,
-        "fame:icon": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:school": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.28,
-        "entry:easy": 0.3,
-        "tone:drama": 0.35,
-        "tone:heal": 0.25,
-        "tone:mindbend": 0.35,
-        "appeal:meta": 0.25,
-        "routes:multi": 0.5,
-        "routes:single": 0.3,
-        "mood:heavy": 0.25,
-        "focus:mystery": 0.19
-      },
-      "id": "G023"
+      "id": "G030"
     },
     {
       "name": "白日梦的构想图",
@@ -1222,7 +1601,7 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.18,
         "focus:mystery": 0.35
       },
-      "id": "G024"
+      "id": "G031"
     },
     {
       "name": "9-nine-春色春恋春熙风",
@@ -1274,64 +1653,11 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "setting:fantasy": 0.35
       },
-      "id": "G025"
+      "id": "G032",
+      "displayName": "9-nine-春色春戀春熙風"
     },
     {
-      "name": "住在拔作岛上的贫乳应该如何是好？2",
-      "year": 2019,
-      "rank": 1,
-      "source": "sedai",
-      "tone": "epic",
-      "setting": "daily",
-      "pace": "breezy",
-      "era": "modern",
-      "fame": "icon",
-      "tag_source": "vndb",
-      "vndb_id": "v23741",
-      "focus": "world",
-      "entry": "deep",
-      "mood": "heavy",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "ensemble",
-      "traits": {
-        "tone:epic": 1.0,
-        "setting:daily": 1.0,
-        "pace:breezy": 1.0,
-        "era:modern": 1.0,
-        "fame:icon": 1.0,
-        "focus:world": 1.0,
-        "entry:deep": 1.0,
-        "mood:heavy": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:ensemble": 1.0,
-        "tone:drama": 0.32,
-        "tone:mindbend": 0.35,
-        "appeal:action": 0.5,
-        "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "routes:multi": 0.5,
-        "setting:fantasy": 0.3,
-        "tone:literary": 0.35,
-        "pace:dense": 0.3,
-        "fame:solid": 0.2,
-        "appeal:utsuge": 0.25,
-        "appeal:meta": 0.25,
-        "focus:romance": 0.2,
-        "focus:mystery": 0.19,
-        "appeal:literary": 0.19,
-        "playstyle:rpg": 0.35,
-        "tone:hype": 0.2
-      },
-      "id": "G026"
-    },
-    {
-      "name": "天音开关",
+      "name": "AI：梦境档案",
       "year": 2019,
       "rank": 3,
       "source": "getchu-popular",
@@ -1341,8 +1667,8 @@ const GAL_PICK_DATA = {
       "era": "modern",
       "fame": "icon",
       "tag_source": "vndb+bangumi",
-      "vndb_id": "v34135",
-      "bangumi_id": 500398,
+      "vndb_id": "v26532",
+      "bangumi_id": 252657,
       "focus": "mystery",
       "entry": "deep",
       "mood": "heavy",
@@ -1365,7 +1691,7 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "routes:puzzle": 0.5,
         "appeal:mystery": 0.5,
-        "setting:scifi": 0.3,
+        "setting:scifi": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
@@ -1376,13 +1702,62 @@ const GAL_PICK_DATA = {
         "focus:romance": 0.2,
         "focus:story": 0.35,
         "appeal:literary": 0.19,
-        "appeal:horror": 0.55,
-        "setting:school": 0.35
+        "focus:world": 0.2
       },
-      "id": "G027"
+      "id": "G033"
     },
     {
-      "name": "方根胶卷",
+      "name": "住在拔作岛上的贫乳应该如何是好？2",
+      "year": 2019,
+      "rank": 1,
+      "source": "sedai",
+      "tone": "hype",
+      "setting": "fantasy",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v23741",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.28,
+        "focus:world": 0.45,
+        "appeal:action": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.18,
+        "focus:mystery": 0.19,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G034"
+    },
+    {
+      "name": "方根膠捲",
       "year": 2019,
       "rank": 2,
       "source": "getchu-popular",
@@ -1429,7 +1804,7 @@ const GAL_PICK_DATA = {
         "playstyle:adv": 0.35,
         "playstyle:rpg": 0.55
       },
-      "id": "G028"
+      "id": "G035"
     },
     {
       "name": "星光咖啡馆与死神之蝶",
@@ -1478,7 +1853,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G029"
+      "id": "G036"
     },
     {
       "name": "格诺西亚",
@@ -1528,7 +1903,7 @@ const GAL_PICK_DATA = {
         "focus:world": 0.2,
         "tone:heal": 0.3
       },
-      "id": "G030"
+      "id": "G037"
     },
     {
       "name": "樱花，萌放。",
@@ -1584,7 +1959,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "setting:school": 0.35
       },
-      "id": "G031"
+      "id": "G038",
+      "displayName": "樱花，萌放。-as the Night's, Reincarnation-"
     },
     {
       "name": "相逢在明月映照的彼岸",
@@ -1634,7 +2010,59 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G032"
+      "id": "G039"
+    },
+    {
+      "name": "雨音Switch 重制版",
+      "year": 2019,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v34135",
+      "bangumi_id": 500398,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "focus:romance": 0.2,
+        "focus:story": 0.35,
+        "appeal:literary": 0.19,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
+        "setting:school": 0.35
+      },
+      "id": "G040"
     },
     {
       "name": "IxSHE Tell 双恋",
@@ -1682,7 +2110,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G033"
+      "id": "G041"
     },
     {
       "name": "RIDDLE JOKER",
@@ -1730,7 +2158,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "focus:mystery": 0.19
       },
-      "id": "G034",
+      "id": "G042",
       "displayName": "谜语小丑"
     },
     {
@@ -1779,7 +2207,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G035"
+      "id": "G043"
     },
     {
       "name": "住在拔作岛上的贫乳应该如何是好？",
@@ -1833,7 +2261,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:rpg": 0.35
       },
-      "id": "G036"
+      "id": "G044"
     },
     {
       "name": "兰斯10 决战",
@@ -1890,7 +2318,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.45,
         "playstyle:vn": 0.4
       },
-      "id": "G037"
+      "id": "G045"
     },
     {
       "name": "奇异恩典 -What color is your attribute?-",
@@ -1940,10 +2368,11 @@ const GAL_PICK_DATA = {
         "routes:multi": 0.3,
         "appeal:literary": 0.19
       },
-      "id": "G038"
+      "id": "G046",
+      "displayName": "奇異恩典 -What color is your attribute?-"
     },
     {
-      "name": "猫娘乐园 Vol.4",
+      "name": "貓娘樂園 Vol.4",
       "year": 2018,
       "rank": 5,
       "source": "getchu-popular",
@@ -1988,7 +2417,7 @@ const GAL_PICK_DATA = {
         "pace:short": 0.25,
         "mood:heavy": 0.25
       },
-      "id": "G039"
+      "id": "G047"
     },
     {
       "name": "鬼来信",
@@ -2032,14 +2461,15 @@ const GAL_PICK_DATA = {
         "fame:solid": 0.2,
         "appeal:meta": 0.25,
         "focus:story": 0.5,
-        "mood:heavy": 0.35,
+        "mood:heavy": 0.4,
         "appeal:literary": 0.19,
         "tone:heal": 0.3,
         "appeal:comedy": 0.5,
         "tone:hype": 0.35,
-        "appeal:horror": 0.55
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35
       },
-      "id": "G040"
+      "id": "G048"
     },
     {
       "name": "Golden Marriage -Jewel Days-",
@@ -2085,7 +2515,111 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.19,
         "appeal:literary": 0.21
       },
-      "id": "G041"
+      "id": "G049"
+    },
+    {
+      "name": "心跳文学部！",
+      "year": 2017,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v21905",
+      "bangumi_id": 228086,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.3,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.55,
+        "focus:romance": 0.2,
+        "focus:story": 0.35,
+        "appeal:literary": 0.5,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
+        "setting:school": 0.35
+      },
+      "id": "G050"
+    },
+    {
+      "name": "新弹丸论破V3 大家的自相残杀新学期",
+      "year": 2017,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "short",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18334",
+      "bangumi_id": 146579,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.55,
+        "routes:multi": 0.3,
+        "focus:romance": 0.35,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19
+      },
+      "id": "G051"
     },
     {
       "name": "流景之海的艾佩理雅",
@@ -2141,7 +2675,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "setting:school": 0.35
       },
-      "id": "G042"
+      "id": "G052"
     },
     {
       "name": "热带水果糖",
@@ -2186,7 +2720,7 @@ const GAL_PICK_DATA = {
         "playstyle:adv": 0.3,
         "routes:single": 0.3
       },
-      "id": "G043"
+      "id": "G053"
     },
     {
       "name": "突然＊恋人",
@@ -2234,10 +2768,11 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G044"
+      "id": "G054",
+      "displayName": "突然＊戀人"
     },
     {
-      "name": "苍之彼方的四重奏 EXTRA1S/P",
+      "name": "蒼之彼方的四重奏 EXTRA1",
       "year": 2017,
       "rank": 1,
       "source": "getchu-popular",
@@ -2279,7 +2814,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "appeal:comedy": 0.5
       },
-      "id": "G045"
+      "id": "G055"
     },
     {
       "name": "野良与皇女与流浪猫之心2",
@@ -2325,7 +2860,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "setting:school": 0.35
       },
-      "id": "G046"
+      "id": "G056"
     },
     {
       "name": "金辉恋曲四重奏",
@@ -2373,7 +2908,8 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G047"
+      "id": "G057",
+      "displayName": "金輝戀曲四重奏"
     },
     {
       "name": "青鸟",
@@ -2424,7 +2960,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G048"
+      "id": "G058"
     },
     {
       "name": "黄金婚姻",
@@ -2473,7 +3009,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G049"
+      "id": "G059"
     },
     {
       "name": "Harmonia",
@@ -2524,7 +3060,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.45,
         "mood:heavy": 0.25
       },
-      "id": "G050"
+      "id": "G060"
     },
     {
       "name": "Re:LieF～献给亲爱的你～",
@@ -2580,10 +3116,11 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.5,
         "appeal:nakige": 0.55
       },
-      "id": "G051"
+      "id": "G061",
+      "displayName": "Re:LieF ～獻給親愛的你～"
     },
     {
-      "name": "Re：从零开始的异世界生活-DEATH OR KISS-",
+      "name": "Re:從零開始的異世界生活　虛假的王選候補",
       "year": 2016,
       "rank": 5,
       "source": "getchu-popular",
@@ -2634,7 +3171,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:mystery": 0.25
       },
-      "id": "G052"
+      "id": "G062"
     },
     {
       "name": "Toraware ～被囚的伪妃所梦见的初夜～",
@@ -2684,117 +3221,61 @@ const GAL_PICK_DATA = {
         "focus:world": 0.19,
         "mood:heavy": 0.25
       },
-      "id": "G053"
+      "id": "G063"
     },
     {
-      "name": "それは舞い散る桜のように",
+      "name": "√Letter-方根書簡-",
       "year": 2016,
-      "rank": 5,
+      "rank": 1,
       "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "school",
+      "tone": "mindbend",
+      "setting": "mystery",
       "pace": "breezy",
       "era": "modern",
       "fame": "icon",
-      "tag_source": "vndb",
-      "vndb_id": "v1115",
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:school": 1.0,
-        "pace:breezy": 1.0,
-        "era:modern": 1.0,
-        "fame:icon": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.5,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "routes:multi": 0.5,
-        "tone:drama": 0.35,
-        "tone:heal": 0.25,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "mood:heavy": 0.25,
-        "focus:mystery": 0.19
-      },
-      "id": "G054"
-    },
-    {
-      "name": "アインシュタインより愛を込めて",
-      "year": 2016,
-      "rank": 5,
-      "source": "getchu-popular",
-      "tone": "mindbend",
-      "setting": "daily",
-      "pace": "short",
-      "era": "modern",
-      "fame": "icon",
-      "tag_source": "vndb",
-      "vndb_id": "v24987",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18644",
+      "bangumi_id": 256128,
       "focus": "mystery",
       "entry": "deep",
       "mood": "heavy",
       "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "solo",
+      "playstyle": "hybrid",
+      "cast": "ensemble",
       "traits": {
         "tone:mindbend": 1.0,
-        "setting:daily": 1.0,
-        "pace:short": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
         "era:modern": 1.0,
         "fame:icon": 1.0,
         "focus:mystery": 1.0,
         "entry:deep": 1.0,
         "mood:heavy": 1.0,
         "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:ensemble": 1.0,
         "tone:literary": 0.35,
         "tone:epic": 0.3,
         "appeal:mystery": 0.5,
-        "setting:school": 0.35,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
-        "pace:breezy": 0.4,
-        "entry:easy": 0.45,
-        "routes:single": 0.45,
-        "playstyle:vn": 0.4,
-        "setting:mystery": 0.35,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "playstyle:adv": 0.35,
         "pace:dense": 0.3,
         "fame:solid": 0.2,
         "appeal:utsuge": 0.25,
         "appeal:meta": 0.25,
-        "routes:multi": 0.5,
-        "focus:romance": 0.35,
-        "tone:drama": 0.3,
+        "playstyle:rpg": 0.55,
+        "focus:story": 0.35,
+        "tone:drama": 0.25,
         "appeal:literary": 0.19,
-        "focus:world": 0.2,
-        "appeal:action": 0.5,
-        "setting:scifi": 0.35,
-        "appeal:comedy": 0.5,
-        "tone:hype": 0.25,
-        "appeal:nakige": 0.55,
-        "playstyle:rpg": 0.35,
-        "appeal:moe": 0.2
+        "appeal:action": 0.3,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4
       },
-      "id": "G055"
+      "id": "G064"
     },
     {
       "name": "ランスⅣ -教団の遺産-",
@@ -2848,10 +3329,10 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "tone:hype": 0.35
       },
-      "id": "G056"
+      "id": "G065"
     },
     {
-      "name": "三色绘恋",
+      "name": "三色△绘恋 -Tricolour Lovestory-",
       "year": 2016,
       "rank": 4,
       "source": "getchu-popular",
@@ -2892,7 +3373,7 @@ const GAL_PICK_DATA = {
         "cast:solo": 0.35,
         "focus:story": 0.19
       },
-      "id": "G057"
+      "id": "G066"
     },
     {
       "name": "先輩が私の妄想にドージンする？！ ～ボディータッチにご用心～",
@@ -2943,7 +3424,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "tone:hype": 0.35
       },
-      "id": "G058"
+      "id": "G067"
     },
     {
       "name": "几度相逢若初见",
@@ -3000,10 +3481,10 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "setting:fantasy": 0.35
       },
-      "id": "G059"
+      "id": "G068"
     },
     {
-      "name": "创造世界的空想理论 -goodbye world index",
+      "name": "创造世界的空想理论 -goodbye world index-",
       "year": 2016,
       "rank": 5,
       "source": "getchu-popular",
@@ -3053,7 +3534,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "setting:fantasy": 0.35
       },
-      "id": "G060"
+      "id": "G069"
     },
     {
       "name": "千之刃涛，桃花染之皇姬",
@@ -3103,7 +3584,7 @@ const GAL_PICK_DATA = {
         "routes:puzzle": 0.4,
         "entry:deep": 0.25
       },
-      "id": "G061"
+      "id": "G070"
     },
     {
       "name": "千恋＊万花",
@@ -3155,7 +3636,8 @@ const GAL_PICK_DATA = {
         "setting:daily": 0.3,
         "setting:school": 0.25
       },
-      "id": "G062"
+      "id": "G071",
+      "displayName": "千戀＊萬花"
     },
     {
       "name": "同级生",
@@ -3208,54 +3690,10 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.3,
         "playstyle:sim": 0.5
       },
-      "id": "G063"
+      "id": "G072"
     },
     {
-      "name": "命运之夜",
-      "year": 2016,
-      "rank": 5,
-      "source": "getchu-popular",
-      "tone": "heal",
-      "setting": "daily",
-      "pace": "slowburn",
-      "era": "modern",
-      "fame": "icon",
-      "tag_source": "bangumi",
-      "bangumi_id": 540115,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "light",
-      "routes": "multi",
-      "playstyle": "adv",
-      "cast": "solo",
-      "traits": {
-        "tone:heal": 1.0,
-        "setting:daily": 1.0,
-        "pace:slowburn": 1.0,
-        "era:modern": 1.0,
-        "fame:icon": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:light": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:sweet": 0.4,
-        "tone:drama": 0.35,
-        "entry:easy": 0.35,
-        "setting:school": 0.3,
-        "mood:bittersweet": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.25,
-        "cast:harem": 0.35,
-        "focus:romance": 0.35,
-        "routes:single": 0.3,
-        "appeal:moe": 0.18
-      },
-      "id": "G064"
-    },
-    {
-      "name": "喜欢我的话就要说出来！",
+      "name": "喜欢我的话就要说出来",
       "year": 2016,
       "rank": 5,
       "source": "getchu-popular",
@@ -3299,7 +3737,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "appeal:comedy": 0.5
       },
-      "id": "G065"
+      "id": "G073"
     },
     {
       "name": "天津罪",
@@ -3352,105 +3790,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:vn": 0.4
       },
-      "id": "G066"
-    },
-    {
-      "name": "天色巧克力",
-      "year": 2016,
-      "rank": 5,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "daily",
-      "pace": "breezy",
-      "era": "modern",
-      "fame": "icon",
-      "tag_source": "vndb",
-      "vndb_id": "v26581",
-      "focus": "romance",
-      "entry": "easy",
-      "mood": "light",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:daily": 1.0,
-        "pace:breezy": 1.0,
-        "era:modern": 1.0,
-        "fame:icon": 1.0,
-        "focus:romance": 1.0,
-        "entry:easy": 1.0,
-        "mood:light": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.4,
-        "tone:epic": 0.3,
-        "appeal:comedy": 0.5,
-        "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "routes:multi": 0.5,
-        "cast:solo": 0.35,
-        "tone:heal": 0.3,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "appeal:moe": 0.2,
-        "focus:mystery": 0.19
-      },
-      "id": "G067"
-    },
-    {
-      "name": "天色巧克力2",
-      "year": 2016,
-      "rank": 4,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "daily",
-      "pace": "breezy",
-      "era": "modern",
-      "fame": "icon",
-      "tag_source": "vndb",
-      "vndb_id": "v30228",
-      "focus": "romance",
-      "entry": "easy",
-      "mood": "light",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:daily": 1.0,
-        "pace:breezy": 1.0,
-        "era:modern": 1.0,
-        "fame:icon": 1.0,
-        "focus:romance": 1.0,
-        "entry:easy": 1.0,
-        "mood:light": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.4,
-        "tone:epic": 0.3,
-        "appeal:comedy": 0.5,
-        "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "routes:multi": 0.5,
-        "cast:solo": 0.35,
-        "tone:heal": 0.3,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "appeal:moe": 0.2,
-        "focus:mystery": 0.19
-      },
-      "id": "G068"
+      "id": "G074"
     },
     {
       "name": "她的圣域",
@@ -3502,7 +3842,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G069"
+      "id": "G075"
     },
     {
       "name": "实妹相伴的大泉君",
@@ -3551,7 +3891,7 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G070"
+      "id": "G076"
     },
     {
       "name": "对你说再见～comment te dire adieu～",
@@ -3600,10 +3940,10 @@ const GAL_PICK_DATA = {
         "focus:story": 0.5,
         "mood:bittersweet": 0.25,
         "appeal:nakige": 0.18,
-        "appeal:horror": 0.55,
+        "appeal:horror": 0.62,
         "setting:school": 0.35
       },
-      "id": "G071"
+      "id": "G077"
     },
     {
       "name": "少女世界的生存之道",
@@ -3611,7 +3951,7 @@ const GAL_PICK_DATA = {
       "rank": 5,
       "source": "getchu-popular",
       "tone": "hype",
-      "setting": "school",
+      "setting": "scifi",
       "pace": "short",
       "era": "modern",
       "fame": "icon",
@@ -3625,7 +3965,7 @@ const GAL_PICK_DATA = {
       "cast": "ensemble",
       "traits": {
         "tone:hype": 1.0,
-        "setting:school": 1.0,
+        "setting:scifi": 1.0,
         "pace:short": 1.0,
         "era:modern": 1.0,
         "fame:icon": 1.0,
@@ -3639,7 +3979,10 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:daily": 0.35,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:breezy": 0.4,
         "entry:easy": 0.45,
         "tone:drama": 0.35,
@@ -3647,12 +3990,111 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "appeal:action": 0.5,
         "playstyle:adv": 0.35,
-        "playstyle:rpg": 0.35
+        "playstyle:rpg": 0.35,
+        "setting:school": 0.35
       },
-      "id": "G072"
+      "id": "G078"
     },
     {
-      "name": "巨乳ファンタジー",
+      "name": "巧可甜戀",
+      "year": 2016,
+      "rank": 5,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v26581",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.2,
+        "focus:mystery": 0.19
+      },
+      "id": "G079"
+    },
+    {
+      "name": "巧可甜戀2",
+      "year": 2016,
+      "rank": 4,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v30228",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.2,
+        "focus:mystery": 0.19
+      },
+      "id": "G080"
+    },
+    {
+      "name": "巨乳幻想",
       "year": 2016,
       "rank": 5,
       "source": "getchu-popular",
@@ -3697,11 +4139,10 @@ const GAL_PICK_DATA = {
         "routes:single": 0.45,
         "playstyle:vn": 0.4
       },
-      "id": "G073",
-      "displayName": "幻想牢獄的萬花筒 2"
+      "id": "G081"
     },
     {
-      "name": "廃村少女［弐］～陰り誘う秘姫の匣～",
+      "name": "废村少女［贰］ ～幽秘蛊惑的姬之匣～",
       "year": 2016,
       "rank": 5,
       "source": "getchu-popular",
@@ -3745,7 +4186,59 @@ const GAL_PICK_DATA = {
         "appeal:mystery": 0.5,
         "focus:mystery": 0.35
       },
-      "id": "G074"
+      "id": "G082"
+    },
+    {
+      "name": "异度传说 三章 查拉图斯特拉如是说",
+      "year": 2016,
+      "rank": 5,
+      "source": "getchu-popular",
+      "tone": "literary",
+      "setting": "daily",
+      "pace": "dense",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "bangumi",
+      "vndb_id": "v32116",
+      "bangumi_id": 20203,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "rpg",
+      "cast": "ensemble",
+      "traits": {
+        "tone:literary": 1.0,
+        "setting:daily": 1.0,
+        "pace:dense": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:rpg": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.4,
+        "tone:mindbend": 0.3,
+        "appeal:literary": 0.55,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.25,
+        "pace:slowburn": 0.3,
+        "routes:puzzle": 0.35,
+        "entry:easy": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.35,
+        "appeal:utsuge": 0.25,
+        "pace:breezy": 0.25,
+        "cast:harem": 0.35,
+        "playstyle:adv": 0.3,
+        "appeal:action": 0.4,
+        "playstyle:hybrid": 0.3,
+        "focus:world": 0.19
+      },
+      "id": "G083"
     },
     {
       "name": "恋岚 Spirit",
@@ -3799,7 +4292,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G075"
+      "id": "G084"
     },
     {
       "name": "恋岚Spirichu",
@@ -3847,7 +4340,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G076"
+      "id": "G085"
     },
     {
       "name": "恋狱～月狂病～",
@@ -3900,63 +4393,58 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "pace:short": 0.25,
         "playstyle:vn": 0.4,
-        "appeal:horror": 0.55
+        "appeal:horror": 0.62
       },
-      "id": "G077"
+      "id": "G086"
     },
     {
-      "name": "方根书简 最后的答案",
+      "name": "我与雪之少女",
       "year": 2016,
-      "rank": 1,
+      "rank": 5,
       "source": "getchu-popular",
-      "tone": "mindbend",
-      "setting": "mystery",
-      "pace": "breezy",
+      "tone": "drama",
+      "setting": "school",
+      "pace": "slowburn",
       "era": "modern",
       "fame": "icon",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v18644",
-      "bangumi_id": 256128,
-      "focus": "mystery",
-      "entry": "deep",
+      "tag_source": "bangumi",
+      "vndb_id": "v33",
+      "bangumi_id": 126979,
+      "focus": "story",
+      "entry": "standard",
       "mood": "heavy",
-      "routes": "puzzle",
-      "playstyle": "hybrid",
-      "cast": "ensemble",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
       "traits": {
-        "tone:mindbend": 1.0,
-        "setting:mystery": 1.0,
-        "pace:breezy": 1.0,
+        "tone:drama": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
         "era:modern": 1.0,
         "fame:icon": 1.0,
-        "focus:mystery": 1.0,
-        "entry:deep": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
         "mood:heavy": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:hybrid": 1.0,
-        "cast:ensemble": 1.0,
-        "tone:literary": 0.35,
-        "tone:epic": 0.3,
-        "appeal:mystery": 0.5,
-        "setting:scifi": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "mood:bittersweet": 0.55,
+        "appeal:nakige": 0.4,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.25,
         "entry:easy": 0.3,
-        "routes:multi": 0.5,
-        "playstyle:adv": 0.35,
-        "pace:dense": 0.3,
-        "fame:solid": 0.2,
+        "tone:epic": 0.3,
         "appeal:utsuge": 0.25,
-        "appeal:meta": 0.25,
-        "playstyle:rpg": 0.55,
-        "focus:story": 0.35,
-        "tone:drama": 0.25,
-        "appeal:literary": 0.19,
-        "appeal:action": 0.3,
-        "routes:single": 0.45,
-        "playstyle:vn": 0.4
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:literary": 0.21
       },
-      "id": "G078"
+      "id": "G087"
     },
     {
       "name": "无人知晓的天体之泪",
@@ -4009,9 +4497,9 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "setting:fantasy": 0.35,
         "focus:world": 0.2,
-        "appeal:horror": 0.55
+        "appeal:horror": 0.62
       },
-      "id": "G079"
+      "id": "G088"
     },
     {
       "name": "時よ止まれ。おまえは美しい。",
@@ -4057,57 +4545,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "mood:heavy": 0.25
       },
-      "id": "G080"
-    },
-    {
-      "name": "查拉图斯特拉如是说",
-      "year": 2016,
-      "rank": 5,
-      "source": "getchu-popular",
-      "tone": "literary",
-      "setting": "daily",
-      "pace": "slowburn",
-      "era": "modern",
-      "fame": "icon",
-      "tag_source": "bangumi",
-      "bangumi_id": 20203,
-      "focus": "story",
-      "entry": "deep",
-      "mood": "heavy",
-      "routes": "multi",
-      "playstyle": "rpg",
-      "cast": "ensemble",
-      "traits": {
-        "tone:literary": 1.0,
-        "setting:daily": 1.0,
-        "pace:slowburn": 1.0,
-        "era:modern": 1.0,
-        "fame:icon": 1.0,
-        "focus:story": 1.0,
-        "entry:deep": 1.0,
-        "mood:heavy": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:rpg": 1.0,
-        "cast:ensemble": 1.0,
-        "tone:drama": 0.4,
-        "tone:mindbend": 0.3,
-        "appeal:literary": 0.55,
-        "setting:school": 0.3,
-        "mood:bittersweet": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.3,
-        "entry:easy": 0.3,
-        "tone:heal": 0.25,
-        "fame:solid": 0.2,
-        "tone:epic": 0.35,
-        "appeal:utsuge": 0.25,
-        "cast:harem": 0.35,
-        "playstyle:adv": 0.3,
-        "appeal:action": 0.4,
-        "playstyle:hybrid": 0.3,
-        "focus:world": 0.19
-      },
-      "id": "G081"
+      "id": "G089"
     },
     {
       "name": "爱上火车",
@@ -4157,7 +4595,68 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G082"
+      "id": "G090",
+      "displayName": "愛上火車"
+    },
+    {
+      "name": "爱因斯坦携爱敬上",
+      "year": 2016,
+      "rank": 5,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "daily",
+      "pace": "short",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v24987",
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:daily": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:school": 0.35,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "setting:mystery": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "focus:romance": 0.35,
+        "tone:drama": 0.3,
+        "appeal:literary": 0.19,
+        "focus:world": 0.2,
+        "appeal:action": 0.5,
+        "setting:scifi": 0.35,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25,
+        "appeal:nakige": 0.55,
+        "playstyle:rpg": 0.35,
+        "appeal:moe": 0.2
+      },
+      "id": "G091"
     },
     {
       "name": "献给神明般的你",
@@ -4209,10 +4708,60 @@ const GAL_PICK_DATA = {
         "focus:world": 0.2,
         "tone:sweet": 0.25
       },
-      "id": "G083"
+      "id": "G092"
     },
     {
-      "name": "透明人间",
+      "name": "繁花落舞戀如櫻",
+      "year": 2016,
+      "rank": 5,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v1115",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "mood:heavy": 0.25,
+        "focus:mystery": 0.19
+      },
+      "id": "G093"
+    },
+    {
+      "name": "透明人間人妻中出",
       "year": 2016,
       "rank": 5,
       "source": "getchu-popular",
@@ -4258,55 +4807,7 @@ const GAL_PICK_DATA = {
         "playstyle:adv": 0.35,
         "appeal:literary": 0.19
       },
-      "id": "G084"
-    },
-    {
-      "name": "雪之少女",
-      "year": 2016,
-      "rank": 5,
-      "source": "getchu-popular",
-      "tone": "drama",
-      "setting": "school",
-      "pace": "slowburn",
-      "era": "modern",
-      "fame": "icon",
-      "tag_source": "bangumi",
-      "bangumi_id": 126979,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "heavy",
-      "routes": "multi",
-      "playstyle": "adv",
-      "cast": "solo",
-      "traits": {
-        "tone:drama": 1.0,
-        "setting:school": 1.0,
-        "pace:slowburn": 1.0,
-        "era:modern": 1.0,
-        "fame:icon": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:heavy": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:literary": 0.38,
-        "tone:heal": 0.28,
-        "mood:bittersweet": 0.55,
-        "appeal:nakige": 0.4,
-        "setting:daily": 0.35,
-        "focus:romance": 0.4,
-        "cast:ensemble": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.25,
-        "entry:easy": 0.3,
-        "tone:epic": 0.3,
-        "appeal:utsuge": 0.25,
-        "cast:harem": 0.35,
-        "routes:single": 0.3,
-        "appeal:literary": 0.21
-      },
-      "id": "G085"
+      "id": "G094"
     },
     {
       "name": "Angel Beats! -1st beat-",
@@ -4356,7 +4857,7 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "playstyle:rpg": 0.35
       },
-      "id": "G086"
+      "id": "G095"
     },
     {
       "name": "Karakara2",
@@ -4403,7 +4904,7 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "playstyle:adv": 0.35
       },
-      "id": "G087"
+      "id": "G096"
     },
     {
       "name": "Sorcery Jokers",
@@ -4450,8 +4951,63 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "playstyle:rpg": 0.35
       },
-      "id": "G088",
+      "id": "G097",
       "displayName": "魔法王牌"
+    },
+    {
+      "name": "命运石之门 0",
+      "year": 2015,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "scifi",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17102",
+      "bangumi_id": 129820,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:scifi": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.35,
+        "focus:mystery": 0.55,
+        "appeal:mystery": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "entry:easy": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "focus:romance": 0.2,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19,
+        "pace:short": 0.25,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4
+      },
+      "id": "G098"
     },
     {
       "name": "夏娃年代记",
@@ -4501,7 +5057,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "playstyle:rpg": 0.5
       },
-      "id": "G089"
+      "id": "G099",
+      "displayName": "夏娃年代记2"
     },
     {
       "name": "时钟机关的Leyline -朝雾中飘零之花-",
@@ -4557,14 +5114,14 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "tone:hype": 0.35
       },
-      "id": "G090"
+      "id": "G100"
     },
     {
       "name": "樱之诗",
       "year": 2015,
       "rank": 1,
       "source": "sedai",
-      "tone": "hype",
+      "tone": "literary",
       "setting": "daily",
       "pace": "slowburn",
       "era": "modern",
@@ -4573,38 +5130,38 @@ const GAL_PICK_DATA = {
       "vndb_id": "v48131",
       "bangumi_id": 262418,
       "focus": "story",
-      "entry": "standard",
+      "entry": "deep",
       "mood": "bittersweet",
       "routes": "multi",
       "playstyle": "adv",
-      "cast": "solo",
+      "cast": "ensemble",
       "traits": {
-        "tone:hype": 1.0,
+        "tone:literary": 1.0,
         "setting:daily": 1.0,
         "pace:slowburn": 1.0,
         "era:modern": 1.0,
         "fame:icon": 1.0,
         "focus:story": 1.0,
-        "entry:standard": 1.0,
+        "entry:deep": 1.0,
         "mood:bittersweet": 1.0,
         "routes:multi": 1.0,
         "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.4,
+        "tone:mindbend": 0.3,
+        "mood:heavy": 0.5,
+        "appeal:literary": 0.55,
         "setting:school": 0.3,
         "pace:breezy": 0.28,
-        "pace:dense": 0.25,
+        "pace:dense": 0.3,
         "entry:easy": 0.3,
-        "tone:drama": 0.35,
         "tone:heal": 0.3,
+        "fame:solid": 0.2,
         "cast:harem": 0.35,
-        "routes:single": 0.3,
-        "mood:heavy": 0.25
+        "tone:epic": 0.2,
+        "tone:hype": 0.35
       },
-      "id": "G091"
+      "id": "G101"
     },
     {
       "name": "魔女的夜宴",
@@ -4654,7 +5211,7 @@ const GAL_PICK_DATA = {
         "setting:fantasy": 0.35,
         "focus:world": 0.2
       },
-      "id": "G092"
+      "id": "G102"
     },
     {
       "name": "ISLAND",
@@ -4667,6 +5224,7 @@ const GAL_PICK_DATA = {
       "era": "modern",
       "fame": "icon",
       "tag_source": "bangumi",
+      "vndb_id": "v18498",
       "bangumi_id": 150191,
       "focus": "world",
       "entry": "deep",
@@ -4708,7 +5266,63 @@ const GAL_PICK_DATA = {
         "tone:sweet": 0.25,
         "appeal:nakige": 0.55
       },
-      "id": "G093"
+      "id": "G103"
+    },
+    {
+      "name": "VA-11 HALL-A",
+      "year": 2014,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "scifi",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18872",
+      "bangumi_id": 243925,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:scifi": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.2,
+        "mood:heavy": 0.35,
+        "focus:mystery": 0.19,
+        "setting:daily": 0.3,
+        "setting:school": 0.25
+      },
+      "id": "G104"
     },
     {
       "name": "冲破万里晴空之上",
@@ -4754,10 +5368,10 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.19,
         "appeal:literary": 0.21
       },
-      "id": "G094"
+      "id": "G105"
     },
     {
-      "name": "向日葵",
+      "name": "向日葵-天空鹅卵石",
       "year": 2014,
       "rank": 3,
       "source": "getchu-popular",
@@ -4806,7 +5420,7 @@ const GAL_PICK_DATA = {
         "focus:world": 0.2,
         "tone:utsuge": 0.45
       },
-      "id": "G095"
+      "id": "G106"
     },
     {
       "name": "柯罗的怀表",
@@ -4858,10 +5472,10 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:mystery": 0.25
       },
-      "id": "G096"
+      "id": "G107"
     },
     {
-      "name": "混沌子",
+      "name": "混沌之子",
       "year": 2014,
       "rank": 1,
       "source": "getchu-popular",
@@ -4910,7 +5524,100 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "setting:school": 0.35
       },
-      "id": "G097"
+      "id": "G108"
+    },
+    {
+      "name": "猫娘乐园世界连结",
+      "year": 2014,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "short",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v15538",
+      "bangumi_id": 530557,
+      "cngal_id": 7021,
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:breezy": 0.4,
+        "tone:heal": 0.3,
+        "appeal:moe": 0.18,
+        "cast:ensemble": 0.4,
+        "playstyle:adv": 0.35
+      },
+      "id": "G109"
+    },
+    {
+      "name": "甜蜜女友",
+      "year": 2014,
+      "rank": 2,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v15679",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "focus:story": 0.19,
+        "focus:mystery": 0.19
+      },
+      "id": "G110"
     },
     {
       "name": "苍之彼方的四重奏",
@@ -4960,7 +5667,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G098"
+      "id": "G111",
+      "displayName": "蒼之彼方的四重奏"
     },
     {
       "name": "近月少女的礼仪2",
@@ -5009,7 +5717,8 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.18,
         "focus:mystery": 0.19
       },
-      "id": "G099"
+      "id": "G112",
+      "displayName": "近月少女的禮儀2"
     },
     {
       "name": "LOVELY×CATION2",
@@ -5064,8 +5773,62 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:sim": 0.5
       },
-      "id": "G100",
+      "id": "G113",
       "displayName": "恋爱少女人格重叠"
+    },
+    {
+      "name": "君と彼女と彼女の恋。",
+      "year": 2013,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7738",
+      "bangumi_id": 391163,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.3,
+        "setting:mystery": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.55,
+        "focus:story": 0.35,
+        "appeal:literary": 0.5,
+        "tone:sweet": 0.25,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
+        "appeal:moe": 0.2
+      },
+      "id": "G114"
     },
     {
       "name": "大图书馆的牧羊人",
@@ -5115,7 +5878,8 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G101"
+      "id": "G115",
+      "displayName": "大图书馆的牧羊人～放学后的尾巴时光～"
     },
     {
       "name": "少女理论及其周边",
@@ -5169,7 +5933,58 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G102"
+      "id": "G116",
+      "displayName": "少女理論及其周邊 -École de Paris-"
+    },
+    {
+      "name": "永恒之夏",
+      "year": 2013,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v3126",
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "mood:heavy": 0.25,
+        "routes:single": 0.4,
+        "playstyle:vn": 0.4,
+        "focus:story": 0.5
+      },
+      "id": "G117"
     },
     {
       "name": "灰色的乐园",
@@ -5224,10 +6039,10 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.5,
         "setting:scifi": 0.35
       },
-      "id": "G103"
+      "id": "G118"
     },
     {
-      "name": "茂伸奇谈-Monobeno-",
+      "name": "茂伸奇談",
       "year": 2013,
       "rank": 4,
       "source": "getchu-popular",
@@ -5275,7 +6090,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.45,
         "playstyle:vn": 0.4
       },
-      "id": "G104"
+      "id": "G119"
     },
     {
       "name": "DRACU-RIOT!",
@@ -5327,8 +6142,64 @@ const GAL_PICK_DATA = {
         "setting:fantasy": 0.35,
         "focus:world": 0.2
       },
-      "id": "G105",
+      "id": "G120",
       "displayName": "吸血鬼大骚乱"
+    },
+    {
+      "name": "NOeSIS02_羽化",
+      "year": 2012,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v11858",
+      "bangumi_id": 338475,
+      "cngal_id": 173,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "mood:heavy": 0.55,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "tone:heal": 0.3,
+        "focus:story": 0.5,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "tone:sweet": 0.25,
+        "tone:hype": 0.35
+      },
+      "id": "G121"
     },
     {
       "name": "初雪樱",
@@ -5382,7 +6253,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:moe": 0.4
       },
-      "id": "G106"
+      "id": "G122",
+      "displayName": "初雪櫻"
     },
     {
       "name": "在这苍穹展翅",
@@ -5430,10 +6302,65 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "focus:mystery": 0.19
       },
-      "id": "G107"
+      "id": "G123",
+      "displayName": "在這蒼穹展翅"
     },
     {
-      "name": "海市蜃楼之馆",
+      "name": "极限脱出ADV 善人死亡",
+      "year": 2012,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "scifi",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7809",
+      "bangumi_id": 23491,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:scifi": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.35,
+        "focus:mystery": 0.55,
+        "appeal:mystery": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.2,
+        "focus:story": 0.35,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4
+      },
+      "id": "G124"
+    },
+    {
+      "name": "海市蜃樓之館",
       "year": 2012,
       "rank": 1,
       "source": "getchu-popular",
@@ -5486,7 +6413,63 @@ const GAL_PICK_DATA = {
         "tone:sweet": 0.2,
         "playstyle:vn": 0.4
       },
-      "id": "G108"
+      "id": "G125"
+    },
+    {
+      "name": "真剣で私に恋しなさい！S",
+      "year": 2012,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v6245",
+      "bangumi_id": 193488,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.35,
+        "appeal:action": 0.5,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "setting:fantasy": 0.3,
+        "tone:literary": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "focus:story": 0.35,
+        "focus:mystery": 0.19,
+        "appeal:literary": 0.19,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25,
+        "playstyle:rpg": 0.35,
+        "appeal:moe": 0.2
+      },
+      "id": "G126"
     },
     {
       "name": "认真和我谈恋爱！S",
@@ -5538,8 +6521,105 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.45,
         "focus:mystery": 0.19
       },
-      "id": "G109",
-      "displayName": "认真与我谈恋爱!!"
+      "id": "G127"
+    },
+    {
+      "name": "貓娘樂園 Vol.0 水無月貓娘們的日常",
+      "year": 2012,
+      "rank": 5,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "short",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17763",
+      "bangumi_id": 144173,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "appeal:moe": 0.2,
+        "mood:heavy": 0.25,
+        "cast:ensemble": 0.4,
+        "playstyle:adv": 0.35
+      },
+      "id": "G128"
+    },
+    {
+      "name": "超级弹丸论破2 再见了绝望学园",
+      "year": 2012,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "school",
+      "pace": "short",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7679",
+      "bangumi_id": 39066,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:school": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "setting:mystery": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "focus:story": 0.25,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19,
+        "playstyle:adv": 0.35
+      },
+      "id": "G129"
     },
     {
       "name": "近月少女的礼仪",
@@ -5547,7 +6627,7 @@ const GAL_PICK_DATA = {
       "rank": 5,
       "source": "sedai",
       "tone": "hype",
-      "setting": "daily",
+      "setting": "school",
       "pace": "breezy",
       "era": "classic",
       "fame": "icon",
@@ -5562,7 +6642,7 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:hype": 1.0,
-        "setting:daily": 1.0,
+        "setting:school": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:icon": 1.0,
@@ -5576,16 +6656,17 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.5,
-        "setting:school": 0.3,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.4,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
         "tone:drama": 0.35,
         "tone:heal": 0.25,
-        "mood:heavy": 0.25,
-        "cast:ensemble": 0.4
+        "mood:heavy": 0.25
       },
-      "id": "G110"
+      "id": "G130",
+      "displayName": "近月少女的禮儀"
     },
     {
       "name": "Karakara",
@@ -5630,7 +6711,157 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "playstyle:adv": 0.35
       },
-      "id": "G111"
+      "id": "G131"
+    },
+    {
+      "name": "NOeSIS01 诉说谎言的记忆物语",
+      "year": 2011,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v11029",
+      "bangumi_id": 295352,
+      "cngal_id": 173,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "tone:mindbend": 0.4,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "focus:story": 0.5
+      },
+      "id": "G132"
+    },
+    {
+      "name": "もんむす・くえすと!前章 ～負ければ妖女に犯される～",
+      "year": 2011,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v5657",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "entry:easy": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "playstyle:adv": 0.35,
+        "routes:single": 0.45,
+        "pace:short": 0.25,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "appeal:action": 0.45,
+        "tone:hype": 0.35
+      },
+      "id": "G133",
+      "displayName": "勇者大战魔物娘 前章"
+    },
+    {
+      "name": "星空",
+      "year": 2011,
+      "rank": 4,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v2968",
+      "bangumi_id": 249311,
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.55,
+        "focus:story": 0.19,
+        "focus:mystery": 0.19
+      },
+      "id": "G134"
     },
     {
       "name": "机器人笔记",
@@ -5688,55 +6919,7 @@ const GAL_PICK_DATA = {
         "setting:daily": 0.3,
         "appeal:moe": 0.2
       },
-      "id": "G112"
-    },
-    {
-      "name": "架向星空之桥",
-      "year": 2011,
-      "rank": 4,
-      "source": "getchu-popular",
-      "tone": "sweet",
-      "setting": "school",
-      "pace": "breezy",
-      "era": "classic",
-      "fame": "icon",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v2968",
-      "bangumi_id": 249311,
-      "focus": "romance",
-      "entry": "easy",
-      "mood": "light",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:sweet": 1.0,
-        "setting:school": 1.0,
-        "pace:breezy": 1.0,
-        "era:classic": 1.0,
-        "fame:icon": 1.0,
-        "focus:romance": 1.0,
-        "entry:easy": 1.0,
-        "mood:light": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:heal": 0.42,
-        "tone:hype": 0.35,
-        "appeal:moe": 0.45,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "routes:multi": 0.5,
-        "cast:solo": 0.35,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.55,
-        "focus:story": 0.19,
-        "focus:mystery": 0.19
-      },
-      "id": "G113"
+      "id": "G135"
     },
     {
       "name": "灰色的果实",
@@ -5794,61 +6977,62 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G114"
+      "id": "G136",
+      "displayName": "灰色的果实 -LE FRUIT DE LA GRISAIA-"
     },
     {
-      "name": "焰之印加诺克",
+      "name": "白色相簿2~closing chapter~",
       "year": 2011,
-      "rank": 3,
-      "source": "getchu-popular",
-      "tone": "utsuge",
-      "setting": "fantasy",
-      "pace": "breezy",
+      "rank": 1,
+      "source": "sedai",
+      "tone": "drama",
+      "setting": "school",
+      "pace": "slowburn",
       "era": "classic",
       "fame": "icon",
-      "tag_source": "vndb",
-      "vndb_id": "v417",
-      "focus": "world",
-      "entry": "deep",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7771",
+      "bangumi_id": 54898,
+      "focus": "story",
+      "entry": "standard",
       "mood": "heavy",
-      "routes": "multi",
-      "playstyle": "vn",
+      "routes": "puzzle",
+      "playstyle": "adv",
       "cast": "solo",
       "traits": {
-        "tone:utsuge": 1.0,
-        "setting:fantasy": 1.0,
-        "pace:breezy": 1.0,
+        "tone:drama": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
         "era:classic": 1.0,
         "fame:icon": 1.0,
-        "focus:world": 1.0,
-        "entry:deep": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
         "mood:heavy": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:vn": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
         "cast:solo": 1.0,
-        "tone:drama": 0.45,
-        "tone:literary": 0.35,
-        "appeal:utsuge": 0.6,
-        "setting:scifi": 0.28,
-        "appeal:action": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "mood:bittersweet": 0.55,
+        "appeal:nakige": 0.4,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.28,
         "entry:easy": 0.3,
-        "playstyle:adv": 0.35,
-        "tone:epic": 0.35,
-        "pace:dense": 0.3,
-        "fame:solid": 0.2,
-        "cast:harem": 0.35,
-        "routes:single": 0.45,
-        "focus:story": 0.25,
-        "focus:romance": 0.35,
-        "mood:bittersweet": 0.25,
-        "appeal:nakige": 0.18,
-        "appeal:literary": 0.19,
-        "appeal:mystery": 0.5,
-        "focus:mystery": 0.35
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "appeal:literary": 0.21,
+        "tone:sweet": 0.25,
+        "focus:mystery": 0.19
       },
-      "id": "G115"
+      "id": "G137",
+      "displayName": "白色相簿2 幸福的彼端"
     },
     {
       "name": "神采Alchemy Meister",
@@ -5899,7 +7083,8 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G116"
+      "id": "G138",
+      "displayName": "神采炼金名匠"
     },
     {
       "name": "秽翼的尤斯蒂娅",
@@ -5956,61 +7141,61 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G117"
+      "id": "G139"
     },
     {
-      "name": "ラムネの泡に溶ける夏",
-      "year": 2010,
+      "name": "赫炎的印加诺克",
+      "year": 2011,
       "rank": 3,
       "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "school",
+      "tone": "utsuge",
+      "setting": "fantasy",
       "pace": "breezy",
       "era": "classic",
       "fame": "icon",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v1506",
-      "bangumi_id": 695635,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "harem",
+      "tag_source": "vndb",
+      "vndb_id": "v417",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "solo",
       "traits": {
-        "tone:hype": 1.0,
-        "setting:school": 1.0,
+        "tone:utsuge": 1.0,
+        "setting:fantasy": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:icon": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.28,
+        "appeal:action": 0.3,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
-        "routes:multi": 0.5,
-        "tone:drama": 0.35,
-        "tone:heal": 0.25,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "appeal:moe": 0.4,
-        "mood:heavy": 0.25,
-        "routes:single": 0.4,
-        "playstyle:vn": 0.4,
-        "focus:mystery": 0.19
+        "playstyle:adv": 0.35,
+        "tone:epic": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "focus:story": 0.25,
+        "focus:romance": 0.35,
+        "mood:bittersweet": 0.25,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "appeal:mystery": 0.5,
+        "focus:mystery": 0.35
       },
-      "id": "G118"
+      "id": "G140"
     },
     {
       "name": "命运石之门",
@@ -6067,10 +7252,11 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "appeal:moe": 0.4
       },
-      "id": "G119"
+      "id": "G141",
+      "displayName": "命運石之門"
     },
     {
-      "name": "库特饭后甜点",
+      "name": "库特wafter 改装版",
       "year": 2010,
       "rank": 2,
       "source": "getchu-popular",
@@ -6119,7 +7305,58 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "focus:mystery": 0.19
       },
-      "id": "G120"
+      "id": "G142"
+    },
+    {
+      "name": "弹丸论破 希望的学园和绝望高中生",
+      "year": 2010,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "school",
+      "pace": "short",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7014",
+      "bangumi_id": 10336,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:school": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.4,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "setting:mystery": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "focus:story": 0.25,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19,
+        "playstyle:adv": 0.35
+      },
+      "id": "G143"
     },
     {
       "name": "战女神VERITA",
@@ -6174,7 +7411,110 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G121"
+      "id": "G144"
+    },
+    {
+      "name": "波子汽水",
+      "year": 2010,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v1506",
+      "bangumi_id": 695635,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.4,
+        "mood:heavy": 0.25,
+        "routes:single": 0.4,
+        "playstyle:vn": 0.4,
+        "focus:mystery": 0.19
+      },
+      "id": "G145"
+    },
+    {
+      "name": "漆黑的夏尔诺斯 ～何等美好的明日～",
+      "year": 2010,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "fantasy",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v1027",
+      "bangumi_id": 1023,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.28,
+        "focus:world": 0.45,
+        "appeal:action": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "routes:single": 0.45,
+        "mood:heavy": 0.25
+      },
+      "id": "G146"
     },
     {
       "name": "美好的每一天～不连续的存在～",
@@ -6226,7 +7566,7 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.22,
         "tone:utsuge": 0.45
       },
-      "id": "G122"
+      "id": "G147"
     },
     {
       "name": "黄昏的禁忌之药",
@@ -6274,56 +7614,7 @@ const GAL_PICK_DATA = {
         "appeal:mystery": 0.5,
         "focus:mystery": 0.35
       },
-      "id": "G123"
-    },
-    {
-      "name": "黑之夏尔诺斯",
-      "year": 2010,
-      "rank": 1,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "fantasy",
-      "pace": "breezy",
-      "era": "classic",
-      "fame": "icon",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v1027",
-      "bangumi_id": 1023,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "multi",
-      "playstyle": "vn",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:fantasy": 1.0,
-        "pace:breezy": 1.0,
-        "era:classic": 1.0,
-        "fame:icon": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:vn": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:scifi": 0.28,
-        "focus:world": 0.45,
-        "appeal:action": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "playstyle:adv": 0.35,
-        "tone:drama": 0.35,
-        "tone:heal": 0.25,
-        "routes:single": 0.45,
-        "mood:heavy": 0.25
-      },
-      "id": "G124"
+      "id": "G148"
     },
     {
       "name": "BALDR SKY Dive2“RECORDARE”",
@@ -6376,7 +7667,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "playstyle:rpg": 0.35
       },
-      "id": "G125"
+      "id": "G149"
     },
     {
       "name": "Baldr Sky",
@@ -6430,7 +7721,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.35,
         "playstyle:rpg": 0.35
       },
-      "id": "G126"
+      "id": "G150"
     },
     {
       "name": "我们没有翅膀",
@@ -6485,7 +7776,165 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:literary": 0.5
       },
-      "id": "G127"
+      "id": "G151",
+      "displayName": "我们没有翅膀 R"
+    },
+    {
+      "name": "星空のメモリア-Wish upon a shooting star-",
+      "year": 2009,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v1474",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.2,
+        "mood:heavy": 0.35,
+        "focus:mystery": 0.19
+      },
+      "id": "G152"
+    },
+    {
+      "name": "极限脱出 9小时9人9扇门",
+      "year": 2009,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v3112",
+      "bangumi_id": 3863,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.55,
+        "tone:heal": 0.3,
+        "tone:drama": 0.25,
+        "mood:heavy": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "focus:story": 0.5
+      },
+      "id": "G153"
+    },
+    {
+      "name": "海猫鸣泣之时散",
+      "year": 2009,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "literary",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v2153",
+      "bangumi_id": 109118,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:literary": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.4,
+        "tone:mindbend": 0.4,
+        "focus:story": 0.45,
+        "appeal:literary": 0.55,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.55,
+        "focus:romance": 0.2,
+        "mood:bittersweet": 0.22,
+        "setting:fantasy": 0.35,
+        "focus:world": 0.2
+      },
+      "id": "G154"
     },
     {
       "name": "装甲恶鬼村正",
@@ -6541,7 +7990,66 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G128"
+      "id": "G155",
+      "displayName": "装甲恶鬼村正 赎罪篇"
+    },
+    {
+      "name": "跳躍的時空 12RIVEN",
+      "year": 2009,
+      "rank": 5,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v247",
+      "bangumi_id": 501931,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "entry:easy": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.3,
+        "focus:romance": 0.2,
+        "appeal:literary": 0.19,
+        "focus:world": 0.2,
+        "appeal:action": 0.5,
+        "setting:fantasy": 0.35,
+        "pace:short": 0.25,
+        "playstyle:rpg": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "setting:school": 0.35,
+        "tone:hype": 0.2
+      },
+      "id": "G156"
     },
     {
       "name": "雪绒花",
@@ -6588,7 +8096,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "cast:ensemble": 0.4
       },
-      "id": "G129"
+      "id": "G157"
     },
     {
       "name": "FORTUNE ARTERIAL",
@@ -6642,7 +8150,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "focus:world": 0.19
       },
-      "id": "G130",
+      "id": "G158",
       "displayName": "青空下的约定"
     },
     {
@@ -6695,7 +8203,8 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "setting:school": 0.35
       },
-      "id": "G131"
+      "id": "G159",
+      "displayName": "G弦上的魔王 大番外篇『车轮之国的魔王』"
     },
     {
       "name": "天鹅之歌",
@@ -6703,7 +8212,7 @@ const GAL_PICK_DATA = {
       "rank": 2,
       "source": "getchu-popular",
       "tone": "drama",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "slowburn",
       "era": "classic",
       "fame": "icon",
@@ -6718,7 +8227,7 @@ const GAL_PICK_DATA = {
       "cast": "ensemble",
       "traits": {
         "tone:drama": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:slowburn": 1.0,
         "era:classic": 1.0,
         "fame:icon": 1.0,
@@ -6732,7 +8241,10 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.28,
         "mood:bittersweet": 0.55,
         "appeal:nakige": 0.4,
-        "setting:school": 0.3,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:breezy": 0.28,
         "pace:dense": 0.28,
         "entry:easy": 0.3,
@@ -6743,12 +8255,12 @@ const GAL_PICK_DATA = {
         "routes:multi": 0.5,
         "focus:romance": 0.2,
         "appeal:literary": 0.21,
-        "pace:short": 0.25,
         "focus:mystery": 0.19,
+        "pace:short": 0.25,
         "routes:single": 0.45,
         "playstyle:vn": 0.4
       },
-      "id": "G132"
+      "id": "G160"
     },
     {
       "name": "海猫鸣泣之时",
@@ -6798,10 +8310,10 @@ const GAL_PICK_DATA = {
         "setting:fantasy": 0.35,
         "playstyle:adv": 0.35
       },
-      "id": "G133"
+      "id": "G161"
     },
     {
-      "name": "混沌头脑 Noah",
+      "name": "混沌之脑：诺亚",
       "year": 2008,
       "rank": 5,
       "source": "getchu-popular",
@@ -6852,7 +8364,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.45,
         "playstyle:vn": 0.4
       },
-      "id": "G134"
+      "id": "G162"
     },
     {
       "name": "真・恋姫†無双～乙女繚乱☆三国志演義～",
@@ -6860,7 +8372,7 @@ const GAL_PICK_DATA = {
       "rank": 5,
       "source": "sedai",
       "tone": "hype",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "classic",
       "fame": "icon",
@@ -6875,7 +8387,7 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:hype": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:icon": 1.0,
@@ -6889,7 +8401,10 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.5,
-        "setting:school": 0.3,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
@@ -6899,7 +8414,7 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "playstyle:rpg": 0.55
       },
-      "id": "G135"
+      "id": "G163"
     },
     {
       "name": "超昂闪忍遥",
@@ -6953,7 +8468,7 @@ const GAL_PICK_DATA = {
         "focus:world": 0.19,
         "tone:hype": 0.35
       },
-      "id": "G136"
+      "id": "G164"
     },
     {
       "name": "Little Busters!",
@@ -7008,7 +8523,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G137",
+      "id": "G165",
       "displayName": "Little Busters! 小小克星"
     },
     {
@@ -7059,7 +8574,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "entry:deep": 0.25
       },
-      "id": "G138"
+      "id": "G166",
+      "displayName": "你知道世界上最可怕的电话亭吗"
     },
     {
       "name": "圣娜鲁卡娜-永远神剑物语2-",
@@ -7108,7 +8624,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "playstyle:rpg": 0.35
       },
-      "id": "G139"
+      "id": "G167"
     },
     {
       "name": "寒蝉鸣泣之时",
@@ -7157,11 +8673,12 @@ const GAL_PICK_DATA = {
         "focus:story": 0.25,
         "focus:romance": 0.35,
         "appeal:literary": 0.5,
-        "appeal:horror": 0.55,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
         "cast:ensemble": 0.4,
         "setting:school": 0.35
       },
-      "id": "G140"
+      "id": "G168"
     },
     {
       "name": "明日的世界",
@@ -7214,7 +8731,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G141"
+      "id": "G169"
     },
     {
       "name": "终有一日愿遂彼空",
@@ -7266,7 +8783,58 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "setting:fantasy": 0.35
       },
-      "id": "G142"
+      "id": "G170",
+      "displayName": "终有一日愿遂彼空。～太阳之道与绯色黄昏～"
+    },
+    {
+      "name": "逆转裁判4",
+      "year": 2007,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v717",
+      "bangumi_id": 1114,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:mindbend": 0.4,
+        "routes:single": 0.45,
+        "focus:story": 0.5,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25
+      },
+      "id": "G171"
     },
     {
       "name": "D.C.II",
@@ -7316,7 +8884,8 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.55,
         "appeal:action": 0.3
       },
-      "id": "G143"
+      "id": "G172",
+      "displayName": "D.C.Ⅱ地方巡演先行版 「春风的究极无敌大作战」"
     },
     {
       "name": "Muv-Luv Alternative",
@@ -7370,7 +8939,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G144",
+      "id": "G173",
       "displayName": "Muv-Luv Alternative 无限篇"
     },
     {
@@ -7425,7 +8994,8 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "tone:hype": 0.25
       },
-      "id": "G145"
+      "id": "G174",
+      "displayName": "水仙 如果还有明天 携带版 第2章"
     },
     {
       "name": "战国兰斯",
@@ -7433,14 +9003,14 @@ const GAL_PICK_DATA = {
       "rank": 4,
       "source": "sedai",
       "tone": "utsuge",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "slowburn",
       "era": "classic",
       "fame": "icon",
       "tag_source": "vndb+bangumi",
       "vndb_id": "v487",
       "bangumi_id": 347533,
-      "focus": "story",
+      "focus": "world",
       "entry": "deep",
       "mood": "heavy",
       "routes": "puzzle",
@@ -7448,11 +9018,11 @@ const GAL_PICK_DATA = {
       "cast": "solo",
       "traits": {
         "tone:utsuge": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:slowburn": 1.0,
         "era:classic": 1.0,
         "fame:icon": 1.0,
-        "focus:story": 1.0,
+        "focus:world": 1.0,
         "entry:deep": 1.0,
         "mood:heavy": 1.0,
         "routes:puzzle": 1.0,
@@ -7461,14 +9031,16 @@ const GAL_PICK_DATA = {
         "tone:drama": 0.45,
         "tone:literary": 0.35,
         "appeal:utsuge": 0.6,
-        "setting:school": 0.3,
-        "mood:bittersweet": 0.3,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
         "pace:breezy": 0.28,
         "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
         "entry:easy": 0.3,
-        "tone:heal": 0.25,
-        "fame:solid": 0.2,
         "tone:epic": 0.35,
+        "fame:solid": 0.2,
         "tone:mindbend": 0.35,
         "appeal:meta": 0.25,
         "appeal:action": 0.5,
@@ -7476,14 +9048,13 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "appeal:nakige": 0.18,
         "appeal:literary": 0.19,
+        "focus:mystery": 0.19,
         "routes:multi": 0.5,
         "playstyle:adv": 0.35,
-        "focus:world": 0.19,
-        "focus:mystery": 0.19,
         "appeal:comedy": 0.5,
         "tone:hype": 0.35
       },
-      "id": "G146"
+      "id": "G175"
     },
     {
       "name": "青空下的约定",
@@ -7535,7 +9106,8 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G147"
+      "id": "G176",
+      "displayName": "青空下的約定"
     },
     {
       "name": "鬼哭街 泪尽铃音响",
@@ -7582,10 +9154,12 @@ const GAL_PICK_DATA = {
         "focus:romance": 0.35,
         "appeal:literary": 0.19,
         "appeal:action": 0.5,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G148"
+      "id": "G177"
     },
     {
       "name": "CARTAGRAN －少女狩猟機－",
@@ -7635,7 +9209,7 @@ const GAL_PICK_DATA = {
         "playstyle:hybrid": 0.3,
         "mood:heavy": 0.25
       },
-      "id": "G149"
+      "id": "G178"
     },
     {
       "name": "Fate/hollow ataraxia",
@@ -7692,8 +9266,61 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "setting:school": 0.35
       },
-      "id": "G150",
+      "id": "G179",
       "displayName": "Fate/hollow ataraxia 空之境界前传"
+    },
+    {
+      "name": "ToHeart",
+      "year": 2005,
+      "rank": 5,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18",
+      "bangumi_id": 505952,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.35,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.4,
+        "mood:heavy": 0.25,
+        "appeal:action": 0.45,
+        "focus:mystery": 0.19,
+        "playstyle:rpg": 0.55
+      },
+      "id": "G180"
     },
     {
       "name": "女仆咖啡帕露菲",
@@ -7749,7 +9376,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G151"
+      "id": "G181",
+      "displayName": "纯爱咖啡厅～帕露菲重制版～"
     },
     {
       "name": "真忆",
@@ -7803,7 +9431,7 @@ const GAL_PICK_DATA = {
         "setting:daily": 0.3,
         "setting:school": 0.25
       },
-      "id": "G152"
+      "id": "G182"
     },
     {
       "name": "秋之回忆 Festa",
@@ -7851,10 +9479,10 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "appeal:action": 0.45
       },
-      "id": "G153"
+      "id": "G183"
     },
     {
-      "name": "缘之空",
+      "name": "緣之空",
       "year": 2005,
       "rank": 2,
       "source": "getchu-popular",
@@ -7898,7 +9526,7 @@ const GAL_PICK_DATA = {
         "appeal:meta": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G154"
+      "id": "G184"
     },
     {
       "name": "车轮之国，向日葵的少女",
@@ -7949,7 +9577,7 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "setting:school": 0.35
       },
-      "id": "G155"
+      "id": "G185"
     },
     {
       "name": "CLANNAD",
@@ -8004,7 +9632,7 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "focus:mystery": 0.19
       },
-      "id": "G156",
+      "id": "G186",
       "displayName": "CLANNAD 团子大家族"
     },
     {
@@ -8055,10 +9683,65 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:literary": 0.5
       },
-      "id": "G157"
+      "id": "G187",
+      "displayName": "交響樂之雨"
     },
     {
-      "name": "月姬",
+      "name": "刃鸣散",
+      "year": 2004,
+      "rank": 5,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "dense",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb",
+      "vndb_id": "v430",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:dense": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.25,
+        "pace:slowburn": 0.3,
+        "routes:puzzle": 0.35,
+        "appeal:literary": 0.3,
+        "entry:easy": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "pace:breezy": 0.25,
+        "cast:harem": 0.35,
+        "appeal:nakige": 0.18,
+        "appeal:action": 0.5,
+        "pace:short": 0.25,
+        "playstyle:rpg": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "tone:hype": 0.2
+      },
+      "id": "G188"
+    },
+    {
+      "name": "月姫",
       "year": 2004,
       "rank": 3,
       "source": "getchu-popular",
@@ -8107,10 +9790,10 @@ const GAL_PICK_DATA = {
         "focus:world": 0.2,
         "setting:fantasy": 0.35
       },
-      "id": "G158"
+      "id": "G189"
     },
     {
-      "name": "片羽少女",
+      "name": "片輪少女",
       "year": 2004,
       "rank": 2,
       "source": "getchu-popular",
@@ -8159,15 +9842,15 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:moe": 0.2
       },
-      "id": "G159"
+      "id": "G190"
     },
     {
       "name": "空之歌",
       "year": 2004,
       "rank": 3,
       "source": "sedai",
-      "tone": "sweet",
-      "setting": "school",
+      "tone": "drama",
+      "setting": "daily",
       "pace": "short",
       "era": "classic",
       "fame": "icon",
@@ -8175,33 +9858,85 @@ const GAL_PICK_DATA = {
       "vndb_id": "v65470",
       "bangumi_id": 668338,
       "cngal_id": 5721,
-      "focus": "romance",
-      "entry": "easy",
-      "mood": "light",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
       "routes": "single",
       "playstyle": "vn",
       "cast": "solo",
       "traits": {
-        "tone:sweet": 1.0,
-        "setting:school": 1.0,
+        "tone:drama": 1.0,
+        "setting:daily": 1.0,
         "pace:short": 1.0,
         "era:classic": 1.0,
         "fame:icon": 1.0,
-        "focus:romance": 1.0,
-        "entry:easy": 1.0,
-        "mood:light": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
         "routes:single": 1.0,
         "playstyle:vn": 1.0,
         "cast:solo": 1.0,
-        "tone:heal": 0.42,
-        "tone:hype": 0.35,
-        "appeal:moe": 0.45,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "appeal:nakige": 0.4,
+        "setting:school": 0.35,
         "pace:breezy": 0.4,
-        "focus:story": 0.25
+        "entry:easy": 0.45,
+        "focus:romance": 0.35,
+        "mood:heavy": 0.19,
+        "appeal:literary": 0.21,
+        "tone:sweet": 0.25,
+        "appeal:moe": 0.4
       },
-      "id": "G160"
+      "id": "G191"
+    },
+    {
+      "name": "逆转裁判3",
+      "year": 2004,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "short",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v716",
+      "bangumi_id": 943,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:mindbend": 0.4,
+        "focus:story": 0.5,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "playstyle:adv": 0.35
+      },
+      "id": "G192"
     },
     {
       "name": "CROSS†CHANNEL",
@@ -8253,7 +9988,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:mystery": 0.25
       },
-      "id": "G161"
+      "id": "G193",
+      "displayName": "CROSS†CHANNEL 交错频道 ～For all people～"
     },
     {
       "name": "Muv-Luv",
@@ -8261,7 +9997,7 @@ const GAL_PICK_DATA = {
       "rank": 1,
       "source": "sedai",
       "tone": "hype",
-      "setting": "school",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "classic",
       "fame": "icon",
@@ -8276,7 +10012,7 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:hype": 1.0,
-        "setting:school": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:icon": 1.0,
@@ -8290,8 +10026,10 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
@@ -8305,9 +10043,11 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "appeal:action": 0.5,
         "focus:mystery": 0.19,
-        "playstyle:rpg": 0.35
+        "playstyle:rpg": 0.35,
+        "setting:school": 0.35
       },
-      "id": "G162"
+      "id": "G194",
+      "displayName": "Muv-luv编年史04"
     },
     {
       "name": "SNOW",
@@ -8359,7 +10099,7 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "focus:mystery": 0.19
       },
-      "id": "G163"
+      "id": "G195"
     },
     {
       "name": "Wind -a breath of heart-",
@@ -8410,7 +10150,7 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "setting:school": 0.35
       },
-      "id": "G164"
+      "id": "G196"
     },
     {
       "name": "夜月东升•暮日西沉～Operation Sanctuary～",
@@ -8463,7 +10203,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.35,
         "setting:school": 0.35
       },
-      "id": "G165"
+      "id": "G197",
+      "displayName": "月兔冒险"
     },
     {
       "name": "斩魔大圣Demonbane",
@@ -8514,7 +10255,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G166"
+      "id": "G198"
     },
     {
       "name": "沙耶之歌",
@@ -8565,12 +10306,12 @@ const GAL_PICK_DATA = {
         "focus:story": 0.5,
         "mood:bittersweet": 0.25,
         "appeal:nakige": 0.18,
-        "appeal:horror": 0.55
+        "appeal:horror": 0.62
       },
-      "id": "G167"
+      "id": "G199"
     },
     {
-      "name": "Remember11：无限轮回的时光",
+      "name": "Remember11 時光的記憶",
       "year": 2002,
       "rank": 2,
       "source": "getchu-popular",
@@ -8619,10 +10360,62 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.5,
         "tone:literary": 0.3
       },
-      "id": "G168"
+      "id": "G200"
     },
     {
-      "name": "梦之药",
+      "name": "传颂之物 斩",
+      "year": 2002,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "scifi",
+      "pace": "short",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v3",
+      "bangumi_id": 241491,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "hybrid",
+      "cast": "solo",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:scifi": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.28,
+        "appeal:action": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "playstyle:vn": 0.4,
+        "tone:literary": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "playstyle:rpg": 0.5,
+        "playstyle:adv": 0.35,
+        "focus:romance": 0.35,
+        "appeal:literary": 0.19,
+        "tone:hype": 0.2
+      },
+      "id": "G201"
+    },
+    {
+      "name": "夢見之藥",
       "year": 2002,
       "rank": 3,
       "source": "getchu-popular",
@@ -8672,7 +10465,159 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:literary": 0.5
       },
-      "id": "G169"
+      "id": "G202"
+    },
+    {
+      "name": "时空轮回",
+      "year": 2002,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17",
+      "bangumi_id": 1126,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.55,
+        "focus:story": 0.5,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4
+      },
+      "id": "G203"
+    },
+    {
+      "name": "逆转裁判2",
+      "year": 2002,
+      "rank": 3,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v715",
+      "bangumi_id": 940,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:mindbend": 0.4,
+        "routes:single": 0.45,
+        "focus:story": 0.5,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25
+      },
+      "id": "G204"
+    },
+    {
+      "name": "逆转裁判",
+      "year": 2001,
+      "rank": 1,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "icon",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v711",
+      "bangumi_id": 1111,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:icon": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:mindbend": 0.4,
+        "routes:single": 0.45,
+        "focus:story": 0.5,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25
+      },
+      "id": "G205"
     },
     {
       "name": "AIR",
@@ -8725,12 +10670,275 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G170"
+      "id": "G206"
     },
     {
-      "name": "CRIMINAL BORDER 3rd offence",
+      "name": "The Coffin of Andy and Leyley",
+      "year": 2026,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "dense",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v43438",
+      "bangumi_id": 430386,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:dense": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.25,
+        "pace:slowburn": 0.3,
+        "routes:puzzle": 0.35,
+        "appeal:literary": 0.5,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "pace:breezy": 0.25,
+        "cast:harem": 0.35,
+        "appeal:nakige": 0.18,
+        "tone:sweet": 0.25
+      },
+      "id": "G207"
+    },
+    {
+      "name": "HUNDRED LINE -最終防衛学園-",
+      "year": 2025,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "scifi",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v54897",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "hybrid",
+      "cast": "ensemble",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:scifi": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.35,
+        "appeal:action": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "tone:literary": 0.35,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "playstyle:rpg": 0.5,
+        "playstyle:adv": 0.35,
+        "focus:mystery": 0.19,
+        "routes:multi": 0.5,
+        "appeal:literary": 0.19
+      },
+      "id": "G208"
+    },
+    {
+      "name": "Z.A.T.O. // I Love the World and Everything In It",
+      "year": 2025,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "literary",
+      "setting": "school",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v58641",
+      "bangumi_id": 604105,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "rpg",
+      "cast": "solo",
+      "traits": {
+        "tone:literary": 1.0,
+        "setting:school": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:rpg": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.4,
+        "tone:mindbend": 0.3,
+        "appeal:literary": 0.55,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "playstyle:vn": 0.4,
+        "tone:heal": 0.25,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.35,
+        "appeal:utsuge": 0.25,
+        "appeal:action": 0.4,
+        "playstyle:hybrid": 0.3,
+        "mood:bittersweet": 0.22,
+        "tone:sweet": 0.25,
+        "playstyle:adv": 0.35,
+        "focus:world": 0.19
+      },
+      "id": "G209"
+    },
+    {
+      "name": "魔法少女的魔女审判",
+      "year": 2025,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "fantasy",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v50283",
+      "bangumi_id": 488392,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:drama": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "mood:bittersweet": 0.55,
+        "appeal:nakige": 0.4,
+        "setting:scifi": 0.28,
+        "focus:world": 0.45,
+        "appeal:action": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.25,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "focus:romance": 0.2,
+        "appeal:literary": 0.21,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.25,
+        "focus:mystery": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4
+      },
+      "id": "G210"
+    },
+    {
+      "name": "不/存在的你，和我",
+      "year": 2024,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v49859",
+      "bangumi_id": 524576,
+      "cngal_id": 5223,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.3,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.55,
+        "routes:single": 0.3,
+        "tone:heal": 0.3,
+        "tone:drama": 0.25,
+        "mood:heavy": 0.35,
+        "focus:story": 0.5,
+        "tone:literary": 0.3,
+        "appeal:literary": 0.5
+      },
+      "id": "G211"
+    },
+    {
+      "name": "CRIMINAL BORDER 2nd offence",
       "year": 2023,
-      "rank": 11,
+      "rank": 12,
       "source": "sedai",
       "tone": "utsuge",
       "setting": "mystery",
@@ -8775,10 +10983,63 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "appeal:nakige": 0.18,
         "appeal:literary": 0.19,
+        "appeal:horror": 0.62,
         "tone:hype": 0.35
       },
-      "id": "G171",
-      "displayName": "刑事边境 3rd offence"
+      "id": "G212",
+      "displayName": "刑事边境 2nd offence"
+    },
+    {
+      "name": "Class of '09: The Re-Up",
+      "year": 2023,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v44358",
+      "bangumi_id": 466827,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "mood:bittersweet": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25,
+        "appeal:moe": 0.2
+      },
+      "id": "G213"
     },
     {
       "name": "D.C.5 ～ダ·カーポ5～",
@@ -8829,8 +11090,55 @@ const GAL_PICK_DATA = {
         "setting:fantasy": 0.35,
         "focus:world": 0.2
       },
-      "id": "G172",
+      "id": "G214",
       "displayName": "初音岛5"
+    },
+    {
+      "name": "GINKA",
+      "year": 2023,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "fantasy",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v38430",
+      "bangumi_id": 402654,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.28,
+        "focus:world": 0.45,
+        "appeal:action": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "playstyle:adv": 0.35
+      },
+      "id": "G215"
     },
     {
       "name": "八卦恋爱",
@@ -8879,7 +11187,62 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "entry:deep": 0.25
       },
-      "id": "G173"
+      "id": "G216"
+    },
+    {
+      "name": "再见公主",
+      "year": 2023,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v37179",
+      "bangumi_id": 396112,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.55,
+        "routes:multi": 0.3,
+        "focus:romance": 0.35,
+        "routes:single": 0.3,
+        "appeal:literary": 0.5,
+        "appeal:action": 0.5,
+        "tone:sweet": 0.2,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2
+      },
+      "id": "G217"
     },
     {
       "name": "夕凪荘のS級の彼女たち2",
@@ -8923,7 +11286,164 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.25,
         "mood:heavy": 0.25
       },
-      "id": "G174"
+      "id": "G218"
+    },
+    {
+      "name": "幸福噩梦 REGRET END",
+      "year": 2023,
+      "rank": 7,
+      "source": "sedai",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v10957",
+      "bangumi_id": 667048,
+      "cngal_id": 6389,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.2,
+        "focus:story": 0.35,
+        "appeal:literary": 0.5,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "setting:school": 0.35,
+        "setting:daily": 0.3,
+        "appeal:moe": 0.2
+      },
+      "id": "G219",
+      "displayName": "幸福噩梦"
+    },
+    {
+      "name": "灵视异闻 FILE23 本所七大不可思议",
+      "year": 2023,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v42561",
+      "bangumi_id": 419558,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.55,
+        "routes:multi": 0.5,
+        "focus:romance": 0.2,
+        "appeal:literary": 0.19,
+        "focus:world": 0.2,
+        "setting:fantasy": 0.35,
+        "setting:school": 0.35
+      },
+      "id": "G220"
+    },
+    {
+      "name": "AI：梦境档案 涅槃肇始",
+      "year": 2022,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v31469",
+      "bangumi_id": 340438,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.3,
+        "focus:romance": 0.2,
+        "appeal:literary": 0.19,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25
+      },
+      "id": "G221"
     },
     {
       "name": "Unless Terminalia",
@@ -8978,7 +11498,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.5,
         "setting:school": 0.35
       },
-      "id": "G175",
+      "id": "G222",
       "displayName": "终之空"
     },
     {
@@ -9026,7 +11546,8 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.21,
         "appeal:moe": 0.4
       },
-      "id": "G176"
+      "id": "G223",
+      "displayName": "吹弹！丰盈！波涛汹涌！异世界女仆学园！"
     },
     {
       "name": "アネトモ",
@@ -9075,11 +11596,11 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.45,
         "appeal:literary": 0.19
       },
-      "id": "G177",
+      "id": "G224",
       "displayName": "姐之友"
     },
     {
-      "name": "匿名代码",
+      "name": "匿名代碼",
       "year": 2022,
       "rank": 7,
       "source": "getchu-popular",
@@ -9130,7 +11651,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.45,
         "playstyle:vn": 0.4
       },
-      "id": "G178"
+      "id": "G225"
     },
     {
       "name": "恋爱成双",
@@ -9174,7 +11695,7 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.3,
         "appeal:moe": 0.18
       },
-      "id": "G179"
+      "id": "G226"
     },
     {
       "name": "放学后的灰姑娘2",
@@ -9223,7 +11744,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:world": 0.19
       },
-      "id": "G180"
+      "id": "G227"
     },
     {
       "name": "星之终途",
@@ -9271,7 +11792,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.35,
         "appeal:action": 0.45
       },
-      "id": "G181"
+      "id": "G228"
     },
     {
       "name": "9-nine-",
@@ -9327,7 +11848,171 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "setting:fantasy": 0.35
       },
-      "id": "G182"
+      "id": "G229",
+      "displayName": "9-nine- 新章"
+    },
+    {
+      "name": "Class of '09",
+      "year": 2021,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v29345",
+      "bangumi_id": 466829,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "mood:bittersweet": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "tone:sweet": 0.25,
+        "focus:mystery": 0.19,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25
+      },
+      "id": "G230"
+    },
+    {
+      "name": "Milk outside a bag of milk outside a bag of milk",
+      "year": 2021,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v31160",
+      "bangumi_id": 364770,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.28,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:meta": 0.55,
+        "focus:story": 0.5,
+        "mood:heavy": 0.4,
+        "appeal:literary": 0.5,
+        "tone:sweet": 0.25,
+        "tone:heal": 0.3,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G231"
+    },
+    {
+      "name": "Slow Damage",
+      "year": 2021,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19035",
+      "bangumi_id": 239357,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:heal": 0.25,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.35,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.5,
+        "tone:sweet": 0.25,
+        "focus:mystery": 0.19
+      },
+      "id": "G232"
     },
     {
       "name": "ねぇねぇ姉",
@@ -9381,7 +12066,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:rpg": 0.35
       },
-      "id": "G183",
+      "id": "G233",
       "displayName": "呐呐姐"
     },
     {
@@ -9439,7 +12124,109 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "tone:hype": 0.2
       },
-      "id": "G184"
+      "id": "G234",
+      "displayName": "久那土國記"
+    },
+    {
+      "name": "你去死吧 －多数决死亡游戏－",
+      "year": 2021,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v25931",
+      "bangumi_id": 224621,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "setting:mystery": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.55,
+        "cast:harem": 0.35,
+        "focus:story": 0.35,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.5,
+        "tone:sweet": 0.25,
+        "tone:utsuge": 0.45
+      },
+      "id": "G235"
+    },
+    {
+      "name": "前不良人妻 雛子 ～將她的身心都睡過來～",
+      "year": 2021,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v30294",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.45,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.25,
+        "appeal:moe": 0.2,
+        "playstyle:adv": 0.35,
+        "appeal:literary": 0.19
+      },
+      "id": "G236"
     },
     {
       "name": "怀揣思念同我再会!!",
@@ -9483,7 +12270,165 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "appeal:comedy": 0.5
       },
-      "id": "G185"
+      "id": "G237"
+    },
+    {
+      "name": "我家恋天使太废柴鸟真～可怕。",
+      "year": 2021,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v31002",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:drama": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "mood:bittersweet": 0.55,
+        "appeal:nakige": 0.4,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.4,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.28,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "appeal:literary": 0.21,
+        "focus:mystery": 0.19
+      },
+      "id": "G238"
+    },
+    {
+      "name": "月姬格斗",
+      "year": 2021,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "fantasy",
+      "pace": "dense",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17909",
+      "bangumi_id": 12056,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:dense": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.28,
+        "appeal:action": 0.5,
+        "pace:slowburn": 0.3,
+        "routes:puzzle": 0.35,
+        "appeal:literary": 0.5,
+        "tone:epic": 0.35,
+        "fame:solid": 0.2,
+        "pace:breezy": 0.25,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.25,
+        "appeal:nakige": 0.18,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2
+      },
+      "id": "G239"
+    },
+    {
+      "name": "流星ワールドアクター Badge & Dagger",
+      "year": 2021,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v30726",
+      "bangumi_id": 220190,
+      "cngal_id": 5143,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "focus:romance": 0.2,
+        "appeal:literary": 0.19,
+        "focus:world": 0.2,
+        "appeal:action": 0.5,
+        "setting:fantasy": 0.35,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G240",
+      "displayName": "流星世界演绎者：Badge & Dagger"
     },
     {
       "name": "雪境迷途遇仙踪",
@@ -9528,7 +12473,66 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.19,
         "appeal:literary": 0.21
       },
-      "id": "G186"
+      "id": "G241",
+      "displayName": "雪境迷途遇仙蹤"
+    },
+    {
+      "name": "魔法少女消耗戰線 死終Ω神盾",
+      "year": 2021,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v29300",
+      "bangumi_id": 689530,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.45,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:mindbend": 0.4,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "setting:fantasy": 0.35,
+        "focus:world": 0.2,
+        "appeal:action": 0.5,
+        "appeal:horror": 0.62,
+        "playstyle:rpg": 0.35,
+        "cast:ensemble": 0.4,
+        "tone:hype": 0.35
+      },
+      "id": "G242"
     },
     {
       "name": "Mama×Holic_～魅惑的妈妈与甜蜜的榨取～",
@@ -9581,7 +12585,57 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G187"
+      "id": "G243"
+    },
+    {
+      "name": "丸子与银河龙",
+      "year": 2020,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "scifi",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v26902",
+      "bangumi_id": 291333,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:scifi": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "appeal:action": 0.5,
+        "playstyle:adv": 0.35,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G244"
     },
     {
       "name": "光翼戦姫エクスティア3",
@@ -9636,7 +12690,8 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.2,
         "setting:fantasy": 0.35
       },
-      "id": "G188"
+      "id": "G245",
+      "displayName": "光翼戰姬～ExS-TIA 3"
     },
     {
       "name": "天之少女 PREMIUM EDITION",
@@ -9689,7 +12744,8 @@ const GAL_PICK_DATA = {
         "setting:school": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G189"
+      "id": "G246",
+      "displayName": "天之少女"
     },
     {
       "name": "常轨脱离Creative",
@@ -9736,8 +12792,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "focus:mystery": 0.19
       },
-      "id": "G190",
-      "displayName": "常轨脱离Creative 凸"
+      "id": "G247"
     },
     {
       "name": "恋爱×决胜战",
@@ -9787,8 +12842,50 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G191",
-      "displayName": "恋爱X决胜战"
+      "id": "G248"
+    },
+    {
+      "name": "甜蜜女友2",
+      "year": 2020,
+      "rank": 6,
+      "source": "sedai",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v26307",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "focus:story": 0.19
+      },
+      "id": "G249"
     },
     {
       "name": "美少女万华镜 -理与迷宫的少女-",
@@ -9833,18 +12930,183 @@ const GAL_PICK_DATA = {
         "cast:harem": 0.35,
         "focus:story": 0.5,
         "tone:drama": 0.25,
-        "mood:heavy": 0.35,
+        "mood:heavy": 0.4,
         "appeal:literary": 0.19,
         "focus:world": 0.2,
         "setting:fantasy": 0.35,
         "routes:single": 0.45,
         "playstyle:vn": 0.4,
         "tone:sweet": 0.2,
-        "appeal:horror": 0.55,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
         "appeal:moe": 0.4,
         "tone:hype": 0.35
       },
-      "id": "G192"
+      "id": "G250"
+    },
+    {
+      "name": "装在牛奶盒子里的牛奶装在牛奶盒子里的牛奶",
+      "year": 2020,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "literary",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v29049",
+      "bangumi_id": 319184,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:literary": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.4,
+        "tone:mindbend": 0.4,
+        "focus:story": 0.45,
+        "appeal:literary": 0.55,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.45,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.3,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.55,
+        "focus:romance": 0.35,
+        "mood:bittersweet": 0.22,
+        "tone:sweet": 0.25,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35
+      },
+      "id": "G251"
+    },
+    {
+      "name": "重制恋人",
+      "year": 2020,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v28806",
+      "bangumi_id": 656017,
+      "cngal_id": 93,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "playstyle:adv": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "routes:single": 0.45,
+        "focus:story": 0.35,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.5,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35
+      },
+      "id": "G252"
+    },
+    {
+      "name": "BUSTAFELLOWS",
+      "year": 2019,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v25197",
+      "bangumi_id": 271954,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "mood:heavy": 0.55,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.45,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "tone:mindbend": 0.4,
+        "fame:solid": 0.2,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "tone:heal": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.5,
+        "tone:epic": 0.25,
+        "entry:easy": 0.25,
+        "appeal:action": 0.5,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G253"
     },
     {
       "name": "MUSICUS！",
@@ -9895,8 +13157,65 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G193",
+      "id": "G254",
       "displayName": "音乐us!"
+    },
+    {
+      "name": "あまえんぼ ~性を抑えきれない僕と無償の親子~",
+      "year": 2019,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "dense",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v28205",
+      "bangumi_id": 535208,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "rpg",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:dense": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:rpg": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.25,
+        "pace:slowburn": 0.3,
+        "appeal:literary": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.35,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "appeal:action": 0.4,
+        "playstyle:hybrid": 0.3,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "focus:world": 0.19,
+        "focus:mystery": 0.19,
+        "playstyle:adv": 0.35,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.35,
+        "routes:multi": 0.5
+      },
+      "id": "G255",
+      "displayName": "夏日狂想曲：乡间的难忘回忆"
     },
     {
       "name": "ままごと ～ままとないしょのえっちしましょ～",
@@ -9943,7 +13262,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "entry:easy": 0.25
       },
-      "id": "G194",
+      "id": "G256",
       "displayName": "妈妈游戏"
     },
     {
@@ -9994,7 +13313,8 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "setting:fantasy": 0.35
       },
-      "id": "G195"
+      "id": "G257",
+      "displayName": "吹弹！丰盈！波涛汹涌 超情色APP学院"
     },
     {
       "name": "レイルロアの略奪者",
@@ -10040,7 +13360,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "playstyle:rpg": 0.35
       },
-      "id": "G196"
+      "id": "G258"
     },
     {
       "name": "姊ちゃんのススメ ～お姊ちゃんのイタズラ性生活～ アトリエかぐや BARE＆BUNNY",
@@ -10093,7 +13413,58 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.18,
         "tone:hype": 0.35
       },
-      "id": "G197"
+      "id": "G259"
+    },
+    {
+      "name": "白鹳鸣泣之时",
+      "year": 2019,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "scifi",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v24770",
+      "bangumi_id": 268019,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:scifi": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "appeal:action": 0.5,
+        "focus:mystery": 0.35,
+        "playstyle:rpg": 0.35,
+        "cast:ensemble": 0.4
+      },
+      "id": "G260"
     },
     {
       "name": "金辉恋曲四重奏 -Golden Time-",
@@ -10143,7 +13514,8 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G198"
+      "id": "G261",
+      "displayName": "金輝戀曲四重奏 -Golden Time-"
     },
     {
       "name": "青夏轨迹",
@@ -10188,7 +13560,54 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.25,
         "mood:heavy": 0.25
       },
-      "id": "G199"
+      "id": "G262",
+      "displayName": "青夏軌跡"
+    },
+    {
+      "name": "1room -家出少女-",
+      "year": 2018,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v26837",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "mood:heavy": 0.25,
+        "appeal:action": 0.5,
+        "cast:ensemble": 0.4,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G263"
     },
     {
       "name": "5分钟的邂逅！时间停止与不可避免的命运",
@@ -10235,7 +13654,7 @@ const GAL_PICK_DATA = {
         "setting:scifi": 0.35,
         "focus:world": 0.2
       },
-      "id": "G200"
+      "id": "G264"
     },
     {
       "name": "Love×Holic ～魅惑少女与白液之奏～",
@@ -10294,7 +13713,150 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G201"
+      "id": "G265",
+      "displayName": "Love×Holic ～迷人的少女与白浊的关系～"
+    },
+    {
+      "name": "Momoiro Closet",
+      "year": 2018,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v21458",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "fame:icon": 0.25,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "focus:story": 0.19
+      },
+      "id": "G266"
+    },
+    {
+      "name": "NEKOPARA Extra 小猫之日的约定",
+      "year": 2018,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v22020",
+      "bangumi_id": 255334,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "appeal:moe": 0.2,
+        "mood:heavy": 0.25,
+        "cast:ensemble": 0.4,
+        "playstyle:adv": 0.35
+      },
+      "id": "G267"
+    },
+    {
+      "name": "ひとつ屋根の、ツバサの下で",
+      "year": 2018,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17827",
+      "bangumi_id": 617918,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:drama": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "mood:bittersweet": 0.55,
+        "appeal:nakige": 0.4,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.4,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.25,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:literary": 0.21,
+        "tone:sweet": 0.2,
+        "appeal:moe": 0.4
+      },
+      "id": "G268",
+      "displayName": "同一屋簷下，羽翼下的故事"
     },
     {
       "name": "もっと！孕ませ！炎のおっぱい異世界エロ魔法学園！",
@@ -10341,7 +13903,119 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.45,
         "appeal:literary": 0.19
       },
-      "id": "G202"
+      "id": "G269",
+      "displayName": "吹弹！丰盈！波涛汹涌！异世界魔法学园！"
+    },
+    {
+      "name": "丑小鸭与文字祸",
+      "year": 2018,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v21667",
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.3,
+        "focus:romance": 0.2,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.5,
+        "pace:short": 0.25,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "setting:school": 0.35
+      },
+      "id": "G270"
+    },
+    {
+      "name": "副作用之瞳 Vol.3",
+      "year": 2018,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "scifi",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v22775",
+      "bangumi_id": 228832,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:scifi": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.35,
+        "focus:mystery": 0.55,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "focus:romance": 0.2,
+        "focus:story": 0.35,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19,
+        "appeal:action": 0.5,
+        "tone:sweet": 0.2,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2,
+        "appeal:moe": 0.4
+      },
+      "id": "G271"
     },
     {
       "name": "印刻天际的Parallelogram",
@@ -10388,7 +14062,7 @@ const GAL_PICK_DATA = {
         "tone:sweet": 0.2,
         "appeal:moe": 0.4
       },
-      "id": "G203"
+      "id": "G272"
     },
     {
       "name": "封缄之都古拉塞斯塔",
@@ -10440,7 +14114,52 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G204"
+      "id": "G273"
+    },
+    {
+      "name": "恋爱定位Location Love同居×后辈",
+      "year": 2018,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v23067",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.4,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "playstyle:adv": 0.35,
+        "fame:icon": 0.25,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "focus:story": 0.25
+      },
+      "id": "G274"
     },
     {
       "name": "未来广播与人工鸽",
@@ -10494,7 +14213,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:vn": 0.4
       },
-      "id": "G205"
+      "id": "G275",
+      "displayName": "未來廣播與人工鴿"
     },
     {
       "name": "特里诺兰: Genesis",
@@ -10546,7 +14266,259 @@ const GAL_PICK_DATA = {
         "tone:sweet": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G206"
+      "id": "G276",
+      "displayName": "特里诺兰"
+    },
+    {
+      "name": "獸娘的養成方法",
+      "year": 2018,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v23281",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.4,
+        "pace:breezy": 0.4,
+        "fame:icon": 0.25,
+        "focus:story": 0.25,
+        "playstyle:adv": 0.35
+      },
+      "id": "G277"
+    },
+    {
+      "name": "突然＊恋人 超甜蜜After Story",
+      "year": 2018,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v22594",
+      "bangumi_id": 268553,
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.2,
+        "cast:ensemble": 0.4,
+        "focus:mystery": 0.19
+      },
+      "id": "G278"
+    },
+    {
+      "name": "翼·年代记 Vol.2",
+      "year": 2018,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "scifi",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v22774",
+      "bangumi_id": 434,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:scifi": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.35,
+        "focus:mystery": 0.55,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "focus:romance": 0.2,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19,
+        "appeal:action": 0.5,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2
+      },
+      "id": "G279"
+    },
+    {
+      "name": "致命十二人",
+      "year": 2018,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19843",
+      "bangumi_id": 247868,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "appeal:mystery": 0.5,
+        "focus:mystery": 0.35
+      },
+      "id": "G280"
+    },
+    {
+      "name": "虔诚之花的晚钟",
+      "year": 2018,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v21782",
+      "bangumi_id": 224586,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:mindbend": 0.4,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.4,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "pace:short": 0.25,
+        "playstyle:vn": 0.4,
+        "appeal:horror": 0.62
+      },
+      "id": "G281"
     },
     {
       "name": "ChronoBox",
@@ -10597,10 +14569,62 @@ const GAL_PICK_DATA = {
         "appeal:mystery": 0.25,
         "appeal:comedy": 0.5,
         "tone:hype": 0.35,
+        "appeal:horror": 0.62,
         "appeal:moe": 0.2
       },
-      "id": "G207",
+      "id": "G282",
       "displayName": "时空盲盒"
+    },
+    {
+      "name": "Cinderella Phenomenon",
+      "year": 2017,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19912",
+      "bangumi_id": 212957,
+      "focus": "mystery",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "focus:romance": 0.55,
+        "appeal:moe": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "tone:mindbend": 0.4,
+        "fame:icon": 0.25,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "tone:drama": 0.25,
+        "focus:story": 0.19,
+        "cast:solo": 0.19,
+        "mood:heavy": 0.35
+      },
+      "id": "G283"
     },
     {
       "name": "しごカレ ～エッチな女子大生とドキ×2ラブレッスン!!",
@@ -10657,7 +14681,59 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:sim": 0.5
       },
-      "id": "G208"
+      "id": "G284"
+    },
+    {
+      "name": "ニュートンと林檎の樹",
+      "year": 2017,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "scifi",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v20330",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:scifi": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.35,
+        "focus:mystery": 0.55,
+        "appeal:mystery": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.35,
+        "focus:story": 0.35,
+        "appeal:literary": 0.19,
+        "tone:sweet": 0.25
+      },
+      "id": "G285",
+      "displayName": "牛顿与苹果树"
     },
     {
       "name": "回家之前的棉花糖",
@@ -10708,7 +14784,56 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G209"
+      "id": "G286",
+      "displayName": "回家前都算是棉花糖"
+    },
+    {
+      "name": "大逆转裁判2 成步堂龙之介的觉悟",
+      "year": 2017,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19987",
+      "bangumi_id": 192977,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "focus:story": 0.25,
+        "focus:romance": 0.35,
+        "appeal:literary": 0.19,
+        "playstyle:adv": 0.35
+      },
+      "id": "G287"
     },
     {
       "name": "天结Castle Meister",
@@ -10761,7 +14886,8 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G210"
+      "id": "G288",
+      "displayName": "天结城堡大师"
     },
     {
       "name": "水葬银币的伊斯特里亚",
@@ -10812,9 +14938,10 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.5,
         "pace:short": 0.25,
         "focus:mystery": 0.19,
-        "playstyle:vn": 0.4
+        "playstyle:vn": 0.4,
+        "appeal:horror": 0.62
       },
-      "id": "G211"
+      "id": "G289"
     },
     {
       "name": "神怒之日 ～夜访穿刺公～",
@@ -10860,7 +14987,108 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G212"
+      "id": "G290"
+    },
+    {
+      "name": "神頼みしすぎて俺の未来がヤバい。",
+      "year": 2017,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "heal",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v19769",
+      "focus": "story",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:heal": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.4,
+        "tone:drama": 0.35,
+        "setting:school": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "fame:icon": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.35,
+        "routes:single": 0.3,
+        "tone:hype": 0.25,
+        "appeal:moe": 0.2,
+        "focus:mystery": 0.19,
+        "appeal:comedy": 0.5
+      },
+      "id": "G291",
+      "displayName": "太依赖咒术的我未来堪忧。"
+    },
+    {
+      "name": "美少女万华镜 -罪与罚的少女-",
+      "year": 2017,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v19182",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "pace:short": 0.25,
+        "tone:sweet": 0.25,
+        "playstyle:vn": 0.4
+      },
+      "id": "G292"
     },
     {
       "name": "BALDR HEART",
@@ -10914,7 +15142,419 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G213"
+      "id": "G293"
+    },
+    {
+      "name": "D.S. -Dal Segno-",
+      "year": 2016,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v17742",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "mood:heavy": 0.25,
+        "appeal:nakige": 0.55,
+        "focus:mystery": 0.19
+      },
+      "id": "G294"
+    },
+    {
+      "name": "FLOWERS -Le volume sur automne-",
+      "year": 2016,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v18152",
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "tone:heal": 0.3,
+        "tone:drama": 0.25,
+        "mood:heavy": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "focus:story": 0.5,
+        "setting:school": 0.35
+      },
+      "id": "G295"
+    },
+    {
+      "name": "Fate/新世界",
+      "year": 2016,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19119",
+      "bangumi_id": 173533,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "appeal:action": 0.5,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "focus:story": 0.5,
+        "playstyle:rpg": 0.5
+      },
+      "id": "G296"
+    },
+    {
+      "name": "LAMUNATION!",
+      "year": 2016,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v18344",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.35,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.55,
+        "appeal:moe": 0.18,
+        "focus:mystery": 0.19
+      },
+      "id": "G297"
+    },
+    {
+      "name": "Mystic Messenger 神秘信使",
+      "year": 2016,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17915",
+      "bangumi_id": 198696,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "focus:romance": 0.2,
+        "appeal:literary": 0.19
+      },
+      "id": "G298"
+    },
+    {
+      "name": "Room No.9",
+      "year": 2016,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "dense",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19192",
+      "bangumi_id": 318319,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:dense": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.25,
+        "pace:slowburn": 0.3,
+        "appeal:literary": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.45,
+        "appeal:nakige": 0.18,
+        "tone:sweet": 0.25,
+        "focus:mystery": 0.19,
+        "pace:short": 0.25,
+        "playstyle:vn": 0.4,
+        "appeal:horror": 0.62,
+        "tone:hype": 0.35
+      },
+      "id": "G299"
+    },
+    {
+      "name": "スキとスキとでサンカク恋愛",
+      "year": 2016,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19444",
+      "bangumi_id": 220301,
+      "focus": "romance",
+      "entry": "standard",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:standard": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.4,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.28,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.55,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "appeal:comedy": 0.5,
+        "focus:mystery": 0.19
+      },
+      "id": "G300",
+      "displayName": "青春×好奇相伴的三角恋爱"
+    },
+    {
+      "name": "传颂之物-二人之白皇-",
+      "year": 2016,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "scifi",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18717",
+      "bangumi_id": 157916,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "hybrid",
+      "cast": "ensemble",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:scifi": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.28,
+        "appeal:action": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "tone:literary": 0.35,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "playstyle:adv": 0.35,
+        "playstyle:rpg": 0.5,
+        "appeal:literary": 0.19,
+        "tone:hype": 0.2
+      },
+      "id": "G301"
     },
     {
       "name": "冻京NECRO",
@@ -10969,7 +15609,61 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G214"
+      "id": "G302"
+    },
+    {
+      "name": "哥哥",
+      "year": 2016,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18694",
+      "bangumi_id": 692096,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.4,
+        "mood:heavy": 0.25,
+        "cast:ensemble": 0.4,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "focus:mystery": 0.19
+      },
+      "id": "G303"
     },
     {
       "name": "少女＊领域",
@@ -11022,7 +15716,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:rpg": 0.35
       },
-      "id": "G215"
+      "id": "G304",
+      "displayName": "少女＊領域"
     },
     {
       "name": "戦国†恋姫X ～乙女絢爛☆戦国絵巻～",
@@ -11072,12 +15767,277 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G216"
+      "id": "G305"
     },
     {
-      "name": "猫娘乐园 Vol.2",
+      "name": "旧书店街的桥姬",
       "year": 2016,
-      "rank": 10,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17018",
+      "bangumi_id": 262693,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "focus:romance": 0.35,
+        "appeal:literary": 0.5,
+        "tone:sweet": 0.25
+      },
+      "id": "G306"
+    },
+    {
+      "name": "樱之杜†净梦者2",
+      "year": 2016,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18760",
+      "bangumi_id": 186291,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:mindbend": 0.4,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.5,
+        "tone:sweet": 0.2,
+        "appeal:horror": 0.62,
+        "setting:school": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G307"
+    },
+    {
+      "name": "灰色的旋律",
+      "year": 2016,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19072",
+      "bangumi_id": 169767,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "tone:heal": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "pace:short": 0.3,
+        "appeal:nakige": 0.18,
+        "tone:mindbend": 0.32,
+        "appeal:literary": 0.19,
+        "entry:easy": 0.25,
+        "playstyle:adv": 0.35,
+        "tone:sweet": 0.2,
+        "appeal:action": 0.5,
+        "appeal:horror": 0.62,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.4
+      },
+      "id": "G308"
+    },
+    {
+      "name": "百花百狼～战国忍法帖～",
+      "year": 2016,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "mystery",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17287",
+      "bangumi_id": 144251,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:drama": 1.0,
+        "setting:mystery": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.55,
+        "appeal:nakige": 0.4,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.45,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.25,
+        "tone:mindbend": 0.4,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "focus:romance": 0.35,
+        "routes:single": 0.3,
+        "appeal:literary": 0.21,
+        "tone:sweet": 0.25,
+        "appeal:action": 0.5,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2
+      },
+      "id": "G309"
+    },
+    {
+      "name": "祝姬",
+      "year": 2016,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "literary",
+      "setting": "school",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v17863",
+      "bangumi_id": 137949,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:literary": 1.0,
+        "setting:school": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.4,
+        "tone:mindbend": 0.32,
+        "appeal:literary": 0.55,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:heal": 0.25,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.55,
+        "mood:bittersweet": 0.22,
+        "tone:utsuge": 0.45,
+        "appeal:horror": 0.62
+      },
+      "id": "G310"
+    },
+    {
+      "name": "花开公路：下一站出口",
+      "year": 2016,
+      "rank": 9,
       "source": "getchu-popular",
       "tone": "hype",
       "setting": "daily",
@@ -11085,42 +16045,92 @@ const GAL_PICK_DATA = {
       "era": "modern",
       "fame": "hit",
       "tag_source": "vndb+bangumi",
-      "vndb_id": "v18713",
-      "bangumi_id": 530557,
-      "focus": "romance",
-      "entry": "easy",
-      "mood": "light",
+      "vndb_id": "v18381",
+      "bangumi_id": 482584,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
       "routes": "single",
       "playstyle": "vn",
-      "cast": "harem",
+      "cast": "solo",
       "traits": {
         "tone:hype": 1.0,
         "setting:daily": 1.0,
         "pace:short": 1.0,
         "era:modern": 1.0,
         "fame:hit": 1.0,
-        "focus:romance": 1.0,
-        "entry:easy": 1.0,
-        "mood:light": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
         "routes:single": 1.0,
         "playstyle:vn": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.4,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
         "tone:epic": 0.3,
-        "appeal:comedy": 0.5,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
         "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
         "pace:breezy": 0.4,
-        "cast:solo": 0.35,
-        "fame:icon": 0.25,
-        "tone:heal": 0.3,
-        "routes:multi": 0.35,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
         "appeal:moe": 0.2,
-        "cast:ensemble": 0.4,
+        "mood:heavy": 0.25,
         "playstyle:adv": 0.35
       },
-      "id": "G217"
+      "id": "G311"
+    },
+    {
+      "name": "逆转裁判6",
+      "year": 2016,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18267",
+      "bangumi_id": 145434,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "tone:mindbend": 0.4,
+        "cast:harem": 0.35,
+        "focus:story": 0.5,
+        "tone:heal": 0.3,
+        "tone:drama": 0.25,
+        "mood:heavy": 0.35,
+        "routes:single": 0.4,
+        "playstyle:vn": 0.4
+      },
+      "id": "G312"
     },
     {
       "name": "野良与皇女与流浪猫之心",
@@ -11168,7 +16178,7 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.19,
         "appeal:comedy": 0.5
       },
-      "id": "G218"
+      "id": "G313"
     },
     {
       "name": "银色，遥远",
@@ -11181,6 +16191,7 @@ const GAL_PICK_DATA = {
       "era": "modern",
       "fame": "hit",
       "tag_source": "bangumi",
+      "vndb_id": "v18778",
       "bangumi_id": 7979,
       "focus": "story",
       "entry": "deep",
@@ -11217,7 +16228,58 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "appeal:literary": 0.19
       },
-      "id": "G219"
+      "id": "G314",
+      "displayName": "银色"
+    },
+    {
+      "name": "项圈×恶意",
+      "year": 2016,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18160",
+      "bangumi_id": 144083,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.2,
+        "focus:story": 0.35,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19
+      },
+      "id": "G315"
     },
     {
       "name": "3D定制女仆2",
@@ -11268,7 +16330,57 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.18,
         "tone:hype": 0.35
       },
-      "id": "G220"
+      "id": "G316",
+      "displayName": "3D定製女僕2"
+    },
+    {
+      "name": "FLOWERS -Le volume sur été-",
+      "year": 2015,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v15395",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.25,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "mood:heavy": 0.35,
+        "pace:short": 0.25,
+        "entry:easy": 0.25,
+        "playstyle:vn": 0.4
+      },
+      "id": "G317"
     },
     {
       "name": "PRIMAL×HEARTS2",
@@ -11317,7 +16429,7 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G221",
+      "id": "G318",
       "displayName": "原始之心2"
     },
     {
@@ -11364,30 +16476,77 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "cast:ensemble": 0.4
       },
-      "id": "G222"
+      "id": "G319",
+      "displayName": "与你心相连"
     },
     {
-      "name": "世界终焉的物语 episode.1",
+      "name": "fault - milestone two 上",
       "year": 2015,
-      "rank": 12,
+      "rank": 9,
       "source": "getchu-popular",
-      "tone": "drama",
-      "setting": "daily",
-      "pace": "breezy",
+      "tone": "hype",
+      "setting": "fantasy",
+      "pace": "short",
       "era": "modern",
       "fame": "hit",
       "tag_source": "vndb+bangumi",
-      "vndb_id": "v7184",
-      "bangumi_id": 77121,
+      "vndb_id": "v15252",
+      "bangumi_id": 166034,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.28,
+        "focus:world": 0.45,
+        "appeal:action": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "playstyle:adv": 0.35
+      },
+      "id": "G320"
+    },
+    {
+      "name": "サクラノ詩－櫻の森の上を舞う－",
+      "year": 2015,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v562",
       "focus": "story",
       "entry": "standard",
       "mood": "bittersweet",
       "routes": "multi",
-      "playstyle": "vn",
+      "playstyle": "adv",
       "cast": "solo",
       "traits": {
         "tone:drama": 1.0,
-        "setting:daily": 1.0,
+        "setting:school": 1.0,
         "pace:breezy": 1.0,
         "era:modern": 1.0,
         "fame:hit": 1.0,
@@ -11395,25 +16554,135 @@ const GAL_PICK_DATA = {
         "entry:standard": 1.0,
         "mood:bittersweet": 1.0,
         "routes:multi": 1.0,
-        "playstyle:vn": 1.0,
+        "playstyle:adv": 1.0,
         "cast:solo": 1.0,
         "tone:literary": 0.38,
         "tone:heal": 0.28,
         "appeal:nakige": 0.4,
-        "setting:school": 0.3,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.3,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
-        "playstyle:adv": 0.35,
         "cast:harem": 0.35,
         "routes:single": 0.45,
-        "focus:romance": 0.35,
         "mood:heavy": 0.19,
-        "appeal:literary": 0.21,
-        "tone:sweet": 0.2,
-        "appeal:moe": 0.4
+        "appeal:literary": 0.5,
+        "playstyle:vn": 0.4,
+        "appeal:moe": 0.2
       },
-      "id": "G223"
+      "id": "G321",
+      "displayName": "樱之诗 −于樱之森上飞舞−"
+    },
+    {
+      "name": "ランス03 リーザス陥落",
+      "year": 2015,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "scifi",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v17642",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "hybrid",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:scifi": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:fantasy": 0.35,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:epic": 0.35,
+        "fame:solid": 0.2,
+        "cast:harem": 0.35,
+        "playstyle:adv": 0.35,
+        "playstyle:rpg": 0.55,
+        "routes:single": 0.45,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "appeal:action": 0.5,
+        "pace:short": 0.25,
+        "playstyle:vn": 0.4,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25
+      },
+      "id": "G322",
+      "displayName": "兰斯03 利萨斯陷落"
+    },
+    {
+      "name": "人狼村之谜",
+      "year": 2015,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v21289",
+      "bangumi_id": 215470,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.2,
+        "focus:story": 0.35,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4
+      },
+      "id": "G323"
     },
     {
       "name": "仰望夜空的星辰",
@@ -11465,7 +16734,316 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G224"
+      "id": "G324"
+    },
+    {
+      "name": "传颂之物-虚伪的假面-",
+      "year": 2015,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "fantasy",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7721",
+      "bangumi_id": 32340,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "hybrid",
+      "cast": "ensemble",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.28,
+        "appeal:action": 0.5,
+        "setting:scifi": 0.28,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:literary": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "playstyle:rpg": 0.5,
+        "focus:story": 0.35,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "appeal:literary": 0.19,
+        "tone:hype": 0.2
+      },
+      "id": "G325"
+    },
+    {
+      "name": "副作用之瞳 Vol.1",
+      "year": 2015,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "scifi",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v16802",
+      "bangumi_id": 228105,
+      "cngal_id": 7021,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:scifi": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.35,
+        "focus:mystery": 0.55,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "focus:story": 0.25,
+        "focus:romance": 0.35,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19
+      },
+      "id": "G326"
+    },
+    {
+      "name": "大正×对称爱丽丝 all in one",
+      "year": 2015,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "literary",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v16032",
+      "bangumi_id": 175431,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:literary": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.4,
+        "tone:mindbend": 0.4,
+        "focus:story": 0.45,
+        "appeal:literary": 0.55,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.3,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.55,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.2,
+        "mood:bittersweet": 0.22,
+        "tone:sweet": 0.2,
+        "tone:utsuge": 0.45,
+        "appeal:moe": 0.4
+      },
+      "id": "G327"
+    },
+    {
+      "name": "大逆转裁判 成步堂龙之介的冒险",
+      "year": 2015,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v15125",
+      "bangumi_id": 102690,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.3,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "focus:story": 0.35,
+        "appeal:literary": 0.19,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25
+      },
+      "id": "G328"
+    },
+    {
+      "name": "奴隷との生活 -Teaching Feeling-",
+      "year": 2015,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v18636",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "pace:short": 0.3,
+        "playstyle:vn": 0.35,
+        "routes:multi": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "tone:sweet": 0.25,
+        "tone:hype": 0.35
+      },
+      "id": "G329"
+    },
+    {
+      "name": "月界金融末世錄",
+      "year": 2015,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7184",
+      "bangumi_id": 77121,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:drama": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "appeal:nakige": 0.4,
+        "setting:school": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "focus:romance": 0.35,
+        "mood:heavy": 0.19,
+        "appeal:literary": 0.21,
+        "tone:sweet": 0.2,
+        "appeal:moe": 0.4
+      },
+      "id": "G330"
     },
     {
       "name": "机器人笔记 DaSH",
@@ -11519,51 +17097,158 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.35,
         "setting:school": 0.35
       },
-      "id": "G225"
+      "id": "G331"
     },
     {
-      "name": "甜蜜女友~Second Season~",
+      "name": "海底",
       "year": 2015,
-      "rank": 6,
-      "source": "sedai",
-      "tone": "sweet",
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "literary",
+      "setting": "daily",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v19273",
+      "bangumi_id": 226956,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:literary": 1.0,
+        "setting:daily": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.4,
+        "tone:mindbend": 0.3,
+        "appeal:literary": 0.55,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.25,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:heal": 0.25,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
+        "focus:mystery": 0.35,
+        "appeal:mystery": 0.5,
+        "focus:romance": 0.35,
+        "tone:sweet": 0.25,
+        "appeal:moe": 0.2
+      },
+      "id": "G332"
+    },
+    {
+      "name": "灰色的有闲",
+      "year": 2015,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
       "setting": "school",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v18830",
+      "bangumi_id": 169764,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:school": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "routes:single": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.55,
+        "appeal:moe": 0.4,
+        "mood:heavy": 0.25,
+        "playstyle:adv": 0.35,
+        "focus:mystery": 0.19
+      },
+      "id": "G333"
+    },
+    {
+      "name": "灰色的残光",
+      "year": 2015,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
       "pace": "breezy",
       "era": "modern",
       "fame": "hit",
       "tag_source": "vndb+bangumi",
-      "vndb_id": "v26307",
-      "bangumi_id": 518278,
-      "focus": "romance",
-      "entry": "easy",
-      "mood": "light",
+      "vndb_id": "v18831",
+      "bangumi_id": 169766,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
       "routes": "multi",
       "playstyle": "adv",
       "cast": "harem",
       "traits": {
-        "tone:sweet": 1.0,
-        "setting:school": 1.0,
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
         "pace:breezy": 1.0,
         "era:modern": 1.0,
         "fame:hit": 1.0,
-        "focus:romance": 1.0,
-        "entry:easy": 1.0,
-        "mood:light": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
         "routes:multi": 1.0,
         "playstyle:adv": 1.0,
         "cast:harem": 1.0,
-        "tone:heal": 0.42,
-        "tone:hype": 0.35,
-        "appeal:moe": 0.45,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
-        "cast:solo": 0.35,
-        "fame:icon": 0.25,
-        "focus:story": 0.19
+        "entry:easy": 0.3,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "appeal:moe": 0.4,
+        "mood:heavy": 0.25,
+        "routes:single": 0.4,
+        "playstyle:vn": 0.4
       },
-      "id": "G226"
+      "id": "G334"
     },
     {
       "name": "秋之回忆2",
@@ -11615,10 +17300,10 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.35,
         "focus:mystery": 0.19
       },
-      "id": "G227"
+      "id": "G335"
     },
     {
-      "name": "秋之回忆3",
+      "name": "秋之回忆4 ～从今以后～",
       "year": 2015,
       "rank": 12,
       "source": "getchu-popular",
@@ -11668,7 +17353,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G228"
+      "id": "G336"
     },
     {
       "name": "美少女万华镜 -勿忘草与永远的少女-",
@@ -11716,10 +17401,62 @@ const GAL_PICK_DATA = {
         "tone:literary": 0.3,
         "appeal:literary": 0.5
       },
-      "id": "G229"
+      "id": "G337"
     },
     {
-      "name": "美少女万华镜 -被诅咒的传说少女-",
+      "name": "美少女万华镜 -神明所创造的少女们-",
+      "year": 2015,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "scifi",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v14365",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:scifi": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "mood:heavy": 0.25,
+        "focus:mystery": 0.19
+      },
+      "id": "G338"
+    },
+    {
+      "name": "美少女万华镜 -被诅咒之传说少女-",
       "year": 2015,
       "rank": 9,
       "source": "getchu-popular",
@@ -11764,7 +17501,7 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "mood:heavy": 0.25
       },
-      "id": "G230"
+      "id": "G339"
     },
     {
       "name": "花开Work Spring！",
@@ -11820,7 +17557,64 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G231"
+      "id": "G340",
+      "displayName": "花咲work spring！"
+    },
+    {
+      "name": "黑蝶幻境",
+      "year": 2015,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v15771",
+      "bangumi_id": 113920,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.4,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "mood:bittersweet": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "tone:mindbend": 0.32,
+        "appeal:literary": 0.19,
+        "focus:world": 0.2,
+        "appeal:action": 0.5,
+        "appeal:horror": 0.62,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2,
+        "setting:fantasy": 0.35
+      },
+      "id": "G341"
     },
     {
       "name": "Chaos;Child Love Chu☆Chu!!",
@@ -11870,7 +17664,271 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G232"
+      "id": "G342"
+    },
+    {
+      "name": "Code:Realize ～创世的公主～",
+      "year": 2014,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v14908",
+      "bangumi_id": 107473,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.35,
+        "appeal:action": 0.5,
+        "setting:school": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "setting:fantasy": 0.3,
+        "tone:literary": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "focus:romance": 0.2,
+        "focus:mystery": 0.19,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "appeal:literary": 0.19,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2
+      },
+      "id": "G343"
+    },
+    {
+      "name": "FLOWERS -Le volume sur printemps-",
+      "year": 2014,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v14267",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.28,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.45,
+        "mood:heavy": 0.35,
+        "pace:short": 0.25,
+        "entry:easy": 0.25,
+        "focus:mystery": 0.19,
+        "playstyle:vn": 0.4
+      },
+      "id": "G344"
+    },
+    {
+      "name": "ランスIX－ヘルマン革命－",
+      "year": 2014,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "scifi",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v13802",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "rpg",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:scifi": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:rpg": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:epic": 0.35,
+        "fame:solid": 0.2,
+        "cast:harem": 0.35,
+        "playstyle:adv": 0.35,
+        "appeal:action": 0.5,
+        "playstyle:hybrid": 0.3,
+        "routes:single": 0.45,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "pace:short": 0.25,
+        "playstyle:vn": 0.4,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25
+      },
+      "id": "G345"
+    },
+    {
+      "name": "七色轮回",
+      "year": 2014,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v15473",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.4,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "mood:heavy": 0.25,
+        "focus:mystery": 0.35,
+        "appeal:mystery": 0.5
+      },
+      "id": "G346"
+    },
+    {
+      "name": "偶像魔法少女小满 后篇",
+      "year": 2014,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v14973",
+      "bangumi_id": 124245,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "mood:heavy": 0.25
+      },
+      "id": "G347"
     },
     {
       "name": "天秤之La DEA。战女神MEMORIA",
@@ -11922,61 +17980,61 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G233"
+      "id": "G348",
+      "displayName": "记忆"
     },
     {
-      "name": "幸福噩梦 Fragmentation Dream",
+      "name": "太阳骑士：阿卡迪乌斯的面具",
       "year": 2014,
-      "rank": 10,
-      "source": "sedai",
-      "tone": "mindbend",
-      "setting": "mystery",
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "modern",
       "fame": "hit",
-      "tag_source": "vndb",
-      "vndb_id": "v10957",
-      "focus": "mystery",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v14112",
+      "bangumi_id": 154668,
+      "focus": "world",
       "entry": "deep",
       "mood": "heavy",
-      "routes": "puzzle",
-      "playstyle": "adv",
+      "routes": "multi",
+      "playstyle": "hybrid",
       "cast": "ensemble",
       "traits": {
-        "tone:mindbend": 1.0,
-        "setting:mystery": 1.0,
+        "tone:epic": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:modern": 1.0,
         "fame:hit": 1.0,
-        "focus:mystery": 1.0,
+        "focus:world": 1.0,
         "entry:deep": 1.0,
         "mood:heavy": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:hybrid": 1.0,
         "cast:ensemble": 1.0,
-        "tone:literary": 0.35,
-        "tone:epic": 0.3,
-        "appeal:mystery": 0.5,
-        "setting:scifi": 0.3,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.28,
+        "appeal:action": 0.5,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
-        "routes:multi": 0.5,
+        "playstyle:adv": 0.35,
+        "tone:literary": 0.35,
         "pace:dense": 0.3,
         "fame:solid": 0.2,
         "appeal:utsuge": 0.25,
-        "appeal:meta": 0.25,
-        "focus:romance": 0.2,
+        "cast:harem": 0.35,
+        "playstyle:rpg": 0.55,
         "focus:story": 0.35,
-        "appeal:literary": 0.5,
-        "routes:single": 0.45,
-        "playstyle:vn": 0.4,
-        "setting:school": 0.35,
-        "setting:daily": 0.3,
-        "appeal:moe": 0.2
+        "appeal:literary": 0.19,
+        "tone:hype": 0.2
       },
-      "id": "G234",
-      "displayName": "幸福噩梦"
+      "id": "G349"
     },
     {
       "name": "幸运草的约定",
@@ -12024,7 +18082,57 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G235"
+      "id": "G350",
+      "displayName": "幸運草的約定"
+    },
+    {
+      "name": "恋する夏のラストリゾート",
+      "year": 2014,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v13046",
+      "bangumi_id": 385151,
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.4,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "focus:story": 0.2,
+        "focus:mystery": 0.19
+      },
+      "id": "G351"
     },
     {
       "name": "星辰恋曲的白色永恒",
@@ -12076,7 +18184,58 @@ const GAL_PICK_DATA = {
         "focus:story": 0.5,
         "appeal:nakige": 0.55
       },
-      "id": "G236"
+      "id": "G352"
+    },
+    {
+      "name": "灰色幻影扳机第1卷",
+      "year": 2014,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi+cngal",
+      "vndb_id": "v20194",
+      "bangumi_id": 196258,
+      "cngal_id": 7021,
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.35,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "playstyle:adv": 0.35,
+        "fame:icon": 0.25,
+        "tone:heal": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "appeal:moe": 0.2,
+        "appeal:action": 0.5,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G353"
     },
     {
       "name": "纸上的魔法使",
@@ -12126,7 +18285,265 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "setting:school": 0.35
       },
-      "id": "G237"
+      "id": "G354"
+    },
+    {
+      "name": "輪舞曲Duo -夜明けのフォルテシモ- ぷにゅぷりff",
+      "year": 2014,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v16266",
+      "bangumi_id": 521235,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "mood:bittersweet": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "pace:short": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "playstyle:adv": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G355"
+    },
+    {
+      "name": "钟情一见",
+      "year": 2014,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "heal",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v16717",
+      "bangumi_id": 117495,
+      "focus": "story",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:heal": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.4,
+        "tone:drama": 0.35,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.4,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.3,
+        "playstyle:adv": 0.35,
+        "fame:icon": 0.25,
+        "tone:hype": 0.2,
+        "appeal:moe": 0.2,
+        "mood:bittersweet": 0.19,
+        "tone:epic": 0.25,
+        "appeal:action": 0.5,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G356"
+    },
+    {
+      "name": "黄金矿工",
+      "year": 2014,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v12033",
+      "bangumi_id": 168075,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "hybrid",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "playstyle:rpg": 0.55,
+        "mood:heavy": 0.25,
+        "appeal:action": 0.5,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4
+      },
+      "id": "G357"
+    },
+    {
+      "name": "DRAMAtical Murder re:connect",
+      "year": 2013,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v10895",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "tone:sweet": 0.25,
+        "focus:mystery": 0.19,
+        "tone:hype": 0.35
+      },
+      "id": "G358"
+    },
+    {
+      "name": "Fate/EXTRA CCC",
+      "year": 2013,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v12369",
+      "bangumi_id": 35862,
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "rpg",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:rpg": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:school": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "playstyle:adv": 0.35,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "tone:epic": 0.35,
+        "appeal:action": 0.4,
+        "playstyle:hybrid": 0.3,
+        "tone:literary": 0.3,
+        "focus:mystery": 0.19,
+        "appeal:literary": 0.5,
+        "focus:world": 0.19
+      },
+      "id": "G359"
     },
     {
       "name": "LOVESICK PUPPIES -我们为了恋爱而诞生-",
@@ -12176,7 +18593,106 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G238"
+      "id": "G360"
+    },
+    {
+      "name": "Magical Marriage Lunatics!!",
+      "year": 2013,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v12559",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.35,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "tone:heal": 0.3,
+        "appeal:moe": 0.2
+      },
+      "id": "G361"
+    },
+    {
+      "name": "OZMAFIA!!",
+      "year": 2013,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7833",
+      "bangumi_id": 33016,
+      "focus": "mystery",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "focus:romance": 0.55,
+        "appeal:moe": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "tone:mindbend": 0.4,
+        "fame:icon": 0.25,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "focus:story": 0.2,
+        "cast:solo": 0.19,
+        "setting:fantasy": 0.35,
+        "focus:world": 0.2,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "cast:ensemble": 0.4
+      },
+      "id": "G362"
     },
     {
       "name": "Prism◇Recollection!",
@@ -12228,7 +18744,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G239"
+      "id": "G363"
     },
     {
       "name": "Reminiscence",
@@ -12279,8 +18795,214 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "appeal:literary": 0.21
       },
-      "id": "G240",
+      "id": "G364",
       "displayName": "追忆"
+    },
+    {
+      "name": "fault - milestone one",
+      "year": 2013,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "fantasy",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v12694",
+      "bangumi_id": 121570,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.28,
+        "focus:world": 0.45,
+        "appeal:action": 0.5,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25,
+        "playstyle:adv": 0.35,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G365"
+    },
+    {
+      "name": "もんむす・くえすと!終章 ～負ければ妖女に犯される～",
+      "year": 2013,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "fantasy",
+      "pace": "dense",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v11849",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:dense": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.28,
+        "appeal:action": 0.3,
+        "pace:slowburn": 0.3,
+        "routes:puzzle": 0.35,
+        "appeal:literary": 0.3,
+        "tone:epic": 0.35,
+        "fame:solid": 0.2,
+        "pace:breezy": 0.25,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.25,
+        "appeal:nakige": 0.18,
+        "pace:short": 0.25,
+        "playstyle:vn": 0.4,
+        "tone:hype": 0.35
+      },
+      "id": "G366",
+      "displayName": "勇者大战魔物娘 终章"
+    },
+    {
+      "name": "兰斯01 - 寻找小光",
+      "year": 2013,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v14022",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "hybrid",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "playstyle:adv": 0.35,
+        "playstyle:rpg": 0.55,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "appeal:action": 0.5,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.35
+      },
+      "id": "G367"
+    },
+    {
+      "name": "命运石之门 线形拘束的树状图",
+      "year": 2013,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "scifi",
+      "pace": "short",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v11660",
+      "bangumi_id": 63973,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:scifi": 1.0,
+        "pace:short": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "routes:single": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "mood:heavy": 0.35,
+        "focus:mystery": 0.19,
+        "playstyle:adv": 0.35
+      },
+      "id": "G368"
     },
     {
       "name": "天色幻想岛",
@@ -12328,7 +19050,165 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G241"
+      "id": "G369"
+    },
+    {
+      "name": "妹ぱらだいす！２～お兄ちゃんと5人の妹のも～っと！エッチしまくりな毎日～",
+      "year": 2013,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v11920",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.45,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.25,
+        "appeal:action": 0.5,
+        "cast:ensemble": 0.4,
+        "appeal:literary": 0.19,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G370",
+      "displayName": "极乐妹土！2"
+    },
+    {
+      "name": "我成为天使的理由",
+      "year": 2013,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v10804",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:heal": 0.25,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:single": 0.45,
+        "mood:bittersweet": 0.25,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.5,
+        "tone:sweet": 0.25,
+        "playstyle:vn": 0.4,
+        "focus:mystery": 0.19
+      },
+      "id": "G371"
+    },
+    {
+      "name": "逆转裁判5",
+      "year": 2013,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "modern",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v9889",
+      "bangumi_id": 51602,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:modern": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:mindbend": 0.4,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "focus:story": 0.5,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25
+      },
+      "id": "G372"
     },
     {
       "name": "魔导巧壳 ～暗之月女神在魔导帝国咏唱～",
@@ -12336,7 +19216,7 @@ const GAL_PICK_DATA = {
       "rank": 8,
       "source": "sedai",
       "tone": "epic",
-      "setting": "fantasy",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "modern",
       "fame": "hit",
@@ -12350,7 +19230,7 @@ const GAL_PICK_DATA = {
       "cast": "ensemble",
       "traits": {
         "tone:epic": 1.0,
-        "setting:fantasy": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:modern": 1.0,
         "fame:hit": 1.0,
@@ -12363,7 +19243,9 @@ const GAL_PICK_DATA = {
         "tone:drama": 0.32,
         "tone:mindbend": 0.35,
         "appeal:action": 0.5,
-        "setting:scifi": 0.28,
+        "setting:fantasy": 0.35,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
@@ -12381,7 +19263,212 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "playstyle:rpg": 0.55
       },
-      "id": "G242"
+      "id": "G373"
+    },
+    {
+      "name": "BUNNYBLACK2",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "fantasy",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v8192",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "harem",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:harem": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.28,
+        "appeal:action": 0.5,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:epic": 0.35,
+        "fame:solid": 0.2,
+        "playstyle:adv": 0.35,
+        "routes:single": 0.45,
+        "pace:short": 0.25,
+        "tone:sweet": 0.25,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "tone:hype": 0.2,
+        "playstyle:rpg": 0.55
+      },
+      "id": "G374"
+    },
+    {
+      "name": "Princess Evangile W Happiness",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v8900",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:drama": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "appeal:nakige": 0.4,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "routes:single": 0.3,
+        "mood:heavy": 0.19,
+        "appeal:literary": 0.21,
+        "focus:mystery": 0.19,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25,
+        "appeal:moe": 0.2
+      },
+      "id": "G375"
+    },
+    {
+      "name": "Shiny Days",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v7751",
+      "focus": "romance",
+      "entry": "standard",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:standard": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:school": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.28,
+        "cast:solo": 0.35,
+        "tone:mindbend": 0.35,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "tone:epic": 0.2,
+        "focus:mystery": 0.19
+      },
+      "id": "G376"
+    },
+    {
+      "name": "ぜったい最胸☆おっぱい戦争!! ～巨乳王国vs貧乳王国～",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "fantasy",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v10619",
+      "focus": "world",
+      "entry": "standard",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:standard": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.35,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:scifi": 0.28,
+        "appeal:action": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "tone:drama": 0.25,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.45,
+        "appeal:literary": 0.19,
+        "focus:mystery": 0.19
+      },
+      "id": "G377"
     },
     {
       "name": "ガンナイトガール",
@@ -12433,7 +19520,113 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "appeal:literary": 0.5
       },
-      "id": "G243"
+      "id": "G378",
+      "displayName": "荒野枪神"
+    },
+    {
+      "name": "フェノメノ 美鶴木夜石は怖がらない",
+      "year": 2012,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "mindbend",
+      "setting": "mystery",
+      "pace": "short",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v10526",
+      "bangumi_id": 103077,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:mindbend": 1.0,
+        "setting:mystery": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:literary": 0.35,
+        "tone:epic": 0.28,
+        "routes:puzzle": 0.5,
+        "appeal:mystery": 0.5,
+        "setting:scifi": 0.3,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "focus:story": 0.5,
+        "mood:heavy": 0.4,
+        "appeal:literary": 0.5,
+        "tone:sweet": 0.25,
+        "tone:heal": 0.3,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G379"
+    },
+    {
+      "name": "东京巴别塔",
+      "year": 2012,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v9205",
+      "bangumi_id": 37556,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.35,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "tone:heal": 0.3,
+        "focus:world": 0.2,
+        "mood:heavy": 0.25,
+        "appeal:action": 0.5,
+        "setting:fantasy": 0.35,
+        "focus:story": 0.5,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G380"
     },
     {
       "name": "五彩斑斓的曙光",
@@ -12488,7 +19681,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "cast:ensemble": 0.4
       },
-      "id": "G244"
+      "id": "G381"
     },
     {
       "name": "夏空的英仙座",
@@ -12532,7 +19725,166 @@ const GAL_PICK_DATA = {
         "fame:icon": 0.25,
         "focus:story": 0.19
       },
-      "id": "G245"
+      "id": "G382"
+    },
+    {
+      "name": "屋上の百合霊さん",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v8508",
+      "bangumi_id": 672600,
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "playstyle:adv": 0.35,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "routes:single": 0.45,
+        "focus:story": 0.25
+      },
+      "id": "G383"
+    },
+    {
+      "name": "恋剣乙女",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "school",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v10608",
+      "bangumi_id": 91039,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "ensemble",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:school": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.35,
+        "appeal:action": 0.5,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "setting:fantasy": 0.35,
+        "tone:literary": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "appeal:meta": 0.25,
+        "focus:story": 0.35,
+        "focus:mystery": 0.19,
+        "tone:sweet": 0.25,
+        "appeal:literary": 0.19,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2
+      },
+      "id": "G384"
+    },
+    {
+      "name": "戏剧性谋杀",
+      "year": 2012,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "scifi",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v5916",
+      "bangumi_id": 111548,
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:scifi": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.4,
+        "tone:epic": 0.3,
+        "appeal:comedy": 0.45,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.18,
+        "tone:drama": 0.25,
+        "mood:heavy": 0.35,
+        "appeal:action": 0.5,
+        "focus:mystery": 0.19,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "playstyle:rpg": 0.35
+      },
+      "id": "G385"
     },
     {
       "name": "灰色的迷宫",
@@ -12587,7 +19939,161 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "tone:hype": 0.25
       },
-      "id": "G246"
+      "id": "G386"
+    },
+    {
+      "name": "玫瑰与枪的日子 Season3",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v9678",
+      "bangumi_id": 589321,
+      "focus": "mystery",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.4,
+        "focus:world": 0.55,
+        "appeal:action": 0.5,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.45,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:literary": 0.35,
+        "pace:dense": 0.3,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "focus:story": 0.35,
+        "appeal:literary": 0.19,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.2
+      },
+      "id": "G387"
+    },
+    {
+      "name": "白色相簿2 mini After Story",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v16493",
+      "bangumi_id": 122158,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.35,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "mood:heavy": 0.25
+      },
+      "id": "G388"
+    },
+    {
+      "name": "类似：仇恨故事",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "scifi",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v9680",
+      "bangumi_id": 39243,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:scifi": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "mood:heavy": 0.25,
+        "focus:mystery": 0.35,
+        "playstyle:sim": 0.5
+      },
+      "id": "G389"
     },
     {
       "name": "英雄战姬",
@@ -12595,7 +20101,7 @@ const GAL_PICK_DATA = {
       "rank": 7,
       "source": "getchu-popular",
       "tone": "epic",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "classic",
       "fame": "hit",
@@ -12609,7 +20115,7 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:epic": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:hit": 1.0,
@@ -12622,14 +20128,13 @@ const GAL_PICK_DATA = {
         "tone:drama": 0.32,
         "tone:mindbend": 0.28,
         "appeal:action": 0.5,
-        "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
         "playstyle:adv": 0.35,
-        "setting:fantasy": 0.3,
         "tone:literary": 0.35,
         "pace:dense": 0.3,
         "fame:solid": 0.2,
@@ -12639,7 +20144,60 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G247"
+      "id": "G390"
+    },
+    {
+      "name": "茱尼帕之结",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "fantasy",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v9986",
+      "bangumi_id": 93483,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.28,
+        "appeal:action": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:epic": 0.35,
+        "fame:solid": 0.2,
+        "pace:short": 0.3,
+        "tone:heal": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "entry:easy": 0.25,
+        "playstyle:adv": 0.35,
+        "tone:sweet": 0.25,
+        "tone:hype": 0.35
+      },
+      "id": "G391"
     },
     {
       "name": "辻堂さんの純愛ロード",
@@ -12691,7 +20249,62 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G248"
+      "id": "G392"
+    },
+    {
+      "name": "雷顿教授VS逆转裁判",
+      "year": 2012,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v15119",
+      "bangumi_id": 18438,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:mindbend": 0.4,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "focus:story": 0.5,
+        "tone:heal": 0.3,
+        "focus:world": 0.2,
+        "mood:heavy": 0.25,
+        "appeal:action": 0.3,
+        "setting:fantasy": 0.35,
+        "playstyle:rpg": 0.55
+      },
+      "id": "G393"
     },
     {
       "name": "魔女的花园",
@@ -12748,7 +20361,8 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G249"
+      "id": "G394",
+      "displayName": "魔女的花園"
     },
     {
       "name": "魔法使之夜",
@@ -12796,7 +20410,57 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "setting:fantasy": 0.35
       },
-      "id": "G250"
+      "id": "G395"
+    },
+    {
+      "name": "黄雷のガクトゥーン～What a shining braves～",
+      "year": 2012,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v11033",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "mood:bittersweet": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "playstyle:adv": 0.35,
+        "routes:single": 0.45,
+        "pace:short": 0.25,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "tone:hype": 0.35
+      },
+      "id": "G396"
     },
     {
       "name": "LOVELY×CATION",
@@ -12852,7 +20516,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:sim": 0.5
       },
-      "id": "G251",
+      "id": "G397",
       "displayName": "恋爱少女人格重叠"
     },
     {
@@ -12911,7 +20575,8 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G252"
+      "id": "G398",
+      "displayName": "福音天使"
     },
     {
       "name": "Rewrite",
@@ -12965,8 +20630,53 @@ const GAL_PICK_DATA = {
         "focus:story": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G253",
+      "id": "G399",
       "displayName": "Rewrite 罚抄"
+    },
+    {
+      "name": "SISTERS ～夏の最後の日～",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "short",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v3896",
+      "bangumi_id": 686095,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:school": 0.35,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "appeal:moe": 0.2,
+        "mood:heavy": 0.25
+      },
+      "id": "G400"
     },
     {
       "name": "Strawberry Nauts",
@@ -13010,8 +20720,61 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "appeal:comedy": 0.5
       },
-      "id": "G254",
+      "id": "G401",
       "displayName": "Strawberry Nauts 草莓海员"
+    },
+    {
+      "name": "もんむす・くえすと!中章 ～負ければ妖女に犯される～",
+      "year": 2011,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v7853",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.45,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "pace:short": 0.25,
+        "appeal:action": 0.5,
+        "playstyle:vn": 0.4,
+        "playstyle:rpg": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G402",
+      "displayName": "勇者大战魔物娘 中章"
     },
     {
       "name": "五彩斑斓的世界",
@@ -13063,7 +20826,508 @@ const GAL_PICK_DATA = {
         "focus:story": 0.5,
         "cast:ensemble": 0.4
       },
-      "id": "G255"
+      "id": "G403"
+    },
+    {
+      "name": "兰斯6后日谈",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "fantasy",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v6985",
+      "bangumi_id": 617198,
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "hybrid",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:hybrid": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:scifi": 0.28,
+        "appeal:action": 0.45,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:epic": 0.35,
+        "fame:solid": 0.2,
+        "cast:harem": 0.35,
+        "playstyle:adv": 0.35,
+        "playstyle:rpg": 0.55,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.35
+      },
+      "id": "G404"
+    },
+    {
+      "name": "命运石之门 比翼恋理的爱人",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v6618",
+      "bangumi_id": 19060,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.5,
+        "setting:school": 0.3,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "routes:multi": 0.5,
+        "tone:drama": 0.35,
+        "tone:heal": 0.3,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "appeal:moe": 0.4,
+        "mood:heavy": 0.25,
+        "focus:mystery": 0.19
+      },
+      "id": "G405"
+    },
+    {
+      "name": "堕ちる人妻",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v8606",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "mood:bittersweet": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "tone:hype": 0.35
+      },
+      "id": "G406"
+    },
+    {
+      "name": "失忆症",
+      "year": 2011,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "mystery",
+      "pace": "short",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7803",
+      "bangumi_id": 21015,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:mystery": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:scifi": 0.3,
+        "appeal:mystery": 0.5,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "routes:single": 0.4,
+        "playstyle:vn": 0.4,
+        "tone:mindbend": 0.4,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "routes:multi": 0.5,
+        "tone:heal": 0.3,
+        "tone:drama": 0.25,
+        "mood:heavy": 0.35,
+        "focus:story": 0.5
+      },
+      "id": "G407"
+    },
+    {
+      "name": "妹ぱらだいす！～お兄ちゃんと5人の妹のエッチしまくりな毎日～",
+      "year": 2011,
+      "rank": 6,
+      "source": "getchu-popular",
+      "tone": "hype",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v5295",
+      "focus": "story",
+      "entry": "standard",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:hype": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:sweet": 0.22,
+        "tone:epic": 0.3,
+        "mood:light": 0.22,
+        "appeal:comedy": 0.45,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.4,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.25,
+        "mood:bittersweet": 0.45,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.25,
+        "appeal:literary": 0.19
+      },
+      "id": "G408"
+    },
+    {
+      "name": "対魔忍ユキカゼ",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "daily",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v7747",
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "solo",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:daily": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:solo": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:school": 0.3,
+        "mood:bittersweet": 0.3,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "tone:heal": 0.25,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "cast:harem": 0.35,
+        "routes:single": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "tone:hype": 0.35
+      },
+      "id": "G409"
+    },
+    {
+      "name": "尸体派对 影之书",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "mystery",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7849",
+      "bangumi_id": 19388,
+      "focus": "mystery",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "multi",
+      "playstyle": "rpg",
+      "cast": "ensemble",
+      "traits": {
+        "tone:drama": 1.0,
+        "setting:mystery": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:mystery": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:rpg": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "focus:story": 0.5,
+        "appeal:nakige": 0.4,
+        "setting:scifi": 0.3,
+        "routes:puzzle": 0.4,
+        "appeal:mystery": 0.5,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "entry:easy": 0.3,
+        "playstyle:adv": 0.35,
+        "tone:mindbend": 0.4,
+        "cast:harem": 0.35,
+        "tone:epic": 0.35,
+        "appeal:action": 0.4,
+        "playstyle:hybrid": 0.3,
+        "mood:heavy": 0.4,
+        "appeal:literary": 0.21,
+        "focus:world": 0.19,
+        "routes:single": 0.45,
+        "playstyle:vn": 0.4,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35
+      },
+      "id": "G410"
+    },
+    {
+      "name": "巨乳幻想外传",
+      "year": 2011,
+      "rank": 12,
+      "source": "getchu-popular",
+      "tone": "epic",
+      "setting": "fantasy",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v6355",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "multi",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:epic": 1.0,
+        "setting:fantasy": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:multi": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.28,
+        "appeal:action": 0.4,
+        "setting:scifi": 0.28,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
+        "tone:literary": 0.35,
+        "fame:solid": 0.2,
+        "appeal:utsuge": 0.25,
+        "focus:romance": 0.2,
+        "tone:sweet": 0.25,
+        "appeal:literary": 0.19
+      },
+      "id": "G411"
+    },
+    {
+      "name": "彼岸花盛开之夜 第一夜",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "drama",
+      "setting": "school",
+      "pace": "short",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v7576",
+      "bangumi_id": 22051,
+      "focus": "story",
+      "entry": "standard",
+      "mood": "bittersweet",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:drama": 1.0,
+        "setting:school": 1.0,
+        "pace:short": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:standard": 1.0,
+        "mood:bittersweet": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "appeal:nakige": 0.4,
+        "setting:daily": 0.35,
+        "focus:romance": 0.4,
+        "pace:breezy": 0.4,
+        "entry:easy": 0.45,
+        "tone:epic": 0.2,
+        "mood:heavy": 0.19,
+        "appeal:literary": 0.21,
+        "focus:world": 0.2,
+        "setting:fantasy": 0.35
+      },
+      "id": "G412"
+    },
+    {
+      "name": "彼岸花盛开之夜 第二夜",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "utsuge",
+      "setting": "school",
+      "pace": "slowburn",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v8832",
+      "bangumi_id": 125921,
+      "focus": "story",
+      "entry": "deep",
+      "mood": "heavy",
+      "routes": "single",
+      "playstyle": "vn",
+      "cast": "ensemble",
+      "traits": {
+        "tone:utsuge": 1.0,
+        "setting:school": 1.0,
+        "pace:slowburn": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:story": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
+        "routes:single": 1.0,
+        "playstyle:vn": 1.0,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.45,
+        "tone:literary": 0.35,
+        "appeal:utsuge": 0.6,
+        "setting:daily": 0.35,
+        "pace:breezy": 0.28,
+        "pace:dense": 0.3,
+        "mood:bittersweet": 0.3,
+        "tone:heal": 0.3,
+        "fame:solid": 0.2,
+        "tone:epic": 0.3,
+        "pace:short": 0.3,
+        "appeal:nakige": 0.18,
+        "appeal:literary": 0.19,
+        "entry:easy": 0.25,
+        "focus:world": 0.2,
+        "setting:fantasy": 0.35,
+        "tone:hype": 0.35
+      },
+      "id": "G413"
     },
     {
       "name": "恋爱0公里",
@@ -13114,7 +21378,8 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "focus:mystery": 0.19
       },
-      "id": "G256"
+      "id": "G414",
+      "displayName": "戀愛0公里"
     },
     {
       "name": "神咒神威神乐",
@@ -13122,14 +21387,14 @@ const GAL_PICK_DATA = {
       "rank": 11,
       "source": "sedai",
       "tone": "hype",
-      "setting": "mystery",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "classic",
       "fame": "hit",
       "tag_source": "vndb+bangumi",
       "vndb_id": "v5844",
       "bangumi_id": 14895,
-      "focus": "mystery",
+      "focus": "story",
       "entry": "standard",
       "mood": "bittersweet",
       "routes": "puzzle",
@@ -13137,11 +21402,11 @@ const GAL_PICK_DATA = {
       "cast": "ensemble",
       "traits": {
         "tone:hype": 1.0,
-        "setting:mystery": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:hit": 1.0,
-        "focus:mystery": 1.0,
+        "focus:story": 1.0,
         "entry:standard": 1.0,
         "mood:bittersweet": 1.0,
         "routes:puzzle": 1.0,
@@ -13151,23 +21416,78 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:scifi": 0.3,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
         "appeal:mystery": 0.5,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
         "routes:multi": 0.3,
-        "tone:mindbend": 0.4,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
         "pace:dense": 0.28,
         "appeal:meta": 0.25,
-        "focus:story": 0.5,
         "mood:heavy": 0.25,
         "appeal:action": 0.5,
+        "focus:mystery": 0.35,
         "routes:single": 0.45,
         "playstyle:vn": 0.4,
         "playstyle:rpg": 0.35
       },
-      "id": "G257"
+      "id": "G415"
+    },
+    {
+      "name": "突然之间发现我已恋上你",
+      "year": 2011,
+      "rank": 9,
+      "source": "getchu-popular",
+      "tone": "sweet",
+      "setting": "daily",
+      "pace": "breezy",
+      "era": "classic",
+      "fame": "hit",
+      "tag_source": "vndb",
+      "vndb_id": "v5240",
+      "focus": "romance",
+      "entry": "easy",
+      "mood": "light",
+      "routes": "puzzle",
+      "playstyle": "adv",
+      "cast": "harem",
+      "traits": {
+        "tone:sweet": 1.0,
+        "setting:daily": 1.0,
+        "pace:breezy": 1.0,
+        "era:classic": 1.0,
+        "fame:hit": 1.0,
+        "focus:romance": 1.0,
+        "entry:easy": 1.0,
+        "mood:light": 1.0,
+        "routes:puzzle": 1.0,
+        "playstyle:adv": 1.0,
+        "cast:harem": 1.0,
+        "tone:heal": 0.42,
+        "tone:hype": 0.35,
+        "appeal:moe": 0.45,
+        "setting:school": 0.35,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.25,
+        "pace:short": 0.35,
+        "pace:slowburn": 0.25,
+        "routes:multi": 0.5,
+        "cast:solo": 0.35,
+        "fame:icon": 0.25,
+        "tone:mindbend": 0.35,
+        "pace:dense": 0.28,
+        "appeal:meta": 0.25,
+        "tone:drama": 0.25,
+        "cast:ensemble": 0.4,
+        "focus:mystery": 0.19,
+        "mood:heavy": 0.35
+      },
+      "id": "G416"
     },
     {
       "name": "Hello,good-bye",
@@ -13216,7 +21536,7 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.45,
         "tone:hype": 0.2
       },
-      "id": "G258"
+      "id": "G417"
     },
     {
       "name": "Noble☆Works",
@@ -13260,59 +21580,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "appeal:comedy": 0.5
       },
-      "id": "G259"
-    },
-    {
-      "name": "Root Double -Before Crime * After Days-",
-      "year": 2010,
-      "rank": 6,
-      "source": "getchu-popular",
-      "tone": "drama",
-      "setting": "daily",
-      "pace": "breezy",
-      "era": "classic",
-      "fame": "hit",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v5000",
-      "bangumi_id": 27914,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "ensemble",
-      "traits": {
-        "tone:drama": 1.0,
-        "setting:daily": 1.0,
-        "pace:breezy": 1.0,
-        "era:classic": 1.0,
-        "fame:hit": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:ensemble": 1.0,
-        "tone:literary": 0.38,
-        "tone:heal": 0.28,
-        "appeal:nakige": 0.4,
-        "setting:school": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "routes:multi": 0.5,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "focus:romance": 0.2,
-        "tone:epic": 0.2,
-        "mood:heavy": 0.19,
-        "appeal:literary": 0.21,
-        "routes:single": 0.45,
-        "playstyle:vn": 0.4,
-        "focus:mystery": 0.19
-      },
-      "id": "G260"
+      "id": "G418"
     },
     {
       "name": "恋爱与选举与巧克力",
@@ -13368,7 +21636,8 @@ const GAL_PICK_DATA = {
         "tone:sweet": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G261"
+      "id": "G419",
+      "displayName": "戀愛與選舉與巧克力"
     },
     {
       "name": "星空的记忆 永恒之心",
@@ -13419,7 +21688,7 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G262"
+      "id": "G420"
     },
     {
       "name": "晓之护卫～重罪末世论～",
@@ -13474,7 +21743,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G263"
+      "id": "G421"
     },
     {
       "name": "77～双星再会之时～",
@@ -13525,7 +21794,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G264"
+      "id": "G422"
     },
     {
       "name": "BALDR SKY Dive1“LostMemory”",
@@ -13584,7 +21853,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G265"
+      "id": "G423"
     },
     {
       "name": "Eden*",
@@ -13592,7 +21861,7 @@ const GAL_PICK_DATA = {
       "rank": 9,
       "source": "sedai",
       "tone": "hype",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "short",
       "era": "classic",
       "fame": "hit",
@@ -13607,7 +21876,7 @@ const GAL_PICK_DATA = {
       "cast": "solo",
       "traits": {
         "tone:hype": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:short": 1.0,
         "era:classic": 1.0,
         "fame:hit": 1.0,
@@ -13621,16 +21890,19 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:school": 0.3,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:breezy": 0.4,
         "entry:easy": 0.45,
         "tone:drama": 0.35,
         "tone:heal": 0.25,
         "mood:heavy": 0.35,
-        "cast:ensemble": 0.4,
-        "playstyle:adv": 0.35
+        "playstyle:adv": 0.35,
+        "cast:ensemble": 0.4
       },
-      "id": "G266"
+      "id": "G424"
     },
     {
       "name": "夏梦渚",
@@ -13683,7 +21955,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.35,
         "appeal:mystery": 0.5
       },
-      "id": "G267"
+      "id": "G425"
     },
     {
       "name": "天神乱漫",
@@ -13735,8 +22007,8 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.55,
         "appeal:action": 0.3
       },
-      "id": "G268",
-      "displayName": "天神乱漫LUCKY or UNLUCKY!?"
+      "id": "G426",
+      "displayName": "天神乱漫 Happy Go Lucky!!"
     },
     {
       "name": "神怒之日 ～Acta est Fabula～",
@@ -13791,21 +22063,22 @@ const GAL_PICK_DATA = {
         "appeal:mystery": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G269",
-      "displayName": "神怒之日"
+      "id": "G427",
+      "displayName": "霹靂嬌娃"
     },
     {
-      "name": "11eyes -Resona Forma-",
+      "name": "11eyes-罪与罚与救赎之少女-",
       "year": 2008,
-      "rank": 6,
-      "source": "getchu-popular",
-      "tone": "epic",
-      "setting": "fantasy",
-      "pace": "breezy",
+      "rank": 12,
+      "source": "sedai",
+      "tone": "mindbend",
+      "setting": "scifi",
+      "pace": "slowburn",
       "era": "classic",
       "fame": "hit",
-      "tag_source": "vndb",
-      "vndb_id": "v4429",
+      "tag_source": "vndb+bangumi",
+      "vndb_id": "v729",
+      "bangumi_id": 82128,
       "focus": "world",
       "entry": "deep",
       "mood": "heavy",
@@ -13813,9 +22086,9 @@ const GAL_PICK_DATA = {
       "playstyle": "adv",
       "cast": "ensemble",
       "traits": {
-        "tone:epic": 1.0,
-        "setting:fantasy": 1.0,
-        "pace:breezy": 1.0,
+        "tone:mindbend": 1.0,
+        "setting:scifi": 1.0,
+        "pace:slowburn": 1.0,
         "era:classic": 1.0,
         "fame:hit": 1.0,
         "focus:world": 1.0,
@@ -13824,85 +22097,30 @@ const GAL_PICK_DATA = {
         "routes:puzzle": 1.0,
         "playstyle:adv": 1.0,
         "cast:ensemble": 1.0,
-        "tone:drama": 0.32,
-        "tone:mindbend": 0.35,
-        "appeal:action": 0.5,
-        "setting:scifi": 0.28,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "routes:multi": 0.3,
         "tone:literary": 0.35,
+        "tone:epic": 0.35,
+        "focus:mystery": 0.55,
+        "appeal:mystery": 0.5,
+        "setting:fantasy": 0.35,
+        "setting:mystery": 0.32,
+        "pace:breezy": 0.28,
         "pace:dense": 0.3,
+        "focus:story": 0.35,
+        "mood:bittersweet": 0.3,
         "fame:solid": 0.2,
         "appeal:utsuge": 0.25,
         "appeal:meta": 0.25,
-        "focus:romance": 0.35,
-        "focus:story": 0.35,
-        "focus:mystery": 0.19,
-        "appeal:mystery": 0.25,
-        "tone:sweet": 0.25,
-        "appeal:literary": 0.19,
-        "playstyle:rpg": 0.35,
-        "tone:hype": 0.2
-      },
-      "id": "G270"
-    },
-    {
-      "name": "11eyes-罪与罚与救赎之少女-",
-      "year": 2008,
-      "rank": 12,
-      "source": "sedai",
-      "tone": "drama",
-      "setting": "fantasy",
-      "pace": "slowburn",
-      "era": "classic",
-      "fame": "hit",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v729",
-      "bangumi_id": 82128,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "heavy",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "solo",
-      "traits": {
-        "tone:drama": 1.0,
-        "setting:fantasy": 1.0,
-        "pace:slowburn": 1.0,
-        "era:classic": 1.0,
-        "fame:hit": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:heavy": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:literary": 0.38,
-        "tone:heal": 0.28,
-        "mood:bittersweet": 0.55,
-        "appeal:nakige": 0.4,
-        "setting:scifi": 0.28,
-        "focus:world": 0.45,
-        "appeal:action": 0.5,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.28,
-        "tone:epic": 0.3,
-        "appeal:utsuge": 0.25,
-        "tone:mindbend": 0.35,
-        "appeal:meta": 0.25,
         "routes:multi": 0.5,
-        "focus:romance": 0.35,
-        "routes:single": 0.3,
-        "appeal:literary": 0.21,
-        "focus:mystery": 0.19,
+        "focus:romance": 0.2,
+        "tone:drama": 0.25,
+        "appeal:literary": 0.19,
+        "appeal:action": 0.5,
         "playstyle:rpg": 0.35,
-        "cast:ensemble": 0.4,
         "setting:school": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G271"
+      "id": "G428",
+      "displayName": "11eyes -罪與罰與贖的少女-"
     },
     {
       "name": "スマガ -STAR MINE GIRL-",
@@ -13961,7 +22179,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "setting:school": 0.35
       },
-      "id": "G272"
+      "id": "G429"
     },
     {
       "name": "壳之少女",
@@ -14008,10 +22226,12 @@ const GAL_PICK_DATA = {
         "focus:romance": 0.2,
         "tone:drama": 0.25,
         "appeal:literary": 0.19,
-        "appeal:horror": 0.55,
+        "appeal:horror": 0.62,
+        "tone:utsuge": 0.35,
         "setting:school": 0.35
       },
-      "id": "G273"
+      "id": "G430",
+      "displayName": "殼之少女"
     },
     {
       "name": "戦乙女ヴァルキリー2",
@@ -14064,7 +22284,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "tone:hype": 0.35
       },
-      "id": "G274"
+      "id": "G431"
     },
     {
       "name": "智以类聚",
@@ -14116,7 +22336,8 @@ const GAL_PICK_DATA = {
         "setting:fantasy": 0.35,
         "setting:school": 0.35
       },
-      "id": "G275"
+      "id": "G432",
+      "displayName": "智以泪聚"
     },
     {
       "name": "D.C.II Spring Celebration",
@@ -14164,7 +22385,8 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "mood:heavy": 0.25
       },
-      "id": "G276"
+      "id": "G433",
+      "displayName": "初音岛3"
     },
     {
       "name": "HoneyComing-ハニーカミング-",
@@ -14220,7 +22442,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.35,
         "appeal:moe": 0.4
       },
-      "id": "G277"
+      "id": "G434"
     },
     {
       "name": "你是主人我是仆",
@@ -14233,6 +22455,7 @@ const GAL_PICK_DATA = {
       "era": "classic",
       "fame": "hit",
       "tag_source": "bangumi",
+      "vndb_id": "v581",
       "bangumi_id": 40405,
       "focus": "story",
       "entry": "standard",
@@ -14265,7 +22488,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "mood:heavy": 0.25
       },
-      "id": "G278"
+      "id": "G435"
     },
     {
       "name": "恋姬无双～心动★全是少女的三国志演义～",
@@ -14273,7 +22496,7 @@ const GAL_PICK_DATA = {
       "rank": 11,
       "source": "sedai",
       "tone": "hype",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "classic",
       "fame": "hit",
@@ -14288,7 +22511,7 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:hype": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:hit": 1.0,
@@ -14302,7 +22525,10 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:school": 0.3,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
@@ -14312,7 +22538,7 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G279"
+      "id": "G436"
     },
     {
       "name": "恋爱少女与守护之盾 The Code Name is \"SHIELD 9\"",
@@ -14369,7 +22595,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "appeal:moe": 0.2
       },
-      "id": "G280"
+      "id": "G437"
     },
     {
       "name": "染红的街道",
@@ -14382,6 +22608,7 @@ const GAL_PICK_DATA = {
       "era": "classic",
       "fame": "hit",
       "tag_source": "bangumi",
+      "vndb_id": "v547",
       "bangumi_id": 490641,
       "focus": "romance",
       "entry": "easy",
@@ -14412,7 +22639,8 @@ const GAL_PICK_DATA = {
         "fame:icon": 0.25,
         "focus:story": 0.19
       },
-      "id": "G281"
+      "id": "G438",
+      "displayName": "染红的街道 平行"
     },
     {
       "name": "Fossette - Cafe au Le Ciel Bleu -",
@@ -14459,7 +22687,7 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.2,
         "appeal:comedy": 0.5
       },
-      "id": "G282"
+      "id": "G439"
     },
     {
       "name": "Planetarian",
@@ -14507,7 +22735,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "playstyle:adv": 0.35
       },
-      "id": "G283"
+      "id": "G440",
+      "displayName": "planetarian∼小小的星之夢∼"
     },
     {
       "name": "Prism Ark",
@@ -14555,7 +22784,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "mood:heavy": 0.25
       },
-      "id": "G284"
+      "id": "G441"
     },
     {
       "name": "Really? Really!",
@@ -14605,7 +22834,7 @@ const GAL_PICK_DATA = {
         "setting:fantasy": 0.35,
         "focus:world": 0.2
       },
-      "id": "G285"
+      "id": "G442"
     },
     {
       "name": "望见青空之丘",
@@ -14649,7 +22878,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "appeal:comedy": 0.5
       },
-      "id": "G286"
+      "id": "G443"
     },
     {
       "name": "AYAKASHI アヤカシ",
@@ -14704,7 +22933,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.35
       },
-      "id": "G287"
+      "id": "G444"
     },
     {
       "name": "Princess Witches",
@@ -14759,7 +22988,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "playstyle:rpg": 0.35
       },
-      "id": "G288"
+      "id": "G445"
     },
     {
       "name": "ToHeart2",
@@ -14810,7 +23039,7 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G289"
+      "id": "G446"
     },
     {
       "name": "妖人",
@@ -14868,7 +23097,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.2,
         "appeal:moe": 0.2
       },
-      "id": "G290"
+      "id": "G447"
     },
     {
       "name": "少女爱上姐姐",
@@ -14919,7 +23148,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G291"
+      "id": "G448",
+      "displayName": "少女爱上姐姐2携带版"
     },
     {
       "name": "智代After ～It's a Wonderful Life～",
@@ -14967,7 +23197,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "mood:heavy": 0.35
       },
-      "id": "G292"
+      "id": "G449"
     },
     {
       "name": "群青の空を越えて",
@@ -14975,7 +23205,7 @@ const GAL_PICK_DATA = {
       "rank": 11,
       "source": "sedai",
       "tone": "epic",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "classic",
       "fame": "hit",
@@ -14989,7 +23219,7 @@ const GAL_PICK_DATA = {
       "cast": "ensemble",
       "traits": {
         "tone:epic": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:hit": 1.0,
@@ -15002,25 +23232,25 @@ const GAL_PICK_DATA = {
         "tone:drama": 0.32,
         "tone:mindbend": 0.28,
         "appeal:action": 0.5,
-        "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
-        "setting:fantasy": 0.3,
         "tone:literary": 0.35,
         "pace:dense": 0.3,
         "fame:solid": 0.2,
         "appeal:utsuge": 0.25,
         "cast:harem": 0.35,
         "focus:romance": 0.2,
+        "focus:story": 0.35,
         "tone:sweet": 0.2,
         "appeal:literary": 0.19,
         "playstyle:rpg": 0.35,
         "appeal:moe": 0.4
       },
-      "id": "G293"
+      "id": "G450"
     },
     {
       "name": "ALMA～ずっとそばに…～Complete Edition",
@@ -15067,7 +23297,8 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "mood:heavy": 0.35
       },
-      "id": "G294"
+      "id": "G451",
+      "displayName": "仁王 完全版"
     },
     {
       "name": "SHUFFLE!",
@@ -15115,7 +23346,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "setting:fantasy": 0.35
       },
-      "id": "G295",
+      "id": "G452",
       "displayName": "三界恋曲"
     },
     {
@@ -15169,7 +23400,8 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "playstyle:rpg": 0.55
       },
-      "id": "G296"
+      "id": "G453",
+      "displayName": "兰斯6 -赛斯崩坏-"
     },
     {
       "name": "春天的足音",
@@ -15217,64 +23449,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G297"
-    },
-    {
-      "name": "烈文",
-      "year": 2004,
-      "rank": 6,
-      "source": "getchu-popular",
-      "tone": "mindbend",
-      "setting": "mystery",
-      "pace": "slowburn",
-      "era": "classic",
-      "fame": "hit",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v247",
-      "bangumi_id": 501931,
-      "focus": "mystery",
-      "entry": "deep",
-      "mood": "heavy",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "ensemble",
-      "traits": {
-        "tone:mindbend": 1.0,
-        "setting:mystery": 1.0,
-        "pace:slowburn": 1.0,
-        "era:classic": 1.0,
-        "fame:hit": 1.0,
-        "focus:mystery": 1.0,
-        "entry:deep": 1.0,
-        "mood:heavy": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:ensemble": 1.0,
-        "tone:literary": 0.35,
-        "tone:epic": 0.3,
-        "appeal:mystery": 0.5,
-        "setting:scifi": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.3,
-        "fame:solid": 0.2,
-        "appeal:utsuge": 0.25,
-        "appeal:meta": 0.25,
-        "routes:multi": 0.3,
-        "focus:romance": 0.2,
-        "appeal:literary": 0.19,
-        "focus:world": 0.2,
-        "appeal:action": 0.5,
-        "setting:fantasy": 0.35,
-        "pace:short": 0.25,
-        "playstyle:rpg": 0.35,
-        "routes:single": 0.45,
-        "playstyle:vn": 0.4,
-        "setting:school": 0.35,
-        "tone:hype": 0.2
-      },
-      "id": "G298"
+      "id": "G454"
     },
     {
       "name": "茜色的画布2",
@@ -15287,6 +23462,7 @@ const GAL_PICK_DATA = {
       "era": "classic",
       "fame": "hit",
       "tag_source": "bangumi",
+      "vndb_id": "v174",
       "bangumi_id": 512816,
       "focus": "mystery",
       "entry": "deep",
@@ -15329,7 +23505,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "entry:easy": 0.25
       },
-      "id": "G299"
+      "id": "G455"
     },
     {
       "name": "Clover Heart's",
@@ -15380,7 +23556,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G300"
+      "id": "G456",
+      "displayName": "Clover Heart’s（四叶之心）"
     },
     {
       "name": "你所期望的永远",
@@ -15434,7 +23611,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G301"
+      "id": "G457"
     },
     {
       "name": "大番长",
@@ -15486,7 +23663,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G302"
+      "id": "G458"
     },
     {
       "name": "天使不在的12月",
@@ -15542,7 +23719,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:literary": 0.5
       },
-      "id": "G303"
+      "id": "G459"
     },
     {
       "name": "幻燐的姬将军2：引导灵魂的族谱",
@@ -15596,7 +23773,7 @@ const GAL_PICK_DATA = {
         "routes:multi": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G304"
+      "id": "G460"
     },
     {
       "name": "Bunny’s ママ代行サービス",
@@ -15650,7 +23827,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:rpg": 0.35
       },
-      "id": "G305"
+      "id": "G461"
     },
     {
       "name": "FLIP＊FLOP ～RAMBLING OVERRUN～",
@@ -15701,7 +23878,7 @@ const GAL_PICK_DATA = {
         "setting:scifi": 0.35,
         "focus:world": 0.2
       },
-      "id": "G306"
+      "id": "G462"
     },
     {
       "name": "JINKI-UNLIMITED-",
@@ -15753,7 +23930,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.35
       },
-      "id": "G307"
+      "id": "G463"
     },
     {
       "name": "Roomガール PARADISE",
@@ -15805,7 +23982,8 @@ const GAL_PICK_DATA = {
         "playstyle:adv": 0.35,
         "appeal:literary": 0.19
       },
-      "id": "G308"
+      "id": "G464",
+      "displayName": "这里是乐园庄3"
     },
     {
       "name": "戦巫＜センナギ＞ ―穢れた契りと神ころも―",
@@ -15860,7 +24038,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G309"
+      "id": "G465"
     },
     {
       "name": "RE:D Cherish!",
@@ -15912,7 +24090,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G310"
+      "id": "G466"
     },
     {
       "name": "Role player：とろろ姉妹の粘膜ポトレ ぐりぐちゃLIVE！",
@@ -15960,7 +24138,8 @@ const GAL_PICK_DATA = {
         "appeal:utsuge": 0.25,
         "appeal:literary": 0.19
       },
-      "id": "G311"
+      "id": "G467",
+      "displayName": "ROLEPLAYER：山掛姐妹的粘膜游戏"
     },
     {
       "name": "Study Steady2",
@@ -15973,6 +24152,7 @@ const GAL_PICK_DATA = {
       "era": "modern",
       "fame": "solid",
       "tag_source": "bangumi",
+      "vndb_id": "v32624",
       "bangumi_id": 260495,
       "focus": "story",
       "entry": "standard",
@@ -16006,7 +24186,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "mood:heavy": 0.25
       },
-      "id": "G312"
+      "id": "G468"
     },
     {
       "name": "从朋友到恋人",
@@ -16055,7 +24235,7 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.2,
         "focus:mystery": 0.19
       },
-      "id": "G313"
+      "id": "G469"
     },
     {
       "name": "夕凪荘のS級の彼女たち",
@@ -16100,7 +24280,7 @@ const GAL_PICK_DATA = {
         "routes:multi": 0.35,
         "playstyle:adv": 0.35
       },
-      "id": "G314"
+      "id": "G470"
     },
     {
       "name": "甜蜜夏日",
@@ -16149,7 +24329,7 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G315"
+      "id": "G471"
     },
     {
       "name": "苍之彼方的四重奏 EXTRA2",
@@ -16196,7 +24376,8 @@ const GAL_PICK_DATA = {
         "cast:harem": 0.35,
         "routes:single": 0.45
       },
-      "id": "G316"
+      "id": "G472",
+      "displayName": "蒼之彼方的四重奏 EXTRA2"
     },
     {
       "name": "魔法戦士 FINAL IGNITION",
@@ -16246,7 +24427,8 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G317"
+      "id": "G473",
+      "displayName": "魔法"
     },
     {
       "name": "HOMESTAY a la mode",
@@ -16299,7 +24481,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G318"
+      "id": "G474"
     },
     {
       "name": "Role player：小粥姉妹の粘膜ポトレ ぐりぐちゃLIVE！",
@@ -16349,7 +24531,8 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "appeal:literary": 0.19
       },
-      "id": "G319"
+      "id": "G475",
+      "displayName": "ROLEPLAYER：小粥姐妹的黏膜游戏！"
     },
     {
       "name": "VenusBlood HOLLOW International",
@@ -16357,13 +24540,13 @@ const GAL_PICK_DATA = {
       "rank": 14,
       "source": "sedai",
       "tone": "utsuge",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "slowburn",
       "era": "modern",
       "fame": "solid",
       "tag_source": "vndb",
       "vndb_id": "v15641",
-      "focus": "story",
+      "focus": "world",
       "entry": "deep",
       "mood": "heavy",
       "routes": "multi",
@@ -16371,11 +24554,11 @@ const GAL_PICK_DATA = {
       "cast": "solo",
       "traits": {
         "tone:utsuge": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:slowburn": 1.0,
         "era:modern": 1.0,
         "fame:solid": 1.0,
-        "focus:story": 1.0,
+        "focus:world": 1.0,
         "entry:deep": 1.0,
         "mood:heavy": 1.0,
         "routes:multi": 1.0,
@@ -16384,12 +24567,14 @@ const GAL_PICK_DATA = {
         "tone:drama": 0.45,
         "tone:literary": 0.35,
         "appeal:utsuge": 0.6,
-        "setting:school": 0.3,
-        "mood:bittersweet": 0.3,
+        "setting:fantasy": 0.3,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
         "pace:breezy": 0.28,
         "pace:dense": 0.3,
-        "tone:heal": 0.25,
-        "tone:epic": 0.3,
+        "focus:story": 0.5,
+        "mood:bittersweet": 0.3,
+        "tone:epic": 0.35,
         "cast:harem": 0.35,
         "playstyle:adv": 0.35,
         "playstyle:rpg": 0.55,
@@ -16400,7 +24585,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.2,
         "playstyle:sim": 0.5
       },
-      "id": "G320"
+      "id": "G476"
     },
     {
       "name": "冬旅，方冥冥。",
@@ -16408,13 +24593,13 @@ const GAL_PICK_DATA = {
       "rank": 20,
       "source": "sedai",
       "tone": "hype",
-      "setting": "mystery",
+      "setting": "scifi",
       "pace": "short",
       "era": "modern",
       "fame": "solid",
       "tag_source": "vndb",
       "vndb_id": "v30012",
-      "focus": "mystery",
+      "focus": "story",
       "entry": "standard",
       "mood": "bittersweet",
       "routes": "single",
@@ -16422,11 +24607,11 @@ const GAL_PICK_DATA = {
       "cast": "solo",
       "traits": {
         "tone:hype": 1.0,
-        "setting:mystery": 1.0,
+        "setting:scifi": 1.0,
         "pace:short": 1.0,
         "era:modern": 1.0,
         "fame:solid": 1.0,
-        "focus:mystery": 1.0,
+        "focus:story": 1.0,
         "entry:standard": 1.0,
         "mood:bittersweet": 1.0,
         "routes:single": 1.0,
@@ -16436,22 +24621,22 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:scifi": 0.35,
-        "routes:puzzle": 0.4,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
         "appeal:mystery": 0.5,
         "pace:breezy": 0.4,
         "entry:easy": 0.45,
         "entry:deep": 0.22,
-        "tone:mindbend": 0.4,
-        "focus:story": 0.5,
-        "tone:drama": 0.25,
-        "focus:world": 0.2,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
         "mood:heavy": 0.35,
+        "focus:mystery": 0.35,
         "playstyle:adv": 0.35,
         "tone:literary": 0.3,
         "appeal:literary": 0.5
       },
-      "id": "G321"
+      "id": "G477"
     },
     {
       "name": "初音岛4 Fortunate Departures",
@@ -16498,7 +24683,8 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "mood:bittersweet": 0.19
       },
-      "id": "G322"
+      "id": "G478",
+      "displayName": "初音岛4"
     },
     {
       "name": "天结Labyrinth Meister",
@@ -16549,7 +24735,8 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G323"
+      "id": "G479",
+      "displayName": "天结迷宫大师"
     },
     {
       "name": "星织梦未来 Perfect Edition",
@@ -16599,7 +24786,8 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "focus:mystery": 0.19
       },
-      "id": "G324"
+      "id": "G480",
+      "displayName": "圣斗士星矢 黄金传说篇 Perfect Edition"
     },
     {
       "name": "雪色暗号",
@@ -16644,7 +24832,8 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "appeal:moe": 0.2
       },
-      "id": "G325"
+      "id": "G481",
+      "displayName": "雪色暗號"
     },
     {
       "name": "リアルエロゲシチュエーション！2",
@@ -16693,7 +24882,8 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.45,
         "appeal:literary": 0.19
       },
-      "id": "G326"
+      "id": "G482",
+      "displayName": "真實色情遊戲情境體驗! 2"
     },
     {
       "name": "后宫王国",
@@ -16739,7 +24929,7 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.18,
         "cast:ensemble": 0.4
       },
-      "id": "G327"
+      "id": "G483"
     },
     {
       "name": "放学后的灰姑娘",
@@ -16793,8 +24983,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:comedy": 0.5
       },
-      "id": "G328",
-      "displayName": "放课后的灰姑娘"
+      "id": "G484"
     },
     {
       "name": "水莲与紫苑",
@@ -16843,7 +25032,7 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.45,
         "appeal:literary": 0.19
       },
-      "id": "G329"
+      "id": "G485"
     },
     {
       "name": "猫附，樱舞",
@@ -16851,7 +25040,7 @@ const GAL_PICK_DATA = {
       "rank": 15,
       "source": "sedai",
       "tone": "sweet",
-      "setting": "fantasy",
+      "setting": "school",
       "pace": "breezy",
       "era": "modern",
       "fame": "solid",
@@ -16865,7 +25054,7 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:sweet": 1.0,
-        "setting:fantasy": 1.0,
+        "setting:school": 1.0,
         "pace:breezy": 1.0,
         "era:modern": 1.0,
         "fame:solid": 1.0,
@@ -16878,9 +25067,8 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.42,
         "tone:hype": 0.35,
         "appeal:moe": 0.45,
-        "setting:scifi": 0.28,
-        "focus:world": 0.45,
-        "appeal:action": 0.3,
+        "setting:daily": 0.35,
+        "cast:ensemble": 0.3,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
@@ -16888,10 +25076,10 @@ const GAL_PICK_DATA = {
         "cast:solo": 0.35,
         "focus:story": 0.19,
         "appeal:comedy": 0.5,
-        "setting:school": 0.35,
-        "setting:daily": 0.3
+        "setting:fantasy": 0.35,
+        "focus:world": 0.2
       },
-      "id": "G330"
+      "id": "G486"
     },
     {
       "name": "玻璃青春",
@@ -16942,7 +25130,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:vn": 0.4
       },
-      "id": "G331"
+      "id": "G487"
     },
     {
       "name": "红月摇曳的恋之星火",
@@ -16993,7 +25181,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "setting:scifi": 0.35
       },
-      "id": "G332"
+      "id": "G488"
     },
     {
       "name": "绽放★青春全力向前冲！",
@@ -17044,7 +25232,8 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.21,
         "focus:mystery": 0.19
       },
-      "id": "G333"
+      "id": "G489",
+      "displayName": "綻放★青春全力向前衝！"
     },
     {
       "name": "Study§Steady",
@@ -17093,7 +25282,8 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.2,
         "mood:heavy": 0.25
       },
-      "id": "G334"
+      "id": "G490",
+      "displayName": "见习§恋人"
     },
     {
       "name": "pieces/候鸟的梦",
@@ -17146,7 +25336,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G335"
+      "id": "G491"
     },
     {
       "name": "和香様の座する世界",
@@ -17194,7 +25384,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "tone:hype": 0.25
       },
-      "id": "G336"
+      "id": "G492"
     },
     {
       "name": "夏娃年代记2",
@@ -17244,7 +25434,7 @@ const GAL_PICK_DATA = {
         "playstyle:adv": 0.35,
         "playstyle:rpg": 0.5
       },
-      "id": "G337"
+      "id": "G493"
     },
     {
       "name": "异想魅惑",
@@ -17299,7 +25489,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:story": 0.5
       },
-      "id": "G338"
+      "id": "G494"
     },
     {
       "name": "恋爱，我借走了",
@@ -17345,7 +25535,7 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "routes:puzzle": 0.4
       },
-      "id": "G339"
+      "id": "G495"
     },
     {
       "name": "母烂漫",
@@ -17395,7 +25585,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "playstyle:sim": 0.5
       },
-      "id": "G340"
+      "id": "G496"
     },
     {
       "name": "流星世界演绎者",
@@ -17444,8 +25634,8 @@ const GAL_PICK_DATA = {
         "focus:world": 0.2,
         "setting:fantasy": 0.35
       },
-      "id": "G341",
-      "displayName": "流星世界演绎者：Badge & Dagger"
+      "id": "G497",
+      "displayName": "流星世界演繹者"
     },
     {
       "name": "9-nine-天色天歌天籁音",
@@ -17495,7 +25685,7 @@ const GAL_PICK_DATA = {
         "setting:fantasy": 0.35,
         "focus:world": 0.2
       },
-      "id": "G342"
+      "id": "G498"
     },
     {
       "name": "Deep One 堕欲魔导书",
@@ -17543,7 +25733,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "playstyle:rpg": 0.35
       },
-      "id": "G343"
+      "id": "G499"
     },
     {
       "name": "Erewhon",
@@ -17593,7 +25783,8 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "tone:hype": 0.35
       },
-      "id": "G344"
+      "id": "G500",
+      "displayName": "乌有乡"
     },
     {
       "name": "如月真绫的诱惑",
@@ -17644,7 +25835,7 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.45,
         "appeal:literary": 0.19
       },
-      "id": "G345"
+      "id": "G501"
     },
     {
       "name": "寄宿之恋",
@@ -17695,7 +25886,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "focus:mystery": 0.19
       },
-      "id": "G346"
+      "id": "G502"
     },
     {
       "name": "树莓立方体",
@@ -17745,7 +25936,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "appeal:moe": 0.4
       },
-      "id": "G347"
+      "id": "G503"
     },
     {
       "name": "言语飘散的夏日风铃",
@@ -17797,7 +25988,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G348"
+      "id": "G504"
     },
     {
       "name": "黑兽2",
@@ -17847,7 +26038,8 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.18,
         "tone:hype": 0.35
       },
-      "id": "G349"
+      "id": "G505",
+      "displayName": "黑獸2"
     },
     {
       "name": "こいのす☆イチャコライズ",
@@ -17898,7 +26090,7 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.2,
         "appeal:literary": 0.19
       },
-      "id": "G350",
+      "id": "G506",
       "displayName": "恋乃す～爱巢甜蜜调和"
     },
     {
@@ -17952,7 +26144,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.35,
         "focus:mystery": 0.19
       },
-      "id": "G351"
+      "id": "G507",
+      "displayName": "戀語 Juliamo -amrilata lingvo-"
     },
     {
       "name": "新妻LOVELY×CATION",
@@ -18002,7 +26195,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G352"
+      "id": "G508"
     },
     {
       "name": "樱花裁决",
@@ -18055,7 +26248,8 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G353"
+      "id": "G509",
+      "displayName": "櫻花裁決"
     },
     {
       "name": "清澄如镜之水面上！",
@@ -18104,7 +26298,7 @@ const GAL_PICK_DATA = {
         "appeal:meta": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G354"
+      "id": "G510"
     },
     {
       "name": "羁绊辉耀的恋之伊吕波",
@@ -18159,7 +26353,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G355"
+      "id": "G511"
     },
     {
       "name": "与她＊心渐近",
@@ -18213,7 +26407,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "focus:world": 0.19
       },
-      "id": "G356"
+      "id": "G512"
     },
     {
       "name": "任性High Spec",
@@ -18263,7 +26457,7 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G357"
+      "id": "G513"
     },
     {
       "name": "妻中蜜3",
@@ -18320,7 +26514,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:sim": 0.5
       },
-      "id": "G358"
+      "id": "G514",
+      "displayName": "妻中蜜 3"
     },
     {
       "name": "少女理论及其后的周边 -Belle Epoque-",
@@ -18367,7 +26562,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.19,
         "appeal:literary": 0.21
       },
-      "id": "G359"
+      "id": "G515",
+      "displayName": "少女理论及其之后的周边 -美好年代篇-"
     },
     {
       "name": "永不枯萎的世界与终结之花",
@@ -18414,7 +26610,7 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "appeal:literary": 0.21
       },
-      "id": "G360"
+      "id": "G516"
     },
     {
       "name": "炎の孕ませおっぱい★エロアプリ学園",
@@ -18466,7 +26662,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.35,
         "appeal:moe": 0.4
       },
-      "id": "G361"
+      "id": "G517"
     },
     {
       "name": "花之天使的夏日恋歌",
@@ -18519,7 +26715,8 @@ const GAL_PICK_DATA = {
         "setting:fantasy": 0.35,
         "focus:world": 0.2
       },
-      "id": "G362"
+      "id": "G518",
+      "displayName": "花之天使的夏日戀歌"
     },
     {
       "name": "认真和我谈恋爱！A",
@@ -18572,7 +26769,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "appeal:moe": 0.2
       },
-      "id": "G363"
+      "id": "G519"
     },
     {
       "name": "Maggot baits",
@@ -18623,11 +26820,12 @@ const GAL_PICK_DATA = {
         "pace:short": 0.25,
         "appeal:action": 0.5,
         "playstyle:vn": 0.4,
-        "appeal:horror": 0.55,
+        "appeal:horror": 0.62,
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G364"
+      "id": "G520",
+      "displayName": "妖蛆之饵"
     },
     {
       "name": "Silverio Vendetta",
@@ -18635,13 +26833,13 @@ const GAL_PICK_DATA = {
       "rank": 15,
       "source": "sedai",
       "tone": "hype",
-      "setting": "mystery",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "modern",
       "fame": "solid",
       "tag_source": "vndb",
       "vndb_id": "v16134",
-      "focus": "mystery",
+      "focus": "story",
       "entry": "standard",
       "mood": "bittersweet",
       "routes": "puzzle",
@@ -18649,11 +26847,11 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:hype": 1.0,
-        "setting:mystery": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:modern": 1.0,
         "fame:solid": 1.0,
-        "focus:mystery": 1.0,
+        "focus:story": 1.0,
         "entry:standard": 1.0,
         "mood:bittersweet": 1.0,
         "routes:puzzle": 1.0,
@@ -18663,22 +26861,26 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:scifi": 0.3,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
         "appeal:mystery": 0.5,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
         "routes:multi": 0.5,
         "entry:deep": 0.22,
-        "tone:mindbend": 0.4,
+        "tone:drama": 0.35,
+        "tone:heal": 0.25,
+        "tone:mindbend": 0.35,
         "pace:dense": 0.28,
         "appeal:meta": 0.25,
         "mood:heavy": 0.25,
         "appeal:action": 0.5,
-        "focus:story": 0.5,
+        "focus:mystery": 0.35,
         "playstyle:rpg": 0.35
       },
-      "id": "G365"
+      "id": "G521"
     },
     {
       "name": "与我恋爱的废柴小恶魔",
@@ -18731,53 +26933,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G366"
-    },
-    {
-      "name": "怪物娘的奇幻世界",
-      "year": 2015,
-      "rank": 18,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "daily",
-      "pace": "slowburn",
-      "era": "modern",
-      "fame": "solid",
-      "tag_source": "vndb",
-      "vndb_id": "v27858",
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "multi",
-      "playstyle": "adv",
-      "cast": "solo",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:daily": 1.0,
-        "pace:slowburn": 1.0,
-        "era:modern": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:school": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.25,
-        "entry:deep": 0.22,
-        "tone:drama": 0.35,
-        "tone:heal": 0.25,
-        "cast:harem": 0.35,
-        "routes:single": 0.3,
-        "mood:heavy": 0.25
-      },
-      "id": "G367"
+      "id": "G522"
     },
     {
       "name": "想要传达给你的爱恋",
@@ -18832,7 +26988,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:moe": 0.2
       },
-      "id": "G368"
+      "id": "G523",
+      "displayName": "想要傳達給你的愛戀"
     },
     {
       "name": "永不落幕的前奏诗",
@@ -18881,101 +27038,7 @@ const GAL_PICK_DATA = {
         "tone:sweet": 0.25,
         "appeal:moe": 0.4
       },
-      "id": "G369"
-    },
-    {
-      "name": "秋之回忆5",
-      "year": 2015,
-      "rank": 14,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "daily",
-      "pace": "breezy",
-      "era": "modern",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v1326",
-      "bangumi_id": 4572,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "multi",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:daily": 1.0,
-        "pace:breezy": 1.0,
-        "era:modern": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:school": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "entry:deep": 0.22,
-        "tone:drama": 0.35,
-        "tone:heal": 0.3,
-        "mood:heavy": 0.25,
-        "routes:single": 0.4,
-        "playstyle:vn": 0.4
-      },
-      "id": "G370"
-    },
-    {
-      "name": "秋之回忆6",
-      "year": 2015,
-      "rank": 15,
-      "source": "getchu-popular",
-      "tone": "sweet",
-      "setting": "daily",
-      "pace": "slowburn",
-      "era": "modern",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v48339",
-      "bangumi_id": 7265,
-      "focus": "romance",
-      "entry": "standard",
-      "mood": "light",
-      "routes": "multi",
-      "playstyle": "adv",
-      "cast": "solo",
-      "traits": {
-        "tone:sweet": 1.0,
-        "setting:daily": 1.0,
-        "pace:slowburn": 1.0,
-        "era:modern": 1.0,
-        "fame:solid": 1.0,
-        "focus:romance": 1.0,
-        "entry:standard": 1.0,
-        "mood:light": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:heal": 0.42,
-        "tone:hype": 0.35,
-        "appeal:moe": 0.45,
-        "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.25,
-        "entry:deep": 0.22,
-        "cast:harem": 0.35,
-        "routes:single": 0.3,
-        "entry:easy": 0.25
-      },
-      "id": "G371"
+      "id": "G524"
     },
     {
       "name": "PRIMAL×HEARTS",
@@ -19023,64 +27086,8 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G372",
+      "id": "G525",
       "displayName": "原始之心"
-    },
-    {
-      "name": "Punch Line",
-      "year": 2014,
-      "rank": 15,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "scifi",
-      "pace": "breezy",
-      "era": "modern",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v18905",
-      "bangumi_id": 129282,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "puzzle",
-      "playstyle": "vn",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:scifi": 1.0,
-        "pace:breezy": 1.0,
-        "era:modern": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:vn": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.5,
-        "setting:fantasy": 0.35,
-        "setting:mystery": 0.32,
-        "focus:world": 0.4,
-        "appeal:mystery": 0.35,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "routes:multi": 0.35,
-        "playstyle:adv": 0.35,
-        "entry:deep": 0.22,
-        "tone:drama": 0.35,
-        "tone:heal": 0.3,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "routes:single": 0.45,
-        "mood:heavy": 0.35,
-        "focus:mystery": 0.19
-      },
-      "id": "G373"
     },
     {
       "name": "恋花绽放樱飞时",
@@ -19130,7 +27137,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.2,
         "focus:mystery": 0.19
       },
-      "id": "G374"
+      "id": "G526"
     },
     {
       "name": "淑女同萌",
@@ -19185,64 +27192,8 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.2,
         "appeal:moe": 0.4
       },
-      "id": "G375"
-    },
-    {
-      "name": "超自然9人组",
-      "year": 2014,
-      "rank": 16,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "mystery",
-      "pace": "breezy",
-      "era": "modern",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v17100",
-      "bangumi_id": 203859,
-      "focus": "mystery",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:mystery": 1.0,
-        "pace:breezy": 1.0,
-        "era:modern": 1.0,
-        "fame:solid": 1.0,
-        "focus:mystery": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:scifi": 0.35,
-        "appeal:mystery": 0.5,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "routes:multi": 0.35,
-        "entry:deep": 0.22,
-        "tone:mindbend": 0.4,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "tone:heal": 0.3,
-        "focus:world": 0.2,
-        "mood:heavy": 0.25,
-        "routes:single": 0.45,
-        "playstyle:vn": 0.4,
-        "focus:story": 0.5,
-        "tone:literary": 0.3,
-        "appeal:literary": 0.5,
-        "setting:school": 0.35
-      },
-      "id": "G376"
+      "id": "G527",
+      "displayName": "淑女同萌！"
     },
     {
       "name": "魔女恋爱日记",
@@ -19298,7 +27249,8 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "setting:fantasy": 0.35
       },
-      "id": "G377"
+      "id": "G528",
+      "displayName": "魔女恋爱日记 Dragon×Caravan"
     },
     {
       "name": "Friend to Lover",
@@ -19344,7 +27296,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "appeal:comedy": 0.5
       },
-      "id": "G378",
+      "id": "G529",
       "displayName": "从朋友到恋人"
     },
     {
@@ -19399,7 +27351,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "appeal:moe": 0.4
       },
-      "id": "G379"
+      "id": "G530"
     },
     {
       "name": "娇蛮之吻 NEXT",
@@ -19452,7 +27404,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G380"
+      "id": "G531"
     },
     {
       "name": "少女骑士物语 More&More",
@@ -19504,7 +27456,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G381"
+      "id": "G532",
+      "displayName": "少女骑士物语 Tous Les Jours"
     },
     {
       "name": "虚之少女",
@@ -19558,7 +27511,7 @@ const GAL_PICK_DATA = {
         "setting:school": 0.25,
         "appeal:moe": 0.2
       },
-      "id": "G382"
+      "id": "G533"
     },
     {
       "name": "魔卡魅恋！",
@@ -19612,7 +27565,8 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G383"
+      "id": "G534",
+      "displayName": "魔卡魅戀！Magical Charming!"
     },
     {
       "name": "Justy×Nasty ～魔王はじめました～",
@@ -19665,7 +27619,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "playstyle:rpg": 0.35
       },
-      "id": "G384"
+      "id": "G535"
     },
     {
       "name": "Rewrite Harvest festa！",
@@ -19720,7 +27674,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:rpg": 0.35
       },
-      "id": "G385"
+      "id": "G536"
     },
     {
       "name": "亲吻那片花瓣 米卡艾尔的少女们",
@@ -19765,7 +27719,7 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.2,
         "appeal:comedy": 0.5
       },
-      "id": "G386"
+      "id": "G537"
     },
     {
       "name": "创刻的动脉",
@@ -19819,7 +27773,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G387"
+      "id": "G538"
     },
     {
       "name": "初恋1/1",
@@ -19868,51 +27822,58 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G388"
+      "id": "G539",
+      "displayName": "初恋１／１"
     },
     {
       "name": "初音岛3",
       "year": 2012,
       "rank": 15,
       "source": "sedai",
-      "tone": "sweet",
+      "tone": "drama",
       "setting": "daily",
       "pace": "slowburn",
       "era": "classic",
       "fame": "solid",
       "tag_source": "bangumi",
+      "vndb_id": "v6438",
       "bangumi_id": 22228,
-      "focus": "romance",
+      "focus": "story",
       "entry": "standard",
-      "mood": "light",
+      "mood": "heavy",
       "routes": "multi",
       "playstyle": "adv",
       "cast": "solo",
       "traits": {
-        "tone:sweet": 1.0,
+        "tone:drama": 1.0,
         "setting:daily": 1.0,
         "pace:slowburn": 1.0,
         "era:classic": 1.0,
         "fame:solid": 1.0,
-        "focus:romance": 1.0,
+        "focus:story": 1.0,
         "entry:standard": 1.0,
-        "mood:light": 1.0,
+        "mood:heavy": 1.0,
         "routes:multi": 1.0,
         "playstyle:adv": 1.0,
         "cast:solo": 1.0,
-        "tone:heal": 0.42,
-        "tone:hype": 0.35,
-        "appeal:moe": 0.45,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "mood:bittersweet": 0.55,
+        "appeal:nakige": 0.4,
         "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.3,
         "pace:breezy": 0.28,
         "pace:dense": 0.25,
         "entry:deep": 0.22,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
         "cast:harem": 0.35,
-        "routes:single": 0.3
+        "focus:romance": 0.35,
+        "routes:single": 0.3,
+        "appeal:literary": 0.21,
+        "tone:sweet": 0.2,
+        "appeal:moe": 0.4
       },
-      "id": "G389"
+      "id": "G540"
     },
     {
       "name": "炎の孕ませおっぱい乳同級生",
@@ -19961,7 +27922,7 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.45,
         "appeal:literary": 0.19
       },
-      "id": "G390"
+      "id": "G541"
     },
     {
       "name": "花色七芒星",
@@ -20014,7 +27975,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.35,
         "cast:ensemble": 0.4
       },
-      "id": "G391"
+      "id": "G542"
     },
     {
       "name": "Hyper→Highspeed→Genius",
@@ -20070,63 +28031,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "setting:fantasy": 0.35
       },
-      "id": "G392",
+      "id": "G543",
       "displayName": "超高速Genius"
-    },
-    {
-      "name": "euphoria",
-      "year": 2011,
-      "rank": 16,
-      "source": "sedai",
-      "tone": "utsuge",
-      "setting": "school",
-      "pace": "slowburn",
-      "era": "classic",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v6540",
-      "bangumi_id": 327161,
-      "focus": "story",
-      "entry": "deep",
-      "mood": "heavy",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "solo",
-      "traits": {
-        "tone:utsuge": 1.0,
-        "setting:school": 1.0,
-        "pace:slowburn": 1.0,
-        "era:classic": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:deep": 1.0,
-        "mood:heavy": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:drama": 0.45,
-        "tone:literary": 0.35,
-        "appeal:utsuge": 0.6,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.3,
-        "mood:bittersweet": 0.3,
-        "tone:heal": 0.25,
-        "tone:epic": 0.3,
-        "tone:mindbend": 0.35,
-        "appeal:meta": 0.25,
-        "routes:multi": 0.5,
-        "routes:single": 0.45,
-        "appeal:nakige": 0.18,
-        "appeal:literary": 0.19,
-        "pace:short": 0.25,
-        "focus:mystery": 0.19,
-        "playstyle:vn": 0.4,
-        "tone:hype": 0.35
-      },
-      "id": "G393",
-      "displayName": "乐园"
     },
     {
       "name": "lover able",
@@ -20172,7 +28078,8 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "appeal:comedy": 0.5
       },
-      "id": "G394"
+      "id": "G544",
+      "displayName": "情侣热恋中"
     },
     {
       "name": "少女骑士物语",
@@ -20225,7 +28132,8 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "playstyle:rpg": 0.35
       },
-      "id": "G395"
+      "id": "G545",
+      "displayName": "少女骑士物语 Tous Les Jours"
     },
     {
       "name": "恋ではなく ――It’s not love，but so where near.",
@@ -20280,7 +28188,7 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G396"
+      "id": "G546"
     },
     {
       "name": "恋色空模样 after happiness and extra hearts",
@@ -20332,7 +28240,8 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G397"
+      "id": "G547",
+      "displayName": "恋色空模样"
     },
     {
       "name": "恋骑士 Purely☆Kiss",
@@ -20383,7 +28292,7 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G398"
+      "id": "G548"
     },
     {
       "name": "翠之海",
@@ -20437,7 +28346,7 @@ const GAL_PICK_DATA = {
         "tone:literary": 0.3,
         "appeal:literary": 0.5
       },
-      "id": "G399"
+      "id": "G549"
     },
     {
       "name": "BALDR SKY DiveX“DREAM WORLD”",
@@ -20445,7 +28354,7 @@ const GAL_PICK_DATA = {
       "rank": 18,
       "source": "sedai",
       "tone": "hype",
-      "setting": "school",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "classic",
       "fame": "solid",
@@ -20459,7 +28368,7 @@ const GAL_PICK_DATA = {
       "cast": "harem",
       "traits": {
         "tone:hype": 1.0,
-        "setting:school": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:solid": 1.0,
@@ -20473,21 +28382,22 @@ const GAL_PICK_DATA = {
         "tone:epic": 0.3,
         "mood:light": 0.22,
         "appeal:comedy": 0.45,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
         "entry:deep": 0.22,
         "tone:drama": 0.35,
         "tone:heal": 0.25,
-        "focus:world": 0.2,
         "mood:heavy": 0.25,
         "appeal:action": 0.5,
         "playstyle:rpg": 0.35,
-        "setting:scifi": 0.35
+        "setting:school": 0.35
       },
-      "id": "G400"
+      "id": "G550"
     },
     {
       "name": "あかときっ！-夢こそまされ恋の魔砲-",
@@ -20540,7 +28450,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.55,
         "appeal:moe": 0.4
       },
-      "id": "G401"
+      "id": "G551"
     },
     {
       "name": "エヴォリミット",
@@ -20594,7 +28504,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "setting:school": 0.35
       },
-      "id": "G402",
+      "id": "G552",
       "displayName": "Evolimit 进化极限"
     },
     {
@@ -20655,7 +28565,7 @@ const GAL_PICK_DATA = {
         "focus:world": 0.19,
         "mood:heavy": 0.35
       },
-      "id": "G403"
+      "id": "G553"
     },
     {
       "name": "最終痴漢電車3",
@@ -20704,60 +28614,8 @@ const GAL_PICK_DATA = {
         "mood:bittersweet": 0.45,
         "appeal:literary": 0.19
       },
-      "id": "G404"
-    },
-    {
-      "name": "白色相簿2~introductory chapter~",
-      "year": 2010,
-      "rank": 14,
-      "source": "sedai",
-      "tone": "drama",
-      "setting": "school",
-      "pace": "slowburn",
-      "era": "classic",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v7771",
-      "bangumi_id": 54898,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "heavy",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "solo",
-      "traits": {
-        "tone:drama": 1.0,
-        "setting:school": 1.0,
-        "pace:slowburn": 1.0,
-        "era:classic": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:heavy": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:solo": 1.0,
-        "tone:literary": 0.38,
-        "tone:heal": 0.28,
-        "mood:bittersweet": 0.55,
-        "appeal:nakige": 0.4,
-        "setting:daily": 0.35,
-        "focus:romance": 0.4,
-        "cast:ensemble": 0.3,
-        "pace:breezy": 0.28,
-        "pace:dense": 0.28,
-        "entry:deep": 0.22,
-        "tone:epic": 0.3,
-        "appeal:utsuge": 0.25,
-        "tone:mindbend": 0.35,
-        "appeal:meta": 0.25,
-        "routes:multi": 0.5,
-        "routes:single": 0.3,
-        "appeal:literary": 0.21,
-        "tone:sweet": 0.25,
-        "focus:mystery": 0.19
-      },
-      "id": "G405"
+      "id": "G554",
+      "displayName": "最终痴汉电车3"
     },
     {
       "name": "真・恋姫†無双～萌将伝～",
@@ -20803,7 +28661,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "appeal:action": 0.45
       },
-      "id": "G406"
+      "id": "G555"
     },
     {
       "name": "アリス2010",
@@ -20849,7 +28707,7 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.3,
         "appeal:moe": 0.18
       },
-      "id": "G407"
+      "id": "G556"
     },
     {
       "name": "スズノネセブン！",
@@ -20901,7 +28759,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:mystery": 0.19
       },
-      "id": "G408",
+      "id": "G557",
       "displayName": "铃音Seven"
     },
     {
@@ -20949,7 +28807,7 @@ const GAL_PICK_DATA = {
         "cast:ensemble": 0.4,
         "playstyle:adv": 0.35
       },
-      "id": "G409"
+      "id": "G558"
     },
     {
       "name": "夏之雨",
@@ -20998,7 +28856,7 @@ const GAL_PICK_DATA = {
         "focus:story": 0.19,
         "focus:mystery": 0.19
       },
-      "id": "G410"
+      "id": "G559"
     },
     {
       "name": "姬狩Dungeon Meister",
@@ -21049,7 +28907,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G411"
+      "id": "G560"
     },
     {
       "name": "神楽道中記",
@@ -21098,60 +28956,63 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G412"
+      "id": "G561"
     },
     {
       "name": "輝光翼戦記 天空のユミナ",
       "year": 2009,
       "rank": 17,
       "source": "sedai",
-      "tone": "hype",
+      "tone": "epic",
       "setting": "school",
       "pace": "breezy",
       "era": "classic",
       "fame": "solid",
       "tag_source": "vndb",
       "vndb_id": "v1155",
-      "focus": "romance",
-      "entry": "standard",
-      "mood": "light",
+      "focus": "world",
+      "entry": "deep",
+      "mood": "heavy",
       "routes": "puzzle",
       "playstyle": "hybrid",
-      "cast": "harem",
+      "cast": "ensemble",
       "traits": {
-        "tone:hype": 1.0,
+        "tone:epic": 1.0,
         "setting:school": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:solid": 1.0,
-        "focus:romance": 1.0,
-        "entry:standard": 1.0,
-        "mood:light": 1.0,
+        "focus:world": 1.0,
+        "entry:deep": 1.0,
+        "mood:heavy": 1.0,
         "routes:puzzle": 1.0,
         "playstyle:hybrid": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.4,
-        "tone:epic": 0.3,
-        "appeal:comedy": 0.5,
+        "cast:ensemble": 1.0,
+        "tone:drama": 0.32,
+        "tone:mindbend": 0.35,
+        "appeal:action": 0.4,
         "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
+        "focus:romance": 0.4,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
         "routes:multi": 0.5,
         "playstyle:adv": 0.35,
-        "entry:deep": 0.22,
-        "cast:solo": 0.35,
-        "tone:heal": 0.3,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
+        "setting:fantasy": 0.3,
+        "tone:literary": 0.35,
+        "pace:dense": 0.3,
+        "appeal:utsuge": 0.25,
         "appeal:meta": 0.25,
         "playstyle:rpg": 0.55,
-        "appeal:moe": 0.2,
-        "appeal:action": 0.3,
-        "focus:mystery": 0.19
+        "focus:story": 0.35,
+        "focus:mystery": 0.19,
+        "appeal:literary": 0.19,
+        "appeal:comedy": 0.5,
+        "tone:hype": 0.25,
+        "appeal:moe": 0.2
       },
-      "id": "G413"
+      "id": "G562",
+      "displayName": "輝光翼戰記"
     },
     {
       "name": "ef - the latter tale.",
@@ -21203,7 +29064,8 @@ const GAL_PICK_DATA = {
         "appeal:mystery": 0.5,
         "focus:mystery": 0.35
       },
-      "id": "G414"
+      "id": "G563",
+      "displayName": "悠久之翼"
     },
     {
       "name": "プリマ☆ステラ",
@@ -21248,7 +29110,7 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.25,
         "mood:heavy": 0.25
       },
-      "id": "G415"
+      "id": "G564"
     },
     {
       "name": "媚肉之香",
@@ -21304,7 +29166,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "focus:world": 0.19
       },
-      "id": "G416"
+      "id": "G565"
     },
     {
       "name": "战女神ZERO",
@@ -21354,7 +29216,7 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.5,
         "tone:hype": 0.35
       },
-      "id": "G417"
+      "id": "G566"
     },
     {
       "name": "樱花街",
@@ -21400,7 +29262,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.19,
         "appeal:literary": 0.21
       },
-      "id": "G418"
+      "id": "G567"
     },
     {
       "name": "混沌头脑",
@@ -21413,6 +29275,7 @@ const GAL_PICK_DATA = {
       "era": "classic",
       "fame": "solid",
       "tag_source": "bangumi",
+      "vndb_id": "v382",
       "bangumi_id": 1410,
       "focus": "mystery",
       "entry": "deep",
@@ -21448,7 +29311,8 @@ const GAL_PICK_DATA = {
         "entry:easy": 0.25,
         "tone:heal": 0.3
       },
-      "id": "G419"
+      "id": "G568",
+      "displayName": "混沌头"
     },
     {
       "name": "闘神都市III",
@@ -21502,53 +29366,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:vn": 0.4
       },
-      "id": "G420"
-    },
-    {
-      "name": "CIRCUS",
-      "year": 2007,
-      "rank": 18,
-      "source": "getchu-popular",
-      "tone": "hype",
-      "setting": "daily",
-      "pace": "breezy",
-      "era": "classic",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v9834",
-      "bangumi_id": 312087,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "multi",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:daily": 1.0,
-        "pace:breezy": 1.0,
-        "era:classic": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:school": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "entry:deep": 0.22,
-        "tone:drama": 0.35,
-        "tone:heal": 0.3,
-        "mood:heavy": 0.25
-      },
-      "id": "G421"
+      "id": "G569",
+      "displayName": "斗神都市"
     },
     {
       "name": "Clear－クリア－",
@@ -21602,7 +29421,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.35,
         "appeal:mystery": 0.5
       },
-      "id": "G422"
+      "id": "G570"
     },
     {
       "name": "Eternal Fantasy",
@@ -21653,7 +29472,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "cast:ensemble": 0.4
       },
-      "id": "G423",
+      "id": "G571",
       "displayName": "永恒幻想"
     },
     {
@@ -21706,7 +29525,7 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "focus:mystery": 0.19
       },
-      "id": "G424"
+      "id": "G572"
     },
     {
       "name": "Muv-Luv Altered Fable",
@@ -21757,7 +29576,7 @@ const GAL_PICK_DATA = {
         "appeal:comedy": 0.5,
         "focus:world": 0.19
       },
-      "id": "G425",
+      "id": "G573",
       "displayName": "Muv-Luv Altered Fable 无限篇AF"
     },
     {
@@ -21765,48 +29584,54 @@ const GAL_PICK_DATA = {
       "year": 2007,
       "rank": 13,
       "source": "sedai",
-      "tone": "sweet",
+      "tone": "drama",
       "setting": "daily",
       "pace": "slowburn",
       "era": "classic",
       "fame": "solid",
       "tag_source": "bangumi",
+      "vndb_id": "v689",
       "bangumi_id": 1568,
-      "focus": "romance",
+      "focus": "story",
       "entry": "standard",
-      "mood": "light",
+      "mood": "heavy",
       "routes": "multi",
       "playstyle": "hybrid",
       "cast": "solo",
       "traits": {
-        "tone:sweet": 1.0,
+        "tone:drama": 1.0,
         "setting:daily": 1.0,
         "pace:slowburn": 1.0,
         "era:classic": 1.0,
         "fame:solid": 1.0,
-        "focus:romance": 1.0,
+        "focus:story": 1.0,
         "entry:standard": 1.0,
-        "mood:light": 1.0,
+        "mood:heavy": 1.0,
         "routes:multi": 1.0,
         "playstyle:hybrid": 1.0,
         "cast:solo": 1.0,
-        "tone:heal": 0.42,
-        "tone:hype": 0.35,
-        "appeal:moe": 0.45,
+        "tone:literary": 0.38,
+        "tone:heal": 0.28,
+        "mood:bittersweet": 0.55,
+        "appeal:nakige": 0.4,
         "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.3,
         "pace:breezy": 0.28,
         "pace:dense": 0.25,
         "entry:deep": 0.22,
+        "tone:epic": 0.3,
+        "appeal:utsuge": 0.25,
         "cast:harem": 0.35,
         "playstyle:adv": 0.35,
         "playstyle:rpg": 0.5,
+        "focus:romance": 0.35,
         "routes:single": 0.3,
+        "appeal:literary": 0.21,
+        "tone:sweet": 0.2,
         "appeal:action": 0.25,
+        "appeal:moe": 0.4,
         "playstyle:sim": 0.5
       },
-      "id": "G426"
+      "id": "G574"
     },
     {
       "name": "片羽",
@@ -21814,7 +29639,7 @@ const GAL_PICK_DATA = {
       "rank": 14,
       "source": "sedai",
       "tone": "sweet",
-      "setting": "daily",
+      "setting": "scifi",
       "pace": "breezy",
       "era": "classic",
       "fame": "solid",
@@ -21829,7 +29654,7 @@ const GAL_PICK_DATA = {
       "cast": "ensemble",
       "traits": {
         "tone:sweet": 1.0,
-        "setting:daily": 1.0,
+        "setting:scifi": 1.0,
         "pace:breezy": 1.0,
         "era:classic": 1.0,
         "fame:solid": 1.0,
@@ -21842,20 +29667,23 @@ const GAL_PICK_DATA = {
         "tone:heal": 0.42,
         "tone:hype": 0.35,
         "appeal:moe": 0.45,
-        "setting:school": 0.3,
-        "focus:story": 0.35,
-        "mood:bittersweet": 0.25,
+        "setting:fantasy": 0.28,
+        "setting:mystery": 0.32,
+        "focus:world": 0.4,
+        "appeal:mystery": 0.35,
         "pace:short": 0.35,
         "pace:slowburn": 0.25,
         "entry:easy": 0.3,
         "entry:deep": 0.22,
         "cast:solo": 0.35,
         "cast:harem": 0.35,
+        "focus:story": 0.35,
         "tone:epic": 0.2,
         "routes:single": 0.45,
         "playstyle:vn": 0.4
       },
-      "id": "G427"
+      "id": "G575",
+      "displayName": "撕裂重罪"
     },
     {
       "name": "王贼",
@@ -21863,7 +29691,7 @@ const GAL_PICK_DATA = {
       "rank": 19,
       "source": "sedai",
       "tone": "utsuge",
-      "setting": "fantasy",
+      "setting": "scifi",
       "pace": "slowburn",
       "era": "classic",
       "fame": "solid",
@@ -21877,7 +29705,7 @@ const GAL_PICK_DATA = {
       "cast": "solo",
       "traits": {
         "tone:utsuge": 1.0,
-        "setting:fantasy": 1.0,
+        "setting:scifi": 1.0,
         "pace:slowburn": 1.0,
         "era:classic": 1.0,
         "fame:solid": 1.0,
@@ -21890,8 +29718,9 @@ const GAL_PICK_DATA = {
         "tone:drama": 0.45,
         "tone:literary": 0.35,
         "appeal:utsuge": 0.6,
-        "setting:scifi": 0.28,
-        "appeal:action": 0.5,
+        "setting:fantasy": 0.35,
+        "setting:mystery": 0.32,
+        "appeal:mystery": 0.35,
         "pace:breezy": 0.28,
         "pace:dense": 0.3,
         "focus:story": 0.5,
@@ -21904,12 +29733,13 @@ const GAL_PICK_DATA = {
         "routes:single": 0.3,
         "appeal:nakige": 0.18,
         "appeal:literary": 0.19,
-        "routes:multi": 0.5,
+        "appeal:action": 0.5,
         "focus:mystery": 0.19,
+        "routes:multi": 0.5,
         "appeal:comedy": 0.5,
         "tone:hype": 0.25
       },
-      "id": "G428"
+      "id": "G576"
     },
     {
       "name": "车轮之国, 悠久之少年少女",
@@ -21954,10 +29784,12 @@ const GAL_PICK_DATA = {
         "cast:harem": 0.35,
         "routes:single": 0.3,
         "appeal:nakige": 0.18,
+        "tone:mindbend": 0.32,
         "appeal:literary": 0.19,
-        "tone:sweet": 0.25
+        "tone:sweet": 0.25,
+        "appeal:horror": 0.62
       },
-      "id": "G429"
+      "id": "G577"
     },
     {
       "name": "Fate/stay night Réalta Nua",
@@ -22007,7 +29839,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "cast:ensemble": 0.4
       },
-      "id": "G430",
+      "id": "G578",
       "displayName": "命运之夜"
     },
     {
@@ -22058,7 +29890,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G431",
+      "id": "G579",
       "displayName": "H2O 沙中的足迹"
     },
     {
@@ -22108,7 +29940,7 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.45,
         "tone:hype": 0.2
       },
-      "id": "G432"
+      "id": "G580"
     },
     {
       "name": "Scarlett",
@@ -22155,7 +29987,7 @@ const GAL_PICK_DATA = {
         "focus:romance": 0.2,
         "appeal:literary": 0.21
       },
-      "id": "G433"
+      "id": "G581"
     },
     {
       "name": "Summer Days",
@@ -22206,7 +30038,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.21,
         "focus:mystery": 0.19
       },
-      "id": "G434"
+      "id": "G582"
     },
     {
       "name": "她们的流仪",
@@ -22257,7 +30089,7 @@ const GAL_PICK_DATA = {
         "mood:heavy": 0.25,
         "focus:mystery": 0.19
       },
-      "id": "G435"
+      "id": "G583"
     },
     {
       "name": "寒蝉鸣泣之时解",
@@ -22307,7 +30139,7 @@ const GAL_PICK_DATA = {
         "appeal:nakige": 0.55,
         "setting:school": 0.35
       },
-      "id": "G436"
+      "id": "G584"
     },
     {
       "name": "更胜黎明前的琉璃色 -Brighter than dawning blue-",
@@ -22359,7 +30191,8 @@ const GAL_PICK_DATA = {
         "playstyle:vn": 0.4,
         "focus:mystery": 0.19
       },
-      "id": "G437"
+      "id": "G585",
+      "displayName": "夜明前的琉璃色 -Brighter than dawning blue-"
     },
     {
       "name": "DUEL SAVIOR JUSTICE",
@@ -22415,7 +30248,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "tone:hype": 0.2
       },
-      "id": "G438",
+      "id": "G586",
       "displayName": "决斗救世主 Justice"
     },
     {
@@ -22472,7 +30305,7 @@ const GAL_PICK_DATA = {
         "tone:hype": 0.25,
         "appeal:moe": 0.4
       },
-      "id": "G439"
+      "id": "G587"
     },
     {
       "name": "Happiness!",
@@ -22523,7 +30356,7 @@ const GAL_PICK_DATA = {
         "setting:school": 0.35,
         "setting:daily": 0.3
       },
-      "id": "G440"
+      "id": "G588"
     },
     {
       "name": "ぱすてるチャイムContinue",
@@ -22581,7 +30414,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.5,
         "setting:fantasy": 0.35
       },
-      "id": "G441"
+      "id": "G589"
     },
     {
       "name": "尘骸魔京",
@@ -22634,7 +30467,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G442"
+      "id": "G590"
     },
     {
       "name": "校园的日子",
@@ -22686,7 +30519,7 @@ const GAL_PICK_DATA = {
         "appeal:literary": 0.21,
         "focus:mystery": 0.19
       },
-      "id": "G443"
+      "id": "G591"
     },
     {
       "name": "秋色恋华",
@@ -22730,7 +30563,7 @@ const GAL_PICK_DATA = {
         "cast:solo": 0.35,
         "focus:story": 0.19
       },
-      "id": "G444"
+      "id": "G592"
     },
     {
       "name": "Dear My Friend",
@@ -22776,7 +30609,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.55,
         "appeal:action": 0.3
       },
-      "id": "G445"
+      "id": "G593"
     },
     {
       "name": "IZUMO2",
@@ -22832,7 +30665,8 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "setting:fantasy": 0.35
       },
-      "id": "G446"
+      "id": "G594",
+      "displayName": "IZUMO2 猛剑之闪记"
     },
     {
       "name": "Quartett!",
@@ -22878,7 +30712,7 @@ const GAL_PICK_DATA = {
         "appeal:moe": 0.4,
         "mood:heavy": 0.25
       },
-      "id": "G447"
+      "id": "G595"
     },
     {
       "name": "下级生2",
@@ -22926,7 +30760,7 @@ const GAL_PICK_DATA = {
         "appeal:action": 0.3,
         "playstyle:sim": 0.5
       },
-      "id": "G448"
+      "id": "G596"
     },
     {
       "name": "永远的艾塞莉娅 DVD版",
@@ -22976,7 +30810,7 @@ const GAL_PICK_DATA = {
         "setting:school": 0.35,
         "appeal:moe": 0.4
       },
-      "id": "G449"
+      "id": "G597"
     },
     {
       "name": "白色呼吸",
@@ -22989,6 +30823,7 @@ const GAL_PICK_DATA = {
       "era": "classic",
       "fame": "solid",
       "tag_source": "bangumi",
+      "vndb_id": "v478",
       "bangumi_id": 34029,
       "focus": "romance",
       "entry": "standard",
@@ -23023,7 +30858,7 @@ const GAL_PICK_DATA = {
         "tone:drama": 0.3,
         "appeal:nakige": 0.55
       },
-      "id": "G450"
+      "id": "G598"
     },
     {
       "name": "筑巢之龙",
@@ -23081,7 +30916,7 @@ const GAL_PICK_DATA = {
         "focus:mystery": 0.19,
         "playstyle:sim": 0.5
       },
-      "id": "G451"
+      "id": "G599"
     },
     {
       "name": "BALDR FORCE EXE",
@@ -23135,213 +30970,7 @@ const GAL_PICK_DATA = {
         "playstyle:rpg": 0.35,
         "tone:hype": 0.2
       },
-      "id": "G452"
-    },
-    {
-      "name": "D.C. ～ダ·カーポ～ 期间限定感谢ぱっく",
-      "year": 2003,
-      "rank": 20,
-      "source": "sedai",
-      "tone": "sweet",
-      "setting": "school",
-      "pace": "breezy",
-      "era": "classic",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v264",
-      "bangumi_id": 615982,
-      "focus": "romance",
-      "entry": "standard",
-      "mood": "light",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:sweet": 1.0,
-        "setting:school": 1.0,
-        "pace:breezy": 1.0,
-        "era:classic": 1.0,
-        "fame:solid": 1.0,
-        "focus:romance": 1.0,
-        "entry:standard": 1.0,
-        "mood:light": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:heal": 0.42,
-        "tone:hype": 0.35,
-        "appeal:moe": 0.45,
-        "setting:daily": 0.35,
-        "cast:ensemble": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "routes:multi": 0.5,
-        "entry:deep": 0.22,
-        "cast:solo": 0.35,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "focus:story": 0.19,
-        "focus:mystery": 0.19,
-        "setting:fantasy": 0.35,
-        "focus:world": 0.2
-      },
-      "id": "G453"
-    },
-    {
-      "name": "てのひらを、たいように",
-      "year": 2003,
-      "rank": 15,
-      "source": "sedai",
-      "tone": "hype",
-      "setting": "daily",
-      "pace": "breezy",
-      "era": "classic",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v1113",
-      "bangumi_id": 559781,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "puzzle",
-      "playstyle": "adv",
-      "cast": "ensemble",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:daily": 1.0,
-        "pace:breezy": 1.0,
-        "era:classic": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:puzzle": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:ensemble": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:school": 0.35,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "routes:multi": 0.5,
-        "entry:deep": 0.22,
-        "tone:drama": 0.35,
-        "tone:heal": 0.25,
-        "tone:mindbend": 0.35,
-        "pace:dense": 0.28,
-        "appeal:meta": 0.25,
-        "mood:heavy": 0.25,
-        "routes:single": 0.4,
-        "playstyle:vn": 0.4,
-        "focus:mystery": 0.19
-      },
-      "id": "G454",
-      "displayName": "将您的手围在我的脖子"
-    },
-    {
-      "name": "朱－Aka－",
-      "year": 2003,
-      "rank": 16,
-      "source": "sedai",
-      "tone": "hype",
-      "setting": "fantasy",
-      "pace": "breezy",
-      "era": "classic",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v1136",
-      "bangumi_id": 103452,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "multi",
-      "playstyle": "vn",
-      "cast": "ensemble",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:fantasy": 1.0,
-        "pace:breezy": 1.0,
-        "era:classic": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:vn": 1.0,
-        "cast:ensemble": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.45,
-        "setting:scifi": 0.28,
-        "focus:world": 0.45,
-        "appeal:action": 0.5,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "playstyle:adv": 0.35,
-        "entry:deep": 0.22,
-        "tone:drama": 0.35,
-        "tone:heal": 0.25,
-        "cast:harem": 0.35,
-        "routes:single": 0.45,
-        "mood:heavy": 0.25,
-        "playstyle:rpg": 0.35
-      },
-      "id": "G455"
-    },
-    {
-      "name": "魔女っ娘ア·ラ·モード",
-      "year": 2003,
-      "rank": 18,
-      "source": "sedai",
-      "tone": "hype",
-      "setting": "fantasy",
-      "pace": "breezy",
-      "era": "classic",
-      "fame": "solid",
-      "tag_source": "vndb+bangumi",
-      "vndb_id": "v2501",
-      "bangumi_id": 365956,
-      "focus": "story",
-      "entry": "standard",
-      "mood": "bittersweet",
-      "routes": "multi",
-      "playstyle": "adv",
-      "cast": "harem",
-      "traits": {
-        "tone:hype": 1.0,
-        "setting:fantasy": 1.0,
-        "pace:breezy": 1.0,
-        "era:classic": 1.0,
-        "fame:solid": 1.0,
-        "focus:story": 1.0,
-        "entry:standard": 1.0,
-        "mood:bittersweet": 1.0,
-        "routes:multi": 1.0,
-        "playstyle:adv": 1.0,
-        "cast:harem": 1.0,
-        "tone:sweet": 0.22,
-        "tone:epic": 0.3,
-        "mood:light": 0.22,
-        "appeal:comedy": 0.5,
-        "setting:scifi": 0.28,
-        "focus:world": 0.45,
-        "appeal:action": 0.3,
-        "pace:short": 0.35,
-        "pace:slowburn": 0.25,
-        "entry:easy": 0.3,
-        "entry:deep": 0.22,
-        "tone:drama": 0.35,
-        "tone:heal": 0.25,
-        "mood:heavy": 0.35
-      },
-      "id": "G456"
+      "id": "G600"
     }
   ],
   "questions": [
@@ -23396,7 +31025,8 @@ const GAL_PICK_DATA = {
             "pace:breezy"
           ]
         }
-      ]
+      ],
+      "category": "core"
     },
     {
       "id": "Q002",
@@ -23445,7 +31075,8 @@ const GAL_PICK_DATA = {
             "setting:school"
           ]
         }
-      ]
+      ],
+      "category": "core"
     },
     {
       "id": "Q003",
@@ -23493,7 +31124,8 @@ const GAL_PICK_DATA = {
             "pace:breezy"
           ]
         }
-      ]
+      ],
+      "category": "core"
     },
     {
       "id": "Q004",
@@ -23544,7 +31176,8 @@ const GAL_PICK_DATA = {
             "pace:slowburn"
           ]
         }
-      ]
+      ],
+      "category": "core"
     },
     {
       "id": "Q005",
@@ -23609,10 +31242,64 @@ const GAL_PICK_DATA = {
             "pace:breezy"
           ]
         }
-      ]
+      ],
+      "category": "core"
     },
     {
       "id": "Q006",
+      "text": "对血腥、猎奇、重口描写，你能接受到哪一步？",
+      "options": [
+        {
+          "label": "完全不行，看到就退",
+          "boost": {
+            "tone:sweet": 4,
+            "tone:heal": 3
+          },
+          "drop": [
+            "appeal:horror"
+          ]
+        },
+        {
+          "label": "轻度恐怖悬疑可以",
+          "boost": {
+            "tone:mindbend": 4,
+            "appeal:mystery": 3,
+            "setting:mystery": 2
+          },
+          "drop": [
+            "appeal:horror"
+          ]
+        },
+        {
+          "label": "压抑黑暗可以，但别过度猎奇",
+          "boost": {
+            "tone:utsuge": 4,
+            "mood:heavy": 3,
+            "appeal:utsuge": 3
+          },
+          "drop": [
+            "appeal:horror"
+          ]
+        },
+        {
+          "label": "猎奇重口也行，越猛越好",
+          "boost": {
+            "appeal:horror": 5,
+            "tone:utsuge": 4,
+            "mood:heavy": 4,
+            "entry:deep": 2
+          },
+          "drop": [
+            "tone:sweet",
+            "tone:heal"
+          ]
+        }
+      ],
+      "hint": "包括暴力、恐怖、猎奇等元素；选「完全不行」会避开这类作品",
+      "category": "horror"
+    },
+    {
+      "id": "Q007",
       "text": "年代和名气，你更怎么选？",
       "options": [
         {
@@ -23654,10 +31341,11 @@ const GAL_PICK_DATA = {
           ]
         }
       ],
+      "category": "core",
       "skippable": true
     },
     {
-      "id": "Q007",
+      "id": "Q008",
       "text": "推完一部好 Gal，你希望带走什么？",
       "options": [
         {
@@ -23706,10 +31394,11 @@ const GAL_PICK_DATA = {
             "tone:literary"
           ]
         }
-      ]
+      ],
+      "category": "core"
     },
     {
-      "id": "Q008",
+      "id": "Q009",
       "text": "今晚推 Gal，你更像哪种状态？",
       "options": [
         {
@@ -23766,10 +31455,11 @@ const GAL_PICK_DATA = {
             "pace:short"
           ]
         }
-      ]
+      ],
+      "category": "core"
     },
     {
-      "id": "Q009",
+      "id": "Q010",
       "text": "开场几分钟，你希望先感受到什么？",
       "options": [
         {
@@ -23818,7 +31508,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q010",
+      "id": "Q011",
       "text": "如果用天气形容你想要的 Gal……",
       "options": [
         {
@@ -23866,7 +31556,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q011",
+      "id": "Q012",
       "text": "推完之后，你希望心里留着什么？",
       "options": [
         {
@@ -23911,7 +31601,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q012",
+      "id": "Q013",
       "text": "以下哪种开场你更能接受？",
       "options": [
         {
@@ -23959,7 +31649,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q013",
+      "id": "Q014",
       "text": "周末下午，哪种节奏最对味？",
       "options": [
         {
@@ -24006,7 +31696,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q014",
+      "id": "Q015",
       "text": "什么会让你一直读下去？",
       "options": [
         {
@@ -24052,7 +31742,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q015",
+      "id": "Q016",
       "text": "你会怎么跟朋友安利一部 Gal？",
       "options": [
         {
@@ -24097,7 +31787,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q016",
+      "id": "Q017",
       "text": "「好玩」对你来说，更接近哪种感受？",
       "options": [
         {
@@ -24143,7 +31833,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q017",
+      "id": "Q018",
       "text": "背景声里，你更吃哪一种？",
       "options": [
         {
@@ -24188,7 +31878,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q018",
+      "id": "Q019",
       "text": "「日常戏」对你意味着什么？",
       "options": [
         {
@@ -24235,7 +31925,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q019",
+      "id": "Q020",
       "text": "哪种背景设定你更能接受？",
       "options": [
         {
@@ -24281,7 +31971,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q020",
+      "id": "Q021",
       "text": "世界类型，此刻更偏向哪边？",
       "options": [
         {
@@ -24324,7 +32014,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q021",
+      "id": "Q022",
       "text": "你能接受多少日常铺垫（聊天、吃饭、放学）？",
       "options": [
         {
@@ -24367,7 +32057,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q022",
+      "id": "Q023",
       "text": "你平时一般怎么读这类故事？",
       "options": [
         {
@@ -24410,7 +32100,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q023",
+      "id": "Q024",
       "text": "什么最容易让你中途不想玩了？",
       "options": [
         {
@@ -24457,7 +32147,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q024",
+      "id": "Q025",
       "text": "画面和演出，你更在意？",
       "options": [
         {
@@ -24497,7 +32187,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q025",
+      "id": "Q026",
       "text": "对「大家都在玩」的态度？",
       "options": [
         {
@@ -24540,7 +32230,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q026",
+      "id": "Q027",
       "text": "画面和剧本只能保一个，你选？",
       "options": [
         {
@@ -24586,7 +32276,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q027",
+      "id": "Q028",
       "text": "此刻更缺哪一种？",
       "options": [
         {
@@ -24633,7 +32323,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q028",
+      "id": "Q029",
       "text": "恋爱在故事里占多少？",
       "options": [
         {
@@ -24680,7 +32370,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q029",
+      "id": "Q030",
       "text": "哪种缺点你更能原谅？",
       "options": [
         {
@@ -24726,7 +32416,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q030",
+      "id": "Q031",
       "text": "第一印象，你更看重什么？",
       "options": [
         {
@@ -24771,7 +32461,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q031",
+      "id": "Q032",
       "text": "推完你会更想做什么？",
       "options": [
         {
@@ -24820,7 +32510,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q032",
+      "id": "Q033",
       "text": "以你现在的游玩经验，你更像哪种玩家？",
       "options": [
         {
@@ -24867,7 +32557,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q033",
+      "id": "Q034",
       "text": "音乐和氛围，你更吃哪挂？",
       "options": [
         {
@@ -24914,7 +32604,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q034",
+      "id": "Q035",
       "text": "如果必须先排除一类，你选？",
       "options": [
         {
@@ -24962,7 +32652,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q035",
+      "id": "Q036",
       "text": "下雨天推 Gal，你更想要？",
       "options": [
         {
@@ -25008,7 +32698,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q036",
+      "id": "Q037",
       "text": "你更喜欢哪种路线结构？",
       "options": [
         {
@@ -25057,7 +32747,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q037",
+      "id": "Q038",
       "text": "喜剧元素，你要多少？",
       "options": [
         {
@@ -25103,7 +32793,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q038",
+      "id": "Q039",
       "text": "对「角色突然离开或死亡」这类桥段？",
       "options": [
         {
@@ -25150,7 +32840,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q039",
+      "id": "Q040",
       "text": "文字量偏好？",
       "options": [
         {
@@ -25195,7 +32885,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q040",
+      "id": "Q041",
       "text": "什么「钩子」最容易抓住你？",
       "options": [
         {
@@ -25241,7 +32931,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q041",
+      "id": "Q042",
       "text": "故事里有「学校」元素时？",
       "options": [
         {
@@ -25287,7 +32977,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q042",
+      "id": "Q043",
       "text": "角色讲大道理、人生感悟，你能接受多少？",
       "options": [
         {
@@ -25332,7 +33022,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q043",
+      "id": "Q044",
       "text": "群像和社交戏，你要多少？",
       "options": [
         {
@@ -25379,7 +33069,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q044",
+      "id": "Q045",
       "text": "你最想避开哪类标签？",
       "options": [
         {
@@ -25428,7 +33118,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q045",
+      "id": "Q046",
       "text": "看到「科幻」标签，你的反应？",
       "options": [
         {
@@ -25473,7 +33163,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q046",
+      "id": "Q047",
       "text": "看到「推理 / 解谜」标签？",
       "options": [
         {
@@ -25519,7 +33209,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q047",
+      "id": "Q048",
       "text": "你更相信哪种推荐理由？",
       "options": [
         {
@@ -25567,7 +33257,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q048",
+      "id": "Q049",
       "text": "一个人夜里推，你怕什么？",
       "options": [
         {
@@ -25614,7 +33304,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q049",
+      "id": "Q050",
       "text": "作品「名场面」很多，你怎么看？",
       "options": [
         {
@@ -25658,7 +33348,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q050",
+      "id": "Q051",
       "text": "更想玩新版还是原版？",
       "options": [
         {
@@ -25703,7 +33393,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q051",
+      "id": "Q052",
       "text": "你更喜欢哪种讲故事方式？",
       "options": [
         {
@@ -25751,7 +33441,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q052",
+      "id": "Q053",
       "text": "结尾，你更想要什么？",
       "options": [
         {
@@ -25797,7 +33487,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q053",
+      "id": "Q054",
       "text": "用一个词形容你想要的 Gal？",
       "options": [
         {
@@ -25847,7 +33537,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q054",
+      "id": "Q055",
       "text": "长途火车上，你会带哪种 Gal？",
       "options": [
         {
@@ -25893,7 +33583,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q055",
+      "id": "Q056",
       "text": "经典角色设定（妹妹/姐姐/青梅竹马），你吃哪套？",
       "options": [
         {
@@ -25940,7 +33630,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q056",
+      "id": "Q057",
       "text": "「社团活动」戏份多少合适？",
       "options": [
         {
@@ -25986,7 +33676,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q057",
+      "id": "Q058",
       "text": "什么最容易劝退你？",
       "options": [
         {
@@ -26032,7 +33722,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q058",
+      "id": "Q059",
       "text": "通关一次后，你还愿意再玩一遍吗？",
       "options": [
         {
@@ -26078,7 +33768,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q059",
+      "id": "Q060",
       "text": "战斗或动作戏，你需要吗？",
       "options": [
         {
@@ -26125,7 +33815,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q060",
+      "id": "Q061",
       "text": "旅行、转学这类「流动」情节？",
       "options": [
         {
@@ -26171,7 +33861,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q061",
+      "id": "Q062",
       "text": "旁白（内心独白/叙述）很多，你能接受吗？",
       "options": [
         {
@@ -26215,7 +33905,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q062",
+      "id": "Q063",
       "text": "「夏天」作为默认季节？",
       "options": [
         {
@@ -26260,7 +33950,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q063",
+      "id": "Q064",
       "text": "女主很「强气」？",
       "options": [
         {
@@ -26301,7 +33991,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q064",
+      "id": "Q065",
       "text": "进入个人路线前，前面共用的剧情要多长？",
       "options": [
         {
@@ -26347,7 +34037,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q065",
+      "id": "Q066",
       "text": "「超能力 + 学园 + 战斗」这类设定？",
       "options": [
         {
@@ -26395,7 +34085,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q066",
+      "id": "Q067",
       "text": "角色「成长」和「魅力稳定」，你更吃哪个？",
       "options": [
         {
@@ -26439,7 +34129,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q067",
+      "id": "Q068",
       "text": "「先虐后甜」的结构？",
       "options": [
         {
@@ -26485,7 +34175,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q068",
+      "id": "Q069",
       "text": "对「超人气老名作」？",
       "options": [
         {
@@ -26530,7 +34220,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q069",
+      "id": "Q070",
       "text": "剧情里专有名词很多，你能接受吗？",
       "options": [
         {
@@ -26575,7 +34265,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q070",
+      "id": "Q071",
       "text": "「一章一个小高潮」的节奏？",
       "options": [
         {
@@ -26619,7 +34309,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q071",
+      "id": "Q072",
       "text": "你更想被怎样安利？",
       "options": [
         {
@@ -26663,7 +34353,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q072",
+      "id": "Q073",
       "text": "对世界「很大、很开放」的感觉？",
       "options": [
         {
@@ -26708,7 +34398,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q073",
+      "id": "Q074",
       "text": "如果只能留一种气质？",
       "options": [
         {
@@ -26755,7 +34445,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q074",
+      "id": "Q075",
       "text": "你今晚的耐心值？",
       "options": [
         {
@@ -26802,7 +34492,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q075",
+      "id": "Q076",
       "text": "选作品时，你更信什么？",
       "options": [
         {
@@ -26845,7 +34535,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q076",
+      "id": "Q077",
       "text": "开场很慢，你能忍吗？",
       "options": [
         {
@@ -26890,7 +34580,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q077",
+      "id": "Q078",
       "text": "开场信息爆炸，你能接受吗？",
       "options": [
         {
@@ -26935,7 +34625,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q078",
+      "id": "Q079",
       "text": "你更想「被选择」还是「去理解」？",
       "options": [
         {
@@ -26980,7 +34670,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q079",
+      "id": "Q080",
       "text": "关页面前，你希望是什么心情？",
       "options": [
         {
@@ -27024,7 +34714,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q080",
+      "id": "Q081",
       "text": "此刻最想要什么甜度？",
       "options": [
         {
@@ -27067,7 +34757,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q081",
+      "id": "Q082",
       "text": "舞台此刻更靠近哪边？",
       "options": [
         {
@@ -27109,7 +34799,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q082",
+      "id": "Q083",
       "text": "篇幅体感，你选哪种？",
       "options": [
         {
@@ -27152,7 +34842,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q083",
+      "id": "Q084",
       "text": "此刻最想避开什么？",
       "options": [
         {
@@ -27197,7 +34887,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q084",
+      "id": "Q085",
       "text": "此刻最想抓住什么？",
       "options": [
         {
@@ -27242,7 +34932,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q085",
+      "id": "Q086",
       "text": "给今晚的推 Gal 定个调？",
       "options": [
         {
@@ -27285,7 +34975,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q086",
+      "id": "Q087",
       "text": "开场前三分钟，标准是什么？",
       "options": [
         {
@@ -27330,7 +35020,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q087",
+      "id": "Q088",
       "text": "你会为了看其他内容再玩一遍吗？",
       "options": [
         {
@@ -27375,7 +35065,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q088",
+      "id": "Q089",
       "text": "结局余味，你更想要什么？",
       "options": [
         {
@@ -27418,7 +35108,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q089",
+      "id": "Q090",
       "text": "什么情况下你会中途弃坑？",
       "options": [
         {
@@ -27464,7 +35154,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q090",
+      "id": "Q091",
       "text": "选项和分支很多，你怎么看？",
       "options": [
         {
@@ -27511,7 +35201,7 @@ const GAL_PICK_DATA = {
       "skippable": true
     },
     {
-      "id": "Q091",
+      "id": "Q092",
       "text": "主角是「普通人」还是「特殊存在」？",
       "options": [
         {
@@ -27557,7 +35247,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q092",
+      "id": "Q093",
       "text": "你更吃哪种女主类型？",
       "options": [
         {
@@ -27603,7 +35293,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q093",
+      "id": "Q094",
       "text": "对「日常 → 突变」的转折？",
       "options": [
         {
@@ -27650,7 +35340,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q094",
+      "id": "Q095",
       "text": "你推 Gal 时，更常是什么状态？",
       "options": [
         {
@@ -27698,7 +35388,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q095",
+      "id": "Q096",
       "text": "如果朋友问你「哪部适合入门」？",
       "options": [
         {
@@ -27745,7 +35435,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q096",
+      "id": "Q097",
       "text": "你更想故事「像梦」还是「像真的」？",
       "options": [
         {
@@ -27792,7 +35482,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q097",
+      "id": "Q098",
       "text": "你更怕推完后有什么感受？",
       "options": [
         {
@@ -27843,7 +35533,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q098",
+      "id": "Q099",
       "text": "推荐结果你更想看到哪种？",
       "options": [
         {
@@ -27888,7 +35578,7 @@ const GAL_PICK_DATA = {
       ]
     },
     {
-      "id": "Q099",
+      "id": "Q100",
       "text": "年代上，你现在更想试？",
       "options": [
         {
@@ -27924,50 +35614,6 @@ const GAL_PICK_DATA = {
           },
           "drop": [
             "era:modern"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "Q100",
-      "text": "最后一题：你现在最缺什么？",
-      "options": [
-        {
-          "label": "缺一部能笑出来的",
-          "boost": {
-            "tone:hype": 4,
-            "tone:sweet": 3
-          },
-          "drop": [
-            "tone:literary"
-          ]
-        },
-        {
-          "label": "缺一部能安静下来的",
-          "boost": {
-            "tone:heal": 5
-          },
-          "drop": [
-            "tone:epic"
-          ]
-        },
-        {
-          "label": "缺一部能哭一场的",
-          "boost": {
-            "tone:drama": 5
-          },
-          "drop": [
-            "tone:hype"
-          ]
-        },
-        {
-          "label": "缺一部能烧脑的",
-          "boost": {
-            "tone:mindbend": 5,
-            "pace:dense": 2
-          },
-          "drop": [
-            "tone:sweet"
           ]
         }
       ]

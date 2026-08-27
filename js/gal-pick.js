@@ -1,5 +1,5 @@
 /**
- * Gal 心选 v5 — trait 向量 + IDF + 自适应选题 + 可跳过
+ * Gal缘结 v8 — 弹性题量（无固定上限，池缩至 1 即出结果）+ trait 向量匹配
  */
 (() => {
   const DATA = typeof GAL_PICK_DATA !== "undefined" ? GAL_PICK_DATA : null;
@@ -8,11 +8,10 @@
     return;
   }
 
-  const DRAW_MAX = Math.min(28, DATA.meta?.drawMax || 28, DATA.questions.length);
-  const MIN_ANSWERS = 8;
-  const MIN_TOTAL = 10;
+  const MIN_ANSWERS = 6;
+  const MIN_ANSWERS_STRICT = 8;
   const MAX_SKIPS = 10;
-  const CORE_IDS = new Set(["Q001", "Q002", "Q003", "Q004", "Q005", "Q006", "Q007", "Q008", "Q009", "Q010"]);
+  const CORE_CATEGORIES = new Set(["core", "horror"]);
 
   const AXIS_WEIGHT = {
     tone: 1.18,
@@ -155,7 +154,8 @@
     alive: [],
     asked: new Set(),
     skippedIds: new Set(),
-    early: false,
+    /** @type {'quiz'|'single'|'auto'|'early'|'random'} */
+    finishMode: "quiz",
   };
 
   const els = {};
@@ -187,9 +187,67 @@
     return false;
   }
 
-  function axisWeight(axisKey) {
-    const [dim] = axisKey.split(":");
-    return AXIS_WEIGHT[dim] || 1;
+  function poolUncertainty() {
+    const ranked = rankAlive();
+    if (ranked.length <= 2) return 0;
+    const top = ranked[0].score;
+    const gap1 = top - ranked[1].score;
+    const gap2 = ranked.length > 2 ? ranked[1].score - ranked[2].score : gap1;
+    const band = ranked.slice(0, Math.min(12, ranked.length));
+    const spread = top - band[band.length - 1].score;
+    const gapScore = Math.max(0, 1 - gap1 / 5.5) * 0.55 + Math.max(0, 1 - gap2 / 3.5) * 0.25;
+    const spreadScore = Math.min(1, spread / 7) * 0.2;
+    const sizeScore = Math.min(1, state.alive.length / 120) * 0.15;
+    return Math.min(1, gapScore + spreadScore + sizeScore);
+  }
+
+  function poolShrinkRatio() {
+    if (!games.length) return 0;
+    return 1 - state.alive.length / games.length;
+  }
+
+  function matchConfidence(ranked) {
+    if (!ranked.length) return 0;
+    if (ranked.length === 1) return 1;
+    const gap1 = ranked[0].score - ranked[1].score;
+    const gap2 = ranked.length > 2 ? ranked[1].score - ranked[2].score : gap1 * 0.6;
+    const rel = gap1 / (Math.abs(ranked[0].score) + 1e-5);
+    return Math.min(1, gap1 / 6 + rel * 0.35 + Math.min(gap2, 3) / 8);
+  }
+
+  function preferenceGaps() {
+    const axes = Object.create(null);
+    state.alive.slice(0, 80).forEach((g) => {
+      Object.entries(g.traits || {}).forEach(([k, v]) => {
+        if (v >= 0.35) axes[k] = (axes[k] || 0) + v;
+      });
+    });
+    return Object.entries(axes)
+      .filter(([k]) => !(state.boost[k] > 0.5))
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 12)
+      .map(([k]) => k);
+  }
+
+  function questionTargets(q) {
+    const keys = new Set();
+    (q.options || []).forEach((opt) => {
+      Object.keys(opt.boost || {}).forEach((k) => keys.add(k));
+      (opt.drop || []).forEach((k) => keys.add(k));
+    });
+    return keys;
+  }
+
+  function questionRelevance(q) {
+    const gaps = preferenceGaps();
+    const targets = questionTargets(q);
+    let hit = 0;
+    targets.forEach((k) => {
+      if (gaps.includes(k)) hit += 1;
+    });
+    if (q.category === "horror" && !(state.boost["appeal:horror"] > 0)) hit += 1.5;
+    if (q.category === "core") hit += 0.5;
+    return hit;
   }
 
   function traitStrength(game, axisKey) {
@@ -312,30 +370,36 @@
     return Math.max(10, Math.min(45, Math.floor(state.alive.length * 0.055)));
   }
 
+  function axisWeight(axisKey) {
+    const [dim] = axisKey.split(":");
+    return AXIS_WEIGHT[dim] || 1;
+  }
+
   function applyHardDrops(opt) {
     const floor = dropFloor();
     (opt.drop || []).forEach((axis) => {
-      const next = state.alive.filter((g) => !tagOf(g, axis) && traitStrength(g, axis) < 0.55);
+      const next = state.alive.filter((g) => traitStrength(g, axis) < 0.52);
       if (next.length >= floor) {
         state.alive = next;
         state.drops.add(axis);
       } else {
-        state.penalty[axis] = (state.penalty[axis] || 0) - (state.alive.length > 55 ? 5.5 : 4);
+        state.penalty[axis] = (state.penalty[axis] || 0) - (state.alive.length > 55 ? 5.5 : 4.2);
       }
     });
   }
 
   function convergePool() {
-    if (state.alive.length <= 3) return;
+    if (state.alive.length <= 5 || state.answered < 5) return;
     const ranked = rankAlive();
     const top = ranked[0].score;
-    const progress = state.index / DRAW_MAX;
+    const shrink = poolShrinkRatio();
+    const progress = Math.min(1, state.answered / 18 + shrink * 0.45);
     const scores = ranked.map((g) => g.score);
     const p75 = scores[Math.floor(scores.length * 0.25)] || top - 4;
-    const slack = Math.max(1.2, Math.min(9, top - p75 + 1.5 - progress * 2));
+    const slack = Math.max(1.6, Math.min(11, top - p75 + 2.0 - progress * 2.2));
     let kept = ranked.filter((g) => g.score >= top - slack);
-    if (!kept.length) kept = ranked.slice(0, 2);
-    const cap = Math.max(4, Math.ceil(52 - state.index * 2.4 - progress * 14));
+    if (!kept.length) kept = ranked.slice(0, 4);
+    const cap = Math.max(10, Math.ceil(64 - state.answered * 2.4 - progress * 14));
     if (kept.length > cap) kept = kept.slice(0, cap);
     state.alive = kept.map(({ score, ...g }) => g);
   }
@@ -362,27 +426,39 @@
 
   function questionWeight(q) {
     let w = 1;
-    if (state.skippedIds.has(q.id)) w *= 0.15;
-    if (q.skippable && state.answered < 6) w *= 0.55;
-    if (CORE_IDS.has(q.id) && state.answered < 8) w *= 1.35;
+    if (state.skippedIds.has(q.id)) w *= 0.12;
+    if (q.skippable && state.answered < 5) w *= 0.5;
+    if (CORE_CATEGORIES.has(q.category) && state.answered < MIN_ANSWERS_STRICT) w *= 1.4;
+    w *= 1 + questionRelevance(q) * 0.22;
     return w;
   }
 
   function pickNextQuestion() {
-    const coreLeft = DATA.questions.filter((q) => CORE_IDS.has(q.id) && !state.asked.has(q.id));
-    if (state.answered < 6 && coreLeft.length) {
-      return coreLeft[Math.floor(Math.random() * coreLeft.length)];
-    }
     const pool = DATA.questions.filter((q) => !state.asked.has(q.id));
     if (!pool.length) return null;
+
+    const coreLeft = pool.filter((q) => CORE_CATEGORIES.has(q.category));
+    const horrorLeft = pool.filter((q) => q.category === "horror");
+
+    if (state.answered < 5 && coreLeft.length) {
+      const must = coreLeft.filter((q) => q.category === "core");
+      const bag = must.length ? must : coreLeft;
+      return bag[Math.floor(Math.random() * bag.length)];
+    }
+
+    if (state.answered >= 4 && state.answered < 8 && horrorLeft.length && !state.asked.has(horrorLeft[0].id)) {
+      return horrorLeft[0];
+    }
+
     const sample = shuffle(pool)
       .sort((a, b) => questionWeight(b) - questionWeight(a))
-      .slice(0, 32);
+      .slice(0, 36);
     let best = sample[0];
     let bestV = -1;
     sample.forEach((q) => {
       const disc = Math.max(...q.options.map((o) => optionDiscrimination(o, state.alive, state.boost, state.penalty)));
-      const v = disc * questionWeight(q);
+      const rel = questionRelevance(q);
+      const v = disc * questionWeight(q) * (1 + rel * 0.35);
       if (v > bestV) {
         bestV = v;
         best = q;
@@ -392,12 +468,21 @@
   }
 
   function shouldConfidentFinish(ranked) {
-    if (ranked.length <= 1) return true;
+    if (!ranked.length) return true;
+    if (ranked.length === 1) return true;
+    if (state.alive.length <= 1) return true;
     if (state.answered < MIN_ANSWERS) return false;
-    if (state.index < MIN_TOTAL && state.skipped < 3) return false;
+    const conf = matchConfidence(ranked);
+    const unc = poolUncertainty();
     const g1 = ranked[0].score - ranked[1].score;
-    const g2 = ranked.length > 2 ? ranked[1].score - ranked[2].score : g1 * 0.5;
+    const g2 = ranked.length > 2 ? ranked[1].score - ranked[2].score : g1 * 0.55;
     const rel = g1 / (Math.abs(ranked[0].score) + 1e-5);
+
+    if (state.answered >= 6 && conf >= 0.72 && g1 >= 3.8) return true;
+    if (state.answered >= 8 && conf >= 0.58 && g1 >= 2.8 && g2 >= 0.7) return true;
+    if (state.answered >= 10 && unc < 0.32 && g1 >= 2.2) return true;
+    if (state.answered >= 12 && unc < 0.42 && g1 >= 1.8) return true;
+
     const skipBonus = state.skipped >= 4 ? 0.85 : 1;
     return g1 >= 3.2 * skipBonus && rel >= 0.12 && g2 >= 0.55;
   }
@@ -506,15 +591,18 @@
     return Math.min(1, sim);
   }
 
-  function searchUrl(name) {
-    return `https://bgm.tv/subject_search/${encodeURIComponent(name)}?cat=4`;
+  function gameUrl(g) {
+    const id = (g.vndb_id || "").trim();
+    if (/^v\d+$/i.test(id)) return `https://vndb.org/${id.toLowerCase()}`;
+    const q = (g.name || gameLabel(g)).trim();
+    return `https://vndb.org/v?q=${encodeURIComponent(q)}`;
   }
 
   function appendPickCard(container, g, { rank, compact }) {
     const reasons = matchReasons(g);
     const a = document.createElement("a");
     a.className = `pick-card${compact ? " pick-card--alt" : " pick-card--top"}`;
-    a.href = searchUrl(gameLabel(g));
+    a.href = gameUrl(g);
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     a.innerHTML = `
@@ -530,6 +618,46 @@
     container.appendChild(a);
   }
 
+  function pickRandomFromBand(ranked) {
+    if (!ranked.length) return null;
+    const top = ranked[0].score;
+    const bandSize = Math.max(3, Math.min(18, Math.ceil(ranked.length * 0.35)));
+    const band = ranked.slice(0, bandSize);
+    const seed = band[Math.floor(Math.random() * band.length)];
+    const slack = Math.max(2.8, top - (band[band.length - 1]?.score ?? top - 4) + 1.2);
+    const similar = ranked.filter(
+      (g) => g.score >= top - slack && gameSimilarity(seed, g) >= 0.45,
+    );
+    const pool = similar.length >= 2 ? similar : band;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  function pickPrimaryResult(ranked) {
+    if (state.finishMode === "random") {
+      return games[Math.floor(Math.random() * games.length)];
+    }
+    if (!ranked.length) return null;
+    if (state.finishMode === "early") {
+      return pickRandomFromBand(ranked);
+    }
+    return ranked[0];
+  }
+
+  function resultKicker() {
+    switch (state.finishMode) {
+      case "random":
+        return "随机推荐";
+      case "early":
+        return "从当前匹配中随机";
+      case "single":
+        return "候选已唯一";
+      case "auto":
+        return "匹配完成";
+      default:
+        return "已了解你的偏好";
+    }
+  }
+
   function resetRun() {
     state.index = 0;
     state.answered = 0;
@@ -540,7 +668,23 @@
     state.alive = games.slice();
     state.asked = new Set();
     state.skippedIds = new Set();
-    state.early = false;
+    state.finishMode = "quiz";
+  }
+
+  function startQuiz() {
+    resetRun();
+    renderQuestion();
+  }
+
+  function startRandomPick() {
+    resetRun();
+    state.finishMode = "random";
+    renderResult();
+  }
+
+  function finishEarly() {
+    state.finishMode = "early";
+    renderResult();
   }
 
   function bind() {
@@ -557,23 +701,30 @@
   function renderIntro() {
     els.panel.innerHTML = `
       <div class="pick-stage pick-stage--intro pick-stage--intro-minimal">
-        <button type="button" class="pick-btn pick-btn--primary" data-pick-start>开始</button>
+        <div class="pick-intro-actions">
+          <button type="button" class="pick-btn pick-btn--primary" data-pick-start>开始答题</button>
+          <button type="button" class="pick-btn pick-btn--ghost" data-pick-random>不作答，随机一部</button>
+        </div>
       </div>
     `;
-    els.panel.querySelector("[data-pick-start]")?.addEventListener("click", () => {
-      resetRun();
-      renderQuestion();
-    });
+    els.panel.querySelector("[data-pick-start]")?.addEventListener("click", startQuiz);
+    els.panel.querySelector("[data-pick-random]")?.addEventListener("click", startRandomPick);
   }
 
   function finishOrContinue() {
     const ranked = rankAlive();
-    if (shouldConfidentFinish(ranked)) {
-      state.early = true;
+    if (state.alive.length <= 1) {
+      state.finishMode = "single";
       renderResult();
       return true;
     }
-    if (state.index >= DRAW_MAX || state.asked.size >= DATA.questions.length) {
+    if (shouldConfidentFinish(ranked)) {
+      state.finishMode = "auto";
+      renderResult();
+      return true;
+    }
+    if (state.asked.size >= DATA.questions.length) {
+      state.finishMode = state.answered > 0 ? "auto" : "random";
       renderResult();
       return true;
     }
@@ -603,15 +754,20 @@
     state.asked.add(q.id);
 
     const current = state.index + 1;
-    const pct = Math.min(100, ((state.answered + 1) / DRAW_MAX) * 100);
+    const conf = matchConfidence(rankAlive());
+    const pct = Math.min(100, (conf * 0.55 + poolShrinkRatio() * 0.45) * 100);
     const canSkip = state.skipped < MAX_SKIPS;
+    const canFinishEarly = state.answered >= 1;
 
     els.panel.innerHTML = `
       <div class="pick-stage pick-stage--quiz">
         <div class="pick-status">
           <div class="pick-status__row">
-            <span>第 <strong>${current}</strong> 题${state.answered ? ` · 已答 ${state.answered}` : ""}</span>
-            ${canSkip ? `<button type="button" class="pick-skip" data-pick-skip>跳过</button>` : ""}
+            <span>第 <strong>${current}</strong> 题 · 候选 <strong>${state.alive.length}</strong> 部${state.answered ? ` · 已答 ${state.answered}` : ""}</span>
+            <span class="pick-status__actions">
+              ${canFinishEarly ? `<button type="button" class="pick-skip" data-pick-finish>提前出结果</button>` : ""}
+              ${canSkip ? `<button type="button" class="pick-skip" data-pick-skip>跳过</button>` : ""}
+            </span>
           </div>
           <div class="pick-progress" aria-hidden="true"><span class="pick-progress__bar" style="width:${pct}%"></span></div>
         </div>
@@ -622,6 +778,7 @@
     `;
 
     els.panel.querySelector("[data-pick-skip]")?.addEventListener("click", () => skipQuestion(q));
+    els.panel.querySelector("[data-pick-finish]")?.addEventListener("click", finishEarly);
 
     const box = els.panel.querySelector("#pick-options");
     q.options.forEach((opt, i) => {
@@ -642,13 +799,13 @@
     let alive = survivingGames();
     if (!alive.length) alive = games.slice();
     const ranked = rankList(alive);
-    const top = ranked[0];
+    const top = pickPrimaryResult(ranked);
     const alts = top ? pickSecondaryCandidates(top, ranked) : [];
 
     els.panel.innerHTML = `
       <div class="pick-stage pick-stage--result">
-        <p class="pick-result-kicker">${state.early ? "匹配完成" : "已了解你的偏好"}</p>
-        <h2 class="pick-result-title">就是这部</h2>
+        <p class="pick-result-kicker">${resultKicker()}</p>
+        <h2 class="pick-result-title">${state.finishMode === "random" ? "试试这部" : "就是这部"}</h2>
         <div class="pick-results pick-results--hero" id="pick-results-main"></div>
         ${
           alts.length
@@ -658,9 +815,10 @@
         }
         <div class="pick-actions">
           <button type="button" class="pick-btn pick-btn--ghost" data-pick-retry>再来一局</button>
+          <button type="button" class="pick-btn pick-btn--ghost" data-pick-random-again>随机一部</button>
           <a class="pick-btn pick-btn--primary" href="/">回主页</a>
         </div>
-        <p class="pick-note">点卡片去 Bangumi 搜索 · 娱乐向匹配</p>
+        <p class="pick-note">点卡片去 VNDB · 娱乐向匹配 · 题量随候选池缩小，无固定上限</p>
       </div>
     `;
 
@@ -674,16 +832,21 @@
     }
 
     els.panel.querySelector("[data-pick-retry]")?.addEventListener("click", () => {
-      resetRun();
       renderIntro();
     });
+    els.panel.querySelector("[data-pick-random-again]")?.addEventListener("click", startRandomPick);
   }
 
   function init() {
     bind();
     if (!els.panel) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("random") === "1") {
+      startRandomPick();
+      return;
+    }
     renderIntro();
   }
 
-  window.KayaGalPick = { init };
+  window.KayaGalPick = { init, startRandomPick };
 })();

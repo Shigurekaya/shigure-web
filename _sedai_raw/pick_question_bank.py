@@ -10,12 +10,15 @@ def q(
     *,
     hint: str | None = None,
     skippable: bool = False,
+    category: str | None = None,
 ) -> dict:
     row: dict = {"id": qid, "text": text, "options": options}
     if hint:
         row["hint"] = hint
     if skippable:
         row["skippable"] = True
+    if category:
+        row["category"] = category
     return row
 
 
@@ -136,6 +139,7 @@ def build_question_bank() -> list[dict]:
                 opt("被设定吸住，想一直看", {"tone:mindbend": 5, "tone:epic": 3, "pace:dense": 3}, ["tone:sweet", "pace:breezy"]),
             ],
             "core-mood",
+            category="core",
         ),
         q(
             "你更想故事发生在什么地方？",
@@ -146,6 +150,7 @@ def build_question_bank() -> list[dict]:
                 opt("科幻、封闭设施、时间线谜题", {"setting:scifi": 5, "setting:mystery": 3, "tone:mindbend": 2}, ["setting:school"]),
             ],
             "core-setting",
+            category="core",
         ),
         q(
             "你愿意花多少时间推完一部？",
@@ -156,6 +161,7 @@ def build_question_bank() -> list[dict]:
                 opt("信息量大、密度高也可以", {"pace:dense": 5, "tone:mindbend": 2, "tone:epic": 2}, ["pace:short", "pace:breezy"]),
             ],
             "core-pace",
+            category="core",
         ),
         q(
             "你更在意角色相处，还是剧情事件？",
@@ -166,6 +172,7 @@ def build_question_bank() -> list[dict]:
                 opt("要燃、要场面、要高潮", {"tone:hype": 4, "tone:epic": 4, "pace:dense": 2, "playstyle:rpg": 2}, ["tone:heal", "pace:slowburn"]),
             ],
             "core-cast-vs-plot",
+            category="core",
         ),
         q(
             "情感上，你能接受到什么程度？",
@@ -177,6 +184,19 @@ def build_question_bank() -> list[dict]:
                 opt("被世界观震撼也没关系", {"tone:epic": 4, "tone:mindbend": 3, "tone:literary": 2}, ["tone:sweet", "pace:breezy"]),
             ],
             "core-risk",
+            category="core",
+        ),
+        q(
+            "对血腥、猎奇、重口描写，你能接受到哪一步？",
+            [
+                opt("完全不行，看到就退", {"tone:sweet": 4, "tone:heal": 3}, ["appeal:horror"]),
+                opt("轻度恐怖悬疑可以", {"tone:mindbend": 4, "appeal:mystery": 3, "setting:mystery": 2}, ["appeal:horror"]),
+                opt("压抑黑暗可以，但别过度猎奇", {"tone:utsuge": 4, "mood:heavy": 3, "appeal:utsuge": 3}, ["appeal:horror"]),
+                opt("猎奇重口也行，越猛越好", {"appeal:horror": 5, "tone:utsuge": 4, "mood:heavy": 4, "entry:deep": 2}, ["tone:sweet", "tone:heal"]),
+            ],
+            "core-horror",
+            hint="包括暴力、恐怖、猎奇等元素；选「完全不行」会避开这类作品",
+            category="horror",
         ),
         q(
             "年代和名气，你更怎么选？",
@@ -187,6 +207,7 @@ def build_question_bank() -> list[dict]:
                 opt("冷门一点也行，别太烂大街", {"fame:solid": 4, "tone:literary": 2}, ["fame:icon"]),
             ],
             "core-era",
+            category="core",
         ),
         q(
             "推完一部好 Gal，你希望带走什么？",
@@ -197,6 +218,7 @@ def build_question_bank() -> list[dict]:
                 opt("想立刻开二周目", {"tone:sweet": 3, "pace:breezy": 3, "setting:school": 2}, ["pace:dense", "tone:literary"]),
             ],
             "core-payoff",
+            category="core",
         ),
         q(
             "今晚推 Gal，你更像哪种状态？",
@@ -207,6 +229,7 @@ def build_question_bank() -> list[dict]:
                 opt("想看大场面、高强度展开", {"tone:epic": 5, "focus:world": 3, "tone:hype": 3, "pace:dense": 3}, ["tone:heal", "pace:short"]),
             ],
             "core-tonight",
+            category="core",
         ),
     ])
 

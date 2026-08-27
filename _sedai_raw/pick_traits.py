@@ -60,7 +60,7 @@ RAW_TRAIT_RULES: list[tuple[re.Pattern[str], dict[str, float]]] = [
     (re.compile(r"nakige|泣き|泣系|催泪|泪", re.I), {"appeal:nakige": 0.55, "tone:drama": 0.3, "mood:bittersweet": 0.25}),
     (re.compile(r"utsuge|鬱|郁系|depressing|psychological trauma|tragedy", re.I), {"appeal:utsuge": 0.55, "tone:utsuge": 0.45, "mood:heavy": 0.4}),
     (re.compile(r"mystery|悬疑|推理|thriller|whodunit|detective", re.I), {"appeal:mystery": 0.5, "focus:mystery": 0.35}),
-    (re.compile(r"horror|恐怖|psychological horror|gore|惊悚", re.I), {"appeal:horror": 0.55, "tone:mindbend": 0.3, "mood:heavy": 0.35}),
+    (re.compile(r"horror|恐怖|psychological horror|gore|惊悚|guro|graphic violence|torture|graphic gore", re.I), {"appeal:horror": 0.62, "tone:mindbend": 0.32, "tone:utsuge": 0.35, "mood:heavy": 0.4}),
     (re.compile(r"meta|fourth wall|metafiction|打破第四|self-aware|meta.?narr", re.I), {"appeal:meta": 0.55, "routes:puzzle": 0.35, "tone:mindbend": 0.25}),
     (re.compile(r"time travel|loop|轮回|多周目|route unlock|multiple route", re.I), {"routes:puzzle": 0.45, "appeal:mystery": 0.25}),
     (re.compile(r"war|combat|mecha|战斗|action|turn.?based", re.I), {"appeal:action": 0.5, "tone:epic": 0.25, "playstyle:rpg": 0.35}),

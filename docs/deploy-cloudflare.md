@@ -14,7 +14,7 @@
 
 | 变量 | 说明 |
 |------|------|
-| `FUYUU_ADMIN_TOKEN` | 浮游 admin 上传密钥（与现 Vercel 相同） |
+| `FUYUU_ADMIN_TOKEN` | 浮游 admin 上传密钥 |
 | `GITHUB_TOKEN` | 有 `repo` 权限的 PAT，用于写回画廊 |
 | `GITHUB_REPO` | 可选，默认 `Shigurekaya/shigure-web` |
 | `GITHUB_BRANCH` | 可选，默认 `main` |
@@ -28,13 +28,11 @@
 
 | 文件 | 作用 |
 |------|------|
-| `_redirects` | 跳转 / clean URL（原 `vercel.json` redirects + rewrites） |
-| `_headers` | 缓存与安全头（原 `vercel.json` headers） |
-| `.cfignore` | 部署排除（原 `.vercelignore` + 服务端目录） |
+| `_redirects` | 跳转 / clean URL |
+| `_headers` | 缓存与安全头 |
+| `.cfignore` | 部署排除（开发目录 + 服务端源码） |
 | `wrangler.toml` | Pages 配置（`nodejs_compat` 供 API 使用 Buffer） |
 | `functions/api/fuyuu/*` | 浮游管理 API（Pages Functions） |
-
-`vercel.json` 暂保留作对照，切流量后可删。
 
 ## 本地预览 Pages Functions（可选）
 

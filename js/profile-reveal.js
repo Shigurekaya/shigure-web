@@ -89,7 +89,7 @@
   }
 
   function cardChildren() {
-    return [...document.querySelectorAll(".page-home .home-cards.profile-gated .home-card")];
+    return [...document.querySelectorAll(".page-home .home-section--more .home-card")];
   }
 
   function socialPills() {
