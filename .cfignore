@@ -1,0 +1,27 @@
+# Cloudflare Pages deploy exclusions (mirrors .vercelignore + server-only paths)
+koharu/
+shiotsuki/
+tianhu/
+_rain_analysis/
+_sedai_raw/
+_quiz_raw/
+_fix_html/
+.venv/
+node_modules/
+.git/
+.vercel/
+api/
+lib/
+functions/
+scripts/
+docs/
+.cursor/
+*.log
+.env*
+scrapers/
+tianhu/data/
+tianhu/scripts/
+fuyuu/image.rar
+fuyuu/image/*.png
+.ref-frames/
+.temp/

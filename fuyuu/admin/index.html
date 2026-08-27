@@ -128,7 +128,7 @@
 <body>
   <div class="wrap">
     <h1>浮游 · 作品集管理</h1>
-    <p class="sub">上传或删除插画，新作品自动排在最前。提交后约 1–2 分钟 Vercel 重新部署后生效。</p>
+    <p class="sub">上传或删除插画，新作品自动排在最前。提交后约 1–2 分钟 Cloudflare Pages 重新部署后生效。</p>
 
     <div id="login-gate" class="card login-gate">
       <label for="token">管理密钥</label>
@@ -356,7 +356,7 @@
         localStorage.removeItem(TOKEN_KEY);
         const msg =
           e.message === "未授权" ? "密钥错误或已失效"
-          : e.message === "FUYUU_ADMIN_TOKEN 未配置" ? "服务端未配置管理密钥，请在 Vercel 添加 FUYUU_ADMIN_TOKEN"
+          : e.message === "FUYUU_ADMIN_TOKEN 未配置" ? "服务端未配置管理密钥，请在 Cloudflare Pages 添加 FUYUU_ADMIN_TOKEN"
           : e.message;
         showStatus(loginStatus, msg, "err");
       } finally {

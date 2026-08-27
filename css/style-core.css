@@ -355,7 +355,7 @@ img { max-width: 100%; height: auto; display: block; }
   display: block;
   overflow: hidden;
   backface-visibility: hidden;
-  transform: translateZ(0);
+  /* 不用 translateZ(0)：会与测高/占位槽产生亚像素偏移，落地时看起来像残跳 */
   contain: layout paint;
 }
 
@@ -419,11 +419,15 @@ img { max-width: 100%; height: auto; display: block; }
   border-radius: 50%;
   background: transparent;
   box-shadow: none;
-  transition: transform var(--dur-slow) var(--ease-out);
+  /* 仅阴影过渡；transform 留给 :hover，避免落地/展开时 CSS 补一段位移 */
+  transition: box-shadow var(--dur-slow) var(--ease);
 }
 
 .profile-avatar:hover {
   transform: scale(1.035);
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    box-shadow var(--dur-slow) var(--ease);
 }
 
 .profile-avatar::before {

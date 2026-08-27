@@ -41,6 +41,8 @@
   let avatarHome = null;
   /** @type {{ w: number, h: number }} */
   let avatarNatural = { w: 128, h: 128 };
+  /** 与原 WAAPI cubic-bezier(0.22, 1, 0.36, 1) 对齐 */
+  const PIN_EASE = "cubicBezier(0.22, 1, 0.36, 1)";
 
   function isLite() {
     if (window.KayaPerfGovernor?.isPhoneLike?.()) return true;
@@ -119,15 +121,7 @@
   }
 
   function killActive() {
-    if (activePinWa) {
-      try {
-        if (activePinWa.playState === "finished" && typeof activePinWa.commitStyles === "function") {
-          activePinWa.commitStyles();
-        }
-        activePinWa.cancel();
-      } catch { /* ignore */ }
-      activePinWa = null;
-    }
+    cancelPinMotion();
     if (pinnedAvatar) {
       pinnedAvatar.style.transform = "none";
       clearInline(pinnedAvatar);
@@ -147,6 +141,7 @@
     "height", "opacity", "transform", "overflow", "visibility",
     "pointerEvents", "maxWidth", "willChange", "width", "borderWidth",
     "position", "left", "top", "zIndex", "margin",
+    "transition", "transformOrigin", "contain",
   ];
 
   function clearInline(el) {
@@ -188,6 +183,22 @@
     return { cx: rect.x + rect.w / 2, cy: rect.y + rect.h / 2 };
   }
 
+  /** 固定层：left/top 锚在 first 中心，位移/缩放只写 transform */
+  function applyPinFrame(avatar, first, target, progress) {
+    if (!avatar || !first || !target) return;
+    if (avatar !== pinnedAvatar) return;
+    if (avatar.style.position !== "fixed") return;
+    const f = avatarCenter(first);
+    const l = avatarCenter(target);
+    const s0 = first.w / avatarNatural.w;
+    const s1 = target.w / Math.max(avatarNatural.w, 1);
+    const p = progress < 0 ? 0 : progress > 1 ? 1 : progress;
+    const dx = (l.cx - f.cx) * p;
+    const dy = (l.cy - f.cy) * p;
+    const s = s0 + (s1 - s0) * p;
+    avatar.style.transform = `translate(-50%, -50%) translate3d(${dx}px, ${dy}px, 0) scale(${s})`;
+  }
+
   /** 脱离 profile-hero；占位 div 防止名字/签名顶上来与飞入头像重叠 */
   function detachAvatar(avatar) {
     if (!avatar || avatarHome) return;
@@ -196,6 +207,9 @@
     const placeholder = document.createElement("div");
     placeholder.className = "profile-avatar-placeholder";
     placeholder.setAttribute("aria-hidden", "true");
+    placeholder.style.width = `${avatarNatural.w}px`;
+    placeholder.style.height = `${avatarNatural.h}px`;
+    placeholder.style.margin = "0 auto 1.35rem";
     parent.replaceChild(placeholder, avatar);
     avatarHome = { parent, next: placeholder.nextSibling, placeholder };
     document.body.appendChild(avatar);
@@ -244,88 +258,104 @@
     clearInline(avatar);
   }
 
-  function buildPinKeyframes(first, last) {
-    const f = avatarCenter(first);
-    const l = avatarCenter(last);
-    const s0 = first.w / avatarNatural.w;
-    const s1 = last.w / avatarNatural.w;
-    return [
-      { transform: `translate(-50%, -50%) translate3d(0px, 0px, 0) scale(${s0})` },
-      { transform: `translate(-50%, -50%) translate3d(${l.cx - f.cx}px, ${l.cy - f.cy}px, 0) scale(${s1})` },
-    ];
-  }
-
-  function syncPinMotion(tl, avatar, first, last, duration, at) {
-    if (!avatar?.animate || !first || !last || !duration) return null;
-    cancelPinMotion();
-    const wa = avatar.animate(buildPinKeyframes(first, last), {
-      duration,
-      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-      fill: "forwards",
-    });
-    activePinWa = wa;
-    if (typeof tl.sync === "function") {
-      tl.sync(wa, at);
-    } else {
-      wa.pause();
-      tl.call(() => { wa.play(); }, at);
-      tl.add({ duration }, at);
-    }
-    return wa;
-  }
-
   /** 落地前读取占位槽，与飞入终点对齐 */
   function readSlotRect() {
     const ph = avatarHome?.placeholder;
     return ph ? readRect(ph) : null;
   }
 
+  /**
+   * 飞向「实时目标」：每帧读 getLast()，避免预测量 last 与落地 slot 不一致导致残跳。
+   * @param {() => ({ x: number, y: number, w: number, h: number } | null)} getLast
+   * @param {(() => void) | null} [onPinComplete]
+   */
+  function syncPinMotion(tl, avatar, first, getLast, duration, at, onPinComplete) {
+    if (!avatar || !first || !duration) return null;
+    const resolveLast = typeof getLast === "function" ? getLast : () => getLast;
+    const seed = resolveLast();
+    if (!seed) return null;
+    cancelPinMotion();
+    applyPinFrame(avatar, first, seed, 0);
+
+    const state = { p: 0 };
+    const tick = () => {
+      const target = resolveLast() || seed;
+      applyPinFrame(avatar, first, target, state.p);
+    };
+
+    tl.add(state, {
+      p: [0, 1],
+      duration,
+      ease: PIN_EASE,
+      onUpdate: tick,
+      onComplete: () => {
+        const target = resolveLast() || seed;
+        applyPinFrame(avatar, first, target, 1);
+        onPinComplete?.();
+      },
+    }, at);
+    return state;
+  }
+
+  /**
+   * 落地：先记 fixed 视觉框，还原 DOM 后同帧 FLIP（无第二段动画）。
+   * 飞入已实时追 slot，正常情况 delta≈0，不会触发 invert。
+   */
   function releasePinnedAvatar(avatar, { restore = true } = {}) {
-    if (activePinWa) {
-      try {
-        if (typeof activePinWa.commitStyles === "function") {
-          activePinWa.commitStyles();
-        }
-        activePinWa.cancel();
-      } catch { /* ignore */ }
-      activePinWa = null;
-    }
+    cancelPinMotion();
+
     const hero = document.getElementById("profile-hero");
-    if (hero) hero.style.transform = "none";
-    if (avatar) {
-      avatar.style.transition = "none";
-      const slot = restore ? readSlotRect() : null;
-      const avRect = readRect(avatar);
-      if (restore && slot && avRect && avatar.style.position === "fixed") {
-        const { cx, cy } = avatarCenter(slot);
-        const scale = slot.w / avatarNatural.w;
-        avatar.style.left = `${cx}px`;
-        avatar.style.top = `${cy}px`;
-        avatar.style.transform = `translate(-50%, -50%) scale(${scale})`;
-        void avatar.offsetWidth;
-      }
-      avatar.style.transform = restore ? "none" : avatar.style.transform;
-      if (restore) clearInline(avatar);
-      if (restore) restoreAvatarHome(avatar);
-    } else {
+    if (hero) {
+      hero.style.transform = "none";
+      hero.style.contain = "none";
+    }
+
+    if (!avatar) {
       avatarHome?.placeholder?.remove();
       avatarHome = null;
+      if (restore) pinnedAvatar = null;
+      document.body.classList.remove("is-avatar-pinned");
+      return;
     }
-    if (restore) pinnedAvatar = null;
+
+    avatar.style.transition = "none";
+
+    if (!restore) {
+      document.body.classList.remove("is-avatar-pinned");
+      return;
+    }
+
+    const fromRect = avatar.style.position === "fixed" ? readRect(avatar) : null;
+
+    restoreAvatarHome(avatar);
+    pinnedAvatar = null;
     document.body.classList.remove("is-avatar-pinned");
+
+    clearInline(avatar);
+    avatar.style.transition = "none";
+
+    const toRect = readRect(avatar);
+    if (fromRect && toRect) {
+      const f = avatarCenter(fromRect);
+      const t = avatarCenter(toRect);
+      const dx = f.cx - t.cx;
+      const dy = f.cy - t.cy;
+      const sx = fromRect.w / Math.max(toRect.w, 1);
+      if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5 || Math.abs(sx - 1) > 0.01) {
+        avatar.style.transformOrigin = "50% 50%";
+        avatar.style.transform = `translate(${dx}px, ${dy}px) scale(${sx})`;
+        void avatar.offsetWidth;
+        avatar.style.transform = "";
+        avatar.style.transformOrigin = "";
+      }
+    }
+
+    avatar.style.transition = "";
   }
 
   /** 关闭时：在 brand 位置隐藏，保持 fixed，finish 再还原 DOM */
   function hidePinnedAvatar(avatar) {
-    if (activePinWa) {
-      try {
-        if (typeof activePinWa.commitStyles === "function") {
-          activePinWa.commitStyles();
-        }
-        activePinWa.cancel();
-      } catch { /* ignore */ }
-      activePinWa = null;
-    }
+    cancelPinMotion();
     if (avatar) {
       avatar.style.transition = "none";
       avatar.style.opacity = "0";
@@ -361,7 +391,7 @@
       el.style.transform = "none";
     }
     const heights = els.map((el) => {
-      const h = Math.ceil(el.getBoundingClientRect().height || el.scrollHeight || 0);
+      const h = Math.round(el.getBoundingClientRect().height || el.scrollHeight || 0);
       const out = Math.max(h, 1);
       heightCache.set(el, out);
       return out;
@@ -379,7 +409,6 @@
       opacity: hero.style.opacity,
       overflow: hero.style.overflow,
       visibility: hero.style.visibility,
-      transform: hero.style.transform,
       pointerEvents: hero.style.pointerEvents,
     };
     const prevAv = {
@@ -387,11 +416,11 @@
       transform: wrap.style.transform,
       visibility: wrap.style.visibility,
     };
+    /* 保持与 profile-animating 相同的合成环境，勿强行清 transform（避免 last≠slot） */
     hero.style.height = `${heroH}px`;
     hero.style.opacity = "1";
     hero.style.overflow = "visible";
     hero.style.visibility = "hidden";
-    hero.style.transform = "none";
     hero.style.pointerEvents = "none";
     wrap.style.opacity = "1";
     wrap.style.transform = "none";
@@ -573,14 +602,20 @@
       const durSection = lite ? 420 : 620;
       const durPinFly = lite ? 0 : 720;
       const staggerGap = lite ? 40 : 70;
-      const releaseAt = usePinFly ? Math.max(durPinFly, durSection + 40) : 0;
 
       const finish = () => {
         if (token !== gen) return;
         sections.forEach((el) => {
+          /* 先锁当前像素高再切 auto，避免 ceil/合成层差值造成二次位移 */
+          const h = Math.round(el.getBoundingClientRect().height || 0);
+          if (h > 0) el.style.height = `${h}px`;
+        });
+        void document.body.offsetHeight;
+        sections.forEach((el) => {
           el.style.height = "auto";
           el.style.overflow = "visible";
           el.style.transform = "";
+          el.style.contain = "";
           el.style.opacity = "1";
           el.style.pointerEvents = "";
           el.style.willChange = "";
@@ -614,8 +649,8 @@
       morphBrandLabel(true, tl, usePinFly ? durPinFly - 80 : 20);
 
       if (usePinFly) {
-        syncPinMotion(tl, avatar, first, last, durPinFly, 0);
-        tl.call(() => releaseOnce(avatar), releaseAt);
+        const getFlyTarget = () => readSlotRect() || last;
+        syncPinMotion(tl, avatar, first, getFlyTarget, durPinFly, 0, () => releaseOnce(avatar));
       } else if (avatar) {
         tl.add(avatar, {
           opacity: [0, 1],
@@ -711,7 +746,7 @@
       const last = readRect(brandAv) || savedBrandRect || first;
 
       const heights = sections.map((el) => {
-        const h = Math.ceil(el.getBoundingClientRect().height || heightCache.get(el) || el.scrollHeight || 0);
+        const h = Math.round(el.getBoundingClientRect().height || heightCache.get(el) || el.scrollHeight || 0);
         el.style.height = `${h}px`;
         el.style.overflow = "hidden";
         el.style.willChange = "height, opacity, transform";
@@ -760,7 +795,8 @@
       morphBrandLabel(false, tl, 40);
 
       if (usePinFly) {
-        syncPinMotion(tl, avatar, first, last, durPinClose, 20);
+        const getFlyTarget = () => readRect(brandAv) || last;
+        syncPinMotion(tl, avatar, first, getFlyTarget, durPinClose, 20);
         if (brandAv) {
           tl.add(brandAv, {
             opacity: [0, 1],

@@ -1,19 +1,21 @@
 # shigure-web
 
-个人网站静态页面，部署于 [Vercel](https://shigure-web.vercel.app)。
+个人网站静态页面，部署于 **Cloudflare Pages**（自定义域名 [www.shigurekaya.com](https://www.shigurekaya.com)）。
+
+> 迁移说明见 **[docs/deploy-cloudflare.md](docs/deploy-cloudflare.md)**。`vercel.json` 为历史配置，切流量后可删。
 
 当前线上仅开放：
 
 - `/` — 时雨榧（站点主页，无 `/kaya` 后缀）
 - `/fuyuu/` — 浮游Lev 作品集
 
-本地仍保留、但 **不部署到 Vercel**（见 `.vercelignore`）：
+本地仍保留、但 **不部署到 Pages**（见 `.cfignore`）：
 
 - `/koharu` — 小春日向（暂缓）
 - `/shiotsuki` — 汐月空_poi（暂缓）
 - `/tianhu` — 天狐页（暂缓）
 
-恢复上线：从 `.vercelignore` 去掉对应目录，并去掉 `vercel.json` 里相关 redirects。
+恢复上线：从 `.cfignore` 去掉对应目录，并去掉 `_redirects` 里相关规则。
 
 旧路径 `/kaya/` 会永久重定向到 `/`（兼容旧书签）。
 
@@ -43,11 +45,11 @@ py -3 .\serve-local.py
 
 图片资源目录与分辨率见 **[docs/kaya-assets.md](docs/kaya-assets.md)**。
 
-无需 `npm install`；`package.json` 仅用于缩略图脚本（`npm run thumbs`）。线上部署由 Vercel 在推送 `main` 后自动完成。
+无需 `npm install`；`package.json` 仅用于缩略图脚本（`npm run thumbs`）。线上部署由 **Cloudflare Pages** 在推送 `main` 后自动完成（见 [deploy-cloudflare.md](docs/deploy-cloudflare.md)）。
 
-## Git 提交身份（必读）
+## Git 提交身份
 
-本仓库（`shigure-web`）的 **所有 commit / push** 必须使用 GitHub 账号 **Shigurekaya** 的身份。Vercel Hobby 要求作者邮箱能对应到该账号，否则部署会变成 **Blocked**、线上不更新。
+推送到 GitHub 仍建议使用 **Shigurekaya** 身份（与仓库历史一致）。Cloudflare Pages **不再**像 Vercel Hobby 那样因 commit 邮箱不匹配而 Block 部署。
 
 | | 值 |
 |--|--|
@@ -81,6 +83,7 @@ cd E:\网站\测试框架\shigure-web
 
 ## 运维
 
+- [部署到 Cloudflare Pages](docs/deploy-cloudflare.md)
 - [更新浮游 WORK 页（B 站投稿）](docs/update-fuyuu-videos.md)
 - **大雨逐帧打磨（换机续作）**：[差距清单](docs/rain-gap-checklist.md) · [进度](docs/rain-polish-progress-2026-08-21.md) · [交接](docs/rain-handoff.md)
 

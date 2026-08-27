@@ -40,6 +40,7 @@ tianhu/scripts/
 fuyuu/image.rar
 fuyuu/image/*.png
 .vercel
+.wrangler
 .env*
 
 # Temporary files

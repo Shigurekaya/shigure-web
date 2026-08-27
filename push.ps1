@@ -1,7 +1,7 @@
 ﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
-  Commit and push shigure-web as Shigurekaya (triggers Vercel).
+  Commit and push shigure-web as Shigurekaya (triggers Cloudflare Pages).
 
 .EXAMPLE
   .\push.ps1

@@ -1,7 +1,10 @@
 import { verifyAdmin } from "../../lib/fuyuu-gallery/auth.js";
+import { bindRuntimeEnv } from "../../lib/fuyuu-gallery/runtime-env.js";
+import { requestFromVercel } from "../../lib/fuyuu-gallery/vercel-adapter.js";
 import { listGallery, deleteWork, reorderWork } from "../../lib/fuyuu-gallery/store.js";
 
 export default async function handler(req, res) {
+  bindRuntimeEnv(process.env);
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, DELETE, PATCH, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
@@ -10,7 +13,7 @@ export default async function handler(req, res) {
     return res.status(204).end();
   }
 
-  const auth = verifyAdmin(req);
+  const auth = verifyAdmin(requestFromVercel(req), req.body);
   if (!auth.ok) return res.status(auth.status).json({ ok: false, error: auth.error });
 
   try {
@@ -25,7 +28,7 @@ export default async function handler(req, res) {
       const result = await deleteWork(String(path));
       return res.status(200).json({
         ok: true,
-        message: "已删除，Vercel 将自动重新部署",
+        message: "已删除，将自动重新部署",
         ...result,
       });
     }

@@ -1,9 +1,12 @@
 import { verifyAdmin } from "../../lib/fuyuu-gallery/auth.js";
+import { bindRuntimeEnv } from "../../lib/fuyuu-gallery/runtime-env.js";
+import { requestFromVercel } from "../../lib/fuyuu-gallery/vercel-adapter.js";
 import { addWork } from "../../lib/fuyuu-gallery/store.js";
 
 const MAX_BYTES = 8 * 1024 * 1024;
 
 export default async function handler(req, res) {
+  bindRuntimeEnv(process.env);
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
@@ -16,7 +19,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
-  const auth = verifyAdmin(req);
+  const auth = verifyAdmin(requestFromVercel(req), req.body);
   if (!auth.ok) return res.status(auth.status).json({ ok: false, error: auth.error });
 
   try {
@@ -38,7 +41,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       ok: true,
-      message: "已上传并置于最前，Vercel 将自动重新部署（约 1–2 分钟）",
+      message: "已上传并置于最前，将自动重新部署（约 1–2 分钟）",
       ...result,
     });
   } catch (err) {

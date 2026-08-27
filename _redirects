@@ -1,0 +1,65 @@
+# Cloudflare Pages — mirrors vercel.json + serve-local.py clean URLs
+
+# API trailing slash (admin uses /api/fuyuu/*/ )
+/api/fuyuu/upload/ /api/fuyuu/upload 200
+/api/fuyuu/gallery/ /api/fuyuu/gallery 200
+
+# gal-quiz deep links → single-page app
+/gal-quiz/:qid /gal-quiz.html 200
+/gal-quiz/:qid/ /gal-quiz.html 200
+
+# Permanent redirects (kaya legacy paths)
+/kaya / 301
+/kaya/ / 301
+/kaya/* /:splat 301
+
+# Permanent redirects (fuyulev alias)
+/fuyulev /fuyuu/ 301
+/fuyulev/ /fuyuu/ 301
+/fuyulev/* /fuyuu/:splat 301
+
+# Temporary redirects (unpublished creator subsites)
+/koharu /fuyuu/ 302
+/koharu/ /fuyuu/ 302
+/koharu/* /fuyuu/ 302
+/shiotsuki /fuyuu/ 302
+/shiotsuki/ /fuyuu/ 302
+/shiotsuki/* /fuyuu/ 302
+/tianhu /fuyuu/ 302
+/tianhu/ /fuyuu/ 302
+/tianhu/* /fuyuu/ 302
+
+# Enforce trailing slash on clean paths
+/works /works/ 301
+/links /links/ 301
+/mv-materials /mv-materials/ 301
+/gal-quiz /gal-quiz/ 301
+/gal-pick /gal-pick/ 301
+/gal-sedai /gal-sedai/ 301
+/heavy /heavy/ 301
+/light /light/ 301
+/storm /storm/ 301
+/sunny /sunny/ 301
+/rainbow /rainbow/ 301
+/fuyuu /fuyuu/ 301
+/fuyuu/work /fuyuu/work/ 301
+/fuyuu/about /fuyuu/about/ 301
+/fuyuu/portfolio /fuyuu/portfolio/ 301
+
+# Clean URL rewrites (trailing slash → .html)
+/ /index.html 200
+/works/ /works.html 200
+/links/ /links.html 200
+/mv-materials/ /mv-materials.html 200
+/gal-quiz/ /gal-quiz.html 200
+/gal-pick/ /gal-pick.html 200
+/gal-sedai/ /gal-sedai.html 200
+/heavy/ /heavy.html 200
+/light/ /light.html 200
+/storm/ /storm.html 200
+/sunny/ /sunny.html 200
+/rainbow/ /rainbow.html 200
+/fuyuu/ /fuyuu/index.html 200
+/fuyuu/work/ /fuyuu/work.html 200
+/fuyuu/about/ /fuyuu/about.html 200
+/fuyuu/portfolio/ /fuyuu/portfolio.html 200

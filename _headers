@@ -1,0 +1,137 @@
+# Cloudflare Pages — mirrors vercel.json cache + security headers
+# More specific paths must appear before wildcards.
+
+/fuyuu/js/site-data.js
+  Cache-Control: no-cache, must-revalidate
+
+/fuyuu/js/gallery-images.js
+  Cache-Control: no-cache, must-revalidate
+
+/js/site-data.js
+  Cache-Control: no-cache, must-revalidate
+
+/js/links-data.js
+  Cache-Control: no-cache, must-revalidate
+
+/fuyuu/assets/images/covers/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/images/covers/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/images/mv-materials/thumbs/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fuyuu/image/thumbs/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fuyuu/js/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/fuyuu/css/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/js/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/css/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/fuyuu/assets/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/assets/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/assets/images/mv-materials/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/fuyuu/data/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/fuyuu/image/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/data/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/*.html
+  Cache-Control: no-store, must-revalidate
+
+/
+  Cache-Control: no-store, must-revalidate
+
+/works
+  Cache-Control: no-store, must-revalidate
+
+/works/
+  Cache-Control: no-store, must-revalidate
+
+/links
+  Cache-Control: no-store, must-revalidate
+
+/links/
+  Cache-Control: no-store, must-revalidate
+
+/mv-materials
+  Cache-Control: no-store, must-revalidate
+
+/mv-materials/
+  Cache-Control: no-store, must-revalidate
+
+/gal-quiz
+  Cache-Control: no-store, must-revalidate
+
+/gal-quiz/
+  Cache-Control: no-store, must-revalidate
+
+/gal-quiz/*
+  Cache-Control: no-store, must-revalidate
+
+/gal-sedai
+  Cache-Control: no-store, must-revalidate
+
+/gal-sedai/
+  Cache-Control: no-store, must-revalidate
+
+/gal-pick
+  Cache-Control: no-store, must-revalidate
+
+/gal-pick/
+  Cache-Control: no-store, must-revalidate
+
+/fuyuu
+  Cache-Control: no-store, must-revalidate
+
+/fuyuu/
+  Cache-Control: no-store, must-revalidate
+
+/fuyuu/work
+  Cache-Control: no-store, must-revalidate
+
+/fuyuu/work/
+  Cache-Control: no-store, must-revalidate
+
+/fuyuu/about
+  Cache-Control: no-store, must-revalidate
+
+/fuyuu/about/
+  Cache-Control: no-store, must-revalidate
+
+/fuyuu/portfolio
+  Cache-Control: no-store, must-revalidate
+
+/fuyuu/portfolio/
+  Cache-Control: no-store, must-revalidate
+
+/robots.txt
+  Cache-Control: no-cache, must-revalidate
+  Content-Type: text/plain; charset=utf-8
+
+/sitemap.xml
+  Cache-Control: no-cache, must-revalidate
+  Content-Type: application/xml; charset=utf-8
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

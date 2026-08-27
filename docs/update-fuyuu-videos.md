@@ -44,7 +44,9 @@ py -3 .\serve-local.py
 
 ## 提交并部署
 
-Vercel Hobby 要求 **commit 作者邮箱能对应到 GitHub 账号**。请使用已绑定的 noreply 邮箱，例如：
+推送到 `main` 后 **Cloudflare Pages** 自动部署（见 [deploy-cloudflare.md](deploy-cloudflare.md)）。
+
+仍建议使用 Shigurekaya 的 noreply 邮箱提交（与仓库惯例一致；Pages 不会像 Vercel Hobby 那样因作者邮箱 Block）：
 
 ```powershell
 # 仅本次提交生效，不改全局 git config
@@ -62,22 +64,18 @@ git commit -m "Sync fuyuu WORK videos from Bilibili"
 git push origin main
 ```
 
-若作者写成未绑定的 QQ 邮箱等，部署会变成 **Blocked**。
+若作者写成未绑定的 QQ 邮箱等，Git 历史会不一致；**Cloudflare Pages 仍会部署**。
 
 ## 线上仍显示旧列表时
 
-`www.shigurekaya.com` 经 **Cloudflare**；`*.vercel.app` 直连 Vercel。若预览域名已更新、www 仍是旧的：
-
-1. Cloudflare → 选中 `shigurekaya.com`（站点，不是账号设置）
-2. **Caching** → **Configuration** → **Purge Cache**
-3. Custom Purge 至少清：
+先硬刷新或清浏览器缓存。若 `*.pages.dev` 已更新而 `www.shigurekaya.com` 仍旧，可在 Cloudflare → **Caching** → **Purge Cache** 清理：
 
 ```text
 https://www.shigurekaya.com/fuyuu/js/site-data.js
 https://www.shigurekaya.com/fuyuu/work/
 ```
 
-或使用 **Purge Everything**。
+（仅一层 CDN，一般比旧「CF + Vercel」双缓存省事。）
 
 ## 说明
 
