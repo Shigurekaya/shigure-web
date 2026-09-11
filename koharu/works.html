@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/koharu/" />
+  <title>作品 · 小春日向</title>
+  <meta name="theme-color" content="#faf6f2" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body class="kn-site kn-page-works">
+  <header class="kn-topbar">
+    <div class="kn-topbar-inner">
+      <a href="index.html" class="kn-logo" aria-label="小春日向">
+        <span class="kn-logo-mark">春</span>
+        <span class="kn-logo-text">小春日向</span>
+      </a>
+      <nav class="kn-nav" aria-label="站点导航">
+        <a href="index.html">主页</a>
+        <a href="works.html" class="is-active">作品</a>
+        <a href="links.html">链接</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="kn-shell">
+    <main class="kn-main kn-main--works">
+      <header class="kn-page-title">
+        <span class="kn-section-no">Works</span>
+        <h1>全部作品</h1>
+        <p>点击封面在 B 站观看完整绘画过程</p>
+      </header>
+      <div class="kn-gallery kn-gallery--all" id="works-grid"></div>
+
+      <header class="kn-section-head kn-section-head--spaced">
+        <span class="kn-section-no">Collections</span>
+        <div>
+          <h2>视频合集</h2>
+          <p>B 站空间中的系列作品</p>
+        </div>
+      </header>
+      <div id="seasons-list" class="kn-seasons"></div>
+    </main>
+
+    <footer class="kn-footer">
+      <p>© <span id="year"></span> 小春日向</p>
+    </footer>
+  </div>
+
+  <script src="js/site-data.js?v=202606281555"></script>
+  <script src="js/main.js" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => Koharu.initWorks());</script>
+</body>
+</html>

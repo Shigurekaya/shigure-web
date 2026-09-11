@@ -1,0 +1,26 @@
+.venv/
+__pycache__/
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+scrapers/
+.ref-frames/
+.temp/
+.vercel
+.wrangler
+.env*
+.cursor/
+
+# Removed from public tree (ignore local leftovers)
+docs/
+_rain_analysis/
+_sedai_raw/
+_quiz_raw/
+
+# Local-only / build intermediates
+js/gal-pick-catalog.json
+tianhu/data/
+tianhu/scripts/
+fuyuu/image.rar
+fuyuu/image/*.png

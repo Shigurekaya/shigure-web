@@ -1,0 +1,12 @@
+{
+  "name": "shigure-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "thumbs": "node scripts/generate-gallery-thumbs.mjs",
+    "mv-thumbs": "node scripts/generate-mv-thumbs.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.2"
+  }
+}

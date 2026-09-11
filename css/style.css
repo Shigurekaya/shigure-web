@@ -1,0 +1,3 @@
+/* 兼容旧链接：新页面请分别引用 style-core.css + style-weather.css */
+@import url("style-core.css");
+@import url("style-weather.css");

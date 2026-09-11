@@ -1,0 +1,38 @@
+# Cloudflare Pages — clean URLs + API (mirrors serve-local.py)
+#
+# CF Pages auto-serves foo.html at /foo (pretty URLs). Do NOT also rewrite /foo → foo.html
+# in _redirects — that fights CF canonicalization and causes 308 redirect loops.
+# Do NOT 301 /foo → /foo/ for single-file pages; CF 308-strips trailing slashes on .html routes.
+
+# API trailing slash (admin uses /api/fuyuu/*/ )
+/api/fuyuu/upload/ /api/fuyuu/upload 200
+/api/fuyuu/gallery/ /api/fuyuu/gallery 200
+
+# gal-quiz deep links → single-page app
+/gal-quiz/:qid /gal-quiz.html 200
+/gal-quiz/:qid/ /gal-quiz.html 200
+
+# Permanent redirects (kaya legacy paths)
+/kaya / 301
+/kaya/ / 301
+/kaya/* /:splat 301
+
+# Permanent redirects (fuyulev alias)
+/fuyulev /fuyuu/ 301
+/fuyulev/ /fuyuu/ 301
+/fuyulev/* /fuyuu/:splat 301
+
+# Temporary redirects (unpublished creator subsites)
+/koharu /fuyuu/ 302
+/koharu/ /fuyuu/ 302
+/koharu/* /fuyuu/ 302
+/shiotsuki /fuyuu/ 302
+/shiotsuki/ /fuyuu/ 302
+/shiotsuki/* /fuyuu/ 302
+/tianhu /fuyuu/ 302
+/tianhu/ /fuyuu/ 302
+/tianhu/* /fuyuu/ 302
+
+# Directory indexes only (folder + index.html — not affected by .html pretty URL rules)
+/fuyuu /fuyuu/ 301
+/fuyuu/ /fuyuu/index.html 200

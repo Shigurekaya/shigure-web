@@ -1,0 +1,656 @@
+[
+  {
+    "review_name": "s1-01__ayayo_dl20200928.png",
+    "question_id": "s1-01",
+    "original_rel": "assets/gal-quiz/s1-01/images/ayayo_dl20200928.png",
+    "original_name": "ayayo_dl20200928.png"
+  },
+  {
+    "review_name": "s1-02__Kyoka_Mishima.jpg",
+    "question_id": "s1-02",
+    "original_rel": "assets/gal-quiz/s1-02/images/Kyoka_Mishima.jpg",
+    "original_name": "Kyoka_Mishima.jpg"
+  },
+  {
+    "review_name": "s1-03__shuffle2.jpg",
+    "question_id": "s1-03",
+    "original_rel": "assets/gal-quiz/s1-03/images/shuffle2.jpg",
+    "original_name": "shuffle2.jpg"
+  },
+  {
+    "review_name": "s1-09__oyadi3.jpg",
+    "question_id": "s1-09",
+    "original_rel": "assets/gal-quiz/s1-09/images/oyadi3.jpg",
+    "original_name": "oyadi3.jpg"
+  },
+  {
+    "review_name": "s1-10__otokochara.jpg",
+    "question_id": "s1-10",
+    "original_rel": "assets/gal-quiz/s1-10/images/otokochara.jpg",
+    "original_name": "otokochara.jpg"
+  },
+  {
+    "review_name": "s1-11__kitai.jpg",
+    "question_id": "s1-11",
+    "original_rel": "assets/gal-quiz/s1-11/images/kitai.jpg",
+    "original_name": "kitai.jpg"
+  },
+  {
+    "review_name": "s1-12__Honeyview_twi_header_rir.jpg",
+    "question_id": "s1-12",
+    "original_rel": "assets/gal-quiz/s1-12/images/Honeyview_twi_header_rir.jpg",
+    "original_name": "Honeyview_twi_header_rir.jpg"
+  },
+  {
+    "review_name": "s1-13__travelling-august.jpg",
+    "question_id": "s1-13",
+    "original_rel": "assets/gal-quiz/s1-13/images/travelling-august.jpg",
+    "original_name": "travelling-august.jpg"
+  },
+  {
+    "review_name": "s1-14__se-head.jpg",
+    "question_id": "s1-14",
+    "original_rel": "assets/gal-quiz/s1-14/images/se-head.jpg",
+    "original_name": "se-head.jpg"
+  },
+  {
+    "review_name": "s1-15__hobe_0455pl.jpg",
+    "question_id": "s1-15",
+    "original_rel": "assets/gal-quiz/s1-15/images/hobe_0455pl.jpg",
+    "original_name": "hobe_0455pl.jpg"
+  },
+  {
+    "review_name": "s1-16__cd09090c-8099-4a03-b200-0c4f9ad4f5b9-x2.png",
+    "question_id": "s1-16",
+    "original_rel": "assets/gal-quiz/s1-16/images/cd09090c-8099-4a03-b200-0c4f9ad4f5b9-x2.png",
+    "original_name": "cd09090c-8099-4a03-b200-0c4f9ad4f5b9-x2.png"
+  },
+  {
+    "review_name": "s1-17__127070-210x300.jpg",
+    "question_id": "s1-17",
+    "original_rel": "assets/gal-quiz/s1-17/images/127070-210x300.jpg",
+    "original_name": "127070-210x300.jpg"
+  },
+  {
+    "review_name": "s1-18__69997-210x300.jpg",
+    "question_id": "s1-18",
+    "original_rel": "assets/gal-quiz/s1-18/images/69997-210x300.jpg",
+    "original_name": "69997-210x300.jpg"
+  },
+  {
+    "review_name": "s1-19__89671-210x300.jpg",
+    "question_id": "s1-19",
+    "original_rel": "assets/gal-quiz/s1-19/images/89671-210x300.jpg",
+    "original_name": "89671-210x300.jpg"
+  },
+  {
+    "review_name": "s1-20__7368.jpg",
+    "question_id": "s1-20",
+    "original_rel": "assets/gal-quiz/s1-20/images/7368.jpg",
+    "original_name": "7368.jpg"
+  },
+  {
+    "review_name": "s2-01__futoku-1024x538.png",
+    "question_id": "s2-01",
+    "original_rel": "assets/gal-quiz/s2-01/images/futoku-1024x538.png",
+    "original_name": "futoku-1024x538.png"
+  },
+  {
+    "review_name": "s2-02__Honeyview_2017-03-10_051009-243x300.jpg",
+    "question_id": "s2-02",
+    "original_rel": "assets/gal-quiz/s2-02/images/Honeyview_2017-03-10_051009-243x300.jpg",
+    "original_name": "Honeyview_2017-03-10_051009-243x300.jpg"
+  },
+  {
+    "review_name": "s2-03__c534765chara11.jpg",
+    "question_id": "s2-03",
+    "original_rel": "assets/gal-quiz/s2-03/images/c534765chara11.jpg",
+    "original_name": "c534765chara11.jpg"
+  },
+  {
+    "review_name": "s2-08__kakuusports.jpg",
+    "question_id": "s2-08",
+    "original_rel": "assets/gal-quiz/s2-08/images/kakuusports.jpg",
+    "original_name": "kakuusports.jpg"
+  },
+  {
+    "review_name": "s2-09__dagaotokoda.jpg",
+    "question_id": "s2-09",
+    "original_rel": "assets/gal-quiz/s2-09/images/dagaotokoda.jpg",
+    "original_name": "dagaotokoda.jpg"
+  },
+  {
+    "review_name": "s2-10__kuchiguse.jpg",
+    "question_id": "s2-10",
+    "original_rel": "assets/gal-quiz/s2-10/images/kuchiguse.jpg",
+    "original_name": "kuchiguse.jpg"
+  },
+  {
+    "review_name": "s2-13__EV9wxQvUcAEI97B.jpg",
+    "question_id": "s2-13",
+    "original_rel": "assets/gal-quiz/s2-13/images/EV9wxQvUcAEI97B.jpg",
+    "original_name": "EV9wxQvUcAEI97B.jpg"
+  },
+  {
+    "review_name": "s2-14__Honeyview_SS_2022-10-14_034440.jpg",
+    "question_id": "s2-14",
+    "original_rel": "assets/gal-quiz/s2-14/images/Honeyview_SS_2022-10-14_034440.jpg",
+    "original_name": "Honeyview_SS_2022-10-14_034440.jpg"
+  },
+  {
+    "review_name": "s2-15__kakejiku.jpg",
+    "question_id": "s2-15",
+    "original_rel": "assets/gal-quiz/s2-15/images/kakejiku.jpg",
+    "original_name": "kakejiku.jpg"
+  },
+  {
+    "review_name": "s2-19__cabbage_0004pl.jpg",
+    "question_id": "s2-19",
+    "original_rel": "assets/gal-quiz/s2-19/images/cabbage_0004pl.jpg",
+    "original_name": "cabbage_0004pl.jpg"
+  },
+  {
+    "review_name": "s2-20__fa-seihuku-169x300.jpg",
+    "question_id": "s2-20",
+    "original_rel": "assets/gal-quiz/s2-20/images/fa-seihuku-169x300.jpg",
+    "original_name": "fa-seihuku-169x300.jpg"
+  },
+  {
+    "review_name": "s3-01__F8t-EF3bgAAzNpn.jpg",
+    "question_id": "s3-01",
+    "original_rel": "assets/gal-quiz/s3-01/images/F8t-EF3bgAAzNpn.jpg",
+    "original_name": "F8t-EF3bgAAzNpn.jpg"
+  },
+  {
+    "review_name": "s3-02__Shintoshin.jpg",
+    "question_id": "s3-02",
+    "original_rel": "assets/gal-quiz/s3-02/images/Shintoshin.jpg",
+    "original_name": "Shintoshin.jpg"
+  },
+  {
+    "review_name": "s3-03__donki.jpg",
+    "question_id": "s3-03",
+    "original_rel": "assets/gal-quiz/s3-03/images/donki.jpg",
+    "original_name": "donki.jpg"
+  },
+  {
+    "review_name": "s3-04__Honeyview_SS_2023-01-13_031927.jpg",
+    "question_id": "s3-04",
+    "original_rel": "assets/gal-quiz/s3-04/images/Honeyview_SS_2023-01-13_031927.jpg",
+    "original_name": "Honeyview_SS_2023-01-13_031927.jpg"
+  },
+  {
+    "review_name": "s3-04__koinosu-room.jpg",
+    "question_id": "s3-04",
+    "original_rel": "assets/gal-quiz/s3-04/images/koinosu-room.jpg",
+    "original_name": "koinosu-room.jpg"
+  },
+  {
+    "review_name": "s3-04__ichika.jpg",
+    "question_id": "s3-04",
+    "original_rel": "assets/gal-quiz/s3-04/images/ichika.jpg",
+    "original_name": "ichika.jpg"
+  },
+  {
+    "review_name": "s3-04__sachi.jpg",
+    "question_id": "s3-04",
+    "original_rel": "assets/gal-quiz/s3-04/images/sachi.jpg",
+    "original_name": "sachi.jpg"
+  },
+  {
+    "review_name": "s3-04__natsume.jpg",
+    "question_id": "s3-04",
+    "original_rel": "assets/gal-quiz/s3-04/images/natsume.jpg",
+    "original_name": "natsume.jpg"
+  },
+  {
+    "review_name": "s3-06__pa-100x100.png",
+    "question_id": "s3-06",
+    "original_rel": "assets/gal-quiz/s3-06/images/pa-100x100.png",
+    "original_name": "pa-100x100.png"
+  },
+  {
+    "review_name": "s3-06__so-100x100.png",
+    "question_id": "s3-06",
+    "original_rel": "assets/gal-quiz/s3-06/images/so-100x100.png",
+    "original_name": "so-100x100.png"
+  },
+  {
+    "review_name": "s3-06__ut-100x100.png",
+    "question_id": "s3-06",
+    "original_rel": "assets/gal-quiz/s3-06/images/ut-100x100.png",
+    "original_name": "ut-100x100.png"
+  },
+  {
+    "review_name": "s3-06__gi-100x100.png",
+    "question_id": "s3-06",
+    "original_rel": "assets/gal-quiz/s3-06/images/gi-100x100.png",
+    "original_name": "gi-100x100.png"
+  },
+  {
+    "review_name": "s3-06__do-100x100.png",
+    "question_id": "s3-06",
+    "original_rel": "assets/gal-quiz/s3-06/images/do-100x100.png",
+    "original_name": "do-100x100.png"
+  },
+  {
+    "review_name": "s3-06__qp-100x100.png",
+    "question_id": "s3-06",
+    "original_rel": "assets/gal-quiz/s3-06/images/qp-100x100.png",
+    "original_name": "qp-100x100.png"
+  },
+  {
+    "review_name": "s3-06__ha-100x100.png",
+    "question_id": "s3-06",
+    "original_rel": "assets/gal-quiz/s3-06/images/ha-100x100.png",
+    "original_name": "ha-100x100.png"
+  },
+  {
+    "review_name": "s3-07__araburu-300x300.png",
+    "question_id": "s3-07",
+    "original_rel": "assets/gal-quiz/s3-07/images/araburu-300x300.png",
+    "original_name": "araburu-300x300.png"
+  },
+  {
+    "review_name": "s3-07__douniittakamae-300x300.jpg",
+    "question_id": "s3-07",
+    "original_rel": "assets/gal-quiz/s3-07/images/douniittakamae-300x300.jpg",
+    "original_name": "douniittakamae-300x300.jpg"
+  },
+  {
+    "review_name": "s3-07__maxresdefault-300x300.jpg",
+    "question_id": "s3-07",
+    "original_rel": "assets/gal-quiz/s3-07/images/maxresdefault-300x300.jpg",
+    "original_name": "maxresdefault-300x300.jpg"
+  },
+  {
+    "review_name": "s3-08__SS_2024-01-04_003243-100x100.jpg",
+    "question_id": "s3-08",
+    "original_rel": "assets/gal-quiz/s3-08/images/SS_2024-01-04_003243-100x100.jpg",
+    "original_name": "SS_2024-01-04_003243-100x100.jpg"
+  },
+  {
+    "review_name": "s3-08__SS_2024-01-04_003520-100x100.jpg",
+    "question_id": "s3-08",
+    "original_rel": "assets/gal-quiz/s3-08/images/SS_2024-01-04_003520-100x100.jpg",
+    "original_name": "SS_2024-01-04_003520-100x100.jpg"
+  },
+  {
+    "review_name": "s3-08__SS_2024-01-04_003616-100x100.jpg",
+    "question_id": "s3-08",
+    "original_rel": "assets/gal-quiz/s3-08/images/SS_2024-01-04_003616-100x100.jpg",
+    "original_name": "SS_2024-01-04_003616-100x100.jpg"
+  },
+  {
+    "review_name": "s3-08__SS_2024-01-04_004142.jpg",
+    "question_id": "s3-08",
+    "original_rel": "assets/gal-quiz/s3-08/images/SS_2024-01-04_004142.jpg",
+    "original_name": "SS_2024-01-04_004142.jpg"
+  },
+  {
+    "review_name": "s3-08__SS_2024-01-04_004149.jpg",
+    "question_id": "s3-08",
+    "original_rel": "assets/gal-quiz/s3-08/images/SS_2024-01-04_004149.jpg",
+    "original_name": "SS_2024-01-04_004149.jpg"
+  },
+  {
+    "review_name": "s3-08__SS_2024-01-04_004155.jpg",
+    "question_id": "s3-08",
+    "original_rel": "assets/gal-quiz/s3-08/images/SS_2024-01-04_004155.jpg",
+    "original_name": "SS_2024-01-04_004155.jpg"
+  },
+  {
+    "review_name": "s3-13__mia-q.jpg",
+    "question_id": "s3-13",
+    "original_rel": "assets/gal-quiz/s3-13/images/mia-q.jpg",
+    "original_name": "mia-q.jpg"
+  },
+  {
+    "review_name": "s3-15__komomo-kosame.jpg",
+    "question_id": "s3-15",
+    "original_rel": "assets/gal-quiz/s3-15/images/komomo-kosame.jpg",
+    "original_name": "komomo-kosame.jpg"
+  },
+  {
+    "review_name": "s3-16__gds614_ic-300x300.jpg",
+    "question_id": "s3-16",
+    "original_rel": "assets/gal-quiz/s3-16/images/gds614_ic-300x300.jpg",
+    "original_name": "gds614_ic-300x300.jpg"
+  },
+  {
+    "review_name": "s3-16__gds613_ic-300x300.jpg",
+    "question_id": "s3-16",
+    "original_rel": "assets/gal-quiz/s3-16/images/gds613_ic-300x300.jpg",
+    "original_name": "gds613_ic-300x300.jpg"
+  },
+  {
+    "review_name": "s3-17__Honeyview_DSC_0330.jpg",
+    "question_id": "s3-17",
+    "original_rel": "assets/gal-quiz/s3-17/images/Honeyview_DSC_0330.jpg",
+    "original_name": "Honeyview_DSC_0330.jpg"
+  },
+  {
+    "review_name": "s3-17__Honeyview_DSC_0331.jpg",
+    "question_id": "s3-17",
+    "original_rel": "assets/gal-quiz/s3-17/images/Honeyview_DSC_0331.jpg",
+    "original_name": "Honeyview_DSC_0331.jpg"
+  },
+  {
+    "review_name": "s3-18__satake.jpg",
+    "question_id": "s3-18",
+    "original_rel": "assets/gal-quiz/s3-18/images/satake.jpg",
+    "original_name": "satake.jpg"
+  },
+  {
+    "review_name": "s3-19__ten.png",
+    "question_id": "s3-19",
+    "original_rel": "assets/gal-quiz/s3-19/images/ten.png",
+    "original_name": "ten.png"
+  },
+  {
+    "review_name": "s3-19__event_touma01_large-300x300.jpg",
+    "question_id": "s3-19",
+    "original_rel": "assets/gal-quiz/s3-19/images/event_touma01_large-300x300.jpg",
+    "original_name": "event_touma01_large-300x300.jpg"
+  },
+  {
+    "review_name": "s3-19__vis01a-300x300.jpg",
+    "question_id": "s3-19",
+    "original_rel": "assets/gal-quiz/s3-19/images/vis01a-300x300.jpg",
+    "original_name": "vis01a-300x300.jpg"
+  },
+  {
+    "review_name": "s3-21__46239.jpg",
+    "question_id": "s3-21",
+    "original_rel": "assets/gal-quiz/s3-21/images/46239.jpg",
+    "original_name": "46239.jpg"
+  },
+  {
+    "review_name": "s4-07__fg_about3_2.png",
+    "question_id": "s4-07",
+    "original_rel": "assets/gal-quiz/s4-07/images/fg_about3_2.png",
+    "original_name": "fg_about3_2.png"
+  },
+  {
+    "review_name": "s4-07__fg_about2_3.png",
+    "question_id": "s4-07",
+    "original_rel": "assets/gal-quiz/s4-07/images/fg_about2_3.png",
+    "original_name": "fg_about2_3.png"
+  },
+  {
+    "review_name": "s4-07__fg_about1_3.png",
+    "question_id": "s4-07",
+    "original_rel": "assets/gal-quiz/s4-07/images/fg_about1_3.png",
+    "original_name": "fg_about1_3.png"
+  },
+  {
+    "review_name": "s4-07__fg_about3_3.png",
+    "question_id": "s4-07",
+    "original_rel": "assets/gal-quiz/s4-07/images/fg_about3_3.png",
+    "original_name": "fg_about3_3.png"
+  },
+  {
+    "review_name": "s4-08__yue-1.webp",
+    "question_id": "s4-08",
+    "original_rel": "assets/gal-quiz/s4-08/images/yue-1.webp",
+    "original_name": "yue-1.webp"
+  },
+  {
+    "review_name": "s4-08__chino.jpg",
+    "question_id": "s4-08",
+    "original_rel": "assets/gal-quiz/s4-08/images/chino.jpg",
+    "original_name": "chino.jpg"
+  },
+  {
+    "review_name": "s4-08__miku.webp",
+    "question_id": "s4-08",
+    "original_rel": "assets/gal-quiz/s4-08/images/miku.webp",
+    "original_name": "miku.webp"
+  },
+  {
+    "review_name": "s4-08__siscamp-1aoba.png",
+    "question_id": "s4-08",
+    "original_rel": "assets/gal-quiz/s4-08/images/siscamp-1aoba.png",
+    "original_name": "siscamp-1aoba.png"
+  },
+  {
+    "review_name": "s4-08__siscamp-2futaba.png",
+    "question_id": "s4-08",
+    "original_rel": "assets/gal-quiz/s4-08/images/siscamp-2futaba.png",
+    "original_name": "siscamp-2futaba.png"
+  },
+  {
+    "review_name": "s4-08__siscamp-3ren.png",
+    "question_id": "s4-08",
+    "original_rel": "assets/gal-quiz/s4-08/images/siscamp-3ren.png",
+    "original_name": "siscamp-3ren.png"
+  },
+  {
+    "review_name": "s4-09__T_IEW190_400x400.jpg",
+    "question_id": "s4-09",
+    "original_rel": "assets/gal-quiz/s4-09/images/T_IEW190_400x400.jpg",
+    "original_name": "T_IEW190_400x400.jpg"
+  },
+  {
+    "review_name": "s4-09__Ry6M-gEe_400x400.png",
+    "question_id": "s4-09",
+    "original_rel": "assets/gal-quiz/s4-09/images/Ry6M-gEe_400x400.png",
+    "original_name": "Ry6M-gEe_400x400.png"
+  },
+  {
+    "review_name": "s4-10__Honeyview_SS_2022-03-04_035713.jpg",
+    "question_id": "s4-10",
+    "original_rel": "assets/gal-quiz/s4-10/images/Honeyview_SS_2022-03-04_035713.jpg",
+    "original_name": "Honeyview_SS_2022-03-04_035713.jpg"
+  },
+  {
+    "review_name": "s4-12__Honeyview_SS_2024-11-25_064941.jpg",
+    "question_id": "s4-12",
+    "original_rel": "assets/gal-quiz/s4-12/images/Honeyview_SS_2024-11-25_064941.jpg",
+    "original_name": "Honeyview_SS_2024-11-25_064941.jpg"
+  },
+  {
+    "review_name": "s4-13__Honeyview_SS_2024-10-02_045344.jpg",
+    "question_id": "s4-13",
+    "original_rel": "assets/gal-quiz/s4-13/images/Honeyview_SS_2024-10-02_045344.jpg",
+    "original_name": "Honeyview_SS_2024-10-02_045344.jpg"
+  },
+  {
+    "review_name": "s4-14__machidaekimae.jpg",
+    "question_id": "s4-14",
+    "original_rel": "assets/gal-quiz/s4-14/images/machidaekimae.jpg",
+    "original_name": "machidaekimae.jpg"
+  },
+  {
+    "review_name": "s4-15__tir-na-nog-2.jpg",
+    "question_id": "s4-15",
+    "original_rel": "assets/gal-quiz/s4-15/images/tir-na-nog-2.jpg",
+    "original_name": "tir-na-nog-2.jpg"
+  },
+  {
+    "review_name": "s4-15__tir-na-nog-1.jpg",
+    "question_id": "s4-15",
+    "original_rel": "assets/gal-quiz/s4-15/images/tir-na-nog-1.jpg",
+    "original_name": "tir-na-nog-1.jpg"
+  },
+  {
+    "review_name": "s4-16__subahibi2.jpg",
+    "question_id": "s4-16",
+    "original_rel": "assets/gal-quiz/s4-16/images/subahibi2.jpg",
+    "original_name": "subahibi2.jpg"
+  },
+  {
+    "review_name": "s4-16__subahibi1.jpg",
+    "question_id": "s4-16",
+    "original_rel": "assets/gal-quiz/s4-16/images/subahibi1.jpg",
+    "original_name": "subahibi1.jpg"
+  },
+  {
+    "review_name": "s4-18__Honeyview_SS_2024-10-30_060411.jpg",
+    "question_id": "s4-18",
+    "original_rel": "assets/gal-quiz/s4-18/images/Honeyview_SS_2024-10-30_060411.jpg",
+    "original_name": "Honeyview_SS_2024-10-30_060411.jpg"
+  },
+  {
+    "review_name": "s4-19__78383.jpg",
+    "question_id": "s4-19",
+    "original_rel": "assets/gal-quiz/s4-19/images/78383.jpg",
+    "original_name": "78383.jpg"
+  },
+  {
+    "review_name": "s4-20__0Hnwmn9rFc0J.jpg",
+    "question_id": "s4-20",
+    "original_rel": "assets/gal-quiz/s4-20/images/0Hnwmn9rFc0J.jpg",
+    "original_name": "0Hnwmn9rFc0J.jpg"
+  },
+  {
+    "review_name": "s5-01__01184.png",
+    "question_id": "s5-01",
+    "original_rel": "assets/gal-quiz/s5-01/images/01184.png",
+    "original_name": "01184.png"
+  },
+  {
+    "review_name": "s5-01__35df4025.jpg",
+    "question_id": "s5-01",
+    "original_rel": "assets/gal-quiz/s5-01/images/35df4025.jpg",
+    "original_name": "35df4025.jpg"
+  },
+  {
+    "review_name": "s5-01__Make-3D-TVs-A-Thing-Again-Gear-90247051.jpg",
+    "question_id": "s5-01",
+    "original_rel": "assets/gal-quiz/s5-01/images/Make-3D-TVs-A-Thing-Again-Gear-90247051.jpg",
+    "original_name": "Make-3D-TVs-A-Thing-Again-Gear-90247051.jpg"
+  },
+  {
+    "review_name": "s5-04__amakano3-chara.jpg",
+    "question_id": "s5-04",
+    "original_rel": "assets/gal-quiz/s5-04/images/amakano3-chara.jpg",
+    "original_name": "amakano3-chara.jpg"
+  },
+  {
+    "review_name": "s5-07__koirowa.png",
+    "question_id": "s5-07",
+    "original_rel": "assets/gal-quiz/s5-07/images/koirowa.png",
+    "original_name": "koirowa.png"
+  },
+  {
+    "review_name": "s5-08__SS_2026-01-24_075734.jpg",
+    "question_id": "s5-08",
+    "original_rel": "assets/gal-quiz/s5-08/images/SS_2026-01-24_075734.jpg",
+    "original_name": "SS_2026-01-24_075734.jpg"
+  },
+  {
+    "review_name": "s5-08__SS_2026-01-24_080401.jpg",
+    "question_id": "s5-08",
+    "original_rel": "assets/gal-quiz/s5-08/images/SS_2026-01-24_080401.jpg",
+    "original_name": "SS_2026-01-24_080401.jpg"
+  },
+  {
+    "review_name": "s5-08__SS_2026-01-24_081329.jpg",
+    "question_id": "s5-08",
+    "original_rel": "assets/gal-quiz/s5-08/images/SS_2026-01-24_081329.jpg",
+    "original_name": "SS_2026-01-24_081329.jpg"
+  },
+  {
+    "review_name": "s5-09__Honeyview_SS_2026-01-20_122036.png",
+    "question_id": "s5-09",
+    "original_rel": "assets/gal-quiz/s5-09/images/Honeyview_SS_2026-01-20_122036.png",
+    "original_name": "Honeyview_SS_2026-01-20_122036.png"
+  },
+  {
+    "review_name": "s5-10__sakuseibyoto-chara.jpg",
+    "question_id": "s5-10",
+    "original_rel": "assets/gal-quiz/s5-10/images/sakuseibyoto-chara.jpg",
+    "original_name": "sakuseibyoto-chara.jpg"
+  },
+  {
+    "review_name": "s5-11__cha_syouiti_tatie_sihuku_1.jpg",
+    "question_id": "s5-11",
+    "original_rel": "assets/gal-quiz/s5-11/images/cha_syouiti_tatie_sihuku_1.jpg",
+    "original_name": "cha_syouiti_tatie_sihuku_1.jpg"
+  },
+  {
+    "review_name": "s5-11__cha_yayoi_tatie_seihuku_1.jpg",
+    "question_id": "s5-11",
+    "original_rel": "assets/gal-quiz/s5-11/images/cha_yayoi_tatie_seihuku_1.jpg",
+    "original_name": "cha_yayoi_tatie_seihuku_1.jpg"
+  },
+  {
+    "review_name": "s5-11__cha_gonda_tatie_sihuku_1.jpg",
+    "question_id": "s5-11",
+    "original_rel": "assets/gal-quiz/s5-11/images/cha_gonda_tatie_sihuku_1.jpg",
+    "original_name": "cha_gonda_tatie_sihuku_1.jpg"
+  },
+  {
+    "review_name": "s5-11__cha_terecaster.jpg",
+    "question_id": "s5-11",
+    "original_rel": "assets/gal-quiz/s5-11/images/cha_terecaster.jpg",
+    "original_name": "cha_terecaster.jpg"
+  },
+  {
+    "review_name": "s5-11__cha_thander.jpg",
+    "question_id": "s5-11",
+    "original_rel": "assets/gal-quiz/s5-11/images/cha_thander.jpg",
+    "original_name": "cha_thander.jpg"
+  },
+  {
+    "review_name": "s5-11__cha_strat.jpg",
+    "question_id": "s5-11",
+    "original_rel": "assets/gal-quiz/s5-11/images/cha_strat.jpg",
+    "original_name": "cha_strat.jpg"
+  },
+  {
+    "review_name": "s5-12__koi.jpg",
+    "question_id": "s5-12",
+    "original_rel": "assets/gal-quiz/s5-12/images/koi.jpg",
+    "original_name": "koi.jpg"
+  },
+  {
+    "review_name": "s5-13__sakurano_image09.png",
+    "question_id": "s5-13",
+    "original_rel": "assets/gal-quiz/s5-13/images/sakurano_image09.png",
+    "original_name": "sakurano_image09.png"
+  },
+  {
+    "review_name": "s5-13__n-misuzu.png",
+    "question_id": "s5-13",
+    "original_rel": "assets/gal-quiz/s5-13/images/n-misuzu.png",
+    "original_name": "n-misuzu.png"
+  },
+  {
+    "review_name": "s5-14__kyoto-ch.png",
+    "question_id": "s5-14",
+    "original_rel": "assets/gal-quiz/s5-14/images/kyoto-ch.png",
+    "original_name": "kyoto-ch.png"
+  },
+  {
+    "review_name": "s5-17__LLLJ_chara.jpg",
+    "question_id": "s5-17",
+    "original_rel": "assets/gal-quiz/s5-17/images/LLLJ_chara.jpg",
+    "original_name": "LLLJ_chara.jpg"
+  },
+  {
+    "review_name": "s5-17__SS_2026-01-24_040715.jpg",
+    "question_id": "s5-17",
+    "original_rel": "assets/gal-quiz/s5-17/images/SS_2026-01-24_040715.jpg",
+    "original_name": "SS_2026-01-24_040715.jpg"
+  },
+  {
+    "review_name": "s5-18__Honeyview_2025-08-12-07-42-36-463.jpg",
+    "question_id": "s5-18",
+    "original_rel": "assets/gal-quiz/s5-18/images/Honeyview_2025-08-12-07-42-36-463.jpg",
+    "original_name": "Honeyview_2025-08-12-07-42-36-463.jpg"
+  },
+  {
+    "review_name": "s5-19__AkL2t5KocE41.jpg",
+    "question_id": "s5-19",
+    "original_rel": "assets/gal-quiz/s5-19/images/AkL2t5KocE41.jpg",
+    "original_name": "AkL2t5KocE41.jpg"
+  },
+  {
+    "review_name": "s5-20__5mwIoH8hM7NS.jpg",
+    "question_id": "s5-20",
+    "original_rel": "assets/gal-quiz/s5-20/images/5mwIoH8hM7NS.jpg",
+    "original_name": "5mwIoH8hM7NS.jpg"
+  }
+]

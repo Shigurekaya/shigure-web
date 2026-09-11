@@ -1,0 +1,21 @@
+# Cloudflare Pages deploy exclusions
+koharu/
+shiotsuki/
+tianhu/
+.venv/
+node_modules/
+.git/
+.vercel/
+lib/
+functions/
+scripts/
+.cursor/
+*.log
+.env*
+scrapers/
+tianhu/data/
+tianhu/scripts/
+fuyuu/image.rar
+fuyuu/image/*.png
+.ref-frames/
+.temp/

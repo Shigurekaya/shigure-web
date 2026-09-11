@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/fuyuu/" />
+  <title>ABOUT · 浮游Lev</title>
+  <meta name="description" content="关于浮游Lev" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+  <link rel="stylesheet" href="css/fonts-local.css?v=202608191041" />
+  <link rel="stylesheet" href="css/site.css?v=202608281730" />
+</head>
+<body class="fy-site fy-about" data-page="about">
+  <header class="fy-topbar">
+    <div class="fy-topbar-inner">
+      <a href="index.html" class="fy-topbar-logo" aria-label="浮游Lev Home">F</a>
+      <nav class="fy-topbar-nav" aria-label="Site">
+        <a href="index.html" class="fy-topbar-link">HOME</a>
+        <a href="work.html" class="fy-topbar-link">WORK</a>
+        <a href="about.html" class="fy-topbar-link is-active">ABOUT</a>
+        <a href="portfolio.html" class="fy-topbar-link">PORTFOLIO</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="fy-shell">
+    <main class="fy-main fy-page-content">
+      <div class="fy-about-head">
+        <img class="fy-about-avatar" src="assets/images/avatar.jpg" alt="浮游Lev" width="167" height="212" loading="lazy" decoding="async" />
+        <div class="fy-about-body">
+          <h1 class="fy-page-title">浮游Lev</h1>
+          <p class="fy-about-sign">梦想成为自由的旮旯给木画师</p>
+          <a class="fy-bili-btn" href="https://space.bilibili.com/353604313" target="_blank" rel="noopener">哔哩哔哩主页</a>
+        </div>
+      </div>
+      <p class="fy-page-lead">以 Galgame 同人 Q 版插画与绘画过程视频为主，自学遥华画风创作 SD 角色。投稿与约稿请通过哔哩哔哩私信联系。</p>
+      <h2 class="fy-subtitle">近期投稿</h2>
+      <ul id="about-picks" class="fy-about-picks"></ul>
+    </main>
+
+    <footer class="fy-footer">
+      <div id="link-band"></div>
+      <a href="/" class="fy-kaya-corner" aria-label="站主">
+        <img src="/assets/images/avatar.jpg" alt="" width="40" height="40" loading="lazy" decoding="async" />
+      </a>
+    </footer>
+  </div>
+
+  <script src="js/site-data.js?v=202608191041" defer></script>
+  <script src="js/site.js?v=202608281730" defer></script>
+  <script src="js/fy-app.js?v=202608281730" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => FyApp.initAbout());</script>
+</body>
+</html>

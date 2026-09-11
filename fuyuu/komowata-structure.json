@@ -1,0 +1,42 @@
+{
+  "home": {
+    "title": "こもわた遙華 | こもわた",
+    "has_load_more": true,
+    "has_link_section": true,
+    "img_count": 205,
+    "has_mail": true,
+    "has_twitter": true
+  },
+  "work": {
+    "title": "WORK | こもわた遙華 / こも輪",
+    "has_load_more": false,
+    "has_link_section": true,
+    "img_count": 185,
+    "has_mail": true,
+    "has_twitter": true
+  },
+  "about": {
+    "title": "About | こもわた",
+    "has_load_more": false,
+    "has_link_section": true,
+    "img_count": 61,
+    "has_mail": true,
+    "has_twitter": true
+  },
+  "portfolio": {
+    "title": "PORTFOLIO | こもわた遙華 / こも輪",
+    "has_load_more": true,
+    "has_link_section": true,
+    "img_count": 71,
+    "has_mail": true,
+    "has_twitter": true
+  },
+  "kakuu": {
+    "title": "こもわた/架空のエロゲシリーズ紹介",
+    "has_load_more": false,
+    "has_link_section": true,
+    "img_count": 218,
+    "has_mail": true,
+    "has_twitter": true
+  }
+}

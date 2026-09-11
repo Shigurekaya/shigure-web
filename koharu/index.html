@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/koharu/" />
+  <title>小春日向</title>
+  <meta name="description" content="小春日向 — 插画与创作（个人主页，建设中）" />
+  <meta name="theme-color" content="#faf6f2" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body class="kn-site kn-page-home">
+  <header class="kn-topbar">
+    <div class="kn-topbar-inner">
+      <a href="index.html" class="kn-logo" aria-label="小春日向"><span class="kn-logo-mark">春</span><span class="kn-logo-text">小春日向</span></a>
+      <nav class="kn-nav" aria-label="站点导航">
+        <a href="index.html" class="is-active">主页</a>
+        <a href="works.html">作品</a>
+        <a href="links.html">链接</a>
+      </nav>
+    </div>
+  </header>
+  <div class="kn-shell">
+    <main class="kn-main">
+      <section class="kn-hero kn-hero--diary">
+        <div class="kn-hero-card">
+          <img id="hero-avatar" class="kn-avatar" src="assets/images/avatar.jpg" alt="小春日向" width="88" height="88" fetchpriority="high" decoding="async" />
+          <div class="kn-hero-text">
+            <p class="kn-eyebrow">Illustration · Process</p>
+            <h1 id="hero-name">小春日向</h1>
+            <p class="kn-sign" id="hero-sign">暂无签名</p>
+            <div class="kn-tags" id="hero-tags"></div>
+          </div>
+        </div>
+      </section>
+      <section class="kn-section">
+        <header class="kn-section-head"><span class="kn-section-no">01</span><div><h2>最新作品</h2><p>点击封面在 B 站观看</p></div></header>
+        <div class="kn-gallery kn-gallery--pick" id="featured-grid"></div>
+        <div class="kn-actions">
+          <a href="works.html" class="kn-btn">全部作品</a>
+          <a href="https://space.bilibili.com/228092838" target="_blank" rel="noopener" class="kn-btn kn-btn--ghost" id="bili-space-btn" data-bili-space>B 站空间 ↗</a>
+        </div>
+      </section>
+      <section class="kn-section">
+        <header class="kn-section-head"><span class="kn-section-no">02</span><div><h2>视频合集</h2><p>来自 B 站空间</p></div></header>
+        <div id="featured-seasons" class="kn-seasons"></div>
+      </section>
+    </main>
+    <footer class="kn-footer">
+      <p class="kn-page-updated"><time datetime="2026-06-28">页面最后更新 2026.06.28</time></p>
+      <p>© <span id="year"></span> 小春日向</p>
+    </footer>
+  </div>
+  <script src="js/site-data.js?v=202606281555"></script>
+  <script src="js/main.js" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => Koharu.initHome());</script>
+</body>
+</html>

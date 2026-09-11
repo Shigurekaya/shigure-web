@@ -1,0 +1,1631 @@
+.site-bg__rain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.7;
+  contain: strict;
+}
+
+/* 小雨 WebGL 雨丝之上的 2D 溅花/湿痕层 */
+.site-bg__rain-fx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  contain: strict;
+}
+
+.site-bg__rain-fx-fallback {
+  opacity: 0.88;
+  z-index: 1;
+}
+
+body.heavy-rain .site-bg__rain {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.light-rain .site-bg__rain {
+  opacity: 0.88;
+}
+
+.site-bg__light-mist {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background:
+    radial-gradient(ellipse 78% 40% at 50% -2%, rgba(186, 170, 245, 0.26), transparent 72%),
+    radial-gradient(ellipse 55% 28% at 78% 18%, rgba(200, 220, 255, 0.16), transparent 70%),
+    radial-gradient(ellipse 85% 42% at 18% 92%, rgba(194, 233, 251, 0.2), transparent 68%),
+    radial-gradient(ellipse 60% 30% at 88% 78%, rgba(160, 190, 230, 0.12), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 32%, transparent 68%, rgba(139, 111, 212, 0.1));
+}
+
+body.light-rain .site-bg__light-mist {
+  opacity: 1;
+  animation: light-mist-drift 22s ease-in-out infinite alternate;
+}
+
+.site-bg__light-wet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  height: min(72px, 10vh);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(160, 185, 220, 0) 0%,
+    rgba(170, 195, 230, 0.1) 42%,
+    rgba(139, 111, 212, 0.12) 100%
+  );
+}
+
+/* 小雨 · CSS 合成器雨层（平铺贴图 + transform 动画，无 Canvas 逐帧） */
+.site-bg__light-rain-css {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+  contain: strict;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+}
+
+.site-bg__light-rain-css.is-on {
+  opacity: var(--rain-alpha, 0.7);
+}
+
+.site-bg__light-rain-css__track {
+  position: absolute;
+  left: -8%;
+  width: 116%;
+  height: 220%;
+  top: -110%;
+  background-image: var(--rain-tile);
+  background-size: 128px 256px;
+  background-repeat: repeat;
+  transform: skewX(var(--rain-skew, -6deg)) translateZ(0);
+  animation: kaya-light-rain-drift var(--rain-dur, 2s) linear infinite;
+}
+
+.site-bg__light-rain-css--far { --rain-dur: 2.35s; --rain-skew: -5deg; --rain-alpha: 0.48; }
+.site-bg__light-rain-css--near { --rain-dur: 1.62s; --rain-skew: -7deg; --rain-alpha: 0.82; z-index: 1; }
+
+/* 小雨 · 雨丝胶片（steps 位移动画，单合成层） */
+.site-bg__light-rain-film {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background-image: var(--rain-film);
+  background-repeat: no-repeat;
+  background-size: 100% calc(var(--rain-frames, 5) * 100%);
+  background-position: 0 0;
+}
+
+.site-bg__light-rain-film.is-on {
+  opacity: 0.78;
+  animation: kaya-rain-film var(--rain-cycle, 1.25s) steps(var(--rain-frames, 5)) infinite;
+}
+
+/* 小雨 · 静态雨丝（氛围默认：无动画，resize 时烘焙一次） */
+.site-bg__light-rain-static {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background-image: var(--rain-static);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  transform: skewX(-6deg) translateZ(0);
+}
+
+.site-bg__light-rain-static.is-on {
+  opacity: 0.8;
+}
+
+.site-bg__light-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  contain: strict;
+}
+
+.site-bg__light-scene.is-on {
+  opacity: 1;
+}
+
+/* 冻结在 bg-orb-drift 动画中位姿，渐变与 site-bg::before 完全一致 */
+.site-bg__light-scene-orbs {
+  position: absolute;
+  inset: -18%;
+  background:
+    radial-gradient(circle at 18% 28%, rgba(161, 196, 253, 0.72) 0%, transparent 42%),
+    radial-gradient(circle at 78% 18%, rgba(221, 189, 255, 0.58) 0%, transparent 38%),
+    radial-gradient(circle at 62% 72%, rgba(194, 233, 251, 0.62) 0%, transparent 40%),
+    radial-gradient(circle at 28% 78%, rgba(255, 206, 214, 0.5) 0%, transparent 36%),
+    radial-gradient(circle at 88% 58%, rgba(255, 220, 186, 0.42) 0%, transparent 34%),
+    radial-gradient(circle at 48% 42%, rgba(186, 170, 245, 0.28) 0%, transparent 32%);
+  filter: blur(64px);
+  transform: translate3d(1.2%, 1.4%, 0) scale(1.05);
+  contain: strict;
+  pointer-events: none;
+}
+
+/* 与 site-bg::after 一致 */
+.site-bg__light-scene-grain {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(247, 248, 252, 0.18) 0%, transparent 28%, transparent 72%, rgba(247, 248, 252, 0.35) 100%),
+    radial-gradient(circle at center, rgba(26, 25, 34, 0.028) 1px, transparent 1px);
+  background-size: auto, 28px 28px;
+  opacity: 0.55;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 88%);
+  pointer-events: none;
+}
+
+/* 与 .site-bg__light-mist 一致（无漂移动画） */
+.site-bg__light-scene-mist {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+  background:
+    radial-gradient(ellipse 78% 40% at 50% -2%, rgba(186, 170, 245, 0.26), transparent 72%),
+    radial-gradient(ellipse 55% 28% at 78% 18%, rgba(200, 220, 255, 0.16), transparent 70%),
+    radial-gradient(ellipse 85% 42% at 18% 92%, rgba(194, 233, 251, 0.2), transparent 68%),
+    radial-gradient(ellipse 60% 30% at 88% 78%, rgba(160, 190, 230, 0.12), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 32%, transparent 68%, rgba(139, 111, 212, 0.1));
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: saturate(1);
+}
+
+body.kaya-ambient-eco.light-rain .site-bg__light-scene {
+  contain: strict;
+}
+
+/* 氛围小雨：关毛玻璃，避免与雨层叠乘占满 GPU */
+body.kaya-ambient-eco.light-rain {
+  --glass-blur: none;
+}
+
+body.kaya-ambient-eco.light-rain .site-bar,
+body.kaya-ambient-eco.light-rain .home-card,
+body.kaya-ambient-eco.light-rain .social-pill,
+body.kaya-ambient-eco.light-rain .work-card,
+body.kaya-ambient-eco.light-rain .link-card,
+body.kaya-ambient-eco.light-rain .site-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+@keyframes kaya-rain-film {
+  to { background-position: 0 100%; }
+}
+
+@keyframes kaya-light-rain-drift {
+  0% { transform: skewX(var(--rain-skew, -6deg)) translate3d(0, 0, 0); }
+  100% { transform: skewX(var(--rain-skew, -6deg)) translate3d(-18px, 256px, 0); }
+}
+
+.site-bg__rain--css-idle {
+  display: none !important;
+}
+
+.site-bg__light-rain-gl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.7;
+  contain: strict;
+  image-rendering: auto;
+}
+
+/* 氛围天气：关 site-bg 模糊光斑动画（小雨页最大 GPU 来源之一） */
+body.kaya-ambient-eco.light-rain .site-bg::before,
+body.kaya-ambient-eco.light-rain .site-bg::after {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* 氛围大雨：背景完全静态（云 Canvas 烘焙；关 CSS 天空重 blur）；暴雨不走 eco */
+body.kaya-ambient-eco.heavy-rain .site-bg::before {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+body.kaya-ambient-eco .site-bg__heavy-mist.is-on:not(.is-storm) {
+  animation: none !important;
+  transform: none !important;
+}
+
+body.kaya-ambient-eco .site-bg__light-mist,
+body.kaya-ambient-eco .site-bg__sunny-haze.is-on {
+  animation: none !important;
+  transform: none !important;
+}
+
+body.kaya-ambient-eco .site-bg__light-rain-static.is-on {
+  animation: none !important;
+}
+
+body.kaya-ambient-eco.sunny-sky .site-bg__sunny-haze.is-on {
+  animation: none !important;
+  opacity: 0.92;
+  transform: none !important;
+  mix-blend-mode: normal;
+}
+
+body.kaya-ambient-eco.sunny-sky .site-bg::before {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+/* 晴天：静态地平线漂白 + 太阳区暖光（无 blur 动画，节能） */
+body.kaya-ambient-eco.sunny-sky .site-bg::after {
+  display: block !important;
+  animation: none !important;
+  filter: none !important;
+  opacity: 0.42;
+  mask-image: none;
+  background:
+    radial-gradient(ellipse 42% 36% at 88% 10%, rgba(255, 248, 210, 0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 100% 55% at 50% 0%, rgba(255, 255, 255, 0.14) 0%, transparent 48%),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 28%,
+      transparent 68%,
+      rgba(210, 232, 248, 0.22) 100%
+    );
+}
+
+/* 晴天：body CSS 天空 + 静态 Canvas 叠层 */
+.site-bg__sunny {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.site-bg__sunny--static {
+  z-index: 1;
+  contain: strict;
+}
+
+.site-bg__sunny-haze {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background:
+    radial-gradient(ellipse 90% 40% at 50% 32%, rgba(255, 230, 245, 0.08), transparent 72%),
+    linear-gradient(180deg, transparent 58%, rgba(255, 255, 255, 0.06) 100%);
+  mix-blend-mode: screen;
+}
+
+.site-bg__sunny-haze.is-on {
+  opacity: 1;
+  animation: sunny-haze-drift 36s ease-in-out infinite alternate;
+  background:
+    radial-gradient(ellipse 95% 45% at 50% 30%, rgba(255, 220, 245, 0.1), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 88% 82%, rgba(255, 240, 210, 0.08), transparent 65%),
+    linear-gradient(180deg, transparent 55%, rgba(255, 255, 255, 0.07) 100%);
+}
+
+@keyframes sunny-haze-drift {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0.3%, -0.2%, 0); }
+}
+
+/* 氛围天气节能：停 CSS 雾层动画，减轻合成器 GPU 占用 */
+body.kaya-ambient-eco .site-bg__sunny--static,
+body.kaya-ambient-eco .site-bg__sunny-scene {
+  contain: strict;
+}
+
+.site-bg__sunny-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  contain: strict;
+}
+
+.site-bg__sunny-scene.is-on {
+  opacity: 0.88;
+  mix-blend-mode: normal;
+}
+
+.site-bg__sunny--static-only {
+  display: none !important;
+}
+
+@keyframes sunny-ambient-glow {
+  0% { opacity: 0.88; }
+  100% { opacity: 1; }
+}
+
+body.sunny-sky {
+  --bg: #c8e6f5;
+  --ink: #1a2a3c;
+  --ink-soft: #3d5268;
+  --ink-faint: #6a8098;
+  --glass-blur: none;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+body.sunny-sky .site-bg {
+  background:
+    radial-gradient(ellipse 55% 42% at 90% 8%, rgba(255, 248, 215, 0.28) 0%, transparent 52%),
+    radial-gradient(ellipse 110% 70% at 50% -6%, rgba(255, 255, 255, 0.18) 0%, transparent 46%),
+    linear-gradient(
+      180deg,
+      #5eb8e4 0%,
+      #72c8ec 18%,
+      #8ad4f2 38%,
+      #a8dff6 58%,
+      #c5e8f8 78%,
+      #d8eefb 100%
+    );
+}
+
+body.sunny-sky .site-bg__light-mist {
+  opacity: 1;
+  animation: light-mist-drift 22s ease-in-out infinite alternate;
+  mix-blend-mode: normal;
+  background:
+    radial-gradient(ellipse 88% 48% at 50% -6%, rgba(255, 255, 255, 0.38), transparent 68%),
+    radial-gradient(ellipse 48% 32% at 86% 12%, rgba(255, 248, 215, 0.2), transparent 62%),
+    radial-gradient(ellipse 78% 40% at 14% 90%, rgba(190, 225, 255, 0.16), transparent 66%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 36%, transparent 74%, rgba(175, 210, 240, 0.1) 100%);
+}
+
+body.sunny-sky .site-bar,
+body.sunny-sky .intro-panel,
+body.sunny-sky .home-card,
+body.sunny-sky .social-pill,
+body.sunny-sky .work-card,
+body.sunny-sky .link-card,
+body.sunny-sky .site-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ── 雪天 ── */
+
+body.snow-sky .site-bg__rain {
+  opacity: 0.92;
+}
+
+.site-bg__snow-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  contain: strict;
+}
+
+.site-bg__snow-scene.is-on {
+  opacity: 1;
+}
+
+.site-bg__snow-scene-orbs {
+  position: absolute;
+  inset: -16%;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(210, 220, 235, 0.55) 0%, transparent 44%),
+    radial-gradient(circle at 78% 12%, rgba(200, 210, 228, 0.42) 0%, transparent 40%),
+    radial-gradient(circle at 58% 68%, rgba(186, 198, 218, 0.38) 0%, transparent 42%),
+    radial-gradient(circle at 18% 82%, rgba(218, 210, 240, 0.22) 0%, transparent 36%),
+    radial-gradient(circle at 88% 52%, rgba(230, 236, 244, 0.28) 0%, transparent 34%);
+  filter: blur(72px);
+  transform: translate3d(0, 0, 0) scale(1.04);
+  contain: strict;
+  pointer-events: none;
+}
+
+.site-bg__snow-scene-grain {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(240, 244, 248, 0.12) 0%, transparent 30%, transparent 70%, rgba(230, 236, 244, 0.28) 100%),
+    radial-gradient(circle at center, rgba(30, 40, 55, 0.022) 1px, transparent 1px);
+  background-size: auto, 32px 32px;
+  opacity: 0.5;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
+  pointer-events: none;
+}
+
+.site-bg__snow-scene-mist {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+  background:
+    radial-gradient(ellipse 82% 38% at 50% -4%, rgba(240, 246, 255, 0.22), transparent 70%),
+    radial-gradient(ellipse 60% 32% at 82% 22%, rgba(210, 220, 235, 0.14), transparent 68%),
+    radial-gradient(ellipse 88% 44% at 12% 88%, rgba(200, 212, 228, 0.18), transparent 66%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 38%, transparent 72%, rgba(186, 198, 218, 0.12));
+  transform: translate3d(0, 0, 0);
+}
+
+body.snow-sky {
+  --bg: #dce4ec;
+  --ink: #1a2434;
+  --ink-soft: #3a4a5c;
+  --ink-faint: #6a7a8c;
+  --glass-blur: none;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+body.snow-sky .site-bg {
+  background:
+    radial-gradient(ellipse 70% 48% at 50% -8%, rgba(240, 246, 255, 0.18) 0%, transparent 52%),
+    radial-gradient(ellipse 42% 28% at 12% 18%, rgba(218, 210, 240, 0.1) 0%, transparent 58%),
+    linear-gradient(
+      180deg,
+      #5a6678 0%,
+      #6e7c8e 16%,
+      #8494a6 34%,
+      #9aacbc 52%,
+      #b4c4d0 72%,
+      #ccd8e2 88%,
+      #dce6ee 100%
+    );
+}
+
+body.snow-sky .site-bar,
+body.snow-sky .intro-panel,
+body.snow-sky .home-card,
+body.snow-sky .social-pill,
+body.snow-sky .work-card,
+body.snow-sky .link-card,
+body.snow-sky .site-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+body.kaya-ambient-eco.snow-sky {
+  --glass-blur: none;
+}
+
+body.kaya-ambient-eco.snow-sky .site-bg::before,
+body.kaya-ambient-eco.snow-sky .site-bg::after {
+  display: none !important;
+  animation: none !important;
+  filter: none !important;
+}
+
+body.kaya-ambient-eco.snow-sky .site-bar,
+body.kaya-ambient-eco.snow-sky .home-card,
+body.kaya-ambient-eco.snow-sky .social-pill,
+body.kaya-ambient-eco.snow-sky .work-card,
+body.kaya-ambient-eco.snow-sky .link-card,
+body.kaya-ambient-eco.snow-sky .site-nav {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* 雨后彩虹：无太阳；冷蓝 + 底部湿雾 */
+.site-bg__rainbow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.site-bg__after-mist {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+  background:
+    radial-gradient(ellipse 80% 32% at 50% 38%, rgba(200, 220, 245, 0.1), transparent 72%),
+    linear-gradient(180deg, transparent 55%, rgba(120, 150, 180, 0.12) 100%);
+  mix-blend-mode: soft-light;
+}
+
+.site-bg__after-mist.is-on {
+  opacity: 1;
+  animation: after-mist-drift 32s ease-in-out infinite alternate;
+}
+
+@keyframes after-mist-drift {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0.4%, -0.3%, 0); }
+}
+
+body.after-rain .site-bg {
+  background: #5a8ab0;
+}
+
+body.after-rain .site-bg::before {
+  opacity: 0.1;
+  filter: blur(60px) saturate(1.06);
+  animation: after-sky-drift 48s ease-in-out infinite alternate;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(180, 200, 230, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 72% 60%, rgba(150, 130, 200, 0.1) 0%, transparent 42%);
+}
+
+body.after-rain .site-bg::after {
+  opacity: 0.18;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 28%, transparent 68%, rgba(150, 175, 200, 0.2) 100%);
+}
+
+@keyframes after-sky-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1.01); }
+  100% { transform: translate3d(-0.4%, 0.4%, 0) scale(1.025); }
+}
+
+body.after-rain {
+  --bg: #c5d8e8;
+  --ink: #1c2836;
+  --ink-soft: #4a5e74;
+  --ink-faint: #7a90a6;
+  --accent: #6a5cc4;
+  --accent-deep: #5048a0;
+  --accent-soft: rgba(106, 92, 196, 0.12);
+  --accent-ring: rgba(106, 92, 196, 0.26);
+  --bg-elevated: rgba(255, 255, 255, 0.72);
+  --line: rgba(28, 40, 54, 0.08);
+  --border: rgba(28, 40, 54, 0.1);
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* 页脚隐秘天气入口（视口左下，抬到名言行上方，避免挡住台词） */
+.weather-gate {
+  position: fixed;
+  left: max(8px, env(safe-area-inset-left, 0px));
+  bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+  z-index: 30;
+}
+
+@media (max-width: 640px) {
+  .weather-gate {
+    /* 手机名言单行 + 页脚底 padding ≈ 2.5–3rem */
+    bottom: calc(2.85rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.weather-gate__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(28, 40, 54, 0.14);
+  background: rgba(0, 0, 0, 0.14);
+  color: rgba(28, 40, 54, 0.55);
+  cursor: pointer;
+  opacity: 0.2;
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.25s var(--ease-out),
+    border-color 0.25s var(--ease),
+    background 0.25s var(--ease);
+}
+
+.weather-gate__trigger:hover,
+.weather-gate__trigger:focus-visible,
+.weather-gate.is-open .weather-gate__trigger {
+  opacity: 0.72;
+  transform: scale(1.08);
+  border-color: var(--accent-ring);
+  background: rgba(0, 0, 0, 0.22);
+  outline: none;
+}
+
+.weather-gate__icon {
+  font-size: 14px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.weather-gate__panel {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 8px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 5.5rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.weather-gate__panel[hidden] {
+  display: none;
+}
+
+.weather-gate__panel a {
+  color: var(--ink-faint);
+  text-decoration: none;
+  padding: 0.3rem 0.45rem;
+  border-radius: 4px;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.weather-gate__panel a:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.weather-gate__panel a.is-current {
+  color: var(--accent);
+  font-weight: 500;
+  background: var(--accent-soft);
+}
+
+body.heavy-rain .weather-gate__trigger,
+body.storm-rain .weather-gate__trigger {
+  border-color: rgba(180, 200, 230, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+  color: rgba(200, 215, 235, 0.7);
+}
+
+body.heavy-rain .weather-gate__panel,
+body.storm-rain .weather-gate__panel {
+  background: rgba(24, 34, 52, 0.92);
+  border-color: rgba(180, 200, 230, 0.18);
+}
+
+body.heavy-rain .weather-gate__panel a,
+body.storm-rain .weather-gate__panel a {
+  color: rgba(200, 215, 235, 0.55);
+}
+
+body.heavy-rain .weather-gate__panel a:hover,
+body.storm-rain .weather-gate__panel a:hover {
+  color: #e8eef8;
+  background: rgba(180, 200, 230, 0.12);
+}
+
+@media (max-width: 720px) {
+  .site-bg__sunny-haze.is-on,
+  .site-bg__after-mist.is-on {
+    animation: none;
+  }
+
+  /* 手机大雨：禁用贴屏折射层，避免 z-index:50 黑幕盖住正文（顶栏 100 仍可见） */
+  body.heavy-rain .site-fx__rain-glass,
+  body.storm-rain .site-fx__rain-glass {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-hero,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-avatar,
+  body.storm-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-hero,
+  body.storm-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-avatar,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-name,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-roman,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-sign,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .social-row,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .profile-gated,
+  body.heavy-rain.page-home.profile-open.home-ready:not(.home-intro-playing):not(.profile-animating) .nav-gated,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .intro-panel,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .home-tool-entries,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .site-footer,
+  body.heavy-rain.page-home.home-ready:not(.home-intro-playing) .social-pill {
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@keyframes light-mist-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); filter: saturate(1); }
+  100% { transform: translate3d(1.2%, -0.8%, 0) scale(1.04); filter: saturate(1.08); }
+}
+
+.site-bg__glass {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+}
+
+/* 暴雨真玻璃：压在雨丝之上，折射可见 */
+body.storm-rain .site-bg__glass {
+  z-index: 5;
+  opacity: 0.92 !important;
+}
+
+/* 贴屏湿玻璃：盖住正文；溅花需更高一层才能看见顶缘撞击 */
+.site-fx__rain-glass {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+  pointer-events: none;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.85s var(--ease);
+}
+
+body.heavy-rain .site-fx__rain-glass.is-on {
+  z-index: 6;
+  /* 勿加 contrast/brightness，会把水珠压成泥色块 */
+  filter: saturate(1.02);
+}
+
+body.storm-rain .site-fx__rain-glass.is-on {
+  z-index: 6;
+  filter: saturate(1.06) contrast(1.02);
+}
+
+.site-bg__heavy {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* 自研积雨云底（Canvas），在 CSS 渐变之上、雨丝之下 */
+.site-bg__clouds {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+  opacity: 1;
+}
+
+/* 大雨雾：挂在 site-bg 内（正文下方），勿放进 site-fx 盖死页面 */
+.site-bg__heavy-mist {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+  background:
+    radial-gradient(ellipse 88% 48% at 50% 2%, rgba(130, 165, 205, 0.2), transparent 74%),
+    radial-gradient(ellipse 50% 30% at 72% 22%, rgba(100, 140, 185, 0.1), transparent 70%),
+    radial-gradient(ellipse 95% 55% at 12% 84%, rgba(52, 73, 97, 0.18), transparent 70%),
+    radial-gradient(ellipse 72% 42% at 88% 68%, rgba(70, 100, 140, 0.12), transparent 66%),
+    linear-gradient(180deg, rgba(18, 28, 44, 0.14), transparent 36%, transparent 62%, rgba(10, 16, 28, 0.28));
+}
+
+.site-bg__heavy-mist.is-on:not(.is-storm) {
+  opacity: 0.2;
+  animation: none;
+}
+
+.site-bg__heavy-mist.is-storm.is-on {
+  opacity: 0.4;
+  animation: heavy-mist-drift 14s ease-in-out infinite alternate;
+  background:
+    radial-gradient(ellipse 90% 52% at 50% 2%, rgba(130, 175, 225, 0.18), transparent 72%),
+    radial-gradient(ellipse 52% 34% at 72% 18%, rgba(95, 140, 195, 0.12), transparent 68%),
+    radial-gradient(ellipse 95% 55% at 10% 86%, rgba(28, 44, 72, 0.18), transparent 68%),
+    radial-gradient(ellipse 74% 44% at 88% 66%, rgba(45, 72, 112, 0.12), transparent 64%),
+    linear-gradient(180deg, rgba(10, 18, 32, 0.16), transparent 34%, transparent 56%, rgba(6, 12, 22, 0.24));
+}
+
+@media (max-width: 720px) {
+  body.light-rain .site-bg__light-mist,
+  body.sunny-sky .site-bg__light-mist {
+    animation: none;
+  }
+
+  .site-bg__heavy-mist.is-on:not(.is-storm) {
+    opacity: 0.22;
+    animation: none;
+  }
+
+  .site-bg__heavy-mist.is-storm.is-on {
+    opacity: 0.36;
+    animation: heavy-mist-drift 14s ease-in-out infinite alternate;
+  }
+}
+
+.site-bg,
+.site-bg::before,
+.site-bg::after,
+.site-bg__rain {
+  transition:
+    background 0.85s var(--ease),
+    background-color 0.85s var(--ease),
+    filter 0.85s var(--ease),
+    opacity 0.85s var(--ease);
+}
+
+body,
+.site-bar,
+.intro-panel__body,
+.home-card,
+.work-card,
+.link-card,
+.profile-avatar,
+.brand,
+.site-nav a,
+.profile-name,
+.profile-roman,
+.profile-sign,
+.site-footer > p {
+  transition:
+    color 0.85s var(--ease),
+    background 0.85s var(--ease),
+    background-color 0.85s var(--ease),
+    border-color 0.85s var(--ease),
+    box-shadow 0.85s var(--ease);
+}
+
+/* 大雨天空：自研 Canvas 积雨为主（禁止视频截帧）；CSS 仅淡氛围 */
+body.heavy-rain .site-bg {
+  background: #526c84;
+}
+
+body.heavy-rain .site-bg::before {
+  filter: blur(42px) brightness(1.06) saturate(1.02);
+  opacity: 0.24;
+  /* 背景静态：积雨云 Canvas 已烘焙，冻结原 heavy-sky-drift 中位姿 */
+  animation: none;
+  transform: translate3d(0.6%, -0.45%, 0) scale(1.035);
+  background:
+    radial-gradient(ellipse 110% 34% at 50% 22%, rgba(188, 210, 238, 0.44) 0%, transparent 68%),
+    radial-gradient(ellipse 80% 36% at 18% 58%, rgba(36, 52, 80, 0.24) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 36% at 88% 72%, rgba(26, 42, 68, 0.22) 0%, transparent 70%);
+}
+
+body.heavy-rain .site-bg::after {
+  opacity: 0.17;
+  background:
+    linear-gradient(180deg, rgba(18, 28, 44, 0.08) 0%, transparent 26%, transparent 62%, rgba(16, 26, 40, 0.14) 100%);
+}
+
+@keyframes heavy-sky-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1.02); }
+  100% { transform: translate3d(1.2%, -0.9%, 0) scale(1.05); }
+}
+
+body.heavy-rain {
+  --bg: #506a88;
+  --ink: #e8eef8;
+  --ink-soft: #c5d0e0;
+  --ink-faint: #8a97ab;
+  --accent: #b9a6ef;
+  --accent-deep: #d4c6f8;
+  --accent-soft: rgba(185, 166, 239, 0.18);
+  --accent-ring: rgba(185, 166, 239, 0.35);
+  --bg-elevated: rgba(24, 36, 54, 0.92);
+  --bg-elevated-solid: #182434;
+  --line: rgba(180, 200, 230, 0.18);
+  --border: rgba(180, 200, 230, 0.22);
+  --glass-blur: blur(14px) saturate(1.05);
+  color: var(--ink);
+  background: var(--bg);
+}
+
+body.heavy-rain .site-bar,
+body.heavy-rain .intro-panel__body,
+body.heavy-rain .site-log__inner,
+body.heavy-rain .home-card,
+body.heavy-rain .work-card,
+body.heavy-rain .link-card,
+body.heavy-rain .footer-sites,
+body.heavy-rain .footer-sites-dialog__panel,
+body.heavy-rain .footer-sites-item {
+  border-color: rgba(180, 200, 230, 0.2);
+  box-shadow: 0 10px 30px rgba(4, 10, 22, 0.24);
+}
+
+body.heavy-rain .profile-avatar {
+  box-shadow: none;
+}
+
+body.heavy-rain .profile-avatar::before,
+body.storm-rain .profile-avatar::before {
+  opacity: 0;
+  visibility: hidden;
+}
+
+body.heavy-rain .profile-hero {
+  filter: none;
+}
+
+body.heavy-rain .profile-avatar .avatar {
+  border-color: rgba(170, 190, 220, 0.12);
+  box-shadow: 0 8px 22px rgba(4, 10, 22, 0.16);
+  filter: brightness(0.98) saturate(0.96);
+}
+
+body.heavy-rain .profile-name {
+  color: rgba(236, 242, 248, 0.82);
+}
+
+body.heavy-rain .profile-roman {
+  color: rgba(186, 198, 216, 0.66);
+}
+
+body.heavy-rain .profile-sign {
+  color: rgba(202, 216, 230, 0.68);
+}
+
+body.heavy-rain .social-pill {
+  background: rgba(26, 38, 54, 0.36);
+  border-color: rgba(182, 198, 220, 0.12);
+}
+
+body.heavy-rain .site-nav a:hover {
+  background: rgba(200, 220, 255, 0.08);
+}
+
+body.heavy-rain .brand:hover,
+body.heavy-rain .work-card:hover .work-card__title {
+  color: var(--accent);
+}
+
+body.heavy-rain .work-card {
+  content-visibility: visible;
+}
+
+body.heavy-rain .work-card__thumb {
+  background: rgba(16, 24, 40, 0.95);
+}
+
+body.heavy-rain .link-card__icon {
+  background: rgba(200, 220, 255, 0.08);
+}
+
+/* 大雨 UI 面板：实色底，避免毛玻璃叠雨层后发白、文字看不清 */
+body.heavy-rain .site-bar,
+body.heavy-rain .site-log__inner,
+body.heavy-rain .intro-panel__body,
+body.heavy-rain .home-card,
+body.heavy-rain .work-card,
+body.heavy-rain .link-card,
+body.heavy-rain .footer-sites,
+body.heavy-rain .footer-sites-dialog__panel,
+body.heavy-rain .footer-sites-item,
+body.heavy-rain .social-pill,
+body.heavy-rain .mv-lightbox__figure,
+body.heavy-rain .mv-lightbox__rail {
+  background: var(--bg-elevated-solid);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+body.heavy-rain .site-log__text {
+  color: var(--ink);
+}
+
+body.heavy-rain .work-card,
+body.heavy-rain .link-card,
+body.storm-rain .work-card,
+body.storm-rain .link-card {
+  border-color: var(--border);
+}
+
+body.heavy-rain .work-card__thumb,
+body.storm-rain .work-card__thumb {
+  background: rgba(16, 24, 40, 0.95);
+}
+
+/* 暴雨：冷蓝灰积雨 + 密雨帘氛围（效果优先） */
+body.storm-rain .site-bg {
+  background: #152234;
+}
+
+body.storm-rain .site-bg::before {
+  filter: blur(72px) brightness(0.58) saturate(0.92) contrast(1.08);
+  opacity: 1;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(70, 110, 160, 0.42) 0%, transparent 52%),
+    radial-gradient(circle at 55% 68%, rgba(28, 46, 72, 0.76) 0%, transparent 48%),
+    radial-gradient(circle at 30% 92%, rgba(14, 24, 40, 0.9) 0%, transparent 42%),
+    radial-gradient(circle at 48% 4%, rgba(100, 140, 190, 0.22) 0%, transparent 40%);
+}
+
+body.storm-rain .site-bg::after {
+  opacity: 0.88;
+  background:
+    linear-gradient(180deg, rgba(8, 14, 26, 0.42) 0%, transparent 26%, transparent 50%, rgba(4, 10, 20, 0.58) 100%),
+    radial-gradient(ellipse 95% 52% at 50% 0%, rgba(110, 150, 205, 0.16), transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(6, 12, 22, 0.35), transparent 65%);
+}
+
+body.storm-rain .site-bar,
+body.storm-rain .intro-panel__body,
+body.storm-rain .site-log__inner,
+body.storm-rain .home-card,
+body.storm-rain .work-card,
+body.storm-rain .link-card,
+body.storm-rain .footer-sites,
+body.storm-rain .footer-sites-dialog__panel,
+body.storm-rain .footer-sites-item {
+  border-color: rgba(180, 200, 230, 0.2);
+  box-shadow: 0 10px 30px rgba(4, 10, 22, 0.24);
+}
+
+body.storm-rain .link-card__icon {
+  background: rgba(200, 220, 255, 0.08);
+}
+
+body.storm-rain {
+  --bg: #152234;
+  --ink: #f2f6fc;
+  --ink-soft: #c8d2e2;
+  --ink-faint: #7e8ea4;
+  --accent: #b9a6ef;
+  --accent-deep: #d4c6f8;
+  --accent-soft: rgba(185, 166, 239, 0.18);
+  --accent-ring: rgba(185, 166, 239, 0.35);
+  --bg-elevated: rgba(12, 20, 34, 0.94);
+  --bg-elevated-solid: #0c1422;
+  --line: rgba(170, 195, 230, 0.14);
+  --border: rgba(170, 195, 230, 0.18);
+  background: var(--bg);
+}
+
+body.storm-rain .site-bar,
+body.storm-rain .site-log__inner,
+body.storm-rain .intro-panel__body,
+body.storm-rain .home-card,
+body.storm-rain .work-card,
+body.storm-rain .link-card,
+body.storm-rain .footer-sites,
+body.storm-rain .footer-sites-dialog__panel,
+body.storm-rain .footer-sites-item,
+body.storm-rain .social-pill,
+body.storm-rain .mv-lightbox__figure,
+body.storm-rain .mv-lightbox__rail {
+  background: var(--bg-elevated-solid);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+body.storm-rain .site-log__text {
+  color: var(--ink);
+}
+
+body.storm-rain .site-bg__heavy {
+  opacity: 1;
+}
+
+body.storm-rain .site-bg__clouds {
+  opacity: 1;
+  filter: contrast(1.06);
+  transition: transform 0.2s linear, filter 0.4s ease;
+}
+
+body.storm-rain .site-bg__heavy-mist.is-storm.is-on {
+  opacity: 0.38;
+}
+
+body.storm-flash .site-bg {
+  filter: brightness(1.28) saturate(1.08);
+  transition: filter 0.05s linear;
+}
+
+body.storm-rain .site-bg {
+  transition: filter 0.35s ease;
+}
+
+.site-fx {
+  position: fixed;
+  inset: 0;
+  /* 溅花盖在正文上；顶栏 sticky 仍为 100，菜单可点 */
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.85s var(--ease), visibility 0.85s var(--ease);
+  background: transparent;
+}
+
+.site-fx.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.site-fx__mist {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* 旧类名保留；实际雾已改挂 site-bg__heavy-mist */
+  background:
+    radial-gradient(ellipse 82% 46% at 50% 4%, rgba(120, 155, 195, 0.14), transparent 74%),
+    radial-gradient(ellipse 92% 52% at 14% 82%, rgba(52, 73, 97, 0.16), transparent 70%),
+    radial-gradient(ellipse 72% 42% at 86% 70%, rgba(70, 100, 140, 0.1), transparent 66%),
+    linear-gradient(180deg, rgba(18, 28, 44, 0.12), transparent 38%, transparent 64%, rgba(10, 16, 28, 0.28));
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+  pointer-events: none;
+}
+
+.site-fx__mist.is-on {
+  opacity: 0.45;
+  animation: heavy-mist-drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes heavy-mist-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); opacity: 0.65; }
+  to { transform: translate3d(0, -0.8%, 0) scale(1.02); opacity: 0.78; }
+}
+
+.site-fx__gl,
+.site-fx__splash,
+.site-fx__glass-drops,
+.site-fx__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  background: transparent;
+}
+
+.site-fx__gl {
+  z-index: 2;
+}
+
+/* 玻璃水珠在中；溅花压在最上，保证卡片顶缘撞击可见 */
+.site-fx__glass-drops {
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+}
+
+body.storm-rain .site-fx__glass-drops.is-storm-glass,
+body.heavy-rain .site-fx__glass-drops.is-clear-glass {
+  /* 冷凝溅冠须在贴屏折射层 (z6) 之上，否则完全被 raindrop-fx 盖住 */
+  filter: none;
+  mix-blend-mode: normal;
+  z-index: 8;
+  background: transparent;
+}
+
+.site-fx__streak-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 7;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+  background: transparent;
+  /* R66: lighten 在深 UI/浅天空均可辨银丝；忌 screen 灭迹、normal 发灰 */
+  mix-blend-mode: lighten;
+  filter: none;
+}
+
+body.heavy-rain .site-fx__streak-overlay.is-on {
+  display: block;
+  /* 对齐 GitHub 小雨：normal 合批银丝，勿 lighten 过曝 */
+  mix-blend-mode: normal;
+}
+
+body.storm-rain .site-fx__streak-overlay.is-on {
+  display: block;
+  /* 暴雨银丝帘：lighten + 提对比，深空下更密更亮 */
+  mix-blend-mode: lighten;
+  filter: contrast(1.08) brightness(1.04);
+}
+
+/* 暴雨氛围：远景雨幕 / 地面溅雾 / 低空霾 */
+.site-fx__storm-sheets,
+.site-fx__storm-spray {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+}
+
+.site-fx__storm-sheets {
+  z-index: 1;
+  mix-blend-mode: normal;
+}
+
+.site-fx__storm-spray {
+  z-index: 2;
+  mix-blend-mode: normal;
+}
+
+.site-fx__storm-sheets.is-on,
+.site-fx__storm-spray.is-on {
+  display: block;
+  opacity: 1;
+}
+
+.site-fx__storm-haze {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background:
+    linear-gradient(180deg, rgba(14, 24, 40, 0.1), transparent 38%, rgba(8, 14, 24, 0.14));
+  mix-blend-mode: normal;
+}
+
+.site-fx__storm-haze.is-on {
+  opacity: 1;
+}
+
+/* 暴雨后处理：暗雨帘 / 风丝 / 侧流 / 镜头水珠 / 色散 / 闷雷暗角 */
+.site-fx__storm-veils,
+.site-fx__storm-wind,
+.site-fx__storm-runoff,
+.site-fx__storm-lens {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+  mix-blend-mode: normal;
+}
+
+.site-fx__storm-veils { z-index: 1; }
+.site-fx__storm-wind { z-index: 3; mix-blend-mode: screen; }
+.site-fx__storm-runoff { z-index: 4; mix-blend-mode: soft-light; }
+.site-fx__storm-lens { z-index: 7; mix-blend-mode: soft-light; }
+
+.site-fx__storm-veils.is-on,
+.site-fx__storm-wind.is-on,
+.site-fx__storm-runoff.is-on,
+.site-fx__storm-lens.is-on {
+  display: block;
+  opacity: 1;
+}
+
+.site-fx__storm-wind.is-on { opacity: 0.88; }
+
+.site-fx__storm-chroma {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  background:
+    linear-gradient(90deg, rgba(255, 80, 90, 0.22), transparent 38%, transparent 62%, rgba(70, 130, 255, 0.22));
+  transform: translateX(var(--storm-chroma, 0px));
+  transition: opacity 0.04s linear;
+}
+
+.site-fx__storm-rumble {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 85% 70% at 50% 50%, transparent 42%, rgba(4, 8, 18, 0.55) 100%);
+  mix-blend-mode: multiply;
+  transition: opacity 0.12s ease;
+}
+
+.site-fx.storm-shake-on {
+  transform: translate3d(var(--storm-shake-x, 0px), var(--storm-shake-y, 0px), 0);
+}
+
+/* 暴雨叠层扩展：视差雨帘 / 雾卷 / bokeh / 杂物 / 湿面高光 / 地闪反光 / 颗粒 */
+.site-bg__storm-sky-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 120% 55% at 50% 0%, rgba(120, 165, 220, 0.28), transparent 68%),
+    radial-gradient(ellipse 80% 40% at var(--flash-x, 50%) 12%, rgba(200, 225, 255, 0.22), transparent 62%);
+  mix-blend-mode: screen;
+  transition: opacity 0.06s linear;
+}
+
+.site-bg__storm-sky-glow.is-on {
+  opacity: 1;
+}
+
+.site-fx__storm-depth-far,
+.site-fx__storm-depth-near,
+.site-fx__storm-wisps,
+.site-fx__storm-bokeh,
+.site-fx__storm-debris,
+.site-fx__storm-glints,
+.site-fx__storm-ground-flash,
+.site-fx__storm-grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.75s var(--ease);
+}
+
+.site-fx__storm-depth-far { z-index: 0; opacity: 0.55; mix-blend-mode: soft-light; }
+.site-fx__storm-depth-near { z-index: 5; mix-blend-mode: lighten; }
+.site-fx__storm-wisps { z-index: 1; mix-blend-mode: soft-light; opacity: 0.7; }
+.site-fx__storm-bokeh { z-index: 0; mix-blend-mode: screen; opacity: 0.65; }
+.site-fx__storm-debris { z-index: 6; mix-blend-mode: normal; }
+.site-fx__storm-glints { z-index: 7; mix-blend-mode: screen; }
+.site-fx__storm-ground-flash { z-index: 3; mix-blend-mode: screen; }
+.site-fx__storm-grain { z-index: 10; mix-blend-mode: overlay; opacity: 0.55; }
+
+.site-fx__storm-depth-far.is-on,
+.site-fx__storm-depth-near.is-on,
+.site-fx__storm-wisps.is-on,
+.site-fx__storm-bokeh.is-on,
+.site-fx__storm-debris.is-on,
+.site-fx__storm-glints.is-on,
+.site-fx__storm-ground-flash.is-on,
+.site-fx__storm-grain.is-on {
+  display: block;
+  opacity: 1;
+}
+
+.site-fx__storm-depth-far.is-on { opacity: 0.55; }
+.site-fx__storm-wisps.is-on { opacity: 0.7; }
+.site-fx__storm-bokeh.is-on { opacity: 0.65; }
+.site-fx__storm-grain.is-on { opacity: 0.55; }
+
+.site-fx__storm-scan {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+body.storm-fx-stack .home-card,
+body.storm-fx-stack .intro-panel__body,
+body.storm-fx-stack .site-log__inner {
+  position: relative;
+  overflow: hidden;
+}
+
+body.storm-fx-stack .home-card::after,
+body.storm-fx-stack .intro-panel__body::after,
+body.storm-fx-stack .site-log__inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    108deg,
+    transparent 38%,
+    rgba(200, 225, 255, 0.1) 48%,
+    rgba(240, 248, 255, 0.16) 50%,
+    rgba(200, 225, 255, 0.08) 52%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  animation: storm-wet-sheen 5.2s ease-in-out infinite;
+}
+
+@keyframes storm-wet-sheen {
+  0%, 100% { transform: translateX(-120%); opacity: 0.35; }
+  45% { transform: translateX(120%); opacity: 0.85; }
+  55% { transform: translateX(120%); opacity: 0.85; }
+}
+
+/* 全屏 WebGL 折射层（挂 body，叠在正文上） */
+.site-fx__storm-refract {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  transition: opacity 0.6s var(--ease);
+}
+
+.site-fx__storm-refract.is-on {
+  display: block;
+  opacity: 1;
+}
+
+/* 雷声整页低频震动 */
+html.storm-thunder-rumble {
+  transform: translate3d(var(--thunder-shake-x, 0px), var(--thunder-shake-y, 0px), 0);
+}
+
+.site-fx__splash {
+  z-index: 8;
+}
+
+.site-fx__lightning {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  pointer-events: none;
+  display: block;
+}
+
+.site-fx__thunder-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 55% at var(--flash-x, 50%) var(--flash-y, 18%),
+      rgba(245, 250, 255, 0.55) 0%,
+      rgba(190, 215, 255, 0.2) 38%,
+      transparent 72%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(200, 220, 255, 0.08) 42%, transparent 70%);
+  transition: opacity 0.05s linear;
+}
+
+.site-fx__thunder-flash.is-on {
+  transition: none;
+}
+
+.site-fx__thunder-sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(210, 225, 255, 0.14);
+  mix-blend-mode: screen;
+  transition: opacity 0.08s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-fx,
+  .site-bg__rain,
+  .site-bg__light-mist,
+  .site-bg__light-wet,
+  .site-bg__light-rain-css,
+  .site-bg__light-rain-film,
+  .site-bg__light-rain-static,
+  .site-bg__heavy-mist,
+  .site-bg__heavy,
+  .site-bg__sunny,
+  .site-bg__rainbow,
+  .site-bg__after-mist,
+  .site-fx__lightning,
+  .site-fx__thunder-flash {
+    display: none !important;
+  }
+  .site-fx__mist,
+  .site-bg__heavy-mist {
+    animation: none !important;
+  }
+  body.heavy-rain .site-bg::before,
+  body.sunny-sky .site-bg::before,
+  body.after-rain .site-bg::before {
+    animation: none !important;
+  }
+}
+
+body.heavy-rain .home-intro__rain {
+  opacity: 0.95;
+}
+
+.home-intro__mist {
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 48%, rgba(255, 255, 255, 0.55), transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(139, 111, 212, 0.12), transparent 60%);
+  animation: mist-breathe 2.6s ease-in-out both;
+}
+
+/* 大雨开幕：冷青雾 + 顶部雨幕，贴近小米天气 */
+body.heavy-rain .home-intro__mist {
+  background:
+    radial-gradient(ellipse 62% 44% at 50% 46%, rgba(170, 200, 230, 0.22), transparent 72%),
+    radial-gradient(ellipse 95% 50% at 50% 0%, rgba(100, 140, 190, 0.26), transparent 70%),
+    radial-gradient(ellipse 80% 45% at 50% 100%, rgba(52, 73, 97, 0.42), transparent 65%),
+    linear-gradient(180deg, rgba(18, 28, 44, 0.3), transparent 45%);
+}
+
+body.heavy-rain .home-intro__wrap {
+  filter: drop-shadow(0 0 28px rgba(180, 210, 245, 0.35));
+}
+
+body.heavy-rain .home-intro__rule {
+  background: linear-gradient(90deg, transparent, rgba(220, 235, 255, 0.85), rgba(180, 205, 235, 0.7), transparent);
+}
+
+body.heavy-rain .home-intro__grain {
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
+}

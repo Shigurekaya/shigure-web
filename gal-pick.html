@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/" />
+  <title>Gal缘结</title>
+  <meta name="description" content="Gal缘结 — 按偏好匹配 Galgame" />
+  <meta name="theme-color" content="#f4f2f8" />
+  <link rel="stylesheet" href="css/pick-base.css?v=202608281955" />
+  <link rel="stylesheet" href="css/gal-pick.css?v=202608281955" />
+  <link rel="preload" href="js/gal-pick-data.js?v=202608281955" as="script" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body class="page-pick page-pick--standalone page-pick--flat-bg" data-kaya-page="pick">
+
+  <div class="pick-snow" id="pick-snow" aria-hidden="true"></div>
+
+  <main class="page-main page-main--pick">
+    <nav class="pick-topnav" aria-label="页面导航">
+      <button type="button" class="pick-topnav__btn pick-topnav__btn--pick" id="pick-back-intro" hidden>
+        <svg class="pick-topnav__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M15 6 9 12l6 6" />
+          <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M10 5.5h7.5A2.5 2.5 0 0 1 20 8v8a2.5 2.5 0 0 1-2.5 2.5H10" />
+        </svg>
+        <span>缘结主页</span>
+      </button>
+      <a class="pick-topnav__btn pick-topnav__btn--home" href="/">
+        <span>返回主站</span>
+        <svg class="pick-topnav__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M4.5 11.5 12 5l7.5 6.5" />
+          <path fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M7 10.5V19h4.2v-4.2h1.6V19H17v-8.5" />
+        </svg>
+      </a>
+    </nav>
+
+    <section class="pick-shell" id="pick-root" aria-live="polite">
+      <header class="pick-hero" id="pick-hero">
+        <span class="pick-hero__mark" aria-hidden="true"></span>
+        <p class="pick-hero__label">PICK</p>
+        <h1 class="pick-hero__title">Gal缘结</h1>
+        <p class="pick-hero__lead" id="pick-hero-lead" hidden></p>
+      </header>
+
+      <div class="pick-panel" id="pick-panel"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer--pick">
+  </footer>
+
+  <script src="js/kaya-boot.js?v=202608281955" defer></script>
+</body>
+</html>

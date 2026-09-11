@@ -1,0 +1,12 @@
+# https://www.shigurekaya.com/
+User-agent: *
+Allow: /
+Allow: /fuyuu/
+Allow: /sitemap.xml
+
+# 暂未上线：koharu / shiotsuki / tianhu（见 .cfignore）
+Disallow: /koharu/
+Disallow: /shiotsuki/
+Disallow: /tianhu/
+
+Sitemap: https://www.shigurekaya.com/sitemap.xml

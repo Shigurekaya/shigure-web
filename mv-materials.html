@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/" />
+  <title>MV 素材 · 榧站</title>
+  <meta name="theme-color" content="#f7f8fc" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608281955" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body class="page-mv" data-kaya-page="mv">
+  <div class="site-bg" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="site-bar">
+      <a href="/" class="brand">时雨榧</a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <nav>
+        <ul class="site-nav" id="site-nav">
+          <li><a href="/">主页</a></li>
+          <li><a href="/works/">作品</a></li>
+          <li><a href="/links/">链接</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-main page-main--mv">
+    <header class="page-head page-head--center">
+      <p class="page-head__eyebrow">MV Assets</p>
+      <h1>部分 MV 素材</h1>
+    </header>
+    <div class="mv-board" id="mv-gallery"></div>
+  </main>
+
+  <dialog class="mv-lightbox" id="mv-lightbox" aria-label="图片预览">
+    <button type="button" class="mv-lightbox__close" id="mv-lightbox-close" aria-label="关闭">×</button>
+    <div class="mv-lightbox__layout">
+      <figure class="mv-lightbox__figure">
+        <img class="mv-lightbox__img" id="mv-lightbox-img" alt="" />
+      </figure>
+      <aside class="mv-lightbox__rail" id="mv-lightbox-rail" aria-label="缩略图列表"></aside>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <button type="button" class="footer-sites" id="footer-sites-open" aria-haspopup="dialog" aria-controls="footer-sites-dialog">
+      前往其它页面
+    </button>
+    <p>© <span id="year"></span> 时雨榧</p>
+    <button type="button" class="site-footer__motto"></button>
+  </footer>
+
+  <dialog class="footer-sites-dialog" id="footer-sites-dialog" aria-label="前往其它页面">
+    <div class="footer-sites-dialog__panel">
+      <header class="footer-sites-dialog__head">
+        <p class="footer-sites-dialog__title">前往其它页面</p>
+        <button type="button" class="footer-sites-dialog__close" id="footer-sites-close" aria-label="关闭">×</button>
+      </header>
+      <nav class="footer-sites-list" aria-label="站点列表">
+        <a class="footer-sites-item" href="/fuyuu/">
+          <img class="footer-sites-item__avatar" src="/fuyuu/assets/images/avatar.jpg" alt="" width="44" height="44" loading="lazy" decoding="async" />
+          <span class="footer-sites-item__text">
+            <strong>浮游Lev</strong>
+            <small>Galgame 同人插画与绘画过程</small>
+          </span>
+          <span class="footer-sites-item__arrow" aria-hidden="true">→</span>
+        </a>
+        <button type="button" class="footer-sites-item is-wip" data-wip-msg="暂未完成（懒得做）">
+          <img class="footer-sites-item__avatar" src="/assets/images/koharu-avatar.jpg" alt="" width="44" height="44" loading="lazy" decoding="async" />
+          <span class="footer-sites-item__text">
+            <strong>小春日向</strong>
+            <small>Gal 同人插画与绘画过程</small>
+          </span>
+          <span class="footer-sites-item__arrow" aria-hidden="true">···</span>
+        </button>
+        <button type="button" class="footer-sites-item is-wip" data-wip-msg="暂未完成（懒得做）">
+          <img class="footer-sites-item__avatar" src="/assets/images/shiotsuki-avatar.jpg" alt="" width="44" height="44" loading="lazy" decoding="async" />
+          <span class="footer-sites-item__text">
+            <strong>汐月空_poi</strong>
+            <small>喜欢画画！喜欢gal！</small>
+          </span>
+          <span class="footer-sites-item__arrow" aria-hidden="true">···</span>
+        </button>
+      </nav>
+    </div>
+    <div class="kaya-toast" id="kaya-toast" hidden aria-live="polite"></div>
+  </dialog>
+
+  <script src="js/kaya-rain-mode.js?v=202608281955" defer></script>
+  <script src="js/kaya-boot.js?v=202608281955" defer></script>
+</body>
+</html>

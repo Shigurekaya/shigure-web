@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/" />
+  <title>榧站</title>
+  <meta name="description" content="时雨榧 — 个人主页" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <link rel="stylesheet" href="css/style-core.css?v=202608281955" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+  <noscript><style>.page-home .profile-hero,.page-home .nav-gated,.page-home .profile-gated{display:block!important;opacity:1!important;visibility:visible!important;transform:none!important;pointer-events:auto!important}.page-home .site-header,.page-home .intro-panel,.page-home .home-stack,.page-home .site-footer{opacity:1!important}</style></noscript>
+</head>
+<body class="page-home" data-kaya-page="home">
+  <div class="site-bg" aria-hidden="true"></div>
+
+  <div class="home-intro" id="home-intro" aria-hidden="true">
+    <canvas class="home-intro__rain" id="intro-rain"></canvas>
+    <div class="home-intro__mist"></div>
+    <div class="home-intro__grain"></div>
+    <div class="home-intro__stage">
+      <div class="home-intro__wrap">
+        <canvas class="home-intro__liquid" id="intro-liquid" role="img" aria-label="ShigureKaya"></canvas>
+      </div>
+      <span class="home-intro__rule"></span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="site-bar">
+      <a href="#" class="brand" id="brand-profile-toggle" data-profile-toggle role="button" aria-expanded="false" aria-controls="profile-hero">
+        <img class="brand-avatar" id="brand-avatar" src="assets/images/avatar.jpg" alt="" width="32" height="32" decoding="async" />
+        <span class="brand-text">榧</span>
+      </a>
+      <button type="button" class="menu-toggle" id="menu-toggle" aria-label="菜单" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <nav>
+        <ul class="site-nav" id="site-nav">
+          <li><a href="/" class="active">主页</a></li>
+          <li class="nav-gated"><a href="/works/">作品</a></li>
+          <li class="nav-gated"><a href="/links/">链接</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="home-main">
+    <section class="profile-hero" id="profile-hero">
+      <div class="profile-avatar">
+        <img id="hero-avatar" class="avatar" src="assets/images/avatar.jpg" alt="时雨榧" width="128" height="128" fetchpriority="high" decoding="async" />
+      </div>
+      <h1 class="profile-name" id="hero-name">时雨榧</h1>
+      <p class="profile-roman">ShigureKaya</p>
+      <p class="profile-sign" id="hero-sign">实现愿望程度的能力</p>
+      <nav class="social-row" id="social-icons" aria-label="外部链接"></nav>
+    </section>
+
+    <section class="intro-panel is-empty" aria-label="简介">
+      <div class="intro-panel__body" id="intro-body"></div>
+    </section>
+
+    <div class="home-stack">
+      <section class="home-section home-section--tools" aria-label="Gal 工具">
+        <p class="home-section__label">Gal 工具</p>
+        <div class="home-tool-entries">
+      <a href="/gal-pick/" class="site-quiz-entry site-quiz-entry--wide site-quiz-entry--pick" aria-label="选一款适合你的视觉小说">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M7 8.5c-1.5 0-2.5 1-2.5 2.2V19c0 .9 1 1.4 2.5 1"/><path d="M17 8.5c1.5 0 2.5 1 2.5 2.2V19c0 .9-1 1.4-2.5 1"/><path d="M7 8.5C7 6.6 9.2 5.5 12 5.5s5 2.1 5 3"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Pick</span>
+          <span class="site-quiz-entry__title">选一款适合你的视觉小说</span>
+        </span>
+        <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="/gal-quiz/" class="site-quiz-entry site-quiz-entry--quiz" aria-label="Gal 水平测试">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.4a2.6 2.6 0 1 1 4.2 2.1c-.7.5-1.2 1-1.2 1.9V14"/><circle cx="12" cy="17.2" r=".55" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Quiz</span>
+          <span class="site-quiz-entry__title">Gal水平测试</span>
+        </span>
+        <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="/gal-sedai/" class="site-quiz-entry site-quiz-entry--sedai" aria-label="Gal 世代">
+        <span class="site-quiz-entry__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="5" height="5" rx="1.1"/><rect x="15" y="4" width="5" height="5" rx="1.1"/><rect x="4" y="15" width="5" height="5" rx="1.1"/><rect x="15" y="15" width="5" height="5" rx="1.1"/></svg>
+        </span>
+        <span class="site-quiz-entry__body">
+          <span class="site-quiz-entry__label">Sedai</span>
+          <span class="site-quiz-entry__title">Gal世代</span>
+        </span>
+        <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
+      </a>
+        </div>
+      </section>
+
+    <aside class="site-log profile-gated" aria-label="站点日志">
+      <div class="site-log__inner">
+        <span class="site-log__tag">LOG</span>
+        <p class="site-log__text">因本人在2026年8月20日被突然的暴雨淋了五分钟（一条不可挡雨的路），以水鬼姿态进入地铁，故增加了暴雨页面<br>经本人亲身证明，即使人在滴水，地铁安检员也会放你进去</p>
+        <div class="site-log__action">
+          <a href="/?rain=storm" class="site-log__btn">暴雨页面</a>
+          <p class="site-log__hint">对电脑性能极其自信再点击</p>
+        </div>
+      </div>
+    </aside>
+
+    <section class="home-section home-section--more profile-gated" aria-label="快捷入口">
+      <p class="home-section__label">创作与素材</p>
+      <div class="home-cards">
+      <a href="/works/" class="home-card home-card--works">
+        <span class="home-card__label">Portfolio</span>
+        <span class="home-card__title">作品集</span>
+        <span class="home-card__desc">视频与投稿列表</span>
+        <span class="home-card__arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="/mv-materials/" class="home-card home-card--mv">
+        <span class="home-card__label">MV Assets</span>
+        <span class="home-card__title">部分 MV 素材</span>
+        <span class="home-card__desc">立绘与分镜素材预览</span>
+        <div class="home-card__preview" id="mv-preview" aria-hidden="true"></div>
+        <span class="home-card__arrow" aria-hidden="true">→</span>
+      </a>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <button type="button" class="footer-sites" id="footer-sites-open" aria-haspopup="dialog" aria-controls="footer-sites-dialog">
+      前往其它页面
+    </button>
+    <p>© <span id="year"></span> 时雨榧</p>
+    <button type="button" class="site-footer__motto"></button>
+  </footer>
+
+  <dialog class="footer-sites-dialog" id="footer-sites-dialog" aria-label="前往其它页面">
+    <div class="footer-sites-dialog__panel">
+      <header class="footer-sites-dialog__head">
+        <p class="footer-sites-dialog__title">前往其它页面</p>
+        <button type="button" class="footer-sites-dialog__close" id="footer-sites-close" aria-label="关闭">×</button>
+      </header>
+      <nav class="footer-sites-list" aria-label="站点列表">
+        <a class="footer-sites-item" href="/fuyuu/">
+          <img class="footer-sites-item__avatar" src="/fuyuu/assets/images/avatar.jpg" alt="" width="44" height="44" loading="lazy" decoding="async" />
+          <span class="footer-sites-item__text">
+            <strong>浮游Lev</strong>
+            <small>Galgame 同人插画与绘画过程</small>
+          </span>
+          <span class="footer-sites-item__arrow" aria-hidden="true">→</span>
+        </a>
+        <button type="button" class="footer-sites-item is-wip" data-wip-msg="暂未完成（懒得做）">
+          <img class="footer-sites-item__avatar" src="/assets/images/koharu-avatar.jpg" alt="" width="44" height="44" loading="lazy" decoding="async" />
+          <span class="footer-sites-item__text">
+            <strong>小春日向</strong>
+            <small>Gal 同人插画与绘画过程</small>
+          </span>
+          <span class="footer-sites-item__arrow" aria-hidden="true">···</span>
+        </button>
+        <button type="button" class="footer-sites-item is-wip" data-wip-msg="暂未完成（懒得做）">
+          <img class="footer-sites-item__avatar" src="/assets/images/shiotsuki-avatar.jpg" alt="" width="44" height="44" loading="lazy" decoding="async" />
+          <span class="footer-sites-item__text">
+            <strong>汐月空_poi</strong>
+            <small>喜欢画画！喜欢gal！</small>
+          </span>
+          <span class="footer-sites-item__arrow" aria-hidden="true">···</span>
+        </button>
+      </nav>
+    </div>
+    <div class="kaya-toast" id="kaya-toast" hidden aria-live="polite"></div>
+  </dialog>
+
+  <script src="js/kaya-rain-mode.js?v=202608281955" defer></script>
+  <script src="js/kaya-boot.js?v=202608281955" defer></script>
+</body>
+</html>

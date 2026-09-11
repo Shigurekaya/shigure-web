@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="/koharu/" />
+  <title>链接 · 小春日向</title>
+  <meta name="theme-color" content="#faf6f2" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/images/avatar.jpg" />
+</head>
+<body class="kn-site kn-page-links">
+  <header class="kn-topbar">
+    <div class="kn-topbar-inner">
+      <a href="index.html" class="kn-logo" aria-label="小春日向"><span class="kn-logo-mark">春</span><span class="kn-logo-text">小春日向</span></a>
+      <nav class="kn-nav" aria-label="站点导航">
+        <a href="index.html">主页</a>
+        <a href="works.html">作品</a>
+        <a href="links.html" class="is-active">链接</a>
+      </nav>
+    </div>
+  </header>
+  <div class="kn-shell">
+    <main class="kn-main kn-main--narrow">
+      <header class="kn-page-title"><span class="kn-section-no">Links</span><h1>链接</h1><p>对外公开的平台主页。本站仍在完善中。</p></header>
+      <div class="kn-links">
+        <a href="https://space.bilibili.com/228092838" target="_blank" rel="noopener" class="kn-link-card" id="bili-space-link">
+          <strong>B 站空间</strong><span id="bili-space-url">space.bilibili.com/228092838</span><em aria-hidden="true">↗</em>
+        </a>
+      </div>
+    </main>
+    <footer class="kn-footer"><p>© <span id="year"></span> 小春日向</p></footer>
+  </div>
+  <script src="js/site-data.js?v=202606281555"></script>
+  <script src="js/main.js" defer></script>
+  <script defer>document.addEventListener("DOMContentLoaded", () => Koharu.initLinks());</script>
+</body>
+</html>
