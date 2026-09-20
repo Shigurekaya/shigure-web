@@ -127,6 +127,14 @@
 /fuyuu/portfolio/
   Cache-Control: no-store, must-revalidate
 
+/seedance-tmp/*.mp4
+  Content-Type: video/mp4
+  Cache-Control: public, max-age=300
+
+/seedance-tmp/*.jpg
+  Content-Type: image/jpeg
+  Cache-Control: public, max-age=300
+
 /robots.txt
   Cache-Control: no-cache, must-revalidate
   Content-Type: text/plain; charset=utf-8
