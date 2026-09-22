@@ -135,6 +135,10 @@
   Content-Type: image/jpeg
   Cache-Control: public, max-age=300
 
+/seedance-tmp/*.png
+  Content-Type: image/png
+  Cache-Control: public, max-age=300
+
 /robots.txt
   Cache-Control: no-cache, must-revalidate
   Content-Type: text/plain; charset=utf-8
