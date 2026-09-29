@@ -1439,31 +1439,30 @@ body.storm-rain .mv-lightbox__thumb {
   color: var(--accent);
 }
 
+/* 对齐 anime-sedai：固定小格 + 横向滚动，不拉满屏宽 */
 .sedai-scroll {
-  overflow-x: visible;
+  width: 100%;
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 0.25rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
 }
 
 .sedai-grid-panel {
+  --sedai-cell: 4rem; /* ≈ Tailwind w-16/h-16 */
   display: flex;
   flex-direction: column;
   border: 1px solid #000;
   border-bottom: none;
   background: #fff;
-  width: 100%;
-  max-width: 100%;
+  width: fit-content;
+  max-width: none;
+  margin-inline: auto;
   color: #000;
 }
 
 @media (min-width: 768px) {
   .sedai-grid-panel {
-    width: fit-content;
-    max-width: min(100%, calc(100vw - 2rem));
+    --sedai-cell: 5rem; /* ≈ md:w-20/h-20 */
   }
 }
 
@@ -1474,7 +1473,7 @@ body.storm-rain .mv-lightbox__thumb {
   gap: 0.5rem;
   padding: 0.5rem;
   border-bottom: 1px solid #000;
-  font-size: clamp(0.8125rem, 2.6vw, 1.125rem);
+  font-size: 1.125rem;
   font-weight: 700;
 }
 
@@ -1497,68 +1496,76 @@ body.storm-rain .mv-lightbox__thumb {
 .sedai-grid-header__counter {
   flex-shrink: 0;
   white-space: nowrap;
-  font-size: clamp(0.6875rem, 2.4vw, 0.875rem);
+  font-size: 0.875rem;
 }
 
 .sedai-year-row {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
   border-bottom: 1px solid #000;
+  width: fit-content;
 }
 
 .sedai-year-label {
   flex-shrink: 0;
-  width: 2.35rem;
+  box-sizing: border-box;
+  width: var(--sedai-cell);
+  height: var(--sedai-cell);
   display: flex;
   align-items: center;
   justify-content: center;
   background: #ef4444;
   color: #fff;
   font-weight: 700;
-  padding: 0.2rem;
-  font-size: clamp(0.625rem, 2.5vw, 0.875rem);
-  align-self: stretch;
+  padding: 0.15rem;
+  font-size: 0.75rem;
+  line-height: 1.15;
+  text-align: center;
   border-right: 1px solid #000;
-  writing-mode: vertical-rl;
+  writing-mode: horizontal-tb;
   text-orientation: mixed;
-  letter-spacing: 0.06em;
+  word-break: break-all;
 }
 
-.sedai-games-row {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  min-width: 0;
-}
-
-@media (min-width: 400px) {
-  .sedai-games-row {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
+/* 「1994以前」略宽，仍保持横排 */
+.sedai-year-label[data-sedai-early] {
+  width: calc(var(--sedai-cell) * 1.35);
+  font-size: 0.6875rem;
 }
 
 @media (min-width: 768px) {
-  .sedai-games-row {
-    grid-template-columns: repeat(15, minmax(0, 1fr));
+  .sedai-year-label {
+    font-size: 0.875rem;
   }
 
-  .sedai-year-label {
-    width: 2.75rem;
+  .sedai-year-label[data-sedai-early] {
+    font-size: 0.75rem;
   }
 }
 
+.sedai-games-row {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
 .sedai-game-btn {
-  width: 100%;
-  aspect-ratio: 1;
-  min-height: 0;
+  box-sizing: border-box;
+  flex: 0 0 var(--sedai-cell);
+  width: var(--sedai-cell);
+  height: var(--sedai-cell);
   border-left: 1px solid #000;
-  border-top: 1px solid #000;
+  border-top: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.15rem;
   overflow: hidden;
   text-align: center;
-  font-size: clamp(0.5rem, 2.5vw, 0.8125rem);
+  font-size: 0.625rem;
+  line-height: 1.2;
   word-break: break-all;
   background: #fff;
   cursor: pointer;
@@ -1568,7 +1575,7 @@ body.storm-rain .mv-lightbox__thumb {
 
 @media (min-width: 768px) {
   .sedai-game-btn {
-    font-size: clamp(0.5625rem, 0.72vw, 0.8125rem);
+    font-size: 0.75rem;
   }
 }
 
@@ -1585,7 +1592,6 @@ body.storm-rain .mv-lightbox__thumb {
   overflow: visible;
 }
 
-/* 截图时强制一行 20 格（与导出图一致；宿主或 body 均可） */
 .sedai-capture-mode .sedai-scroll,
 body.sedai-capture-mode .sedai-scroll {
   overflow: visible;
@@ -1593,28 +1599,24 @@ body.sedai-capture-mode .sedai-scroll {
 
 .sedai-capture-mode .sedai-grid-panel,
 body.sedai-capture-mode .sedai-grid-panel {
+  --sedai-cell: 5rem;
   width: fit-content;
   max-width: none;
 }
 
-.sedai-capture-mode .sedai-games-row,
-body.sedai-capture-mode .sedai-games-row {
-  grid-template-columns: repeat(20, 5rem);
-}
-
 .sedai-capture-mode .sedai-year-label,
 body.sedai-capture-mode .sedai-year-label {
-  width: 5rem;
-  min-height: 5rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
+}
+
+.sedai-capture-mode .sedai-year-label[data-sedai-early],
+body.sedai-capture-mode .sedai-year-label[data-sedai-early] {
+  font-size: 0.75rem;
 }
 
 .sedai-capture-mode .sedai-game-btn,
 body.sedai-capture-mode .sedai-game-btn {
-  width: 5rem;
-  height: 5rem;
-  aspect-ratio: auto;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
 }
 
 .sedai-capture-mode .sedai-grid-header,

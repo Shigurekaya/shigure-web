@@ -87,6 +87,7 @@ function renderGrid() {
 
     const label = document.createElement("div");
     label.className = "sedai-year-label";
+    if (/^\d{4}以前$/.test(String(year))) label.dataset.sedaiEarly = "1";
     label.textContent = year;
     row.appendChild(label);
 
@@ -180,7 +181,7 @@ function restoreScroll(x, y) {
 
 /**
  * 离屏克隆截图，不改动可见页面尺寸，避免滚动跳到中间。
- * 克隆宿主挂 sedai-capture-mode，强制一行 20 格（与桌面导出一致）。
+ * 克隆宿主挂 sedai-capture-mode，固定 5rem 小格导出（对齐 anime-sedai）。
  */
 let captureBusy = false;
 
