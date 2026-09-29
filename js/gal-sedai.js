@@ -87,8 +87,15 @@ function renderGrid() {
 
     const label = document.createElement("div");
     label.className = "sedai-year-label";
-    if (/^\d{4}以前$/.test(String(year))) label.dataset.sedaiEarly = "1";
-    label.textContent = year;
+    const early = /^\d{4}以前$/.test(String(year));
+    if (early) {
+      label.dataset.sedaiEarly = "1";
+      /* 两行挤进同宽格子，字号与其他年份一致 */
+      const m = String(year).match(/^(\d{4})(以前)$/);
+      label.innerHTML = `<span>${m[1]}</span><span>${m[2]}</span>`;
+    } else {
+      label.textContent = year;
+    }
     row.appendChild(label);
 
     const gamesRow = document.createElement("div");

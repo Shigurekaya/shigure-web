@@ -1518,29 +1518,32 @@ body.storm-rain .mv-lightbox__thumb {
   background: #ef4444;
   color: #fff;
   font-weight: 700;
-  padding: 0.15rem;
+  padding: 0;
   font-size: 0.75rem;
-  line-height: 1.15;
+  line-height: 1.1;
   text-align: center;
   border-right: 1px solid #000;
   writing-mode: horizontal-tb;
-  text-orientation: mixed;
-  word-break: break-all;
+  letter-spacing: -0.04em;
+  overflow: hidden;
 }
 
-/* 「1994以前」略宽，仍保持横排 */
+/* 与普通年份同宽；长标签挤字距、两行排，不缩小字号 */
 .sedai-year-label[data-sedai-early] {
-  width: calc(var(--sedai-cell) * 1.35);
-  font-size: 0.6875rem;
+  flex-direction: column;
+  gap: 0;
+  letter-spacing: -0.08em;
+  line-height: 1.05;
+  padding-inline: 0.05rem;
+}
+
+.sedai-year-label[data-sedai-early] span {
+  display: block;
 }
 
 @media (min-width: 768px) {
   .sedai-year-label {
     font-size: 0.875rem;
-  }
-
-  .sedai-year-label[data-sedai-early] {
-    font-size: 0.75rem;
   }
 }
 
@@ -1607,11 +1610,6 @@ body.sedai-capture-mode .sedai-grid-panel {
 .sedai-capture-mode .sedai-year-label,
 body.sedai-capture-mode .sedai-year-label {
   font-size: 0.875rem;
-}
-
-.sedai-capture-mode .sedai-year-label[data-sedai-early],
-body.sedai-capture-mode .sedai-year-label[data-sedai-early] {
-  font-size: 0.75rem;
 }
 
 .sedai-capture-mode .sedai-game-btn,
