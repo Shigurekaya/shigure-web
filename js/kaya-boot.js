@@ -33,7 +33,8 @@
   async function boot() {
     const page = document.body.dataset.kayaPage || "home";
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const noWeather = page === "quiz" || page === "sedai" || page === "pick";
+    /* Gal世代 暂时下线：不再把 sedai 当工具页 */
+    const noWeather = page === "quiz" || page === "pick";
     const mode = noWeather ? null : (window.KayaRainMode?.pickInitial?.() ?? "light");
 
     /* 宸ュ叿椤电函闈欐€佸簳锛屼笉鎷夊ぉ姘?CSS锛堝惈澶ч潰绉?blur锛?*/
@@ -53,10 +54,12 @@
         `js/gal-quiz-float.js?v=${V}`,
       ],
       pick: [`js/gal-pick.js?v=${V}`],
+      /* Gal世代 暂时下线
       sedai: [
         `js/gal-sedai-data.js?v=${V}`,
         `js/gal-sedai.js?v=${V}`,
       ],
+      */
     };
 
     const shared = [
@@ -124,10 +127,12 @@
         window.KayaGalPick?.init();
         api.initPick();
       },
+      /* Gal世代 暂时下线
       sedai: () => {
         window.KayaGalSedai?.init();
         api.initSedai();
       },
+      */
     }[page];
 
     if (!init) {

@@ -91,11 +91,12 @@
 /gal-quiz/*
   Cache-Control: no-store, must-revalidate
 
-/gal-sedai
-  Cache-Control: no-store, must-revalidate
-
-/gal-sedai/
-  Cache-Control: no-store, must-revalidate
+# Gal世代 暂时下线
+# /gal-sedai
+#   Cache-Control: no-store, must-revalidate
+#
+# /gal-sedai/
+#   Cache-Control: no-store, must-revalidate
 
 /gal-pick
   Cache-Control: no-store, must-revalidate

@@ -12,6 +12,10 @@
 /gal-quiz/:qid /gal-quiz.html 200
 /gal-quiz/:qid/ /gal-quiz.html 200
 
+# Gal世代 暂时下线（保留源文件，直链回首页）
+/gal-sedai / 302
+/gal-sedai/ / 302
+
 # Permanent redirects (kaya legacy paths)
 /kaya / 301
 /kaya/ / 301

@@ -543,6 +543,7 @@ const Kaya = (() => {
         </span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
+      <!-- Gal世代 暂时下线
       <a href="/gal-sedai/" class="site-quiz-entry site-quiz-entry--sedai" aria-label="Gal 世代">
         <span class="site-quiz-entry__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="5" height="5" rx="1.1"/><rect x="15" y="4" width="5" height="5" rx="1.1"/><rect x="4" y="15" width="5" height="5" rx="1.1"/><rect x="15" y="15" width="5" height="5" rx="1.1"/></svg>
@@ -553,6 +554,7 @@ const Kaya = (() => {
         </span>
         <span class="site-quiz-entry__arrow" aria-hidden="true">→</span>
       </a>
+      -->
         </div>
       </section>
     <aside class="site-log profile-gated" aria-label="站点日志">
@@ -1436,7 +1438,7 @@ const Kaya = (() => {
 
   function initCommon(rainMode) {
     const isStandaloneTool = document.body.classList.contains("page-quiz")
-      || document.body.classList.contains("page-sedai")
+      /* || document.body.classList.contains("page-sedai") */ /* Gal世代 暂时下线 */
       || document.body.classList.contains("page-pick");
     if (!isStandaloneTool && !shellInited) {
       shellInited = true;
@@ -2508,13 +2510,15 @@ const Kaya = (() => {
     markPageReady();
   }
 
+  /* Gal世代 暂时下线
   function initSedai() {
-    /* 纯静态 flat-bg，不挂 blur 光斑 / 雨效层 */
+    // 纯静态 flat-bg，不挂 blur 光斑 / 雨效层
     initCommon(null);
     markPageReady();
   }
+  */
 
-  return { initHome, initWorks, initLinks, initMvMaterials, initQuiz, initPick, initSedai, data };
+  return { initHome, initWorks, initLinks, initMvMaterials, initQuiz, initPick, /* initSedai, */ data };
 })();
 
 /* kaya-boot 通过 window.Kaya 调用；const 不会挂到 window */
