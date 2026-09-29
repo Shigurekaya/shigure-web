@@ -1,5 +1,18 @@
 const STORAGE_KEY = "selectedGalgames";
-const DISPLAY_COUNT = 20;
+const DISPLAY_COUNT = 15;
+
+/** "1994以前" 排在 1994 之前；纯数字年按数值排 */
+function yearOrderKey(label) {
+  const s = String(label);
+  const m = s.match(/^(\d{4})以前$/);
+  if (m) return Number(m[1]) - 0.5;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : 99999;
+}
+
+function sortedYearKeys() {
+  return Object.keys(GAMES).sort((a, b) => yearOrderKey(a) - yearOrderKey(b));
+}
 const HTML_TO_IMAGE_SRC =
   "https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js";
 
@@ -27,9 +40,9 @@ function saveSelected() {
 
 function getAllDisplayTitles() {
   if (allTitles) return allTitles;
-  allTitles = Object.keys(GAMES)
-    .sort((a, b) => Number(a) - Number(b))
-    .flatMap((year) => GAMES[year].slice(0, DISPLAY_COUNT).map((game) => game.title));
+  allTitles = sortedYearKeys().flatMap((year) =>
+    GAMES[year].slice(0, DISPLAY_COUNT).map((game) => game.title)
+  );
   return allTitles;
 }
 
@@ -67,37 +80,35 @@ function renderGrid() {
   `;
   frag.appendChild(header);
 
-  Object.keys(GAMES)
-    .sort((a, b) => Number(a) - Number(b))
-    .forEach((year) => {
-      const games = GAMES[year].slice(0, DISPLAY_COUNT);
-      const row = document.createElement("div");
-      row.className = "sedai-year-row";
+  sortedYearKeys().forEach((year) => {
+    const games = GAMES[year].slice(0, DISPLAY_COUNT);
+    const row = document.createElement("div");
+    row.className = "sedai-year-row";
 
-      const label = document.createElement("div");
-      label.className = "sedai-year-label";
-      label.textContent = year;
-      row.appendChild(label);
+    const label = document.createElement("div");
+    label.className = "sedai-year-label";
+    label.textContent = year;
+    row.appendChild(label);
 
-      const gamesRow = document.createElement("div");
-      gamesRow.className = "sedai-games-row";
+    const gamesRow = document.createElement("div");
+    gamesRow.className = "sedai-games-row";
 
-      games.forEach((game) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "sedai-game-btn";
-        if (selected.has(game.title)) btn.classList.add("is-selected");
-        btn.title = game.title;
-        btn.dataset.title = game.title;
-        const span = document.createElement("span");
-        span.textContent = game.title;
-        btn.appendChild(span);
-        gamesRow.appendChild(btn);
-      });
-
-      row.appendChild(gamesRow);
-      frag.appendChild(row);
+    games.forEach((game) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "sedai-game-btn";
+      if (selected.has(game.title)) btn.classList.add("is-selected");
+      btn.title = game.title;
+      btn.dataset.title = game.title;
+      const span = document.createElement("span");
+      span.textContent = game.title;
+      btn.appendChild(span);
+      gamesRow.appendChild(btn);
     });
+
+    row.appendChild(gamesRow);
+    frag.appendChild(row);
+  });
 
   gridPanel.replaceChildren(frag);
   updateCounter();

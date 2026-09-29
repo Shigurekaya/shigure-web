@@ -1519,6 +1519,9 @@ body.storm-rain .mv-lightbox__thumb {
   font-size: clamp(0.625rem, 2.5vw, 0.875rem);
   align-self: stretch;
   border-right: 1px solid #000;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.06em;
 }
 
 .sedai-games-row {
@@ -1535,7 +1538,7 @@ body.storm-rain .mv-lightbox__thumb {
 
 @media (min-width: 768px) {
   .sedai-games-row {
-    grid-template-columns: repeat(20, minmax(0, 1fr));
+    grid-template-columns: repeat(15, minmax(0, 1fr));
   }
 
   .sedai-year-label {

@@ -19,6 +19,7 @@ _sedai_raw/
 _quiz_raw/
 
 # Local-only / build intermediates
+.cache/
 js/gal-pick-catalog.json
 tianhu/data/
 tianhu/scripts/

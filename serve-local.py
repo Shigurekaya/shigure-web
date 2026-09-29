@@ -30,9 +30,8 @@ CLEAN_MAP = {
     "/gal-quiz/": "gal-quiz.html",
     "/gal-pick": "gal-pick.html",
     "/gal-pick/": "gal-pick.html",
-    # Gal世代 暂时下线
-    # "/gal-sedai": "gal-sedai.html",
-    # "/gal-sedai/": "gal-sedai.html",
+    "/gal-sedai": "gal-sedai.html",
+    "/gal-sedai/": "gal-sedai.html",
     "/heavy": "heavy.html",
     "/heavy/": "heavy.html",
     "/light": "light.html",
@@ -66,9 +65,8 @@ CLEAN_MAP = {
     "/kaya/gal-quiz/": "gal-quiz.html",
     "/kaya/gal-pick": "gal-pick.html",
     "/kaya/gal-pick/": "gal-pick.html",
-    # Gal世代 暂时下线
-    # "/kaya/gal-sedai": "gal-sedai.html",
-    # "/kaya/gal-sedai/": "gal-sedai.html",
+    "/kaya/gal-sedai": "gal-sedai.html",
+    "/kaya/gal-sedai/": "gal-sedai.html",
     "/kaya/heavy": "heavy.html",
     "/kaya/heavy/": "heavy.html",
     "/kaya/light": "light.html",

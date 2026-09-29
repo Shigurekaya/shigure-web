@@ -1,464 +1,1602 @@
+/* Auto-generated from VNDB (votecount). Do not hand-edit. */
+/* source=vndb sort=votecount perYear=15 through=2026 early=1994以前 */
 const GAMES = {
+  "1994以前": [
+    {
+      "title": "兰斯4 -教团的遗产-"
+    },
+    {
+      "title": "兰斯 -寻找光明-"
+    },
+    {
+      "title": "兰斯2 -反抗的少女们-"
+    },
+    {
+      "title": "兰斯3 -利ザス陷落-"
+    },
+    {
+      "title": "禁断的血族"
+    },
+    {
+      "title": "妖獣戦記 －Ａ．Ｄ．２０４８－"
+    },
+    {
+      "title": "ファミコン探偵倶楽部PartII うしろに立つ少女"
+    },
+    {
+      "title": "时间掠夺者亨迪"
+    },
+    {
+      "title": "斗神都市"
+    },
+    {
+      "title": "ファミコン探偵倶楽部 消えた後継者"
+    },
+    {
+      "title": "玛鲁王国的人形姬2"
+    },
+    {
+      "title": "Words Worth"
+    },
+    {
+      "title": "Love Angel Syndrome"
+    },
+    {
+      "title": "小吸血鬼"
+    },
+    {
+      "title": "龍騎士３"
+    }
+  ],
+  "1994": [
+    {
+      "title": "雷之战士莱蒂 破邪的雷光"
+    },
+    {
+      "title": "镰鼬之夜"
+    },
+    {
+      "title": "DESIRE 背德的螺旋"
+    },
+    {
+      "title": "心跳回忆"
+    },
+    {
+      "title": "这里是乐园庄"
+    },
+    {
+      "title": "斗神都市2"
+    },
+    {
+      "title": "宇宙骑警"
+    },
+    {
+      "title": "悦乐学园"
+    },
+    {
+      "title": "野野村病院的人们"
+    },
+    {
+      "title": "龙骑士4"
+    },
+    {
+      "title": "XENON ～夢幻の肢体～"
+    },
+    {
+      "title": "Viper-GTS"
+    },
+    {
+      "title": "愛姉妹 ～二人の果実～"
+    },
+    {
+      "title": "安琪莉可"
+    },
+    {
+      "title": "EMIT Vol.1: 時の迷子"
+    }
+  ],
+  "1995": [
+    {
+      "title": "TRUE LOVE ～純愛物語～"
+    },
+    {
+      "title": "ランス４．１　～お薬工場を救え！～"
+    },
+    {
+      "title": "ランス４．２　～エンジェル組～"
+    },
+    {
+      "title": "雷の戦士ライディ２"
+    },
+    {
+      "title": "夢幻夜想曲"
+    },
+    {
+      "title": "EVE burst error"
+    },
+    {
+      "title": "インモラルスタディ シナリオ1 白川玲子"
+    },
+    {
+      "title": "インモラルスタディ シナリオ2 飯嶋由佳"
+    },
+    {
+      "title": "Ring Out!!"
+    },
+    {
+      "title": "迷走都市"
+    },
+    {
+      "title": "エイミーと呼ばないでっ"
+    },
+    {
+      "title": "ここは楽園荘2"
+    },
+    {
+      "title": "五月倶楽部"
+    },
+    {
+      "title": "同級生2"
+    },
+    {
+      "title": "Viper-V16"
+    }
+  ],
+  "1996": [
+    {
+      "title": "在世界尽头咏唱恋曲的少女YU-NO"
+    },
+    {
+      "title": "鬼畜王蘭斯"
+    },
+    {
+      "title": "雫"
+    },
+    {
+      "title": "櫻花的季節"
+    },
+    {
+      "title": "三姉妹"
+    },
+    {
+      "title": "サクラ大戦"
+    },
+    {
+      "title": "放課後恋愛クラブ ～恋のエチュード～"
+    },
+    {
+      "title": "GLO・RI・A ～禁断の血族～"
+    },
+    {
+      "title": "痕"
+    },
+    {
+      "title": "RADICAL DREAMERS -盗めない宝石-"
+    },
+    {
+      "title": "タイムストリッパー真子ちゃん"
+    },
+    {
+      "title": "致爱丽丝"
+    },
+    {
+      "title": "欢迎来到咖啡屋"
+    },
+    {
+      "title": "下級生"
+    },
+    {
+      "title": "わくわく麻雀パニック！２ ～刻視夢想～"
+    }
+  ],
+  "1997": [
+    {
+      "title": "Xchange"
+    },
+    {
+      "title": "月球惊魂"
+    },
+    {
+      "title": "新世纪福音战士：钢铁女友"
+    },
+    {
+      "title": "HEARTWORK -Symphony of Destruction-"
+    },
+    {
+      "title": "迷宮旅人：To Heart 2"
+    },
+    {
+      "title": "阿特拉克=纳克亚"
+    },
+    {
+      "title": "メイド物語"
+    },
+    {
+      "title": "Kaeru nyo Panyon"
+    },
+    {
+      "title": "Viper-CTR ~Asuka~"
+    },
+    {
+      "title": "Viper-F40"
+    },
+    {
+      "title": "歡迎來到Pia Carrot!! 2.2"
+    },
+    {
+      "title": "零式"
+    },
+    {
+      "title": "女郎蜘蛛 ～呪縛の牝奴隷達～"
+    },
+    {
+      "title": "遊撃隊 ～最強神復活之巻～"
+    },
+    {
+      "title": "DOOP"
+    }
+  ],
+  "1998": [
+    {
+      "title": "ONE～光辉的季节～"
+    },
+    {
+      "title": "DIVI-DEAD"
+    },
+    {
+      "title": "白色相簿"
+    },
+    {
+      "title": "キャッスルファンタジア ～聖魔大戦～"
+    },
+    {
+      "title": "Tokimeki Check-in!"
+    },
+    {
+      "title": "臨界点 ～クリティカル・ポイント～"
+    },
+    {
+      "title": "臭作"
+    },
+    {
+      "title": "樱花大战II 望君多珍重"
+    },
+    {
+      "title": "もんもん学園 ten.ko.sei"
+    },
+    {
+      "title": "Viper-M1"
+    },
+    {
+      "title": "双重角色"
+    },
+    {
+      "title": "大迁离"
+    },
+    {
+      "title": "喜欢喜欢最喜欢！"
+    },
+    {
+      "title": "少女革命ウテナ いつか革命される物語"
+    },
+    {
+      "title": "久遠の絆"
+    }
+  ],
+  "1999": [
+    {
+      "title": "口袋美少女"
+    },
+    {
+      "title": "加奈…欢迎回来!!"
+    },
+    {
+      "title": "银色事件"
+    },
+    {
+      "title": "同级生"
+    },
+    {
+      "title": "终之空"
+    },
+    {
+      "title": "Xchange2"
+    },
+    {
+      "title": "Little My Maid"
+    },
+    {
+      "title": "秋之回忆"
+    },
+    {
+      "title": "ToHeart 附加剧情“赛莉欧・佐藤雅史”"
+    },
+    {
+      "title": "Mamatoto ~a record of war~"
+    },
+    {
+      "title": "夜勤病栋"
+    },
+    {
+      "title": "Adam: The Double Factor"
+    },
+    {
+      "title": "怪奇！ドリル男の恐怖"
+    },
+    {
+      "title": "人形の傷跡"
+    },
+    {
+      "title": "心跳回忆2"
+    }
+  ],
+  "2000": [
+    {
+      "title": "月姬"
+    },
+    {
+      "title": "空狼"
+    },
+    {
+      "title": "黑暗圣经"
+    },
+    {
+      "title": "第七夜 无限轮回的终结"
+    },
+    {
+      "title": "初音岛"
+    },
+    {
+      "title": "降雪"
+    },
+    {
+      "title": "Men at Work! 2 ~Hunter Academy e Youkoso~"
+    },
+    {
+      "title": "使用中～W.C.～"
+    },
+    {
+      "title": "Se-n-se-i 2"
+    },
+    {
+      "title": "同心～三姉妹のエチュード～"
+    },
+    {
+      "title": "银色"
+    },
+    {
+      "title": "书淫，或是已失去的梦之物语。"
+    },
+    {
+      "title": "好きなものは好きだからしょうがない！！ − FIRST LIMIT −"
+    },
+    {
+      "title": "二重影"
+    },
+    {
+      "title": "果てしなく青い、この空の下で…"
+    }
+  ],
+  "2001": [
+    {
+      "title": "逆转裁判"
+    },
+    {
+      "title": "歌月十夜"
+    },
+    {
+      "title": "月姫 PLUS-DISC"
+    },
+    {
+      "title": "Crescendo ～永遠だと思っていたあの頃～"
+    },
+    {
+      "title": "家族计划"
+    },
+    {
+      "title": "对你说再见～comment te dire adieu～"
+    },
+    {
+      "title": "Brave Soul"
+    },
+    {
+      "title": "你所期望的永远"
+    },
+    {
+      "title": "エッチなバニーさんは嫌い?"
+    },
+    {
+      "title": "私に今夜☆会いに来て"
+    },
+    {
+      "title": "水夏"
+    },
+    {
+      "title": "Private Nurse"
+    },
+    {
+      "title": "義母"
+    },
+    {
+      "title": "自杀的101种方法"
+    },
+    {
+      "title": "憑き"
+    }
+  ],
+  "2002": [
+    {
+      "title": "寒蝉鸣泣之时 出题篇"
+    },
+    {
+      "title": "时空轮回"
+    },
+    {
+      "title": "逆转裁判2"
+    },
+    {
+      "title": "传颂之物"
+    },
+    {
+      "title": "鬼哭街 - The Cyber Slayer"
+    },
+    {
+      "title": "初音岛"
+    },
+    {
+      "title": "月姬格斗"
+    },
+    {
+      "title": "ランス５Ｄ －ひとりぼっちの女の子－"
+    },
+    {
+      "title": "DISCIPLINE -The record of a Crusade-"
+    },
+    {
+      "title": "Wind -a breath of heart-"
+    },
+    {
+      "title": "出血簿〜鮮赤の嗚咽〜"
+    },
+    {
+      "title": "人妻姫倶楽部"
+    },
+    {
+      "title": "银河天使"
+    },
+    {
+      "title": "エッチなバニーさんは嫌い？2"
+    },
+    {
+      "title": "私に今夜会いに来て２～お嫁さんは姫巫女～"
+    }
+  ],
   "2003": [
-    { "title": "Muv-Luv" },
-    { "title": "夜月东升•暮日西沉～Operation Sanctuary～" },
-    { "title": "CROSS†CHANNEL" },
-    { "title": "斩魔大圣Demonbane" },
-    { "title": "SNOW" },
-    { "title": "永远的艾塞莉娅" },
-    { "title": "大番长" },
-    { "title": "Clover Heart's" },
-    { "title": "你所期望的永远" },
-    { "title": "幻燐的姬将军2：引导灵魂的族谱" },
-    { "title": "从此方到彼方" },
-    { "title": "天使不在的12月" },
-    { "title": "BALDR FORCE EXE" },
-    { "title": "萌娘商社" },
-    { "title": "てのひらを、たいように" },
-    { "title": "朱－Aka－" },
-    { "title": "喵咪西点师" },
-    { "title": "魔女っ娘ア·ラ·モード" },
-    { "title": "ALMA ～ずっとそばに…～" },
-    { "title": "D.C. ～ダ·カーポ～ 期间限定感谢ぱっく" }
+    {
+      "title": "沙耶之歌"
+    },
+    {
+      "title": "Muv-Luv"
+    },
+    {
+      "title": "CROSS†CHANNEL 交错频道 ～For all people～"
+    },
+    {
+      "title": "斩魔大圣Demonbane"
+    },
+    {
+      "title": "真实的回忆"
+    },
+    {
+      "title": "雪桜"
+    },
+    {
+      "title": "相楽さん家の悦楽ライフ♪"
+    },
+    {
+      "title": "大番長 -Big Bang Age-"
+    },
+    {
+      "title": "永遠のアセリア-The Spirit of Eternity Sword-"
+    },
+    {
+      "title": "Heart de Roommate"
+    },
+    {
+      "title": "Minna de Nyan Nyan"
+    },
+    {
+      "title": "天使不在的12月"
+    },
+    {
+      "title": "Shiawase no Katachi"
+    },
+    {
+      "title": "僕の牝秘書は同級生"
+    },
+    {
+      "title": "あなたの幼妻"
+    }
   ],
   "2004": [
-    { "title": "Fate/stay night" },
-    { "title": "CLANNAD" },
-    { "title": "空之歌" },
-    { "title": "交响乐之雨" },
-    { "title": "DUEL SAVIOR" },
-    { "title": "春天的足音" },
-    { "title": "兰斯6 赛斯崩坏" },
-    { "title": "SHUFFLE!" },
-    { "title": "跟大姊姊一起做吧！2" },
-    { "title": "ALMA～ずっとそばに…～Complete Edition" },
-    { "title": "茜色的画布2" },
-    { "title": "D.C.P.C." },
-    { "title": "Dear My Friend" },
-    { "title": "永远的艾塞莉娅 DVD版" },
-    { "title": "筑巢之龙" },
-    { "title": "白色呼吸" },
-    { "title": "下级生2" },
-    { "title": "Quartett!" },
-    { "title": "你所期望的永远" },
-    { "title": "IZUMO2" }
+    {
+      "title": "Fate/stay night"
+    },
+    {
+      "title": "CLANNAD"
+    },
+    {
+      "title": "planetarian～小小的星之梦～"
+    },
+    {
+      "title": "寒蝉鸣泣之时·解"
+    },
+    {
+      "title": "逆转裁判3"
+    },
+    {
+      "title": "卡战奇谋"
+    },
+    {
+      "title": "无限轮回的时光"
+    },
+    {
+      "title": "交响乐之雨"
+    },
+    {
+      "title": "兰斯6 -赛斯崩坏-"
+    },
+    {
+      "title": "选择"
+    },
+    {
+      "title": "義妹・仁美"
+    },
+    {
+      "title": "迷宮旅人：To Heart 2"
+    },
+    {
+      "title": "Quartett!"
+    },
+    {
+      "title": "Canvas2～茜色のパレット～"
+    },
+    {
+      "title": "灵魂链接"
+    }
   ],
   "2005": [
-    { "title": "Fate/hollow ataraxia" },
-    { "title": "女仆咖啡帕露菲" },
-    { "title": "娇蛮之吻" },
-    { "title": "更胜黎明前的琉璃色" },
-    { "title": "车轮之国，向日葵的少女" },
-    { "title": "ToHeart2" },
-    { "title": "妖人" },
-    { "title": "智代After ～It's a Wonderful Life～" },
-    { "title": "Princess Witches" },
-    { "title": "AYAKASHI アヤカシ" },
-    { "title": "群青の空を越えて" },
-    { "title": "少女爱上姐姐" },
-    { "title": "DUEL SAVIOR JUSTICE" },
-    { "title": "ぱすてるチャイムContinue" },
-    { "title": "GALZOO岛" },
-    { "title": "校园的日子" },
-    { "title": "秋色恋华" },
-    { "title": "尘骸魔京" },
-    { "title": "Happiness!" },
-    { "title": "Fate/stay night" }
+    {
+      "title": "水仙"
+    },
+    {
+      "title": "车轮之国，向日葵的少女"
+    },
+    {
+      "title": "夢見之藥"
+    },
+    {
+      "title": "Little Busters!"
+    },
+    {
+      "title": "学园K -完美校园生活-"
+    },
+    {
+      "title": "天鹅之歌：绝唱"
+    },
+    {
+      "title": "恋狱～月狂病～"
+    },
+    {
+      "title": "智代After ～It's a Wonderful Life～"
+    },
+    {
+      "title": "刃鸣散"
+    },
+    {
+      "title": "咎狗之血"
+    },
+    {
+      "title": "竜†恋"
+    },
+    {
+      "title": "泪光闪烁的皇冠"
+    },
+    {
+      "title": "凝视那侧脸 ～a profile 完全版～"
+    },
+    {
+      "title": "妖人"
+    },
+    {
+      "title": "对魔忍阿莎姬"
+    }
   ],
   "2006": [
-    { "title": "Muv-Luv Alternative" },
-    { "title": "青空下的约定" },
-    { "title": "D.C.II" },
-    { "title": "战国兰斯" },
-    { "title": "假如明日天放晴" },
-    { "title": "遥仰凰华" },
-    { "title": "ef - the first tale." },
-    { "title": "Really? Really!" },
-    { "title": "Prism Ark" },
-    { "title": "望见青空之丘" },
-    { "title": "Fossette - Cafe au Le Ciel Bleu -" },
-    { "title": "Planetarian" },
-    { "title": "她们的流仪" },
-    { "title": "Summer Days" },
-    { "title": "更胜黎明前的琉璃色 -Brighter than dawning blue-" },
-    { "title": "Fate/stay night Réalta Nua" },
-    { "title": "I/O" },
-    { "title": "H2O ～FOOTPRINTS IN THE SAND～" },
-    { "title": "寒蝉鸣泣之时解" },
-    { "title": "Scarlett" }
+    {
+      "title": "Muv-Luv Alternative"
+    },
+    {
+      "title": "战国兰斯"
+    },
+    {
+      "title": "Wanko to Kurasou"
+    },
+    {
+      "title": "尸体派对：血之复盖 - 无止境的恐惧"
+    },
+    {
+      "title": "悠久之翼"
+    },
+    {
+      "title": "雪绒花"
+    },
+    {
+      "title": "公主华尔兹"
+    },
+    {
+      "title": "亲吻那片花瓣"
+    },
+    {
+      "title": "初音岛"
+    },
+    {
+      "title": "戈尔尖叫秀"
+    },
+    {
+      "title": "寒蝉鸣泣之时 礼"
+    },
+    {
+      "title": "深圳 I/O"
+    },
+    {
+      "title": "Lamento -BEYOND THE VOID-"
+    },
+    {
+      "title": "杀手皇后：黑"
+    },
+    {
+      "title": "Katahane"
+    }
   ],
   "2007": [
-    { "title": "Little Busters!" },
-    { "title": "圣娜鲁卡娜-永远神剑物语2-" },
-    { "title": "世界上最NG的恋爱" },
-    { "title": "终有一日愿遂彼空" },
-    { "title": "明日的世界" },
-    { "title": "为与明日君相逢" },
-    { "title": "染红的街道" },
-    { "title": "你是主人我是仆" },
-    { "title": "恋爱少女与守护之盾 The Code Name is \"SHIELD 9\"" },
-    { "title": "D.C.II Spring Celebration" },
-    { "title": "恋姬无双～心动★全是少女的三国志演义～" },
-    { "title": "HoneyComing-ハニーカミング-" },
-    { "title": "世界树与恋爱魔法使" },
-    { "title": "片羽" },
-    { "title": "车轮之国, 悠久之少年少女" },
-    { "title": "KIRA☆KIRA 煌煌舞台" },
-    { "title": "Muv-Luv Altered Fable" },
-    { "title": "Eternal Fantasy" },
-    { "title": "王贼" },
-    { "title": "Clear－クリア－" }
+    {
+      "title": "海猫鸣泣之时"
+    },
+    {
+      "title": "Little Busters!"
+    },
+    {
+      "title": "逆转裁判4"
+    },
+    {
+      "title": "KIRA☆KIRA 煌煌舞台"
+    },
+    {
+      "title": "水仙2"
+    },
+    {
+      "title": "恋姬无双"
+    },
+    {
+      "title": "车轮之国, 悠久之少年少女"
+    },
+    {
+      "title": "赫炎的印加诺克"
+    },
+    {
+      "title": "向日葵-天空鹅卵石"
+    },
+    {
+      "title": "世界上最NG的恋爱"
+    },
+    {
+      "title": "亲吻那片花瓣 ～恋人的羁绊～"
+    },
+    {
+      "title": "病娇模拟器"
+    },
+    {
+      "title": "花吻在上-我的王子大人"
+    },
+    {
+      "title": "ウィッシュルーム 天使の記憶"
+    },
+    {
+      "title": "みんな大好き子づくりばんちょう"
+    }
   ],
   "2008": [
-    { "title": "FORTUNE ARTERIAL" },
-    { "title": "Little Busters!" },
-    { "title": "超昂闪忍遥" },
-    { "title": "G弦上的魔王" },
-    { "title": "真・恋姫†無双～乙女繚乱☆三国志演義～" },
-    { "title": "スマガ -STAR MINE GIRL-" },
-    { "title": "壳之少女" },
-    { "title": "戦乙女ヴァルキリー2" },
-    { "title": "智以类聚" },
-    { "title": "闪耀十字军" },
-    { "title": "晓之护卫" },
-    { "title": "11eyes-罪与罚与救赎之少女-" },
-    { "title": "ef - the latter tale." },
-    { "title": "战女神ZERO" },
-    { "title": "闘神都市III" },
-    { "title": "混沌头脑" },
-    { "title": "プリマ☆ステラ" },
-    { "title": "樱花街" },
-    { "title": "媚肉之香" },
-    { "title": "初音岛2 P.S.P." }
+    {
+      "title": "G线上的魔王"
+    },
+    {
+      "title": "壳之少女"
+    },
+    {
+      "title": "混沌头"
+    },
+    {
+      "title": "缘之空"
+    },
+    {
+      "title": "sweet pool"
+    },
+    {
+      "title": "428 ～被封锁的涩谷～"
+    },
+    {
+      "title": "薄櫻鬼 真改 風華傳"
+    },
+    {
+      "title": "11eyes -罪与罚与赎的少女-"
+    },
+    {
+      "title": "晓之护卫"
+    },
+    {
+      "title": "エーデルワイス 詠伝ファンタジア"
+    },
+    {
+      "title": "漆黑的夏尔诺斯～何等美好的明日～"
+    },
+    {
+      "title": "苍翼默示录：厄运扳机"
+    },
+    {
+      "title": "ご主人様だ～いすき"
+    },
+    {
+      "title": "KIRA☆KIRA CURTAIN CALL"
+    },
+    {
+      "title": "亲吻那片花瓣 ～爱上你的幸福～"
+    }
   ],
   "2009": [
-    { "title": "BALDR SKY Dive2“RECORDARE”" },
-    { "title": "认真和我谈恋爱！" },
-    { "title": "纯白交响曲" },
-    { "title": "我们没有翅膀" },
-    { "title": "装甲恶鬼村正" },
-    { "title": "星空的记忆 -流星下的愿景-" },
-    { "title": "天神乱漫" },
-    { "title": "77～双星再会之时～" },
-    { "title": "Eden*" },
-    { "title": "神怒之日 ～Acta est Fabula～" },
-    { "title": "BALDR SKY Dive1“LostMemory”" },
-    { "title": "夏梦渚" },
-    { "title": "从晴朗的朝色泛起之际开始" },
-    { "title": "更胜黎明前的琉璃色" },
-    { "title": "夏之雨" },
-    { "title": "姬狩Dungeon Meister" },
-    { "title": "輝光翼戦記 天空のユミナ" },
-    { "title": "アリス2010" },
-    { "title": "神楽道中記" },
-    { "title": "スズノネセブン！" }
+    {
+      "title": "片轮少女"
+    },
+    {
+      "title": "命运石之门"
+    },
+    {
+      "title": "海猫鸣泣之时散"
+    },
+    {
+      "title": "认真和我谈恋爱！！"
+    },
+    {
+      "title": "极限脱出 9小时9人9扇门"
+    },
+    {
+      "title": "装甲恶鬼村正"
+    },
+    {
+      "title": "星空的记忆 -Wish upon a shooting star"
+    },
+    {
+      "title": "混沌之脑：诺亚"
+    },
+    {
+      "title": "霹靂嬌娃"
+    },
+    {
+      "title": "eden* They were only two, on the planet."
+    },
+    {
+      "title": "幼驯染成了大总统"
+    },
+    {
+      "title": "巴德尔之空 Dive1"
+    },
+    {
+      "title": "逆转检察官"
+    },
+    {
+      "title": "巴德尔之空 Dive2"
+    },
+    {
+      "title": "兰斯02 -反叛的少女们"
+    }
   ],
   "2010": [
-    { "title": "恋色空模样" },
-    { "title": "美好的每一天～不连续的存在～" },
-    { "title": "战女神VERITA" },
-    { "title": "黄昏的禁忌之药" },
-    { "title": "命运石之门" },
-    { "title": "恋爱与选举与巧克力" },
-    { "title": "Noble☆Works" },
-    { "title": "晓之护卫～重罪末世论～" },
-    { "title": "少女爱上姐姐" },
-    { "title": "寻找遗失的未来" },
-    { "title": "Hello,good-bye" },
-    { "title": "星空的记忆 永恒之心" },
-    { "title": "あかときっ！-夢こそまされ恋の魔砲-" },
-    { "title": "白色相簿2~introductory chapter~" },
-    { "title": "如月金★星" },
-    { "title": "智以泪聚 -吹向明日彼岸的可视之风-" },
-    { "title": "最終痴漢電車3" },
-    { "title": "BALDR SKY DiveX“DREAM WORLD”" },
-    { "title": "エヴォリミット" },
-    { "title": "真・恋姫†無双～萌将伝～" }
+    {
+      "title": "弹丸论破 希望的学园与绝望的高中生"
+    },
+    {
+      "title": "美好的日常 ～不连续存在～"
+    },
+    {
+      "title": "白色相簿2"
+    },
+    {
+      "title": "Noble Works"
+    },
+    {
+      "title": "恋爱与选举与巧克力"
+    },
+    {
+      "title": "えろげー！～Hもゲームも開発三昧～"
+    },
+    {
+      "title": "黑暗史诗"
+    },
+    {
+      "title": "DEARDROPS"
+    },
+    {
+      "title": "BUNNYBLACK"
+    },
+    {
+      "title": "露西 - 她所期望的一切 -"
+    },
+    {
+      "title": "おっぱい戦争 -巨乳VS貧乳-"
+    },
+    {
+      "title": "Hello,good-bye"
+    },
+    {
+      "title": "埃利斯戴攻略"
+    },
+    {
+      "title": "幼なじみは大統領 My girlfriend is the PRESIDENT. ファンディスク"
+    },
+    {
+      "title": "星空的记忆 Eternal Heart"
+    }
   ],
   "2011": [
-    { "title": "白色相簿2~closing chapter~" },
-    { "title": "秽翼的尤斯蒂娅" },
-    { "title": "神风☆探索者！" },
-    { "title": "灰色的果实" },
-    { "title": "神采Alchemy Meister" },
-    { "title": "Strawberry Nauts" },
-    { "title": "恋爱0公里" },
-    { "title": "LOVELY×CATION" },
-    { "title": "五彩斑斓的世界" },
-    { "title": "Rewrite" },
-    { "title": "神咒神威神乐" },
-    { "title": "Princess Evangile" },
-    { "title": "恋ではなく ――It’s not love，but so where near." },
-    { "title": "恋骑士 Purely☆Kiss" },
-    { "title": "恋色空模样 after happiness and extra hearts" },
-    { "title": "euphoria" },
-    { "title": "lover able" },
-    { "title": "翠之海" },
-    { "title": "Hyper→Highspeed→Genius" },
-    { "title": "少女骑士物语" }
+    {
+      "title": "灰色的果实"
+    },
+    {
+      "title": "Rewrite 超自研活动记录外传 前篇"
+    },
+    {
+      "title": "Hyper Euphoria 全能私立侦探社"
+    },
+    {
+      "title": "神采炼金名匠"
+    },
+    {
+      "title": "勇者大战魔物娘 前章"
+    },
+    {
+      "title": "福音天使"
+    },
+    {
+      "title": "勇者大战魔物娘 中章"
+    },
+    {
+      "title": "秽翼的尤斯蒂娅"
+    },
+    {
+      "title": "失忆症 -Amnesia-"
+    },
+    {
+      "title": "美少女万华镜 -被诅咒之传说少女-"
+    },
+    {
+      "title": "妹ぱらだいす！～お兄ちゃんと5人の妹のエッチしまくりな毎日～"
+    },
+    {
+      "title": "逆转检察官2"
+    },
+    {
+      "title": "鸽子男友"
+    },
+    {
+      "title": "无星深渊：克苏鲁选集"
+    },
+    {
+      "title": "突然之间发现我已恋上你"
+    }
   ],
   "2012": [
-    { "title": "初雪樱" },
-    { "title": "DRACU-RIOT!" },
-    { "title": "在这苍穹展翅" },
-    { "title": "认真和我谈恋爱！S" },
-    { "title": "近月少女的礼仪" },
-    { "title": "灰色的迷宫" },
-    { "title": "五彩斑斓的曙光" },
-    { "title": "ガンナイトガール" },
-    { "title": "魔女的花园" },
-    { "title": "夏空的英仙座" },
-    { "title": "辻堂同学的纯爱路线" },
-    { "title": "魔法使之夜" },
-    { "title": "炎の孕ませおっぱい乳同級生" },
-    { "title": "创刻的动脉" },
-    { "title": "初音岛3" },
-    { "title": "Justy×Nasty ～魔王はじめました～" },
-    { "title": "Rewrite Harvest festa！" },
-    { "title": "花色七芒星" },
-    { "title": "初恋1/1" },
-    { "title": "亲吻那片花瓣 米卡艾尔的少女们" }
+    {
+      "title": "超级弹丸论破2 再见绝望学园"
+    },
+    {
+      "title": "命运多舛的馆"
+    },
+    {
+      "title": "在这苍穹展翅"
+    },
+    {
+      "title": "极限脱出ADV 善人死亡"
+    },
+    {
+      "title": "魔法使之夜"
+    },
+    {
+      "title": "真剣で私に恋しなさい！S"
+    },
+    {
+      "title": "灰色的迷宫"
+    },
+    {
+      "title": "DRACU-RIOT!"
+    },
+    {
+      "title": "戏剧性谋杀"
+    },
+    {
+      "title": "茂林源记"
+    },
+    {
+      "title": "英雄战姬"
+    },
+    {
+      "title": "フェノメノ 美鶴木夜石は怖がらない"
+    },
+    {
+      "title": "辻堂さんの純愛ロード"
+    },
+    {
+      "title": "时钟机关的Ley-line -黄昏时的境界线-"
+    },
+    {
+      "title": "初恋１／１"
+    }
   ],
   "2013": [
-    { "title": "大图书馆的牧羊人" },
-    { "title": "LOVELY×CATION2" },
-    { "title": "少女理论及其周边" },
-    { "title": "忠臣藏46＋1" },
-    { "title": "灰色的乐园" },
-    { "title": "Reminiscence" },
-    { "title": "幸福噩梦" },
-    { "title": "魔导巧壳 ～暗之月女神在魔导帝国咏唱～" },
-    { "title": "Prism◇Recollection!" },
-    { "title": "LOVESICK PUPPIES -我们为了恋爱而诞生-" },
-    { "title": "戦国†恋姫 ～乙女絢爛☆戦国絵巻～" },
-    { "title": "天色幻想岛" },
-    { "title": "虚之少女" },
-    { "title": "Friend to Lover" },
-    { "title": "辻堂同学的处女路线" },
-    { "title": "娇蛮之吻 NEXT" },
-    { "title": "卡卢玛卢卡＊同好会" },
-    { "title": "心灵@演绎" },
-    { "title": "魔卡魅恋！" },
-    { "title": "少女骑士物语 More&More" }
+    {
+      "title": "你和她和她的恋爱。"
+    },
+    {
+      "title": "灰色的乐园"
+    },
+    {
+      "title": "永恒之夏"
+    },
+    {
+      "title": "虚之少女"
+    },
+    {
+      "title": "兰斯01 - 寻找小光"
+    },
+    {
+      "title": "Friend to Lover"
+    },
+    {
+      "title": "勇者大战魔物娘 终章"
+    },
+    {
+      "title": "逆转裁判5"
+    },
+    {
+      "title": "真剣で私に恋しなさい！A-1"
+    },
+    {
+      "title": "大图书馆的牧羊人"
+    },
+    {
+      "title": "真剣で私に恋しなさい！A-2"
+    },
+    {
+      "title": "幸福噩梦"
+    },
+    {
+      "title": "fault - milestone one"
+    },
+    {
+      "title": "时钟机关的Ley-line -残影之夜将明时-"
+    },
+    {
+      "title": "命运石之门 线性拘束的表征图"
+    }
   ],
   "2014": [
-    { "title": "近月少女的礼仪2" },
-    { "title": "苍之彼方的四重奏" },
-    { "title": "冲破万里晴空之上" },
-    { "title": "七彩的轮回转世" },
-    { "title": "星织梦未来" },
-    { "title": "幸运草的约定" },
-    { "title": "先驱⇒Generation!" },
-    { "title": "星辰恋曲的白色永恒" },
-    { "title": "相州战神馆学园 八命阵" },
-    { "title": "幸福噩梦 Fragmentation Dream" },
-    { "title": "纸上的魔法使" },
-    { "title": "天秤之La DEA。战女神MEMORIA" },
-    { "title": "淑女同萌" },
-    { "title": "魔女恋爱日记" },
-    { "title": "兰斯9 赫尔曼革命" },
-    { "title": "忠臣藏46＋1 武士的鼓动" },
-    { "title": "在你的身边恋上你!" },
-    { "title": "PRIMAL×HEARTS" },
-    { "title": "12月的夏娃" },
-    { "title": "恋花绽放樱飞时" }
+    {
+      "title": "猫娘乐园 Vol.1"
+    },
+    {
+      "title": "苍之彼方的四重奏"
+    },
+    {
+      "title": "混沌之子"
+    },
+    {
+      "title": "VA-11 HALL-A：赛博朋克酒保行动"
+    },
+    {
+      "title": "星织梦未来"
+    },
+    {
+      "title": "恋花绽放樱飞时"
+    },
+    {
+      "title": "恋する夏のラストリゾート"
+    },
+    {
+      "title": "七色轮回"
+    },
+    {
+      "title": "FLOWERS -Le volume sur printemps-"
+    },
+    {
+      "title": "淑女同萌！"
+    },
+    {
+      "title": "ランスIX－ヘルマン革命－"
+    },
+    {
+      "title": "PRIMAL×HEARTS"
+    },
+    {
+      "title": "真剣で私に恋しなさい！A-3"
+    },
+    {
+      "title": "幸运草的约定"
+    },
+    {
+      "title": "Code︰Realize ～創世的公主～"
+    }
   ],
   "2015": [
-    { "title": "樱之诗" },
-    { "title": "魔女的夜宴" },
-    { "title": "夏娃年代记" },
-    { "title": "Sorcery Jokers" },
-    { "title": "时钟机关的Leyline -朝雾中飘零之花-" },
-    { "title": "甜蜜女友~Second Season~" },
-    { "title": "仰望夜空的星辰" },
-    { "title": "PURE×CONNECT" },
-    { "title": "花开Work Spring！" },
-    { "title": "自无尽的未来" },
-    { "title": "3D定制女仆2" },
-    { "title": "PRIMAL×HEARTS2" },
-    { "title": "兰斯3 -利萨斯陷落-" },
-    { "title": "Maggot baits" },
-    { "title": "Silverio Vendetta" },
-    { "title": "从此开始的夏之纯真！" },
-    { "title": "与我恋爱的废柴小恶魔" },
-    { "title": "美少女万华镜 -为神所创的少女们-" },
-    { "title": "想要传达给你的爱恋" },
-    { "title": "永不落幕的前奏诗" }
+    {
+      "title": "命运石之门0"
+    },
+    {
+      "title": "魔女的夜宴"
+    },
+    {
+      "title": "猫娘乐园 Vol.0 水无月猫娘们的日常"
+    },
+    {
+      "title": "人狼村之谜"
+    },
+    {
+      "title": "夏娃年代记"
+    },
+    {
+      "title": "柯罗的怀表"
+    },
+    {
+      "title": "传颂之物 虚伪的假面"
+    },
+    {
+      "title": "与奴隶的生活 -Teaching Feeling-"
+    },
+    {
+      "title": "海市蜃楼之馆：纯真挽歌"
+    },
+    {
+      "title": "樱之诗"
+    },
+    {
+      "title": "大逆转裁判 －成步堂龙之介的冒险－"
+    },
+    {
+      "title": "兰斯03 利萨斯陷落"
+    },
+    {
+      "title": "与我恋爱的废柴小恶魔"
+    },
+    {
+      "title": "仰望夜空的星辰"
+    },
+    {
+      "title": "妖蛆之饵"
+    }
   ],
   "2016": [
-    { "title": "千恋＊万花" },
-    { "title": "爱上火车" },
-    { "title": "千之刃涛，桃花染之皇姬" },
-    { "title": "天津罪" },
-    { "title": "Re:LieF～献给亲爱的你～" },
-    { "title": "银色，遥远" },
-    { "title": "BALDR HEART" },
-    { "title": "野良与皇女与流浪猫之心" },
-    { "title": "少女＊领域" },
-    { "title": "戦国†恋姫X ～乙女絢爛☆戦国絵巻～" },
-    { "title": "绯色怪奇谈" },
-    { "title": "冻京NECRO" },
-    { "title": "炎の孕ませおっぱい★エロアプリ学園" },
-    { "title": "花之天使的夏日恋歌" },
-    { "title": "认真和我谈恋爱！A" },
-    { "title": "妻中蜜3" },
-    { "title": "与她＊心渐近" },
-    { "title": "任性High Spec" },
-    { "title": "少女理论及其后的周边 -Belle Epoque-" },
-    { "title": "永不枯萎的世界与终结之花" }
+    {
+      "title": "千恋＊万花"
+    },
+    {
+      "title": "猫娘乐园 Vol.2"
+    },
+    {
+      "title": "受赞颂者 二人的白皇"
+    },
+    {
+      "title": "娇蛮任性HIGHSPEC"
+    },
+    {
+      "title": "青春×好奇相伴的三角恋爱"
+    },
+    {
+      "title": "海岛之日"
+    },
+    {
+      "title": "天津罪"
+    },
+    {
+      "title": "逆转裁判6"
+    },
+    {
+      "title": "爱上火车"
+    },
+    {
+      "title": "少女＊领域"
+    },
+    {
+      "title": "項圈×惡意"
+    },
+    {
+      "title": "Harmonia"
+    },
+    {
+      "title": "重生！蛮荒行星"
+    },
+    {
+      "title": "Mystic Messenger 神祕信使"
+    },
+    {
+      "title": "野良与皇女与流浪猫之心"
+    }
   ],
   "2017": [
-    { "title": "金辉恋曲四重奏" },
-    { "title": "野良与皇女与流浪猫之心2" },
-    { "title": "突然＊恋人" },
-    { "title": "流景之海的艾佩理雅" },
-    { "title": "青鸟" },
-    { "title": "幕末 尽忠报国烈士传 MIBURO" },
-    { "title": "ChronoBox" },
-    { "title": "水葬银币的伊斯特里亚" },
-    { "title": "回家之前的棉花糖" },
-    { "title": "天结Castle Meister" },
-    { "title": "しごカレ ～エッチな女子大生とドキ×2ラブレッスン!!" },
-    { "title": "特里诺兰" },
-    { "title": "清澄如镜之水面上！" },
-    { "title": "樱花裁决" },
-    { "title": "超昂神骑爱克希尔" },
-    { "title": "新妻LOVELY×CATION" },
-    { "title": "Silverio Vendetta" },
-    { "title": "羁绊辉耀的恋之伊吕波" },
-    { "title": "こいのす☆イチャコライズ" },
-    { "title": "恋语 Juliamo -amrilata lingvo-" }
+    {
+      "title": "心跳文学部！"
+    },
+    {
+      "title": "新枪弹辩驳V3 大家自相残杀的新学期"
+    },
+    {
+      "title": "9-nine-九次九日九重色"
+    },
+    {
+      "title": "突然＊恋人"
+    },
+    {
+      "title": "金辉恋曲四重奏"
+    },
+    {
+      "title": "猫娘乐园 Vol.3"
+    },
+    {
+      "title": "苍之彼方的四重奏 EXTRA1"
+    },
+    {
+      "title": "大逆转裁判 2 －成步堂龙之介的觉悟－"
+    },
+    {
+      "title": "牛顿与苹果树"
+    },
+    {
+      "title": "回家之前的棉花糖"
+    },
+    {
+      "title": "貓忍之心"
+    },
+    {
+      "title": "青鸟"
+    },
+    {
+      "title": "太依赖咒术的我未来堪忧。"
+    },
+    {
+      "title": "Cinderella Phenomenon"
+    },
+    {
+      "title": "天结城堡大师"
+    }
   ],
   "2018": [
-    { "title": "Summer Pockets" },
-    { "title": "兰斯10 决战" },
-    { "title": "RIDDLE JOKER" },
-    { "title": "住在拔作岛上的贫乳应该如何是好？" },
-    { "title": "奇异恩典 -What color is your attribute?-" },
-    { "title": "封缄之都古拉塞斯塔" },
-    { "title": "Love×Holic ～魅惑少女与白液之奏～" },
-    { "title": "未来广播与人工鸽" },
-    { "title": "もっと！孕ませ！炎のおっぱい異世界エロ魔法学園！" },
-    { "title": "印刻天际的Parallelogram" },
-    { "title": "特里诺兰: Genesis" },
-    { "title": "5分钟的邂逅！时间停止与不可避免的命运" },
-    { "title": "如月真绫的诱惑" },
-    { "title": "树莓立方体" },
-    { "title": "寄宿之恋" },
-    { "title": "9-nine-天色天歌天籁音" },
-    { "title": "Deep One 堕欲魔导书" },
-    { "title": "言语飘散的夏日风铃" },
-    { "title": "黑兽2" },
-    { "title": "Erewhon" }
+    {
+      "title": "Summer Pockets"
+    },
+    {
+      "title": "谜语小丑"
+    },
+    {
+      "title": "9-nine-天色天歌天籁音"
+    },
+    {
+      "title": "抜きゲーみたいな島に住んでる貧乳はどうすりゃいいですか？"
+    },
+    {
+      "title": "猫娘乐园Extra 小猫之日的约定"
+    },
+    {
+      "title": "IxSHE Tell"
+    },
+    {
+      "title": "丑小鸭与文字祸"
+    },
+    {
+      "title": "兰斯10 -决战-"
+    },
+    {
+      "title": "同一屋簷下，羽翼下的故事"
+    },
+    {
+      "title": "末世孤雄 Vol. 2"
+    },
+    {
+      "title": "吹弹！丰盈！波涛汹涌！异世界魔法学园！"
+    },
+    {
+      "title": "如月真绫的指导"
+    },
+    {
+      "title": "致命十二人"
+    },
+    {
+      "title": "虔誠之花的晚鐘"
+    },
+    {
+      "title": "末世孤雄 Vol. 3"
+    }
   ],
   "2019": [
-    { "title": "住在拔作岛上的贫乳应该如何是好？2" },
-    { "title": "樱花，萌放。" },
-    { "title": "相逢在明月映照的彼岸" },
-    { "title": "星光咖啡馆与死神之蝶" },
-    { "title": "9-nine-春色春恋春熙风" },
-    { "title": "姊ちゃんのススメ ～お姊ちゃんのイタズラ性生活～" },
-    { "title": "MUSICUS！" },
-    { "title": "もっと！孕ませ！炎のおっぱい超エロアプリ学園！" },
-    { "title": "ままごと ～ままとないしょのえっちしましょ～" },
-    { "title": "金辉恋曲四重奏 -Golden Time-" },
-    { "title": "レイルロアの略奪者" },
-    { "title": "青夏轨迹" },
-    { "title": "夏娃年代记2" },
-    { "title": "母烂漫" },
-    { "title": "异想魅惑" },
-    { "title": "Study§Steady" },
-    { "title": "pieces/候鸟的梦" },
-    { "title": "流星世界演绎者" },
-    { "title": "恋爱，我借走了" },
-    { "title": "和香様の座する世界" }
+    {
+      "title": "AI：梦境档案"
+    },
+    {
+      "title": "9-nine-春色春恋春熙风"
+    },
+    {
+      "title": "星光咖啡馆与死神之蝶"
+    },
+    {
+      "title": "恋爱，我就借走了"
+    },
+    {
+      "title": "金辉恋曲四重奏 -Golden Time-"
+    },
+    {
+      "title": "流星世界演绎者"
+    },
+    {
+      "title": "Sugar*Style"
+    },
+    {
+      "title": "抜きゲーみたいな島に住んでる貧乳はどうすりゃいいですか？ 2"
+    },
+    {
+      "title": "キコニアのなく頃に"
+    },
+    {
+      "title": "SaDistic BlooD 狂嗜之血"
+    },
+    {
+      "title": "异想魅惑"
+    },
+    {
+      "title": "见习§恋人"
+    },
+    {
+      "title": "夏日狂想曲：乡间的难忘回忆"
+    },
+    {
+      "title": "MUSICUS!"
+    },
+    {
+      "title": "BUSTAFELLOWS"
+    }
   ],
   "2020": [
-    { "title": "樱色之云＊绯色之恋" },
-    { "title": "多娜多娜 一起来干坏事吧" },
-    { "title": "白日梦的构想图" },
-    { "title": "9-nine-雪色雪花雪之痕" },
-    { "title": "Summer Pockets REFLECTION BLUE" },
-    { "title": "甜蜜女友2" },
-    { "title": "常轨脱离Creative" },
-    { "title": "Mama×Holic_～魅惑的妈妈与甜蜜的榨取～" },
-    { "title": "天之少女 PREMIUM EDITION" },
-    { "title": "恋爱×决胜战" },
-    { "title": "光翼戦姫エクスティア3" },
-    { "title": "美少女万华镜 -理与迷宫的少女-" },
-    { "title": "红月摇曳的恋之星火" },
-    { "title": "放学后的灰姑娘" },
-    { "title": "猫附，樱舞" },
-    { "title": "リアルエロゲシチュエーション！2" },
-    { "title": "绽放★青春全力向前冲！" },
-    { "title": "水莲与紫苑" },
-    { "title": "玻璃青春" },
-    { "title": "后宫王国" }
+    {
+      "title": "亚托莉 -我挚爱的时光-"
+    },
+    {
+      "title": "9-nine-雪色雪花雪余痕"
+    },
+    {
+      "title": "装在牛奶盒子里的牛奶装在牛奶盒子里的牛奶"
+    },
+    {
+      "title": "多娜多娜 一起干坏事吧"
+    },
+    {
+      "title": "白日梦的构想图"
+    },
+    {
+      "title": "猫娘乐园 Vol.4"
+    },
+    {
+      "title": "终之空Remake"
+    },
+    {
+      "title": "天之少女"
+    },
+    {
+      "title": "恋爱×决胜战"
+    },
+    {
+      "title": "丸子与银河龙"
+    },
+    {
+      "title": "后宫王国"
+    },
+    {
+      "title": "绽放★青春全力向前冲！"
+    },
+    {
+      "title": "奧林匹亞的晚宴"
+    },
+    {
+      "title": "巧可甜恋"
+    },
+    {
+      "title": "常轨脱离Creative"
+    }
   ],
   "2021": [
-    { "title": "创作少女的恋爱公式" },
-    { "title": "Happy Live Show Up!" },
-    { "title": "冥契的牧神节" },
-    { "title": "もっと！孕ませ！炎のおっぱい異世界超エロサキュバス学園！" },
-    { "title": "Monkeys!¡" },
-    { "title": "久那土国记" },
-    { "title": "ねぇねぇ姉" },
-    { "title": "怀揣思念同我再会!!" },
-    { "title": "9-nine-" },
-    { "title": "为我的公主献上荣冠" },
-    { "title": "指尖情缘" },
-    { "title": "雪境迷途遇仙踪" },
-    { "title": "Role player：小粥姉妹の粘膜ポトレ ぐりぐちゃLIVE！" },
-    { "title": "VenusBlood HOLLOW International" },
-    { "title": "天结Labyrinth Meister" },
-    { "title": "HOMESTAY a la mode" },
-    { "title": "雪色暗号" },
-    { "title": "星织梦未来 Perfect Edition" },
-    { "title": "初音岛4 Fortunate Departures" },
-    { "title": "冬旅，方冥冥。" }
+    {
+      "title": "月姬 -A piece of blue glass moon-"
+    },
+    {
+      "title": "Milk outside a bag of milk outside a bag of milk"
+    },
+    {
+      "title": "9-nine- 新章"
+    },
+    {
+      "title": "Class of '09"
+    },
+    {
+      "title": "キミガシネ　―多数決デスゲーム―"
+    },
+    {
+      "title": "Slow Damage"
+    },
+    {
+      "title": "时廻者"
+    },
+    {
+      "title": "流星世界演绎者：Badge & Dagger"
+    },
+    {
+      "title": "PARQUET"
+    },
+    {
+      "title": "冥契的牧神节"
+    },
+    {
+      "title": "魔法少女消耗战线 死终Ω神盾"
+    },
+    {
+      "title": "我家恋天使太废柴鸟真～可怕。"
+    },
+    {
+      "title": "前不良人妻 雏子 ～将她的身心都睡过来～"
+    },
+    {
+      "title": "日向千寻的工作总是做不久"
+    },
+    {
+      "title": "创作少女的恋爱公式"
+    }
   ],
   "2022": [
-    { "title": "变态监狱" },
-    { "title": "霞流宝石心" },
-    { "title": "常轨脱离Creative凸" },
-    { "title": "AMBITIOUS MISSION" },
-    { "title": "与鲨鱼共度的七日间" },
-    { "title": "星之终途" },
-    { "title": "Unless Terminalia" },
-    { "title": "もっと！孕ませ！炎のおっぱい異世界おっぱいメイド学園！" },
-    { "title": "CRIMINAL BORDER 1st offence" },
-    { "title": "放学后的灰姑娘2" },
-    { "title": "恋爱成双" },
-    { "title": "アネトモ" },
-    { "title": "Study Steady2" },
-    { "title": "苍之彼方的四重奏 EXTRA2" },
-    { "title": "RE:D Cherish!" },
-    { "title": "甜蜜夏日" },
-    { "title": "Role player：とろろ姉妹の粘膜ポトレ ぐりぐちゃLIVE！" },
-    { "title": "夕凪荘のS級の彼女たち" },
-    { "title": "从朋友到恋人" },
-    { "title": "魔法戦士 FINAL IGNITION" }
+    {
+      "title": "主播女孩重度依赖"
+    },
+    {
+      "title": "变态监狱"
+    },
+    {
+      "title": "苍之彼方的四重奏 EXTRA2"
+    },
+    {
+      "title": "星之终途"
+    },
+    {
+      "title": "AI：梦境档案 涅槃肇始"
+    },
+    {
+      "title": "恋爱成双"
+    },
+    {
+      "title": "匿名代码"
+    },
+    {
+      "title": "even if TEMPEST 黃昏中魔女如是說"
+    },
+    {
+      "title": "甜蜜夏日"
+    },
+    {
+      "title": "爱情，金钱，摇滚乐"
+    },
+    {
+      "title": "无法忍耐的处男哥哥和不直率的叛逆妹妹"
+    },
+    {
+      "title": "AMBITIOUS MISSION"
+    },
+    {
+      "title": "CORPSE FACTORY"
+    },
+    {
+      "title": "Criminal Border"
+    },
+    {
+      "title": "宝石心学院"
+    }
   ],
   "2023": [
-    { "title": "樱之刻" },
-    { "title": "甜蜜女友2" },
-    { "title": "天使嚣嚣" },
-    { "title": "纯白交响曲 SANA EDITION" },
-    { "title": "纯白交响曲 -Love is pure white- Remake for FHD" },
-    { "title": "八卦恋爱" },
-    { "title": "幸福噩梦 REGRET END" },
-    { "title": "Happy Live Show Up Encore!!" },
-    { "title": "D.C.5 ～ダ·カーポ5～" },
-    { "title": "夕凪荘のS級の彼女たち2" },
-    { "title": "CRIMINAL BORDER 3rd offence" },
-    { "title": "CRIMINAL BORDER 2nd offence" },
-    { "title": "戦巫＜センナギ＞ ―穢れた契りと神ころも―" },
-    { "title": "JINKI-UNLIMITED-" },
-    { "title": "Roomガール PARADISE" },
-    { "title": "Bunny’s ママ代行サービス" },
-    { "title": "彼方的人鱼姬" },
-    { "title": "FLIP＊FLOP ～RAMBLING OVERRUN～" },
-    { "title": "レムニスレトロ" },
-    { "title": "その日の終わりに" }
+    {
+      "title": "天使☆嚣嚣 RE-BOOT!"
+    },
+    {
+      "title": "杀死公主"
+    },
+    {
+      "title": "灵视异闻 FILE23 本所七大不可思议"
+    },
+    {
+      "title": "樱之刻"
+    },
+    {
+      "title": "Class of '09: The Re-Up"
+    },
+    {
+      "title": "GINKA"
+    },
+    {
+      "title": "纯白交响曲 SANA EDITION"
+    },
+    {
+      "title": "超侦探事件簿 雾雨谜宫"
+    },
+    {
+      "title": "刺猬索尼克谋杀案"
+    },
+    {
+      "title": "与死神的约会"
+    },
+    {
+      "title": "孤寂之地"
+    },
+    {
+      "title": "Hirahira Hihiru"
+    },
+    {
+      "title": "甜蜜女友2+"
+    },
+    {
+      "title": "冬日狂想曲"
+    },
+    {
+      "title": "Geminism"
+    }
+  ],
+  "2024": [
+    {
+      "title": "不/存在的你，和我"
+    },
+    {
+      "title": "饿殍：明末千里行"
+    },
+    {
+      "title": "贽之匣庭"
+    },
+    {
+      "title": "天选庶民的真命之选"
+    },
+    {
+      "title": "Class of '09: The Flip Side"
+    },
+    {
+      "title": "夏色四叶草"
+    },
+    {
+      "title": "文字化化"
+    },
+    {
+      "title": "缘起甜韵趣恋丛生！"
+    },
+    {
+      "title": "终焉车站"
+    },
+    {
+      "title": "everlasting flowers"
+    },
+    {
+      "title": "宝石少女 1st.cut:The Reason She Must Perish"
+    },
+    {
+      "title": "友達ん棒で淫らな汁を溢れさせる母の熟れた蜜穴～巨乳を揺らし身悶える母さんの喘ぎ声は、隣の僕の部屋まで響き渡る～"
+    },
+    {
+      "title": "美少女万华镜异闻 雪女"
+    },
+    {
+      "title": "毛线小精灵"
+    },
+    {
+      "title": "迷醉唇旅 -总编为我退高烧"
+    }
+  ],
+  "2025": [
+    {
+      "title": "魔法少女的魔女审判"
+    },
+    {
+      "title": "Z.A.T.O. // I Love the World and Everything In It"
+    },
+    {
+      "title": "百日战纪 -最终防卫学园-"
+    },
+    {
+      "title": "痴情哥哥与病弱妹妹的乡间生活"
+    },
+    {
+      "title": "貓娘樂園 After"
+    },
+    {
+      "title": "聚光灯下的青柠恋曲"
+    },
+    {
+      "title": "几度相逢若初见"
+    },
+    {
+      "title": "大穢"
+    },
+    {
+      "title": "小兔子"
+    },
+    {
+      "title": "甜蜜女友 3"
+    },
+    {
+      "title": "无法成眠的伊达键 - From AI：梦境档案"
+    },
+    {
+      "title": "KANADE"
+    },
+    {
+      "title": "吹弹！丰盈！波涛汹涌！异世界兔女郎学园！"
+    },
+    {
+      "title": "Harem Hotel"
+    },
+    {
+      "title": "终天教团"
+    }
+  ],
+  "2026": [
+    {
+      "title": "The Coffin of Andy and Leyley"
+    },
+    {
+      "title": "永恒世界"
+    },
+    {
+      "title": "越界恋人!!"
+    },
+    {
+      "title": "anemoi"
+    },
+    {
+      "title": "灵视异闻 FILE38 伊势人鱼物语"
+    },
+    {
+      "title": "妹妹、他人、妄想症"
+    },
+    {
+      "title": "久我山栞的死法手账"
+    },
+    {
+      "title": "Pale Carnations"
+    },
+    {
+      "title": "流星ワールドアクター Gaslight Bullet"
+    },
+    {
+      "title": "混乱之种"
+    },
+    {
+      "title": "Desert Stalker"
+    },
+    {
+      "title": "Goodbye Eternity"
+    },
+    {
+      "title": "绯红山谷"
+    },
+    {
+      "title": "薛定谔的电话"
+    },
+    {
+      "title": "Hero Party Must Fall"
+    }
   ]
 };
