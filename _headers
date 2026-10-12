@@ -1,4 +1,4 @@
-# Cloudflare Pages — cache + security headers
+# Cloudflare Pages 鈥?cache + security headers
 # More specific paths must appear before wildcards.
 
 /fuyuu/js/site-data.js
@@ -42,6 +42,9 @@
 
 /fuyuu/assets/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/assets/seedream-refs/*
+  Cache-Control: public, max-age=1, must-revalidate
 
 /assets/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400

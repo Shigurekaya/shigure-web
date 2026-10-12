@@ -36,3 +36,6 @@
 # Directory indexes only (folder + index.html — not affected by .html pretty URL rules)
 /fuyuu /fuyuu/ 301
 /fuyuu/ /fuyuu/index.html 200
+
+# Removed polluted seedream ref
+/assets/seedream-refs/beatrice-hair-detail.jpg  /  404
